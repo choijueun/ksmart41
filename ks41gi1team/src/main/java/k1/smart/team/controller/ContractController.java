@@ -25,7 +25,7 @@ public class ContractController {
 	}
 	
 	@GetMapping("/k1ContractReg")
-	public String addContract() {
+	public String k1addContract() {
 		return "contract/contract_register";
 	}
 	
@@ -103,7 +103,7 @@ public class ContractController {
 		  model.addAttribute("contractList", contractList);
 		  
 		  
-		  return "contract/contract_list";
+		  return "contract/contract_view";
 	  }
 	  
 	  @GetMapping("/contractList") 

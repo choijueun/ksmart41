@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>계약서 상세목록 페이지</title>
+</head>
+<body>
+
+
+<table border="1">
+	<tr>
+		<td>계약코드</td>
+		<td th:text=${contractList[0].contractCode}></td>
+	</tr>
+	<tr>
+		<td>사업장별 대표코드</td>
+		<td th:text=${contractList[0].mainBusinessCode}></td>
+	</tr>
+	<tr>
+		<td>거래처 대표코드</td>
+		<td th:text=${contractList[0].clientCode}></td>
+	</tr>
+	<tr>
+		<td>거래처 담당자</td>
+		<td th:text=${contractList[0].clientManagerId}></td>
+	</tr>
+	<tr>
+		<td>계약 주문유형</td>
+		<td th:text=${contractList[0].contractSection}></td>
+	</tr>
+	<tr>
+		<td>계약유형</td>
+		<td th:text=${contractList[0].contractType}></td>
+	</tr>
+	<tr>
+		<td>계약시작날짜</td>
+		<td th:text=${contractList[0].startDate}></td>
+	</tr>
+	<tr>
+		<td>계약종료날짜</td>
+		<td th:text=${contractList[0].endDate}></td>
+	</tr>
+	<tr>
+		<td>담당자</td>
+		<td th:text=${contractList[0].managerId}></td>
+	</tr>
+	<tr>
+		<td>등록자</td>
+		<td th:text=${contractList[0].regId}></td>
+	</tr>
+	<tr>
+		<td>승인자</td>
+		<td th:text=${contractList[0].approvalId}></td>
+	</tr>
+	<tr>
+		<td>계약일자</td>
+		<td th:text=${contractList[0].contractDate}></td>
+	</tr>
+	<tr>
+		<td>계약상태</td>
+		<td th:text=${contractList[0].contractStatus}></td>
+	</tr>
+	<tr>
+		<td>적요</td>
+		<td th:text=${contractList[0].briefs}></td>
+	</tr>
+	<tr>
+		<td>등록일시</td>
+		<td th:text=${contractList[0].regDate}></td>
+	</tr>
+	<tr>
+		<td>수정일시</td>
+		<td th:text=${contractList[0].updateDate}></td>
+	</tr>
+
+</table>
+</body>
+</html>
