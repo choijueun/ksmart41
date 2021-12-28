@@ -12,7 +12,12 @@ import k1.smart.team.mapper.StockMapper;
 @Transactional
 public class StockService {
 	private StockMapper stockMapper;
-	private List<Stock> stockList = null;
+	private List<Stock> stockList;
+	
+	//생성자 메서드
+	public StockService(StockMapper stockMapper) {
+		this.stockMapper = stockMapper;
+	}
 
 	//재고 전체 목록 조회
 	public List<Stock> getAllStockList(String mainBusinessCode){
