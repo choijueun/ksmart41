@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">재고관리</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+
+<!-- content -->
+<section class="content">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				asdf
+			</div>
+			<div class="card-body">
+			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+				<tr>
+					<th>ㅇ</th>
+					<th>ㅇ</th>
+					<th>품목명</th>
+					<th>카테고리</th>
+				</tr>
+			</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+</th:block>
+
+</html>
