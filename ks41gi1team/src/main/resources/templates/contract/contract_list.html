@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>계약서 목록</title>
-</head>
-<body>
-	계약서 목록
-</body>
+<th:block layout:fragment="customContents">
+	<form th:action="@{/contractList}" method="post">
+		<select name="searchKey">
+			<option value="contractCode">계약코드</option>
+			<option value="mainBusinessCode">사업장코드</option>
+			<option value="clientCode">거래처코드</option>
+			<option value="clientManagerId">거래처아이디</option>
+			<option value="contractSection">계약유형</option>
+			<option value="contractType">계약기간</option>
+			<option value="startDate">계약개시일</option>
+			<option value="endDate">계약종료일</option>
+			<option value="managerId">담당자아이디</option>
+			<option value="regId">등록자아이디</option>
+			<option value="approvalId">승인자아이디</option>
+			<option value="contractDate">계약 체결일</option>
+			<option value=contractStatus>계약 상태</option>
+			<option value="briefs">적요</option>
+			<option value="regDate">등록일자</option>
+			<option value="updateDate">수정일자</option>
+		</select>
+		<input type="text" name="searchValue"/>
+		<button type="submit">검색</button>
+		</form>
+</th:block>
 </html>

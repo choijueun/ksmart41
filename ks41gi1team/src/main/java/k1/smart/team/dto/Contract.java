@@ -9,16 +9,16 @@ public class Contract {
 	private String clientManagerId;
 	private String contractSection;
 	private String contractType;
-	private Timestamp startDate;
-	private Timestamp endDate;
+	private String startDate;
+	private String endDate;
 	private String managerId;
 	private String regId;
 	private String approvalId;
-	private Timestamp contractDate;
+	private String contractDate;
 	private String contractStatus;
 	private String briefs;
-	private Timestamp regDate;
-	private Timestamp uodateDate;
+	private String regDate;
+	private String uodateDate;
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -55,16 +55,16 @@ public class Contract {
 	public void setContractType(String contractType) {
 		this.contractType = contractType;
 	}
-	public Timestamp getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Timestamp startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Timestamp getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public String getManagerId() {
@@ -85,10 +85,10 @@ public class Contract {
 	public void setApprovalId(String approvalId) {
 		this.approvalId = approvalId;
 	}
-	public Timestamp getContractDate() {
+	public String getContractDate() {
 		return contractDate;
 	}
-	public void setContractDate(Timestamp contractDate) {
+	public void setContractDate(String contractDate) {
 		this.contractDate = contractDate;
 	}
 	public String getContractStatus() {
@@ -103,16 +103,16 @@ public class Contract {
 	public void setBriefs(String briefs) {
 		this.briefs = briefs;
 	}
-	public Timestamp getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Timestamp regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Timestamp getUodateDate() {
+	public String getUodateDate() {
 		return uodateDate;
 	}
-	public void setUodateDate(Timestamp uodateDate) {
+	public void setUodateDate(String uodateDate) {
 		this.uodateDate = uodateDate;
 	}
 	@Override
@@ -153,5 +153,6 @@ public class Contract {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }
