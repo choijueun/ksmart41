@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.Contract;
 import k1.smart.team.service.ContractService;
-import springboot.thymeleaf.domain.Member;
+
 
 @Controller
 public class ContractController {
@@ -118,18 +118,5 @@ public class ContractController {
 	  /*
 		 * ModelAndView (화면에 보내질 데이터 + 화면경로)
 		 */
-		@GetMapping("/contract_list")
-		public ModelAndView contractList(ModelAndView mav) {
-			List<Contract> contractList = new ArrayList<Contract>();
-			Contract contract = null;
-			for(int i=1; i<10; i++) {
-				contract = new Contract("contractCode_00"+i, "fac_ksmartSeoul_Seoul_00"+i, "client_agency_00"+i
-						, "한국스마트정보교육원", "063-717-1008");
-				contractList.add(contract);
-			}
-			mav.addObject("contractList", contractList);
-			mav.setViewName("contract/contract_list");
-			
-			return mav;
-		}
+	
 }
