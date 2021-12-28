@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+
+<th:block layout:fragment="customContents">
+	화면~~
+</th:block>
+
+</html>
