@@ -22,6 +22,12 @@ public class StockService {
 	//재고 전체 목록 조회
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
+		
+		String stockNum;
+		for(int i=0; i<stockList.size(); i++) {
+			stockNum = stockList.get(i).getInventoryCode().replace("inventoryCode_", "");
+			stockList.get(i).setInventoryCode(stockNum);
+		}
 		return stockList;
 	}
 }
