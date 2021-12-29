@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +20,7 @@ import k1.smart.team.service.psb.ContractService;
 public class ContractController {
 
 	private ContractService contractService;
+	private String mainBusinessCode;
 	
 	public ContractController(ContractService contractService) {
 		this.contractService = contractService;
@@ -38,7 +40,7 @@ public class ContractController {
 		return "contract/contract_detail";
 	}
 	
-	//전체계약서 검색
+	//하나의 계약서 검색
 	@PostMapping("/contractList") 
 	public String getSearchContractList( @RequestParam(value="searchKey", required = false) String searchKey
 										,@RequestParam(value="searchValue", required = false)String searchValue
@@ -99,18 +101,19 @@ public class ContractController {
 		  List<Contract> contractList = contractService.getContractListBySearchKey(searchKey, searchValue);
 		  System.out.println(contractList);
 		  // 조회된 회원목록 model에 값을 저장
-		  model.addAttribute("title", "계약목록조회");
+		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
 		  
 		  
-		  return "contract/contract_view";
+		  return "contract/contract_list";
 	  }
 	  
-	  @GetMapping("/contractList") 
-	  public String getContractList(Model model) {
-		  
-		  List<Contract> contractList = contractService.getContractList();
-		  model.addAttribute("title", "계약목록조회");
+	  //계약 전체 목록
+	  @GetMapping("/contract/contarct_list") 
+	  public String contractMain(Model model) {
+		  mainBusinessCode = "fac_ksmartSeoul_Seoul001";
+		  List<Contract> contractList = contractService.getAllContractList(mainBusinessCode);
+		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
 		  
 		  return "contract/contract_list";
