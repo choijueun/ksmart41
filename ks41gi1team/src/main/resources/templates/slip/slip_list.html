@@ -4,47 +4,104 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	<div class="card-body">
-		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
-			<thead>
-				<tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Rendering engine</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Browser</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Platform(s)</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Engine version</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">CSS grade</th></tr>
-			</thead>
-			<tbody>
-				<tr class="odd">
-					<td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-					<td>Firefox 1.0</td>
-					<td>Win 98+ / OSX.2+</td>
-					<td>1.7</td>
-					<td>A</td>
-				</tr>
-				<tr class="even">
-					<td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-					<td>Firefox 1.5</td>
-					<td>Win 98+ / OSX.2+</td>
-					<td>1.8</td>
-					<td>A</td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th rowspan="1" colspan="1">Rendering engine</th>
-					<th rowspan="1" colspan="1">Browser</th>
-					<th rowspan="1" colspan="1">Platform(s)</th>
-					<th rowspan="1" colspan="1">Engine version</th>
-					<th rowspan="1" colspan="1">CSS grade</th></tr>
-			</tfoot>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
+
+<!-- content -->
+<section class="content">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				asdf
+			</div>
+			<div class="card-body">
+			<div class="col-lg-6">
+				<div class="card">
+				<table id="p_slipList" class="table table-bordered table-hover dataTable dtr-inline" >
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" id="p_allCheck" 
+									class="custom-control-input custom-control-input-info custom-control-input-outline">
+							</th>
+							<th>전표코드</th>
+							<th>분류</th>
+							<th>금액</th>
+							<th>적요</th>
+							<th>비고</th>
+							<th>등록자</th>
+							<th>등록일자</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+						
+					<tbody>
+						<tr th:if="${not #lists.isEmpty(p_slipList)}" th:each="l : ${p_slipList}">
+							<td><input type="checkbox"></td>
+							<td>[[${l.purchaseSlipCode}]]</td>
+							<td>비용</td>
+							<td>[[${l.payCost}]]</td>
+							<td>[[${l.briefs}]]</td>
+							<td>[[${l.comment}]]</td>
+							<td>[[${l.regId}]]</td>
+							<td>[[${l.regDate}]]</td>
+							<td><i class="fas fa-pen"></i></td>
+						</tr>
+						<tr th:unless="${not #lists.isEmpty(p_slipList)}"></tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card">
+					<table id="s_slipList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<th>
+									<input type="checkbox" id="s_allCheck" 
+										class="custom-control-input custom-control-input-info custom-control-input-outline">
+								</th>
+								<th>전표코드</th>
+								<th>분류</th>
+								<th>금액</th>
+								<th>적요</th>
+								<th>비고</th>
+								<th>등록자</th>
+								<th>등록일자</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+							
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(s_slipList)}" th:each="s : ${s_slipList}">
+								<td><input type="checkbox"></td>
+								<td>[[${s.salesSlipCode}]]</td>
+								<td>매출</td>
+								<td>[[${s.saleCost}]]</td>
+								<td>[[${s.briefs}]]</td>
+								<td>[[${s.comment}]]</td>
+								<td>[[${s.regId}]]</td>
+								<td>[[${s.regDate}]]</td>
+								<td><i class="fas fa-pen"></i></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(s_slipList)}"></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 </th:block>
 
 </html>
