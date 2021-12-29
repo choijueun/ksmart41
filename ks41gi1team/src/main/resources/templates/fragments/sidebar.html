@@ -34,15 +34,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1UserReg}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> 회원가입 요청 내역 - #</p>
+                  <p> 회원가입 요청 내역 - !</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1Login}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> 로그인 내역 - #</p>
+                  <p> 로그인 내역 - !</p>
                 </a>
               </li>
             </ul>
@@ -124,7 +124,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
-                	전표 관리
+                	전표 관리 - 박재형
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -132,24 +132,53 @@
               <li class="nav-item">
                 <a th:href="@{k1SlipReg}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>전표 등록</p>
+                  <p>전표 등록 - #</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a th:href="@{k1SlipList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>전표 조회</p>
+                  <p>전표 조회 - # </p>
                 </a>
               </li>
               <li class="nav-item">
                 <a th:href="@{k1SlipDetail}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>전표 상세현황</p>
+                  <p>전표 상세현황 - #</p>
                 </a>
               </li>
             </ul>
           </li>
                  <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                	결제 관리 - 박재형
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{k1SlipReg}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결제 등록 - #</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1SlipList}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결제 조회 - # </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1SlipDetail}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결제 상세현황 - #</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -181,7 +210,63 @@
               </li>
             </ul>
           </li>
-                 <li class="nav-item">
+          
+		<li class="nav-item">
+			<a href="#" class="nav-link">
+				<i class="nav-icon fas fa-circle"></i>
+					<p> 전자세금계산서 - 최선희
+						<i class="right fas fa-angle-left"></i>
+					</p>
+			</a>
+	            <ul class="nav nav-treeview">
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="far fa-circle nav-icon"></i>
+							<p> 매출 전자세금계산서 - !
+								<i class="right fas fa-angle-left"></i>
+							</p>
+		                </a> 
+		                 <ul class="nav nav-treeview">
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1PurchaseIvList}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>매출세금계산서 조회</p>
+			                    </a>
+			                  </li>
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1PurchaseIvRegister}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>매출세금계산서 등록</p>
+			                    </a>
+			                  </li>
+               			 </ul>
+					</li>
+					<li class="nav-item">
+		                <a href="#" class="nav-link">
+		                  <i class="far fa-circle nav-icon"></i>
+		                  <p> 비용 전자세금계산서 - ! 
+							<i class="right fas fa-angle-left"></i>
+		                  </p>
+		                </a>
+		                 <ul class="nav nav-treeview">
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1SalesIvList}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>비용세금계산서 조회</p>
+			                    </a>
+			                  </li>
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1SalesIvRegister}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>비용세금계산서 등록</p>
+			                    </a>
+			                  </li>
+               			 </ul>
+					</li>
+	            </ul>
+		</li>
+          
+		  <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -243,9 +328,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1Stock}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
+                  <p>재고 목록</p>
                 </a>
               </li>
               <li class="nav-item">

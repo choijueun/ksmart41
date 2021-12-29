@@ -1,20 +1,33 @@
 package k1.smart.team.dto.pjh;
 
-import java.sql.Timestamp;
 
 public class Slip {
 	private String purchaseSlipCode; //비용전표코드
 	private String salesSlipCode; //매출전표코드
-	private String mainBusinessCode; 
+	private String mainBusinessCode; //삭제할지말지?
 	private String totalAccountCode; //통합 회계 관리코드
 	private String purchaseTsCode; //비용 거래명세서 코드
 	private String salesTsCode; //비용 거래명세서 코드
-	private String payCost;
+	private int payCost;
+	private int saleCost;
 	private String briefs;
 	private String regId;
-	private Timestamp regDate;
-	private Timestamp updateDate;
+	private String comment;
+	private String regDate;
+	private String updateDate;
 	
+	public int getSaleCost() {
+		return saleCost;
+	}
+	public void setSaleCost(int saleCost) {
+		this.saleCost = saleCost;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
 	}
@@ -51,10 +64,10 @@ public class Slip {
 	public void setSalesTsCode(String salesTsCode) {
 		this.salesTsCode = salesTsCode;
 	}
-	public String getPayCost() {
+	public int getPayCost() {
 		return payCost;
 	}
-	public void setPayCost(String payCost) {
+	public void setPayCost(int payCost) {
 		this.payCost = payCost;
 	}
 	public String getBriefs() {
@@ -69,16 +82,16 @@ public class Slip {
 	public void setRegId(String regId) {
 		this.regId = regId;
 	}
-	public Timestamp getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Timestamp regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Timestamp getUpdateDate() {
+	public String getUpdateDate() {
 		return updateDate;
 	}
-	public void setUpdateDate(Timestamp updateDate) {
+	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
 	
@@ -99,10 +112,14 @@ public class Slip {
 		builder.append(salesTsCode);
 		builder.append(", payCost=");
 		builder.append(payCost);
+		builder.append(", saleCost=");
+		builder.append(saleCost);
 		builder.append(", briefs=");
 		builder.append(briefs);
 		builder.append(", regId=");
 		builder.append(regId);
+		builder.append(", comment=");
+		builder.append(comment);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", updateDate=");
@@ -111,4 +128,9 @@ public class Slip {
 		return builder.toString();
 	}
 	
+	
 }
+	
+
+	
+

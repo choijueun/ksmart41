@@ -11,7 +11,6 @@ import k1.smart.team.service.cje.StoringService;
 @RequestMapping(value="/k1Storing")
 public class StoringController {
 	private StoringService storingService;
-	
 	public StoringController(StoringService storingService) {
 		this.storingService = storingService;
 	}
