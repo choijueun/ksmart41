@@ -14,4 +14,7 @@ public interface StockMapper extends CodeMapper {
 	
 	//재고정보 상세조회
 	public List<Stock> getStockInfo(String mainBusinessCode, String inventoryCode);
+	
+	//기본키 숫자부분 새로 형성(마지막 값 +1)
+	public String getNewCodeNum(String codeName, String tableName);
 }
