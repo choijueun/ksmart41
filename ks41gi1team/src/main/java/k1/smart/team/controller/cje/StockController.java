@@ -1,4 +1,4 @@
-package k1.smart.team.controller;
+package k1.smart.team.controller.cje;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import k1.smart.team.dto.Stock;
-import k1.smart.team.service.StockService;
+import k1.smart.team.dto.cje.Stock;
+import k1.smart.team.service.cje.StockService;
 
 @Controller
 @RequestMapping(value="/k1Stock")

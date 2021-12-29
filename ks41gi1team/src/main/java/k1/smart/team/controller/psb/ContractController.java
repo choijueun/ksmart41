@@ -1,4 +1,4 @@
-package k1.smart.team.controller;
+package k1.smart.team.controller.psb;
 
 
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import k1.smart.team.dto.Contract;
-import k1.smart.team.service.ContractService;
+import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.service.psb.ContractService;
 
 
 @Controller

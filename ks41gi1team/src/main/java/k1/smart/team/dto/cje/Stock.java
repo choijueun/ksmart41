@@ -1,4 +1,4 @@
-package k1.smart.team.dto;
+package k1.smart.team.dto.cje;
 
 public class Stock {
 	private String inventoryCode; //재고코드

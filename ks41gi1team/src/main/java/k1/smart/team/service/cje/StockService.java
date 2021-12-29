@@ -1,12 +1,12 @@
-package k1.smart.team.service;
+package k1.smart.team.service.cje;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import k1.smart.team.dto.Stock;
-import k1.smart.team.mapper.StockMapper;
+import k1.smart.team.dto.cje.Stock;
+import k1.smart.team.mapper.cje.StockMapper;
 
 @Service
 @Transactional
