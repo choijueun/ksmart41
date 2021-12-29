@@ -12,7 +12,6 @@ import k1.smart.team.service.cje.ItemService;
 @RequestMapping(value="/k1Item")
 public class ItemController {
 	private ItemService itemService;
-	
 	public ItemController(ItemService itemService) {
 		this.itemService = itemService;
 	}

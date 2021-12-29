@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.CodeMapper">
 
-	<!-- Code에서 숫자 부분만 반환 -->
+	<!-- 기본키 숫자부분 3글자 반환 -->
 	<select id="selectCodeNum" parameterType="String" resultType="String">
 		SELECT
 			RIGHT(${codeName}, 3)
@@ -12,9 +12,8 @@
 			${tableName};
 	</select>
 	
-	<!-- CodeNum의 MAX+1값 반환  -->
+	<!-- 기본키 숫자부분 새로 형성 MAX+1  -->
 	<select id="getNewCodeNum" parameterType="String" resultType="String">
-		
 		SELECT
 		<![CDATA[
 			CASE

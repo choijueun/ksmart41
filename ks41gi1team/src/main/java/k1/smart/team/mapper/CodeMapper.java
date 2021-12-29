@@ -4,7 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CodeMapper {
+	//기본키 숫자부분(3글자) 반환
 	public String selectCodeNum(String codeName, String tableName);
-	
+	//기본키 숫자부분 새로 형성(마지막 값 +1)
 	public String getNewCodeNum(String codeName, String tableName);
 }
