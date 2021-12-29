@@ -66,11 +66,33 @@
 			contr.updateDate 
 		FROM 
 			k1_tb_contract AS contr
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		 <trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKey != null and searchKey != ''.toString()">
 				${searchKey} LIKE CONCAT('%',#{searchValue},'%');
 			</if>
-		</trim>
+		</trim> 
+	</select>
+	
+	<select id="getAllContractList" parameterType="String" resultType="Contract">
+		SELECT
+			contr.contractCode,
+			contr.mainBusinessCode,
+			contr.clientCode,
+			contr.clientManagerId,
+			contr.contractSection,
+			contr.contractType,
+			contr.startDate,
+			contr.endDate,
+			contr.managerId,
+			contr.regId,
+			contr.approvalId,
+			contr.contractDate,
+			contr.contractStatus,
+			contr.briefs,
+			contr.regDate,
+			contr.updateDate 
+		FROM 
+			k1_tb_contract AS contr
 	</select>
 
 </mapper>

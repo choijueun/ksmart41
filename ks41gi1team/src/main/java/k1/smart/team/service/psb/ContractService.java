@@ -9,15 +9,15 @@ import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
 public class ContractService {
-	//생성자메서드 주입방식
 	private ContractMapper contractMapper;
+	private List<Contract> contractList;
 	
+	//생성자메서드 주입방식	
 	public ContractService(ContractMapper contractMapper) {
 		this.contractMapper = contractMapper;
 	}
 
-	//화면목록조회(검색)
-	
+	//검색 하나의 목록 조회(검색)
 		public List<Contract> getContractListBySearchKey(String searchKey, String searchValue){
 			return contractMapper.getContractListBySearchKey(searchKey, searchValue);
 		}
@@ -26,5 +26,15 @@ public class ContractService {
 			
 			return null;
 		}
-		
+	//전체 계약 검색
+		public List<Contract> getAllContractList(String mainBusinessCode){
+			contractList = contractMapper.getAllContractList(mainBusinessCode);
+			
+			String contractNum;
+			for(int i=0; i<contractList.size(); i++) {
+				contractNum = contractList.get(i).getContractCode().replace("contractCode", "");
+				contractList.get(i).setContractCode(contractNum);
+			}
+			return contractList;
+		}
 }

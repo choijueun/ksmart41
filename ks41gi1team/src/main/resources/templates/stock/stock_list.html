@@ -16,80 +16,78 @@
 <th:block layout:fragment="customContents">
 
 <!-- content -->
-<section class="content">
-	<div class="container-fluid">
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			asdf
+		</div>
 		<div class="card">
-			<div class="card-header">
-				asdf
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="rawMaterial" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					원자재
+				</label>
 			</div>
-			<div class="card">
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="rawMaterial" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						원자재
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="subsidiary" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						부자재
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="product" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						제품
-					</label>
-				</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="subsidiary" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					부자재
+				</label>
 			</div>
-			<div class="card-body">
-				<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
-					<thead>
-						<tr>
-							<th>
-								<input type="checkbox" id="allCheck">
-							</th>
-							<th>No.</th>
-							<th>품목명</th>
-							<th>분류</th>
-							<th>수량</th>
-							<th>창고</th>
-							<th>비고</th>
-							<th>상태</th>
-							<th>수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-							<td><input type="checkbox"></td>
-							<td>
-								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-									[[${l.inventoryCode}]]
-								</a>
-							</td>
-							<td>
-								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-									[[${l.itemName}]]
-								</a>
-							</td>
-							<td>[[${l.itemType}]]</td>
-							<td>[[${l.itemCount}]]</td>
-							<td>[[${l.warehouseName}]]</td>
-							<td>[[${l.comment}]]</td>
-							<td>[[${l.status}]]</td>
-							<td>
-								<i class="fas fa-pen"></i>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="product" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					제품
+				</label>
 			</div>
 		</div>
+		<div class="card-body">
+			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>품목명</th>
+						<th>분류</th>
+						<th>수량</th>
+						<th>창고</th>
+						<th>비고</th>
+						<th>상태</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
+						<td><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+								[[${l.inventoryCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+								[[${l.itemName}]]
+							</a>
+						</td>
+						<td>[[${l.itemType}]]</td>
+						<td>[[${l.itemCount}]]</td>
+						<td>[[${l.warehouseName}]]</td>
+						<td>[[${l.comment}]]</td>
+						<td>[[${l.status}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</section>
+</div>
 
 </th:block>
 
