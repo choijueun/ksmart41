@@ -1,11 +1,11 @@
-package k1.smart.team.service;
+package k1.smart.team.service.psb;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.dto.Contract;
-import k1.smart.team.mapper.ContractMapper;
+import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
 public class ContractService {

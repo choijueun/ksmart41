@@ -1,4 +1,4 @@
-package k1.smart.team.dto;
+package k1.smart.team.dto.psb;
 
 public class Contract {
 	private String contractCode;

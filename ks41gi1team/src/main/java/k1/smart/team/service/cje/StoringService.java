@@ -1,4 +1,4 @@
-package k1.smart.team.service;
+package k1.smart.team.service.cje;
 
 import org.springframework.stereotype.Service;
 
