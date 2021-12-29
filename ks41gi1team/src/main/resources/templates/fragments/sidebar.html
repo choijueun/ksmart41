@@ -17,7 +17,7 @@
           <img th:src="@{/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">박수빈</a>
+          <a href="#" class="d-block">관리자2</a>
         </div>
       </div>
 
@@ -28,51 +28,123 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
-              <p>
-                	시스템 관리
+              <p> 회원 관리 - 최선희
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1UserReg}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
+                  <p> 회원가입 요청 내역 - !</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1Login}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+                  <p> 로그인 내역 - !</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p> 사업장 관리 - 최선희
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{/k1Business}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> 사업장 조회 - ! </p>
+                </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a th:href="@{/k1Business/k1BusinessRegister}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
+                  <p> 사업장 등록 - ! </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p> 거래처 관리 - 최선희
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{/k1Client}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> 거래처 조회 - ! </p>
+                </a> 
+              </li>
+              <li class="nav-item">
+                <a th:href="@{/k1Client/k1ClientRegister}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> 거래처 등록 - ! </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+                 <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                	계약 관리 - 박수빈
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{k1ContractReg}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>계약서 등록 - # </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1ContractList}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>계약서 조회 - #</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1ContractDetail}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>계약서 상세현황 - #</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+                 <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                	전표 관리
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{k1SlipReg}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>전표 등록</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1SlipList}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>전표 조회</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1SlipDetail}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>전표 상세현황</p>
                 </a>
               </li>
             </ul>
@@ -81,140 +153,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
-                	사업장 관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>사업장 등록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-                 <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                	거래처 관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>거래처 등록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-                 <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                	계약 관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a th:href="@{k1ContractReg}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>계약 등록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a th:href="@{k1ContractList}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>계약 조회</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a th:href="@{k1ContractDetail}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>계약 상세현황</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-                 <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                	수.발주 관리
+                	수.발주 관리 - 박수빈
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -222,29 +161,83 @@
               <li class="nav-item">
                 <a th:href="@{/k1OrderReg}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>발주 요청 입력</p>
+                  <p>발주 요청 입력 - #</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a th:href="@{/k1OrderList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
-                   	발주 요청 조회
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+                   	발주 요청 조회 - #</p>
                 </a>
                 
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
-                  	발주 요청 현황
+                  	발주 요청 현황 - #
                   	</p>
                 </a>
               </li>
             </ul>
           </li>
-                 <li class="nav-item">
+          
+		<li class="nav-item">
+			<a href="#" class="nav-link">
+				<i class="nav-icon fas fa-circle"></i>
+					<p> 전자세금계산서 - 최선희
+						<i class="right fas fa-angle-left"></i>
+					</p>
+			</a>
+	            <ul class="nav nav-treeview">
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="far fa-circle nav-icon"></i>
+							<p> 매출 전자세금계산서 - !
+								<i class="right fas fa-angle-left"></i>
+							</p>
+		                </a> 
+		                 <ul class="nav nav-treeview">
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1PurchaseIvList}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>매출세금계산서 조회</p>
+			                    </a>
+			                  </li>
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1PurchaseIvRegister}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>매출세금계산서 등록</p>
+			                    </a>
+			                  </li>
+               			 </ul>
+					</li>
+					<li class="nav-item">
+		                <a href="#" class="nav-link">
+		                  <i class="far fa-circle nav-icon"></i>
+		                  <p> 비용 전자세금계산서 - ! 
+							<i class="right fas fa-angle-left"></i>
+		                  </p>
+		                </a>
+		                 <ul class="nav nav-treeview">
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1SalesIvList}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>비용세금계산서 조회</p>
+			                    </a>
+			                  </li>
+			                  <li class="nav-item">
+			                    <a th:href="@{/k1Invoice/k1SalesIvRegister}" class="nav-link">
+			                      <i class="far fa-dot-circle nav-icon"></i>
+			                      <p>비용세금계산서 등록</p>
+			                    </a>
+			                  </li>
+               			 </ul>
+					</li>
+	            </ul>
+		</li>
+          
+		  <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>

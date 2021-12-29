@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+
+<!-- content -->
+<section class="content">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				asdf
+			</div>
+			<div class="card-body">
+			<div class="col-lg-6">
+				<div class="card">
+				<table id="p_slipList" class="table table-bordered table-hover dataTable dtr-inline" >
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" id="p_allCheck" 
+									class="custom-control-input custom-control-input-info custom-control-input-outline">
+							</th>
+							<th>전표코드</th>
+							<th>분류</th>
+							<th>금액</th>
+							<th>적요</th>
+							<th>비고</th>
+							<th>등록자</th>
+							<th>등록일자</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+						
+					<tbody>
+						<tr th:if="${not #lists.isEmpty(p_slipList)}" th:each="l : ${p_slipList}">
+							<td><input type="checkbox"></td>
+							<td>[[${l.purchaseSlipCode}]]</td>
+							<td>비용</td>
+							<td>[[${l.payCost}]]</td>
+							<td>[[${l.briefs}]]</td>
+							<td>[[${l.comment}]]</td>
+							<td>[[${l.regId}]]</td>
+							<td>[[${l.regDate}]]</td>
+							<td><i class="fas fa-pen"></i></td>
+						</tr>
+						<tr th:unless="${not #lists.isEmpty(p_slipList)}"></tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card">
+					<table id="s_slipList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<th>
+									<input type="checkbox" id="s_allCheck" 
+										class="custom-control-input custom-control-input-info custom-control-input-outline">
+								</th>
+								<th>전표코드</th>
+								<th>분류</th>
+								<th>금액</th>
+								<th>적요</th>
+								<th>비고</th>
+								<th>등록자</th>
+								<th>등록일자</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+							
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(s_slipList)}" th:each="s : ${s_slipList}">
+								<td><input type="checkbox"></td>
+								<td>[[${s.salesSlipCode}]]</td>
+								<td>매출</td>
+								<td>[[${s.saleCost}]]</td>
+								<td>[[${s.briefs}]]</td>
+								<td>[[${s.comment}]]</td>
+								<td>[[${s.regId}]]</td>
+								<td>[[${s.regDate}]]</td>
+								<td><i class="fas fa-pen"></i></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(s_slipList)}"></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+</th:block>
+
+</html>

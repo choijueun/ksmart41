@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>계약서 상세목록 페이지</title>
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<script>
+	for(var i=0; i<contractList.length; i++){
+		System.out.println(contractList);
+	}
+</script>
+<body>
+
+<table border="1">
+	<tr>
+		<td>계약코드</td>
+		<td th:text=${contractList[0].contractCode}></td>
+	</tr>
+	<tr>
+		<td>사업장별 대표코드</td>
+		<td th:text=${contractList[0].mainBusinessCode}></td>
+	</tr>
+	<tr>
+		<td>거래처 대표코드</td>
+		<td th:text=${contractList[0].clientCode}></td>
+	</tr>
+	<tr>
+		<td>거래처 담당자</td>
+		<td th:text=${contractList[0].clientManagerId}></td>
+	</tr>
+	<tr>
+		<td>계약 주문유형</td>
+		<td th:text=${contractList[0].contractSection}></td>
+	</tr>
+	<tr>
+		<td>계약유형</td>
+		<td th:text=${contractList[0].contractType}></td>
+	</tr>
+	<tr>
+		<td>계약시작날짜</td>
+		<td th:text=${contractList[0].startDate}></td>
+	</tr>
+	<tr>
+		<td>계약종료날짜</td>
+		<td th:text=${contractList[0].endDate}></td>
+	</tr>
+	<tr>
+		<td>담당자</td>
+		<td th:text=${contractList[0].managerId}></td>
+	</tr>
+	<tr>
+		<td>등록자</td>
+		<td th:text=${contractList[0].regId}></td>
+	</tr>
+	<tr>
+		<td>승인자</td>
+		<td th:text=${contractList[0].approvalId}></td>
+	</tr>
+	<tr>
+		<td>계약일자</td>
+		<td th:text=${contractList[0].contractDate}></td>
+	</tr>
+	<tr>
+		<td>계약상태</td>
+		<td th:text=${contractList[0].contractStatus}></td>
+	</tr>
+	<tr>
+		<td>적요</td>
+		<td th:text=${contractList[0].briefs}></td>
+	</tr>
+	<tr>
+		<td>등록일시</td>
+		<td th:text=${contractList[0].regDate}></td>
+	</tr>
+	<tr>
+		<td>수정일시</td>
+		<td th:text=${contractList[0].updateDate}></td>
+	</tr>
+
+</table>
+
+<div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                  <thead>
+                  <tr role="row">
+                  	<th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">계약코드</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">사업장별 대표코드</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">거래처 대표코드</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">거래처 담당자</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">계약 주문유형</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">계약유형</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">계약시작날짜</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">계약종료날짜</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">담당자</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">등록자</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">승인자</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">계약일자</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">계약상태</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">적요</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">등록일시</th>
+                  	<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">수정일시</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td th:text=${contractList[0].contractCode}></td>
+                    <td th:text=${contractList[0].mainBusinessCode}></td>
+                    <td th:text=${contractList[0].clientCode}></td>
+                    <td th:text=${contractList[0].clientManagerId}></td>
+                    <td th:text=${contractList[0].contractSection}></td>
+                    <td th:text=${contractList[0].contractType}></td>
+                    <td th:text=${contractList[0].startDate}></td>
+                    <td th:text=${contractList[0].endDate}></td>
+                    <td th:text=${contractList[0].managerId}></td>
+                    <td th:text=${contractList[0].regId}></td>
+                    <td th:text=${contractList[0].approvalId}></td>
+                    <td th:text=${contractList[0].contractDate}></td>
+                    <td th:text=${contractList[0].contractStatus}></td>
+                    <td th:text=${contractList[0].briefs}></td>
+                    <td th:text=${contractList[0].regDate}></td>
+                    <td th:text=${contractList[0].updateDate}></td>
+                  </tr>
+                  </tbody>
+                 
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+
+</body>
+</html>

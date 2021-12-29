@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
 
 <head th:replace="fragments/head :: headFragment"></head>
 
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 	<div id="wrapper">
+		<!-- Begin Header -->
 		<div th:replace="fragments/header :: headerFragment"></div>
 		
+		<!-- Begin SideBar -->
 		<div th:replace="fragments/sidebar :: sidebarFragment"></div>
 		
-		<div id="rightcolumn">
-			<th:block layout:fragment="location"></th:block>
+		<!-- Begin Content -->
+		<div class="content-wrapper">
+			<!-- Content 영역 상단(location) -->
+			<div class="content-header">
+				<div th:replace="fragments/location :: locationFragment"></div>
+			</div>
+			<!-- Content 영역 본문 -->
+			<div class="content">
+				<th:block layout:fragment="customContents"></th:block>
+			</div>
 		</div>
 
-	<div th:replace="fragments/footer :: footerFragment"></div>
-</div>
+		<!-- Begin Footer -->
+		<div th:replace="fragments/footer :: footerFragment"></div>
+	</div>
+
+<!--  자바스크립트 -->
+<th:block th:replace="fragments/script :: scriptFragment"></th:block>
+
 </body>
 </html>

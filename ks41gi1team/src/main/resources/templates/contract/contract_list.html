@@ -1,10 +1,147 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>계약서 목록</title>
-</head>
-<body>
-	계약서 목록
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+	
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+	<!-- content   -->
+	<form th:action="@{/contractList}" method="post">
+		<select name="searchKey">
+			<option value="contractCode">계약코드</option>
+			<option value="mainBusinessCode">사업장코드</option>
+			<option value="clientCode">거래처코드</option>
+			<option value="clientManagerId">거래처아이디</option>
+			<option value="contractSection">계약유형</option>
+			<option value="contractType">계약기간</option>
+			<option value="startDate">계약개시일</option>
+			<option value="endDate">계약종료일</option>
+			<option value="managerId">담당자아이디</option>
+			<option value="regId">등록자아이디</option>
+			<option value="approvalId">승인자아이디</option>
+			<option value="contractDate">계약 체결일</option>
+			<option value=contractStatus>계약 상태</option>
+			<option value="briefs">적요</option>
+			<option value="regDate">등록일자</option>
+			<option value="updateDate">수정일자</option>
+		</select>
+		<input type="text" name="searchValue"/>
+		<button type="submit">검색</button>
+		</form>
+
+	<div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+	                <div class="col-sm-12 col-md-6"></div>
+	                <div class="col-sm-12 col-md-6"></div>
+                </div>
+                <div class="row">
+                <div class="col-sm-12">
+                <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                  <thead>
+                  <tr role="row">
+                    <th>
+                    	<input type="checkbox" id="contractAllCheck">
+                    </th>
+                  	<th rowspan="1" colspan="1">계약코드</th>
+                  	<th rowspan="1" colspan="1">사업장별 대표코드</th>
+                  	<th rowspan="1" colspan="1">거래처 대표코드</th>
+                  	<th rowspan="1" colspan="1">거래처 담당자</th>
+                  	<th rowspan="1" colspan="1">계약 주문유형</th>
+                  	<th rowspan="1" colspan="1">계약유형</th>
+                  	<th rowspan="1" colspan="1">계약시작날짜</th>
+                  	<th rowspan="1" colspan="1">계약종료날짜</th>
+                  	<th rowspan="1" colspan="1">담당자</th>
+                  	<th rowspan="1" colspan="1">등록자</th>
+                  	<th rowspan="1" colspan="1">승인자</th>
+                  	<th rowspan="1" colspan="1">계약일자</th>
+                  	<th rowspan="1" colspan="1">계약상태</th>
+                  	<th rowspan="1" colspan="1">적요</th>
+                  	<th rowspan="1" colspan="1">등록일시</th>
+                  	<th rowspan="1" colspan="1">수정일시</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+                  <td><input type="checkbox"></td>
+                  <td>
+                  	<a th:htef="@{|/conttract/contract_list/${l.contractCode}|}">
+                  		[[${l.contractCode}]]
+                  	</a>
+                  </td>	
+                  <td>[[${l.mainBusinessCode}]]</td>
+                  <td>[[${l.clientCode}]]</td>
+                  <td>[[${l.clientManagerId}]]</td>
+                  <td>[[${l.contractSection}]]</td>
+                  <td>[[${l.contractType}]]</td>
+                  <td>[[${l.startDate}]]</td>
+                  <td>[[${l.endDate}]]</td>
+                  <td>[[${l.managerId}]]</td>
+                  <td>[[${l.regId}]]</td>
+                  <td>[[${l.approvalId}]]</td>
+                  <td>[[${l.contractDate}]]</td>
+                  <td>[[${l.contractStatus}]]</td>
+                  <td>[[${l.briefs}]]</td>
+                  <td>[[${l.regDate}]]</td>
+                  <td>[[${l.updateDate}]]</td>
+                <!--   <td th:text="${l.contractCode}"></td>
+                  <td th:text="${l.mainBusinessCode}"></td>
+                  <td th:text="${l.clientCode}"></td>
+                  <td th:text="${l.clientManagerId}"></td>
+                  <td th:text="${l.contractSection}"></td>
+                  <td th:text="${l.contractType}"></td>
+                  <td th:text="${l.startDate}"></td>
+                  <td th:text="${l.endDate}"></td>
+                  <td th:text="${l.managerId}"></td>
+                  <td th:text="${l.regId}"></td>
+                  <td th:text="${l.approvalId}"></td>
+                  <td th:text="${l.contractDate}"></td>
+                  <td th:text="${l.contractStatus}"></td>
+                  <td th:text="${l.briefs}"></td>
+                  <td th:text="${l.regDate}"></td>
+                  <td th:text="${l.updateDate}"></td>
+               </tr>
+            	<tr th:unless="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+            	
+               <td> [[${l.contractCode}]]</td>
+               <td> [[${l.mainBusinessCode}]]</td> -->
+            	</tr>
+                  </tbody>    
+                </table>
+                </div>
+                </div>
+	                <div class="row"><div class="col-sm-12 col-md-5">
+	                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"></div>
+                </div>
+	                <div class="col-sm-12 col-md-7">
+	                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                <ul class="pagination">
+                </ul>
+                </div>
+                </div>
+                </div>
+                </div>
+              </div>
+  </th:block>            
 </html>

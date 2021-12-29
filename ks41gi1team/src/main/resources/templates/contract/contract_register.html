@@ -1,37 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!-- head 부분  -->
-<th:block th:replace="fragments/head :: headFragment"></th:block>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="customTitle">
+	<title>계약서 등록</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
 
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTELogo" height="60" width="60">
-  </div>
+<!-- Content Header (Page header) -->
+<th:block layout:fragment="SectionTitle">계약서 등록 폼</th:block>
+<th:block layout:fragment="SectionLocation">SMARTORY</th:block>  
 
-  <!-- Header -->
-  <th:block th:replace="fragments/header :: headerFragment"></th:block>
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 
-  <!-- Sidebar -->
-  <th:blcok th:replace="fragments/sidebar :: sidebarFragment"></th:blcok>
-
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <th:block th:replace="contract/location :: locationFragment"></th:block>
-    <!-- Main content -->
-    <th:block layout:fragment="customContents"></th:block>    
-  </div>
-  
-  <!-- Footer -->
-  <th:block th:replace="fragments/footer :: footerFragment"></th:block>
-
-</div>
-
-
-<!--  자바스크립트 -->
-<th:block th:replace="fragments/script :: scriptFragment"></th:block>
-
-</body>
+<!-- Main content -->
+<th:block layout:fragment="customContents">
+<div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">계약코드</label>
+                    <input type="text" name="contractCode" class="form-control" id="exampleInputEmail1" placeholder="contractCode000">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">사업장별 대표코드</label>
+                    <input type="text" name="businessCode" class="form-control" id="exampleInputPassword1" placeholder="fac_ksmartSeoul_Seoul_000">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">거래처 대표코드</label>
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="client_agency_000">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">거래처 담당자</label>
+                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="id100">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">계약 주문유형</label>
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="발주">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">계약유형</label>
+                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="1년계약">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">계약시작날짜</label>
+                    <input type="date" name="email" class="form-control" id="exampleInputEmail1" placeholder="2021-11-01">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">계약종료날짜</label>
+                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-11-02">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">담당자</label>
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="id002	">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">등록자</label>
+                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="id002">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">승인자</label>
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="id002">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">계약일자</label>
+                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-10-30">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">계약상태</label>
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="계약중">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">적요</label>
+                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="제품매출 6,600,000원">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">등록일시</label>
+                    <input type="date" name="email" class="form-control" id="exampleInputEmail1" placeholder="2021-10-30 00:00:00">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">수정일시</label>
+                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-10-30 00:00:00">
+                  </div>
+                  <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary" >등록</button>
+                </div>
+</th:block>
 </html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.ContractMapper">
+	<resultMap type="Contract" id="contractResultMap">
+		<result column="contractCode" 		property="contractCode"/>
+		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
+		<result column="clientCode" 		property="clientCode"/>
+		<result column="clientManagerId" 	property="clientManagerId"/>
+		<result column="contractSection" 	property="contractSection"/>
+		<result column="contractType" 		property="contractType"/>
+		<result column="startDate" 			property="startDate"/>
+		<result column="endDate" 			property="endDate"/>
+		<result column="managerId" 			property="managerId"/>
+		<result column="regId" 				property="regId"/>
+		<result column="approvalId" 		property="approvalId"/>
+		<result column="contractDate" 		property="contractDate"/>
+		<result column="contractStatus" 	property="contractStatus"/>
+		<result column="briefs" 			property="briefs"/>
+		<result column="regDate" 			property="regDate"/>
+		<result column="uodateDate" 		property="uodateDate"/>
+	</resultMap>
+	
+	<!-- <select id="getContractList" parameterType="String" resultMap="contractResultMap">
+		SELECT
+			contr.contractCode,
+			contr.mainBusinessCode,
+			contr.clientCode,
+			contr.clientManagerId,
+			contr.contractSection,
+			contr.contractType,
+			contr.startDate,
+			contr.endDate,
+			contr.managerId,
+			contr.regId,
+			contr.approvalId,
+			contr.contractDate,
+			contr.contractStatus,
+			contr.briefs,
+			contr.regDate,
+			contr.updateDate 
+		FROM 
+			k1_tb_contract AS contr
+		WHERE
+			contr.contractCode=#{contractCode}
+	</select> -->
+	
+	<select id="getContractListBySearchKey" parameterType="String" resultMap="contractResultMap">
+		SELECT
+			contr.contractCode,
+			contr.mainBusinessCode,
+			contr.clientCode,
+			contr.clientManagerId,
+			contr.contractSection,
+			contr.contractType,
+			contr.startDate,
+			contr.endDate,
+			contr.managerId,
+			contr.regId,
+			contr.approvalId,
+			contr.contractDate,
+			contr.contractStatus,
+			contr.briefs,
+			contr.regDate,
+			contr.updateDate 
+		FROM 
+			k1_tb_contract AS contr
+		 <trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%');
+			</if>
+		</trim> 
+	</select>
+	
+	<select id="getAllContractList" parameterType="String" resultType="Contract">
+		SELECT
+			contr.contractCode,
+			contr.mainBusinessCode,
+			contr.clientCode,
+			contr.clientManagerId,
+			contr.contractSection,
+			contr.contractType,
+			contr.startDate,
+			contr.endDate,
+			contr.managerId,
+			contr.regId,
+			contr.approvalId,
+			contr.contractDate,
+			contr.contractStatus,
+			contr.briefs,
+			contr.regDate,
+			contr.updateDate 
+		FROM 
+			k1_tb_contract AS contr
+	</select>
+
+</mapper>
