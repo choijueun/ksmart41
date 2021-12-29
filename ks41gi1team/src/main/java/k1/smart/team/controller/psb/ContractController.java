@@ -31,10 +31,10 @@ public class ContractController {
 		return "contract/contract_register";
 	}
 	
-	@GetMapping("/k1ContractList")
-	public String k1getAllContract() {
-		return "contract/contract_list";
-	}
+	/*
+	 * @GetMapping("/k1ContractList") public String k1getAllContract() { return
+	 * "contract/contract_list"; }
+	 */
 	@GetMapping("/k1ContractDetail")
 	public String k1getContract() {
 		return "contract/contract_detail";
@@ -109,7 +109,7 @@ public class ContractController {
 	  }
 	  
 	  //계약 전체 목록
-	  @GetMapping("/contract/contarct_list") 
+	  @GetMapping("/k1ContractList") 
 	  public String contractMain(Model model) {
 		  mainBusinessCode = "fac_ksmartSeoul_Seoul001";
 		  List<Contract> contractList = contractService.getAllContractList(mainBusinessCode);
