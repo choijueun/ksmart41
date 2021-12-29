@@ -30,7 +30,6 @@ public class SlipService {
 	}
 	public List<Slip> getAllSSlipList(String mainBusinessCode) {
 		s_slipList = slipMapper.getAll_S_SlipList(mainBusinessCode);
-		System.out.println("s_slipList: "+s_slipList);
 		String slipNum;
 		for(int i=0; i<s_slipList.size(); i++) {
 			slipNum = s_slipList.get(i).getSalesSlipCode().replace("S", "");
