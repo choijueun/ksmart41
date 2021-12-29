@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.pjh.SlipMapper">
+	<select id="getAll_P_SlipList" parameterType="String" resultType="Slip">
+		SELECT 
+			purchaseSlipCode
+			,mainBusinessCode
+			,totalAccountCode
+			,purchaseTsCode
+			,payCost
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		FROM
+			k1_tb_purchase_slip
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="getAll_S_SlipList" parameterType="String" resultType="Slip">
+		SELECT 
+			salesSlipCode
+			,mainBusinessCode
+			,salesTsCode
+			,totalAccountCode
+			,saleCost
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		FROM k1_tb_sales_slip
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+</mapper>
