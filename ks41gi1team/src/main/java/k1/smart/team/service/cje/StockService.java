@@ -13,13 +13,11 @@ import k1.smart.team.mapper.cje.StockMapper;
 @Transactional
 public class StockService {
 	private StockMapper stockMapper;
-	private CodeMapper codeMapper;
 	private List<Stock> stockList;
 	
 	//생성자 메서드
-	public StockService(StockMapper stockMapper, CodeMapper codeMapper) {
+	public StockService(StockMapper stockMapper) {
 		this.stockMapper = stockMapper;
-		this.codeMapper = codeMapper;
 	}
 
 	//재고 전체 목록 조회

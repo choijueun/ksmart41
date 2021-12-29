@@ -12,7 +12,6 @@ import k1.smart.team.service.cje.DefectService;
 @RequestMapping(value="/k1Defect")
 public class DefectController {
 	private DefectService defectService;
-	
 	public DefectController(DefectService defectService) {
 		this.defectService = defectService;
 	}
@@ -31,6 +30,12 @@ public class DefectController {
 			,Model model) {
 		model.addAttribute("title", "불량처리");
 		return "storing/defect_info";
+	}
+	
+	@GetMapping("/add")
+	public String addDefect(Model model) {
+		model.addAttribute("title", "불량처리내역추가");
+		return "storing/defect/defect_add";
 	}
 	
 	//불량처리내역 수정
