@@ -1,22 +1,22 @@
 package k1.smart.team.dto;
 
 public class Member {
-	private String userRegCode;
-	private String mainBusinessCode;
-	private String userLevelCode;
-	private String userId;
-	private String userPw;
-	private String userName;
-	private String userGender;
-	private String userAddr;
-	private String userMoblie;
-	private String userEmail;
-	private String userPosition;
-	private String userRegDate;
-	private String userRegStatus;
-	private String userRegComment;
-	private String joinDate;
-	private String updateDate;
+	private String userRegCode; //회원가입요청코드
+	private String mainBusinessCode; //사업장별 대표코드
+	private String userLevelCode; //회원등급코드
+	private String userId; //회원아이디
+	private String userPw; //회원비밀번호
+	private String userName; //회원이름
+	private String userGender; //회원성별
+	private String userAddr; //회원주소
+	private String userMoblie; //회원연락처
+	private String userEmail; //회원이메일
+	private String userPosition; //회원직책
+	private String userRegDate; //회원가입요청일자
+	private String userRegStatus; //상태
+	private String userRegComment; //비고
+	private String joinDate; //
+	private String updateDate; //수정일시
 	
 	public String getUserRegCode() {
 		return userRegCode;
