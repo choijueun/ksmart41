@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.CodeMapper">
+
+	<!-- Code에서 숫자 부분만 반환 -->
+	<select id="selectCodeNum" parameterType="String" resultType="String">
+		SELECT
+			RIGHT(${codeName}, 3)
+		FROM
+			${tableName};
+	</select>
+	
+	<!-- CodeNum의 MAX+1값 반환  -->
+	<select id="getNewCodeNum" parameterType="String" resultType="String">
+		
+		SELECT
+		<![CDATA[
+			CASE
+				WHEN (MAX(RIGHT(${codeName},3))+1 < 10) THEN CONCAT('00',MAX(RIGHT(${codeName},3))+1)
+				WHEN (MAX(RIGHT(${codeName},3))+1 < 100) THEN CONCAT('0',MAX(RIGHT(${codeName},3))+1)
+			ELSE MAX(RIGHT(${codeName},3))+1
+			END AS newCodeNum
+		]]>
+		FROM
+			${tableName};
+	</select>
+</mapper>
