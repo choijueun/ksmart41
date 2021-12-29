@@ -15,9 +15,13 @@
 		<!-- Begin Content -->
 		<div class="content-wrapper">
 			<!-- Content 영역 상단(location) -->
-			<div th:replace="fragments/location :: locationFragment"></div>
+			<div class="content-header">
+				<div th:replace="fragments/location :: locationFragment"></div>
+			</div>
 			<!-- Content 영역 본문 -->
-			<th:block layout:fragment="customContents"></th:block>
+			<div class="content">
+				<th:block layout:fragment="customContents"></th:block>
+			</div>
 		</div>
 
 		<!-- Begin Footer -->
