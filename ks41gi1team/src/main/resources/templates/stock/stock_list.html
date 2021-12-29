@@ -50,8 +50,7 @@
 					<thead>
 						<tr>
 							<th>
-								<input type="checkbox" id="allCheck" 
-									class="custom-control-input custom-control-input-info custom-control-input-outline">
+								<input type="checkbox" id="allCheck">
 							</th>
 							<th>No.</th>
 							<th>품목명</th>
@@ -65,14 +64,25 @@
 					</thead>
 					<tbody>
 						<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-							<td>[[${l.inventoryCode}]]</td>
-							<td>[[${l.itemName}]]</td>
+							<td><input type="checkbox"></td>
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.inventoryCode}]]
+								</a>
+							</td>
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.itemName}]]
+								</a>
+							</td>
 							<td>[[${l.itemType}]]</td>
 							<td>[[${l.itemCount}]]</td>
 							<td>[[${l.warehouseName}]]</td>
 							<td>[[${l.comment}]]</td>
 							<td>[[${l.status}]]</td>
-							<td><i class="fas fa-pen"></i></td>
+							<td>
+								<i class="fas fa-pen"></i>
+							</td>
 						</tr>
 					</tbody>
 				</table>
