@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="k1.smart.team.mapper.StockMapper">
+<mapper namespace="k1.smart.team.mapper.cje.StockMapper">
 	<select id="getAllStockList" parameterType="String" resultType="Stock">
 		SELECT 
 			 s.inventoryCode
