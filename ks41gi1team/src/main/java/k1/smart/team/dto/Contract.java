@@ -1,7 +1,5 @@
 package k1.smart.team.dto;
 
-import java.security.Timestamp;
-
 public class Contract {
 	private String contractCode;
 	private String mainBusinessCode;
@@ -18,7 +16,7 @@ public class Contract {
 	private String contractStatus;
 	private String briefs;
 	private String regDate;
-	private String uodateDate;
+	private String updateDate;
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -109,11 +107,11 @@ public class Contract {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public String getUodateDate() {
-		return uodateDate;
+	public String getUpdateDate() {
+		return updateDate;
 	}
-	public void setUodateDate(String uodateDate) {
-		this.uodateDate = uodateDate;
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 	@Override
 	public String toString() {
@@ -148,8 +146,8 @@ public class Contract {
 		builder.append(briefs);
 		builder.append(", regDate=");
 		builder.append(regDate);
-		builder.append(", uodateDate=");
-		builder.append(uodateDate);
+		builder.append(", updateDate=");
+		builder.append(updateDate);
 		builder.append("]");
 		return builder.toString();
 	}

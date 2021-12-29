@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
+  
 
 <!-- Content Header (Page header) -->
 <th:block th:replace="contract/location :: locationFragment"></th:block>
 <!-- Main content -->
-<th:block layout:fragment="customContents"></th:block>    
-  
+<th:block layout:fragment="customContents"></th:block>
+<h2>계약서 등록 화면</h2>    
 </html>
