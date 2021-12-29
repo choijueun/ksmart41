@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 
 	<!-- content   -->
-	<form th:action="@{/contractList}" method="post">
+	<form th:action="@{/contractList}" method="post" style="text-align: center;">
 		<select name="searchKey">
 			<option value="contractCode">계약코드</option>
 			<option value="mainBusinessCode">사업장코드</option>
@@ -63,7 +63,7 @@
                     <th>
                     	<input type="checkbox" id="contractAllCheck">
                     </th>
-                  	<th rowspan="1" colspan="1">계약코드</th>
+                  	<th>계약코드</th>
                   	<th rowspan="1" colspan="1">사업장별 대표코드</th>
                   	<th rowspan="1" colspan="1">거래처 대표코드</th>
                   	<th rowspan="1" colspan="1">거래처 담당자</th>
@@ -86,7 +86,7 @@
                   <tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
                   <td><input type="checkbox"></td>
                   <td>
-                  	<a th:htef="@{|/conttract/contract_list/${l.contractCode}|}">
+                  	<a th:htef="@{/conttract/contract_list/${l.contractCode}|}">
                   		[[${l.contractCode}]]
                   	</a>
                   </td>	
