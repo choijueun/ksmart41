@@ -17,6 +17,14 @@ public class ContractService {
 		this.contractMapper = contractMapper;
 	}
 
+	//계약서 등록
+	public int addContract(Contract contract) {
+		
+		int result = contractMapper.addContract(contract);
+		
+		return result;
+	}
+	
 	//검색 하나의 목록 조회(검색)
 		public List<Contract> getContractListBySearchKey(String searchKey, String searchValue){
 			return contractMapper.getContractListBySearchKey(searchKey, searchValue);

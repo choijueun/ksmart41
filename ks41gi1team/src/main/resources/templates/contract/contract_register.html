@@ -19,10 +19,78 @@
 <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+<script>
+	$(function(){
+		
+		$(document).on('click', '#addContractBtn'), function(){
+			var submitCheck = true;
+			
+			var inputObj = $('#addContractForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var inputCode = $(this).attr('code');
+				var labelText = $('label[for=' + inputCode + ']').text();
+				if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+					alert(labelText + '입력해주세요');
+					$(this).focus();
+					submitCheck = false;
+					return false;
+				}
+			});
+		if(submitCheck) $('#addContractForm').submit();
+	});
+	
+	$('#btn').click(function(){
+	
+		var contractCode = $('#contractCode').val();
+		
+		if(typeof contractCode != 'undefined' && contractCode != null && contractCode != ''){
+			// ajax 호출
+			var request = $.ajax({
+				url: '/contract/contractCodeCheck',
+				method: 'POST',
+				data: {'contractCode' : contractCode},
+				dataType: 'json'
+				});
+			request.done(function(data){
+				//중복여부체크(true: 중복, false: 등록가능)
+				var contractCodeConfirm = data;
+				
+				if(contractCodeConfirm){
+					alert('중복된 아이디입니다.');
+					$('#addContractForm input').not('#contractCode').prop('disabled', true);
+					$('#addContractForm select').prop('disabled', true);
+					$('#addContractForm button').not('#btn').prop('disabled', true);
+				}else{
+					alert('등록이 가능한 아이디입니다.');
+					$('#addContractForm input').prop('disabled', false);
+					$('#addContractForm select').prop('disabled', false);
+					$('#addContractForm button').prop('disabled', false);
+				}
+				
+				
+				
+			});
+			request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+			});	
+		}else{
+			alert('아이디를 입력해주세요')
+			return false;
+		}
+		
+		
+		
+		
+		});
+	});
+</script>
 
 <!-- Main content -->
 <th:block layout:fragment="customContents">
-<div class="card-body">
+	<form id="addContractForm" th:action="@{/contract/contract_register}" method="post">
+		<div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">계약코드</label>
                     <input type="text" name="contractCode" class="form-control" id="exampleInputEmail1" placeholder="contractCode000">
@@ -95,7 +163,8 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary" >등록</button>
+                  <button type="submit" id="addContractBtn" class="btn btn-primary" >등록</button>
                 </div>
+             </form>
 </th:block>
 </html>

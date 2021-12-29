@@ -40,6 +40,22 @@ public class ContractController {
 		return "contract/contract_detail";
 	}
 	
+	//계약서 등록
+	@PostMapping("/addContract")
+	public String addContract(Contract contract) {
+		
+		System.out.println("ContractController 회원등록 화면에서 입력받은 값:" + contract);
+		//insert 처리
+		//null 체크
+		String contractCode = contract.getContractCode();
+		if(contractCode != null && !"".equals(contractCode)) {
+			contractService.addContract(contract);
+		}
+		
+		return "redirect:/contract/contract_list";
+		
+	}
+	
 	//하나의 계약서 검색
 	@PostMapping("/contractList") 
 	public String getSearchContractList( @RequestParam(value="searchKey", required = false) String searchKey
