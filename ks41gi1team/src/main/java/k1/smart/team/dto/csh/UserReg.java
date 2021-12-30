@@ -1,6 +1,6 @@
 package k1.smart.team.dto.csh;
 
-public class UserRegister {
+public class UserReg {
 	private String userRegCode; //회원가입요청코드(PK)
 	private String mainBusinessCode; //사업장별 대표코드(FK)
 	private String userLevelCode; //회원등급코드(FK)
