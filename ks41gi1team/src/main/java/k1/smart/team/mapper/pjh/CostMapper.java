@@ -10,6 +10,6 @@ import k1.smart.team.dto.pjh.Cost;
 public interface CostMapper {
 	//기타비용 전체조회
 	public List<Cost> getAllCostList(String mainBusinessCode);
-	
+	//기타비용 상세
 	public List<Cost> getCostInfo(String mainBusinessCode);
 }

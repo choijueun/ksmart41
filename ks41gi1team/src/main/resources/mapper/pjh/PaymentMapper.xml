@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.pjh.PaymentMapper">
+	<select id="getHistoryPaymentList" parameterType="String" resultType="HistoryPayment">
+		SELECT
+			payHistoryCode
+			,mainBusinessCode
+			,payPlanCode
+			,payCost
+			,totalPlanCost
+			,issueDate
+			,payType
+			,payMethod
+			,payDate
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		FROM
+ 			k1_tb_pay_history
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="getCancelPaymentList" parameterType="String" resultType="CancelPayment">
+		SELECT
+			payCancelCode
+			,mainBusinessCode
+			,payHistoryCode
+			,cancelCost
+			,issueDate
+			,approvalDate
+			,regId
+			,regDate
+			,updateDate
+		FROM
+ 			k1_tb_pay_cancel
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="getPlanPaymentList" parameterType="String" resultType="PlanPayment">
+		SELECT
+			 p.payPlanCode
+			,p.clientCode
+			,p.mainBusinessCode
+			,p.totalAccountCode
+			,p.contractCode
+			,p.totalPlanCost
+			,p.briefs
+			,p.managerId
+			,p.regid
+			,p.regDate
+			,p.updateDate
+			,pd.payPlanDetailCode
+			,pd.purchaseTsCode
+			,pd.salesTsCode
+			,pd.itemCode
+			,pd.madeCompany
+			,pd.materialCost
+			,pd.tax
+			,pd.productPrice
+			,pd.vat
+			,pd.count
+			,pd.sum
+			,pd.isEnd
+			,pd.endDate
+			,pd.`comment`
+		FROM
+			k1_tb_pay_plan AS p
+		JOIN
+			k1_tb_pay_plan_detail AS pd
+		ON
+			p.payPlanCode = pd.payPlanCode;
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+
+</mapper>

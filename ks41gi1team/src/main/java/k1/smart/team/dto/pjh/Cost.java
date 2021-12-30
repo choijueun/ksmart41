@@ -1,6 +1,5 @@
 package k1.smart.team.dto.pjh;
 
-import java.util.Date;
 
 public class Cost {
 	private String etcPurchaseCode;

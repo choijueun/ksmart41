@@ -9,6 +9,6 @@ import k1.smart.team.dto.csh.Client;
 @Mapper
 public interface ClientMapper {
 	//거래처정보 전체조회
-	public List<Client> getAllClientList(String clientCode);
+	public List<Client> getAllClientList(String mainBusinessCode);
 
 }
