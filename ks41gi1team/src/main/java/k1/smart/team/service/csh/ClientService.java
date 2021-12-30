@@ -20,14 +20,13 @@ public class ClientService {
 	}
 	
 	//거래처 전체 목록 조회
-	public List<Client> getAllClientList(String clientCode) {
-		clientList = clientMapper.getAllClientList(clientCode);
+	public List<Client> getAllClientList(String mainBusinessCode) {
+		clientList = clientMapper.getAllClientList(mainBusinessCode);
 		String clientNum;
 		for(int i=0; i<clientList.size(); i++) {
-			
+			clientNum = clientList.get(i).getClientCode().replace("clientCode_","");
+			clientList.get(i).setClientCode(clientNum);
 		}
-		
-		
 		return clientList;
 	}
 	
