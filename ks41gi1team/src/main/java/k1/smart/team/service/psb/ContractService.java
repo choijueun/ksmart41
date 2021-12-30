@@ -45,4 +45,11 @@ public class ContractService {
 			}
 			return contractList;
 		}
+		
+	//계약서 여부 체크	
+		public int getContractByContractCode(String contractCode) {
+			int result = 0;
+			result += contractMapper.getContractByContractCode(contractCode);
+			return result;
+		}
 }

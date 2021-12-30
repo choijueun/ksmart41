@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.psb.Contract;
@@ -38,6 +39,22 @@ public class ContractController {
 	@GetMapping("/k1ContractDetail")
 	public String k1getContract() {
 		return "contract/contract_detail";
+	}
+	
+	//계약서 코드 체크
+	@PostMapping("/contractCodeCheck")
+	@ResponseBody
+	public boolean contractCodeCheck(@RequestParam(value="contractCode", required = false) String contractCode) {
+		
+		System.out.println("ajax 통신으로 요청받은 파라미터 contractCode:" + contractCode);
+		
+		boolean checkResult = false;
+		
+		int check = contractService.getContractByContractCode(contractCode);
+		
+		if(check > 0) checkResult = true;
+		
+		return checkResult;
 	}
 	
 	//계약서 등록
