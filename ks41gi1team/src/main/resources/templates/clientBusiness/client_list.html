@@ -54,50 +54,52 @@
                   <thead>
                   <tr role="row">
                     <th>
-                    	<input type="checkbox" id="contractAllCheck">
+                    	<input type="checkbox" id="clientAllCheck">
                     </th>
-                  	<th>거래처 코드</th>
-                  	<th rowspan="1" colspan="1">거래처 대표코드</th>
-                  	<th rowspan="1" colspan="1">사업장별 대표코드</th>
-                  	<th rowspan="1" colspan="1">거래처 구분 코드</th>
-                  	<th rowspan="1" colspan="1">거래처 대표아이디</th>
-                  	<th rowspan="1" colspan="1">상호</th>
-                  	<th rowspan="1" colspan="1">대표자명</th>
-                  	<th rowspan="1" colspan="1">업종</th>
-                  	<th rowspan="1" colspan="1">업태</th>
-                  	<th rowspan="1" colspan="1">사업자번호</th>
-                  	<th rowspan="1" colspan="1">종사업장번호</th>
-                  	<th rowspan="1" colspan="1">연락처</th>
-                  	<th rowspan="1" colspan="1">소재지</th>
-                  	<th rowspan="1" colspan="1">이메일</th>
-                  	<th rowspan="1" colspan="1">등록일시</th>
-                  	<th rowspan="1" colspan="1">수정일시</th>
+                  	<th>거래처 대표코드</th>
+                  	<th>사업장별 대표코드</th>
+                  	<th>거래처 구분 코드</th>
+                  	<th>거래처 대표아이디</th>
+                  	<th>상호</th>
+                  	<th>대표자명</th>
+                  	<th>업종</th>
+                  	<th>업태</th>
+                  	<th>사업자번호</th>
+                  	<th>종사업장번호</th>
+                  	<th>연락처</th>
+                  	<th>소재지</th>
+                  	<th>이메일</th>
+                  	<th>등록일시</th>
+                  	<th>수정일시</th>
                   </tr>
-                  </thead>
-                  	<tbody>
-	                  <tr th:if="${not #lists.isEmpty(clientList)}" th:each="l : ${clientList}">
-	                  <td><input type="checkbox"></td>
-						<td>
-		                  	<a th:htef="@{/clientBusiness/client_list/${l.clientCode}|}">
-		                  		[[${l.clientCode}]]
-		                  	</a>
-						</td>	
-						<td>[[${l.mainBusinessCode}]]</td>
-						<td>[[${l.businessCategory}]]</td>
-						<td>[[${l.clientId}]]</td>
-						<td>[[${l.businessName}]]</td>
-						<td>[[${l.businessRepresentative}]]</td>
-						<td>[[${l.businessType1}]]</td>
-						<td>[[${l.businessType2}]]</td>
-		                <td>[[${l.businessNum}]]</td>
-		                <td>[[${l.businessCount}]]</td>
-		                <td>[[${l.businessMobile}]]</td>
-		                <td>[[${l.businessPlace}]]</td>
-		                <td>[[${l.businessEmail}]]</td>
-		                <td>[[${l.regDate}]]</td>
-		                <td>[[${l.updateDate}]]</td>
-					</tr>
-				</tbody>    
+					</thead>
+					<tbody>
+		                  <tr th:if="${not #lists.isEmpty(clientList)}" th:each="l : ${clientList}">
+		                  	<td><input type="checkbox"></td>
+							<td>
+			                  	<a th:href="@{|/k1ClientList/${l.clientCode}|}">
+			                  		[[${l.clientCode}]]
+			                  	</a>
+							</td>	
+							<td>[[${l.mainBusinessCode}]]</td>
+							<td>[[${l.businessCategory}]]</td>
+							<td>[[${l.userId}]]</td>
+							<td>[[${l.businessName}]]</td>
+							<td>[[${l.businessRepresentative}]]</td>
+							<td>[[${l.businessType1}]]</td>
+							<td>[[${l.businessType2}]]</td>
+			                <td>[[${l.businessNum}]]</td>
+			                <td>[[${l.businessCount}]]</td>
+			                <td>[[${l.businessMobile}]]</td>
+			                <td>[[${l.businessPlace}]]</td>
+			                <td>[[${l.businessEmail}]]</td>
+			                <td>[[${l.regDate}]]</td>
+			                <td>[[${l.updateDate}]]</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(clientList)}">
+							<td colspan="17">거래처 정보가 없습니다.</td>
+						</tr>
+					</tbody>    
                 </table>
                 </div>
                 </div>

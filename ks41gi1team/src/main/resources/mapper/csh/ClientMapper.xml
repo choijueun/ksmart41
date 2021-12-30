@@ -44,4 +44,30 @@
 		WHERE
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
+	
+	<select id="getClientListBySearchKey" parameterType="String" resultMap="clientResultMap">
+		SELECT
+			 cli.clientCode
+			,cli.mainBusinessCode
+			,cli.businessCategory
+			,cli.userId
+			,cli.businessName
+			,cli.businessRepresentative
+			,cli.businessType1
+			,cli.businessType2
+			,cli.businessNum
+			,cli.businessCount
+			,cli.businessMobile
+			,cli.businessPlace
+			,cli.businessEmail
+			,cli.regDate
+			,cli.updateDate
+		FROM 
+			k1_tb_client AS cli
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%');
+			</if>
+		</trim>
+	</select>
 </mapper>

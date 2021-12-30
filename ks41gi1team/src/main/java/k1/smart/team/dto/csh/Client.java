@@ -4,7 +4,7 @@ public class Client {
 	private String clientCode; //거래처 대표코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private String businessCategory; //거래처 구분 코드
-	private String clientId; //거래처 대표아이디
+	private String userId; //거래처 대표아이디
 	private String businessName; //상호
 	private String businessRepresentative; //대표자명
 	private String businessType1; //업종
@@ -34,11 +34,11 @@ public class Client {
 	public void setBusinessCategory(String businessCategory) {
 		this.businessCategory = businessCategory;
 	}
-	public String getClientId() {
-		return clientId;
+	public String getUserId() {
+		return userId;
 	}
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getBusinessName() {
 		return businessName;
@@ -115,8 +115,8 @@ public class Client {
 		builder.append(mainBusinessCode);
 		builder.append(", businessCategory=");
 		builder.append(businessCategory);
-		builder.append(", clientId=");
-		builder.append(clientId);
+		builder.append(", userId=");
+		builder.append(userId);
 		builder.append(", businessName=");
 		builder.append(businessName);
 		builder.append(", businessRepresentative=");
@@ -142,6 +142,7 @@ public class Client {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 	
 
