@@ -18,7 +18,8 @@ public class ItemController {
 
 	@GetMapping("")
 	public String itemMain(Model model) {
-		model.addAttribute("title", "품목관리");
+		model.addAttribute("SectionTitle", "품목관리");
+		model.addAttribute("SectionLocation", "전체목록");
 		return "stock/item/item_list";
 	}
 	
