@@ -4,14 +4,14 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation">[[${title}]]</th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
 	여기에본문내용을~!
