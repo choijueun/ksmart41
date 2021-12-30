@@ -21,11 +21,11 @@ public class CostService {
 		costList = costMapper.getAllCostList(mainBusinessCode);
 		System.out.println(costList);
 		
-		/*
-		 * String costNum; for(int i=0; i<costList.size(); i++) { costNum =
-		 * costList.get(i).getEtcPurchaseCode().replace("etcPurchaseCode_", "");
-		 * costList.get(i).setEtcPurchaseCode(costNum); }
-		 */
+		
+		 String costNum; for(int i=0; i<costList.size(); i++) { costNum =
+		 costList.get(i).getEtcPurchaseCode().replace("etcPurchaseCode_", "");
+		 costList.get(i).setEtcPurchaseCode(costNum); }
+		 
 		
 		return costList;
 	}
