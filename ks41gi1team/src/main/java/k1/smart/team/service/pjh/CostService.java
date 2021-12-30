@@ -22,7 +22,8 @@ public class CostService {
 		System.out.println(costList);
 		
 		
-		 String costNum; for(int i=0; i<costList.size(); i++) { costNum =
+		 String costNum; 
+		 for(int i=0; i<costList.size(); i++) { costNum =
 		 costList.get(i).getEtcPurchaseCode().replace("etcPurchaseCode_", "");
 		 costList.get(i).setEtcPurchaseCode(costNum); }
 		 
