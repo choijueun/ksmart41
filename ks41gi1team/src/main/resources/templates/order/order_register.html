@@ -2,12 +2,103 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
-  
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
 
-<!-- Content Header (Page header) -->
-<th:block th:replace="contract/location :: locationFragment"></th:block>
-<!-- Main content -->
-<th:block layout:fragment="customContents"></th:block>
-<h2>발주 등록 화면</h2>    
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+
+<!-- content -->
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			발주요청 입력
+		</div>
+		<div class="card" >
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="rawMaterial" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					일자 
+				</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="subsidiary" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					담당자
+				</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="product" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					입고될 창고
+				</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="product" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					납기 일자
+				</label>
+			</div>
+		</div>
+		<div class="card-body">
+			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>품목코드</th>
+						<th>품목명</th>
+						<th>거래처코드</th>
+						<th>거래처명</th>
+						<th>규격</th>
+						<th>수량</th>
+						<th>단가</th>
+						<th>공급가액</th>
+						<th>부가세</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- <tr th:if="${not #lists.isEmpty(itemList)}" 
+						th:each="l : ${itemList}">
+						<td><input type="checkbox"></td> -->
+						<!-- <td>
+							주은님 품목정보 경로 설정되면 작성  
+							<option th:href="@{|/*/${l.itemCode}|}">
+								[[${l.itemCode}]]
+							</option>
+						</td>
+						<td>
+							<a th:href="@{|/k1Stock/${l.itemCode}|}">
+								[[${l.itemName}]]
+							</a>
+						</td> -->
+						<td>[[${l.itemType}]]</td>
+						<td>[[${l.itemCount}]]</td>
+						<td>[[${l.warehouseName}]]</td>
+						<td>[[${l.comment}]]</td>
+						<td>[[${l.status}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</th:block>
+
 </html>
-

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.mapper.psb.ContractMapper;
 
@@ -25,15 +26,18 @@ public class ContractService {
 		return result;
 	}
 	
+	public List<Client> getClientList(){
+		List<Client> clientList = contractMapper.getClientList();
+		
+		return clientList;
+	}
+	
 	//검색 하나의 목록 조회(검색)
 		public List<Contract> getContractListBySearchKey(String searchKey, String searchValue){
 			return contractMapper.getContractListBySearchKey(searchKey, searchValue);
 		}
 
-		public List<Contract> getContractList() {
-			
-			return null;
-		}
+
 	//전체 계약 검색
 		public List<Contract> getAllContractList(String mainBusinessCode){
 			contractList = contractMapper.getAllContractList(mainBusinessCode);
