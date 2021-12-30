@@ -8,6 +8,10 @@ import k1.smart.team.dto.psb.Contract;
 
 @Mapper
 public interface ContractMapper {
+
+	//계약서 중복 체크
+	public int getContractByContractCode(String contractCode);
+	
 	//계약서 등록
 	public int addContract(Contract contract);
 	
@@ -16,4 +20,5 @@ public interface ContractMapper {
 	
 	//계약서 전체 조회
 		public List<Contract> getAllContractList(String mainBusinessCode);
+
 }
