@@ -22,6 +22,78 @@
 		<result column="uodateDate" 		property="uodateDate"/>
 	</resultMap>
 
+	<select id="getContractByContractCode" parameterType="String" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM	
+			k1_tb_contract
+		WHERE  
+			contractCode = #{contractCode};
+	</select>
+	
+	<select id="getUserList" resultType="UserList">
+	SELECT 
+		c.clientCode,
+		c.mainBusinessCode,
+		c.businessCategory,
+		c.userId,
+		c.businessName,
+		c.businessRepresentative,
+		c.businessType1,
+		c.businessType2,
+		c.businessNum,
+		c.businessCount,
+		c.businessMobile,
+		c.businessPlace,
+		c.businessEmail,
+		c.regDate,
+		c.updateDate
+	FROM	
+		k1_tb_client AS c;
+	</select>
+	
+	<select id="getClientList" resultType="Client">
+	SELECT 
+		c.clientCode,
+		c.mainBusinessCode,
+		c.businessCategory,
+		c.userId,
+		c.businessName,
+		c.businessRepresentative,
+		c.businessType1,
+		c.businessType2,
+		c.businessNum,
+		c.businessCount,
+		c.businessMobile,
+		c.businessPlace,
+		c.businessEmail,
+		c.regDate,
+		c.updateDate
+	FROM	
+		k1_tb_client AS c;
+	</select>
+	
+	<select id="getMainBusinessList" resultType="MainBusiness">
+		SELECT 
+			b.mainBusinessCode,
+			b.businessCategory,
+			b.businessLevel,
+			b.businessName,
+			b.businessRepresentative,
+			b.businessType1,
+			b.businessType2,
+			b.businessNum,
+			b.businessCount,
+			b.businessMobile,
+			b.businessPlace,
+			b.businessEmail,
+			b.openDate,
+			b.regDate,
+			b.updateDate
+		FROM	
+			k1_tb_main_business AS b;
+	</select>
+
 	<insert id="addContract" parameterType="Contract">
 		INSERT INTO k1_tb_contract
 		(

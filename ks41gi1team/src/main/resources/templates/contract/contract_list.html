@@ -86,7 +86,7 @@
                   <tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
                   <td><input type="checkbox"></td>
                   <td>
-                  	<a th:htef="@{/conttract/contract_list/${l.contractCode}|}">
+                  	<a th:htef="@{/contract/contract_list/${l.contractCode}|}">
                   		[[${l.contractCode}]]
                   	</a>
                   </td>	

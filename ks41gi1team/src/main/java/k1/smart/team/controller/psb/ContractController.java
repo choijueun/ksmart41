@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.service.psb.ContractService;
 
@@ -22,6 +23,7 @@ public class ContractController {
 
 	private ContractService contractService;
 	private String mainBusinessCode;
+	
 	
 	public ContractController(ContractService contractService) {
 		this.contractService = contractService;
@@ -71,6 +73,15 @@ public class ContractController {
 		
 		return "redirect:/contract/contract_list";
 		
+	}
+	@GetMapping("/addContract")
+	public String addContract(Model model) {
+		System.out.println("/addContract GET 방식 요청");
+		model.addAttribute("title", "계약등록");
+		//DB 계약코드 LIST
+		List<Client> clientList = contractService.getClientList();
+		model.addAttribute("clientList", clientList);
+		return "contract/addContract";
 	}
 	
 	//하나의 계약서 검색

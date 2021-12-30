@@ -76,7 +76,7 @@
 				  alert( "Request failed: " + textStatus );
 			});	
 		}else{
-			alert('아이디를 입력해주세요')
+			alert('계약코드를 입력해주세요')
 			return false;
 		}
 		
@@ -92,78 +92,133 @@
 	<form id="addContractForm" th:action="@{/contract/contract_register}" method="post">
 		<div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">계약코드</label>
-                    <input type="text" name="contractCode" class="form-control" id="exampleInputEmail1" placeholder="contractCode000">
+                    <label for="contractCode">계약코드</label>
+                    <input type="text" name="contractCode" class="form-control" id="contractCode" placeholder="contractCode000">
+                    <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">사업장별 대표코드</label>
-                    <input type="text" name="businessCode" class="form-control" id="exampleInputPassword1" placeholder="fac_ksmartSeoul_Seoul_000">
+                    <label for="mainBusinessCode">사업장별 대표코드</label>
+                    <select name="mainBusinessCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(mainBusinessList)}"
+                    			  th:each="l : ${mainBusinessList}">
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    		<option>사업장 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                    <!-- <input type="text" name="mainBusinessCode" class="form-control" id="mainBusinessCode" placeholder="fac_ksmartSeoul_Seoul_000"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">거래처 대표코드</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="client_agency_000">
+                    <label for="clientCode">거래처 대표코드</label>
+                     <select name="clientCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(clientList)}"
+                    			  th:each="l : ${clientList}">
+                    		<option th:value="${l.clientCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+                    		<option>거래처 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>		
+                    <!-- <input type="text" name="clientCode" class="form-control" id="clientCode" placeholder="client_agency_000"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">거래처 담당자</label>
-                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="id100">
+                    <label for="clientManagerId">거래처 담당자</label>
+                      <select name="clientManagerId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(clientList)}"
+                    			  th:each="l : ${clientList}">
+                    		<option th:value="${l.clientCode}" th:text="${l.businessRepresentative}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+                    		<option>거래처 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>	
+                    <!-- <input type="text" name="clientManagerId" class="form-control" id="clientManagerId" placeholder="id100"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">계약 주문유형</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="발주">
+                    <label for="contractSection">계약 주문유형</label>
+                    <input type="text" name="contractSection" class="form-control" id="contractSection" placeholder="발주" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">계약유형</label>
-                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="1년계약">
+                    <label for="contractType">계약유형</label>
+                    <input type="text" name="contractType" class="form-control" id="contractType" placeholder="1년계약" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">계약시작날짜</label>
-                    <input type="date" name="email" class="form-control" id="exampleInputEmail1" placeholder="2021-11-01">
+                    <label for="startDate">계약시작날짜</label>
+                    <input type="date" name="startDate" class="form-control" id="startDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">계약종료날짜</label>
-                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-11-02">
+                    <label for="endDate">계약종료날짜</label>
+                    <input type="date" name="endDate" class="form-control" id="endDate" placeholder="2021-11-02" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">담당자</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="id002	">
+                    <label for="managerId">담당자</label>
+                    <select name="managerId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                    <!-- <input type="text" name="managerId" class="form-control" id="managerId" placeholder="id002	">--> </div>
+                  <div class="form-group">
+                    <label for="regId">등록자</label>
+                    <!-- <input type="text" name="regId" class="form-control" id="regId" placeholder="id002" disabled="disabled"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">등록자</label>
-                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="id002">
+                    <label for="approvalId">승인자</label>
+                    <select name="managerId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                    <!-- <input type="text" name="approvalId" class="form-control" id="approvalId" placeholder="id002"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">승인자</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="id002">
+                    <label for="contractDate">계약일자</label>
+                    <input type="date" name="contractDate" class="form-control" id="contractDate" placeholder="2021-10-30" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">계약일자</label>
-                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-10-30">
+                    <label for="contractStatus">계약상태</label>
+                    <input type="text" name="contractStatus" class="form-control" id="contractStatus" placeholder="계약중" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">계약상태</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="계약중">
+                    <label for="briefs">적요</label>
+                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="제품매출 6,600,000원" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">적요</label>
-                    <input type="text" name="password" class="form-control" id="exampleInputPassword1" placeholder="제품매출 6,600,000원">
+                    <label for="regDate">등록일시</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">등록일시</label>
-                    <input type="date" name="email" class="form-control" id="exampleInputEmail1" placeholder="2021-10-30 00:00:00">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">수정일시</label>
-                    <input type="date" name="password" class="form-control" id="exampleInputPassword1" placeholder="2021-10-30 00:00:00">
+                    <label for="updateDate">수정일시</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
                   <div class="form-group mb-0">
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" disabled="disabled">
                       <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
                     </div>
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" id="addContractBtn" class="btn btn-primary" >등록</button>
+                  <button type="submit" id="addContractBtn" class="btn btn-info" disabled="disabled" >등록</button>
                 </div>
              </form>
 </th:block>
