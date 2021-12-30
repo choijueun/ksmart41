@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.cje.ItemMapper">
+
+<select id="getAllItemList" parameterType="String" resultType="Stock">
+	SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<select id="getItemInfoByCode" parameterType="String" resultType="Stock">
+	SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = #{itemCode};
+</select>
+
+<select id="getItemStockByCode" parameterType="String" resultType="Stock">
+	SELECT
+		 i.itemCode
+		,SUM(s.itemCount)
+		,p.productPrice
+		,SUM(s.totalPrice)
+		,SUM(s.stockWeight)
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = #{itemCode};
+</select>
+
+</mapper>

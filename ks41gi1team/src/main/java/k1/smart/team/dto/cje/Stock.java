@@ -3,28 +3,40 @@ package k1.smart.team.dto.cje;
 public class Stock {
 	private String inventoryCode; //재고코드
 	private String mainBusinessCode; //사업장별 대표코드
+	
 	private String itemCode; //품목코드
 	private String itemName; //품목명
 	private String itemType; //품목분류
+	
 	private String categoryCode; //카테고리
 	private String largeCategory; //대분류
 	private String middleCategory; //중분류
 	private String smallCategory; //소분류
+	private String microCategory; //소소분류
+	
 	private String itemStandard; //품목규격
 	private String itemOrigin; //품목원산지
-	private String productPriceCode; //제품 단가 코드
-	private int productPrice; //제품 단가
-	private int itemCount; //수량
+	private String itemStatus; //품목상태
+	private String itemComment; //품목비고
+	
+	private String productPriceCode; //제품단가코드
+	private int productPrice; //제품단가
+	private int itemCount; //품목수량
 	private int totalPrice; //합계금액
 	private int stockWeight; //중량(kg)
+	
 	private String warehouseCode; //창고 코드
 	private String warehouseName; //창고명
 	private String loaction; //창고위치
 	private String outPlace; //창고소재지
+	
 	private String status; //재고상태
-	private String comment; //비고
-	private String regDate; //등록일시
-	private String updateDate; //수정일시
+	private String comment; //재고비고
+	
+	private String itemRegDate; //품목등록일시
+	private String itemUpdateDate; //품목수정일시
+	private String stockRegDate; //재고등록일시
+	private String stockUpdateDate; //재고수정일시
 	
 	public String getInventoryCode() {
 		return inventoryCode;
@@ -80,6 +92,12 @@ public class Stock {
 	public void setSmallCategory(String smallCategory) {
 		this.smallCategory = smallCategory;
 	}
+	public String getMicroCategory() {
+		return microCategory;
+	}
+	public void setMicroCategory(String microCategory) {
+		this.microCategory = microCategory;
+	}
 	public String getItemStandard() {
 		return itemStandard;
 	}
@@ -91,6 +109,18 @@ public class Stock {
 	}
 	public void setItemOrigin(String itemOrigin) {
 		this.itemOrigin = itemOrigin;
+	}
+	public String getItemStatus() {
+		return itemStatus;
+	}
+	public void setItemStatus(String itemStatus) {
+		this.itemStatus = itemStatus;
+	}
+	public String getItemComment() {
+		return itemComment;
+	}
+	public void setItemComment(String itemComment) {
+		this.itemComment = itemComment;
 	}
 	public String getProductPriceCode() {
 		return productPriceCode;
@@ -158,17 +188,29 @@ public class Stock {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getRegDate() {
-		return regDate;
+	public String getItemRegDate() {
+		return itemRegDate;
 	}
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+	public void setItemRegDate(String itemRegDate) {
+		this.itemRegDate = itemRegDate;
 	}
-	public String getUpdateDate() {
-		return updateDate;
+	public String getItemUpdateDate() {
+		return itemUpdateDate;
 	}
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
+	public void setItemUpdateDate(String itemUpdateDate) {
+		this.itemUpdateDate = itemUpdateDate;
+	}
+	public String getStockRegDate() {
+		return stockRegDate;
+	}
+	public void setStockRegDate(String stockRegDate) {
+		this.stockRegDate = stockRegDate;
+	}
+	public String getStockUpdateDate() {
+		return stockUpdateDate;
+	}
+	public void setStockUpdateDate(String stockUpdateDate) {
+		this.stockUpdateDate = stockUpdateDate;
 	}
 	
 	@Override
@@ -192,10 +234,16 @@ public class Stock {
 		builder.append(middleCategory);
 		builder.append(", smallCategory=");
 		builder.append(smallCategory);
+		builder.append(", microCategory=");
+		builder.append(microCategory);
 		builder.append(", itemStandard=");
 		builder.append(itemStandard);
 		builder.append(", itemOrigin=");
 		builder.append(itemOrigin);
+		builder.append(", itemStatus=");
+		builder.append(itemStatus);
+		builder.append(", itemComment=");
+		builder.append(itemComment);
 		builder.append(", productPriceCode=");
 		builder.append(productPriceCode);
 		builder.append(", productPrice=");
@@ -218,10 +266,14 @@ public class Stock {
 		builder.append(status);
 		builder.append(", comment=");
 		builder.append(comment);
-		builder.append(", regDate=");
-		builder.append(regDate);
-		builder.append(", updateDate=");
-		builder.append(updateDate);
+		builder.append(", itemRegDate=");
+		builder.append(itemRegDate);
+		builder.append(", itemUpdateDate=");
+		builder.append(itemUpdateDate);
+		builder.append(", stockRegDate=");
+		builder.append(stockRegDate);
+		builder.append(", stockUpdateDate=");
+		builder.append(stockUpdateDate);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -4,14 +4,14 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
 
@@ -21,30 +21,30 @@
 		<div class="card-header">
 			asdf
 		</div>
-		<div class="card">
-			<div class="custom-control custom-checkbox">
-				<label class="custom-control-label">
-					<input type="checkbox" value="rawMaterial" 
-						class="custom-control-input custom-control-input-info custom-control-input-outline">
-					원자재
-				</label>
-			</div>
-			<div class="custom-control custom-checkbox">
-				<label class="custom-control-label">
-					<input type="checkbox" value="subsidiary" 
-						class="custom-control-input custom-control-input-info custom-control-input-outline">
-					부자재
-				</label>
-			</div>
-			<div class="custom-control custom-checkbox">
-				<label class="custom-control-label">
-					<input type="checkbox" value="product" 
-						class="custom-control-input custom-control-input-info custom-control-input-outline">
-					제품
-				</label>
-			</div>
-		</div>
 		<div class="card-body">
+			<div class="card">
+				<div class="custom-control custom-checkbox">
+					<label class="custom-control-label">
+						<input type="checkbox" value="rawMaterial" 
+							class="custom-control-input custom-control-input-info custom-control-input-outline">
+						원자재
+					</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<label class="custom-control-label">
+						<input type="checkbox" value="subsidiary" 
+							class="custom-control-input custom-control-input-info custom-control-input-outline">
+						부자재
+					</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<label class="custom-control-label">
+						<input type="checkbox" value="product" 
+							class="custom-control-input custom-control-input-info custom-control-input-outline">
+						제품
+					</label>
+				</div>
+			</div>
 			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -81,6 +81,11 @@
 						<td>[[${l.status}]]</td>
 						<td>
 							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(stockList)}">
+						<td colspan="9">
+							재고 정보가 없습니다.
 						</td>
 					</tr>
 				</tbody>
