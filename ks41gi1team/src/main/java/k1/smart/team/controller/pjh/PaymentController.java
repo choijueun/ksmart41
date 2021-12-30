@@ -22,13 +22,13 @@ public class PaymentController {
 		this.pService = pService;
 	}
 	
-	@GetMapping("/history")
+	@GetMapping("")
 	public String HistoryPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<HistoryPayment> historyPayment = pService.getAllHistoryPaymentList(mainBusinessCode);
+		//List<HistoryPayment> historyPayment = pService.getAllHistoryPaymentList(mainBusinessCode);
 		
 		model.addAttribute("title","결제관리");
-		model.addAttribute("historyPayment", historyPayment);
+		//model.addAttribute("historyPayment", historyPayment);
 		
 		return "payment/historyPayment_list";
 	}
