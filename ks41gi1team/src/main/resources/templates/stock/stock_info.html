@@ -15,87 +15,89 @@
 
 <th:block layout:fragment="customContents">
 <div class="container-fluid">
-	<div class="col-lg-7">
-		<div class="card">
-			<div class="card-header">
-				재고[[${inventoryCode}]]
-			</div>
-			<div class="card-body">
-				<table class="table table-bordered">
-					<tbody>
-						<tr>
-							<td>재고번호</td>
-							<td>[[${inventoryCode}]]</td>
-							<td>상태</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>품목명</td>
-							<td></td>
-							<td>분류</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>수량</td>
-							<td></td>
-							<td>규격</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>단가</td>
-							<td colspan="2"></td>
-							<td><button type="button" class="btn btn-block btn-info btn-sm">자세히</button></td>
-						</tr>
-						<tr>
-							<td>중량</td>
-							<td>kg</td>
-							<td>원산지</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>창고명</td>
-							<td></td>
-							<td>창고위치</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>비고</td>
-							<td colspan="3"></td>
-						</tr>
-						<tr>
-							<td>등록일시</td>
-							<td></td>
-							<td>수정일시</td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-				<button type="button" class="btn btn-block btn-info">수정</button>
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="card">
+				<div class="card-header">
+					재고[[${inventoryCode}]]
+				</div>
+				<div class="card-body">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td>재고번호</td>
+								<td>[[${inventoryCode}]]</td>
+								<td>상태</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>품목명</td>
+								<td></td>
+								<td>분류</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>수량</td>
+								<td></td>
+								<td>규격</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>단가</td>
+								<td colspan="2"></td>
+								<td><button type="button" class="btn btn-block btn-info btn-sm">자세히</button></td>
+							</tr>
+							<tr>
+								<td>중량</td>
+								<td>kg</td>
+								<td>원산지</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>창고명</td>
+								<td></td>
+								<td>창고위치</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>비고</td>
+								<td colspan="3"></td>
+							</tr>
+							<tr>
+								<td>등록일시</td>
+								<td></td>
+								<td>수정일시</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<button type="button" class="btn btn-block btn-info">수정</button>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-lg-5">
-		<div class="card">
-			<div class="card-header">
-				최근 조정 내역
-			</div>
-			<div class="card-body">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>사유</th>
-							<th>적요</th>
-							<th>조정일자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+		<div class="col-lg-5">
+			<div class="card">
+				<div class="card-header">
+					최근 조정 내역
+				</div>
+				<div class="card-body">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>사유</th>
+								<th>적요</th>
+								<th>조정일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

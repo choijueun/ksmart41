@@ -14,7 +14,109 @@
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			asdf
+		</div>
+		<div class="card-body">
+			<div class="card">
+				<form>
+					<div class="row">
+						<div class="col-md-9">
+							<label>
+								<input type="checkbox">
+								원자재
+							</label>
+							<label>
+								<input type="checkbox">
+								부자재
+							</label>
+							<label>
+								<input type="checkbox">
+								제품
+							</label>
+						</div>
+						<div class="form-group col-md-3">
+							<div class="custom-control custom-switch">
+								<label class="custom-control-label">
+									사용불가 포함
+									<input type="checkbox" class="custom-control-input" id="isUse">
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="category">
+						<div class="col-md-12">
+							<select name="largeCategory" id="largeCategory">
+								<option value="">:: 대분류 ::</option>
+							</select>
+							<select name="middleCategory" id="middleCategory">
+								<option value="">:: 중분류 ::</option>
+							</select>
+							<select name="smallCategory" id="smallCategory">
+								<option value="">:: 소분류 ::</option>
+							</select>
+							<button type="button" class="btn btn-block btn-outline-info btn-xs" id="modifyCategory">
+								카테고리 편집
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>품목명</th>
+						<th>분류</th>
+						<th colspan="4">카테고리</th>
+						<th>원산지</th>
+						<th>비고</th>
+						<th>상태</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
+						<td><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1Item/${l.itemCode}|}">
+								[[${l.itemCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Item/${l.itemCode}|}">
+								[[${l.itemName}]]
+							</a>
+						</td>
+						<td>[[${l.itemType}]]</td>
+						<td>[[${l.largeCategory}]]</td>
+						<td>[[${l.middleCategory}]]</td>
+						<td>[[${l.smallCategory}]]</td>
+						<td>[[${l.microCategory}]]</td>
+						<td>[[${l.itemOrigin}]]</td>
+						<td>[[${l.itemStatus}]]</td>
+						<td>[[${l.itemComment}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(itemList)}">
+						<td colspan="12">
+							품목 정보가 없습니다.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>
