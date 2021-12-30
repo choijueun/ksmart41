@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StockMapper">
+
 	<select id="getAllStockList" parameterType="String" resultType="Stock">
 		SELECT 
 			 s.inventoryCode
@@ -55,11 +56,70 @@
 			k1_tb_warehouse_info AS w
 			ON
 			s.warehouseCode = w.warehouseCode
-			JOIN
+			LEFT JOIN
 			k1_tb_product_price AS p
 			ON
 			s.productPriceCode = p.productPriceCode
 		WHERE 
 			s.mainBusinessCode = #{mainBusinessCode};
 	</select>
+
+	<select id="getStockInfoByCode" parameterType="String" resultType="Stock">
+		SELECT
+			 s.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,i.largeCategory
+			,i.middleCategory
+			,i.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+			,s.productPriceCode
+			,p.productPrice
+			,s.itemCount
+			,s.totalPrice
+			,s.warehouseCode
+			,w.warehouseName
+			,w.loaction
+			,w.outPlace
+			,s.stockWeight
+			,s.`status`
+			,s.`comment`
+			,s.regDate
+			,s.updateDate
+		FROM
+			k1_tb_stock AS s
+			JOIN
+			(SELECT
+				 i.itemCode
+				,i.itemName
+				,i.itemType
+				,i.categoryCode
+				,c.largeCategory
+				,c.middleCategory
+				,c.smallCategory
+				,i.itemStandard
+				,i.itemOrigin
+			FROM
+				k1_tb_item_info AS i
+				LEFT JOIN
+				k1_tb_item_category AS c
+				ON
+				i.categoryCode = c.categoryCode
+			) AS i
+			ON
+			i.itemCode = s.itemCode
+			JOIN
+			k1_tb_warehouse_info AS w
+			ON
+			s.warehouseCode = w.warehouseCode
+			LEFT JOIN
+			k1_tb_product_price AS p
+			ON
+			s.productPriceCode = p.productPriceCode
+		WHERE
+			inventoryCode = #{inventoryCode};
+	</select>
+
 </mapper>

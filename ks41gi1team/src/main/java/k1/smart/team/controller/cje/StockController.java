@@ -16,30 +16,35 @@ import k1.smart.team.service.cje.StockService;
 public class StockController {
 	private StockService stockService;
 	private String mainBusinessCode;
+	private List<Stock> stockList;
+	private Stock stockInfo;
 	
+	//생성자 메서드
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
 	}
 	
-	//재고 전체목록
+	//재고 전체목록 조회
 	@GetMapping("")
 	public String stockMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<Stock> stockList = stockService.getAllStockList(mainBusinessCode);
-		
-		
-		
+		stockList = stockService.getAllStockList(mainBusinessCode);
 		model.addAttribute("title", "재고관리");
 		model.addAttribute("stockList", stockList);
 		return "stock/stock_list";
 	}
 	
-	//재고 상세정보
+	//재고 상세정보 조회
 	@GetMapping("/{inventoryCode}")
 	public String stockInfo(
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
 			,Model model) {
-		inventoryCode = "inventoryCode_"+inventoryCode;
+		stockInfo = stockService.getStockInfoById(inventoryCode);
+		System.out.println("StockController :: "+ stockInfo);
+		
+		if(stockInfo == null) {
+			return "redirect:/k1Stock";
+		}
 		model.addAttribute("title", "재고정보");
 		model.addAttribute("inventoryCode", inventoryCode);
 		return "stock/stock_info";
