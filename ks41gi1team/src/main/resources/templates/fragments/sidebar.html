@@ -78,7 +78,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{/k1Client}" class="nav-link">
+                <a th:href="@{/k1Client/k1ClientList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p> 거래처 조회 - ! </p>
                 </a> 
@@ -153,6 +153,29 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
+                	비용 관리 - 박재형
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{k1SlipReg}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>비용 등록 - #</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{k1CostList}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>비용 조회 - # </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+                 <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
                 	결제 관리 - 박재형
                 <i class="right fas fa-angle-left"></i>
               </p>
@@ -165,7 +188,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1SlipList}" class="nav-link">
+                <a th:href="@{k1PaymentList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>결제 조회 - # </p>
                 </a>
