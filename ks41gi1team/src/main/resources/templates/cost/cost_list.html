@@ -4,17 +4,89 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+
+<!-- content -->
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			asdf
+		</div>
+		<div class="card">
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="Wages" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					임금
+				</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="electric" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					전기세
+				</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<label class="custom-control-label">
+					<input type="checkbox" value="gaswater" 
+						class="custom-control-input custom-control-input-info custom-control-input-outline">
+					가스수도료
+				</label>
+			</div>
+		</div>
+		<div class="card-body">
+			<table id="costList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>기타비용코드</th>
+						<th>계정과목</th>
+						<th>통합회계</th>
+						<th>금액</th>
+						<th>거래일자</th>
+						<th>결산시점</th>
+						<th>적요</th>
+						<th>등록일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(costList)}" th:each="l : ${costList}">
+						<td><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1Stock/${l.etcPurchaseCode}|}">
+								[[${l.etcPurchaseCode}]]
+							</a>
+						</td>
+						<td>[[${l.lsAccountCode}]]</td>
+						<td>[[${l.totalAccountCode}]]</td>
+						<td>[[${l.amount}]]</td>
+						<td>[[${l.dealDate}]]</td>
+						<td>[[${l.reportPoint}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.regDate}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>
