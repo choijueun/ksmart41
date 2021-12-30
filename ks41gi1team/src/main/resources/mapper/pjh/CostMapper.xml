@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.pjh.CostMapper">
+	<select id="getAllCostList" parameterType="String" resultType="Cost">
+		SELECT
+			etcPurchaseCode
+			,mainBusinessCode
+			,lsAccountCode
+			,totalAccountCode
+			,amount
+			,dealDate
+			,reportPoint
+			,briefs
+			,regDate
+			,updateDate
+		FROM
+ 			k1_tb_etc_purchase
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+</mapper>

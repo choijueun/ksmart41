@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.service.csh.ClientService;
 
 @Controller
@@ -23,6 +24,7 @@ public class CilentController {
 	@GetMapping("")
 	public String getClientList(Model model) {
 		clientCode = "client_agency_001";
+		List<Client> clientList = clientService.getAllClientList(clientCode);
 		
 		return "clientBusiness/client_list";
 	}

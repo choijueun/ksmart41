@@ -8,11 +8,11 @@ public class Cost {
 	private String lsAccountCode; // 계정과목코드
 	private String totalAccountCode; //통합회계관리코드
 	private int amount; // 총액
-	private Date dealDate; //거래일자
+	private String dealDate; //거래일자
 	private String reportPoint; //결산시점
 	private String briefs;
-	private Date regDate;
-	private Date updateDate;
+	private String regDate;
+	private String updateDate;
 	
 	public String getEtcPurchaseCode() {
 		return etcPurchaseCode;
@@ -44,10 +44,10 @@ public class Cost {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public Date getDealDate() {
+	public String getDealDate() {
 		return dealDate;
 	}
-	public void setDealDate(Date dealDate) {
+	public void setDealDate(String dealDate) {
 		this.dealDate = dealDate;
 	}
 	public String getReportPoint() {
@@ -62,16 +62,16 @@ public class Cost {
 	public void setBriefs(String briefs) {
 		this.briefs = briefs;
 	}
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Date getUpdateDate() {
+	public String getUpdateDate() {
 		return updateDate;
 	}
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
 	
