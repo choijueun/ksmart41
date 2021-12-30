@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
+	<resultMap type="MaterialOrder" id="MaterialOrderResultMap">
+		<result column="materialOrderCode" 		property="materialOrderCode"/>
+		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
+		<result column="contractCode" 		property="contractCode"/>
+		<result column="clientCode" 	property="clientCode"/>
+		<result column="totalCount" 	property="totalCount"/>
+		<result column="totalPrice" 		property="totalPrice"/>
+		<result column="orderDate" 			property="orderDate"/>
+		<result column="predictDate" 			property="predictDate"/>
+		<result column="status" 			property="status"/>
+		<result column="briefs" 				property="briefs"/>
+		<result column="managerId" 		property="managerId"/>
+		<result column="regDate" 		property="regDate"/>
+		<result column="updateDate" 	property="updateDate"/>
+	</resultMap>  
+	
+<select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
+	SELECT 
+		mo.materialOrderCode,
+		mo.mainBusinessCode,
+		mo.contractCode,
+		mo.clientCode,
+		mo.totalCount,
+		mo.totalPrice,
+		mo.orderDate,
+		mo.predictDate,
+		mo.`status`,
+		mo.briefs,
+		mo.managerId,
+		mo.regDate,
+		mo.updateDate
+	FROM	
+		k1_tb_material_order AS mo;
+</select>	
+	
+</mapper>	

@@ -70,11 +70,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${not #lists.isEmpty(itemList)}" 
+					<!-- <tr th:if="${not #lists.isEmpty(itemList)}" 
 						th:each="l : ${itemList}">
-						<td><input type="checkbox"></td>
-						<td>
-							<!-- 주은님 품목정보 경로 설정되면 작성   -->
+						<td><input type="checkbox"></td> -->
+						<!-- <td>
+							주은님 품목정보 경로 설정되면 작성  
 							<option th:href="@{|/*/${l.itemCode}|}">
 								[[${l.itemCode}]]
 							</option>
@@ -83,7 +83,7 @@
 							<a th:href="@{|/k1Stock/${l.itemCode}|}">
 								[[${l.itemName}]]
 							</a>
-						</td>
+						</td> -->
 						<td>[[${l.itemType}]]</td>
 						<td>[[${l.itemCount}]]</td>
 						<td>[[${l.warehouseName}]]</td>

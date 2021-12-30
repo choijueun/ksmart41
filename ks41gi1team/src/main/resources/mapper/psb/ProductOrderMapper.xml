@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.ProductOrderMapper">
+	<resultMap type="ProductOrder" id="ProductOrderResultMap">
+		<result column="productOrderCode" 		property="productOrderCode"/>
+		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
+		<result column="contractCode" 		property="contractCode"/>
+		<result column="productPriceCode" 	property="productPriceCode"/>
+		<result column="count" 	property="count"/>
+		<result column="orderDate" 		property="orderDate"/>
+		<result column="productDate" 			property="productDate"/>
+	</resultMap>  
+	
+<select id="getAllProductOrderList" parameterType="String" resultType="ProductOrder">
+	SELECT 
+		po.product_orderCode,
+		po.mainBusinessCode,
+		po.contractCode,
+		po.productPriceCode,
+		po.COUNT,
+		po.orderDate,
+		po.productDate
+	FROM	
+		k1_tb_product_order AS po;
+</select>	
+	
+</mapper>	

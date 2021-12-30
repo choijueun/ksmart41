@@ -178,7 +178,7 @@
 			contr.regDate,
 			contr.updateDate 
 		FROM 
-			k1_tb_contract AS contr
+			k1_tb_contract AS contr;
 	</select>
 
 </mapper>
