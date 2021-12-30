@@ -31,7 +31,7 @@
 			contractCode = #{contractCode};
 	</select>
 	
-	<select id="getUserList" resultType="UserList">
+<!-- 	<select id="getUserList" resultType="UserList">
 	SELECT 
 		c.clientCode,
 		c.mainBusinessCode,
@@ -50,7 +50,7 @@
 		c.updateDate
 	FROM	
 		k1_tb_client AS c;
-	</select>
+	</select> -->
 	
 	<select id="getClientList" resultType="Client">
 	SELECT 
@@ -73,7 +73,7 @@
 		k1_tb_client AS c;
 	</select>
 	
-	<select id="getMainBusinessList" resultType="MainBusiness">
+<!-- 	<select id="getMainBusinessList" resultType="MainBusiness">
 		SELECT 
 			b.mainBusinessCode,
 			b.businessCategory,
@@ -93,7 +93,7 @@
 		FROM	
 			k1_tb_main_business AS b;
 	</select>
-
+ -->
 	<insert id="addContract" parameterType="Contract">
 		INSERT INTO k1_tb_contract
 		(
