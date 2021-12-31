@@ -21,21 +21,26 @@
 	
 <select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
-		mo.materialOrderCode,
-		mo.mainBusinessCode,
-		mo.contractCode,
-		mo.clientCode,
-		mo.totalCount,
-		mo.totalPrice,
-		mo.orderDate,
-		mo.predictDate,
-		mo.`status`,
-		mo.briefs,
-		mo.managerId,
-		mo.regDate,
-		mo.updateDate
+		mo.materialOrderCode as materialOrderCode,
+		mo.mainBusinessCode as mainBusinessCode,
+		mo.contractCode as contractCode,
+		mo.clientCode as clientCode,
+		mo.totalCount as totalCount,
+		mo.totalPrice as totalPrice,
+		mo.orderDate as orderDate,
+		mo.predictDate as predictDate,
+		mo.status as status,
+		mo.briefs as briefs,
+		mo.managerId as managerId,
+		mo.regDate as regDate,
+		mo.updateDate as updateDate,
+		c.businessName as businessName
 	FROM	
-		k1_tb_material_order AS mo;
+		k1_tb_material_order AS mo
+				INNER join
+		k1_tb_client AS c
+		on
+		mo.mainBusinessCode = c.mainBusinessCode
 </select>	
 	
 </mapper>	
