@@ -33,7 +33,8 @@ public class StockService {
 		String stockNum;
 		for(int i=0; i<stockList.size(); i++) {
 			stockInfo = stockList.get(i);
-			stockNum = stockInfo.getInventoryCode().replace("inventoryCode_", "");
+			stockNum = stockInfo.getInventoryCode();
+			stockNum = stockNum.substring(stockNum.length()-3, stockNum.length());
 			stockInfo.setInventoryCode(stockNum);
 		}
 		return stockList;

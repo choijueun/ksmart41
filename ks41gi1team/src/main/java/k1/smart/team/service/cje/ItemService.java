@@ -26,11 +26,16 @@ public class ItemService {
 	public List<Stock> getAllItemList(String mainBusinessCode){
 		//전체목록
 		itemList = itemMapper.getAllItemList(mainBusinessCode);
+		if(itemList == null) {
+			System.out.println("품목정보 조회결과 없음");
+			return null;
+		}
 		//코드에서 숫자만 남기기
 		String itemNum;
 		for(int i=0; i<itemList.size(); i++) {
 			itemInfo = itemList.get(i);
-			itemNum = itemInfo.getItemCode().replace("itemCode_", "");
+			itemNum = itemInfo.getItemCode();
+			itemNum = itemNum.substring(itemNum.length()-3, itemNum.length());
 			itemInfo.setItemCode(itemNum);
 		}
 		
@@ -59,7 +64,7 @@ public class ItemService {
 			itemInfo.setStockWeight(item1StockInfo.getStockWeight());
 		}
 		
-		System.out.println("ItemService :: "+itemInfo.toString());
+		//System.out.println("ItemService :: "+itemInfo.toString());
 		//코드에서 숫자만 남기기
 		itemInfo.setItemCode(itemCode); 
 		return itemInfo;
