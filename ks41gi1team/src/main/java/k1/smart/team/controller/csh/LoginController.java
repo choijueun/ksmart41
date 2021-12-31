@@ -19,7 +19,7 @@ public class LoginController {
 	}
 	
 	//로그인 내역
-	@GetMapping("")
+	@GetMapping("/loginList")
 	public String getLoginList(Model model) {
 		
 		return "login/login_list";

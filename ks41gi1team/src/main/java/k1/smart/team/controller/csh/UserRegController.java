@@ -21,7 +21,7 @@ public class UserRegController {
 	}
 	
 	//회원가입 요청 전체목록
-	@GetMapping("/k1UserRegList")
+	@GetMapping("/userRegList")
 	public String getUserRegList(Model model) {
 		mainBusinessCode = "fac_EHN_Jeonju_001"; //임시저장
 		List<UserReg> userRegList = userRegService.getAllUserRegList(mainBusinessCode);
