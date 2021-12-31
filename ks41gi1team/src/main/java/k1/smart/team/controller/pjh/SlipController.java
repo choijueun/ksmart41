@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Slip;
@@ -32,4 +33,31 @@ public class SlipController {
 		model.addAttribute("s_slipList", s_slipList);
 		return "slip/slip_list";
 	}
+	
+	@GetMapping("/{slipCode}")
+	//html에서 a 태그 링크 :: P001, S001 ...
+	public String slipInfo(
+			@PathVariable(value="slipCode", required=false) String slipCode
+			,Model model) {
+		model.addAttribute("title", "전표관리: 상세정보");
+		model.addAttribute("slipCode", slipCode);
+		return "slip/slip_detail";	
+	}
+	
+	@GetMapping("/add")
+	public String addSlip(Model model) {
+		model.addAttribute("title", "전표관리: 등록");
+		return "slip/slip_register";
+	}
+	
+	@GetMapping("/modify/{slipCode}")
+	public String modifySlip(
+			@PathVariable(value="slipCode", required=false) String slipCode
+			,Model model) {
+		model.addAttribute("title", "전표관리: 수정");
+		model.addAttribute("slipCode", slipCode);
+		return "slip/slip_modify";
+	}
+			
+			
 }	

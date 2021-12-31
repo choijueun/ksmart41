@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Cost;
@@ -32,5 +33,27 @@ public class CostController {
 		return "cost/cost_list";
 	}
 	
+	@GetMapping("/{costCode}")
+	public String costInfo(
+			@PathVariable(value="costCode", required=false) String costCode
+			,Model model) {
+		model.addAttribute("title", "기타비용: 상세정보");
+		model.addAttribute("costCode", costCode);
+		return "cost/cost_detail";
+	}	
 	
+	@GetMapping("/add")
+	public String addCost(Model model) {
+		model.addAttribute("title", "기타비용: 등록");
+		return "cost/cost_register";
+	}
+	
+	@GetMapping("/modify/{costCode}")
+	public String modifyCost(
+			@PathVariable(value="costCode", required=false) String costCode
+			,Model model) {
+		model.addAttribute("title", "기타비용: 수정");
+		model.addAttribute("costCode", costCode);
+		return "cost/cost_modify";
+	}
 }
