@@ -27,7 +27,7 @@ public class CilentController {
 	public String getClientList(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시 지정
 		List<Client> clientList = clientService.getAllClientList(mainBusinessCode);
-		model.addAttribute("title", "거래처 목록");
+		model.addAttribute("SectionTitle", "거래처 조회");
 		model.addAttribute("clientList", clientList);
 		
 		return "clientBusiness/client_list";
