@@ -3,24 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.ClientMapper">
-	<resultMap type="Client" id="clientResultMap">
-		<result column="clientCode" 			property="clientCode"/>
-		<result column="mainBusinessCode" 		property="mainBusinessCode"/>
-		<result column="businessCategory" 		property="businessCategory"/>
-		<result column="userId" 				property="userId"/>
-		<result column="businessName"			property="businessName"/>
-		<result column="businessRepresentative" property="businessRepresentative"/>
-		<result column="businessType1" 			property="businessType1"/>
-		<result column="businessType2" 			property="businessType2"/>
-		<result column="businessNum" 			property="businessNum"/>
-		<result column="businessCount" 			property="businessCount"/>
-		<result column="businessMobile"			property="businessMobile"/>
-		<result column="businessPlace" 			property="businessPlace"/>
-		<result column="businessEmail" 			property="businessEmail"/>
-		<result column="regDate" 				property="regDate"/>
-		<result column="updateDate" 			property="updateDate"/>
-	
-	</resultMap>
 
 	<select id="getAllClientList" parameterType="String" resultType="Client">
 		SELECT
@@ -45,7 +27,7 @@
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
 	
-	<select id="getClientListBySearchKey" parameterType="String" resultMap="clientResultMap">
+	<select id="getClientListBySearchKey" parameterType="String" resultType="Client">
 		SELECT
 			 cli.clientCode
 			,cli.mainBusinessCode

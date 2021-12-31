@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.service.psb.MaterialOrderService;
 
 @Controller
+@RequestMapping(value="/k1MaterialOrder")
 public class MaterialOrderController {
 
 		private MaterialOrderService materialOrderService;
@@ -21,9 +23,9 @@ public class MaterialOrderController {
 		}
 		
 	
-		@GetMapping("/k1OrderReg")
+		@GetMapping("/k1MaterialOrderReg")
 		public String addOrder() {
-			return "order/order_register";
+			return "materialOrder/materialOrder_register";
 		}
 		
 
@@ -36,6 +38,6 @@ public class MaterialOrderController {
 			model.addAttribute("title", "발주목록");
 			model.addAttribute("materialOrderList", materialOrderList);
 			
-			return "order/order_list";
+			return "materialOrder/materialOrder_list";
 		}
 }
