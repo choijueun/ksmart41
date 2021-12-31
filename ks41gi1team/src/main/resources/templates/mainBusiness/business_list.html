@@ -27,7 +27,20 @@
 	<div class="container-fluid">
 		<div class="card card-info card-outline">
 			<div class="card-header">
-				card-header
+				<form th:action="@{/businessList}" method="post">
+					<select name="searchKey">
+						<option value="mainBusinessCode">사업장 코드</option>
+						<option value="">사업장 구분 코드</option>
+						<option value="businessLevel">사업장 권한</option>
+						<option value="businessName">상호</option>
+						<option value="businessType1">업종</option>
+						<option value="businessType2">업태</option>
+						<option value="businessCount">종사업장번호</option>
+					
+					</select> 
+					<input type="text" name="searchValue"/>
+					<button type="submit">검색</button>
+				</form>
 			</div>
 			
 	<div class="card-body">
