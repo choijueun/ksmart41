@@ -10,9 +10,9 @@ import k1.smart.team.service.cje.DelivryService;
 
 @Controller
 @RequestMapping(value="/k1Delivery")
-public class DelivryController {
+public class DeliveryController {
 	private DelivryService delivryService;
-	public DelivryController(DelivryService delivryService) {
+	public DeliveryController(DelivryService delivryService) {
 		this.delivryService = delivryService;
 	}
 

@@ -16,7 +16,7 @@ import k1.smart.team.service.cje.ItemService;
 public class ItemController {
 	private ItemService itemService;
 	private String mainBusinessCode; //사업장대표코드
-	private List<Stock> itemList; //품목 여러개 정보
+	private List<Stock> itemList; //품목 배열
 	private Stock itemInfo; //품목 하나 정보
 	
 	/**
@@ -47,15 +47,21 @@ public class ItemController {
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
-		itemCode = "itemCode_"+itemCode;
-		model.addAttribute("title", "품목정보");
-		model.addAttribute("itemCode", itemCode);
+		itemInfo = itemService.getItemInfoByCode(itemCode);
+		
+		if(itemInfo == null) {
+			return "redirect:/k1Item";
+		}
+		model.addAttribute("SectionTitle", "품목관리");
+		model.addAttribute("SectionLocation", "품목정보");
+		model.addAttribute("itemInfo", itemInfo);
 		return "stock/item/item_info";
 	}
 	
 	@GetMapping("/add")
 	public String addItem(Model model) {
-		model.addAttribute("title", "품목정보추가");
+		model.addAttribute("SectionTitle", "품목관리");
+		model.addAttribute("SectionLocation", "품목추가");
 		return "stock/item/item_add";
 	}
 	
@@ -63,15 +69,16 @@ public class ItemController {
 	public String modifyItem(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
-		itemCode = "itemCode_"+itemCode;
-		model.addAttribute("title", "품목정보수정");
+		model.addAttribute("SectionTitle", "품목관리");
+		model.addAttribute("SectionLocation", "품목수정");
 		model.addAttribute("itemCode", itemCode);
 		return "stock/item/item_modify";
 	}
 	
 	@GetMapping("/category")
 	public String itemCategory(Model model) {
-		model.addAttribute("title", "품목카테고리");
+		model.addAttribute("SectionTitle", "품목관리");
+		model.addAttribute("SectionLocation", "카테고리");
 		return "stock/item/item_category";
 	}
 }

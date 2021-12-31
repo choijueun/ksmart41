@@ -65,7 +65,7 @@
 					</div>
 				</form>
 			</div>
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+			<table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -103,7 +103,9 @@
 						<td>[[${l.itemStatus}]]</td>
 						<td>[[${l.itemComment}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1Item/modify/${l.itemCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(itemList)}">
