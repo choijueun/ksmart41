@@ -27,7 +27,7 @@ public class PaymentController {
 	@GetMapping("")
 	public String HistoryPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<HistoryPayment> historyPayment = pService.getAllHistoryPaymentList(mainBusinessCode);
+		List<HistoryPayment> historyPayment = pService.getHistoryPaymentList(mainBusinessCode);
 		
 		model.addAttribute("title","결제관리");
 		model.addAttribute("historyPayment", historyPayment);
@@ -65,7 +65,7 @@ public class PaymentController {
 	@GetMapping("/cancel")
 	public String CancelPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<CancelPayment> cancelPayment = pService.getAllCancelPaymentList(mainBusinessCode);
+		List<CancelPayment> cancelPayment = pService.getCancelPaymentList(mainBusinessCode);
 		
 		model.addAttribute("title","결제취소 관리");
 		model.addAttribute("cancelPayment", cancelPayment);
@@ -104,8 +104,8 @@ public class PaymentController {
 	@GetMapping("/plan")
 	public String PlanPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<PlanPayment> planPayment = pService.getAllPlanPaymentList(mainBusinessCode);
-		
+		List<PlanPayment> planPayment = pService.getPlanPaymentList(mainBusinessCode);
+		System.out.println("PaymentController !!!!!!!!!!!!! "+planPayment);
 		model.addAttribute("title","결제예정");
 		model.addAttribute("planPayment", planPayment);
 		
