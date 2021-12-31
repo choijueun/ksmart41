@@ -35,7 +35,7 @@ public class WarehouseController {
 	@GetMapping("")
 	public String warehouseMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
-		//재고 전체목록
+		//창고 전체목록
 		warehouseList = warehouseService.getAllWarehouseList(mainBusinessCode);
 		//System.out.println("WarehouseController :: "+warehouseList);
 		//System.out.println("WarehouseController warehouseList.get(0).getWarehouseCode() :: "+warehouseList.get(0).getWarehouseCode());
@@ -51,9 +51,12 @@ public class WarehouseController {
 	public String warehouseInfo(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
 			,Model model) {
+		//창고 상세정보
+		warehouseInfo = warehouseService.getWarehouseInfoByCode(warehouseCode);
 		
-		model.addAttribute("title", "창고정보");
-		model.addAttribute("warehouseCode", warehouseCode);
+		model.addAttribute("SectionTitle", "창고관리");
+		model.addAttribute("SectionLocation", "창고정보");
+		model.addAttribute("warehouseInfo", warehouseInfo);
 		return "stock/warehouse/warehouse_info";
 	}
 	

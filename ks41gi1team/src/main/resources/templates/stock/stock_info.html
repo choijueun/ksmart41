@@ -15,11 +15,11 @@
 
 <th:block layout:fragment="customContents">
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" th:unless="${ stockInfo == null }">
 		<div class="col-lg-7">
 			<div class="card">
 				<div class="card-header">
-					재고[[${inventoryCode}]]
+					재고[[${stockInfo.inventoryCode}]]
 				</div>
 				<div class="card-body">
 					<table id="stockInfo" class="table table-bordered">
@@ -100,9 +100,13 @@
 							</tr>
 						</tbody>
 					</table>
+					<button type="button" class="btn btn-info">더보기</button>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div th:if="${ stockInfo == null }">
+		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>
 </th:block>

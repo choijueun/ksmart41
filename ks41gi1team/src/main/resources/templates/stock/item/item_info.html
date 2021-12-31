@@ -16,7 +16,7 @@
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" th:unless="${ itemInfo == null }">
 		<div class="col-lg-7">
 			<div class="card">
 				<div class="card-header">
@@ -106,9 +106,13 @@
 							</tr>
 						</tbody>
 					</table>
+					<button type="button" class="btn btn-info">더보기</button>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div th:if="${ itemInfo == null }">
+		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>
 
