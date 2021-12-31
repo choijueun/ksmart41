@@ -30,6 +30,7 @@ public class StockService {
 	 */
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
+		//코드 번호
 		String stockNum;
 		for(int i=0; i<stockList.size(); i++) {
 			stockInfo = stockList.get(i);

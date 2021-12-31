@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
+
+<select id="getAllStoringList" parameterType="String" resultType="Storing">
+	SELECT 
+		 adj.stockAdjCode
+		,adj.stockReasonCode
+		,adj.totalPrice
+		,adj.adjDate
+		,adj.briefs
+	FROM 
+		k1_tb_stock_adjustment AS adj
+	WHERE
+		mainBusinessCode = #{mainBusinessCode};
+</select>
+
+</mapper>
