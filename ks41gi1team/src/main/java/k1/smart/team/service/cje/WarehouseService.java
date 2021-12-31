@@ -37,10 +37,6 @@ public class WarehouseService {
 			warehouseNum = warehouseNum.substring(warehouseNum.length()-3, warehouseNum.length());
 			warehouseInfo.setWarehouseCode(warehouseNum);
 		}
-		//적재량 백분율 계산
-		for(int i=0; i<warehouseList.size(); i++) {
-			warehouseInfo = warehouseList.get(i);
-		}
 		//System.out.println("WarehouseService :: "+warehouseList);
 		return warehouseList;
 	}
