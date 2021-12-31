@@ -53,7 +53,7 @@ public class StockController {
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
 			,Model model) {
 		stockInfo = stockService.getStockInfoByCode(inventoryCode);
-		System.out.println("StockController :: "+ stockInfo);
+		//System.out.println("StockController :: "+ stockInfo);
 		
 		if(stockInfo == null) {
 			return "redirect:/k1Stock";

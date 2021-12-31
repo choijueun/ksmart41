@@ -1,19 +1,21 @@
 package k1.smart.team.dto.cje;
 
-import java.util.Date;
-
 public class Warehouse {
 	private String warehouseCode; //창고코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private String warehouseName; //창고명
+	
 	private String category1; //분류 - 일반 냉장 냉동
 	private String category2; //유형 - 재고 출하
+	
 	private int area; //면적
 	private String loaction; //위치
 	private String outPlace; //외부소재지
+	
 	private int currentWeight; //현재 적재중량
 	private int maxWeight; //최대 적재중량
 	private int weightPer; //현재 적재현황
+	
 	private String status; //창고상태
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
