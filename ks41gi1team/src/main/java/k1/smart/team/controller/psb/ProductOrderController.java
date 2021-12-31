@@ -2,11 +2,14 @@ package k1.smart.team.controller.psb;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.annotation.RequestScope;
 
 import k1.smart.team.service.psb.ContractService;
 import k1.smart.team.service.psb.ProductOrderService;
 
 @Controller
+@RequestMapping(value="/k1ProductOrder")
 public class ProductOrderController {
 
 	private ProductOrderService productOrderService;
