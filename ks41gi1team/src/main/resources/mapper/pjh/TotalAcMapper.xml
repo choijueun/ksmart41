@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.pjh.TotalAcMapper">
+	<select id="getTotalAcList" parameterType="String" resultType="TotalAc">
+		SELECT 
+			totalAccountCode
+			,mainBusinessCode
+			,slipGroup
+			,salesSlipCode
+			,purchaseSlipCode
+			,etc_purchaseCode
+			,salesSection
+			,relateTable
+			,totalPrice
+		FROM 
+			k1_tb_total_accounting;
+	</select>
+</mapper>
