@@ -71,7 +71,7 @@
 		JOIN
 			k1_tb_pay_plan_detail AS pd
 		ON
-			p.payPlanCode = pd.payPlanCode;
+			p.payPlanCode = pd.payPlanCode
 		WHERE
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
