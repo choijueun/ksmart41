@@ -15,21 +15,47 @@
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-		<div class="card card-info card-outline">
-			<div class="card-header">
-			</div>
-			<div class="card-body">
-				<div class="card">
-					<button type="button" class="btn btn-block btn-info">Info</button>
-					<button type="button" class="btn btn-block btn-info">Info</button>
-					<button type="button" class="btn btn-block btn-info">Info</button>
-				</div>
-				<div class="card">
-				결제예정
-				</div>
-			</div>
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			결제예정
+		</div>
+		<div class="card-body">
+			<table id="PlanPayment" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>결제 예정코드</th>
+						<th>거래처 대표코드</th>
+						<th>계약코드</th>
+						<th>결제예정 합계금액</th>
+						<th>적요</th>
+						<th>담당자</th>
+						<th>등록자</th>
+						<th>등록일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(planPayment)}" th:each="l : ${planPayment}">
+						<td>[[${l.payPlanCode}]]</td>
+						<td>[[${l.clientCode}]]</td>
+						<td>[[${l.contractCode}]]</td>
+						<td>[[${l.totalPlanCost}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.managerId}]]</td>
+						<td>[[${l.regId}]]</td>
+						<td>[[${l.regDate}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(planPayment)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
+</div>
 </th:block>
 
 </html>

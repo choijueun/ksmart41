@@ -14,7 +14,48 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	결제 히스토리
+	<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			결제내역
+		</div>
+		<div class="card-body">
+			<table id="HistoryPayment" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>결제코드</th>
+						<th>결제금액</th>
+						<th>결제구분</th>
+						<th>결제방법</th>
+						<th>결제일자</th>
+						<th>적요</th>
+						<th>등록자</th>
+						<th>등록일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(historyPayment)}" th:each="l : ${historyPayment}">
+						<td>[[${l.payHistoryCode}]]</td>
+						<td>[[${l.payCost}]]</td>
+						<td>[[${l.payType}]]</td>
+						<td>[[${l.payMethod}]]</td>
+						<td>[[${l.payDate}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.regId}]]</td>
+						<td>[[${l.regDate}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(historyPayment)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>
