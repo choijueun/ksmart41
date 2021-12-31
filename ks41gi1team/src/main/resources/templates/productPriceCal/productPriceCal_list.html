@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+	제품단가 계산 리스트 작성
+<!-- content -->
+ <section class="content">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				asdf
+			</div>
+			<div class="card-body">
+			<div class="col-lg-6">
+				<div class="card">
+				<table id="p_slipList" class="table table-bordered table-hover dataTable dtr-inline" >
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" id="p_allCheck" 
+									class="custom-control-input custom-control-input-info custom-control-input-outline">
+							</th>
+							<th>전표코드</th>
+							<th>분류</th>
+							<th>금액</th>
+							<th>적요</th>
+							<th>비고</th>
+							<th>등록자</th>
+							<th>등록일자</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+						
+					<tbody>
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</section> 
+
+</th:block>
+
+</html>

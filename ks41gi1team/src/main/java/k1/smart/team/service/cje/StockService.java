@@ -49,13 +49,15 @@ public class StockService {
 			System.out.println("재고코드 NULL");
 			return null;
 		}
-		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		
+		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		if(stockInfo == null) {
 			System.out.println("재고정보 조회결과 없음 - 재고코드 ERROR");
 			return null;
 		}
-		stockInfo.setInventoryCode(inventoryCode);
+		
+		//코드에서 숫자만 남기기
+		stockInfo.setInventoryCode(inventoryCode); 
 		return stockInfo;
 	}
 }

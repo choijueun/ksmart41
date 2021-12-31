@@ -4,7 +4,7 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss">
 	<!-- DataTables -->
@@ -18,10 +18,18 @@
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
+
+<!-- content   -->
+	<div class="container-fluid">
+		<div class="card card-info card-outline">
+			<div class="card-header">
+				card-header
+			</div>
+			
 	<div class="card-body">
 		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
 			<div class="row">
@@ -37,15 +45,15 @@
 							<tr role="row">
 								<th><input type="checkbox" id="clientAllCheck"></th>
 								<th>회원가입요청코드</th>
-								<th>사업장별 대표코드</th>
-								<th>회원등급코드</th>
+								<th>사업장</th>
+								<th>회원등급</th>
 								<th>아이디</th>
 								<th>이름</th>
-								<th>성별</th>
-								<th>주소</th>
-								<th>연락처</th>
-								<th>이메일</th>
-								<th>직책</th>
+								<!-- <th>성별</th> -->
+								<!-- <th>주소</th> -->
+								<!-- <th>연락처</th> -->
+								<!-- <th>이메일</th> -->
+								<!-- <th>직책</th> -->
 								<th>요청일자</th>
 								<th>상태</th>
 								<th>비고</th>
@@ -56,6 +64,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	</div>
 	</div>
 
 </th:block>

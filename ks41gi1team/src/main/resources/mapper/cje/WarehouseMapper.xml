@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.cje.WarehouseMapper">
+
+<select id="getAllWarehouseList" parameterType="String" resultType="Warehouse">
+	SELECT 
+		 w.warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<select id="getWarehouseInfoByCode" resultType="Warehouse">
+	SELECT 
+		 w.warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = #{warehouseCode};
+</select>
+
+</mapper>

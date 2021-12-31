@@ -80,7 +80,9 @@
 						<td>[[${l.comment}]]</td>
 						<td>[[${l.status}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1Stock/modify/${l.inventoryCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(stockList)}">

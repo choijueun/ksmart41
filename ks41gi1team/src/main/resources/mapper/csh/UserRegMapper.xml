@@ -4,4 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">
 	
+	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
+		SELECT
+			ur.userRegCode
+		FROM
+			k1_tb_user_register AS ur
+		WHERE
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+	
+	
 </mapper>

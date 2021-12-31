@@ -58,10 +58,10 @@
 <select id="getItemStockByCode" parameterType="String" resultType="Stock">
 	SELECT
 		 i.itemCode
-		,SUM(s.itemCount)
+		,SUM(s.itemCount) AS itemCount
 		,p.productPrice
-		,SUM(s.totalPrice)
-		,SUM(s.stockWeight)
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
 	FROM
 		k1_tb_item_info AS i
 		LEFT JOIN

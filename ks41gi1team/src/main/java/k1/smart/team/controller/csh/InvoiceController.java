@@ -17,26 +17,26 @@ public class InvoiceController {
 	}
 	
 	//매출전자세금계산서 리스트
-	@GetMapping("k1PurchaseIvList")
+	@GetMapping("/purchaseIvList")
 	public String getPurchaseIvList(Model model) {
 		
 		return "invoice/purchase_iv_list";
 	}
 	//매출전자세금계산서 등록
-	@GetMapping("k1PurchaseIvRegister")
+	@GetMapping("/purchaseIvRegister")
 	public String getPurchaseIvRegister(Model model) {
 		
 		return "invoice/purchase_iv_register";
 	}
 	
 	//비용전자세금계산서 리스트
-	@GetMapping("k1SalesIvList")
+	@GetMapping("/salesIvList")
 	public String getSalesIvList(Model model) {
 		
 		return "invoice/sales_iv_list";
 	}
 	//비용전자세금계산서 등록
-	@GetMapping("k1SalesIvRegister")
+	@GetMapping("/salesIvRegister")
 	public String getSalesIvRegister(Model model) {
 		
 		return "invoice/sales_iv_register";
