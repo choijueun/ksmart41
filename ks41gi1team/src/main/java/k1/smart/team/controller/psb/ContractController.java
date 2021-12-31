@@ -19,6 +19,7 @@ import k1.smart.team.service.psb.ContractService;
 
 
 @Controller
+@RequestMapping(value="/k1Contract")
 public class ContractController {
 
 	private ContractService contractService;
