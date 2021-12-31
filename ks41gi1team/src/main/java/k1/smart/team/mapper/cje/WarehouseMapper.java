@@ -14,4 +14,11 @@ public interface WarehouseMapper {
 	 * @return 창고 여러개 정보
 	 */
 	public List<Warehouse> getAllWarehouseList(String mainBusinessCode);
+	
+	/**
+	 * 창고정보 상세조회
+	 * @param warehouseCode
+	 * @return 창고 하나 정보
+	 */
+	public Warehouse getWarehouseInfoByCode(String warehouseCode);
 }

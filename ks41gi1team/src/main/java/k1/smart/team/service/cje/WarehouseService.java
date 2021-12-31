@@ -13,10 +13,19 @@ public class WarehouseService {
 	private List<Warehouse> warehouseList; //창고 배열
 	private Warehouse warehouseInfo; //창고 하나
 	
+	/**
+	 * 생성자 메서드
+	 * @param warehouseMapper
+	 */
 	public WarehouseService(WarehouseMapper warehouseMapper) {
 		this.warehouseMapper = warehouseMapper;
 	}
 	
+	/**
+	 * 창고 전체목록 조회
+	 * @param mainBusinessCode
+	 * @return 창고 여러개 정보
+	 */
 	public List<Warehouse> getAllWarehouseList(String mainBusinessCode){
 		//전체목록
 		warehouseList = warehouseMapper.getAllWarehouseList(mainBusinessCode);
@@ -28,19 +37,30 @@ public class WarehouseService {
 			warehouseInfo.setWarehouseCode(warehouseNum);
 		}
 		//적재량 백분율 계산
-		float curWeight;
-		float maxWeight;
 		for(int i=0; i<warehouseList.size(); i++) {
 			warehouseInfo = warehouseList.get(i);
-			curWeight = warehouseInfo.getCurrentWeight();
-			maxWeight = warehouseInfo.getMaxWeight();
-			if(maxWeight < 1) {
-				return null;
-			}
-			warehouseInfo.setWeightPer(Math.round(100*curWeight/maxWeight));
 		}
 		//System.out.println("WarehouseService :: "+warehouseList);
 		return warehouseList;
+	}
+	
+	//나중에 SQL문 하나로 합치기
+	
+	/**
+	 * 창고 상세정보 조회
+	 * @param warehouseCode
+	 * @return 창고 하나 정보
+	 */
+	public Warehouse getWarehouseInfoByCode(String warehouseCode) {
+		//창고정보
+		warehouseInfo = warehouseMapper.getWarehouseInfoByCode("warehouseCode_"+warehouseCode);
+		if(warehouseInfo == null) {
+			return null;
+		}
+		//코드에서 숫자만 남기기
+		warehouseInfo.setWarehouseCode(warehouseInfo.getWarehouseCode().replace("warehouseCode_", ""));
+		//System.out.println("WarehouseService :: "+warehouseInfo);
+		return warehouseInfo;
 	}
 
 }
