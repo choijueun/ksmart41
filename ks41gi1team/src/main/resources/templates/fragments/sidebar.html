@@ -130,21 +130,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{k1SlipReg}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>전표 등록 - #</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a th:href="@{k1SlipList}" class="nav-link">
+                <a th:href="@{/k1SlipList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>전표 조회 - # </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1SlipDetail}" class="nav-link">
+                <a th:href="@{/k1SlipList/add}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>전표 상세현황 - #</p>
+                  <p>전표 등록 - #</p>
                 </a>
               </li>
             </ul>
@@ -159,13 +153,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{k1SlipReg}" class="nav-link">
+                <a th:href="@{/k1CostList/add}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>비용 등록 - #</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1CostList}" class="nav-link">
+                <a th:href="@{/k1CostList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>비용 조회 - # </p>
                 </a>
@@ -182,21 +176,21 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{k1SlipReg}" class="nav-link">
+                <a th:href="@{/k1PaymentList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>결제 등록 - #</p>
+                  <p>결제 조회 - #</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1PaymentList}" class="nav-link">
+                <a th:href="@{/k1PaymentList/plan}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>결제 조회 - # </p>
+                  <p>결제예정 조회 - # </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1SlipDetail}" class="nav-link">
+                <a th:href="@{/k1PaymentList/cancel}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>결제 상세현황 - #</p>
+                  <p>결제취소 조회 - #</p>
                 </a>
               </li>
             </ul>
@@ -449,19 +443,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{k1InvoiceList}" class="nav-link">
+                <a th:href="@{/k1InvoiceList}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>계정과목 조회- #</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1PaymentList}" class="nav-link">
+                <a th:href="@{/k1TotalAc}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>통합회계 관리 - # </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a th:href="@{k1SlipDetail}" class="nav-link">
+                <a th:href="@{#}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>결산 현황 - #</p>
                 </a>
