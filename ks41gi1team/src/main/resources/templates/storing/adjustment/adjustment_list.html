@@ -4,17 +4,63 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	재고조정내역(목록)
+<!-- content -->
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			재고조정 내역 조회
+		</div>
+		<div class="card-body">
+			<table id="adjList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>품목</th>
+						<th>합계금액</th>
+						<th>적요</th>
+						<th>요청</th>
+						<th>조정</th>
+						<th>완료</th>
+						<th>담당자</th>
+						<th>수정일시</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(adjList)}" th:each="l : ${adjList}">
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>[[${l.stockAdjCode}]]</td>
+						<td>품목 GROUP_CONCAT</td>
+						<td>[[${l.totalPrice}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.requestDate}]]</td>
+						<td>[[${l.adjDate}]]</td>
+						<td>[[${l.endDate}]]</td>
+						<td>[[${l.managerName}]]</td>
+						<td>[[${l.updateDate}]]</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(adjList)}">
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>

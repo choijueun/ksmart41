@@ -2,13 +2,13 @@ package k1.smart.team.service.cje;
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.mapper.cje.WarehousingMapping;
+import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
 public class WarehousingService {
-	private WarehousingMapping warehousingMapping;
-	public WarehousingService(WarehousingMapping warehousingMapping) {
-		this.warehousingMapping = warehousingMapping;
+	private StoringMapper storingMapper;
+	public WarehousingService(StoringMapper storingMapper) {
+		this.storingMapper = storingMapper;
 	}
 
 }

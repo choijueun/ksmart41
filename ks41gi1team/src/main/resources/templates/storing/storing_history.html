@@ -16,41 +16,51 @@
 <th:block layout:fragment="customContents">
 <!-- content -->
 <div class="container-fluid">
-	<div class="card">
-		<div class="card-header">
-			재고조정내역 모아보기
-		</div>
-		<div class="card-body">
+	<div class="row">
+		<div class="col-lg-7">
 			<div class="card">
-				체크박스
+				<div class="card-header">
+					재고조정내역 모아보기
+				</div>
+				<div class="card-body">
+					<div class="card">
+						체크박스
+					</div>
+					<table id="storingList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<!-- <th><input type="checkbox" id="allCheck"></th> -->
+								<th>No.</th>
+								<th>사유</th>
+								<th>총가격</th>
+								<th>적요</th>
+								<th>조정일자</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(storingList)}" th:each="l : ${storingList}">
+								<!-- <td><input type="checkbox"></td> -->
+								<td>[[${l.stockAdjCode}]]</td>
+								<td>[[${l.stockReason}]]</td>
+								<td>[[${l.totalPrice}]]</td>
+								<td>[[${l.briefs}]]</td>
+								<td>[[${l.adjDate}]]</td>
+								<td>
+									<a>
+										<i class="fas fa-pen"></i>
+									</a>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(storingList)}">
+								<td colspan="9">
+									물류 내역이 없습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<table id="storingList" class="table table-bordered table-hover dataTable dtr-inline">
-				<thead>
-					<tr>
-						<!-- <th><input type="checkbox" id="allCheck"></th> -->
-						<th>No.</th>
-						<th>사유</th>
-						<th>총가격</th>
-						<th>적요</th>
-						<th>조정일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:if="${not #lists.isEmpty(storingList)}" th:each="l : ${storingList}">
-						<!-- <td><input type="checkbox"></td> -->
-						<td>[[${l.stockAdjCode}]]</td>
-						<td>[[${l.stockReason}]]</td>
-						<td>[[${l.totalPrice}]]</td>
-						<td>[[${l.briefs}]]</td>
-						<td>[[${l.adjDate}]]</td>
-					</tr>
-					<tr th:if="${#lists.isEmpty(storingList)}">
-						<td colspan="9">
-							물류 내역이 없습니다.
-						</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 	</div>
 </div>

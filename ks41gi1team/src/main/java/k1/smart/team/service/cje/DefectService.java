@@ -2,13 +2,13 @@ package k1.smart.team.service.cje;
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.mapper.cje.DefectMapper;
+import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
 public class DefectService {
-	private DefectMapper defectMapper;
-	public DefectService(DefectMapper defectMapper) {
-		this.defectMapper = defectMapper;
+	private StoringMapper storingMapper;
+	public DefectService(StoringMapper storingMapper) {
+		this.storingMapper = storingMapper;
 	}
 
 }

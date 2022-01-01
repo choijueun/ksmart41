@@ -2,12 +2,12 @@ package k1.smart.team.service.cje;
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.mapper.cje.ProductionMapper;
+import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
 public class ProductionService {
-	private ProductionMapper productionMapper;
-	public ProductionService(ProductionMapper productionMapper) {
-		this.productionMapper = productionMapper;
+	private StoringMapper storingMapper;
+	public ProductionService(StoringMapper storingMapper) {
+		this.storingMapper = storingMapper;
 	}
 }

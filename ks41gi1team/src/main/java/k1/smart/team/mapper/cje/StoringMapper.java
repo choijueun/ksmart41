@@ -8,7 +8,11 @@ import k1.smart.team.dto.cje.Storing;
 
 @Mapper
 public interface StoringMapper {
-
-	List<Storing> getAllStoringList(String mainBusinessCode);
+	/**
+	 * 물류내역 전체조회
+	 * @param mainBusinessCode
+	 * @return 물류내역 여럿(List<Storing>)
+	 */
+	List<Storing> getAllStoringList(String mainBusinessCode, String stockReasonCode);
 
 }

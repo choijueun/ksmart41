@@ -27,7 +27,7 @@ public class StoringService {
 	 * @return List<Storing>
 	 */
 	public List<Storing> getAllStoringList(String mainBusinessCode) {
-		storingList = storingMapper.getAllStoringList(mainBusinessCode);
+		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
 		
 		if(storingList == null) {
 			System.out.println("재고조정내역 조회결과 없음");
@@ -46,13 +46,13 @@ public class StoringService {
 			//사유
 			stockReasonCode = storingInfo.getStockReasonCode();
 			if(stockReasonCode == 1) storingInfo.setStockReason("입고");
-			if(stockReasonCode == 2) storingInfo.setStockReason("자재사용");
-			if(stockReasonCode == 3) storingInfo.setStockReason("생산");
-			if(stockReasonCode == 4) storingInfo.setStockReason("창고이동");
-			if(stockReasonCode == 5) storingInfo.setStockReason("출하");
-			if(stockReasonCode == 6) storingInfo.setStockReason("재고차이");
-			if(stockReasonCode == 7) storingInfo.setStockReason("반품");
-			if(stockReasonCode == 8) storingInfo.setStockReason("불량");
+			else if(stockReasonCode == 2) storingInfo.setStockReason("자재사용");
+			else if(stockReasonCode == 3) storingInfo.setStockReason("생산");
+			else if(stockReasonCode == 4) storingInfo.setStockReason("창고이동");
+			else if(stockReasonCode == 5) storingInfo.setStockReason("출하");
+			else if(stockReasonCode == 6) storingInfo.setStockReason("재고차이");
+			else if(stockReasonCode == 7) storingInfo.setStockReason("반품");
+			else if(stockReasonCode == 8) storingInfo.setStockReason("불량");
 		}
 		return storingList;
 	}

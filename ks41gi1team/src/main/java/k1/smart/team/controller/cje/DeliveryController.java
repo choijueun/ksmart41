@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import k1.smart.team.service.cje.DelivryService;
+import k1.smart.team.service.cje.DeliveryService;
 
 @Controller
 @RequestMapping(value="/k1Delivery")
 public class DeliveryController {
-	private DelivryService delivryService;
-	public DeliveryController(DelivryService delivryService) {
+	private DeliveryService delivryService;
+	public DeliveryController(DeliveryService delivryService) {
 		this.delivryService = delivryService;
 	}
 
