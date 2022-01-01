@@ -2,12 +2,12 @@ package k1.smart.team.service.cje;
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.mapper.cje.MovingMapper;
+import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
 public class MovingService {
-	private MovingMapper movingMapper;
-	public MovingService(MovingMapper movingMapper) {
-		this.movingMapper = movingMapper;
+	private StoringMapper storingMapper;
+	public MovingService(StoringMapper storingMapper) {
+		this.storingMapper = storingMapper;
 	}
 }

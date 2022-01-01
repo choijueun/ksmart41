@@ -34,7 +34,8 @@ public class Storing {
 	private String endDate; //완료일자
 	
 	private String briefs; //적요
-	private String managerId; //담당자
+	private String managerId; //담당자ID
+	private String managerName; //*담당자이름
 	
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
@@ -189,6 +190,12 @@ public class Storing {
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
 	public String getRegDate() {
 		return regDate;
 	}
@@ -255,6 +262,8 @@ public class Storing {
 		builder.append(briefs);
 		builder.append(", managerId=");
 		builder.append(managerId);
+		builder.append(", managerName=");
+		builder.append(managerName);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", updateDate=");

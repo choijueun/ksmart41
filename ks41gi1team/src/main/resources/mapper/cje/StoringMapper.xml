@@ -9,12 +9,27 @@
 		 adj.stockAdjCode
 		,adj.stockReasonCode
 		,adj.totalPrice
-		,adj.adjDate
 		,adj.briefs
+		,adj.requestDate
+		,adj.adjDate
+		,adj.endDate
+		,adj.managerId
+		,u.userName AS managerName
+		,adj.regDate
+		,adj.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS adj
+		JOIN
+		k1_tb_user AS u
+		ON
+		adj.managerId = u.userId
 	WHERE
-		mainBusinessCode = #{mainBusinessCode};
+		<trim prefixOverrides="AND |OR ">
+			adj.mainBusinessCode = #{mainBusinessCode}
+			<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
+				AND stockReasonCode = ${stockReasonCode}
+			</if>
+		</trim>
 </select>
 
 </mapper>
