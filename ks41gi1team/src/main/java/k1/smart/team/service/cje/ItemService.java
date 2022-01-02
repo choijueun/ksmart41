@@ -63,10 +63,10 @@ public class ItemService {
 			itemInfo.setTotalPrice(item1StockInfo.getTotalPrice());
 			itemInfo.setStockWeight(item1StockInfo.getStockWeight());
 		}
+		//코드번호
+		itemInfo.setItemCode(itemCode);
 		
 		//System.out.println("ItemService :: "+itemInfo.toString());
-		//코드에서 숫자만 남기기
-		itemInfo.setItemCode(itemCode); 
 		return itemInfo;
 	}
 }

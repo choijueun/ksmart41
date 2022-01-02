@@ -30,6 +30,10 @@ public class StockService {
 	 */
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
+		if(stockList == null) {
+			System.out.println("재고정보 조회결과 없음");
+			return null;
+		}
 		//코드 번호
 		String stockNum;
 		for(int i=0; i<stockList.size(); i++) {
@@ -54,7 +58,7 @@ public class StockService {
 		
 		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		if(stockInfo == null) {
-			System.out.println("재고정보 조회결과 없음 - 재고코드 ERROR");
+			System.out.println("재고정보 조회결과 없음");
 			return null;
 		}
 		

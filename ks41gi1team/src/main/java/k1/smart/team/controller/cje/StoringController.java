@@ -34,6 +34,7 @@ public class StoringController {
 	@GetMapping("")
 	public String storingMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+		//재고 전체목록
 		storingList = storingService.getAllStoringList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
