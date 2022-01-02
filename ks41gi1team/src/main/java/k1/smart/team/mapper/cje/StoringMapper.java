@@ -13,6 +13,9 @@ public interface StoringMapper {
 	 * @param mainBusinessCode
 	 * @return 물류내역 여럿(List<Storing>)
 	 */
-	List<Storing> getAllStoringList(String mainBusinessCode, String stockReasonCode);
+	public List<Storing> getAllStoringList(String mainBusinessCode, String stockReasonCode);
 
+	public Storing getAdjInfo(String stockAdjCode);
+	
+	public Storing getAdjDetailInfo(String stockAdjCode);
 }

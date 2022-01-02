@@ -6,30 +6,91 @@
 
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
-		 adj.stockAdjCode
-		,adj.stockReasonCode
-		,adj.totalPrice
-		,adj.briefs
-		,adj.requestDate
-		,adj.adjDate
-		,adj.endDate
-		,adj.managerId
+		 a.stockAdjCode
+		,a.stockReasonCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
 		,u.userName AS managerName
-		,adj.regDate
-		,adj.updateDate
+		,a.regDate
+		,a.updateDate
 	FROM 
-		k1_tb_stock_adjustment AS adj
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		<trim prefixOverrides="AND |OR ">
+			a.mainBusinessCode = #{mainBusinessCode}
+			<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
+				AND a.stockReasonCode = ${stockReasonCode}
+			</if>
+		</trim>
+</select>
+
+<select id="getAdjInfo" parameterType="String" resultType="Storing">
+	SELECT 
+		 a.stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
 		JOIN
 		k1_tb_user AS u
 		ON
 		adj.managerId = u.userId
 	WHERE
-		<trim prefixOverrides="AND |OR ">
-			adj.mainBusinessCode = #{mainBusinessCode}
-			<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
-				AND stockReasonCode = ${stockReasonCode}
-			</if>
-		</trim>
+		a.stockAdjCode = #{stockAdjCode};
+</select>
+
+<select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
+	SELECT
+		 a.stockAdjCode
+		,ad.stockAdjDetailCode
+		,ad.inventoryCode
+		,i.itemCode
+		,i.itemName
+		,ad.purchaseTsCode
+		,ad.salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = #{stockAdjCode};
 </select>
 
 </mapper>

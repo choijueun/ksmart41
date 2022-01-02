@@ -35,7 +35,9 @@ public class StockController {
 	@GetMapping("")
 	public String stockMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+		//재고 전체목록
 		stockList = stockService.getAllStockList(mainBusinessCode);
+		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("stockList", stockList);
@@ -52,12 +54,19 @@ public class StockController {
 	public String stockInfo(
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
 			,Model model) {
-		stockInfo = stockService.getStockInfoByCode(inventoryCode);
-		//System.out.println("StockController :: "+ stockInfo);
-		
-		if(stockInfo == null) {
+		if(inventoryCode == null || "".equals(inventoryCode)) {
+			System.out.println("재고코드 ERROR");
 			return "redirect:/k1Stock";
 		}
+		
+		//재고 상세정보
+		stockInfo = stockService.getStockInfoByCode(inventoryCode);
+		//System.out.println("StockController :: "+ stockInfo);
+		if(stockInfo == null) {
+			System.out.println("재고코드 ERROR");
+			return "redirect:/k1Stock";
+		}
+		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "재고정보");
 		model.addAttribute("stockInfo", stockInfo);

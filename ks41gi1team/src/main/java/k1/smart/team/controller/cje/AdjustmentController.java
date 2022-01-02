@@ -30,6 +30,7 @@ public class AdjustmentController {
 	@GetMapping("")
 	public String adjustmentMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
+		//재고조정내역 전체목록
 		adjList = adjService.getAllAdjList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");

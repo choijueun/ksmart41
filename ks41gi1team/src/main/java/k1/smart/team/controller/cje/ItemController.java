@@ -35,6 +35,7 @@ public class ItemController {
 	@GetMapping("")
 	public String itemMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+		//품목 전체목록
 		itemList = itemService.getAllItemList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "품목관리");
@@ -47,11 +48,20 @@ public class ItemController {
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
-		itemInfo = itemService.getItemInfoByCode(itemCode);
-		
-		if(itemInfo == null) {
+		if(itemCode == null || "".equals(itemCode)) {
+			System.out.println("품목정보 ERROR");
 			return "redirect:/k1Item";
 		}
+		
+		//품목 상세정보
+		itemInfo = itemService.getItemInfoByCode(itemCode);
+		//System.out.println("ItemController :: "+itemInfo);
+		
+		if(itemInfo == null) {
+			System.out.println("품목코드 ERROR");
+			return "redirect:/k1Item";
+		}
+		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목정보");
 		model.addAttribute("itemInfo", itemInfo);

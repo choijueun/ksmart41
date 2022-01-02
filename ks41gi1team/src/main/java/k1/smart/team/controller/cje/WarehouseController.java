@@ -51,8 +51,18 @@ public class WarehouseController {
 	public String warehouseInfo(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
 			,Model model) {
+		if(warehouseCode == null || "".equals(warehouseCode)) {
+			System.out.println("창고코드 ERROR");
+			return "redirect:/k1Warehouse";
+		}
+		
 		//창고 상세정보
 		warehouseInfo = warehouseService.getWarehouseInfoByCode(warehouseCode);
+		
+		if(warehouseInfo == null) {
+			System.out.println("창고코드 ERROR");
+			return "redirect:/k1Warehouse";
+		}
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "창고정보");
