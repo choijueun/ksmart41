@@ -20,7 +20,7 @@ public class DefectController {
 	@GetMapping("")
 	public String defectMain(Model model) {
 		model.addAttribute("title", "불량처리");
-		return "storing/defect_list";
+		return "storing/defect/defect_list";
 	}
 	
 	//불량처리내역 상세정보 조회
@@ -29,7 +29,7 @@ public class DefectController {
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		model.addAttribute("title", "불량처리");
-		return "storing/defect_info";
+		return "storing/defect/defect_info";
 	}
 	
 	@GetMapping("/add")
@@ -44,7 +44,7 @@ public class DefectController {
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		model.addAttribute("title", "불량처리 수정");
-		return "storing/defect_modify";
+		return "storing/defect/defect_modify";
 	}
 
 }
