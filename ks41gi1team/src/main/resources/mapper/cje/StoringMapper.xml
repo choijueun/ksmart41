@@ -75,7 +75,7 @@
 		ON
 		a.managerId = u.userId
 	WHERE
-		a.stockAdjCode = #{stockAdjCode} 
+		a.stockAdjCode = CONCAT('stockAdjCode',#{stockAdjCode}) 
 		AND a.stockReasonCode = 6;
 </select>
 
@@ -115,7 +115,7 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 	WHERE
-		a.stockAdjCode = #{stockAdjCode}
+		a.stockAdjCode = CONCAT('stockAdjCode',#{stockAdjCode})
 		AND a.stockReasonCode = 6;
 </select>
 

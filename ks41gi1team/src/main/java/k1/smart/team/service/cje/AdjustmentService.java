@@ -38,7 +38,7 @@ public class AdjustmentService {
 	 * @return
 	 */
 	public Storing getAdjInfo(String stockAdjCode) {
-		adjInfo = storingMapper.getAdjInfo("stockAdjCode_"+stockAdjCode);
+		adjInfo = storingMapper.getAdjInfo(stockAdjCode);
 		return adjInfo;
 	}
 	/**
@@ -47,7 +47,7 @@ public class AdjustmentService {
 	 * @return
 	 */
 	public List<Storing> getAdjDetailInfo(String stockAdjCode) {
-		adjList = storingMapper.getAdjDetailInfo("stockAdjCode_"+stockAdjCode);
+		adjList = storingMapper.getAdjDetailInfo(stockAdjCode);
 		return adjList;
 	}
 }

@@ -14,8 +14,8 @@ import k1.smart.team.service.cje.AdjustmentService;
 public class AdjustmentController {
 	private AdjustmentService adjService;
 	private String mainBusinessCode; //사업장대표코드
-	private List<Storing> stockAdjList; //재고조정내역 배열
-	private Storing stockAdjInfo; //재고조정내역 상세정보
+	private List<Storing> adjList; //재고조정내역 배열
+	private Storing adjInfo; //재고조정내역 상세정보
 	
 	/**
 	 * 생성자 메서드
@@ -29,11 +29,11 @@ public class AdjustmentController {
 	public String adjustmentMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 		//재고조정내역 전체목록
-		stockAdjList = adjService.getAllAdjList(mainBusinessCode);
+		adjList = adjService.getAllAdjList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
 		model.addAttribute("SectionLocation", "재고조정내역");
-		model.addAttribute("stockAdjList", stockAdjList);
+		model.addAttribute("adjList", adjList);
 		
 		return "storing/adjustment/adjustment_list";
 	}
@@ -42,12 +42,12 @@ public class AdjustmentController {
 	public String adjInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		stockAdjInfo = adjService.getAdjInfo(stockAdjCode);
-		stockAdjList = adjService.getAdjDetailInfo(stockAdjCode);
+		adjInfo = adjService.getAdjInfo(stockAdjCode);
+		adjList = adjService.getAdjDetailInfo(stockAdjCode);
 		
 		model.addAttribute("title", "재고조정 상세내역");
-		model.addAttribute("stockAdjInfo", stockAdjInfo);
-		model.addAttribute("stockAdjDetail", stockAdjList);
+		model.addAttribute("adjInfo", adjInfo);
+		model.addAttribute("adjDetail", adjList);
 		return "storing/adjustment/adjustment_info";
 	}
 	
