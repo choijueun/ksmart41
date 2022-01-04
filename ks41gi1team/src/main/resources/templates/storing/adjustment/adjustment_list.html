@@ -36,6 +36,7 @@
 						<th>완료</th>
 						<th>담당자</th>
 						<th>수정일시</th>
+						<th>수정</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -52,6 +53,11 @@
 						<td>[[${l.endDate}]]</td>
 						<td>[[${l.managerName}]]</td>
 						<td>[[${l.updateDate}]]</td>
+						<td>
+							<a th:href="@{|/k1AdjustmentModify/${l.stockAdjCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(stockAdjList)}">
 						<td colspan="10">
