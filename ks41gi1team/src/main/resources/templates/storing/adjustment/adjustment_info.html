@@ -14,7 +14,22 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	stockAdjCode_[[${stockAdjCode}]] 상세정보
+	
+<div class="container-fluid">
+	<div th:unless="${ stockAdjInfo == null }">
+		<div class="card card-info card-outline">
+			<div class="card-header">
+				재고차이조정내역 [[${stockAdjCode}]]
+			</div>
+			<div class="card-body">
+				<table id="stockAdjInfo" class="table table-bordered">
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div th:if="${ stockAdjInfo == null }" class="card"> 잘못된 접근입니다.</div>
+</div>
 </th:block>
 
 </html>

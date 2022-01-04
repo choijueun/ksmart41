@@ -6,13 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.service.cje.StockService;
 
 @Controller
-@RequestMapping(value="/k1Stock")
 public class StockController {
 	private StockService stockService;
 	private String mainBusinessCode; //사업장대표코드
@@ -32,7 +30,7 @@ public class StockController {
 	 * @param model
 	 * @return stock_list (List<Stock>)
 	 */
-	@GetMapping("")
+	@GetMapping("/k1Stock")
 	public String stockMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		//재고 전체목록
@@ -50,7 +48,7 @@ public class StockController {
 	 * @param model
 	 * @return stock_info (Stock)
 	 */
-	@GetMapping("/{inventoryCode}")
+	@GetMapping("/k1Stock/{inventoryCode}")
 	public String stockInfo(
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
 			,Model model) {
