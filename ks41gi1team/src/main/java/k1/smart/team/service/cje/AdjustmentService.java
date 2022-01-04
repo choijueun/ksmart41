@@ -28,7 +28,16 @@ public class AdjustmentService {
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
 		if(adjList == null) {
 			System.out.println("재고조정내역 조회결과 없음");
+			return null;
 		}
+		
+		for(int i=0; i<adjList.size(); i++) {
+			adjInfo = adjList.get(i);
+			if(adjInfo.getUpdateDate() == null) {
+				adjInfo.setUpdateDate(adjInfo.getRegDate());
+			}
+		}
+		
 		return adjList;
 	}
 	

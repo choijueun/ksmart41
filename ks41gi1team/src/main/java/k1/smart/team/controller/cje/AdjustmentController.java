@@ -45,7 +45,6 @@ public class AdjustmentController {
 		stockAdjInfo = adjService.getAdjInfo(stockAdjCode);
 		stockAdjList = adjService.getAdjDetailInfo(stockAdjCode);
 		
-		
 		model.addAttribute("title", "재고조정 상세내역");
 		model.addAttribute("stockAdjInfo", stockAdjInfo);
 		model.addAttribute("stockAdjDetail", stockAdjList);
