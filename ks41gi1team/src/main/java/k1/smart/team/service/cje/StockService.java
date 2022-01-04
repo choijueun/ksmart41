@@ -30,11 +30,9 @@ public class StockService {
 	 */
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
-		String stockNum;
-		for(int i=0; i<stockList.size(); i++) {
-			stockInfo = stockList.get(i);
-			stockNum = stockInfo.getInventoryCode().replace("inventoryCode_", "");
-			stockInfo.setInventoryCode(stockNum);
+		if(stockList == null) {
+			System.out.println("재고정보 조회결과 없음");
+			return null;
 		}
 		return stockList;
 	}
@@ -52,12 +50,10 @@ public class StockService {
 		
 		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		if(stockInfo == null) {
-			System.out.println("재고정보 조회결과 없음 - 재고코드 ERROR");
+			System.out.println("재고정보 조회결과 없음");
 			return null;
 		}
 		
-		//코드에서 숫자만 남기기
-		stockInfo.setInventoryCode(inventoryCode); 
 		return stockInfo;
 	}
 }

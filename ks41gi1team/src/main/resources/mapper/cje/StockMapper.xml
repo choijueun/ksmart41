@@ -6,22 +6,22 @@
 
 <select id="getAllStockList" parameterType="String" resultType="Stock">
 	SELECT 
-		 s.inventoryCode
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,s.mainBusinessCode
-		,s.itemCode
+		,RIGHT(s.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
-		,i.categoryCode
+		,RIGHT(i.categoryCode,3) AS categoryCode
 		,i.largeCategory
 		,i.middleCategory
 		,i.smallCategory
 		,i.itemStandard
 		,i.itemOrigin
-		,s.productPriceCode
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
 		,p.productPrice
 		,s.itemCount
 		,s.totalPrice
-		,s.warehouseCode
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
 		,w.loaction
 		,w.outPlace
@@ -66,20 +66,20 @@
 
 <select id="getStockInfoByCode" parameterType="String" resultType="Stock">
 	SELECT
-		 s.itemCode
+		 RIGHT(s.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
-		,i.categoryCode
+		,RIGHT(i.categoryCode,3) AS categoryCode
 		,i.largeCategory
 		,i.middleCategory
 		,i.smallCategory
 		,i.itemStandard
 		,i.itemOrigin
-		,s.productPriceCode
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
 		,p.productPrice
 		,s.itemCount
 		,s.totalPrice
-		,s.warehouseCode
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
 		,w.loaction
 		,w.outPlace

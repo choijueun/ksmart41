@@ -28,6 +28,7 @@ public class PaymentController {
 	public String HistoryPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 		List<HistoryPayment> historyPayment = pService.getHistoryPaymentList(mainBusinessCode);
+		System.out.println("PaymentController.java 결제관리 전체조회 :: "+historyPayment);
 		
 		model.addAttribute("title","결제관리");
 		model.addAttribute("historyPayment", historyPayment);

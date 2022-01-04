@@ -14,7 +14,46 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	통합회계관리 조회~!
+	<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			asdf
+		</div>
+		<div class="card-body">
+			<table id="totalAcList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>통합회계관리코드</th>
+						<th>매출전표코드</th>
+						<th>비용전표코드</th>
+						<th>기타비용코드</th>
+						<th>구분</th>
+						<th>금액</th>
+						<th>연관 테이블</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(totalAcList)}" th:each="l : ${totalAcList}">
+						<td>[[${l.totalAccountCode}]]</td>
+						<td>[[${l.salesSlipCode}]]</td>
+						<td>[[${l.purchaseSlipCode}]]</td>
+						<td>[[${l.etc_purchaseCode}]]</td>
+						<td>[[${l.salesSection}]]</td>
+						<td>[[${l.totalPrice}]]</td>
+						<td>[[${l.relateTable}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(totalAcList)}">
+						<td colspan="8">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>

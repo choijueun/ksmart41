@@ -52,25 +52,26 @@
 		k1_tb_client AS c;
 	</select> -->
 	
-	<select id="getClientList" resultType="Client">
-	SELECT 
-		c.clientCode,
-		c.mainBusinessCode,
-		c.businessCategory,
-		c.userId,
-		c.businessName,
-		c.businessRepresentative,
-		c.businessType1,
-		c.businessType2,
-		c.businessNum,
-		c.businessCount,
-		c.businessMobile,
-		c.businessPlace,
-		c.businessEmail,
-		c.regDate,
-		c.updateDate
-	FROM	
-		k1_tb_client AS c;
+	<select id="getContractList" resultType="Contract">
+		SELECT 
+			c.contractCode,
+			c.mainBusinessCode,
+			c.clientCode,
+			c.clientManagerId,
+			c.contractSection,
+			c.contractType,
+			c.startDate,
+			c.endDate,
+			c.managerId,
+			c.regId,
+			c.approvalId,
+			c.contractDate,
+			c.contractStatus,
+			c.briefs,
+			c.regDate,
+			c.updateDate
+		FROM 
+			k1_tb_contract AS c;
 	</select>
 	
 <!-- 	<select id="getMainBusinessList" resultType="MainBusiness">

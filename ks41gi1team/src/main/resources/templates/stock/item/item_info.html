@@ -18,7 +18,7 @@
 <div class="container-fluid">
 	<div class="row" th:unless="${ itemInfo == null }">
 		<div class="col-lg-7">
-			<div class="card">
+			<div class="card card-info card-outline">
 				<div class="card-header">
 					품목[[${itemInfo.itemCode}]]
 				</div>
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 		<div class="col-lg-5">
-			<div class="card">
+			<div class="card card-info card-outline">
 				<div class="card-header">
 					재고 현황
 				</div>
@@ -111,7 +111,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:if="${ itemInfo == null }">
+	<div class="row" th:if="${ itemInfo == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>

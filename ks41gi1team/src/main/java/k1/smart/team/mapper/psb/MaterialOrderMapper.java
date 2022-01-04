@@ -9,6 +9,11 @@ import k1.smart.team.dto.psb.MaterialOrder;
 @Mapper
 public interface MaterialOrderMapper {
 
-		//발주 전체 조회
-		public List<MaterialOrder> getAllMaterialOrderList(String mainBusinessCode);
+	
+	//하나의 발주 조회
+	public List<MaterialOrder> getMaterialOrderListBySearchKey(String searchKey, String searchValue);
+		
+	//발주 전체 조회
+	public List<MaterialOrder> getAllMaterialOrderList(String mainBusinessCode);
+
 }

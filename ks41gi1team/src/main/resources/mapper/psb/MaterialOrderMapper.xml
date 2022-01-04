@@ -19,6 +19,26 @@
 		<result column="updateDate" 	property="updateDate"/>
 	</resultMap>  
 	
+<select id="getMaterialOrderListBySearchKey" parameterType="String" resultMap="MaterialOrderResultMap">
+		SELECT
+			mo.materialOrderCode as materialOrderCode,
+			mo.mainBusinessCode as mainBusinessCode,
+			mo.contractCode as contractCode,
+			mo.clientCode as clientCode,
+			mo.totalCount as totalCount,
+			mo.totalPrice as totalPrice,
+			mo.orderDate as orderDate,
+			mo.predictDate as predictDate,
+			mo.status as status,
+			mo.briefs as briefs,
+			mo.managerId as managerId,
+			mo.regDate as regDate,
+			mo.updateDate as updateDate
+		FROM 
+			k1_tb_material_order AS mo;
+		
+	</select>	
+		
 <select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
 		mo.materialOrderCode as materialOrderCode,

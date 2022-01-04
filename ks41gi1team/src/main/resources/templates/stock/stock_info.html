@@ -17,7 +17,7 @@
 <div class="container-fluid">
 	<div class="row" th:unless="${ stockInfo == null }">
 		<div class="col-lg-7">
-			<div class="card">
+			<div class="card card-info card-outline">
 				<div class="card-header">
 					재고[[${stockInfo.inventoryCode}]]
 				</div>
@@ -74,12 +74,12 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-block btn-info">수정</button>
+					<button type="button" class="btn btn-info">수정</button>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-5">
-			<div class="card">
+			<div class="card card-info card-outline">
 				<div class="card-header">
 					최근 조정 내역
 				</div>
