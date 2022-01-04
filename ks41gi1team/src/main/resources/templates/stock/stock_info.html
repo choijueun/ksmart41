@@ -60,7 +60,8 @@
 								<th>창고명</th>
 								<td>[[${stockInfo.warehouseName}]]</td>
 								<th>창고위치</th>
-								<td>[[${stockInfo.loaction}]] ([[${stockInfo.outPlace}]])</td>
+								<td th:if="${stockInfo.outPlace == null}">[[${stockInfo.loaction}]]</td>
+								<td th:if="${stockInfo.outPlace != null}">[[${stockInfo.loaction}]] ([[${stockInfo.outPlace}]])</td>
 							</tr>
 							<tr>
 								<th>비고</th>

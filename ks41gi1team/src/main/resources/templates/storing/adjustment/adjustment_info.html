@@ -50,8 +50,8 @@
 						<td th:if="${ purchaseTsCode == null and salesTsCode == null }"></td>
 						<td>[[${l.adjCount}]]</td>
 						<td>[[${l.afterCount}]]</td>
-						<td>[[${l.adjWeight}]]</td>
-						<td>[[${l.stockWeight}]]</td>
+						<td>[[${l.adjWeight}]] kg</td>
+						<td>[[${l.stockWeight}]] kg</td>
 						<td>[[${l.stockStatus}]]</td>
 						<td>[[${l.comment}]]</td>
 						<td>
@@ -67,9 +67,9 @@
 					</tr>
 				</tbody>
 			</table>
-				<a th:href="@{|/k1AdjustmentModify/${stockAdjInfo.stockAdjCode}|}">
-					<button type="button" class="btn btn-info">수정</button>
-				</a>
+			<a th:href="@{|/k1AdjustmentModify/${stockAdjInfo.stockAdjCode}|}">
+				<button type="button" class="btn btn-info">수정</button>
+			</a>
 		</div>
 		<div class="card-body" th:if="${ stockAdjInfo == null }">
 			잘못된 접근입니다.

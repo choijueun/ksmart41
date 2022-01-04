@@ -29,10 +29,7 @@ public class StoringService {
 	public List<Storing> getAllStoringList(String mainBusinessCode) {
 		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
 		
-		if(storingList == null) {
-			System.out.println("재고조정내역 조회결과 없음");
-			return null;
-		}
+		if(storingList == null) return null;
 		
 		//물류이동 사유
 		int stockReasonCode;
