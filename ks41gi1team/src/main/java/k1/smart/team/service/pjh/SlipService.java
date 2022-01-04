@@ -12,6 +12,8 @@ public class SlipService {
 	private SlipMapper slipMapper;
 	private List<Slip> p_slipList;
 	private List<Slip> s_slipList;
+	private Slip purchaseSlipInfo;
+	private Slip salesSlipInfo;
 	
 	//생성자메서드
 	public SlipService(SlipMapper slipMapper) {
@@ -37,4 +39,27 @@ public class SlipService {
 		}
 		return s_slipList;
 	}
+	
+	public Slip getPurchaseSlipInfo(String purchaseSlipCode) {
+		purchaseSlipInfo = slipMapper.getPurchaseSlipInfo(purchaseSlipCode);
+		if(purchaseSlipInfo == null) {
+			System.out.println("비용전표정보 조회결과 없음");
+			return null;
+		}
+		
+		purchaseSlipInfo.setPurchaseSlipCode(purchaseSlipCode);
+		return purchaseSlipInfo;
+	}
+	
+	public Slip getSalesSlipInfo(String salesSlipCode) {
+		salesSlipInfo = slipMapper.getSalesSlipInfo(salesSlipCode);
+		if(salesSlipInfo == null) {
+			System.out.println("매출전표정보 조회결과 없음");
+			return null;
+		}
+		
+		salesSlipInfo.setPurchaseSlipCode(salesSlipCode);
+		return salesSlipInfo;
+	}
+	
 }
