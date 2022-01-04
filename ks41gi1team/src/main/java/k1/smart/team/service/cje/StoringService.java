@@ -34,16 +34,10 @@ public class StoringService {
 			return null;
 		}
 		
-		//코드 번호
-		String storingNum;
+		//물류이동 사유
 		int stockReasonCode;
 		for(int i=0; i<storingList.size(); i++) {
 			storingInfo = storingList.get(i);
-			//코드
-			storingNum = storingInfo.getStockAdjCode();
-			storingNum = storingNum.substring(storingNum.length()-3, storingNum.length());
-			storingInfo.setStockAdjCode(storingNum);
-			//사유
 			stockReasonCode = storingInfo.getStockReasonCode();
 			if(stockReasonCode == 1) storingInfo.setStockReason("입고");
 			else if(stockReasonCode == 2) storingInfo.setStockReason("자재사용");

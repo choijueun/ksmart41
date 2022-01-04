@@ -6,7 +6,7 @@
 
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
-		 a.stockAdjCode
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
 		,a.totalPrice
 		,a.briefs
@@ -34,7 +34,7 @@
 
 <select id="getAdjInfo" parameterType="String" resultType="Storing">
 	SELECT 
-		 a.stockAdjCode
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.totalPrice
 		,a.briefs
 		,a.requestDate
@@ -49,19 +49,19 @@
 		JOIN
 		k1_tb_user AS u
 		ON
-		adj.managerId = u.userId
+		a.managerId = u.userId
 	WHERE
 		a.stockAdjCode = #{stockAdjCode};
 </select>
 
 <select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
 	SELECT
-		 a.stockAdjCode
-		,ad.stockAdjDetailCode
-		,ad.inventoryCode
-		,i.itemCode
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
-		,ad.purchaseTsCode
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,ad.salesTsCode
 		,ad.adjCount
 		,ad.afterCount
