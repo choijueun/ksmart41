@@ -16,6 +16,19 @@
 <th:block layout:fragment="customContents">
 
 <!-- content -->
+	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
+		<select name="searchKey">
+			<option value="materialOrderCode">발주 코드</option>
+			<option value="mainBusinessCode">사업장별 대표코드</option>
+			<option value="contractCode">계약 코드</option>
+			<option value="clientCode">거래처 대표코드</option>
+			<option value="managerId">담당자</option>
+		</select>
+		<input type="text" name="searchValue"/>
+		<button type="submit">검색</button>
+		</form>
+
+
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">

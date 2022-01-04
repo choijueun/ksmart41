@@ -6,7 +6,6 @@
 	<title>계약서 등록</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <!-- Content Header (Page header) -->
@@ -19,10 +18,11 @@
 <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+<th:block layout:fragment="customJs">
 <script>
 	$(function(){
 		
-		$(document).on('click', '#addContractBtn'), function(){
+		$(document).on('click', '#addContractBtn', function(){
 			var submitCheck = true;
 			
 			var inputObj = $('#addContractForm').find('input');
@@ -38,8 +38,10 @@
 					return false;
 				}
 			});
-		if(submitCheck) $('#addContractForm').submit();
-	});
+			
+			if(submitCheck) $('#addContractForm').submit();
+			
+		});
 	
 	$('#btn').click(function(){
 	
@@ -48,7 +50,7 @@
 		if(typeof contractCode != 'undefined' && contractCode != null && contractCode != ''){
 			// ajax 호출
 			var request = $.ajax({
-				url: '/contract/contractCodeCheck',
+				url: '/k1Contract/k1ContractCodeCheck',
 				method: 'POST',
 				data: {'contractCode' : contractCode},
 				dataType: 'json'
@@ -86,10 +88,10 @@
 		});
 	});
 </script>
-
+</th:block>
 <!-- Main content -->
 <th:block layout:fragment="customContents">
-	<form id="addContractForm" th:action="@{/contract/contract_register}" method="post">
+	<form id="addContractForm" th:action="@{/k1Contract/k1ContractReg}" method="post">
 		<div class="card-body">
                   <div class="form-group">
                     <label for="contractCode">계약코드</label>

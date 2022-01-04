@@ -16,7 +16,7 @@ public interface ContractMapper {
 	//계약서 등록
 	public int addContract(Contract contract);
 	
-	public List<Client> getClientList();
+	public List<Contract> getContractList();
 
 	
 	//계약서 하나의 화면 조회
