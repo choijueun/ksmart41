@@ -23,13 +23,14 @@
 		k1_tb_user AS u
 		ON
 		a.managerId = u.userId
-	WHERE
-		<trim prefixOverrides="AND |OR ">
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
 			a.mainBusinessCode = #{mainBusinessCode}
-			<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
-				AND a.stockReasonCode = ${stockReasonCode}
-			</if>
-		</trim>
+		</if>
+		<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
+			AND a.stockReasonCode = ${stockReasonCode}
+		</if>
+	</trim>
 </select>
 
 <select id="getAdjInfo" parameterType="String" resultType="Storing">

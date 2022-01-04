@@ -34,14 +34,6 @@ public class StockService {
 			System.out.println("재고정보 조회결과 없음");
 			return null;
 		}
-		//코드 번호
-		String stockNum;
-		for(int i=0; i<stockList.size(); i++) {
-			stockInfo = stockList.get(i);
-			stockNum = stockInfo.getInventoryCode();
-			stockNum = stockNum.substring(stockNum.length()-3, stockNum.length());
-			stockInfo.setInventoryCode(stockNum);
-		}
 		return stockList;
 	}
 	
@@ -62,8 +54,6 @@ public class StockService {
 			return null;
 		}
 		
-		//코드에서 숫자만 남기기
-		stockInfo.setInventoryCode(inventoryCode); 
 		return stockInfo;
 	}
 }
