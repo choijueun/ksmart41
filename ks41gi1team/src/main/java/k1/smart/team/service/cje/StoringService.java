@@ -39,14 +39,38 @@ public class StoringService {
 		for(int i=0; i<storingList.size(); i++) {
 			storingInfo = storingList.get(i);
 			stockReasonCode = storingInfo.getStockReasonCode();
-			if(stockReasonCode == 1) storingInfo.setStockReason("입고");
-			else if(stockReasonCode == 2) storingInfo.setStockReason("자재사용");
-			else if(stockReasonCode == 3) storingInfo.setStockReason("생산");
-			else if(stockReasonCode == 4) storingInfo.setStockReason("창고이동");
-			else if(stockReasonCode == 5) storingInfo.setStockReason("출하");
-			else if(stockReasonCode == 6) storingInfo.setStockReason("재고차이");
-			else if(stockReasonCode == 7) storingInfo.setStockReason("반품");
-			else if(stockReasonCode == 8) storingInfo.setStockReason("불량");
+			if(stockReasonCode == 1) {
+				storingInfo.setStockReason("입고");
+				storingInfo.setStockReasonEng("Warehousing");
+			}
+			else if(stockReasonCode == 2) {
+				storingInfo.setStockReason("자재사용");
+				storingInfo.setStockReasonEng("MaterialUse");
+			}
+			else if(stockReasonCode == 3) {
+				storingInfo.setStockReason("생산");
+				storingInfo.setStockReasonEng("Production");
+			}
+			else if(stockReasonCode == 4) {
+				storingInfo.setStockReason("창고이동");
+				storingInfo.setStockReasonEng("Moving");
+			}
+			else if(stockReasonCode == 5) {
+				storingInfo.setStockReason("출하");
+				storingInfo.setStockReasonEng("Shipment");
+			}
+			else if(stockReasonCode == 6) {
+				storingInfo.setStockReason("재고차이");
+				storingInfo.setStockReasonEng("Adjustment");
+			}
+			else if(stockReasonCode == 7) {
+				storingInfo.setStockReason("반품");
+				storingInfo.setStockReasonEng("Return");
+			}
+			else if(stockReasonCode == 8) {
+				storingInfo.setStockReason("불량");
+				storingInfo.setStockReasonEng("Defect");
+			}
 		}
 		return storingList;
 	}

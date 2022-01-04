@@ -21,7 +21,7 @@
 			재고조정 내역 조회
 		</div>
 		<div class="card-body">
-			<table id="adjList" class="table table-bordered table-hover dataTable dtr-inline">
+			<table id="stockAdjList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -39,12 +39,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${not #lists.isEmpty(adjList)}" th:each="l : ${adjList}">
+					<tr th:if="${not #lists.isEmpty(stockAdjList)}" th:each="l : ${stockAdjList}">
 						<td>
 							<input type="checkbox">
 						</td>
 						<td>[[${l.stockAdjCode}]]</td>
-						<td>품목 GROUP_CONCAT</td>
+						<td>[[${l.itemList}]]</td>
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.briefs}]]</td>
 						<td>[[${l.requestDate}]]</td>
@@ -53,7 +53,7 @@
 						<td>[[${l.managerName}]]</td>
 						<td>[[${l.updateDate}]]</td>
 					</tr>
-					<tr th:if="${#lists.isEmpty(adjList)}">
+					<tr th:if="${#lists.isEmpty(stockAdjList)}">
 					</tr>
 				</tbody>
 			</table>

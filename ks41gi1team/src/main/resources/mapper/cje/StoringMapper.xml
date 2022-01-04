@@ -8,6 +8,7 @@
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
 		,a.totalPrice
 		,a.briefs
 		,a.requestDate
@@ -23,6 +24,25 @@
 		k1_tb_user AS u
 		ON
 		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
 			a.mainBusinessCode = #{mainBusinessCode}
@@ -31,6 +51,7 @@
 			AND a.stockReasonCode = ${stockReasonCode}
 		</if>
 	</trim>
+	GROUP BY a.stockAdjCode;
 </select>
 
 <select id="getAdjInfo" parameterType="String" resultType="Storing">
@@ -52,17 +73,18 @@
 		ON
 		a.managerId = u.userId
 	WHERE
-		a.stockAdjCode = #{stockAdjCode};
+		a.stockAdjCode = #{stockAdjCode} 
+		AND a.stockReasonCode = 6;
 </select>
 
 <select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
 	SELECT
-		 /RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
 		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
-		,ad.salesTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
@@ -90,7 +112,8 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 	WHERE
-		a.stockAdjCode = #{stockAdjCode};
+		a.stockAdjCode = #{stockAdjCode}
+		AND a.stockReasonCode = 6;
 </select>
 
 </mapper>

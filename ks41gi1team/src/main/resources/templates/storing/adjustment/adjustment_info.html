@@ -4,32 +4,78 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
 	
 <div class="container-fluid">
-	<div th:unless="${ stockAdjInfo == null }">
-		<div class="card card-info card-outline">
-			<div class="card-header">
-				재고차이조정내역 [[${stockAdjCode}]]
-			</div>
-			<div class="card-body">
-				<table id="stockAdjInfo" class="table table-bordered">
-				</table>
-			</div>
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			재고차이조정내역 [[${stockAdjCode}]]
+		</div>
+		<div class="card-body" th:if="${ stockAdjInfo != null }">
+			<table id="stockAdjInfo" class="table table-bordered">
+			</table>
+			
+			<table id="stockAdjDetailInfo" class="table table-bordered">
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="allCheck"></th>
+						<th>재고 No.</th>
+						<th>품목명</th>
+						<th>거래 No.</th>
+						<th>조정수량</th>
+						<th>최종수량</th>
+						<th>조정중량</th>
+						<th>최종중량</th>
+						<th>상태</th>
+						<th>비고</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody th:if="${ stockAdjDetail != null }">
+					<tr th:each="l : ${stockAdjDetail}">
+						<td><input type="checkbox"></td>
+						<td>[[${l.inventoryCode}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td th:if="${ purchaseTsCode != null}">[[${l.purchaseTsCode}]]</td>
+						<td th:if="${ salesTsCode != null}">[[${l.salesTsCode}]]</td>
+						<td>[[${l.adjCount}]]</td>
+						<td>[[${l.afterCount}]]</td>
+						<td>[[${l.adjWeight}]]</td>
+						<td>[[${l.stockWeight}]]</td>
+						<td>[[${l.stockStatus}]]</td>
+						<td>[[${l.comment}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+				</tbody>
+				<tbody th:if="${ stockAdjDetail == null }">
+					<tr>
+						<td colspan="12">
+							상세내역을 불러올 수 없습니다.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<a th:href="@{|/k1AdjustmentModify/${stockAdjInfo.stockAdjCode}|}">
+					<button type="button" class="btn btn-info">수정</button>
+				</a>
+		</div>
+		<div class="card-body" th:if="${ stockAdjInfo == null }">
+			잘못된 접근입니다.
 		</div>
 	</div>
-	
-	<div th:if="${ stockAdjInfo == null }" class="card"> 잘못된 접근입니다.</div>
 </div>
+
 </th:block>
 
 </html>

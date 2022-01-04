@@ -17,5 +17,5 @@ public interface StoringMapper {
 
 	public Storing getAdjInfo(String stockAdjCode);
 	
-	public Storing getAdjDetailInfo(String stockAdjCode);
+	public List<Storing> getAdjDetailInfo(String stockAdjCode);
 }
