@@ -2,12 +2,19 @@ package k1.smart.team.dto.cje;
 
 public class Storing {
 	private String stockAdjCode; //재고조정내역코드
+	private String stockAdjDetailCode; //재고조정내역코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private int stockReasonCode; //재고조정사유코드
 	private String stockReason; //*재고조정사유
+	private String stockReasonEng; //*재고조정사유
 	
 	private String clientCode; //거래처 대표코드
 	private String businessName; //*상호
+	
+	private String inventoryCode; //재고코드
+	private String itemCode; //*품목코드
+	private String itemName; //*품목코드
+	private String itemList; //*품목배열(GROUP_CONCAT)
 	
 	private String contractCode; //계약코드
 	private String contractSection; //*계약 주문유형 - 수주발주 택1이면 없어도 될지도
@@ -23,6 +30,14 @@ public class Storing {
 	private String receiveWarehouse; //받는창고
 	private String receiveWarehouseName; //*받는창고이름
 	
+	private String purchaseTsCode; //비용거래명세서코드
+	private String salesTsCode; //매출거래명세서코드
+	
+	private int adjCount; //조정수량
+	private int afterCount; //최종수량
+	private int adjWeight; //조정중량
+	private int stockWeight; //최종중량
+	
 	private int deliveryCost; //운송비용
 	private int totalPrice; //총가격
 	
@@ -34,6 +49,9 @@ public class Storing {
 	private String endDate; //완료일자
 	
 	private String briefs; //적요
+	private String stockStatus; //상태
+	private String comment; //비고
+	
 	private String managerId; //담당자ID
 	private String managerName; //*담당자이름
 	
@@ -45,6 +63,12 @@ public class Storing {
 	}
 	public void setStockAdjCode(String stockAdjCode) {
 		this.stockAdjCode = stockAdjCode;
+	}
+	public String getStockAdjDetailCode() {
+		return stockAdjDetailCode;
+	}
+	public void setStockAdjDetailCode(String stockAdjDetailCode) {
+		this.stockAdjDetailCode = stockAdjDetailCode;
 	}
 	public String getMainBusinessCode() {
 		return mainBusinessCode;
@@ -64,6 +88,12 @@ public class Storing {
 	public void setStockReason(String stockReason) {
 		this.stockReason = stockReason;
 	}
+	public String getStockReasonEng() {
+		return stockReasonEng;
+	}
+	public void setStockReasonEng(String stockReasonEng) {
+		this.stockReasonEng = stockReasonEng;
+	}
 	public String getClientCode() {
 		return clientCode;
 	}
@@ -75,6 +105,30 @@ public class Storing {
 	}
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
+	}
+	public String getInventoryCode() {
+		return inventoryCode;
+	}
+	public void setInventoryCode(String inventoryCode) {
+		this.inventoryCode = inventoryCode;
+	}
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	public String getItemList() {
+		return itemList;
+	}
+	public void setItemList(String itemList) {
+		this.itemList = itemList;
 	}
 	public String getContractCode() {
 		return contractCode;
@@ -136,6 +190,42 @@ public class Storing {
 	public void setReceiveWarehouseName(String receiveWarehouseName) {
 		this.receiveWarehouseName = receiveWarehouseName;
 	}
+	public String getPurchaseTsCode() {
+		return purchaseTsCode;
+	}
+	public void setPurchaseTsCode(String purchaseTsCode) {
+		this.purchaseTsCode = purchaseTsCode;
+	}
+	public String getSalesTsCode() {
+		return salesTsCode;
+	}
+	public void setSalesTsCode(String salesTsCode) {
+		this.salesTsCode = salesTsCode;
+	}
+	public int getAdjCount() {
+		return adjCount;
+	}
+	public void setAdjCount(int adjCount) {
+		this.adjCount = adjCount;
+	}
+	public int getAfterCount() {
+		return afterCount;
+	}
+	public void setAfterCount(int afterCount) {
+		this.afterCount = afterCount;
+	}
+	public int getAdjWeight() {
+		return adjWeight;
+	}
+	public void setAdjWeight(int adjWeight) {
+		this.adjWeight = adjWeight;
+	}
+	public int getStockWeight() {
+		return stockWeight;
+	}
+	public void setStockWeight(int stockWeight) {
+		this.stockWeight = stockWeight;
+	}
 	public int getDeliveryCost() {
 		return deliveryCost;
 	}
@@ -184,6 +274,18 @@ public class Storing {
 	public void setBriefs(String briefs) {
 		this.briefs = briefs;
 	}
+	public String getStockStatus() {
+		return stockStatus;
+	}
+	public void setStockStatus(String stockStatus) {
+		this.stockStatus = stockStatus;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public String getManagerId() {
 		return managerId;
 	}
@@ -207,68 +309,5 @@ public class Storing {
 	}
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Storing [stockAdjCode=");
-		builder.append(stockAdjCode);
-		builder.append(", mainBusinessCode=");
-		builder.append(mainBusinessCode);
-		builder.append(", stockReasonCode=");
-		builder.append(stockReasonCode);
-		builder.append(", stockReason=");
-		builder.append(stockReason);
-		builder.append(", clientCode=");
-		builder.append(clientCode);
-		builder.append(", businessName=");
-		builder.append(businessName);
-		builder.append(", contractCode=");
-		builder.append(contractCode);
-		builder.append(", contractSection=");
-		builder.append(contractSection);
-		builder.append(", materialOrderCode=");
-		builder.append(materialOrderCode);
-		builder.append(", deliveryCode=");
-		builder.append(deliveryCode);
-		builder.append(", shipmentPlanCode=");
-		builder.append(shipmentPlanCode);
-		builder.append(", returnRegCode=");
-		builder.append(returnRegCode);
-		builder.append(", sendWarehouse=");
-		builder.append(sendWarehouse);
-		builder.append(", sendWarehouseName=");
-		builder.append(sendWarehouseName);
-		builder.append(", receiveWarehouse=");
-		builder.append(receiveWarehouse);
-		builder.append(", receiveWarehouseName=");
-		builder.append(receiveWarehouseName);
-		builder.append(", deliveryCost=");
-		builder.append(deliveryCost);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", sendPlanDate=");
-		builder.append(sendPlanDate);
-		builder.append(", receivePlanDate=");
-		builder.append(receivePlanDate);
-		builder.append(", requestDate=");
-		builder.append(requestDate);
-		builder.append(", adjDate=");
-		builder.append(adjDate);
-		builder.append(", endDate=");
-		builder.append(endDate);
-		builder.append(", briefs=");
-		builder.append(briefs);
-		builder.append(", managerId=");
-		builder.append(managerId);
-		builder.append(", managerName=");
-		builder.append(managerName);
-		builder.append(", regDate=");
-		builder.append(regDate);
-		builder.append(", updateDate=");
-		builder.append(updateDate);
-		builder.append("]");
-		return builder.toString();
 	}
 }

@@ -42,11 +42,13 @@ public class AdjustmentController {
 	public String adjInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		
+		stockAdjInfo = adjService.getAdjInfo(stockAdjCode);
+		stockAdjList = adjService.getAdjDetailInfo(stockAdjCode);
 		
 		
 		model.addAttribute("title", "재고조정 상세내역");
-		model.addAttribute("stockAdjCode", stockAdjCode);
+		model.addAttribute("stockAdjInfo", stockAdjInfo);
+		model.addAttribute("stockAdjDetail", stockAdjList);
 		return "storing/adjustment/adjustment_info";
 	}
 	

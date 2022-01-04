@@ -22,10 +22,9 @@ public class AdjustmentService {
 	/**
 	 * 재고조정내역 전체조회
 	 * @param mainBusinessCode
-	 * @return 재고조저내역 여러개(List<Storing>)
+	 * @return 재고조정내역 여러개(List<Storing>)
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
-		//재고조정내역 전체목록
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
 		if(adjList == null) {
 			System.out.println("재고조정내역 조회결과 없음");
@@ -33,12 +32,22 @@ public class AdjustmentService {
 		return adjList;
 	}
 	
+	/**
+	 * 재고조정내역 한줄정보
+	 * @param stockAdjCode
+	 * @return
+	 */
 	public Storing getAdjInfo(String stockAdjCode) {
-		//재고조정내역 한줄정보
-		adjInfo = storingMapper.getAdjInfo(stockAdjCode);
-		if(adjInfo == null) {
-			System.out.println("재고조정내역 조회결과 없음");
-		}
+		adjInfo = storingMapper.getAdjInfo("stockAdjCode_"+stockAdjCode);
 		return adjInfo;
+	}
+	/**
+	 * 재고조정내역 상세정보 배열
+	 * @param stockAdjCode
+	 * @return
+	 */
+	public List<Storing> getAdjDetailInfo(String stockAdjCode) {
+		adjList = storingMapper.getAdjDetailInfo("stockAdjCode_"+stockAdjCode);
+		return adjList;
 	}
 }
