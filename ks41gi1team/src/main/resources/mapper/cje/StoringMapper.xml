@@ -57,8 +57,7 @@
 
 <select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
 	SELECT
-		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
-		,RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		 /RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
 		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName

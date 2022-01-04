@@ -95,3 +95,509 @@
 	WHERE
 		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
  {executed in 17 msec}
+14:05:27.037 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = 'warehouseCode_001';
+ {executed in 16 msec}
+14:05:36.233 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+ {executed in 2 msec}
+14:05:51.473 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6
+ {executed in 8 msec}
+14:06:00.265 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:06:01.377 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate
+		,s.updateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		inventoryCode = 'inventoryCode_001';
+ {executed in 16 msec}
+14:06:05.937 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:06:07.098 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+14:06:07.119 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 9 msec}
+14:06:11.436 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 116 msec}
+14:06:11.487 [http-nio-80-exec-7] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 2014 msec}
+14:06:12.569 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = 'warehouseCode_001';
+ {executed in 8 msec}
+14:11:57.421 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 24 msec}
+14:11:59.550 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:12:05.874 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+14:12:05.886 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 8 msec}
+14:36:56.184 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_002';
+ {executed in 24 msec}
+14:36:56.231 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_002';
+ {executed in 12 msec}
+14:39:55.742 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_002';
+ {executed in 24 msec}
+14:39:55.785 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_002';
+ {executed in 12 msec}

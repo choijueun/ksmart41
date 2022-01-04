@@ -6,13 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.service.cje.ItemService;
 
 @Controller
-@RequestMapping(value="/k1Item")
 public class ItemController {
 	private ItemService itemService;
 	private String mainBusinessCode; //사업장대표코드
@@ -32,7 +30,7 @@ public class ItemController {
 	 * @param model
 	 * @return item_list
 	 */
-	@GetMapping("")
+	@GetMapping("/k1Item")
 	public String itemMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		//품목 전체목록
@@ -44,7 +42,7 @@ public class ItemController {
 		return "stock/item/item_list";
 	}
 	
-	@GetMapping("/{itemCode}")
+	@GetMapping("/k1Item/{itemCode}")
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
@@ -68,14 +66,14 @@ public class ItemController {
 		return "stock/item/item_info";
 	}
 	
-	@GetMapping("/add")
+	@GetMapping("/k1ItemAdd")
 	public String addItem(Model model) {
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목추가");
 		return "stock/item/item_add";
 	}
 	
-	@GetMapping("/modify/{itemCode}")
+	@GetMapping("/k1ItemModify/{itemCode}")
 	public String modifyItem(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
@@ -85,7 +83,7 @@ public class ItemController {
 		return "stock/item/item_modify";
 	}
 	
-	@GetMapping("/category")
+	@GetMapping("/k1ItemCategory")
 	public String itemCategory(Model model) {
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "카테고리");

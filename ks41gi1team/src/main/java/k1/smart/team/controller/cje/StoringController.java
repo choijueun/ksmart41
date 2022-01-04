@@ -5,13 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.StoringService;
 
 @Controller
-@RequestMapping(value="/k1Storing")
 public class StoringController {
 	private StoringService storingService;
 	private String mainBusinessCode; //사업장대표코드
@@ -31,7 +29,7 @@ public class StoringController {
 	 * @param model 
 	 * @return storing_history (List<Storing>)
 	 */
-	@GetMapping("")
+	@GetMapping("/k1Storing")
 	public String storingMain(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		//재고 전체목록
