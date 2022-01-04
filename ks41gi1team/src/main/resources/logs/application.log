@@ -1,0 +1,97 @@
+13:56:12.069 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	 WHERE mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND w.warehouseCode = 'fac_ksmartSeoul_Seoul_001'
+ {executed in 15 msec}
+13:56:22.157 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 8 msec}
+14:00:21.749 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 17 msec}
