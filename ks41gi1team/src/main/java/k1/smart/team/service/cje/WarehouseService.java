@@ -28,18 +28,9 @@ public class WarehouseService {
 	 */
 	public List<Warehouse> getAllWarehouseList(String mainBusinessCode){
 		//전체목록
-		warehouseList = warehouseMapper.getAllWarehouseList(mainBusinessCode);
+		warehouseList = warehouseMapper.getWarehouseList(mainBusinessCode);
 		if(warehouseList == null) {
 			System.out.println("창고정보 조회결과 없음");
-			return null;
-		}
-		//코드에서 숫자만 남기기
-		String warehouseNum;
-		for(int i=0; i<warehouseList.size(); i++) {
-			warehouseInfo = warehouseList.get(i);
-			warehouseNum = warehouseInfo.getWarehouseCode();
-			warehouseNum = warehouseNum.substring(warehouseNum.length()-3, warehouseNum.length());
-			warehouseInfo.setWarehouseCode(warehouseNum);
 		}
 		//System.out.println("WarehouseService :: "+warehouseList);
 		return warehouseList;
@@ -52,15 +43,12 @@ public class WarehouseService {
 	 * @param warehouseCode
 	 * @return 창고 하나 정보
 	 */
-	public Warehouse getWarehouseInfoByCode(String warehouseCode) {
+	public Warehouse getWarehouseInfoByCode(String mainBusinessCode, String warehouseCode) {
 		//창고정보
-		warehouseInfo = warehouseMapper.getWarehouseInfoByCode("warehouseCode_"+warehouseCode);
+		warehouseInfo = warehouseMapper.getWarehouseInfo(mainBusinessCode, "warehouseCode_"+warehouseCode);
 		if(warehouseInfo == null) {
 			System.out.println("창고정보 조회결과 없음");
-			return null;
 		}
-		//코드에서 숫자만 남기기
-		warehouseInfo.setWarehouseCode(warehouseInfo.getWarehouseCode().replace("warehouseCode_", ""));
 		//System.out.println("WarehouseService :: "+warehouseInfo);
 		return warehouseInfo;
 	}

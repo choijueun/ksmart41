@@ -13,12 +13,12 @@ public interface WarehouseMapper {
 	 * @param mainBusinessCode
 	 * @return 창고 여러개 정보
 	 */
-	public List<Warehouse> getAllWarehouseList(String mainBusinessCode);
+	public List<Warehouse> getWarehouseList(String mainBusinessCode);
 	
 	/**
 	 * 창고정보 상세조회
-	 * @param warehouseCode
+	 * @param mainBusinessCode, warehouseCode
 	 * @return 창고 하나 정보
 	 */
-	public Warehouse getWarehouseInfoByCode(String warehouseCode);
+	public Warehouse getWarehouseInfo(String mainBusinessCode, String warehouseCode);
 }

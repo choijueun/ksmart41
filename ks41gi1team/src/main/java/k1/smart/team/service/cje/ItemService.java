@@ -28,15 +28,6 @@ public class ItemService {
 		itemList = itemMapper.getAllItemList(mainBusinessCode);
 		if(itemList == null) {
 			System.out.println("품목정보 조회결과 없음");
-			return null;
-		}
-		//코드에서 숫자만 남기기
-		String itemNum;
-		for(int i=0; i<itemList.size(); i++) {
-			itemInfo = itemList.get(i);
-			itemNum = itemInfo.getItemCode();
-			itemNum = itemNum.substring(itemNum.length()-3, itemNum.length());
-			itemInfo.setItemCode(itemNum);
 		}
 		
 		return itemList;
@@ -57,16 +48,13 @@ public class ItemService {
 			return null;
 		}
 		//품목총재고정보 입력
-		if(item1StockInfo.getItemCount() != 0 ) {
+		if(item1StockInfo != null ) {
 			itemInfo.setItemCount(item1StockInfo.getItemCount());
 			itemInfo.setProductPrice(item1StockInfo.getProductPrice());
 			itemInfo.setTotalPrice(item1StockInfo.getTotalPrice());
 			itemInfo.setStockWeight(item1StockInfo.getStockWeight());
 		}
-		//코드번호
-		itemInfo.setItemCode(itemCode);
 		
-		//System.out.println("ItemService :: "+itemInfo.toString());
 		return itemInfo;
 	}
 }

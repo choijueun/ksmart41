@@ -6,10 +6,10 @@
 
 <select id="getAllItemList" parameterType="String" resultType="Stock">
 	SELECT
-		 i.itemCode
+		 RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
-		,i.categoryCode
+		,RIGHT(i.categoryCode,3) AS categoryCode
 		,c.largeCategory
 		,c.middleCategory
 		,c.smallCategory

@@ -15,7 +15,7 @@ import k1.smart.team.service.cje.WarehouseService;
 @RequestMapping(value="/k1Warehouse")
 public class WarehouseController {
 	private WarehouseService warehouseService;
-	private String mainBusinessCode; //사업장대표코드
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
 	private List<Warehouse> warehouseList; //창고 배열
 	private Warehouse warehouseInfo; //창고 하나
 	
@@ -34,7 +34,6 @@ public class WarehouseController {
 	 */
 	@GetMapping("")
 	public String warehouseMain(Model model) {
-		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
 		//창고 전체목록
 		warehouseList = warehouseService.getAllWarehouseList(mainBusinessCode);
 		//System.out.println("WarehouseController :: "+warehouseList);
@@ -57,7 +56,7 @@ public class WarehouseController {
 		}
 		
 		//창고 상세정보
-		warehouseInfo = warehouseService.getWarehouseInfoByCode(warehouseCode);
+		warehouseInfo = warehouseService.getWarehouseInfoByCode(mainBusinessCode, warehouseCode);
 		
 		if(warehouseInfo == null) {
 			System.out.println("창고코드 ERROR");
