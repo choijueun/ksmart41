@@ -52,7 +52,8 @@
 		k1_tb_item_category AS c
 		ON
 		i.categoryCode = c.categoryCode
-	WHERE i.itemCode = #{itemCode};
+	WHERE
+		i.itemCode = #{itemCode};
 </select>
 
 <select id="getItemStockByCode" parameterType="String" resultType="Stock">
