@@ -54,6 +54,9 @@
 						<td>[[${l.updateDate}]]</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(stockAdjList)}">
+						<td colspan="10">
+							재고차이조정내역이 존재하지 않습니다.
+						</td>
 					</tr>
 				</tbody>
 			</table>

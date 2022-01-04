@@ -47,6 +47,7 @@
 						<td>[[${l.itemName}]]</td>
 						<td th:if="${ purchaseTsCode != null}">[[${l.purchaseTsCode}]]</td>
 						<td th:if="${ salesTsCode != null}">[[${l.salesTsCode}]]</td>
+						<td th:if="${ purchaseTsCode == null and salesTsCode == null }"></td>
 						<td>[[${l.adjCount}]]</td>
 						<td>[[${l.afterCount}]]</td>
 						<td>[[${l.adjWeight}]]</td>
