@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
 
+<!-- 물류이동내역(목록) -->
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -54,6 +55,7 @@
 	GROUP BY a.stockAdjCode;
 </select>
 
+<!-- 재고차이조정내역 한줄 -->
 <select id="getAdjInfo" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -73,10 +75,11 @@
 		ON
 		a.managerId = u.userId
 	WHERE
-		a.stockAdjCode = #{stockAdjCode} 
+		a.stockAdjCode = CONCAT('stockAdjCode',#{stockAdjCode}) 
 		AND a.stockReasonCode = 6;
 </select>
 
+<!-- 재고차이조정내역 상세(목록) -->
 <select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
@@ -112,8 +115,81 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 	WHERE
-		a.stockAdjCode = #{stockAdjCode}
+		a.stockAdjCode = CONCAT('stockAdjCode',#{stockAdjCode})
 		AND a.stockReasonCode = 6;
 </select>
+
+<!-- 불량처리내역 한줄 -->
+<select id="getDefectInfo" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,RIGHT(a.sendWarehouse,3) AS sendWarehouse
+		,w.warehouseName AS sendWarehouseName
+		,w.loaction AS sendWarehouseLocation
+		,w.outPlace AS sendWarehouseOutPlace
+		,a.totalPrice
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.briefs
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		a.sendWarehouse = w.warehouseCode
+	WHERE
+		a.mainBusinessCode = #{mainBusinessCode}
+		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
+		AND a.stockReasonCode = 8;
+</select>
+
+<select id="getDefectDetailInfo" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		<!-- ,RIGHT(i.itemCode,3) AS itemCode -->
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.defectType
+		,ad.defectHandlingType
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
+		AND a.stockReasonCode = 8;
+</select>
+
 
 </mapper>

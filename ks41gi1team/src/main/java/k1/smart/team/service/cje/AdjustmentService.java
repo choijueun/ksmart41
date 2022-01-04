@@ -26,9 +26,9 @@ public class AdjustmentService {
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
-		if(adjList == null) {
-			System.out.println("재고조정내역 조회결과 없음");
-		}
+		
+		if(adjList == null) return null;
+		
 		return adjList;
 	}
 	
@@ -38,7 +38,7 @@ public class AdjustmentService {
 	 * @return
 	 */
 	public Storing getAdjInfo(String stockAdjCode) {
-		adjInfo = storingMapper.getAdjInfo("stockAdjCode_"+stockAdjCode);
+		adjInfo = storingMapper.getAdjInfo(stockAdjCode);
 		return adjInfo;
 	}
 	/**
@@ -47,7 +47,7 @@ public class AdjustmentService {
 	 * @return
 	 */
 	public List<Storing> getAdjDetailInfo(String stockAdjCode) {
-		adjList = storingMapper.getAdjDetailInfo("stockAdjCode_"+stockAdjCode);
+		adjList = storingMapper.getAdjDetailInfo(stockAdjCode);
 		return adjList;
 	}
 }

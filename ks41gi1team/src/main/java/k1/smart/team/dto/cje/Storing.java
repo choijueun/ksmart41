@@ -27,8 +27,12 @@ public class Storing {
 	
 	private String sendWarehouse; //보내는창고
 	private String sendWarehouseName; //*보내는창고이름
+	private String sendWarehouseLocation; //*보내는창고위치
+	private String sendWarehouseOutPlace; //*보내는창고소재지
 	private String receiveWarehouse; //받는창고
 	private String receiveWarehouseName; //*받는창고이름
+	private String receiveWarehouseLocation; //*받는창고위치
+	private String receiveWarehouseOutPlace; //*받는창고소재지
 	
 	private String purchaseTsCode; //비용거래명세서코드
 	private String salesTsCode; //매출거래명세서코드
@@ -50,7 +54,10 @@ public class Storing {
 	
 	private String briefs; //적요
 	private String stockStatus; //상태
-	private String comment; //비고
+	private String comment; //비고\
+	
+	private String defectType; //불량유형
+	private String defectHandlingType; //불량처리유형
 	
 	private String managerId; //담당자ID
 	private String managerName; //*담당자이름
@@ -58,6 +65,42 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
+	public String getDefectType() {
+		return defectType;
+	}
+	public void setDefectType(String defectType) {
+		this.defectType = defectType;
+	}
+	public String getDefectHandlingType() {
+		return defectHandlingType;
+	}
+	public void setDefectHandlingType(String defectHandlingType) {
+		this.defectHandlingType = defectHandlingType;
+	}
+	public String getSendWarehouseLocation() {
+		return sendWarehouseLocation;
+	}
+	public void setSendWarehouseLocation(String sendWarehouseLocation) {
+		this.sendWarehouseLocation = sendWarehouseLocation;
+	}
+	public String getSendWarehouseOutPlace() {
+		return sendWarehouseOutPlace;
+	}
+	public void setSendWarehouseOutPlace(String sendWarehouseOutPlace) {
+		this.sendWarehouseOutPlace = sendWarehouseOutPlace;
+	}
+	public String getReceiveWarehouseLocation() {
+		return receiveWarehouseLocation;
+	}
+	public void setReceiveWarehouseLocation(String receiveWarehouseLocation) {
+		this.receiveWarehouseLocation = receiveWarehouseLocation;
+	}
+	public String getReceiveWarehouseOutPlace() {
+		return receiveWarehouseOutPlace;
+	}
+	public void setReceiveWarehouseOutPlace(String receiveWarehouseOutPlace) {
+		this.receiveWarehouseOutPlace = receiveWarehouseOutPlace;
+	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}

@@ -46,10 +46,8 @@ public class ItemController {
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
-		if(itemCode == null || "".equals(itemCode)) {
-			System.out.println("품목정보 ERROR");
-			return "redirect:/k1Item";
-		}
+		//품목코드 검사
+		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
 		//품목 상세정보
 		itemInfo = itemService.getItemInfoByCode(itemCode);
@@ -77,6 +75,9 @@ public class ItemController {
 	public String modifyItem(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
+		//품목코드 검사
+		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
+		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
 		model.addAttribute("itemCode", itemCode);
