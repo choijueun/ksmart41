@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+<!-- content -->
+	<form th:action="@{/k1ProductOrder/k1ProductOrderOne}" method="post" style="text-align: center;">
+		<select name="searchKey">
+			<option value="productOrderCode">제품 수주 코드</option>
+			<option value="mainBusinessCode">사업장별 대표코드</option>
+			<option value="contractCode">계약 코드</option>
+			<option value="clientCode">거래처 대표코드</option>
+			<option value="productPriceCode">제품가격 코드</option>
+			<option value="totalProductCount">제품 총수량</option>
+			<option value="totalProductPrice">제품 총가격</option>
+			<option value="productOrderDate">수주 일자</option>
+			<option value="productDate">생산일자</option>
+			<option value="predictProductDate">예상제품출하일</option>
+			<option value="status">상태</option>
+			<option value="briefs">적요</option>
+			<option value="managerId">담당자</option>
+		</select>
+		<input type="text" name="searchValue"/>
+		<button type="submit">검색</button>
+		</form>
+
+
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			수주 목록
+		</div>
+		<div class="card">
+
+		</div>
+		<div class="card-body">
+			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>수주요청일자</th>
+						<th>거래처명</th>
+						<th>제품</th>
+						<th>예상제품출하일자</th>
+						<th>수량</th>
+						<th>금액</th>
+						<th>수주진행상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
+						<td><input type="checkbox"></td>
+						<td>[[${l.productOrderCode}]]</td>
+						<td>[[${l.productOrderDate}]]</td> 
+						<td>[[${l.clientCode}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.predictProductDate}]]</td>
+						<td>[[${l.totalProductCount}]]</td>
+						<td>[[${l.totalProductPrice}]]</td> 
+						<td>[[${l.status}]]</td> 
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(productOrderList)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</th:block>
+
+</html>

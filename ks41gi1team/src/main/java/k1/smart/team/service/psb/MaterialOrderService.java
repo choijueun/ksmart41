@@ -16,6 +16,12 @@ public class MaterialOrderService {
 		this.materialOrderMapper = materialOrderMapper;
 	}
 	
+	//하나의 발주 검색
+	public List<MaterialOrder> getMaterialOrderListBySearchKey(String searchKey, String searchValue) {
+		
+		return materialOrderMapper.getMaterialOrderListBySearchKey(searchKey, searchValue);
+	}
+	
 	//전체 발주 검색
 	public List<MaterialOrder> getAllMaterialOrderList(String mainBusinessCode){
 		materialOrderList = materialOrderMapper.getAllMaterialOrderList(mainBusinessCode);
@@ -27,4 +33,5 @@ public class MaterialOrderService {
 		}
 		return materialOrderList;
 	}
+
 }

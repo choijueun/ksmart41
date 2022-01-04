@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Slip;
@@ -15,6 +16,8 @@ import k1.smart.team.service.pjh.SlipService;
 public class SlipController {
 	private SlipService slipService;
 	private String mainBusinessCode;
+	private Slip purchaseSlipInfo; //전표 하나 정보
+	private Slip salesSlipInfo; //전표 하나 정보
 	
 	public SlipController(SlipService slipService) {
 		this.slipService = slipService;
@@ -32,4 +35,63 @@ public class SlipController {
 		model.addAttribute("s_slipList", s_slipList);
 		return "slip/slip_list";
 	}
+	
+	//비용전표 상세
+	@GetMapping("/{purchaseSlipCode}")
+	public String purchaseSlipInfo(
+			@PathVariable(value="purchaseSlipCode", required=false) String purchaseSlipCode
+			,Model model) {
+		if(purchaseSlipCode == null || "".equals(purchaseSlipCode)) {
+			System.out.println("비용전표코드 ERROR");
+			return "redirect:/k1SlipList";
+		}
+		
+		purchaseSlipInfo = slipService.getPurchaseSlipInfo(purchaseSlipCode);
+		if(purchaseSlipInfo == null) {
+			System.out.println("비용전표코드 ERROR");
+			return "redirect:/k1SlipList";
+		}
+		
+		model.addAttribute("title", "비용전표: 상세정보");
+		model.addAttribute("purchaseSlipInfo", purchaseSlipInfo);
+		return "slip/slip_detail";
+	}
+	
+	//매출전표 상세
+	@GetMapping("/{salesSlipCode}")
+	public String salesSlipInfo(
+			@PathVariable(value="salesSlipCode", required=false) String salesSlipCode
+			,Model model) {
+		if(salesSlipCode == null || "".equals(salesSlipCode)) {
+			System.out.println("매출전표코드 ERROR");
+			return "redirect:/k1SlipList";
+		}
+		
+		salesSlipInfo = slipService.getSalesSlipInfo(salesSlipCode);
+		if(salesSlipInfo == null) {
+			System.out.println("비용전표코드 ERROR");
+			return "redirect:/k1SlipList";
+		}
+		
+		model.addAttribute("title", "비용전표: 상세정보");
+		model.addAttribute("salesSlipInfo", salesSlipInfo);
+		return "slip/slip_detail";
+	}
+	
+	@GetMapping("/add")
+	public String addSlip(Model model) {
+		model.addAttribute("title", "전표관리: 등록");
+		return "slip/slip_register";
+	}
+	
+	@GetMapping("/modify/{slipCode}")
+	public String modifySlip(
+			@PathVariable(value="slipCode", required=false) String slipCode
+			,Model model) {
+		model.addAttribute("title", "전표관리: 수정");
+		model.addAttribute("slipCode", slipCode);
+		return "slip/slip_modify";
+	}
+			
+			
 }	

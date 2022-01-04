@@ -4,17 +4,95 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionTitle}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	창고목록
+
+<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			창고전체목록
+		</div>
+		<div class="card-body">
+			<div class="card">
+				체크박스 공간
+			</div>
+			<table id="warehouseList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>창고명</th>
+						<th>분류</th>
+						<th>유형</th>
+						<th>면적(m²)</th>
+						<th>적재현황</th>
+						<th>%</th>
+						<th>위치(외부소재지)</th>
+						<th>상태</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(warehouseList)}" th:each="l : ${warehouseList}">
+						<td><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
+								[[${l.warehouseCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
+								[[${l.warehouseName}]]
+							</a>
+						</td>
+						<td>[[${l.category1}]]</td>
+						<td>[[${l.category2}]]</td>
+						<td>[[${l.area}]]</td>
+						<td>
+							<div class="progress progress-xs">
+								<div class="progress-bar bg-info" th:style="'width: '+${l.weightPer}+'%;'"></div>
+	                        </div>
+						</td>
+						<td>
+							<span class="badge bg-info">[[${l.weightPer}]]%</span>
+						</td>
+						<td th:if="${l.outPlace} == null">
+							[[${l.loaction}]]
+						</td>
+						<td th:unless="${l.outPlace} == null">
+							[[${l.loaction}]] ([[${l.outPlace}]])
+						</td>
+						<td>[[${l.status}]]</td>
+						<td>
+							<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(warehouseList)}">
+						<td colspan="11">창고 정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+			<a th:href="@{/k1WarehouseAdd}">
+				<button type="button" class="btn btn-info">
+					등록
+				</button>
+			</a>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>

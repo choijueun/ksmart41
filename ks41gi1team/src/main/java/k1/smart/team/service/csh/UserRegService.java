@@ -18,8 +18,14 @@ public class UserRegService {
 	public UserRegService(UserRegMapper userRegMapper) {
 		this.userRegMapper = userRegMapper;
 	}
+	
+	//회원가입 요청 목록
 	public List<UserReg> getAllUserRegList(String mainBusinessCode) {
 		userRegList = userRegMapper.getAllUserRegList(mainBusinessCode);
+		if(userRegList == null) {
+			System.out.println("검색결과 없음");
+			return null;
+		}
 		String userRegNum;
 		for(int i=0; i<userRegList.size(); i++) {
 			userRegNum = userRegList.get(i).getUserRegCode().replace("userRegCode_", "");

@@ -5,11 +5,11 @@ public class PlanPayment {
 	private String mainBusinessCode;
 	private String clientCode;
 	private String totalAccountCode;
-	private int contractCode;
+	private String contractCode;
 	private String totalPlanCost;
 	private String briefs;
 	private String managerId;
-	private String regid;
+	private String regId;
 	private String regDate;
 	private String purchaseTsCode; //명세서코드
 	private String salesTsCode;
@@ -24,7 +24,6 @@ public class PlanPayment {
 	private String isEnd;
 	private String endDate;
 	private String comment;
-	
 	public String getPayPlanCode() {
 		return payPlanCode;
 	}
@@ -49,10 +48,10 @@ public class PlanPayment {
 	public void setTotalAccountCode(String totalAccountCode) {
 		this.totalAccountCode = totalAccountCode;
 	}
-	public int getContractCode() {
+	public String getContractCode() {
 		return contractCode;
 	}
-	public void setContractCode(int contractCode) {
+	public void setContractCode(String contractCode) {
 		this.contractCode = contractCode;
 	}
 	public String getTotalPlanCost() {
@@ -73,11 +72,11 @@ public class PlanPayment {
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
-	public String getRegid() {
-		return regid;
+	public String getRegId() {
+		return regId;
 	}
-	public void setRegid(String regid) {
-		this.regid = regid;
+	public void setRegId(String regId) {
+		this.regId = regId;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -163,7 +162,6 @@ public class PlanPayment {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -183,8 +181,8 @@ public class PlanPayment {
 		builder.append(briefs);
 		builder.append(", managerId=");
 		builder.append(managerId);
-		builder.append(", regid=");
-		builder.append(regid);
+		builder.append(", regId=");
+		builder.append(regId);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", purchaseTsCode=");
@@ -216,6 +214,5 @@ public class PlanPayment {
 		builder.append("]");
 		return builder.toString();
 	}
-	
 	
 }

@@ -14,7 +14,48 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+	<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			결제내역
+		</div>
+		<div class="card-body">
+			<table id="CancelPayment" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>결제취소코드</th>
+						<th>결제코드</th>
+						<th>취소금액</th>
+						<th>발행일자</th>
+						<th>승인일자</th>
+						<th>취소사유</th>
+						<th>등록자</th>
+						<th>등록일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(cancelPayment)}" th:each="l : ${cancelPayment}">
+						<td>[[${l.payCancelCode}]]</td>
+						<td>[[${l.payHistoryCode}]]</td>
+						<td>[[${l.cancelCost}]]</td>
+						<td>[[${l.issueDate}]]</td>
+						<td>[[${l.approvalDate}]]</td>
+						<td>[[${l.reason}]]</td>
+						<td>[[${l.regId}]]</td>
+						<td>[[${l.regDate}]]</td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(cancelPayment)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>

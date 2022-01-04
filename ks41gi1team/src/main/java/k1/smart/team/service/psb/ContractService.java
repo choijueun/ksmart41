@@ -26,10 +26,10 @@ public class ContractService {
 		return result;
 	}
 	
-	public List<Client> getClientList(){
-		List<Client> clientList = contractMapper.getClientList();
+	public List<Contract> getContractList(){
+		List<Contract> contractList = contractMapper.getContractList();
 		
-		return clientList;
+		return contractList;
 	}
 	
 	//검색 하나의 목록 조회(검색)

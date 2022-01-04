@@ -30,11 +30,9 @@ public class StockService {
 	 */
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
-		String stockNum;
-		for(int i=0; i<stockList.size(); i++) {
-			stockInfo = stockList.get(i);
-			stockNum = stockInfo.getInventoryCode().replace("inventoryCode_", "");
-			stockInfo.setInventoryCode(stockNum);
+		if(stockList == null) {
+			System.out.println("재고정보 조회결과 없음");
+			return null;
 		}
 		return stockList;
 	}
@@ -49,13 +47,13 @@ public class StockService {
 			System.out.println("재고코드 NULL");
 			return null;
 		}
-		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		
+		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
 		if(stockInfo == null) {
-			System.out.println("재고정보 조회결과 없음 - 재고코드 ERROR");
+			System.out.println("재고정보 조회결과 없음");
 			return null;
 		}
-		stockInfo.setInventoryCode(inventoryCode);
+		
 		return stockInfo;
 	}
 }

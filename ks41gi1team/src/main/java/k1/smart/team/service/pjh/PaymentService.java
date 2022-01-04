@@ -20,8 +20,8 @@ public class PaymentService {
 		this.paymentMapper = paymentMapper;
 	}
 	
-	public List<HistoryPayment> getAllHistoryPaymentList(String mainBusinessCode) {
-		historyPayment = paymentMapper.getAllHistoryPaymentList(mainBusinessCode);
+	public List<HistoryPayment> getHistoryPaymentList(String mainBusinessCode) {
+		historyPayment = paymentMapper.getHistoryPaymentList(mainBusinessCode);
 		String paymentNum;
 		for(int i=0; i<historyPayment.size(); i++) {
 			paymentNum = historyPayment.get(i).getPayHistoryCode().replace("", "");
@@ -29,17 +29,19 @@ public class PaymentService {
 		}
 		return historyPayment;
 	}
-	public List<PlanPayment> getAllPlanPaymentList(String mainBusinessCode) {
-		planPayment = paymentMapper.getAllPlanPaymentList(mainBusinessCode);
+	public List<PlanPayment> getPlanPaymentList(String mainBusinessCode) {
+		planPayment = paymentMapper.getPlanPaymentList(mainBusinessCode);
+		System.out.println("PaymentService !!!!!!!!!!!!! "+planPayment);
 		String paymentNum;
 		for(int i=0; i<planPayment.size(); i++) {
-			paymentNum = planPayment.get(i).getPayPlanCode().replace("", "");
+			paymentNum = planPayment.get(i).getPayPlanCode().replace("payPlanCode_", "");
 			planPayment.get(i).setPayPlanCode(paymentNum);
 		}
+		System.out.println("PaymentService !!!!!!!!!!!!! "+planPayment);
 		return planPayment;
 	}
-	public List<CancelPayment> getAllCancelPaymentList(String mainBusinessCode) {
-		cancelPayment = paymentMapper.getAllCancelPayment(mainBusinessCode);
+	public List<CancelPayment> getCancelPaymentList(String mainBusinessCode) {
+		cancelPayment = paymentMapper.getCancelPaymentList(mainBusinessCode);
 		String paymentNum;
 		for(int i=0; i<cancelPayment.size(); i++) {
 			paymentNum = cancelPayment.get(i).getPayCancelCode().replace("", "");

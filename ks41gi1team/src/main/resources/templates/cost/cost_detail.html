@@ -4,17 +4,63 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${etcPurchaseCode}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+	<div class="container-fluid">
+	<div class="row" th:unless="${ costInfo == null }">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					비용[[${costInfo.etcPurchaseCode}]]
+				</div>
+				<div class="card-body">
+					<table id="costInfo" class="table table-bordered">
+						<tr>
+							<th>비용번호</th>
+							<td>[[${costInfo.etcPurchaseCode}]]</td>
+							<th>계정과목</th>
+							<td>[[${costInfo.lsAccountCode}]]</td>
+						</tr>
+						<tr>
+							<th>통합회계관리번호</th>
+							<td colspan="3">[[${costInfo.totalAccountCode}]]</td>
+						</tr>
+						<tr>
+							<th>결산시점</th>
+							<td>[[${costInfo.reportPoint}]]</td>
+							<th>금액</th>
+							<td>[[${costInfo.amount}]] 원</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td colspan="3">[[${costInfo.briefs}]]</td>
+						</tr>
+						<tr>
+							<th>결산시점</th>
+							<td colspan="3">[[${costInfo.dealDate}]]</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td>[[${costInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td>[[${costInfo.updateDate}]]</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-info">수정</button>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ costInfo == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>

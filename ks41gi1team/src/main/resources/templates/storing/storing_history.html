@@ -4,17 +4,78 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<!-- content -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					재고조정내역 모아보기
+				</div>
+				<div class="card-body">
+					<div class="card">
+						체크박스
+					</div>
+					<table id="storingList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>사유</th>
+								<th>품목</th>
+								<th>합계금액</th>
+								<th>적요</th>
+								<th>조정일자</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(storingList)}" th:each="l : ${storingList}">
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}/${l.stockAdjCode}|}">
+										[[${l.stockAdjCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}|}">
+										[[${l.stockReason}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}/${l.stockAdjCode}|}">
+										[[${l.itemList}]]
+									</a>
+								</td>
+								<td>[[${l.totalPrice}]]</td>
+								<td>[[${l.briefs}]]</td>
+								<td>[[${l.adjDate}]]</td>
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}Modify/${l.stockAdjCode}|}">
+										<i class="fas fa-pen"></i>
+									</a>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(storingList)}">
+								<td colspan="9">
+									물류 내역이 없습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>

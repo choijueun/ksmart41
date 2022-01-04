@@ -20,4 +20,21 @@
 		WHERE
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
+	<select id="getCostInfoByCode" parameterType="String" resultType="Cost">
+		SELECT
+			etcPurchaseCode
+			,mainBusinessCode
+			,lsAccountCode
+			,totalAccountCode
+			,amount
+			,dealDate
+			,reportPoint
+			,briefs
+			,regDate
+			,updateDate
+		FROM
+ 			k1_tb_etc_purchase
+		WHERE
+			etcPurchaseCode = #{etcPurchaseCode};
+	</select>
 </mapper>

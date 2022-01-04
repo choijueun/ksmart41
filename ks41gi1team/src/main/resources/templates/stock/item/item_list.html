@@ -16,9 +16,9 @@
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<div class="card">
+	<div class="card card-info card-outline">
 		<div class="card-header">
-			asdf
+			품목전체목록
 		</div>
 		<div class="card-body">
 			<div class="card">
@@ -58,14 +58,14 @@
 							<select name="smallCategory" id="smallCategory">
 								<option value="">:: 소분류 ::</option>
 							</select>
-							<button type="button" class="btn btn-block btn-outline-info btn-xs" id="modifyCategory">
+							<button type="button" class="btn btn-outline-info btn-xs" id="modifyCategory">
 								카테고리 편집
 							</button>
 						</div>
 					</div>
 				</form>
 			</div>
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+			<table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -103,7 +103,9 @@
 						<td>[[${l.itemStatus}]]</td>
 						<td>[[${l.itemComment}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(itemList)}">
@@ -113,6 +115,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<button type="button" class="btn btn-info">등록</button>
 		</div>
 	</div>
 </div>

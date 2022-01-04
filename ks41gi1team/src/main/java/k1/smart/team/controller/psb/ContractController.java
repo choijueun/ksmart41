@@ -19,6 +19,7 @@ import k1.smart.team.service.psb.ContractService;
 
 
 @Controller
+@RequestMapping(value="/k1Contract")
 public class ContractController {
 
 	private ContractService contractService;
@@ -29,10 +30,10 @@ public class ContractController {
 		this.contractService = contractService;
 	}
 	
-	@GetMapping("/k1ContractReg")
-	public String k1addContract() {
-		return "contract/contract_register";
-	}
+	/*
+	 * @GetMapping("/k1ContractReg") public String k1addContract() { return
+	 * "contract/contract_register"; }
+	 */
 	
 	/*
 	 * @GetMapping("/k1ContractList") public String k1getAllContract() { return
@@ -44,7 +45,7 @@ public class ContractController {
 	}
 	
 	//계약서 코드 체크
-	@PostMapping("/contractCodeCheck")
+	@PostMapping("/k1ContractCodeCheck")
 	@ResponseBody
 	public boolean contractCodeCheck(@RequestParam(value="contractCode", required = false) String contractCode) {
 		
@@ -60,7 +61,7 @@ public class ContractController {
 	}
 	
 	//계약서 등록
-	@PostMapping("/addContract")
+	@PostMapping("/k1ContractReg")
 	public String addContract(Contract contract) {
 		
 		System.out.println("ContractController 회원등록 화면에서 입력받은 값:" + contract);
@@ -71,21 +72,27 @@ public class ContractController {
 			contractService.addContract(contract);
 		}
 		
-		return "redirect:/contract/contract_list";
+		return "contract/contract_register";
 		
 	}
-	@GetMapping("/addContract")
-	public String addContract(Model model) {
-		System.out.println("/addContract GET 방식 요청");
-		model.addAttribute("title", "계약등록");
-		//DB 계약코드 LIST
-		List<Client> clientList = contractService.getClientList();
-		model.addAttribute("clientList", clientList);
-		return "contract/addContract";
-	}
+	
+	  @GetMapping("/k1ContractReg") 
+	  public String addContract(Model model) {
+	  
+		  System.out.println("/addContract GET 방식 요청"); 
+		  model.addAttribute("title","계약등록");
+	
+		  //DB 계약코드 LIST List<Contract> contractList =
+		  List<Contract> contractList =  contractService.getContractList(); 
+		  model.addAttribute("contractList", contractList);
+	
+		  return "contract/contract_register"; 
+	  
+	  }
+	 
 	
 	//하나의 계약서 검색
-	@PostMapping("/contractList") 
+	@PostMapping("/k1ContractOne") 
 	public String getSearchContractList( @RequestParam(value="searchKey", required = false) String searchKey
 										,@RequestParam(value="searchValue", required = false)String searchValue
 										,Model model) {

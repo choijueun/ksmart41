@@ -10,6 +10,7 @@ public class CancelPayment {
 	private String regId;
 	private String regDate;
 	private String updateDate;
+	private String reason;
 	public String getPayCancelCode() {
 		return payCancelCode;
 	}
@@ -64,7 +65,12 @@ public class CancelPayment {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -86,6 +92,8 @@ public class CancelPayment {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", reason=");
+		builder.append(reason);
 		builder.append("]");
 		return builder.toString();
 	}

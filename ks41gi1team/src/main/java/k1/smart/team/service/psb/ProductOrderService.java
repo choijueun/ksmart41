@@ -17,6 +17,12 @@ public class ProductOrderService {
 		this.productOrderMapper = productOrderMapper;
 	}
 	
+	//하나의 수주 검색
+	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue) {
+		
+		return productOrderMapper.getProductOrderListBySearchKey(searchKey, searchValue);
+	}
+
 	//전체 수주 검색
 	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode){
 		productOrderList = productOrderMapper.getAllProductOrderList(mainBusinessCode);
@@ -28,4 +34,5 @@ public class ProductOrderService {
 		}
 		return productOrderList;
 	}
+
 }

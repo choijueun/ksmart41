@@ -23,18 +23,18 @@ public class CilentController {
 	};
 	
 	//거래처정보 전체목록
-	@GetMapping("/k1ClientList")
+	@GetMapping("/clientList")
 	public String getClientList(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시 지정
 		List<Client> clientList = clientService.getAllClientList(mainBusinessCode);
-		model.addAttribute("title", "거래처 목록");
+		model.addAttribute("SectionTitle", "거래처 조회");
 		model.addAttribute("clientList", clientList);
 		
 		return "clientBusiness/client_list";
 	};
 	
 	//거래처 전체목록에서 검색
-	@PostMapping("/k1ClientList")
+	@PostMapping("/clientList")
 	public String getSearchClientList(@RequestParam(value = "searchKey", required = false) String searchKey
 									,@RequestParam(value = "searchValue", required = false) String searchValue
 									,Model model) {
@@ -88,7 +88,7 @@ public class CilentController {
 	
 	
 	//거래처 등록
-	@GetMapping("/k1ClientRegister")
+	@GetMapping("/clientRegister")
 	public String clientRegister(Model model) {
 		
 		return "clientBusiness/client_register";

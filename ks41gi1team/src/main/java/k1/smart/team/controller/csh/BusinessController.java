@@ -20,14 +20,14 @@ public class BusinessController {
 	}
 	
 	//사업장정보 전체목록
-	@GetMapping("")
+	@GetMapping("/businessList")
 	public String getBusinessList(Model model) {
 		
 		return "mainBusiness/business_list";
 	}
 	
 	//사업장 등록
-	@GetMapping("k1BusinessRegister")
+	@GetMapping("/businessRegister")
 	public String businessRegister(Model model) {
 		
 		return "mainBusiness/business_register";
