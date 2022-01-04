@@ -42,10 +42,16 @@ public class AdjustmentController {
 	public String adjInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
+		
 		adjInfo = adjService.getAdjInfo(stockAdjCode);
+		if(adjInfo == null) return "redirect:/k1Adjustment";
+		
 		adjList = adjService.getAdjDetailInfo(stockAdjCode);
 		
-		model.addAttribute("title", "재고조정 상세내역");
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "재고조정 상세내역");
 		model.addAttribute("adjInfo", adjInfo);
 		model.addAttribute("adjDetail", adjList);
 		return "storing/adjustment/adjustment_info";
@@ -61,6 +67,9 @@ public class AdjustmentController {
 	public String modifyAdj(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
+		
 		model.addAttribute("title", "재고조정 상세내역");
 		model.addAttribute("stockAdjCode", stockAdjCode);
 		return "storing/adjustment/adjustment_modify";

@@ -44,22 +44,23 @@ public class WarehouseController {
 		return "stock/warehouse/warehouse_list";
 	}
 	
+	/**
+	 * 창고 상세정보 조회
+	 * @param warehouseCode
+	 * @param model
+	 * @return warehouse_info.html
+	 */
 	@GetMapping("/k1Warehouse/{warehouseCode}")
 	public String warehouseInfo(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
 			,Model model) {
-		if(warehouseCode == null || "".equals(warehouseCode)) {
-			System.out.println("창고코드 ERROR");
-			return "redirect:/k1Warehouse";
-		}
+		//매개변수 검사
+		if(warehouseCode == null || "".equals(warehouseCode)) return "redirect:/k1Warehouse";
 		
 		//창고 상세정보
 		warehouseInfo = warehouseService.getWarehouseInfoByCode(mainBusinessCode, warehouseCode);
 		
-		if(warehouseInfo == null) {
-			System.out.println("창고코드 ERROR");
-			return "redirect:/k1Warehouse";
-		}
+		if(warehouseInfo == null) return "redirect:/k1Warehouse";
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "창고정보");

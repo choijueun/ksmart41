@@ -50,7 +50,11 @@ public class DefectController {
 	public String defectInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Defect";
+		
 		defectInfo = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
+		if(defectInfo == null) return "redirect:/k1Defect";
 		defectList = defectService.getDefectDetailInfo(stockAdjCode);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
