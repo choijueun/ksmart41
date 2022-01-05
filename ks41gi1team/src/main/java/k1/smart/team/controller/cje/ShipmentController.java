@@ -1,15 +1,25 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.ShipmentService;
 
 @Controller
 public class ShipmentController {
 	private ShipmentService shipmentService;
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	private Storing shipmentInfo; //출하내역 하나
+	private List<Storing> shipmentList; //출하내역 배열
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	
 	public ShipmentController(ShipmentService shipmentService) {
 		this.shipmentService = shipmentService;
 	}
@@ -17,14 +27,33 @@ public class ShipmentController {
 	//출하내역 전체목록
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
+		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
+		
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("shipmentList", shipmentList);
+		
 		return "storing/shipment/shipment_list";
 	}
 	
 	//출하내역 상세정보
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Shipment/{stockAdjCode}")
 	public String shipmentInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		
+		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		if(resultMap == null) return "redirect:/k1Shipment";
+		
+		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
+		shipmentList = (List<Storing>) resultMap.get("shipmentDetails");
+		
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("shipmentInfo", shipmentInfo);
+		model.addAttribute("shipmentDetails", shipmentList);
+		
 		return "storing/shipment/shipment_info";
 	}
 	

@@ -32,8 +32,8 @@ public class ReturnController {
 	public String returnMain(Model model) {
 		returnList = returnService.getAllReturnList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "반품처리내역");
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품처리");
 		model.addAttribute("returnList", returnList);
 		
 		return "storing/return/return_list";
@@ -50,8 +50,8 @@ public class ReturnController {
 		returnInfo = (Storing) resultMap.get("returnInfo");
 		returnList = (List<Storing>) resultMap.get("returnDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "반품처리 상세내역");
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품처리");
 		model.addAttribute("returnInfo", returnInfo);
 		model.addAttribute("returnDetails", returnList);
 		return "storing/return/return_info";

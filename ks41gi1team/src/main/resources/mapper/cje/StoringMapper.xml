@@ -9,6 +9,8 @@
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
+		,a.clientCode
+		,c.businessName
 		,GROUP_CONCAT(ad.itemName) AS itemList
 		,a.totalPrice
 		,a.briefs
@@ -44,6 +46,10 @@
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode= c.clientCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
 			a.mainBusinessCode = #{mainBusinessCode}
@@ -59,6 +65,9 @@
 <select id="getStoringInfo" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.clientCode
+		,c.businessName
+		,RIGHT(a.contractCode,3) AS contractCode
 		,RIGHT(a.sendWarehouse,3) AS sendWarehouse
 		,w1.warehouseName AS sendWarehouseName
 		,w1.loaction AS sendWarehouseLocation
@@ -67,6 +76,8 @@
 		,w2.loaction AS receiveWarehouseLocation
 		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
+		,a.deliveryCost
+		,RIGHT(a.deliveryCode,3) AS deliveryCode
 		,a.briefs
 		,a.managerId
 		,u.userName AS managerName
@@ -77,6 +88,10 @@
 		,a.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
+		LEFT JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode = c.clientCode
 		JOIN
 		k1_tb_user AS u
 		ON
@@ -93,6 +108,46 @@
 		a.mainBusinessCode = #{mainBusinessCode}
 		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = ${stockReasonCode};
+</select>
+
+<!-- 5. 출하내역 상세(목록) -->
+<select id="getShipmentDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
+		,ad.stockStatus
+		,ad.defectType
+		,ad.defectHandlingType
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 5;
 </select>
 
 <!-- 6. 재고차이조정내역 상세(목록) -->
