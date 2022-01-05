@@ -8,25 +8,23 @@ public class Slip {
 	private String totalAccountCode; //통합 회계 관리코드
 	private String purchaseTsCode; //비용 거래명세서 코드
 	private String salesTsCode; //비용 거래명세서 코드
-	private int payCost;
-	private int saleCost;
+	private String clientCode; //거래처코드
+	private String businessName; //거래처상호
+	private int amount; //단가
+	private int tex;  //개당 세금
+	private int count;  //수량
+	private int amt;  //((단가+세금)*수량) = amt
 	private String briefs;
 	private String regId;
 	private String comment;
 	private String regDate;
 	private String updateDate;
 	
-	public int getSaleCost() {
-		return saleCost;
+	public String getBusinessName() {
+		return businessName;
 	}
-	public void setSaleCost(int saleCost) {
-		this.saleCost = saleCost;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
@@ -64,11 +62,35 @@ public class Slip {
 	public void setSalesTsCode(String salesTsCode) {
 		this.salesTsCode = salesTsCode;
 	}
-	public int getPayCost() {
-		return payCost;
+	public String getClientCode() {
+		return clientCode;
 	}
-	public void setPayCost(int payCost) {
-		this.payCost = payCost;
+	public void setClientCode(String clientCode) {
+		this.clientCode = clientCode;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public int getTex() {
+		return tex;
+	}
+	public void setTex(int tex) {
+		this.tex = tex;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public int getAmt() {
+		return amt;
+	}
+	public void setAmt(int amt) {
+		this.amt = amt;
 	}
 	public String getBriefs() {
 		return briefs;
@@ -81,6 +103,12 @@ public class Slip {
 	}
 	public void setRegId(String regId) {
 		this.regId = regId;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -110,10 +138,18 @@ public class Slip {
 		builder.append(purchaseTsCode);
 		builder.append(", salesTsCode=");
 		builder.append(salesTsCode);
-		builder.append(", payCost=");
-		builder.append(payCost);
-		builder.append(", saleCost=");
-		builder.append(saleCost);
+		builder.append(", clientCode=");
+		builder.append(clientCode);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", amount=");
+		builder.append(amount);
+		builder.append(", tex=");
+		builder.append(tex);
+		builder.append(", count=");
+		builder.append(count);
+		builder.append(", amt=");
+		builder.append(amt);
 		builder.append(", briefs=");
 		builder.append(briefs);
 		builder.append(", regId=");
@@ -127,6 +163,8 @@ public class Slip {
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 	
 	
 }
