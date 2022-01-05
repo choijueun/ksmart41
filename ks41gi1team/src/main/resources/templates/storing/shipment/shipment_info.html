@@ -29,35 +29,35 @@
 					<table id="shipmentInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
-							<td colspan="3">[[${shipmentInfo.stockAdjCode}]]</td>
+							<td colspan="2">[[${shipmentInfo.stockAdjCode}]]</td>
 							<th>상태</th>
-							<td th:if="${shipmentInfo.endDate != null}">
+							<td colspan="2" th:if="${shipmentInfo.endDate != null}">
 								완료
 							</td>
-							<td th:if="${shipmentInfo.endDate == null}">
+							<td colspan="2" th:if="${shipmentInfo.endDate == null}">
 							</td>
 						</tr>
 						<tr>
-							<th>보내는창고</th>
-							<td>[[${shipmentInfo.sendWarehouseName}]]</td>
+							<th>출하창고</th>
+							<td colspan="2">[[${shipmentInfo.sendWarehouseName}]]</td>
 							<th>창고위치</th>
-							<td colspan="3" th:if="${shipmentInfo.sendWarehouseOutPlace == null}">[[${shipmentInfo.sendWarehouseLocation}]]</td>
-							<td colspan="3" th:if="${shipmentInfo.sendWarehouseOutPlace != null}">[[${shipmentInfo.sendWarehouseLocation}]] ([[${shipmentInfo.sendWarehouseOutPlace}]])</td>
+							<td colspan="2" th:if="${shipmentInfo.sendWarehouseOutPlace == null}">[[${shipmentInfo.sendWarehouseLocation}]]</td>
+							<td colspan="2" th:if="${shipmentInfo.sendWarehouseOutPlace != null}">[[${shipmentInfo.sendWarehouseLocation}]] ([[${shipmentInfo.sendWarehouseOutPlace}]])</td>
 						</tr>
 						<tr>
 							<th>거래처</th>
-							<td colspan="3">
+							<td colspan="2">
 								<!-- 거래처정보LINK -->
 								[[${shipmentInfo.businessName}]]
 							</td>
 							<th>계약 No.</th>
-							<td>[[${shipmentInfo.contractCode}]]
+							<td colspan="2">[[${shipmentInfo.contractCode}]]
 						</tr>
 						<tr>
 							<th>합계금액</th>
-							<td colspan="3">[[${shipmentInfo.totalPrice}]] 원</td>
+							<td colspan="2">[[${shipmentInfo.totalPrice}]] 원</td>
 							<th>운송비</th>
-							<td>
+							<td colspan="2">
 								[[${shipmentInfo.deliveryCost}]] 원
 								<a th:href="@{|/k1Delivery/${shipmentInfo.deliveryCode}|}">
 									<button type="button" class="btn btn-outline-info btn-xs">요청</button>
