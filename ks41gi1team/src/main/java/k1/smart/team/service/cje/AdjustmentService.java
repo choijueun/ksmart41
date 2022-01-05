@@ -29,8 +29,7 @@ public class AdjustmentService {
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
-		
-		if(adjList == null) return null;
+		System.out.println(adjList);
 		
 		return adjList;
 	}

@@ -15,7 +15,7 @@ import k1.smart.team.service.cje.AdjustmentService;
 @Controller
 public class AdjustmentController {
 	private AdjustmentService adjService;
-	private String mainBusinessCode; //사업장대표코드
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드
 	private List<Storing> adjList; //재고조정내역 배열
 	private Storing adjInfo; //재고조정내역 상세정보
 	private Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -30,7 +30,6 @@ public class AdjustmentController {
 	
 	@GetMapping("/k1Adjustment")
 	public String adjustmentMain(Model model) {
-		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 		//재고조정내역 전체목록
 		adjList = adjService.getAllAdjList(mainBusinessCode);
 		

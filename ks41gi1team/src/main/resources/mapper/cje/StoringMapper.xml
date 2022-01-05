@@ -46,7 +46,7 @@
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
-		JOIN
+		LEFT JOIN
 		k1_tb_client AS c
 		ON
 		a.clientCode= c.clientCode
