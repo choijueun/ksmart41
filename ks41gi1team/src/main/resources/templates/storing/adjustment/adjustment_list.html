@@ -18,10 +18,10 @@
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
-			재고조정 내역 조회
+			재고차이조정 내역 조회
 		</div>
 		<div class="card-body">
-			<table id="stockAdjList" class="table table-bordered table-hover dataTable dtr-inline">
+			<table id="adjList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -40,17 +40,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${not #lists.isEmpty(stockAdjList)}" th:each="l : ${stockAdjList}">
+					<tr th:if="${not #lists.isEmpty(adjList)}" th:each="l : ${adjList}">
 						<td>
 							<input type="checkbox">
 						</td>
-						<td>[[${l.stockAdjCode}]]</td>
-						<td>[[${l.itemList}]]</td>
+						<td>
+							<a th:href="@{|/k1Adjustment/${l.stockAdjCode}|}">
+								[[${l.stockAdjCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Adjustment/${l.stockAdjCode}|}">
+								[[${l.itemList}]]
+							</a>
+						</td>
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.briefs}]]</td>
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
+						<!-- 회원정보 LINK -->
 						<td>[[${l.managerName}]]</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
@@ -59,13 +68,16 @@
 							</a>
 						</td>
 					</tr>
-					<tr th:if="${#lists.isEmpty(stockAdjList)}">
+					<tr th:if="${#lists.isEmpty(adjList)}">
 						<td colspan="10">
 							재고차이조정내역이 존재하지 않습니다.
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			<a th:href="@{/k1AdjustmentAdd}">
+				<button type="button" class="btn btn-info">등록</button>
+			</a>
 		</div>
 	</div>
 </div>

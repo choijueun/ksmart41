@@ -4,10 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
 
+<!-- 물류이동내역(목록) -->
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
+		,a.clientCode
+		,c.businessName
 		,GROUP_CONCAT(ad.itemName) AS itemList
 		,a.totalPrice
 		,a.briefs
@@ -43,6 +46,10 @@
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
+		LEFT JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode= c.clientCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
 			a.mainBusinessCode = #{mainBusinessCode}
@@ -54,30 +61,97 @@
 	GROUP BY a.stockAdjCode;
 </select>
 
-<select id="getAdjInfo" parameterType="String" resultType="Storing">
+<!-- 물류이동내역 한줄 -->
+<select id="getStoringInfo" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.clientCode
+		,c.businessName
+		,RIGHT(a.contractCode,3) AS contractCode
+		,RIGHT(a.sendWarehouse,3) AS sendWarehouse
+		,w1.warehouseName AS sendWarehouseName
+		,w1.loaction AS sendWarehouseLocation
+		,w1.outPlace AS sendWarehouseOutPlace
+		,w2.warehouseName AS receiveWarehouseName
+		,w2.loaction AS receiveWarehouseLocation
+		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
+		,a.deliveryCost
+		,RIGHT(a.deliveryCode,3) AS deliveryCode
 		,a.briefs
+		,a.managerId
+		,u.userName AS managerName
 		,a.requestDate
 		,a.adjDate
 		,a.endDate
-		,a.managerId
-		,u.userName AS managerName
 		,a.regDate
 		,a.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
+		LEFT JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode = c.clientCode
 		JOIN
 		k1_tb_user AS u
 		ON
 		a.managerId = u.userId
+		LEFT JOIN
+		k1_tb_warehouse_info AS w1
+		ON
+		a.sendWarehouse = w1.warehouseCode
+		LEFT JOIN
+		k1_tb_warehouse_info AS w2
+		ON
+		a.receiveWarehouse = w2.warehouseCode
 	WHERE
-		a.stockAdjCode = #{stockAdjCode} 
-		AND a.stockReasonCode = 6;
+		a.mainBusinessCode = #{mainBusinessCode}
+		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
+		AND a.stockReasonCode = ${stockReasonCode};
 </select>
 
-<select id="getAdjDetailInfo" parameterType="String" resultType="Storing">
+<!-- 5. 출하내역 상세(목록) -->
+<select id="getShipmentDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
+		,ad.stockStatus
+		,ad.defectType
+		,ad.defectHandlingType
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 5;
+</select>
+
+<!-- 6. 재고차이조정내역 상세(목록) -->
+<select id="getAdjDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
@@ -112,8 +186,90 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 	WHERE
-		a.stockAdjCode = #{stockAdjCode}
+		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 6;
 </select>
+
+<!-- 7. 반품처리내역 상세(목록) -->
+<select id="getReturnDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,RIGHT(ad.purchaseTsCode,3 ) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
+		,ad.stockStatus
+		,ad.defectType
+		,ad.defectHandlingType
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 7;
+</select>
+
+<!-- 8. 불량처리내역 상세(목록) -->
+<select id="getDefectDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		<!-- ,RIGHT(i.itemCode,3) AS itemCode -->
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.defectType
+		,ad.defectHandlingType
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
+		AND a.stockReasonCode = 8;
+</select>
+
 
 </mapper>

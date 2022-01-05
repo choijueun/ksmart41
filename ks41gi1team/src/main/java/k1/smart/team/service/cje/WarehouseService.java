@@ -29,9 +29,9 @@ public class WarehouseService {
 	public List<Warehouse> getAllWarehouseList(String mainBusinessCode){
 		//전체목록
 		warehouseList = warehouseMapper.getWarehouseList(mainBusinessCode);
-		if(warehouseList == null) {
-			System.out.println("창고정보 조회결과 없음");
-		}
+		
+		if(warehouseList == null) return null;
+		
 		//System.out.println("WarehouseService :: "+warehouseList);
 		return warehouseList;
 	}

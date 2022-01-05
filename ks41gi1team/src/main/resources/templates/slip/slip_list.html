@@ -46,9 +46,13 @@
 					<tbody>
 						<tr th:if="${not #lists.isEmpty(p_slipList)}" th:each="l : ${p_slipList}">
 							<td><input type="checkbox"></td>
-							<td>[[${l.purchaseSlipCode}]]</td>
+							<td>
+								<a th:href="@{|/k1SlipList/${l.purchaseSlipCode}|}">
+									[[${l.purchaseSlipCode}]]
+								</a>
+							</td>
 							<td>비용</td>
-							<td>[[${l.payCost}]]</td>
+							<td>[[${l.payCost}]]원</td>
 							<td>[[${l.briefs}]]</td>
 							<td>[[${l.comment}]]</td>
 							<td>[[${l.regId}]]</td>
@@ -83,9 +87,13 @@
 						<tbody>
 							<tr th:if="${not #lists.isEmpty(s_slipList)}" th:each="s : ${s_slipList}">
 								<td><input type="checkbox"></td>
-								<td>[[${s.salesSlipCode}]]</td>
+								<td>
+									<a th:href="@{|/k1SlipList/${s.salesSlipCode}|}">
+										[[${s.salesSlipCode}]]
+									</a>
+								</td>
 								<td>매출</td>
-								<td>[[${s.saleCost}]]</td>
+								<td>[[${s.saleCost}]]원</td>
 								<td>[[${s.briefs}]]</td>
 								<td>[[${s.comment}]]</td>
 								<td>[[${s.regId}]]</td>

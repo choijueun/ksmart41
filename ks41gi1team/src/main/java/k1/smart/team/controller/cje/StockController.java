@@ -52,18 +52,12 @@ public class StockController {
 	public String stockInfo(
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
 			,Model model) {
-		if(inventoryCode == null || "".equals(inventoryCode)) {
-			System.out.println("재고코드 ERROR");
-			return "redirect:/k1Stock";
-		}
+		//재고코드 검사
+		if(inventoryCode == null || "".equals(inventoryCode)) return "redirect:/k1Stock";
 		
 		//재고 상세정보
 		stockInfo = stockService.getStockInfoByCode(inventoryCode);
-		//System.out.println("StockController :: "+ stockInfo);
-		if(stockInfo == null) {
-			System.out.println("재고코드 ERROR");
-			return "redirect:/k1Stock";
-		}
+		if(stockInfo == null) return "redirect:/k1Stock";
 		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "재고정보");
