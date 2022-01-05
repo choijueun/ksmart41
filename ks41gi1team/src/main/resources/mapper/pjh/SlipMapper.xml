@@ -34,4 +34,36 @@
 		WHERE
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
+	<select id="getPurchaseSlipInfo" parameterType="String" resultType="Slip">
+		SELECT 
+			purchaseSlipCode
+			,mainBusinessCode
+			,totalAccountCode
+			,purchaseTsCode
+			,payCost
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		FROM
+			k1_tb_purchase_slip
+		WHERE 
+			purchaseSlipCode = #{purchaseSlipCode};
+	</select>
+	<select id="getSalesSlipInfo" parameterType="String" resultType="Slip">
+		SELECT 
+			salesSlipCode
+			,mainBusinessCode
+			,salesTsCode
+			,totalAccountCode
+			,saleCost
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		FROM
+			k1_tb_sales_slip
+		WHERE
+			salesSlipCode = #{salesSlipCode};
+	</select>
 </mapper>
