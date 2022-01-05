@@ -6,7 +6,7 @@ public class TotalAc {
 	private String slipGroup;
 	private String salesSlipCode;
 	private String purchaseSlipCode;
-	private String etc_purchaseCode;
+	private String etcPurchaseCode;
 	private String salesSection;
 	private String relateTable;
 	private int totalPrice;
@@ -41,11 +41,11 @@ public class TotalAc {
 	public void setPurchaseSlipCode(String purchaseSlipCode) {
 		this.purchaseSlipCode = purchaseSlipCode;
 	}
-	public String getEtc_purchaseCode() {
-		return etc_purchaseCode;
+	public String getEtcPurchaseCode() {
+		return etcPurchaseCode;
 	}
-	public void setEtc_purchaseCode(String etc_purchaseCode) {
-		this.etc_purchaseCode = etc_purchaseCode;
+	public void setEtcPurchaseCode(String etcPurchaseCode) {
+		this.etcPurchaseCode = etcPurchaseCode;
 	}
 	public String getSalesSection() {
 		return salesSection;
@@ -78,8 +78,8 @@ public class TotalAc {
 		builder.append(salesSlipCode);
 		builder.append(", purchaseSlipCode=");
 		builder.append(purchaseSlipCode);
-		builder.append(", etc_purchaseCode=");
-		builder.append(etc_purchaseCode);
+		builder.append(", etcPurchaseCode=");
+		builder.append(etcPurchaseCode);
 		builder.append(", salesSection=");
 		builder.append(salesSection);
 		builder.append(", relateTable=");

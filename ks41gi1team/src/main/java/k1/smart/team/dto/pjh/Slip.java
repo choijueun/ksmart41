@@ -7,7 +7,7 @@ public class Slip {
 	private String mainBusinessCode; //삭제할지말지?
 	private String totalAccountCode; //통합 회계 관리코드
 	private String purchaseTsCode; //비용 거래명세서 코드
-	private String salesTsCode; //비용 거래명세서 코드
+	private String salesTsCode; //매출 거래명세서 코드
 	private String clientCode; //거래처코드
 	private String businessName; //거래처상호
 	private int amount; //단가
@@ -16,16 +16,11 @@ public class Slip {
 	private int amt;  //((단가+세금)*수량) = amt
 	private String briefs;
 	private String regId;
+	private String userName; //담당자이름
 	private String comment;
 	private String regDate;
 	private String updateDate;
 	
-	public String getBusinessName() {
-		return businessName;
-	}
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
 	}
@@ -68,6 +63,12 @@ public class Slip {
 	public void setClientCode(String clientCode) {
 		this.clientCode = clientCode;
 	}
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 	public int getAmount() {
 		return amount;
 	}
@@ -103,6 +104,12 @@ public class Slip {
 	}
 	public void setRegId(String regId) {
 		this.regId = regId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getComment() {
 		return comment;
@@ -154,6 +161,8 @@ public class Slip {
 		builder.append(briefs);
 		builder.append(", regId=");
 		builder.append(regId);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append(", comment=");
 		builder.append(comment);
 		builder.append(", regDate=");
@@ -163,8 +172,6 @@ public class Slip {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 	
 	
 }

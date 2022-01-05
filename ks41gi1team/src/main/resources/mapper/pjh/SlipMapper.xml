@@ -46,6 +46,7 @@
 			,p.amount
 			,p.tex
 			,p.count
+			,p.purchaseTsCode
 			,((p.amount + p.tex) * p.COUNT) AS amt
 			,c.businessName
 			,p.briefs
@@ -71,6 +72,7 @@
 			s.salesSlipCode
 			,s.amount
 			,s.tex
+			,s.salesTsCode
 			,s.count
 			,((s.amount + s.tex) * s.COUNT) AS amt
 			,c.businessName

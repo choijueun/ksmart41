@@ -14,7 +14,65 @@
 <th:block layout:fragment="SectionLocation">전표 상세보기</th:block>
 
 <th:block layout:fragment="customContents">
-	asdkjwgh
+	<div class="container-fluid">
+		<div class="row" th:unless="${ purchaseSlipInfo == null }">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					비용전표[[${purchaseSlipInfo.purchaseSlipCode}]]
+				</div>
+				<div class="card-body">
+					<table id="purchaseSlipInfo" class="table table-bordered">
+						<tr>
+							<th>전표일자</th>
+							<td colspan="3">[[${purchaseSlipInfo.purchaseSlipCode}]]</td>
+						</tr>
+						<tr>
+							<th>명세서코드</th>
+							<td colspan="3">[[${purchaseSlipInfo.purchaseTsCode}]]</td>
+						</tr>
+						<tr>
+							<th>거래처명</th>
+							<td colspan="3">[[${purchaseSlipInfo.businessName}]]</td>
+						</tr>
+						<tr>
+							<th>구분</th>
+							<td>비용</td>
+							<th>수량</th>
+							<td>[[${purchaseSlipInfo.count}]]</td>
+						</tr>
+						<tr>
+							<th>공급가액</th>
+							<td>[[${purchaseSlipInfo.amount}]]</td>
+							<th>부가세</th>
+							<td>[[${purchaseSlipInfo.tex}]]</td>
+						</tr>
+						<tr>
+							<th>합계금액</th>
+							<td colspan="3">[[${purchaseSlipInfo.amt}]]원</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td colspan="3">[[${purchaseSlipInfo.briefs}]]</td>
+						</tr>
+						<tr>
+							<th>담당자</th>
+							<td colspan="3">[[${purchaseSlipInfo.userName}]]</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td>[[${purchaseSlipInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td>[[${purchaseSlipInfo.updateDate}]]</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-info">수정</button>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ purchaseSlipInfo == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>
