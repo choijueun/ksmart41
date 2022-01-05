@@ -37,7 +37,7 @@ public class DefectController {
 		defectList = defectService.getAllDefectList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "불량처리내역");
+		model.addAttribute("SectionLocation", "불량처리");
 		model.addAttribute("defectList", defectList);
 		
 		return "storing/defect/defect_list";
@@ -62,7 +62,7 @@ public class DefectController {
 		defectList = (List<Storing>) resultMap.get("defectDetail");
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "불량처리 상세내역");
+		model.addAttribute("SectionLocation", "불량처리");
 		model.addAttribute("defectInfo", defectInfo);
 		model.addAttribute("defectDetail", defectList);
 		return "storing/defect/defect_info";
@@ -70,7 +70,6 @@ public class DefectController {
 	
 	@GetMapping("/k1DefectAdd")
 	public String addDefect(Model model) {
-		model.addAttribute("title", "불량처리내역추가");
 		return "storing/defect/defect_add";
 	}
 	
@@ -79,7 +78,6 @@ public class DefectController {
 	public String modifyDefect(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		model.addAttribute("title", "불량처리 수정");
 		return "storing/defect/defect_modify";
 	}
 

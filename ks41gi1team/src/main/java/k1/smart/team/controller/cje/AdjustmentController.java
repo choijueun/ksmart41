@@ -34,8 +34,8 @@ public class AdjustmentController {
 		//재고조정내역 전체목록
 		adjList = adjService.getAllAdjList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "재고조정내역");
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "재고차이조정");
 		model.addAttribute("adjList", adjList);
 		
 		return "storing/adjustment/adjustment_list";
@@ -56,8 +56,8 @@ public class AdjustmentController {
 		
 		adjList = (List<Storing>) resultMap.get("adjDetailList");
 		
-		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "재고조정 상세내역");
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "재고차이조정");
 		model.addAttribute("adjInfo", adjInfo); //한줄
 		model.addAttribute("adjDetail", adjList); //상세(배열)
 		
@@ -77,7 +77,8 @@ public class AdjustmentController {
 		//매개변수 검사
 		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
 		
-		model.addAttribute("title", "재고조정 상세내역");
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "재고차이조정");
 		model.addAttribute("stockAdjCode", stockAdjCode);
 		return "storing/adjustment/adjustment_modify";
 	}
