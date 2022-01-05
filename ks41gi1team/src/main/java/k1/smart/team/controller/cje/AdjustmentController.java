@@ -1,6 +1,8 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ public class AdjustmentController {
 	private String mainBusinessCode; //사업장대표코드
 	private List<Storing> adjList; //재고조정내역 배열
 	private Storing adjInfo; //재고조정내역 상세정보
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	/**
 	 * 생성자 메서드
@@ -38,6 +41,7 @@ public class AdjustmentController {
 		return "storing/adjustment/adjustment_list";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Adjustment/{stockAdjCode}")
 	public String adjInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
@@ -45,15 +49,18 @@ public class AdjustmentController {
 		//매개변수 검사
 		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
 		
-		adjInfo = adjService.getAdjInfo(stockAdjCode);
+		resultMap.clear();
+		resultMap = adjService.getAdjInfo(mainBusinessCode, stockAdjCode);
+		adjInfo = (Storing) resultMap.get("adjInfo");
 		if(adjInfo == null) return "redirect:/k1Adjustment";
 		
-		adjList = adjService.getAdjDetailInfo(stockAdjCode);
+		adjList = (List<Storing>) resultMap.get("adjDetailList");
 		
 		model.addAttribute("SectionTitle", "물류관리");
 		model.addAttribute("SectionLocation", "재고조정 상세내역");
-		model.addAttribute("adjInfo", adjInfo);
-		model.addAttribute("adjDetail", adjList);
+		model.addAttribute("adjInfo", adjInfo); //한줄
+		model.addAttribute("adjDetail", adjList); //상세(배열)
+		
 		return "storing/adjustment/adjustment_info";
 	}
 	
