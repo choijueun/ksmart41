@@ -54,7 +54,7 @@ public class Storing {
 	
 	private String briefs; //적요
 	private String stockStatus; //상태
-	private String comment; //비고\
+	private String comment; //비고
 	
 	private String defectType; //불량유형
 	private String defectHandlingType; //불량처리유형
@@ -65,42 +65,6 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
-	public String getDefectType() {
-		return defectType;
-	}
-	public void setDefectType(String defectType) {
-		this.defectType = defectType;
-	}
-	public String getDefectHandlingType() {
-		return defectHandlingType;
-	}
-	public void setDefectHandlingType(String defectHandlingType) {
-		this.defectHandlingType = defectHandlingType;
-	}
-	public String getSendWarehouseLocation() {
-		return sendWarehouseLocation;
-	}
-	public void setSendWarehouseLocation(String sendWarehouseLocation) {
-		this.sendWarehouseLocation = sendWarehouseLocation;
-	}
-	public String getSendWarehouseOutPlace() {
-		return sendWarehouseOutPlace;
-	}
-	public void setSendWarehouseOutPlace(String sendWarehouseOutPlace) {
-		this.sendWarehouseOutPlace = sendWarehouseOutPlace;
-	}
-	public String getReceiveWarehouseLocation() {
-		return receiveWarehouseLocation;
-	}
-	public void setReceiveWarehouseLocation(String receiveWarehouseLocation) {
-		this.receiveWarehouseLocation = receiveWarehouseLocation;
-	}
-	public String getReceiveWarehouseOutPlace() {
-		return receiveWarehouseOutPlace;
-	}
-	public void setReceiveWarehouseOutPlace(String receiveWarehouseOutPlace) {
-		this.receiveWarehouseOutPlace = receiveWarehouseOutPlace;
-	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}
@@ -221,6 +185,18 @@ public class Storing {
 	public void setSendWarehouseName(String sendWarehouseName) {
 		this.sendWarehouseName = sendWarehouseName;
 	}
+	public String getSendWarehouseLocation() {
+		return sendWarehouseLocation;
+	}
+	public void setSendWarehouseLocation(String sendWarehouseLocation) {
+		this.sendWarehouseLocation = sendWarehouseLocation;
+	}
+	public String getSendWarehouseOutPlace() {
+		return sendWarehouseOutPlace;
+	}
+	public void setSendWarehouseOutPlace(String sendWarehouseOutPlace) {
+		this.sendWarehouseOutPlace = sendWarehouseOutPlace;
+	}
 	public String getReceiveWarehouse() {
 		return receiveWarehouse;
 	}
@@ -232,6 +208,18 @@ public class Storing {
 	}
 	public void setReceiveWarehouseName(String receiveWarehouseName) {
 		this.receiveWarehouseName = receiveWarehouseName;
+	}
+	public String getReceiveWarehouseLocation() {
+		return receiveWarehouseLocation;
+	}
+	public void setReceiveWarehouseLocation(String receiveWarehouseLocation) {
+		this.receiveWarehouseLocation = receiveWarehouseLocation;
+	}
+	public String getReceiveWarehouseOutPlace() {
+		return receiveWarehouseOutPlace;
+	}
+	public void setReceiveWarehouseOutPlace(String receiveWarehouseOutPlace) {
+		this.receiveWarehouseOutPlace = receiveWarehouseOutPlace;
 	}
 	public String getPurchaseTsCode() {
 		return purchaseTsCode;
@@ -328,6 +316,18 @@ public class Storing {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	public String getDefectType() {
+		return defectType;
+	}
+	public void setDefectType(String defectType) {
+		this.defectType = defectType;
+	}
+	public String getDefectHandlingType() {
+		return defectHandlingType;
+	}
+	public void setDefectHandlingType(String defectHandlingType) {
+		this.defectHandlingType = defectHandlingType;
 	}
 	public String getManagerId() {
 		return managerId;

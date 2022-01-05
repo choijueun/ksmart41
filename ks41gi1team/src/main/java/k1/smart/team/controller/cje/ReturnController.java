@@ -1,6 +1,8 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ public class ReturnController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> returnList; //반품처리내역 배열
 	private Storing returnInfo; //반품처리내역 하나
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	/**
 	 * 생성자 메서드
 	 * @param returnService
@@ -37,10 +40,20 @@ public class ReturnController {
 	}
 	
 	//반품내역 상세정보
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Return/{stockAdjCode}")
 	public String returnInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		resultMap = returnService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		
+		returnInfo = (Storing) resultMap.get("returnInfo");
+		returnList = (List<Storing>) resultMap.get("returnDetails");
+		
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "반품처리 상세내역");
+		model.addAttribute("returnInfo", returnInfo);
+		model.addAttribute("returnDetails", returnList);
 		return "storing/return/return_info";
 	}
 	

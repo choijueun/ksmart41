@@ -26,7 +26,7 @@
 					불량처리내역 
 				</div>
 				<div class="card-body" th:if="${ defectInfo != null }">
-					<table id="stockAdjInfo" class="table table-bordered">
+					<table id="defectInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
 							<td colspan="5">[[${defectInfo.stockAdjCode}]]</td>
@@ -76,7 +76,7 @@
 					불량처리 상세내역
 				</div>
 				<div class="card-body">
-					<table id="defectDetailInfo" class="table table-bordered">
+					<table id="defectDetail" class="table table-bordered">
 						<thead>
 							<tr>
 								<th>품목명</th>
@@ -91,7 +91,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${ defectInfo != null and defectDetailInfo != null }" th:each=" l : ${defectDetailInfo}">
+							<tr th:if="${ defectInfo != null and defectDetail != null }" th:each=" l : ${defectDetail}">
 								<td>
 									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 										[[${l.itemName}]]
@@ -99,14 +99,14 @@
 								</td>
 								<td>[[${l.adjCount}]]</td>
 								<td>[[${l.afterCount}]]</td>
-								<td>[[${l.adjWeight}]]</td>
+								<td>[[${l.adjWeight}]] kg</td>
 								<td>[[${l.stockWeight}]] kg</td>
-								<td>[[${l.stockStatus}]] kg</td>
+								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.defectType}]]</td>
 								<td>[[${l.defectHandlingType}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
-							<tr th:if="${ defectInfo == null or defectDetailInfo == null }">
+							<tr th:if="${ defectInfo == null or defectDetail == null }">
 								<td>상세내역이 존재하지 않습니다.</td>
 							</tr>
 						</tbody>

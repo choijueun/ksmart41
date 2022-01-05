@@ -1,6 +1,8 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ public class DefectController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> defectList; //불량처리내역 배열
 	private Storing defectInfo; //불량처리내역 정보
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	/**
 	 * 생성자 메서드
 	 * @param defectService
@@ -46,6 +49,7 @@ public class DefectController {
 	 * @param model
 	 * @return defect_info
 	 */
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Defect/{stockAdjCode}")
 	public String defectInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
@@ -53,14 +57,14 @@ public class DefectController {
 		//매개변수 검사
 		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Defect";
 		
-		defectInfo = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
-		if(defectInfo == null) return "redirect:/k1Defect";
-		defectList = defectService.getDefectDetailInfo(stockAdjCode);
+		resultMap = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
+		defectInfo = (Storing) resultMap.get("defectInfo");
+		defectList = (List<Storing>) resultMap.get("defectDetail");
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "불량처리 상세내역");
 		model.addAttribute("defectInfo", defectInfo);
-		model.addAttribute("defectDetailInfo", defectList);
+		model.addAttribute("defectDetail", defectList);
 		return "storing/defect/defect_info";
 	}
 	

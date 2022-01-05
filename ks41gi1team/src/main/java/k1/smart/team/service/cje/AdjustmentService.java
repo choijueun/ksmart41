@@ -1,6 +1,8 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public class AdjustmentService {
 	private StoringMapper storingMapper;;
 	private List<Storing> adjList; //재고조정내역 배열
 	private Storing adjInfo; //재고조정내역 상세정보
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	/**
 	 * 생성자 메서드
 	 * @param adjMapper
@@ -33,21 +36,20 @@ public class AdjustmentService {
 	}
 	
 	/**
-	 * 재고조정내역 한줄정보
+	 * 재고조정내역 상세조회
 	 * @param stockAdjCode
 	 * @return
 	 */
-	public Storing getAdjInfo(String stockAdjCode) {
-		adjInfo = storingMapper.getAdjInfo(stockAdjCode);
-		return adjInfo;
-	}
-	/**
-	 * 재고조정내역 상세정보 배열
-	 * @param stockAdjCode
-	 * @return
-	 */
-	public List<Storing> getAdjDetailInfo(String stockAdjCode) {
-		adjList = storingMapper.getAdjDetailInfo(stockAdjCode);
-		return adjList;
+	public Map<String, Object> getAdjInfo(String mainBusinessCode, String stockAdjCode) {
+		//한줄정보
+		adjInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "6");
+		//상세정보(배열)
+		adjList = storingMapper.getAdjDetails(stockAdjCode);
+		
+		resultMap.clear();
+		resultMap.put("adjInfo", adjInfo);
+		resultMap.put("adjDetailList", adjList);
+		
+		return resultMap;
 	}
 }
