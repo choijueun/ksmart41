@@ -20,7 +20,7 @@
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					품목[[${itemInfo.itemCode}]]
+					품목정보
 				</div>
 				<div class="card-body">
 					<table id="itemInfo" class="table table-bordered">
@@ -46,19 +46,19 @@
 							</td>
 						</tr>
 						<tr>
-							<th>수량</th>
+							<th>총수량</th>
 							<td>[[${itemInfo.itemCount}]]</td>
 							<th>규격</th>
 							<td>[[${itemInfo.itemStandard}]]</td>
 						</tr>
 						<tr>
-							<th>단가  <button type="button" class="btn btn-outline-info btn-xs">상세</button></th>
-							<td>[[${itemInfo.productPrice}]] 원</td>
+							<th>평균단가
+							<td>[[${itemInfo.avgPrice}]] 원</td>
 							<th>합계금액</th>
 							<td>[[${itemInfo.totalPrice}]] 원</td>
 						</tr>
 						<tr>
-							<th>중량</th>
+							<th>총중량</th>
 							<td>[[${itemInfo.stockWeight}]] kg</td>
 							<th>원산지</th>
 							<td>[[${itemInfo.itemOrigin}]]</td>
@@ -89,20 +89,36 @@
 							<tr>
 								<th>재고번호</th>
 								<th>창고</th>
+								<th>위치</th>
+								<th>중량</th>
 								<th>수량</th>
 								<th>단가</th>
 								<th>합계금액</th>
-								<th>중량</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
+								<td>
+									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+										[[${l.inventoryCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
+										[[${l.warehouseName}]]
+									</a>
+								</td>
+								<td th:if="${l.outPlace} == null">[[${l.loaction}]]</td>
+								<td th:if="${l.outPlace} != null">[[${l.loaction}]] ([[${l.outPlace}]])</td>
+								<td>[[${l.stockWeight}]]</td>
+								<td>[[${l.itemCount}]]</td>
+								<td>[[${l.productPrice}]]</td>
+								<td>[[${l.totalPrice}]]</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(stockList)}">
+								<td colspan="7">
+									재고 현황을 불러올 수 없습니다.
+								</td>
 							</tr>
 						</tbody>
 					</table>

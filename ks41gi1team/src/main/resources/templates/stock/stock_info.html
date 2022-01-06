@@ -14,12 +14,13 @@
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
+
 <div class="container-fluid">
 	<div class="row" th:unless="${ stockInfo == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					재고[[${stockInfo.inventoryCode}]]
+					재고정보
 				</div>
 				<div class="card-body">
 					<table id="stockInfo" class="table table-bordered">
@@ -58,7 +59,11 @@
 							</tr>
 							<tr>
 								<th>창고명</th>
-								<td>[[${stockInfo.warehouseName}]]</td>
+								<td>
+									<a th:href="@{|/k1Warehouse/${stockInfo.warehouseCode}|}">
+										[[${stockInfo.warehouseName}]]
+									</a>
+								</td>
 								<th>창고위치</th>
 								<td th:if="${stockInfo.outPlace == null}">[[${stockInfo.loaction}]]</td>
 								<td th:if="${stockInfo.outPlace != null}">[[${stockInfo.loaction}]] ([[${stockInfo.outPlace}]])</td>
@@ -82,7 +87,7 @@
 		<div class="col-lg-7">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					최근 조정 내역
+					최근 물류이동 내역
 				</div>
 				<div class="card-body">
 					<table id="storingList" class="table table-bordered">

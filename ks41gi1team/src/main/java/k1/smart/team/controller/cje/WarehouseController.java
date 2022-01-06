@@ -1,12 +1,14 @@
 package k1.smart.team.controller.cje;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
 import k1.smart.team.service.cje.WarehouseService;
 
@@ -16,6 +18,8 @@ public class WarehouseController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
 	private List<Warehouse> warehouseList; //창고 배열
 	private Warehouse warehouseInfo; //창고 하나
+	private List<Stock> itemList; //품목 배열
+	private Map<String, Object> resultMap;
 	
 	/**
 	 * 생성자 메서드
@@ -50,6 +54,7 @@ public class WarehouseController {
 	 * @param model
 	 * @return warehouse_info.html
 	 */
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Warehouse/{warehouseCode}")
 	public String warehouseInfo(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
@@ -58,13 +63,16 @@ public class WarehouseController {
 		if(warehouseCode == null || "".equals(warehouseCode)) return "redirect:/k1Warehouse";
 		
 		//창고 상세정보
-		warehouseInfo = warehouseService.getWarehouseInfoByCode(mainBusinessCode, warehouseCode);
+		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
+		if(resultMap == null) return "redirect:/k1Warehouse";
 		
-		if(warehouseInfo == null) return "redirect:/k1Warehouse";
+		warehouseInfo = (Warehouse) resultMap.get("warehouseInfo");
+		itemList = (List<Stock>) resultMap.get("itemList");
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "창고정보");
 		model.addAttribute("warehouseInfo", warehouseInfo);
+		model.addAttribute("itemList", itemList);
 		return "stock/warehouse/warehouse_info";
 	}
 	

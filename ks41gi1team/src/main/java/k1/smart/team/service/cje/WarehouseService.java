@@ -1,9 +1,12 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 
@@ -12,6 +15,8 @@ public class WarehouseService {
 	private WarehouseMapper warehouseMapper;
 	private List<Warehouse> warehouseList; //창고 배열
 	private Warehouse warehouseInfo; //창고 하나
+	private List<Stock> itemList; //품목 배열
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	/**
 	 * 생성자 메서드
@@ -40,11 +45,18 @@ public class WarehouseService {
 	 * @param warehouseCode
 	 * @return 창고 하나 정보
 	 */
-	public Warehouse getWarehouseInfoByCode(String mainBusinessCode, String warehouseCode) {
+	public Map<String, Object> getWarehouseInfo(String mainBusinessCode, String warehouseCode) {
 		//창고정보
 		warehouseInfo = warehouseMapper.getWarehouseInfo(mainBusinessCode, warehouseCode);
-		//System.out.println("WarehouseService :: "+warehouseInfo);
-		return warehouseInfo;
+		if(warehouseInfo == null) return null;
+		//물류이동정보
+		itemList = warehouseMapper.getWarehouseStock(warehouseCode);
+			
+		resultMap.clear();
+		resultMap.put("warehouseInfo", warehouseInfo);
+		resultMap.put("itemList", itemList);
+		
+		return resultMap;
 	}
 
 }

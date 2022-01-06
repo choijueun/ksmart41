@@ -66,7 +66,8 @@
 
 <select id="getStockInfo" parameterType="String" resultType="Stock">
 	SELECT
-		 RIGHT(s.itemCode,3) AS itemCode
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
 		,RIGHT(i.categoryCode,3) AS categoryCode

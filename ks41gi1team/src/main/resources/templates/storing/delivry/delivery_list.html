@@ -4,17 +4,87 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	운송요청내역 전체목록조회
+<!-- content -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					운송요청내역 전체보기
+				</div>
+				<div class="card-body">
+					<div class="card">
+						체크박스
+					</div>
+					<table id="deliveryList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="allCheck"></th>
+								<th>No.</th>
+								<th>거래처</th>
+								<th>운송업체</th>
+								<th>도착지</th>
+								<th>운송비</th>
+								<th>적요</th>
+								<th>담당자</th>
+								<th>수정일시</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(deliveryList)}" th:each="l : ${deliveryList}">
+								<td><input type="checkbox"></td>
+								<td>
+									<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
+										[[${l.deliveryCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+										[[${l.clientBusinessName}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+										[[${l.deliveryBusinessName}]]
+									</a>
+								</td>
+								<td>[[${l.receivePlace}]]</td>
+								<td>[[${l.deliveryCost}]]</td>
+								<td>[[${l.briefs}]]</td>
+								<td>
+									<a th:href="@{#}"> <!-- 회원정보 LINK -->
+										[[${l.managerName}]]
+									</a>
+								</td>
+								<td>[[${l.updateDate}]]</td>
+								<td>
+									<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">
+										<i class="fas fa-pen"></i>
+									</a>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(deliveryList)}">
+								<td colspan="10"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>
