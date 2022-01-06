@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.ContractService;
 
@@ -30,11 +31,12 @@ public class ContractController {
 	private ContractService contractService;
 	private String mainBusinessCode;
 	private ClientService clientService;
-
+	private MainBusinessService mainBusinessService;
 	
-	public ContractController(ContractService contractService, ClientService clientService) {
+	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService) {
 		this.contractService = contractService;
 		this.clientService = clientService;
+		this.mainBusinessService = mainBusinessService;
 	}
 	
 	
