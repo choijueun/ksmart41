@@ -45,7 +45,7 @@ public class StockService {
 	 * @return 재고 하나 정보
 	 */
 	public Map<String, Object> getStockInfo(String mainBusinessCode, String inventoryCode) {
-		
+		//재고정보
 		stockInfo = stockMapper.getStockInfo(mainBusinessCode, inventoryCode);
 		if(stockInfo == null) return null;
 		storingList = stockMapper.getStockStorings(inventoryCode);

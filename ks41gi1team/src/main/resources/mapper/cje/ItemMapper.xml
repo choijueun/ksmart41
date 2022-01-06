@@ -30,9 +30,9 @@
 		i.mainBusinessCode = #{mainBusinessCode};
 </select>
 
-<select id="getItemInfoByCode" parameterType="String" resultType="Stock">
+<select id="getItemInfo" parameterType="String" resultType="Stock">
 	SELECT
-		 i.itemCode
+		 RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
 		,i.categoryCode
@@ -40,8 +40,12 @@
 		,c.middleCategory
 		,c.smallCategory
 		,c.microCategory
-		,i.itemStandard
+		,s.itemCount
 		,i.itemOrigin
+		,AVG(p.productPrice) AS avgPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+		,i.itemStandard
 		,i.itemStatus
 		,i.itemComment
 		,i.regDate AS itemRegDate
@@ -52,19 +56,6 @@
 		k1_tb_item_category AS c
 		ON
 		i.categoryCode = c.categoryCode
-	WHERE
-		i.itemCode = #{itemCode};
-</select>
-
-<select id="getItemStockByCode" parameterType="String" resultType="Stock">
-	SELECT
-		 i.itemCode
-		,SUM(s.itemCount) AS itemCount
-		,p.productPrice
-		,SUM(s.totalPrice) AS totalPrice
-		,SUM(s.stockWeight) AS stockWeight
-	FROM
-		k1_tb_item_info AS i
 		LEFT JOIN
 		k1_tb_stock AS s
 		ON
@@ -74,7 +65,38 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		i.itemCode = #{itemCode};
+		i.itemCode = CONCAT('itemCode_',#{itemCode});
+</select>
+
+<select id="getItemStock" parameterType="String" resultType="Stock">
+	SELECT
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.itemCount
+		,p.productPrice
+		,s.totalPrice
+		,s.purchaseTsCode
+		,s.productPriceCode
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = CONCAT('itemCode_',#{itemCode});
 </select>
 
 </mapper>

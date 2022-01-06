@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
 
 @Mapper
@@ -21,4 +22,11 @@ public interface WarehouseMapper {
 	 * @return 창고 하나 정보
 	 */
 	public Warehouse getWarehouseInfo(String mainBusinessCode, String warehouseCode);
+	
+	/**
+	 * 특정 창고의 적재품 조회
+	 * @param warehouseCode
+	 * @return
+	 */
+	public List<Stock> getWarehouseStock(String warehouseCode);
 }
