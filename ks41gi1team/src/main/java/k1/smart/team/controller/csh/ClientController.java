@@ -14,11 +14,11 @@ import k1.smart.team.service.csh.ClientService;
 
 @Controller
 @RequestMapping(value="/k1Client")
-public class CilentController {
+public class ClientController {
 	private ClientService clientService;
 	private String mainBusinessCode;
 	
-	public CilentController(ClientService clientService) {
+	public ClientController(ClientService clientService) {
 		this.clientService = clientService;
 	};
 	
