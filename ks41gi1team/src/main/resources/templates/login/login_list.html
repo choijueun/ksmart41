@@ -6,20 +6,71 @@
 <th:block layout:fragment="customTitle">
 	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss">
-	<!-- DataTables -->
-	<link rel="stylesheet"
-		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet"
-		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-	<link rel="stylesheet"
-		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-</th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+			$(function(){
+				$(document).on('click', '.modifyBtn', function(){
+					var memberId = $(this).attr('data-memberId');
+					alert(memberId);
+				});
+				
+				$(document).on('click', '#dataTableBtn', function(){
+					var aLengthMenuArray = [];
+					aLengthMenuArray.push([5,10,15,20,25,-1]);
+					aLengthMenuArray.push([5,10,15,20,'이십오','ALL']);
+				
+					$('#dataTableAjax').DataTable( {
+						destroy: true,
+						pageLength: 5,
+						aLengthMenu: aLengthMenuArray,
+				        ajax: {
+				        		url: '/login_list',
+				        		type: 'POST',
+				        		dataSrc: function(data){
+				        					console.table(data);
+				        					return data;
+				        				 }
+				        },
+				        columns: [
+				            { "data": "loginNum" },
+				            { "data": "loginId" },
+				            { "data": "loginDate" },
+				            { "data": "logoutDate" },
+				            { "data": '수정' },
+				            { "data": '삭제' }
+				        ],
+				        columnDefs: [
+				        	{
+				        		'targets' : [4],
+				        		'orderable' : false,
+				        		'searchable' : false,
+				        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
+				        					var htmlbtn1 = '<button class="modifyBtn" data-memberId="'+ row.loginNum +'">수정</button>';
+				        					return htmlbtn1;
+				        				 }
+				        	},
+				        	{
+				        		'targets' : [5],
+				        		'orderable' : false,
+				        		'searchable' : false,
+				        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
+				        					var htmlbtn1 = '<button class="removeBtn" data-memberId="'+ row.loginId +'">삭제</button>';
+				        					return htmlbtn1;
+				        				 }
+				        	}
+				        ]
+				    } );
+				});
+			});
+		</script>
+
+</th:block>
 
 <th:block layout:fragment="customContents">
 <!-- content   -->

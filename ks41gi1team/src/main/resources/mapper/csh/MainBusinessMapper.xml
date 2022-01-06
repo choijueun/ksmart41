@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.csh.MainBusinessMapper">
+	<select id="getAllMainBusinessList" parameterType="String" resultType="MainBusiness">
+		SELECT 
+			 b.mainBusinessCode
+			,b.businessCategory
+			,b.businessLevel
+			,b.businessName
+			,b.businessRepresentative
+			,b.businessType1
+			,b.businessType2
+			,b.businessNum
+			,b.businessCount
+			,b.businessMobile
+			,b.businessPlace
+			,b.businessEmail
+			,b.openDate
+			,b.regDate
+			,b.updateDate
+		FROM 
+			k1_tb_main_business AS b
+		WHERE 
+			mainBusinessCode = #{mainBusinessCode};
+	</select>
+</mapper>
