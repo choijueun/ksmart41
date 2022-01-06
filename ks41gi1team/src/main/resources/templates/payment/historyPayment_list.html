@@ -36,7 +36,11 @@
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(historyPayment)}" th:each="l : ${historyPayment}">
-						<td>[[${l.payHistoryCode}]]</td>
+						<td>
+							<a th:href="@{|/k1PaymentList/history/${l.payHistoryCode}|}">
+								[[${l.payHistoryCode}]]
+							</a>
+						</td>
 						<td>[[${l.payCost}]]</td>
 						<td>[[${l.payType}]]</td>
 						<td>[[${l.payMethod}]]</td>
@@ -45,7 +49,9 @@
 						<td>[[${l.regId}]]</td>
 						<td>[[${l.regDate}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1PaymentList/modify/${l.payHistoryCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(historyPayment)}">

@@ -4,17 +4,64 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	결제취소내역 상세~!
+	<div class="container-fluid">
+	<div class="row" th:unless="${ cancelPaymentInfo == null }">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					결제취소[[${cancelPaymentInfo.payCancelCode}]]
+				</div>
+				<div class="card-body">
+					<table id="cancelPaymentInfo" class="table table-bordered">
+						<tr>
+							<th>취소코드</th>
+							<td colspan="3">[[${cancelPaymentInfo.payCancelCode}]]</td>
+						</tr>
+						<tr>
+							<th>결제코드</th>
+							<td colspan="3">[[${cancelPaymentInfo.payHistoryCode}]]</td>
+						<tr>
+							<th>결제취소금액</th>
+							<td colspan="3">[[${cancelPaymentInfo.cancelCost}]]원</td>
+						</tr>
+						<tr>
+							<th>요청일자</th>
+							<td>[[${cancelPaymentInfo.issueDate}]]</td>
+							<th>승인일자</th>
+							<td>[[${cancelPaymentInfo.approvalDate}]]</td>
+						</tr>
+						<tr>
+							<th>취소사유</th>
+							<td colspan="3">[[${cancelPaymentInfo.reason}]]</td>
+						</tr>
+						<tr>
+							<th>등록자</th>
+							<td colspan="3">[[${cancelPaymentInfo.userName}]]</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td>[[${cancelPaymentInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td>[[${cancelPaymentInfo.updateDate}]]</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-info">수정</button>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ cancelPaymentInfo == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>

@@ -13,15 +13,15 @@ public interface PaymentMapper {
 	//결제내역 전체조회
 	public List<HistoryPayment> getHistoryPaymentList(String mainBusinessCode);
 	//결제내역 상세조회
-	public List<HistoryPayment> getHistoryPaymentInfo(String mainBusinessCode);
+	public HistoryPayment getHistoryPaymentInfo(String mainBusinessCode);
 	
 	//결제취소내역 전체조회
 	public List<CancelPayment> getCancelPaymentList(String mainBusinessCode);
 	//결제취소내역 상세조회
-	public List<CancelPayment> getCancelPaymentInfo(String mainBusinessCode);
+	public CancelPayment getCancelPaymentInfo(String mainBusinessCode);
 	
 	//결제예정 전체조회
 	public List<PlanPayment> getPlanPaymentList(String mainBusinessCode);
 	//결제예정 상세조회
-	public List<PlanPayment> getPlanPaymentInfo(String mainBusinessCode);
+	public PlanPayment getPlanPaymentInfo(String mainBusinessCode);
 }
