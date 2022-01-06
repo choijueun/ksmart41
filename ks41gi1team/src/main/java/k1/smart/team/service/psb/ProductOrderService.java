@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.mapper.psb.ProductOrderMapper;
 
@@ -16,6 +17,20 @@ public class ProductOrderService {
 	public ProductOrderService(ProductOrderMapper productOrderMapper) {
 		this.productOrderMapper = productOrderMapper;
 	}
+	
+	//수주 등록
+		public int addProductOrder(ProductOrder productOrder) {
+			
+			int result = productOrderMapper.addProductOrder(productOrder);
+			
+			return result;
+		}
+		
+		public List<ProductOrder> getProductOrderList(){
+			List<ProductOrder> productOrderList = productOrderMapper.getProductOrderList();
+			
+			return productOrderList;
+		}
 	
 	//하나의 수주 검색
 	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue) {
@@ -34,5 +49,6 @@ public class ProductOrderService {
 		}
 		return productOrderList;
 	}
+
 
 }

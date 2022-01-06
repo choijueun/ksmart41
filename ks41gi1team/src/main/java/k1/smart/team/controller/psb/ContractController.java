@@ -3,7 +3,9 @@ package k1.smart.team.controller.psb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,20 +17,28 @@ import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.ContractService;
+
 
 
 @Controller
 @RequestMapping(value="/k1Contract")
+
 public class ContractController {
 
 	private ContractService contractService;
 	private String mainBusinessCode;
+	private ClientService clientService;
+
 	
-	
-	public ContractController(ContractService contractService) {
+	public ContractController(ContractService contractService, ClientService clientService) {
 		this.contractService = contractService;
+		this.clientService = clientService;
 	}
+	
+	
+	
 	
 	/*
 	 * @GetMapping("/k1ContractReg") public String k1addContract() { return
@@ -78,14 +88,26 @@ public class ContractController {
 	
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
-	  
+		  mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+		  
 		  System.out.println("/addContract GET 방식 요청"); 
 		  model.addAttribute("title","계약등록");
 	
+		  
 		  //DB 계약코드 LIST List<Contract> contractList =
 		  List<Contract> contractList =  contractService.getContractList(); 
 		  model.addAttribute("contractList", contractList);
-	
+		  System.out.println("contractList: " + contractList);
+		 
+		  
+		  List<Client> clientList = clientService.getAllClientList(mainBusinessCode);
+		  model.addAttribute("clientList", clientList);
+		  System.out.println("clientList: " + clientList);
+		  
+		  String contractInfo = contractService.getContractInfo();
+		  model.addAttribute("contractInfo", contractInfo);
+		  
+		  
 		  return "contract/contract_register"; 
 	  
 	  }
@@ -167,8 +189,30 @@ public class ContractController {
 		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
 		  
+
+		  
 		  return "contract/contract_list";
 	  }
+	  
+	  
+	  @GetMapping("/k1ContractHistory") 
+	  public String k1ContractHistory(Model model) {
+
+		  model.addAttribute("title", "계약목록");
+
+		  
+		  return "contract/contract_history";
+	  }
+	  
+	  @PostMapping("/k1ContractHistory")
+	  @ResponseBody
+	  public List<Map<String, Object>> contractMain(){
+		  
+		  List<Map<String, Object>> contractHistoryList = contractService.getContractHistory();
+		  
+		  return contractHistoryList;
+	  }
+	  
 	  /*
 		 * ModelAndView (화면에 보내질 데이터 + 화면경로)
 		 */
