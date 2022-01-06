@@ -85,19 +85,41 @@
 					최근 조정 내역
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered">
+					<table id="storingList" class="table table-bordered">
 						<thead>
 							<tr>
+								<th>No.</th>
 								<th>사유</th>
 								<th>적요</th>
-								<th>조정일자</th>
+								<th>합계금액</th>
+								<th>완료일자</th>
+								<th>담당자</th>
+								<th>수정일시</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr th:if="${not #lists.isEmpty(storingList)}" th:each="l : ${storingList}">
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}/${l.stockAdjCode}|}">
+										[[${l.stockAdjCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1${l.stockReasonEng}|}">
+										[[${l.stockReason}]]
+									</a>
+								</td>
+								<td>[[${l.briefs}]]</td>
+								<td>[[${l.totalPrice}]]</td>
+								<td>[[${l.endDate}]]</td>
+								<td>
+									<!-- 회원정보 LINK -->
+									[[${l.managerName}]]
+								</td>
+								<td>[[${l.updateDate}]]</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(storingList)}">
+								<td colspan="7">물류이동내역이 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>

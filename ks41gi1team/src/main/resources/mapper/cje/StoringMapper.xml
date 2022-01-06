@@ -9,6 +9,7 @@
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
+		,r.reason AS stockReason
 		,a.clientCode
 		,c.businessName
 		,GROUP_CONCAT(ad.itemName) AS itemList
@@ -23,6 +24,10 @@
 		,a.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_reason AS r
+		ON
+		a.stockReasonCode = r.stockReasonCode
 		JOIN
 		k1_tb_user AS u
 		ON
