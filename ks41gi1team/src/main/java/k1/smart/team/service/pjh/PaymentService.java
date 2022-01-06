@@ -43,7 +43,7 @@ public class PaymentService {
 	
 	public PlanPayment getPlanPaymentInfo(String payPlanCode) {
 		planPaymentInfo = paymentMapper.getPlanPaymentInfo(payPlanCode);
-		if(cancelPaymentInfo == null) {
+		if(planPaymentInfo == null) {
 			System.out.println("결제예정정보 조회결과 없음");
 			return null;
 		}

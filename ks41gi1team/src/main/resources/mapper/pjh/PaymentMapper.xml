@@ -107,7 +107,7 @@
 			,p.mainBusinessCode
 			,p.clientCode
 			,p.totalAccountCode
-			,p.contractCode
+			,RIGHT(p.contractCode,3) AS contractCode
 			,p.`type`
 			,p.totalPlanCost
 			,p.briefs
@@ -119,7 +119,7 @@
 			,RIGHT(pd.payPlanCode,3) AS payPlanCode
 			,pd.purchaseTsCode
 			,pd.salesTsCode
-			,pd.itemCode
+			,RIGHT(pd.itemCode,3) AS itemCode
 			,pd.madeCompany
 			,pd.materialCost
 			,pd.tax
@@ -130,6 +130,7 @@
 			,pd.isEnd
 			,pd.endDate
 			,pd.`comment`
+			,i.itemName
 		FROM
 			k1_tb_pay_plan_detail AS pd
 		JOIN
@@ -148,8 +149,11 @@
 			k1_tb_client AS c
 		ON
 			c.clientCode = p.clientCode
+		join
+			k1_tb_item_info AS i
+		on
+			i.itemCode = pd.itemCode
 		WHERE
 			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
-		
 	</select>
 </mapper>
