@@ -38,7 +38,6 @@
 			        			} 
 			        },
 			        columns: [
-			            { "data": "contractNum" },
 			            { "data": "contractCode" },
 			            { "data": "mainBusinessCode" },
 			            { "data": "clientCode" },
@@ -58,7 +57,7 @@
 			        	],
 			        	columnDefs:[
 			        		{
-			        			'targets' : [18],
+			        			'targets' : [14],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -67,7 +66,7 @@
 			        					}
 			        		},
 			        		{
-			        			'targets' : [19],
+			        			'targets' : [15],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
@@ -87,7 +86,6 @@
 			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
 				<thead>
 					<tr>
-						<th>NUM</th>
 						<th>계약코드</th>
 						<th>사업장별 대표코드</th>
 						<th>거래처 대표코드</th>

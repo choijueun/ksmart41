@@ -38,27 +38,26 @@
 			        			} 
 			        },
 			        columns: [
-			            { "data": "salesTransactionNum" },
 			            { "data": "salesTsCode" },
 			            { "data": "mainBusinessCode" },
 			            { "data": "clientCode" },
 			            { "data": "lsAccountCode" },
-			            { "data": 'contractCode' },
-			            { "data": 'vatType' },
-			            { "data": 'amount' },
-			            { "data": 'VAT' },
-			            { "data": 'totalPrice' },
-			            { "data": 'dealDate' },
-			            { "data": 'briefs' },
-			            { "data": 'regId' },
-			            { "data": 'regDate' },
-			            { "data": 'updateDate' },
-			            { "data": '수정' },
-			            { "data": '삭제' }
+			            { "data": "contractCode" },
+			            { "data": "vatType" },
+			            { "data": "amount" },
+			            { "data": "VAT" },
+			            { "data": "totalPrice" },
+			            { "data": "dealDate" },
+			            { "data": "briefs" },
+			            { "data": "regId" },
+			            { "data": "regDate" },
+			            { "data": "updateDate" },
+			            { "data": "수정" },
+			            { "data": "삭제" }
 			        	],
 			        	columnDefs:[
 			        		{
-			        			'targets' : [15],
+			        			'targets' : [14],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -67,7 +66,7 @@
 			        					}
 			        		},
 			        		{
-			        			'targets' : [16],
+			        			'targets' : [15],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
@@ -87,7 +86,6 @@
 			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
 				<thead>
 					<tr>
-						<th>NUM</th>
 						<th>매출 거래명세서 코드</th>
 						<th>사업장별 대표코드</th>
 						<th>거래처 대표코드</th>

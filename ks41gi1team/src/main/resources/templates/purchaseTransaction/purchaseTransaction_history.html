@@ -38,22 +38,21 @@
 			        			} 
 			        },
 			        columns: [
-			            { "data": "purchaseTransactionNum" },
 			            { "data": "purchaseTsCode" },
 			            { "data": "mainBusinessCode" },
 			            { "data": "clientCode" },
+			            { "data": "contractCode"},
 			            { "data": "briefs" },
 			            { "data": 'dealDate' },
 			            { "data": 'regId' },
 			            { "data": 'regDate' },
 			            { "data": 'updateDate' },
-			            { "data": 'contractCode' },
 			            { "data": '수정' },
 			            { "data": '삭제' }
 			        	],
 			        	columnDefs:[
 			        		{
-			        			'targets' : [10],
+			        			'targets' : [09],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -62,7 +61,7 @@
 			        					}
 			        		},
 			        		{
-			        			'targets' : [11],
+			        			'targets' : [10],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
@@ -82,16 +81,15 @@
 			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
 				<thead>
 					<tr>
-						<th>NUM</th>
 						<th>비용 거래명세서 코드</th>
 						<th>사업장별 대표코드</th>
 						<th>거래처 대표코드</th>
+						<th>계약코드</th>
 						<th>적요</th>
 						<th>거래일자</th>
 						<th>등록자</th>
 						<th>등록일시</th>
 						<th>수정일시</th>
-						<th>계약코드</th>
 						<th>수정</th>
 						<th>삭제</th>
 					</tr>
