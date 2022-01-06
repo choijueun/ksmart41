@@ -24,8 +24,12 @@ public class MainBusinessService {
 	//사업장 전체 목록 조회
 	public List<MainBusiness> getAllMainBusinessList(String mainBusinessCode) {
 		mainBusinessList = mainBusinessMapper.getAllMainBusinessList(mainBusinessCode);
-		
-		
+		String mainBusinessNum;
+		for(int i=0; i<mainBusinessList.size(); i++) {
+			mainBusinessNum = mainBusinessList.get(i).getMainBusinessCode().replace("mainBusinessCode_","");
+			mainBusinessList.get(i).setMainBusinessCode(mainBusinessNum);
+		}
+		System.out.println(mainBusinessList);
 		
 		return mainBusinessList;
 	}
