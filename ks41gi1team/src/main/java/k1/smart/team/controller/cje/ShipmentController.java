@@ -23,7 +23,11 @@ public class ShipmentController {
 		this.shipmentService = shipmentService;
 	}
 	
-	//출하내역 전체목록
+	/**
+	 * 출하내역 전체목록
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
 		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
@@ -35,7 +39,12 @@ public class ShipmentController {
 		return "storing/shipment/shipment_list";
 	}
 	
-	//출하내역 상세정보
+	/**
+	 * 출하내역 상세정보
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Shipment/{stockAdjCode}")
 	public String shipmentInfo(

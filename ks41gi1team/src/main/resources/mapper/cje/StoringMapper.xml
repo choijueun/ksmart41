@@ -113,6 +113,44 @@
 		AND a.stockReasonCode = ${stockReasonCode};
 </select>
 
+<!-- 2. 자재사용내역 상세(목록) -->
+<select id="getMaterialUseDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 2;
+</select>
+
 <!-- 3. 제품생산내역 상세(목록) -->
 <select id="getProductionDetails" parameterType="String" resultType="Storing">
 	SELECT
@@ -193,14 +231,12 @@
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
 		,i.itemName
+		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.stockStatus
-		,ad.defectType
-		,ad.defectHandlingType
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a

@@ -13,6 +13,9 @@ public interface StoringMapper {
 	//물류이동내역 상세조회
 	public Storing getStoringInfo(String mainBusinessCode, String stockAdjCode, String stockReasonCode);
 	
+	//2. 자재사용 상세내역 배열
+	public List<Storing> getMaterialUseDetails(String stockAdjCode);
+	
 	//3. 제품생산 상세내역 배열
 	public List<Storing> getProductionDetails(String stockAdjCode);
 	
