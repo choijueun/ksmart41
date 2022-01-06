@@ -37,10 +37,12 @@ public class SlipController {
 	}
 	
 	//비용전표 상세
-	@GetMapping("/{purchaseSlipCode}")
+	@GetMapping("/purchase/{purchaseSlipCode}")
 	public String purchaseSlipInfo(
 			@PathVariable(value="purchaseSlipCode", required=false) String purchaseSlipCode
 			,Model model) {
+		
+		
 		if(purchaseSlipCode == null || "".equals(purchaseSlipCode)) {
 			System.out.println("비용전표코드 ERROR");
 			return "redirect:/k1SlipList";
@@ -54,11 +56,11 @@ public class SlipController {
 		
 		model.addAttribute("title", "비용전표: 상세정보");
 		model.addAttribute("purchaseSlipInfo", purchaseSlipInfo);
-		return "slip/slip_detail";
+		return "slip/slip_purchaseDetail";
 	}
 	
 	//매출전표 상세
-	@GetMapping("/{salesSlipCode}")
+	@GetMapping("/sales/{salesSlipCode}")
 	public String salesSlipInfo(
 			@PathVariable(value="salesSlipCode", required=false) String salesSlipCode
 			,Model model) {
@@ -75,7 +77,7 @@ public class SlipController {
 		
 		model.addAttribute("title", "비용전표: 상세정보");
 		model.addAttribute("salesSlipInfo", salesSlipInfo);
-		return "slip/slip_detail";
+		return "slip/slip_salesDetail";
 	}
 	
 	@GetMapping("/add")

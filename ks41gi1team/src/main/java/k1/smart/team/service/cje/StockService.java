@@ -1,11 +1,14 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.cje.Stock;
+import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StockMapper;
 
 @Service
@@ -14,6 +17,9 @@ public class StockService {
 	private StockMapper stockMapper;
 	private List<Stock> stockList; //재고 여러개 정보
 	private Stock stockInfo; //재고 하나 정보
+	private Storing storingInfo; //재고조정내역 상세정보
+	private List<Storing> storingList; //재고조정내역 상세정보
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	/**
 	 * 생성자 메서드
@@ -30,10 +36,6 @@ public class StockService {
 	 */
 	public List<Stock> getAllStockList(String mainBusinessCode){
 		stockList = stockMapper.getAllStockList(mainBusinessCode);
-		if(stockList == null) {
-			System.out.println("재고정보 조회결과 없음");
-			return null;
-		}
 		return stockList;
 	}
 	
@@ -42,18 +44,33 @@ public class StockService {
 	 * @param inventoryCode
 	 * @return 재고 하나 정보
 	 */
-	public Stock getStockInfoByCode(String inventoryCode) {
-		if(inventoryCode == null || "".equals(inventoryCode)) {
-			System.out.println("재고코드 NULL");
-			return null;
+	public Map<String, Object> getStockInfo(String mainBusinessCode, String inventoryCode) {
+		//재고정보
+		stockInfo = stockMapper.getStockInfo(mainBusinessCode, inventoryCode);
+		if(stockInfo == null) return null;
+		storingList = stockMapper.getStockStorings(inventoryCode);
+		
+		//물류이동 사유
+		if(storingList != null) {
+			int stockReasonCode;
+			for(int i=0; i<storingList.size(); i++) {
+				storingInfo = storingList.get(i);
+				stockReasonCode = storingInfo.getStockReasonCode();
+				if(stockReasonCode == 1) storingInfo.setStockReasonEng("Warehousing");
+				else if(stockReasonCode == 2) storingInfo.setStockReasonEng("MaterialUse");
+				else if(stockReasonCode == 3) storingInfo.setStockReasonEng("Production");
+				else if(stockReasonCode == 4) storingInfo.setStockReasonEng("Moving");
+				else if(stockReasonCode == 5) storingInfo.setStockReasonEng("Shipment");
+				else if(stockReasonCode == 6) storingInfo.setStockReasonEng("Adjustment");
+				else if(stockReasonCode == 7) storingInfo.setStockReasonEng("Return");
+				else if(stockReasonCode == 8) storingInfo.setStockReasonEng("Defect");
+			}
 		}
 		
-		stockInfo = stockMapper.getStockInfoByCode("inventoryCode_"+inventoryCode);
-		if(stockInfo == null) {
-			System.out.println("재고정보 조회결과 없음");
-			return null;
-		}
+		resultMap.clear();
+		resultMap.put("stockInfo", stockInfo);
+		resultMap.put("storingList", storingList);
 		
-		return stockInfo;
+		return resultMap;
 	}
 }

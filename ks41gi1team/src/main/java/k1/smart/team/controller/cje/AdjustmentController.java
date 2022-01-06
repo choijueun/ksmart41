@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class AdjustmentController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드
 	private List<Storing> adjList; //재고조정내역 배열
 	private Storing adjInfo; //재고조정내역 상세정보
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	private Map<String, Object> resultMap;
 	
 	/**
 	 * 생성자 메서드
@@ -28,9 +27,13 @@ public class AdjustmentController {
 		this.adjService = adjService;
 	}
 	
+	/**
+	 * 재고조정내역 전체조회
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Adjustment")
 	public String adjustmentMain(Model model) {
-		//재고조정내역 전체목록
 		adjList = adjService.getAllAdjList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -40,6 +43,12 @@ public class AdjustmentController {
 		return "storing/adjustment/adjustment_list";
 	}
 	
+	/**
+	 * 재고조정내역 상세조회
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Adjustment/{stockAdjCode}")
 	public String adjInfo(
@@ -48,11 +57,10 @@ public class AdjustmentController {
 		//매개변수 검사
 		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
 		
-		resultMap.clear();
 		resultMap = adjService.getAdjInfo(mainBusinessCode, stockAdjCode);
-		adjInfo = (Storing) resultMap.get("adjInfo");
-		if(adjInfo == null) return "redirect:/k1Adjustment";
+		if(resultMap == null) return "redirect:/k1Adjustment";
 		
+		adjInfo = (Storing) resultMap.get("adjInfo");
 		adjList = (List<Storing>) resultMap.get("adjDetailList");
 		
 		model.addAttribute("SectionTitle", "물류 관리");

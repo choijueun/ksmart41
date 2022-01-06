@@ -42,18 +42,81 @@
 	</select>
 	<select id="getPlanPaymentList" parameterType="String" resultType="PlanPayment">
 		SELECT
-			 p.payPlanCode
+			 RIGHT(p.payPlanCode,3) AS payPlanCode
 			,p.clientCode
 			,p.mainBusinessCode
 			,p.totalAccountCode
 			,p.contractCode
 			,p.totalPlanCost
 			,p.briefs
+			,p.type
 			,p.managerId
 			,p.regid
 			,p.regDate
 			,p.updateDate
+			,c.businessName
+			,u.userName
+		FROM
+			k1_tb_pay_plan AS p
+		join
+			k1_tb_client AS c
+		ON
+			p.clientCode = c.clientCode
+		JOIN
+			k1_tb_user AS u
+		ON
+			p.regId = u.userId
+		WHERE
+			p.mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="HistoryPayment" parameterType="String" resultType="HistoryPayment">
+		
+		
+	</select>
+	<select id="getCancelPaymentInfo" parameterType="String" resultType="CancelPayment">
+		SELECT 
+			c.payCancelCode
+			,c.mainBusinessCode
+			,c.payHistoryCode
+			,c.cancelCost
+			,c.issueDate
+			,c.approvalDate
+			,c.reason
+			,c.regId
+			,c.regDate
+			,c.updateDate
+			,u.userName
+		FROM
+			k1_tb_pay_cancel AS c
+		JOIN
+			k1_tb_user AS u
+		ON
+			c.regId = u.userId
+		WHERE
+			payCancelCode = #{payCancelCode};
+		
+	</select>
+	<select id="getPlanPaymentInfo" parameterType="String" resultType="PlanPayment">
+		SELECT
+			 p.managerId AS managerId
+			,u1.userName AS managerName
+			,p.regId AS regId
+			,u2.userName AS regName
+			,c.businessName AS businessName
+			,p.payPlanCode
+			,p.mainBusinessCode
+			,p.clientCode
+			,p.totalAccountCode
+			,p.contractCode
+			,p.`type`
+			,p.totalPlanCost
+			,p.briefs
+			,p.managerId
+			,p.regId
+			,p.regDate
+			,p.updateDate
 			,pd.payPlanDetailCode
+			,RIGHT(pd.payPlanCode,3) AS payPlanCode
 			,pd.purchaseTsCode
 			,pd.salesTsCode
 			,pd.itemCode
@@ -68,13 +131,25 @@
 			,pd.endDate
 			,pd.`comment`
 		FROM
-			k1_tb_pay_plan AS p
-		JOIN
 			k1_tb_pay_plan_detail AS pd
+		JOIN
+			k1_tb_pay_plan AS p
 		ON
-			p.payPlanCode = pd.payPlanCode
+			pd.payPlanCode = p.payPlanCode
+		JOIN
+			k1_tb_user AS u1
+		ON
+			u1.userId = p.managerId
+		JOIN
+			k1_tb_user AS u2
+		ON
+			u2.userId = p.regId
+		JOIN
+			k1_tb_client AS c
+		ON
+			c.clientCode = p.clientCode
 		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
+		
 	</select>
-
 </mapper>

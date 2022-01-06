@@ -63,7 +63,7 @@
 					<tr th:if="${not #lists.isEmpty(costList)}" th:each="l : ${costList}">
 						<td><input type="checkbox"></td>
 						<td>
-							<a th:href="@{|/k1CostList/${l.etcPurchaseCode}|}">
+							<a th:href="@{|/k1CostList/costInfo/${l.etcPurchaseCode}|}">
 								[[${l.etcPurchaseCode}]]
 							</a>
 						</td>

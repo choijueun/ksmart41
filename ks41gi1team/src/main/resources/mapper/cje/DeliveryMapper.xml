@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.cje.DeliveryMapper">
+
+<!-- 운송요청내역 전체목록 조회 -->
+<select id="getAllDeliveryList" parameterType="String" resultType="Delivery">
+	SELECT 
+		 RIGHT(d.deliveryCode,3) AS deliveryCode
+		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(c.contractCode,3) AS contractCode
+		,c.clientCode
+		,c.businessName AS clientBusinessName
+		,d.deliveryBusinessCode
+		,cl.businessName AS deliveryBusinessName
+		,d.receivePlace
+		,d.deliveryCost
+		,d.briefs
+		,d.managerId
+		,u.userName AS managerName
+		,d.updateDate
+	FROM
+		k1_tb_delivery AS d
+		LEFT JOIN
+		k1_tb_shipment_plan AS s
+		ON
+		d.shipmentPlanCode = s.shipmentPlanCode
+		LEFT JOIN
+		(SELECT
+			 c.contractCode
+			,c.clientCode
+			,cl.businessName
+		FROM
+			k1_tb_contract AS c
+			JOIN
+			k1_tb_client AS cl
+			ON
+			c.clientCode = cl.clientCode
+		) AS c
+		ON
+		s.contractCode = c.contractCode
+		LEFT JOIN
+		k1_tb_client AS cl
+		ON
+		d.deliveryBusinessCode = cl.clientCode
+		JOIN
+		k1_tb_user AS u
+		ON
+		d.managerId = u.userId
+	WHERE
+		d.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+</mapper>

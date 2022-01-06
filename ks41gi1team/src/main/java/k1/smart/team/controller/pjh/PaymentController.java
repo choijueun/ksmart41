@@ -18,6 +18,9 @@ import k1.smart.team.service.pjh.PaymentService;
 public class PaymentController {
 	private PaymentService pService;
 	private String mainBusinessCode;
+	private PlanPayment planPaymentInfo;
+	private CancelPayment cancelPaymentInfo;
+	private HistoryPayment historyPaymentInfo;
 	
 	public PaymentController(PaymentService pService) {
 		this.pService = pService;
@@ -37,12 +40,24 @@ public class PaymentController {
 	}
 	
 	//결제관리 상세
-	@GetMapping("/{payHistoryCode}")
-	public String HistoryPaymentInfo(
+	@GetMapping("history/{payHistoryCode}")
+	public String historyPaymentInfo(
 			@PathVariable(value="payHistoryCode", required=false) String payHistoryCode
 			,Model model) {
+		
+		if(payHistoryCode == null || "".equals(payHistoryCode)) {
+			System.out.println("결제코드 ERROR");
+			return "redirect:/k1PaymentList/history";
+		}
+		
+		historyPaymentInfo = pService.getHistoryPaymentInfo(payHistoryCode);
+		if(historyPaymentInfo == null) {
+			System.out.println("결제코드 ERROR");
+			return "redirect:/k1PaymentList/history";
+		}
+		
 		model.addAttribute("title", "결제관리: 상세정보");
-		model.addAttribute("payHistoryCode", payHistoryCode);
+		model.addAttribute("historyPaymentInfo", historyPaymentInfo);
 		return "payment/historyPayment_detail";
 	}
 	
@@ -76,11 +91,22 @@ public class PaymentController {
 	
 	//결제취소관리 상세
 	@GetMapping("/cancel/{payCancelCode}")
-	public String CancelPaymentInfo(
+	public String cancelPaymentInfo(
 			@PathVariable(value="payCancelCode", required=false) String payCancelCode
 			,Model model) {
+		if(payCancelCode == null || "".equals(payCancelCode)) {
+			System.out.println("결제취소코드 ERROR");
+			return "redirect:/k1PaymentList/cancel";
+		}
+		
+		cancelPaymentInfo = pService.getCancelPaymentInfo(payCancelCode);
+		if(cancelPaymentInfo == null) {
+			System.out.println("결제취소코드 ERROR");
+			return "redirect:/k1SlipList/cancel";
+		}
+		
 		model.addAttribute("title", "결제취소관리: 상세정보");
-		model.addAttribute("payCancelCode", payCancelCode);
+		model.addAttribute("cancelPaymentInfo", cancelPaymentInfo);
 		return "payment/cancelPayment_detail";
 	}
 	
@@ -94,10 +120,10 @@ public class PaymentController {
 	//결제취소관리 수정
 	@GetMapping("/cancel/modify/{payCancelCode}")
 	public String modifyCancelPayment(
-			@PathVariable(value="payCancelCode", required=false) String payCancelCode
+			@PathVariable(value="planPayment", required=false) String payCancelCode
 			,Model model) {
 		model.addAttribute("title", "결제취소관리: 수정");
-		model.addAttribute("payCancelCode", payCancelCode);
+		model.addAttribute("planPayment", payCancelCode);
 		return "payment/cancelPayment_modify";
 	}
 	
@@ -118,8 +144,19 @@ public class PaymentController {
 	public String PlanPaymentInfo(
 			@PathVariable(value="payPlanCode", required=false) String payPlanCode
 			,Model model) {
+		if(payPlanCode == null || "".equals(payPlanCode)) {
+			System.out.println("결제예정코드 ERROR");
+			return "redirect:/k1PaymentList/plan";
+		}
+		
+		planPaymentInfo = pService.getPlanPaymentInfo(payPlanCode);
+		if(planPaymentInfo == null) {
+			System.out.println("결제예정코드 ERROR");
+			return "redirect:/k1SlipList/plan";
+		}
+		
 		model.addAttribute("title", "결제예정: 상세정보");
-		model.addAttribute("payPlanCode", payPlanCode);
+		model.addAttribute("planPaymentInfo", planPaymentInfo);
 		return "payment/planPayment_detail";
 	}
 	
@@ -135,7 +172,7 @@ public class PaymentController {
 	public String modifyPlanPayment(
 			@PathVariable(value="payPlanCode", required=false) String payPlanCode
 			,Model model) {
-		model.addAttribute("title", "운송요청: 수정");
+		model.addAttribute("title", "결제예정: 수정");
 		model.addAttribute("payPlanCode", payPlanCode);
 		return "payment/planPayment_modify";
 	}

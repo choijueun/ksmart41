@@ -64,9 +64,10 @@
 		s.mainBusinessCode = #{mainBusinessCode};
 </select>
 
-<select id="getStockInfoByCode" parameterType="String" resultType="Stock">
+<select id="getStockInfo" parameterType="String" resultType="Stock">
 	SELECT
-		 RIGHT(s.itemCode,3) AS itemCode
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
 		,RIGHT(i.categoryCode,3) AS categoryCode
@@ -119,7 +120,38 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		inventoryCode = #{inventoryCode};
+		s.mainBusinessCode = #{mainBusinessCode}
+		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
+</select>
+
+<select id="getStockStorings" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,r.reason AS stockReason
+		,a.totalPrice
+		,a.endDate
+		,a.briefs
+		,a.managerId
+		,u.userName AS managerName
+		,a.updateDate
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		k1_tb_stock_reason AS r
+		ON
+		a.stockReasonCode = r.stockReasonCode
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+	LIMIT 10;
 </select>
 
 </mapper>

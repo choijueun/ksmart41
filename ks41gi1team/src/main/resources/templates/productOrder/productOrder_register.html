@@ -7,14 +7,212 @@
 	<title></title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
+<th:block layout:fragment="customJs">
+<script>
+	$(function(){
+		
+		$(document).on('click', '#addProductOrderBtn', function(){
+			var submitCheck = true;
+			
+			var inputObj = $('#addProductOrderForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var inputCode = $(this).attr('code');
+				var labelText = $('label[for=' + inputCode + ']').text();
+				if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+					alert(labelText + '입력해주세요');
+					$(this).focus();
+					submitCheck = false;
+					return false;
+				}
+			});
+			
+			if(submitCheck) $('#addProductOrderForm').submit();
+			
+		});
+	
+	$('#btn').click(function(){
+	
+		var productOrderCode = $('#productOrderCode').val();
+		
+		if(typeof productOrderCode != 'undefined' && productOrderCode != null && productOrderCode != ''){
+			// ajax 호출
+			var request = $.ajax({
+				url: '/k1ProductOrderCode/k1ProductOrderCodeCheck',
+				method: 'POST',
+				data: {'productOrderCode' : productOrderCode},
+				dataType: 'json'
+				});
+			request.done(function(data){
+				//중복여부체크(true: 중복, false: 등록가능)
+				var productOrderCodeConfirm = data;
+				
+				if(productOrderCodeConfirm){
+					alert('중복된 아이디입니다.');
+					$('#addProductOrderForm input').not('#productOrderCode').prop('disabled', true);
+					$('#addProductOrderForm select').prop('disabled', true);
+					$('#addProductOrderForm button').not('#btn').prop('disabled', true);
+				}else{
+					alert('등록이 가능한 아이디입니다.');
+					$('#addProductOrderForm input').prop('disabled', false);
+					$('#addProductOrderForm select').prop('disabled', false);
+					$('#addProductOrderForm button').prop('disabled', false);
+				}
+				
+				
+				
+			});
+			request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+			});	
+		}else{
+			alert('수주코드를 입력해주세요')
+			return false;
+		}
+		
+		
+		
+		
+		});
+	});
+</script>
+</th:block>
+<!-- Main content -->
 <th:block layout:fragment="customContents">
-	수주 목록 작성 폼
+	<form id="addProductOrderForm" th:action="@{/k1ProductOrder/k1ProductOrderReg}" method="post">
+		<div class="card-body">
+                  <div class="form-group">
+                    <label for="productOrderCode">제품 수주 코드</label>
+                    <input type="text" name="productOrderCode" class="form-control" id="productOrderCode" placeholder="productOrderCode000">
+                    <button type="button" id="btn" class="btn btn-default">중복확인</button>
+                  </div>
+                  <div class="form-group">
+                    <label for="mainBusinessCode">사업장별 대표코드</label>
+                    <select name="mainBusinessCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(mainBusinessList)}"
+                    			  th:each="l : ${mainBusinessList}">
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    		<option>사업장 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                    <!-- <input type="text" name="mainBusinessCode" class="form-control" id="mainBusinessCode" placeholder="fac_ksmartSeoul_Seoul_000"> -->
+                  </div>
+                    <div class="form-group">
+                    <label for="contractCode">계약코드</label>
+                     <select name="contractCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(contractList)}"
+                    			  th:each="l : ${contractList}">
+                    		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
+                    			[[${l.contractCode}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(${contractList})}">	
+                    		<option>계약 코드 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>		
+                  </div>
+                  <div class="form-group">
+                    <label for="clientCode">거래처 대표코드</label>
+                     <select name="clientCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(clientList)}"
+                    			  th:each="l : ${clientList}">
+                    		<option th:value="${l.clientCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+                    		<option>거래처 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>		
+                    <!-- <input type="text" name="clientCode" class="form-control" id="clientCode" placeholder="client_agency_000"> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="productPriceCode">제품단가 코드</label>
+                      <select name="productPriceCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(productPriceList)}"
+                    			  th:each="l : ${productPriceList}">
+                    		<option th:value="${l.productPriceCode}" th:text="${l.productPrice}">	  
+                    			[[${l.productPrice}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+                    		<option>제품단가 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>	
+                    <!-- <input type="text" name="clientManagerId" class="form-control" id="clientManagerId" placeholder="id100"> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="totalProductCount">제품 총수량</label>
+                    <input type="text" name="totalProductCount" class="form-control" id="totalProductCount" placeholder="제품 총수량" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="totalProductPrice">계약유형</label>
+                    <input type="text" name="totalProductPrice" class="form-control" id="totalProductPrice" placeholder="제품 총가격" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="productOrderDate">수주일자</label>
+                    <input type="date" name="productOrderDate" class="form-control" id="productOrderDate" placeholder="2021-11-01" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="productDate">제품 생산일자</label>
+                    <input type="date" name="productDate" class="form-control" id="productDate" placeholder="2021-11-02" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="predictProductDate">예상제품출하일</label>
+                    <input type="date" name="predictProductDate" class="form-control" id="predictProductDate" placeholder="2021-11-01" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="status">상태</label>
+                    <input type="text" name="status" class="form-control" id="status" placeholder="제품 납품 완료" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="briefs">적요</label>
+                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="2021-11-01" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="briefs">담당자</label>
+                    <select name="briefs" disabled="disabled" class="form-control">
+                    	<th:block th:if="${@not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                    <!-- <input type="text" name="managerId" class="form-control" id="managerId" placeholder="id002	">--> 
+                  </div>
+                  <div class="form-group">
+                    <label for="regDate">등록일시</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group">
+                    <label for="updateDate">수정일시</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" disabled="disabled">
+                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="addProductOrderBtn" class="btn btn-info" disabled="disabled" >등록</button>
+                </div>
+             </form>
 </th:block>
 
 </html>

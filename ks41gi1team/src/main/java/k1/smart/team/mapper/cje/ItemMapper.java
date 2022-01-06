@@ -20,11 +20,11 @@ public interface ItemMapper {
 	 * @param itemCode
 	 * @return 품목 하나 정보
 	 */
-	public Stock getItemInfoByCode(String itemCode);
+	public Stock getItemInfo(String itemCode);
 	/**
 	 * 품목정보 상세조회: 재고 통합
 	 * @param itemCode
 	 * @return 품목 하나 재고 여럿 통합정보
 	 */
-	public Stock getItemStockByCode(String itemCode);
+	public List<Stock> getItemStock(String itemCode);
 }

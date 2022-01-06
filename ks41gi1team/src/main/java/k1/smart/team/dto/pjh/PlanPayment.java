@@ -1,29 +1,65 @@
 package k1.smart.team.dto.pjh;
 
 public class PlanPayment {
+	private String managerId;
+	private String managerName;
+	private String regId;
+	private String regName;
+	private String businessName;
 	private String payPlanCode;
 	private String mainBusinessCode;
 	private String clientCode;
 	private String totalAccountCode;
 	private String contractCode;
+	private String type;
 	private String totalPlanCost;
 	private String briefs;
-	private String managerId;
-	private String regId;
 	private String regDate;
-	private String purchaseTsCode; //명세서코드
+	private String updateDate;
+	private String payPlanDetailCode;
+	private String purchaseTsCode;
 	private String salesTsCode;
 	private String itemCode;
 	private String madeCompany;
-	private int materialCost;
-	private int tax;
-	private int productPrice;
-	private int vat;
-	private int count;
-	private int sum;
+	private String materialCost;
+	private String tax;
+	private String productPrice;
+	private String vat;
+	private String count;
+	private String sum;
 	private String isEnd;
 	private String endDate;
 	private String comment;
+	public String getManagerId() {
+		return managerId;
+	}
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getRegId() {
+		return regId;
+	}
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
+	public String getRegName() {
+		return regName;
+	}
+	public void setRegName(String regName) {
+		this.regName = regName;
+	}
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 	public String getPayPlanCode() {
 		return payPlanCode;
 	}
@@ -54,6 +90,12 @@ public class PlanPayment {
 	public void setContractCode(String contractCode) {
 		this.contractCode = contractCode;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getTotalPlanCost() {
 		return totalPlanCost;
 	}
@@ -66,23 +108,23 @@ public class PlanPayment {
 	public void setBriefs(String briefs) {
 		this.briefs = briefs;
 	}
-	public String getManagerId() {
-		return managerId;
-	}
-	public void setManagerId(String managerId) {
-		this.managerId = managerId;
-	}
-	public String getRegId() {
-		return regId;
-	}
-	public void setRegId(String regId) {
-		this.regId = regId;
-	}
 	public String getRegDate() {
 		return regDate;
 	}
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+	public String getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+	public String getPayPlanDetailCode() {
+		return payPlanDetailCode;
+	}
+	public void setPayPlanDetailCode(String payPlanDetailCode) {
+		this.payPlanDetailCode = payPlanDetailCode;
 	}
 	public String getPurchaseTsCode() {
 		return purchaseTsCode;
@@ -108,40 +150,40 @@ public class PlanPayment {
 	public void setMadeCompany(String madeCompany) {
 		this.madeCompany = madeCompany;
 	}
-	public int getMaterialCost() {
+	public String getMaterialCost() {
 		return materialCost;
 	}
-	public void setMaterialCost(int materialCost) {
+	public void setMaterialCost(String materialCost) {
 		this.materialCost = materialCost;
 	}
-	public int getTax() {
+	public String getTax() {
 		return tax;
 	}
-	public void setTax(int tax) {
+	public void setTax(String tax) {
 		this.tax = tax;
 	}
-	public int getProductPrice() {
+	public String getProductPrice() {
 		return productPrice;
 	}
-	public void setProductPrice(int productPrice) {
+	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
-	public int getVat() {
+	public String getVat() {
 		return vat;
 	}
-	public void setVat(int vat) {
+	public void setVat(String vat) {
 		this.vat = vat;
 	}
-	public int getCount() {
+	public String getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(String count) {
 		this.count = count;
 	}
-	public int getSum() {
+	public String getSum() {
 		return sum;
 	}
-	public void setSum(int sum) {
+	public void setSum(String sum) {
 		this.sum = sum;
 	}
 	public String getIsEnd() {
@@ -165,7 +207,17 @@ public class PlanPayment {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PlanPayment [payPlanCode=");
+		builder.append("PlanPayment [managerId=");
+		builder.append(managerId);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append(", regId=");
+		builder.append(regId);
+		builder.append(", regName=");
+		builder.append(regName);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", payPlanCode=");
 		builder.append(payPlanCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
@@ -175,16 +227,18 @@ public class PlanPayment {
 		builder.append(totalAccountCode);
 		builder.append(", contractCode=");
 		builder.append(contractCode);
+		builder.append(", type=");
+		builder.append(type);
 		builder.append(", totalPlanCost=");
 		builder.append(totalPlanCost);
 		builder.append(", briefs=");
 		builder.append(briefs);
-		builder.append(", managerId=");
-		builder.append(managerId);
-		builder.append(", regId=");
-		builder.append(regId);
 		builder.append(", regDate=");
 		builder.append(regDate);
+		builder.append(", updateDate=");
+		builder.append(updateDate);
+		builder.append(", payPlanDetailCode=");
+		builder.append(payPlanDetailCode);
 		builder.append(", purchaseTsCode=");
 		builder.append(purchaseTsCode);
 		builder.append(", salesTsCode=");
@@ -214,5 +268,6 @@ public class PlanPayment {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }

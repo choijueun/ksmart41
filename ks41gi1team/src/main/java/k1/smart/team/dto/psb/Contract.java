@@ -17,6 +17,8 @@ public class Contract {
 	private String briefs;
 	private String regDate;
 	private String updateDate;
+	private String businessRepresentative;
+	private String userName;
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -113,6 +115,18 @@ public class Contract {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	public String getBusinessRepresentative() {
+		return businessRepresentative;
+	}
+	public void setBusinessRepresentative(String businessRepresentative) {
+		this.businessRepresentative = businessRepresentative;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -148,6 +162,10 @@ public class Contract {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", businessRepresentative=");
+		builder.append(businessRepresentative);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append("]");
 		return builder.toString();
 	}

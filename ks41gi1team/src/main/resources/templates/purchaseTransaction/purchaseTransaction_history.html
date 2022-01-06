@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss">
+
+</th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="customJs">
+		<script type="text/javascript">
+			$(function(){
+				$(document).on('click', '.modifyBtn', function(){
+					var salesTsCode = $(this).attr('data-contractCode');
+					alert(salesTsCode);
+				});
+				
+				
+					var aLengthMenuArray = [];
+					aLengthMenuArray.push([5,10,15,20,25,-1]);
+					aLengthMenuArray.push([5,10,15,20,25,'ALL']);
+					
+				$('#dataTableAjax').DataTable( {
+			        destroy : true,
+					pageLength: 5,
+					aLengthMenu : aLengthMenuArray,
+					ajax: {
+			        	url: '/k1PurchaseTransaction/k1PurchaseTransactionHistory',
+			        	type: 'POST',
+			        	dataSrc: function(data){
+			        				console.log(JSON.stringify(data));
+			        				return data;
+			        			} 
+			        },
+			        columns: [
+			            { "data": "purchaseTsCode" },
+			            { "data": "mainBusinessCode" },
+			            { "data": "clientCode" },
+			            { "data": "contractCode"},
+			            { "data": "briefs" },
+			            { "data": 'dealDate' },
+			            { "data": 'regId' },
+			            { "data": 'regDate' },
+			            { "data": 'updateDate' },
+			            { "data": '수정' },
+			            { "data": '삭제' }
+			        	],
+			        	columnDefs:[
+			        		{
+			        			'targets' : [09],
+			        			'orderable' : false,
+			        			'searchable' : false,
+			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
+			        						var htmlbtn = '<button class="modifyBtn" data-purchaseTsCode="' + row.purchaseTsCode +'">수정</button>';
+			        						return htmlbtn;
+			        					}
+			        		},
+			        		{
+			        			'targets' : [10],
+			        			'orderable' : false,
+			        			'searchable' : false,
+			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
+			        						var htmlbtn = '<button class="removeBtn" data-purchaseTsCode="' + row.purchaseTsCode +'">삭제</button>';
+			        						return htmlbtn;
+			        					}
+			        		}
+			        	]
+					});
+			   
+			});
+		
+		</script>
+</th:block>
+	<th:block layout:fragment="customContents">
+
+			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
+				<thead>
+					<tr>
+						<th>비용 거래명세서 코드</th>
+						<th>사업장별 대표코드</th>
+						<th>거래처 대표코드</th>
+						<th>계약코드</th>
+						<th>적요</th>
+						<th>거래일자</th>
+						<th>등록자</th>
+						<th>등록일시</th>
+						<th>수정일시</th>
+						<th>수정</th>
+						<th>삭제</th>
+					</tr>
+				</thead>
+			</table>
+	</th:block>
+</html>

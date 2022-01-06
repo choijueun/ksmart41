@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.SalesTransactionMapper">
+	<resultMap type="SalesTransaction" id="salesTransactionResultMap">
+		<result column="salesTsCode" 					property="salesTsCode"/>
+		<result column="mainBusinessCode" 				property="mainBusinessCode"/>
+		<result column="clientCode" 					property="clientCode"/>
+		<result column="lsAccountCode" 				property="lsAccountCode"/>
+		<result column="contractCode" 				property="contractCode"/>
+		<result column="vatType" 					property="vatType"/>
+		<result column="amount" 						property="amount"/>
+		<result column="VAT" 						property="VAT"/>
+		<result column="totalPrice" 						property="totalPrice"/>
+		<result column="dealDate" 							property="dealDate"/>
+		<result column="briefs" 					property="briefs"/>
+	<result column="regId" 						property="regId"/>
+	<result column="regDate" 					property="regDate"/>
+		<result column="updateDate" 						property="updateDate"/>
+	</resultMap>
+	
+	<select id="getSalesTransactionHistoryList" parameterType="map" resultType="map">
+		SELECT	
+			st.salesTsCode,
+			st.mainBusinessCode,
+			st.clientCode,
+			st.lsAccountCode,
+			st.contractCode,
+			st.vatType,
+			st.amount,
+			st.VAT,
+			st.totalPrice,
+			st.dealDate,
+			st.briefs,
+			st.regId,
+			st.regDate,
+			st.updateDate
+		FROM 
+			k1_tb_sales_transaction AS st;
+	</select>
+
+</mapper>

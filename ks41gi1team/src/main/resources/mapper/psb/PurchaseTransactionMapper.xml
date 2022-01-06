@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.PurchaseTransactionMapper">
+	<resultMap type="PurchaseTransaction" id="purchaseTransactionResultMap">
+		<result column="purchaseTsCode" 					property="purchaseTsCode"/>
+		<result column="mainBusinessCode" 				property="mainBusinessCode"/>
+		<result column="clientCode" 					property="clientCode"/>
+		<result column="contractCode" 					property="contractCode"/>
+		<result column="briefs" 						property="briefs"/>
+		<result column="dealDate" 					property="dealDate"/>
+		<result column="regId" 						property="regId"/>
+		<result column="regDate" 						property="regDate"/>
+		<result column="updateDate" 						property="updateDate"/>
+	</resultMap>
+
+	
+	<select id="getPurchaseTransactionHistoryList" parameterType="map" resultType="map">
+		SELECT 
+			pt.purchaseTsCode,
+			pt.mainBusinessCode,
+			pt.clientCode,
+			pt.contractCode,
+			pt.briefs,
+			pt.dealDate,
+			pt.regId,
+			pt.regDate,
+			pt.updateDate
+		FROM 
+			k1_tb_purchase_transaction AS pt;
+	<if test="strartNum != null">
+			LIMIT #{startNum}, #{rowPerPage};
+		</if>	
+	</select>
+	
+
+</mapper>

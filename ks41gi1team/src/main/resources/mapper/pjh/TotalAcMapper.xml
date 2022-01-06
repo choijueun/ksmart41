@@ -10,7 +10,7 @@
 			,slipGroup
 			,salesSlipCode
 			,purchaseSlipCode
-			,etc_purchaseCode
+			,RIGHT(etcPurchaseCode,3) AS etcPurchaseCode
 			,salesSection
 			,relateTable
 			,totalPrice

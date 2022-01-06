@@ -1,6 +1,7 @@
 package k1.smart.team.controller.cje;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,9 @@ import k1.smart.team.service.cje.ItemService;
 public class ItemController {
 	private ItemService itemService;
 	private String mainBusinessCode; //사업장대표코드
-	private List<Stock> itemList; //품목 배열
 	private Stock itemInfo; //품목 하나 정보
-	
+	private List<Stock> itemList; //품목 배열
+	private Map<String,Object> resultMap;
 	/**
 	 * 생성자 메서드
 	 * @param itemService
@@ -42,6 +43,7 @@ public class ItemController {
 		return "stock/item/item_list";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Item/{itemCode}")
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
@@ -50,17 +52,16 @@ public class ItemController {
 		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
 		//품목 상세정보
-		itemInfo = itemService.getItemInfoByCode(itemCode);
-		//System.out.println("ItemController :: "+itemInfo);
+		resultMap = itemService.getItemInfo(itemCode);
+		if(resultMap == null) return "redirect:/k1Item";
 		
-		if(itemInfo == null) {
-			System.out.println("품목코드 ERROR");
-			return "redirect:/k1Item";
-		}
+		itemInfo = (Stock) resultMap.get("itemInfo");
+		itemList = (List<Stock>) resultMap.get("stockList");
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목정보");
 		model.addAttribute("itemInfo", itemInfo);
+		model.addAttribute("stockList", itemList);
 		return "stock/item/item_info";
 	}
 	

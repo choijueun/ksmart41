@@ -47,6 +47,4 @@ public class ShipmentService {
 		return resultMap;
 	}
 	
-	
-
 }

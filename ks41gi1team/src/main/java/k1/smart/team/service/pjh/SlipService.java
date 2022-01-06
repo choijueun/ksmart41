@@ -25,7 +25,7 @@ public class SlipService {
 		System.out.println("p_slipList: "+p_slipList);
 		String slipNum;
 		for(int i=0; i<p_slipList.size(); i++) {
-			slipNum = p_slipList.get(i).getPurchaseSlipCode().replace("P", "");
+			slipNum = p_slipList.get(i).getPurchaseSlipCode();
 			p_slipList.get(i).setPurchaseSlipCode(slipNum);
 		}
 		return p_slipList;
@@ -34,7 +34,7 @@ public class SlipService {
 		s_slipList = slipMapper.getAll_S_SlipList(mainBusinessCode);
 		String slipNum;
 		for(int i=0; i<s_slipList.size(); i++) {
-			slipNum = s_slipList.get(i).getSalesSlipCode().replace("S", "");
+			slipNum = s_slipList.get(i).getSalesSlipCode();
 			s_slipList.get(i).setPurchaseSlipCode(slipNum);
 		}
 		return s_slipList;

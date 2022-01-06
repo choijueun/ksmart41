@@ -4,17 +4,89 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<!-- content -->
+<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			제품생산내역 전체목록
+		</div>
+		<div class="card-body">
+			<table id="productionList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="allCheck"></th>
+						<th>No.</th>
+						<th>품목</th>
+						<th>거래처</th>
+						<th>합계금액</th>
+						<th>적요</th>
+						<th>요청</th>
+						<th>반품</th>
+						<th>완료</th>
+						<th>담당자</th>
+						<th>수정일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(productionList)}" th:each="l : ${productionList}">
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>
+							<a th:href="@{|/k1Production/${l.stockAdjCode}|}">
+								[[${l.stockAdjCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Production/${l.stockAdjCode}|}">
+								[[${l.itemList}]]
+							</a>
+						</td>
+						<td>
+							<!-- 거래처정보 LINK -->
+								[[${l.businessName}]]
+						</td>
+						<td>[[${l.totalPrice}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.requestDate}]]</td>
+						<td>[[${l.adjDate}]]</td>
+						<td>[[${l.endDate}]]</td>
+						<td>
+							<!-- 회원정보LINK -->
+							[[${l.managerName}]]
+						</td>
+						<td>[[${l.updateDate}]]</td>
+						<td>
+							<a th:href="@{|/k1ProductionModify/${l.stockAdjCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(productionList)}">
+						<td colspan="12">
+							제품생산내역이 존재하지 않습니다.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a th:href="@{/k1ProductionAdd}">
+				<button type="button" class="btn btn-info">등록</button>
+			</a>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>

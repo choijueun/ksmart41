@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,30 +17,40 @@ public class ShipmentController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Storing shipmentInfo; //출하내역 하나
 	private List<Storing> shipmentList; //출하내역 배열
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	private Map<String, Object> resultMap;
 	
 	public ShipmentController(ShipmentService shipmentService) {
 		this.shipmentService = shipmentService;
 	}
 	
-	//출하내역 전체목록
+	/**
+	 * 출하내역 전체목록
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
 		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentList", shipmentList);
 		
 		return "storing/shipment/shipment_list";
 	}
 	
-	//출하내역 상세정보
+	/**
+	 * 출하내역 상세정보
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Shipment/{stockAdjCode}")
 	public String shipmentInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Shipment";
 		
 		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Shipment";
@@ -50,7 +59,7 @@ public class ShipmentController {
 		shipmentList = (List<Storing>) resultMap.get("shipmentDetails");
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentInfo", shipmentInfo);
 		model.addAttribute("shipmentDetails", shipmentList);
 		

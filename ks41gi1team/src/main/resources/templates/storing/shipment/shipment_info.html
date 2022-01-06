@@ -23,7 +23,7 @@
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					출하내역
+					제품출하내역
 				</div>
 				<div class="card-body" th:if="${ shipmentInfo != null }">
 					<table id="shipmentInfo" class="table table-bordered">
@@ -38,30 +38,34 @@
 							</td>
 						</tr>
 						<tr>
-							<th>보내는창고</th>
-							<td>[[${shipmentInfo.sendWarehouseName}]]</td>
-							<th>창고위치</th>
-							<td colspan="3" th:if="${shipmentInfo.sendWarehouseOutPlace == null}">[[${shipmentInfo.sendWarehouseLocation}]]</td>
-							<td colspan="3" th:if="${shipmentInfo.sendWarehouseOutPlace != null}">[[${shipmentInfo.sendWarehouseLocation}]] ([[${shipmentInfo.sendWarehouseOutPlace}]])</td>
+							<th>출하창고</th>
+							<td colspan="2">
+								<a th:href="@{|/k1Warehouse/${shipmentInfo.sendWarehouse}|}">
+									[[${shipmentInfo.sendWarehouseName}]]
+								</a>
+							</td>
+							<td th:if="${shipmentInfo.sendWarehouseOutPlace == null}">[[${shipmentInfo.sendWarehouseLocation}]]</td>
+							<td th:if="${shipmentInfo.sendWarehouseOutPlace != null}">[[${shipmentInfo.sendWarehouseLocation}]] ([[${shipmentInfo.sendWarehouseOutPlace}]])</td>
+							<th>합계금액</th>
+							<td>[[${shipmentInfo.totalPrice}]] 원</td>
 						</tr>
 						<tr>
 							<th>거래처</th>
 							<td colspan="3">
 								<!-- 거래처정보LINK -->
 								[[${shipmentInfo.businessName}]]
+								<a th:if="${shipmentInfo.contractCode != null}">
+									<button type="button" class="btn btn-outline-info btn-xs">[[${shipmentInfo.contractCode}]]</button>
+								</a>
 							</td>
-							<th>계약 No.</th>
-							<td>[[${shipmentInfo.contractCode}]]
-						</tr>
-						<tr>
-							<th>합계금액</th>
-							<td colspan="3">[[${shipmentInfo.totalPrice}]] 원</td>
-							<th>운송비</th>
-							<td>
-								[[${shipmentInfo.deliveryCost}]] 원
+							<th>
+								운송비
 								<a th:href="@{|/k1Delivery/${shipmentInfo.deliveryCode}|}">
 									<button type="button" class="btn btn-outline-info btn-xs">요청</button>
 								</a>
+							</th>
+							<td>
+								[[${shipmentInfo.deliveryCost}]] 원
 							</td>
 						</tr>
 						<tr>
@@ -98,7 +102,7 @@
 		<div class="col-lg-7">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					출하 상세내역
+					제품출하 상세내역
 				</div>
 				<div class="card-body">
 					<table id="shipmentDetails" class="table table-bordered">

@@ -27,6 +27,22 @@
 						<tr>
 							<th>No.</th>
 							<td colspan="3">[[${adjInfo.stockAdjCode}]]</td>
+							<th>상태</th>
+							<td th:if="${adjInfo.endDate != null}">
+								완료
+							</td>
+							<td th:if="${adjInfo.endDate == null}">
+							</td>
+						</tr>
+						<tr>
+							<th>창고정보</th>
+							<td colspan="2">
+								<a th:href="@{|/k1Warehouse/${adjInfo.sendWarehouse}|}">
+									[[${adjInfo.sendWarehouseName}]]
+								</a>
+							</td>
+							<td th:if="${adjInfo.sendWarehouseOutPlace == null}">[[${adjInfo.sendWarehouseLocation}]]</td>
+							<td th:if="${adjInfo.sendWarehouseOutPlace != null}">[[${adjInfo.sendWarehouseLocation}]] ([[${adjInfo.sendWarehouseOutPlace}]])</td>
 							<th>합계금액</th>
 							<td>[[${adjInfo.totalPrice}]] 원</td>
 						</tr>
@@ -93,9 +109,6 @@
 								<td>[[${l.stockWeight}]] kg</td>
 								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.comment}]]</td>
-								<td>
-									<i class="fas fa-pen"></i>
-								</td>
 							</tr>
 						</tbody>
 						<tbody th:if="${ adjDetail == null }">

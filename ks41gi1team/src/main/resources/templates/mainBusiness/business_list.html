@@ -33,8 +33,6 @@
 						<option value="">사업장 구분 코드</option>
 						<option value="businessLevel">사업장 권한</option>
 						<option value="businessName">상호</option>
-						<option value="businessType1">업종</option>
-						<option value="businessType2">업태</option>
 						<option value="businessCount">종사업장번호</option>
 					
 					</select> 
@@ -61,27 +59,31 @@
 								<th>사업장 구분 코드</th>
 								<th>사업장 권한</th>
 								<th>상호</th>
-								<!-- <th>대표자명</th> -->
-								<th>업종</th>
-								<th>업태</th>
-								<!-- <th>사업자번호</th> -->
 								<th>종사업장번호</th>
-								<!-- <th>연락처</th> -->
-								<!-- <th>소재지</th> -->
-								<!-- <th>이메일</th> -->
-								<!-- <th>개업년월일</th> -->
-								<!-- <th>플랫폼 가입일시</th> -->
-								<!-- <th>수정일시</th> -->
-							
+								<th>수정</th>
 							</tr>
-						
-						
 						</thead>
 						<tbody>
-						
-						
+							<tr th:if="${not #lists.isEmpty(mainBusinessList)}" th:each="l : ${mainBusinessList}">
+								<td><input type="checkbox"></td>
+								<td><a th:href="@{|/mainBusinessList/${l.mainBusinessCode}|}">
+										[[${l.mainBusinessCode}]] </a></td>
+								<td>[[${l.businessCategory}]]</td>
+								<td>[[${l.businessLevel}]]</td>
+								<td>[[${l.businessName}]]</td>
+								<td>[[${l.businessCount}]]</td>
+								<td>
+									<a th:href="@{/mainBusinessList/${l.mainBusinessCode}|}">
+										<i class="fas fa-pen"></i>
+									</a>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(mainBusinessList)}">
+								<td colspan="6">거래처 정보가 없습니다.</td>
+							</tr>
 						</tbody>
 					</table>
+					<button type="button" class="btn btn-info">등록</button>
 				</div>
 			</div>
 		</div>
@@ -93,9 +95,3 @@
 
 </html>
 						
-						
-						
-						
-</th:block>
-
-</html>

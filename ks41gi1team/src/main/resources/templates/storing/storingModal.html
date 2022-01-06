@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout"
+	layout:decorate="@{layout/modal}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<th:block layout:fragment="customContents">
+	입고, 자재사용, …… /storing/storingModal.html
+</th:block>
+
+</html>
