@@ -103,7 +103,6 @@
 			,p.regId AS regId
 			,u2.userName AS regName
 			,c.businessName AS businessName
-			,p.payPlanCode
 			,p.mainBusinessCode
 			,p.clientCode
 			,p.totalAccountCode
@@ -153,6 +152,34 @@
 			k1_tb_item_info AS i
 		on
 			i.itemCode = pd.itemCode
+		WHERE
+			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
+	</select>
+	<select id="getPlanPaymentInfoList" parameterType="String" resultType="PlanPayment">
+		SELECT
+			pd.payPlanDetailCode
+			,RIGHT(pd.payPlanCode,3) AS payPlanCode
+			,pd.purchaseTsCode
+			,pd.salesTsCode
+			,RIGHT(pd.itemCode,3) AS itemCode
+			,pd.madeCompany
+			,pd.materialCost
+			,pd.tax
+			,pd.productPrice
+			,pd.vat
+			,pd.count
+			,pd.sum
+			,i.itemName
+		FROM
+			k1_tb_pay_plan_detail AS pd
+		JOIN
+			k1_tb_item_info AS i
+		ON
+			pd.itemCode = i.itemCode
+		JOIN
+			k1_tb_pay_plan AS p
+		ON
+			p.payPlanCode = pd.payPlanCode
 		WHERE
 			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
 	</select>

@@ -1,6 +1,7 @@
 package k1.smart.team.controller.pjh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ public class PaymentController {
 	private PlanPayment planPaymentInfo;
 	private CancelPayment cancelPaymentInfo;
 	private HistoryPayment historyPaymentInfo;
+	private List<PlanPayment> planPaymentInfoList; 
+	private Map<String,Object> resultMap;
 	
 	public PaymentController(PaymentService pService) {
 		this.pService = pService;
@@ -133,30 +136,36 @@ public class PaymentController {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 		List<PlanPayment> planPayment = pService.getPlanPaymentList(mainBusinessCode);
 		System.out.println("PaymentController !!!!!!!!!!!!! "+planPayment);
-		model.addAttribute("title","결제예정");
+		model.addAttribute("SectionTitle","결제예정");
+		model.addAttribute("SectionLocation","전체목록");
 		model.addAttribute("planPayment", planPayment);
 		
 		return "payment/planPayment_list";
 	}
 	
 	//결제예정 상세
+	@SuppressWarnings("unchecked")
 	@GetMapping("/plan/{payPlanCode}")
 	public String PlanPaymentInfo(
 			@PathVariable(value="payPlanCode", required=false) String payPlanCode
 			,Model model) {
+		//결제예정 코드 검사
 		if(payPlanCode == null || "".equals(payPlanCode)) {
 			System.out.println("결제예정코드 ERROR");
 			return "redirect:/k1PaymentList/plan";
 		}
+		//품목코드 상세
+		resultMap = pService.getPlanPaymentInfo(payPlanCode);
+		if(resultMap == null) return "redirect:/k1PaymentList/plan";
 		
-		planPaymentInfo = pService.getPlanPaymentInfo(payPlanCode);
-		if(planPaymentInfo == null) {
-			System.out.println("결제예정코드 ERROR");
-			return "redirect:/k1SlipList/plan";
-		}
+		planPaymentInfo = (PlanPayment) resultMap.get("planPaymentInfo");
+		planPaymentInfoList = (List<PlanPayment>) resultMap.get("planPaymentInfoList");
 		
-		model.addAttribute("title", "결제예정: 상세정보");
+		
+		model.addAttribute("SectionTitle", "결제예정");
+		model.addAttribute("SectionLocation", "상세정보");
 		model.addAttribute("planPaymentInfo", planPaymentInfo);
+		model.addAttribute("planPaymentInfoList", planPaymentInfoList);
 		return "payment/planPayment_detail";
 	}
 	

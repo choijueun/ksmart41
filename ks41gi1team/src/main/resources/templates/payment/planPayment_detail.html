@@ -70,7 +70,7 @@
 					<div class="card-header">
 						결제금액 상세내역
 					</div>
-					<div class="card-body" th:if="${ planPaymentInfo != null }">
+					<div class="card-body" th:if="${ planPaymentInfoList != null }">
 						<table id="adjDetail" class="table table-bordered">
 							<thead>
 								<tr>
@@ -83,8 +83,8 @@
 									<th>소계</th>
 								</tr>
 							</thead>
-							<tbody th:if="${ planPaymentInfo != null }">
-								<tr th:each="l : ${planPaymentInfo}">
+							<tbody th:if="${ planPaymentInfoList != null }">
+								<tr th:each="l : ${planPaymentInfoList}">
 									<td>
 										<a th:href="@{|/k1Item/${l.itemCode}|}">
 											[[${l.itemName}]]
@@ -98,7 +98,7 @@
 									<td>[[${l.sum}]]원</td>
 								</tr>
 							</tbody>
-							<tbody th:if="${ planPaymentInfo == null }">
+							<tbody th:if="${ planPaymentInfoList == null }">
 								<tr>
 									<td colspan="12">
 									상세내역을 불러올 수 없습니다.
@@ -107,7 +107,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="card-body" th:if="${ planPaymentInfo == null }">
+					<div class="card-body" th:if="${ planPaymentInfoList == null }">
 						잘못된 접근입니다.
 					</div>
 				</div>	

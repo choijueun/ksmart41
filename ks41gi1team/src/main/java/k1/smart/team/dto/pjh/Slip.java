@@ -11,7 +11,7 @@ public class Slip {
 	private String clientCode; //거래처코드
 	private String businessName; //거래처상호
 	private int amount; //단가
-	private int tex;  //개당 세금
+	private int tax;  //개당 세금
 	private int count;  //수량
 	private int amt;  //((단가+세금)*수량) = amt
 	private String briefs;
@@ -75,11 +75,11 @@ public class Slip {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getTex() {
-		return tex;
+	public int getTax() {
+		return tax;
 	}
-	public void setTex(int tex) {
-		this.tex = tex;
+	public void setTax(int tax) {
+		this.tax = tax;
 	}
 	public int getCount() {
 		return count;
@@ -151,8 +151,8 @@ public class Slip {
 		builder.append(businessName);
 		builder.append(", amount=");
 		builder.append(amount);
-		builder.append(", tex=");
-		builder.append(tex);
+		builder.append(", tax=");
+		builder.append(tax);
 		builder.append(", count=");
 		builder.append(count);
 		builder.append(", amt=");
