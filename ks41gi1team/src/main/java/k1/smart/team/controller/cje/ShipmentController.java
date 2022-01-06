@@ -23,24 +23,34 @@ public class ShipmentController {
 		this.shipmentService = shipmentService;
 	}
 	
-	//출하내역 전체목록
+	/**
+	 * 출하내역 전체목록
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
 		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentList", shipmentList);
 		
 		return "storing/shipment/shipment_list";
 	}
 	
-	//출하내역 상세정보
+	/**
+	 * 출하내역 상세정보
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Shipment/{stockAdjCode}")
 	public String shipmentInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Shipment";
 		
 		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Shipment";
@@ -49,7 +59,7 @@ public class ShipmentController {
 		shipmentList = (List<Storing>) resultMap.get("shipmentDetails");
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentInfo", shipmentInfo);
 		model.addAttribute("shipmentDetails", shipmentList);
 		

@@ -27,9 +27,13 @@ public class AdjustmentController {
 		this.adjService = adjService;
 	}
 	
+	/**
+	 * 재고조정내역 전체조회
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Adjustment")
 	public String adjustmentMain(Model model) {
-		//재고조정내역 전체목록
 		adjList = adjService.getAllAdjList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -39,6 +43,12 @@ public class AdjustmentController {
 		return "storing/adjustment/adjustment_list";
 	}
 	
+	/**
+	 * 재고조정내역 상세조회
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Adjustment/{stockAdjCode}")
 	public String adjInfo(

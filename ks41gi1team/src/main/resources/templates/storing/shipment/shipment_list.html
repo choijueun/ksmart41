@@ -18,7 +18,7 @@
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
-			출하내역 전체목록
+			제품출하내역 전체목록
 		</div>
 		<div class="card-body">
 			<table id="shipmentList" class="table table-bordered table-hover dataTable dtr-inline">
@@ -75,7 +75,7 @@
 					</tr>
 					<tr th:if="${#lists.isEmpty(shipmentList)}">
 						<td colspan="12">
-							반품처리내역이 존재하지 않습니다.
+							제품출하내역이 존재하지 않습니다.
 						</td>
 					</tr>
 				</tbody>

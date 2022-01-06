@@ -51,14 +51,14 @@
 						</tr>
 						<tr>
 							<th>거래처</th>
-							<td colspan="3" th:if="${productionInfo.clientCode != null}">
+							<td colspan="5" th:if="${productionInfo.clientCode != null}">
 								<!-- 거래처정보LINK -->
 								[[${productionInfo.businessName}]]
 								<a th:if="${productionInfo.contractCode != null}">
 									<button type="button" class="btn btn-outline-info btn-xs">[[${productionInfo.contractCode}]]</button>
 								</a>
 							</td>
-							<td colspan="3" th:if="${productionInfo.clientCode == null}">
+							<td colspan="5" th:if="${productionInfo.clientCode == null}">
 							</td>
 						</tr>
 						<tr>

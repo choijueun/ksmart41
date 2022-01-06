@@ -47,6 +47,7 @@ public class MovingController {
 	public String movingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Moving";
 		
 		resultMap = movingService.getMovingInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Moving";
