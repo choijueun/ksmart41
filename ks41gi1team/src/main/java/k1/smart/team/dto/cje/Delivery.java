@@ -3,6 +3,7 @@ package k1.smart.team.dto.cje;
 public class Delivery {
 	private String deliveryCode; //운송요청내역코드
 	private String shipmentPlanCode; //출하계획코드
+	private String returnRegCode; //반품요청코드
 	
 	private String deliveryBusinessCode; //운송업체코드
 	private String deliveryBusinessName; //운송업체상호
@@ -11,8 +12,18 @@ public class Delivery {
 	private String clientCode; //거래처코드
 	private String clientBusinessName; //거래처상호
 	
-	private String receivePlace; //도착지
+	private String receiveAddr; //도착지
 	private int deliveryCost; //운송비용 
+	
+	private String stockAdjCode; //물류이동코드
+	private String stockReasonCode; //물류이동사유코드
+	private String stockReason; //물류이동사유
+	private String stockReasonEng; //물류이동사유
+	
+	private String warehouseCode; //창고코드
+	private String warehouseName; //창고이름
+	private String loaction; //위치
+	private String outPlace; //외부소재지
 	
 	private String briefs; //적요
 	private String managerId; //담당자ID
@@ -21,6 +32,12 @@ public class Delivery {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
+	public String getReturnRegCode() {
+		return returnRegCode;
+	}
+	public void setReturnRegCode(String returnRegCode) {
+		this.returnRegCode = returnRegCode;
+	}
 	public String getDeliveryCode() {
 		return deliveryCode;
 	}
@@ -63,17 +80,65 @@ public class Delivery {
 	public void setClientBusinessName(String clientBusinessName) {
 		this.clientBusinessName = clientBusinessName;
 	}
-	public String getReceivePlace() {
-		return receivePlace;
+	public String getReceiveAddr() {
+		return receiveAddr;
 	}
-	public void setReceivePlace(String receivePlace) {
-		this.receivePlace = receivePlace;
+	public void setReceiveAddr(String receiveAddr) {
+		this.receiveAddr = receiveAddr;
 	}
 	public int getDeliveryCost() {
 		return deliveryCost;
 	}
 	public void setDeliveryCost(int deliveryCost) {
 		this.deliveryCost = deliveryCost;
+	}
+	public String getStockAdjCode() {
+		return stockAdjCode;
+	}
+	public void setStockAdjCode(String stockAdjCode) {
+		this.stockAdjCode = stockAdjCode;
+	}
+	public String getStockReasonCode() {
+		return stockReasonCode;
+	}
+	public void setStockReasonCode(String stockReasonCode) {
+		this.stockReasonCode = stockReasonCode;
+	}
+	public String getStockReason() {
+		return stockReason;
+	}
+	public void setStockReason(String stockReason) {
+		this.stockReason = stockReason;
+	}
+	public String getStockReasonEng() {
+		return stockReasonEng;
+	}
+	public void setStockReasonEng(String stockReasonEng) {
+		this.stockReasonEng = stockReasonEng;
+	}
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+	public String getLoaction() {
+		return loaction;
+	}
+	public void setLoaction(String loaction) {
+		this.loaction = loaction;
+	}
+	public String getOutPlace() {
+		return outPlace;
+	}
+	public void setOutPlace(String outPlace) {
+		this.outPlace = outPlace;
 	}
 	public String getBriefs() {
 		return briefs;

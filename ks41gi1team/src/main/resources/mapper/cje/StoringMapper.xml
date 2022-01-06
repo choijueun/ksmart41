@@ -426,5 +426,133 @@
 		AND a.stockReasonCode = 8;
 </select>
 
+<!-- 출하계획 전체조회 -->
+<select id="getShipmentPlanList" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(sp.contractCode,3) AS contractCode
+		,c.clientCode
+		,c.businessName AS businessName
+		,sp.receiveAddr
+		,sp.planDate AS sendPlanDate
+		,sp.briefs
+		,sp.managerId
+		,u.userName AS managerName
+		,sp.updateDate
+	FROM 
+		k1_tb_shipment_plan AS sp
+		JOIN
+		k1_tb_user AS u
+		ON
+		sp.managerId = u.userId
+		LEFT JOIN
+		(SELECT
+			 c.contractCode
+			,c.clientCode
+			,cl.businessName
+		FROM
+			k1_tb_contract AS c
+			JOIN
+			k1_tb_client AS cl
+			ON
+			c.clientCode = cl.clientCode
+		) AS c
+		ON
+		sp.contractCode = c.contractCode
+	WHERE
+		sp.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<select id="getShipmentPlanInfo" parameterType="String" resultType="Storing">
+SELECT 
+	 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
+	,RIGHT(sp.contractCode,3) AS contractCode
+	,c.clientCode
+	,c.businessName AS businessName
+	,sp.receiveAddr
+	,sp.planDate AS sendPlanDate
+	,sp.briefs
+	,sp.managerId
+	,u.userName AS managerName
+	,sp.regDate
+	,sp.updateDate
+FROM 
+	k1_tb_shipment_plan AS sp
+	JOIN
+	k1_tb_user AS u
+	ON
+	sp.managerId = u.userId
+	LEFT JOIN
+	(SELECT
+		 c.contractCode
+		,c.clientCode
+		,cl.businessName
+	FROM
+		k1_tb_contract AS c
+		JOIN
+		k1_tb_client AS cl
+		ON
+		c.clientCode = cl.clientCode
+	) AS c
+	ON
+	sp.contractCode = c.contractCode
+WHERE
+	sp.mainBusinessCode = #{mainBusinessCode}
+	AND sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+</select>
+
+<select id="getShipmentPlanDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(sd.inventoryCode,3) AS inventoryCode
+		,RIGHT(st.itemCode,3) AS itemCode
+		,st.itemName
+		,RIGHT(st.productPriceCode,3) AS productPriceCode
+		,st.productPrice
+		,RIGHT(st.warehouseCode,3) AS warehouseCode
+		,st.warehouseName
+		,st.loaction
+		,st.outPlace
+		,sd.itemCount AS adjCount
+		,sd.itemWeight AS adjWeight
+		,sd.totcalPrice
+		,sd.`comment`
+	FROM
+		k1_tb_shipment_plan_detail AS sd
+		JOIN
+		k1_tb_shipment_plan AS sp
+		ON
+		sd.shipmentPlanCode = sp.shipmentPlanCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+			,s.productPriceCode
+			,p.productPrice
+			,s.warehouseCode
+			,w.warehouseName
+			,w.loaction
+			,w.outPlace
+		FROM
+			k1_tb_stock AS s
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+			JOIN
+			k1_tb_warehouse_info AS w
+			ON
+			s.warehouseCode = w.warehouseCode
+			LEFT JOIN
+			k1_tb_product_price AS p
+			ON
+			s.productPriceCode = p.productPriceCode
+		) AS st
+		ON
+		sd.inventoryCode = st.inventoryCode
+	WHERE
+		sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+</select>
+
 
 </mapper>

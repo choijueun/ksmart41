@@ -35,6 +35,12 @@ public class ShipmentService {
 		return shipmentList;
 	}
 	
+	/**
+	 * 출하내역 상세조회
+	 * @param mainBusinessCode
+	 * @param stockAdjCode
+	 * @return
+	 */
 	public Map<String, Object> getShipmentInfo(String mainBusinessCode, String stockAdjCode) {
 		shipmentInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "5");
 		if(shipmentInfo == null) return null;
@@ -43,6 +49,35 @@ public class ShipmentService {
 		resultMap.clear();
 		resultMap.put("shipmentInfo", shipmentInfo);
 		resultMap.put("shipmentDetails", shipmentList);
+		
+		return resultMap;
+	}
+	
+	/**
+	 * 출하계획 전체조회
+	 * @param mainBusinessCode
+	 * @return
+	 */
+	public List<Storing> getShipmentPlanList(String mainBusinessCode) {
+		shipmentList = storingMapper.getShipmentPlanList(mainBusinessCode);
+		
+		return shipmentList;
+	}
+	
+	/**
+	 * 출하내역 상세조회
+	 * @param mainBusinessCode
+	 * @param shipmentPlanCode
+	 * @return
+	 */
+	public Map<String, Object> getShipmentPlanInfo(String mainBusinessCode, String shipmentPlanCode) {
+		shipmentInfo = storingMapper.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		if(shipmentInfo == null) return null;
+		shipmentList = storingMapper.getShipmentPlanDetails(shipmentPlanCode);
+		
+		resultMap.clear();
+		resultMap.put("shipPlanInfo", shipmentInfo);
+		resultMap.put("shipPlanDetails", shipmentList);
 		
 		return resultMap;
 	}

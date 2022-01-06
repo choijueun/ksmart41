@@ -80,18 +80,42 @@ public class ShipmentController {
 		return "storing/shipment/shipment_modify";
 	}
 	
-	//출하계획 전체조회
+	/**
+	 * 출하계획 전체조회
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ShipmentPlan")
 	public String shipmentPlanMain(Model model) {
+		shipmentList = shipmentService.getShipmentPlanList(mainBusinessCode);
+		
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "제품출하계획");
+		model.addAttribute("shipmentList", shipmentList);
+		
 		return "storing/shipment/shipment_plan_list";
 	}
 	
 	//출하계획 상세정보
+	@SuppressWarnings("unchecked")
 	@GetMapping("/k1ShipmentPlan/{shipmentPlanCode}")
 	public String shipmentPlanInfo(
 			@PathVariable(value="shipmentPlanCode", required=false) String shipmentPlanCode
 			,Model model) {
-		return "storing/shipment/return_request_info";
+		if(shipmentPlanCode == null || "".equals(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
+		
+		resultMap = shipmentService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		if(resultMap == null) return "redirect:/k1ShipmentPlan";
+		
+		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
+		shipmentList = (List<Storing>) resultMap.get("shipPlanDetails");
+		
+		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionLocation", "제품출하계획");
+		model.addAttribute("shipPlanInfo", shipmentInfo);
+		model.addAttribute("shipPlanDetails", shipmentList);
+		
+		return "storing/shipment/shipment_plan_info";
 	}
 	
 	//출하계획 신규등록
