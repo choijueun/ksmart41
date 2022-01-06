@@ -72,10 +72,13 @@
 		,w1.warehouseName AS sendWarehouseName
 		,w1.loaction AS sendWarehouseLocation
 		,w1.outPlace AS sendWarehouseOutPlace
+		,RIGHT(a.receiveWarehouse,3) AS receiveWarehouse
 		,w2.warehouseName AS receiveWarehouseName
 		,w2.loaction AS receiveWarehouseLocation
 		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
+		,RIGHT(a.materialOrderCode,3) AS materialOrderCode
+		,RIGHT(a.productOrderCode,3) AS productOrderCode
 		,a.deliveryCost
 		,RIGHT(a.deliveryCode,3) AS deliveryCode
 		,a.briefs
@@ -108,6 +111,80 @@
 		a.mainBusinessCode = #{mainBusinessCode}
 		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = ${stockReasonCode};
+</select>
+
+<!-- 3. 제품생산내역 상세(목록) -->
+<select id="getProductionDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 3;
+</select>
+
+<!-- 4. 창고이동내역 상세(목록) -->
+<select id="getMovingDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,i.itemName
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
+		AND a.stockReasonCode = 4;
 </select>
 
 <!-- 5. 출하내역 상세(목록) -->

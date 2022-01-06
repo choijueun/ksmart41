@@ -29,7 +29,6 @@ public class AdjustmentService {
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
-		System.out.println(adjList);
 		
 		return adjList;
 	}
@@ -42,6 +41,7 @@ public class AdjustmentService {
 	public Map<String, Object> getAdjInfo(String mainBusinessCode, String stockAdjCode) {
 		//한줄정보
 		adjInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "6");
+		if(adjInfo == null) return null;
 		//상세정보(배열)
 		adjList = storingMapper.getAdjDetails(stockAdjCode);
 		

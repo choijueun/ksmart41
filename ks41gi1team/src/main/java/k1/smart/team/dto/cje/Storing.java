@@ -20,6 +20,7 @@ public class Storing {
 	private String contractSection; //*계약 주문유형 - 수주발주 택1이면 없어도 될지도
 	
 	private String materialOrderCode; //발주 코드
+	private String productOrderCode; //수주 코드
 	private String deliveryCode; //운송요청내역코드
 	private String shipmentPlanCode; //*출하계획코드
 	
@@ -65,6 +66,12 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
+	public String getProductOrderCode() {
+		return productOrderCode;
+	}
+	public void setProductOrderCode(String productOrderCode) {
+		this.productOrderCode = productOrderCode;
+	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}

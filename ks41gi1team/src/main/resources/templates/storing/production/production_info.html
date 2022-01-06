@@ -4,17 +4,138 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					제품생산내역
+				</div>
+				<div class="card-body" th:if="${ productionInfo != null }">
+					<table id="productionInfo" class="table table-bordered">
+						<tr>
+							<th>No.</th>
+							<td colspan="3">[[${productionInfo.stockAdjCode}]]</td>
+							<th>상태</th>
+							<td th:if="${productionInfo.endDate != null}">
+								완료
+							</td>
+							<td th:if="${productionInfo.endDate == null}">
+							</td>
+						</tr>
+						<tr>
+							<th>입고창고</th>
+							<td colspan="2">
+								<a th:href="@{|/k1Warehouse/${productionInfo.receiveWarehouse}|}">
+									[[${productionInfo.receiveWarehouseName}]]
+								</a>
+							</td>
+							<td th:if="${productionInfo.receiveWarehouseOutPlace == null}">[[${productionInfo.receiveWarehouseLocation}]]</td>
+							<td th:if="${productionInfo.receiveWarehouseOutPlace != null}">[[${productionInfo.receiveWarehouseLocation}]] ([[${productionInfo.receiveWarehouseOutPlace}]])</td>
+							<th>합계금액</th>
+							<td>[[${productionInfo.totalPrice}]] 원</td>
+						</tr>
+						<tr>
+							<th>거래처</th>
+							<td colspan="3" th:if="${productionInfo.clientCode != null}">
+								<!-- 거래처정보LINK -->
+								[[${productionInfo.businessName}]]
+								<a th:if="${productionInfo.contractCode != null}">
+									<button type="button" class="btn btn-outline-info btn-xs">[[${productionInfo.contractCode}]]</button>
+								</a>
+							</td>
+							<td colspan="3" th:if="${productionInfo.clientCode == null}">
+							</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td colspan="3">[[${productionInfo.briefs}]]</td>
+							<!-- 회원정보 LINK -->
+							<th>담당자</th>
+							<td>[[${productionInfo.managerName}]]</td>
+						</tr>
+						<tr>
+							<th>요청일자</th>
+							<td>[[${productionInfo.requestDate}]]</td>
+							<th>처리일자</th>
+							<td>[[${productionInfo.adjDate}]]</td>
+							<th>완료일자</th>
+							<td>[[${productionInfo.endDate}]]</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td colspan="2">[[${productionInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td colspan="2">[[${productionInfo.updateDate}]]</td>
+						</tr>
+					</table>
+					<a th:href="@{|/k1ProductionModify/${productionInfo.stockAdjCode}|}">
+						<button type="button" class="btn btn-info">수정</button>
+					</a>
+				</div>
+				<div class="card-body" th:if="${ productionInfo == null}">
+					잘못된 접근입니다.
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-7">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					제품생산 상세내역
+				</div>
+				<div class="card-body">
+					<table id="productionDetails" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>품목명</th>
+								<th>조정수량</th>
+								<th>최종수량</th>
+								<th>조정중량</th>
+								<th>최종중량</th>
+								<th>상태</th>
+								<th>비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${ productionInfo != null and productionDetails != null }" th:each=" l : ${productionDetails}">
+								<td>
+									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+										[[${l.itemName}]]
+									</a>
+								</td>
+								<td>[[${l.adjCount}]]</td>
+								<td>[[${l.afterCount}]]</td>
+								<td>[[${l.adjWeight}]] kg</td>
+								<td>[[${l.stockWeight}]] kg</td>
+								<td>[[${l.stockStatus}]]</td>
+								<td>[[${l.comment}]]</td>
+							</tr>
+							<tr th:if="${ productionInfo == null or productionDetails == null }">
+								<td>상세내역이 존재하지 않습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 </th:block>
 
 </html>

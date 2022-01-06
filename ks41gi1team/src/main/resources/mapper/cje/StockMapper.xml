@@ -119,7 +119,7 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		inventoryCode = #{inventoryCode};
+		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </select>
 
 </mapper>
