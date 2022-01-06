@@ -26,9 +26,6 @@ public class ItemService {
 	public List<Stock> getAllItemList(String mainBusinessCode){
 		//전체목록
 		itemList = itemMapper.getAllItemList(mainBusinessCode);
-		if(itemList == null) {
-			System.out.println("품목정보 조회결과 없음");
-		}
 		
 		return itemList;
 	}
@@ -42,11 +39,8 @@ public class ItemService {
 		itemInfo = itemMapper.getItemInfoByCode("itemCode_"+itemCode); //품목정보
 		item1StockInfo = itemMapper.getItemStockByCode("itemCode_"+itemCode); //품목총재고정보
 		
-		//품목코드 존재 확인
-		if(itemInfo == null) {
-			System.out.println("품목정보 조회결과 없음 - 품목코드 ERROR");
-			return null;
-		}
+		//품목정보 존재 확인
+		if(itemInfo == null)  return null;
 		//품목총재고정보 입력
 		if(item1StockInfo != null ) {
 			itemInfo.setItemCount(item1StockInfo.getItemCount());

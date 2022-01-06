@@ -43,7 +43,7 @@
 	FROM 
 		k1_tb_warehouse_info AS w
 	WHERE
-		w.warehouseCode = #{warehouseCode};
+		w.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode});
 </select>
 
 </mapper>
