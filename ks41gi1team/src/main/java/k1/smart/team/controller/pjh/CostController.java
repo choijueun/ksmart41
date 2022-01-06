@@ -35,7 +35,7 @@ public class CostController {
 	}
 	
 	//비용 상세정보
-	@GetMapping("/{etcPurchaseCode}")
+	@GetMapping("/costInfo/{etcPurchaseCode}")
 	public String costInfo(
 			@PathVariable(value="etcPurchaseCode", required=false) String etcPurchaseCode
 			,Model model) {

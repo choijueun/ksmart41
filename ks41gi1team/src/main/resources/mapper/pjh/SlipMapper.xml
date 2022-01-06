@@ -4,65 +4,93 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.pjh.SlipMapper">
 	<select id="getAll_P_SlipList" parameterType="String" resultType="Slip">
-		SELECT 
-			purchaseSlipCode
-			,mainBusinessCode
-			,totalAccountCode
-			,purchaseTsCode
-			,payCost
-			,briefs
-			,regId
-			,regDate
-			,updateDate
+		SELECT
+			p.purchaseSlipCode
+			,p.amount
+			,p.tex
+			,p.count
+			,((p.amount + p.tex) * p.COUNT) AS amt
+			,c.businessName
+			,p.briefs
 		FROM
-			k1_tb_purchase_slip
+			k1_tb_purchase_slip AS p
+		JOIN
+			k1_tb_client AS c
+		ON 
+			p.clientCode = c.clientCode
 		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			p.mainBusinessCode = #{mainBusinessCode};
+
 	</select>
 	<select id="getAll_S_SlipList" parameterType="String" resultType="Slip">
-		SELECT 
-			salesSlipCode
-			,mainBusinessCode
-			,salesTsCode
-			,totalAccountCode
-			,saleCost
-			,briefs
-			,regId
-			,regDate
-			,updateDate
-		FROM k1_tb_sales_slip
+		SELECT
+			s.salesSlipCode
+			,s.amount
+			,s.tex
+			,s.count
+			,((s.amount + s.tex) * s.COUNT) AS amt
+			,c.businessName
+			,s.briefs
+		FROM
+			k1_tb_sales_slip AS s
+		JOIN
+			k1_tb_client AS c
+		ON 
+			s.clientCode = c.clientCode
 		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			s.mainBusinessCode = #{mainBusinessCode};
 	</select>
 	<select id="getPurchaseSlipInfo" parameterType="String" resultType="Slip">
-		SELECT 
-			purchaseSlipCode
-			,mainBusinessCode
-			,totalAccountCode
-			,purchaseTsCode
-			,payCost
-			,briefs
-			,regId
-			,regDate
-			,updateDate
+		SELECT
+			p.purchaseSlipCode
+			,p.amount
+			,p.tex
+			,p.count
+			,p.purchaseTsCode
+			,((p.amount + p.tex) * p.COUNT) AS amt
+			,c.businessName
+			,p.briefs
+			,p.totalAccountCode
+			,p.regDate
+			,p.updateDate
+			,u.userName
 		FROM
-			k1_tb_purchase_slip
-		WHERE 
+			k1_tb_purchase_slip AS p
+		JOIN
+			k1_tb_client AS c
+		ON 
+			p.clientCode = c.clientCode
+		INNER JOIN 
+			k1_tb_user AS u
+			ON 
+			p.regId = u.userId
+		WHERE
 			purchaseSlipCode = #{purchaseSlipCode};
 	</select>
 	<select id="getSalesSlipInfo" parameterType="String" resultType="Slip">
-		SELECT 
-			salesSlipCode
-			,mainBusinessCode
-			,salesTsCode
-			,totalAccountCode
-			,saleCost
-			,briefs
-			,regId
-			,regDate
-			,updateDate
+		SELECT
+			s.salesSlipCode
+			,s.amount
+			,s.tex
+			,s.salesTsCode
+			,s.count
+			,((s.amount + s.tex) * s.COUNT) AS amt
+			,c.businessName
+			,s.briefs
+			,s.totalAccountCode
+			,s.regDate
+			,s.updateDate
+			,u.userName
 		FROM
-			k1_tb_sales_slip
+			k1_tb_sales_slip AS s
+		JOIN
+			k1_tb_client AS c
+		ON 
+			s.clientCode = c.clientCode
+		INNER JOIN 
+			k1_tb_user AS u
+			ON 
+			s.regId = u.userId
 		WHERE
 			salesSlipCode = #{salesSlipCode};
 	</select>
