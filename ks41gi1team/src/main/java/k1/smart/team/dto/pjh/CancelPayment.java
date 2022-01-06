@@ -11,6 +11,15 @@ public class CancelPayment {
 	private String regDate;
 	private String updateDate;
 	private String reason;
+	private String userName;
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getPayCancelCode() {
 		return payCancelCode;
 	}
@@ -94,6 +103,8 @@ public class CancelPayment {
 		builder.append(updateDate);
 		builder.append(", reason=");
 		builder.append(reason);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append("]");
 		return builder.toString();
 	}
