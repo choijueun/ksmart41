@@ -4,14 +4,14 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">조회</th:block>
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
@@ -36,9 +36,21 @@
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(totalAcList)}" th:each="l : ${totalAcList}">
 						<td>[[${l.totalAccountCode}]]</td>
-						<td>[[${l.salesSlipCode}]]</td>
-						<td>[[${l.purchaseSlipCode}]]</td>
-						<td>[[${l.etc_purchaseCode}]]</td>
+						<td>
+							<a th:href="@{|/k1SlipList/sales/${l.salesSlipCode}|}">
+								[[${l.salesSlipCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1SlipList/purchase/${l.purchaseSlipCode}|}">
+								[[${l.purchaseSlipCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1CostList/costInfo/${l.etcPurchaseCode}|}">
+								[[${l.etcPurchaseCode}]]
+							</a>
+						</td>
 						<td>[[${l.salesSection}]]</td>
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.relateTable}]]</td>

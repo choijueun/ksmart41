@@ -52,13 +52,10 @@
 							<input type="checkbox" id="allCheck">
 						</th>
 						<th>기타비용코드</th>
-						<th>계정과목</th>
-						<th>통합회계</th>
-						<th>금액</th>
 						<th>거래일자</th>
 						<th>결산시점</th>
+						<th>금액</th>
 						<th>적요</th>
-						<th>등록일시</th>
 						<th>수정</th>
 					</tr>
 				</thead>
@@ -66,23 +63,23 @@
 					<tr th:if="${not #lists.isEmpty(costList)}" th:each="l : ${costList}">
 						<td><input type="checkbox"></td>
 						<td>
-							<a th:href="@{|/.../${l.etcPurchaseCode}|}">
+							<a th:href="@{|/k1CostList/costInfo/${l.etcPurchaseCode}|}">
 								[[${l.etcPurchaseCode}]]
 							</a>
 						</td>
-						<td>[[${l.lsAccountCode}]]</td>
-						<td>[[${l.totalAccountCode}]]</td>
-						<td>[[${l.amount}]]</td>
 						<td>[[${l.dealDate}]]</td>
 						<td>[[${l.reportPoint}]]</td>
+						<td>[[${l.amount}]]</td>
 						<td>[[${l.briefs}]]</td>
-						<td>[[${l.regDate}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1CostList/modify/${l.etcPurchaseCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			<button type="button" class="btn btn-info">등록</button>
 		</div>
 	</div>
 </div>

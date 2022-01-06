@@ -14,6 +14,9 @@ public interface SlipMapper {
 	//매출전표 전체조회
 	public List<Slip> getAll_S_SlipList(String mainBusinessCode);
 	
-	//전표정보 상세조회
-	public List<Slip> getSlipInfo(String mainBusinessCode, String inventoryCode);
+	//매출전표정보 상세조회
+	public Slip getPurchaseSlipInfo(String purchaseSlipCode);
+	
+	//비용전표정보 상세조회
+	public Slip getSalesSlipInfo(String salesSlipCode);
 }

@@ -18,7 +18,7 @@
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
-			재고조정 내역 조회
+			재고차이조정 내역 조회
 		</div>
 		<div class="card-body">
 			<table id="adjList" class="table table-bordered table-hover dataTable dtr-inline">
@@ -36,6 +36,7 @@
 						<th>완료</th>
 						<th>담당자</th>
 						<th>수정일시</th>
+						<th>수정</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,20 +44,40 @@
 						<td>
 							<input type="checkbox">
 						</td>
-						<td>[[${l.stockAdjCode}]]</td>
-						<td>품목 GROUP_CONCAT</td>
+						<td>
+							<a th:href="@{|/k1Adjustment/${l.stockAdjCode}|}">
+								[[${l.stockAdjCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Adjustment/${l.stockAdjCode}|}">
+								[[${l.itemList}]]
+							</a>
+						</td>
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.briefs}]]</td>
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
+						<!-- 회원정보 LINK -->
 						<td>[[${l.managerName}]]</td>
 						<td>[[${l.updateDate}]]</td>
+						<td>
+							<a th:href="@{|/k1AdjustmentModify/${l.stockAdjCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(adjList)}">
+						<td colspan="10">
+							재고차이조정내역이 존재하지 않습니다.
+						</td>
 					</tr>
 				</tbody>
 			</table>
+			<a th:href="@{/k1AdjustmentAdd}">
+				<button type="button" class="btn btn-info">등록</button>
+			</a>
 		</div>
 	</div>
 </div>

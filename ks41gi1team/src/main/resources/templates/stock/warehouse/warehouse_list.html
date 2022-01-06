@@ -74,7 +74,7 @@
 						</td>
 						<td>[[${l.status}]]</td>
 						<td>
-							<a th:href="@{|/k1Warehouse/modify/${l.warehouseCode}|}">
+							<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
 								<i class="fas fa-pen"></i>
 							</a>
 						</td>
@@ -84,7 +84,11 @@
 					</tr>
 				</tbody>
 			</table>
-			<button type="button" class="btn btn-info">등록</button>
+			<a th:href="@{/k1WarehouseAdd}">
+				<button type="button" class="btn btn-info">
+					등록
+				</button>
+			</a>
 		</div>
 	</div>
 </div>

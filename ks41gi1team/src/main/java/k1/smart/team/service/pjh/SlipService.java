@@ -12,6 +12,8 @@ public class SlipService {
 	private SlipMapper slipMapper;
 	private List<Slip> p_slipList;
 	private List<Slip> s_slipList;
+	private Slip purchaseSlipInfo;
+	private Slip salesSlipInfo;
 	
 	//생성자메서드
 	public SlipService(SlipMapper slipMapper) {
@@ -23,7 +25,7 @@ public class SlipService {
 		System.out.println("p_slipList: "+p_slipList);
 		String slipNum;
 		for(int i=0; i<p_slipList.size(); i++) {
-			slipNum = p_slipList.get(i).getPurchaseSlipCode().replace("P", "");
+			slipNum = p_slipList.get(i).getPurchaseSlipCode();
 			p_slipList.get(i).setPurchaseSlipCode(slipNum);
 		}
 		return p_slipList;
@@ -32,9 +34,32 @@ public class SlipService {
 		s_slipList = slipMapper.getAll_S_SlipList(mainBusinessCode);
 		String slipNum;
 		for(int i=0; i<s_slipList.size(); i++) {
-			slipNum = s_slipList.get(i).getSalesSlipCode().replace("S", "");
+			slipNum = s_slipList.get(i).getSalesSlipCode();
 			s_slipList.get(i).setPurchaseSlipCode(slipNum);
 		}
 		return s_slipList;
 	}
+	
+	public Slip getPurchaseSlipInfo(String purchaseSlipCode) {
+		purchaseSlipInfo = slipMapper.getPurchaseSlipInfo(purchaseSlipCode);
+		if(purchaseSlipInfo == null) {
+			System.out.println("비용전표정보 조회결과 없음");
+			return null;
+		}
+		
+		purchaseSlipInfo.setPurchaseSlipCode(purchaseSlipCode);
+		return purchaseSlipInfo;
+	}
+	
+	public Slip getSalesSlipInfo(String salesSlipCode) {
+		salesSlipInfo = slipMapper.getSalesSlipInfo(salesSlipCode);
+		if(salesSlipInfo == null) {
+			System.out.println("매출전표정보 조회결과 없음");
+			return null;
+		}
+		
+		salesSlipInfo.setPurchaseSlipCode(salesSlipCode);
+		return salesSlipInfo;
+	}
+	
 }

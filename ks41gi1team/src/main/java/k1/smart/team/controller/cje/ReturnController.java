@@ -1,43 +1,70 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.ReturnService;
 
 @Controller
-@RequestMapping(value="/k1Return")
 public class ReturnController {
 	private ReturnService returnService;
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	private List<Storing> returnList; //반품처리내역 배열
+	private Storing returnInfo; //반품처리내역 하나
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	/**
+	 * 생성자 메서드
+	 * @param returnService
+	 */
 	public ReturnController(ReturnService returnService) {
 		this.returnService = returnService;
 	}
 	
 	//반품내역 전체목록
-	@GetMapping("")
+	@GetMapping("/k1Return")
 	public String returnMain(Model model) {
+		returnList = returnService.getAllReturnList(mainBusinessCode);
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품처리");
+		model.addAttribute("returnList", returnList);
+		
 		return "storing/return/return_list";
 	}
 	
 	//반품내역 상세정보
-	@GetMapping("/{stockAdjCode}")
+	@SuppressWarnings("unchecked")
+	@GetMapping("/k1Return/{stockAdjCode}")
 	public String returnInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		resultMap = returnService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		
+		returnInfo = (Storing) resultMap.get("returnInfo");
+		returnList = (List<Storing>) resultMap.get("returnDetails");
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품처리");
+		model.addAttribute("returnInfo", returnInfo);
+		model.addAttribute("returnDetails", returnList);
 		return "storing/return/return_info";
 	}
 	
 	//반품내역 신규등록
-	@GetMapping("/add")
+	@GetMapping("/k1ReturnAdd")
 	public String addReturn(Model model) {
 		return "storing/return/return_add";
 	}
 	
 	//반품내역 수정
-	@GetMapping("/modify/{stockAdjCode}")
+	@GetMapping("/k1ReturnModify/{stockAdjCode}")
 	public String modifyReturn(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
@@ -45,13 +72,13 @@ public class ReturnController {
 	}
 	
 	//반품요청내역 전체목록
-	@GetMapping("/req")
+	@GetMapping("/k1ReturnReq")
 	public String returnReqMain(Model model) {
 		return "storing/return/return_request_list";
 	}
 	
 	//반품요청내역 상세정보
-	@GetMapping("/req/{returnRegCode}")
+	@GetMapping("/k1ReturnReq/{returnRegCode}")
 	public String returnReqInfo(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {
@@ -59,13 +86,13 @@ public class ReturnController {
 	}
 
 	//반품요청내역 신규등록
-	@GetMapping("/addReq")
+	@GetMapping("/k1ReturnReqAdd")
 	public String addReturnReq(Model model) {
 		return "storing/return/return_request_add";
 	}
 	
 	//반품요청내역 수정
-	@GetMapping("/modifyReq/{returnRegCode}")
+	@GetMapping("/k1ReturnReqModify/{returnRegCode}")
 	public String modifyReturnReq(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {

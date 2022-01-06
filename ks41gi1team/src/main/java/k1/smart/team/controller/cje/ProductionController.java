@@ -14,24 +14,24 @@ public class ProductionController {
 		this.productionService = productionService;
 	}
 	
-	@GetMapping("")
+	@GetMapping("/k1Production")
 	public String productionMain(Model model) {
 		return "storing/production/production_list";
 	}
 
-	@GetMapping("/{stockAdjCode}")
+	@GetMapping("/k1Production/{stockAdjCode}")
 	public String productionInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		return "storing/production/production_info";
 	}
 	
-	@GetMapping("/add")
+	@GetMapping("/k1ProductionAdd")
 	public String addProduction(Model model) {
 		return "storing/production/production_add";
 	}
 	
-	@GetMapping("/modify/{stockAdjCode}")
+	@GetMapping("/k1ProductionModify/{stockAdjCode}")
 	public String modifyProduction(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {

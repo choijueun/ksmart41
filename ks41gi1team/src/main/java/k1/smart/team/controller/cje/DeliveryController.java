@@ -4,25 +4,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.service.cje.DeliveryService;
 
 @Controller
-@RequestMapping(value="/k1Delivery")
 public class DeliveryController {
 	private DeliveryService delivryService;
 	public DeliveryController(DeliveryService delivryService) {
 		this.delivryService = delivryService;
 	}
 
-	@GetMapping("")
+	@GetMapping("/k1Delivery")
 	public String deliveryMain(Model model) {
 		model.addAttribute("title", "운송요청");
 		return "storing/delivry/delivery_list";
 	}
 	
-	@GetMapping("/{deliveryCode}")
+	@GetMapping("/k1Delivery/{deliveryCode}")
 	public String deliveryInfo(
 			@PathVariable(value="deliveryCode", required=false) String deliveryCode
 			,Model model) {
@@ -31,13 +29,13 @@ public class DeliveryController {
 		return "storing/delivry/delivery_info";
 	}
 	
-	@GetMapping("/add")
+	@GetMapping("/k1DeliveryAdd")
 	public String addDelivery(Model model) {
 		model.addAttribute("title", "운송요청: 등록");
 		return "storing/delivry/delivery_add";
 	}
 	
-	@GetMapping("/modify/{deliveryCode}")
+	@GetMapping("/k1DeliveryModify/{deliveryCode}")
 	public String modifyDelivery(
 			@PathVariable(value="deliveryCode", required=false) String deliveryCode
 			,Model model) {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">매출전표 상세보기</th:block>
+
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+		<div class="row" th:unless="${ salesSlipInfo == null }">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					비용전표[[${salesSlipInfo.purchaseSlipCode}]]
+				</div>
+				<div class="card-body">
+					<table id="salesSlipInfo" class="table table-bordered">
+						<tr>
+							<th>전표일자</th>
+							<td colspan="3">[[${salesSlipInfo.salesSlipCode}]]</td>
+						</tr>
+						<tr>
+							<th>명세서코드</th>
+							<td colspan="3">[[${salesSlipInfo.salesTsCode}]]</td>
+						</tr>
+						<tr>
+							<th>거래처명</th>
+							<td colspan="3">[[${salesSlipInfo.businessName}]]</td>
+						</tr>
+						<tr>
+							<th>구분</th>
+							<td>비용</td>
+							<th>수량</th>
+							<td>[[${salesSlipInfo.count}]]</td>
+						</tr>
+						<tr>
+							<th>공급가액</th>
+							<td>[[${salesSlipInfo.amount}]]</td>
+							<th>부가세</th>
+							<td>[[${salesSlipInfo.tex}]]</td>
+						</tr>
+						<tr>
+							<th>합계금액</th>
+							<td colspan="3">[[${salesSlipInfo.amt}]]원</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td colspan="3">[[${salesSlipInfo.briefs}]]</td>
+						</tr>
+						<tr>
+							<th>담당자</th>
+							<td colspan="3">[[${salesSlipInfo.userName}]]</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td>[[${salesSlipInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td>[[${salesSlipInfo.updateDate}]]</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-info">수정</button>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ salesSlipInfo == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
+</th:block>
+
+</html>

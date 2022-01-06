@@ -95,3 +95,2557 @@
 	WHERE
 		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
  {executed in 17 msec}
+14:05:27.037 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = 'warehouseCode_001';
+ {executed in 16 msec}
+14:05:36.233 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+ {executed in 2 msec}
+14:05:51.473 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6
+ {executed in 8 msec}
+14:06:00.265 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:06:01.377 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate
+		,s.updateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		inventoryCode = 'inventoryCode_001';
+ {executed in 16 msec}
+14:06:05.937 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:06:07.098 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+14:06:07.119 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 9 msec}
+14:06:11.436 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 116 msec}
+14:06:11.487 [http-nio-80-exec-7] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 2014 msec}
+14:06:12.569 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = 'warehouseCode_001';
+ {executed in 8 msec}
+14:11:57.421 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 24 msec}
+14:11:59.550 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 9 msec}
+14:12:05.874 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+14:12:05.886 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 8 msec}
+14:36:56.184 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_002';
+ {executed in 24 msec}
+14:36:56.231 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_002';
+ {executed in 12 msec}
+14:39:55.742 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_002';
+ {executed in 24 msec}
+14:39:55.785 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_002';
+ {executed in 12 msec}
+15:08:08.988 [http-nio-80-exec-5] ERROR jdbc.sqltiming - 1. PreparedStatement.execute() FAILED! SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	GROUP BY a.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+ {FAILED after 36 msec}
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'' at line 40
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:371)
+	at net.sf.log4jdbc.sql.jdbcapi.PreparedStatementSpy.execute(PreparedStatementSpy.java:443)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:64)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:325)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:89)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:151)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:145)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:427)
+	at com.sun.proxy.$Proxy63.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy64.getAllStoringList(Unknown Source)
+	at k1.smart.team.service.cje.AdjustmentService.getAllAdjList(AdjustmentService.java:29)
+	at k1.smart.team.controller.cje.AdjustmentController.adjustmentMain(AdjustmentController.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+15:09:56.004 [http-nio-80-exec-1] ERROR jdbc.sqltiming - 1. PreparedStatement.execute() FAILED! SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	GROUP BY a.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6
+ {FAILED after 26 msec}
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+		
+		
+			AND a.stockReaso' at line 40
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:371)
+	at net.sf.log4jdbc.sql.jdbcapi.PreparedStatementSpy.execute(PreparedStatementSpy.java:443)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:64)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:325)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:89)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:151)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:145)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:427)
+	at com.sun.proxy.$Proxy63.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy64.getAllStoringList(Unknown Source)
+	at k1.smart.team.service.cje.AdjustmentService.getAllAdjList(AdjustmentService.java:29)
+	at k1.smart.team.controller.cje.AdjustmentController.adjustmentMain(AdjustmentController.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+15:14:14.773 [http-nio-80-exec-1] ERROR jdbc.sqltiming - 1. PreparedStatement.execute() FAILED! SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	GROUP BY a.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6
+ {FAILED after 24 msec}
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+		
+		
+			AND a.stockReaso' at line 40
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:371)
+	at net.sf.log4jdbc.sql.jdbcapi.PreparedStatementSpy.execute(PreparedStatementSpy.java:443)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:64)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:325)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:89)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:151)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:145)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:427)
+	at com.sun.proxy.$Proxy63.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy64.getAllStoringList(Unknown Source)
+	at k1.smart.team.service.cje.AdjustmentService.getAllAdjList(AdjustmentService.java:29)
+	at k1.smart.team.controller.cje.AdjustmentController.adjustmentMain(AdjustmentController.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+15:16:03.995 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6 
+	GROUP BY a.stockAdjCode;
+ {executed in 40 msec}
+15:16:12.259 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 8 msec}
+15:16:56.319 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 16 msec}
+15:33:49.018 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 16 msec}
+15:36:47.133 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 24 msec}
+15:37:00.794 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6 
+	GROUP BY a.stockAdjCode;
+ {executed in 7 msec}
+16:11:54.662 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 24 msec}
+16:11:58.436 [http-nio-80-exec-9] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = '006';
+ {executed in 16 msec}
+16:11:58.448 [http-nio-80-exec-9] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,ad.salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = '006';
+ {executed in 8 msec}
+16:12:49.674 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 24 msec}
+16:12:54.417 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = '006';
+ {executed in 11 msec}
+16:12:54.437 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,ad.salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = '006';
+ {executed in 16 msec}
+16:13:43.274 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 16 msec}
+16:13:43.311 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,ad.salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 8 msec}
+16:14:52.494 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 16 msec}
+16:14:52.525 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,ad.salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 16 msec}
+16:19:49.349 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 32 msec}
+16:19:50.606 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 22 msec}
+16:19:50.619 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006';
+ {executed in 5 msec}
+16:20:08.743 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_008';
+ {executed in 226 msec}
+16:20:08.965 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_008';
+ {executed in 218 msec}
+16:22:09.752 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006' 
+		AND a.stockReasonCode = 6;
+ {executed in 16 msec}
+16:22:09.797 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006'
+		AND a.stockReasonCode = 6;
+ {executed in 16 msec}
+16:22:15.329 [http-nio-80-exec-8] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_007' 
+		AND a.stockReasonCode = 6;
+ {executed in 10 msec}
+16:22:15.347 [http-nio-80-exec-8] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_007'
+		AND a.stockReasonCode = 6;
+ {executed in 8 msec}
+16:22:19.963 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 16 msec}
+16:25:48.383 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 25 msec}
+16:25:51.640 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006' 
+		AND a.stockReasonCode = 6;
+ {executed in 52 msec}
+16:25:51.672 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
+		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(ad.salesTsCode,3) AS salesTsCode
+		,ad.adjCount
+		,ad.afterCount
+		,ad.adjWeight
+		,ad.stockWeight
+		,ad.stockStatus
+		,ad.`comment`
+	FROM
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+		JOIN
+		(SELECT
+			 s.inventoryCode
+			,s.itemCode
+			,i.itemName
+		FROM
+			k1_tb_item_info AS i
+			JOIN
+			k1_tb_stock AS s
+			ON
+			i.itemCode = s.itemCode
+		) AS i
+		ON
+		ad.inventoryCode = i.inventoryCode
+	WHERE
+		a.stockAdjCode = 'stockAdjCode_006'
+		AND a.stockReasonCode = 6;
+ {executed in 26 msec}
+16:25:58.033 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 6 
+	GROUP BY a.stockAdjCode;
+ {executed in 16 msec}
+16:26:03.457 [http-nio-80-exec-9] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 16 msec}
+16:26:04.623 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 8 msec}
+16:26:04.649 [http-nio-80-exec-6] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 17 msec}
+17:07:38.584 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 40 msec}
+17:07:48.324 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 8 
+	GROUP BY a.stockAdjCode;
+ {executed in 18 msec}
+17:19:31.012 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 20 msec}
+17:19:33.442 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 8 
+	GROUP BY a.stockAdjCode;
+ {executed in 15 msec}
+17:20:13.624 [http-nio-80-exec-1] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 8 
+	GROUP BY a.stockAdjCode;
+ {executed in 18 msec}
+17:20:18.520 [http-nio-80-exec-9] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001' 
+	GROUP BY a.stockAdjCode;
+ {executed in 19 msec}
+17:20:22.697 [http-nio-80-exec-8] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 13 msec}
+17:20:23.884 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate
+		,s.updateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		inventoryCode = 'inventoryCode_001';
+ {executed in 10 msec}
+17:20:26.752 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 11 msec}
+17:20:27.661 [http-nio-80-exec-5] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.category1
+		,w.category2
+		,w.`area`
+		,w.loaction
+		,w.outPlace
+		,w.currentWeight
+		,w.maxWeight
+		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.`status`
+		,w.regDate
+		,w.updateDate
+	FROM 
+		k1_tb_warehouse_info AS w
+	WHERE
+		w.warehouseCode = 'warehouseCode_001';
+ {executed in 9 msec}
+17:20:30.316 [http-nio-80-exec-2] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 10 msec}
+17:20:31.898 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,i.itemName
+		,i.itemType
+		,i.categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+17:20:31.914 [http-nio-80-exec-4] INFO  jdbc.sqltiming - SELECT
+		 i.itemCode
+		,SUM(s.itemCount) AS itemCount
+		,p.productPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_stock AS s
+		ON
+		i.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = 'itemCode_001';
+ {executed in 10 msec}
+17:20:35.691 [http-nio-80-exec-8] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.mainBusinessCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.itemCount
+		,s.totalPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.loaction
+		,w.outPlace
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+		,s.regDate AS stockRegDate
+		,s.updateDate AS stockUpdateDate
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		(SELECT
+			 i.itemCode
+			,i.itemName
+			,i.itemType
+			,i.categoryCode
+			,c.largeCategory
+			,c.middleCategory
+			,c.smallCategory
+			,i.itemStandard
+			,i.itemOrigin
+		FROM
+			k1_tb_item_info AS i
+			LEFT JOIN
+			k1_tb_item_category AS c
+			ON
+			i.categoryCode = c.categoryCode
+		) AS i
+		ON
+		i.itemCode = s.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE 
+		s.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 10 msec}
+17:20:37.232 [http-nio-80-exec-3] INFO  jdbc.sqltiming - SELECT
+		 RIGHT(i.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,RIGHT(i.categoryCode,3) AS categoryCode
+		,c.largeCategory
+		,c.middleCategory
+		,c.smallCategory
+		,c.microCategory
+		,i.itemStandard
+		,i.itemOrigin
+		,i.itemStatus
+		,i.itemComment
+		,i.regDate AS itemRegDate
+		,i.updateDate AS itemUpdateDate
+	FROM
+		k1_tb_item_info AS i
+		LEFT JOIN
+		k1_tb_item_category AS c
+		ON
+		i.categoryCode = c.categoryCode
+	WHERE
+		i.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001';
+ {executed in 11 msec}
+17:20:45.061 [http-nio-80-exec-10] INFO  jdbc.sqltiming - SELECT 
+		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
+		,GROUP_CONCAT(ad.itemName) AS itemList
+		,a.totalPrice
+		,a.briefs
+		,a.requestDate
+		,a.adjDate
+		,a.endDate
+		,a.managerId
+		,u.userName AS managerName
+		,a.regDate
+		,a.updateDate
+	FROM 
+		k1_tb_stock_adjustment AS a
+		JOIN
+		k1_tb_user AS u
+		ON
+		a.managerId = u.userId
+		JOIN
+		(SELECT
+			 ad.stockAdjDetailCode
+			,ad.stockAdjCode
+			,s.inventoryCode
+			,i.itemName
+		FROM
+			k1_tb_stock_adjustment_detail AS ad
+			JOIN
+			k1_tb_stock AS s
+			ON
+			ad.inventoryCode = s.inventoryCode
+			JOIN
+			k1_tb_item_info AS i
+			ON
+			s.itemCode = i.itemCode
+		) AS ad
+		ON
+		a.stockAdjCode = ad.stockAdjCode
+	 WHERE a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+
+			AND a.stockReasonCode = 8 
+	GROUP BY a.stockAdjCode;
+ {executed in 9 msec}

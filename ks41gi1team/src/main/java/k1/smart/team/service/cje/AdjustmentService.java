@@ -1,6 +1,8 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public class AdjustmentService {
 	private StoringMapper storingMapper;;
 	private List<Storing> adjList; //재고조정내역 배열
 	private Storing adjInfo; //재고조정내역 상세정보
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	/**
 	 * 생성자 메서드
 	 * @param adjMapper
@@ -22,23 +25,30 @@ public class AdjustmentService {
 	/**
 	 * 재고조정내역 전체조회
 	 * @param mainBusinessCode
-	 * @return 재고조저내역 여러개(List<Storing>)
+	 * @return 재고조정내역 여러개(List<Storing>)
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
-		//재고조정내역 전체목록
 		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
-		if(adjList == null) {
-			System.out.println("재고조정내역 조회결과 없음");
-		}
+		System.out.println(adjList);
+		
 		return adjList;
 	}
 	
-	public Storing getAdjInfo(String stockAdjCode) {
-		//재고조정내역 한줄정보
-		adjInfo = storingMapper.getAdjInfo(stockAdjCode);
-		if(adjInfo == null) {
-			System.out.println("재고조정내역 조회결과 없음");
-		}
-		return adjInfo;
+	/**
+	 * 재고조정내역 상세조회
+	 * @param stockAdjCode
+	 * @return
+	 */
+	public Map<String, Object> getAdjInfo(String mainBusinessCode, String stockAdjCode) {
+		//한줄정보
+		adjInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "6");
+		//상세정보(배열)
+		adjList = storingMapper.getAdjDetails(stockAdjCode);
+		
+		resultMap.clear();
+		resultMap.put("adjInfo", adjInfo);
+		resultMap.put("adjDetailList", adjList);
+		
+		return resultMap;
 	}
 }
