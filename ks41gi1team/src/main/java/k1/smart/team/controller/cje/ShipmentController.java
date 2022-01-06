@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class ShipmentController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Storing shipmentInfo; //출하내역 하나
 	private List<Storing> shipmentList; //출하내역 배열
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	private Map<String, Object> resultMap;
 	
 	public ShipmentController(ShipmentService shipmentService) {
 		this.shipmentService = shipmentService;

@@ -29,12 +29,21 @@
 					<table id="defectInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
-							<td colspan="5">[[${defectInfo.stockAdjCode}]]</td>
+							<td colspan="3">[[${defectInfo.stockAdjCode}]]</td>
+							<th>상태</th>
+							<td th:if="${defectInfo.endDate != null}">
+								완료
+							</td>
+							<td th:if="${defectInfo.endDate == null}">
+							</td>
 						</tr>
 						<tr>
-							<th>창고명</th>
-							<td>[[${defectInfo.sendWarehouseName}]]</td>
-							<th>창고위치</th>
+							<th>창고정보</th>
+							<td colspan="2">
+								<a th:href="@{|/k1Warehouse/${defectInfo.sendWarehouse}|}">
+									[[${defectInfo.sendWarehouseName}]]
+								</a>
+							</td>
 							<td th:if="${defectInfo.sendWarehouseOutPlace == null}">[[${defectInfo.sendWarehouseLocation}]]</td>
 							<td th:if="${defectInfo.sendWarehouseOutPlace != null}">[[${defectInfo.sendWarehouseLocation}]] ([[${defectInfo.sendWarehouseOutPlace}]])</td>
 							<th>합계금액</th>

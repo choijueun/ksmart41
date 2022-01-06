@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class ReturnController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> returnList; //반품처리내역 배열
 	private Storing returnInfo; //반품처리내역 하나
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	private Map<String, Object> resultMap;
 	/**
 	 * 생성자 메서드
 	 * @param returnService
@@ -46,6 +45,7 @@ public class ReturnController {
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		resultMap = returnService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		if(resultMap == null) return "redirect:/k1Return";
 		
 		returnInfo = (Storing) resultMap.get("returnInfo");
 		returnList = (List<Storing>) resultMap.get("returnDetails");
@@ -54,6 +54,7 @@ public class ReturnController {
 		model.addAttribute("SectionLocation", "반품처리");
 		model.addAttribute("returnInfo", returnInfo);
 		model.addAttribute("returnDetails", returnList);
+		
 		return "storing/return/return_info";
 	}
 	
