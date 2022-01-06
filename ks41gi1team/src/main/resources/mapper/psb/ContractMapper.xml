@@ -4,25 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.ContractMapper">
 	<resultMap type="Contract" id="contractResultMap">
-		<result column="contractCode" 		property="contractCode"/>
-		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
-		<result column="clientCode" 		property="clientCode"/>
-		<result column="clientManagerId" 	property="clientManagerId"/>
-		<result column="contractSection" 	property="contractSection"/>
-		<result column="contractType" 		property="contractType"/>
-		<result column="startDate" 			property="startDate"/>
-		<result column="endDate" 			property="endDate"/>
-		<result column="managerId" 			property="managerId"/>
-		<result column="regId" 				property="regId"/>
-		<result column="approvalId" 		property="approvalId"/>
-		<result column="contractDate" 		property="contractDate"/>
-		<result column="contractStatus" 	property="contractStatus"/>
-		<result column="briefs" 			property="briefs"/>
-		<result column="regDate" 			property="regDate"/>
-		<result column="uodateDate" 		property="uodateDate"/>
+		<result column="contractCode" 					property="contractCode"/>
+		<result column="mainBusinessCode" 				property="mainBusinessCode"/>
+		<result column="clientCode" 					property="clientCode"/>
+		<result column="clientManagerId" 				property="clientManagerId"/>
+		<result column="contractSection" 				property="contractSection"/>
+		<result column="contractType" 					property="contractType"/>
+		<result column="startDate" 						property="startDate"/>
+		<result column="endDate" 						property="endDate"/>
+		<result column="managerId" 						property="managerId"/>
+		<result column="regId" 							property="regId"/>
+		<result column="approvalId" 					property="approvalId"/>
+	<result column="contractDate" 						property="contractDate"/>
+	<result column="contractStatus" 					property="contractStatus"/>
+		<result column="briefs" 						property="briefs"/>
+		<result column="regDate" 						property="regDate"/>
+		<result column="uodateDate" 					property="uodateDate"/>
+		<result column="businessRepresentative" 		property="businessRepresentative"/>
+		<result column="userName" 						property="userName"/>
 	</resultMap>
 
-	<select id="getContractByContractCode" parameterType="String" resultType="int">
+	<select id="getContractInfo" resultType="String">
+SELECT 
+	CONCAT(SUBSTRING(c.contractCode,1,13),MAX(SUBSTRING(c.contractCode,14))+1)
+	FROM k1_tb_contract AS c
+	
+	</select>
+
+	 <select id="getContractByContractCode" parameterType="String" resultType="int">
 		SELECT 
 			COUNT(1)
 		FROM	
@@ -30,27 +39,8 @@
 		WHERE  
 			contractCode = #{contractCode};
 	</select>
-	
-<!-- 	<select id="getUserList" resultType="UserList">
-	SELECT 
-		c.clientCode,
-		c.mainBusinessCode,
-		c.businessCategory,
-		c.userId,
-		c.businessName,
-		c.businessRepresentative,
-		c.businessType1,
-		c.businessType2,
-		c.businessNum,
-		c.businessCount,
-		c.businessMobile,
-		c.businessPlace,
-		c.businessEmail,
-		c.regDate,
-		c.updateDate
-	FROM	
-		k1_tb_client AS c;
-	</select> -->
+	 
+
 	
 	<select id="getContractList" resultType="Contract">
 		SELECT 
@@ -74,27 +64,7 @@
 			k1_tb_contract AS c;
 	</select>
 	
-<!-- 	<select id="getMainBusinessList" resultType="MainBusiness">
-		SELECT 
-			b.mainBusinessCode,
-			b.businessCategory,
-			b.businessLevel,
-			b.businessName,
-			b.businessRepresentative,
-			b.businessType1,
-			b.businessType2,
-			b.businessNum,
-			b.businessCount,
-			b.businessMobile,
-			b.businessPlace,
-			b.businessEmail,
-			b.openDate,
-			b.regDate,
-			b.updateDate
-		FROM	
-			k1_tb_main_business AS b;
-	</select>
- -->
+
 	<insert id="addContract" parameterType="Contract">
 		INSERT INTO k1_tb_contract
 		(
@@ -114,12 +84,13 @@
 			briefs,
 			regDate,
 			updateDate
-		)VALUES(
+		)VALUES(					
 			#{contractCode},
 			#{mainBusinessCode},
 			#{clientCode},
 			#{clientManagerId},
 			#{contractType},
+			#{contractSection},
 			#{startDate},
 			#{endDate},
 			#{managerId},
@@ -129,57 +100,115 @@
 			#{contractStatus},
 			#{briefs},
 			CURDATE(),
-			#{updateDate},
+			#{updateDate}
 		);
 	</insert>
 	
+	
+	
 	<select id="getContractListBySearchKey" parameterType="String" resultMap="contractResultMap">
-		SELECT
-			contr.contractCode,
-			contr.mainBusinessCode,
-			contr.clientCode,
-			contr.clientManagerId,
-			contr.contractSection,
-			contr.contractType,
-			contr.startDate,
-			contr.endDate,
-			contr.managerId,
-			contr.regId,
-			contr.approvalId,
-			contr.contractDate,
-			contr.contractStatus,
-			contr.briefs,
-			contr.regDate,
-			contr.updateDate 
+		SELECT	
+			contr.contractCode as contractCode,
+			contr.mainBusinessCode as mainBusinessCode,
+			contr.clientCode as clientCode,
+			contr.clientManagerId as clientManagerId,
+			contr.contractSection as contractSection,
+			contr.contractType as contractType,
+			contr.startDate as startDate,
+			contr.endDate as endDate,
+			contr.managerId as managerId,
+			contr.regId as regId,
+			contr.approvalId as approvalId,
+			contr.contractDate as contractDate,
+			contr.contractStatus as contractStatus,
+			contr.briefs as briefs,
+			contr.regDate as regDate,
+			contr.updateDate as updateDate,
+			c.businessRepresentative AS businessRepresentative,
+			u.userName AS userName
 		FROM 
 			k1_tb_contract AS contr
-		 <trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="searchKey != null and searchKey != ''.toString()">
-				${searchKey} LIKE CONCAT('%',#{searchValue},'%');
-			</if>
-		</trim> 
+			INNER JOIN 
+			k1_tb_client AS c
+			on
+			contr.mainBusinessCode = c.mainBusinessCode
+			INNER JOIN 
+			k1_tb_user AS u
+			on
+			c.mainBusinessCode = u.mainBusinessCode;
+	</select>
+	
+	<select id="getContractHistoryList" parameterType="map" resultType="map">
+		SELECT
+			contr.contractCode as contractCode,
+			contr.mainBusinessCode as mainBusinessCode,
+			contr.clientCode as clientCode,
+			contr.clientManagerId as clientManagerId,
+			contr.contractSection as contractSection,
+			contr.contractType as contractType,
+			contr.startDate as startDate,
+			contr.endDate as endDate,
+			contr.managerId as managerId,
+			contr.regId as regId,
+			contr.approvalId as approvalId,
+			contr.contractDate as contractDate,
+			contr.contractStatus as contractStatus,
+			contr.briefs as briefs,
+			contr.regDate as regDate,
+			contr.updateDate as updateDate,
+			c.businessRepresentative AS businessRepresentative,
+			u.userName AS userName
+		FROM 
+			k1_tb_contract AS contr
+			INNER JOIN 
+			k1_tb_client AS c
+			on
+			contr.mainBusinessCode = c.mainBusinessCode
+			INNER JOIN 
+			k1_tb_user AS u
+			on
+			c.mainBusinessCode = u.mainBusinessCode;
+		<if test="strartNum != null">
+			LIMIT #{startNum}, #{rowPerPage};
+		</if>	
 	</select>
 	
 	<select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
-			contr.contractCode,
-			contr.mainBusinessCode,
-			contr.clientCode,
-			contr.clientManagerId,
-			contr.contractSection,
-			contr.contractType,
-			contr.startDate,
-			contr.endDate,
-			contr.managerId,
-			contr.regId,
-			contr.approvalId,
-			contr.contractDate,
-			contr.contractStatus,
-			contr.briefs,
-			contr.regDate,
-			contr.updateDate 
+			contr.contractCode as contractCode,
+			contr.mainBusinessCode as mainBusinessCode,
+			contr.clientCode as clientCode,
+			contr.clientManagerId as clientManagerId,
+			contr.contractSection as contractSection,
+			contr.contractType as contractType,
+			contr.startDate as startDate,
+			contr.endDate as endDate,
+			contr.managerId as managerId,
+			contr.regId as regId,
+			contr.approvalId as approvalId,
+			contr.contractDate as contractDate,
+			contr.contractStatus as contractStatus,
+			contr.briefs as briefs,
+			contr.regDate as regDate,
+			contr.updateDate as updateDate,
+			c.businessRepresentative AS businessRepresentative,
+			u.userName AS userName
 		FROM 
-			k1_tb_contract AS contr;
+			k1_tb_contract AS contr
+			INNER JOIN 
+			k1_tb_client AS c
+			on
+			contr.mainBusinessCode = c.mainBusinessCode
+			INNER JOIN 
+			k1_tb_user AS u
+			on
+			c.mainBusinessCode = u.mainBusinessCode
+			INNER JOIN
+			k1_tb_main_business as mb
+			on
+			u.mainBusinessCode = mb.mainBusinessCode;
+	
+
 	</select>
 
 </mapper>

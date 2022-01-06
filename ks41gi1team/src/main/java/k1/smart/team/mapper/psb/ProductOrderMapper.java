@@ -4,13 +4,21 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ProductOrder;
 @Mapper
 public interface ProductOrderMapper {
 
+	//수주 등록
+		public int addProductOrder(ProductOrder productOrder);
+		
+		public List<ProductOrder> getProductOrderList();
+
+	
 	//하나의 수주 검색
-	List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue);
+	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue);
 	
 	//전체 수주 검색
-	List<ProductOrder> getAllProductOrderList(String mainBusinessCode);
+	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode);
+
 }

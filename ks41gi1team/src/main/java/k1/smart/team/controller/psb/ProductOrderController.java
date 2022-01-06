@@ -27,14 +27,42 @@ public class ProductOrderController {
 		this.productOrderService = productOrderService;
 	}
 	
-	@GetMapping("/k1ProductOrderReg")
-	public String k1addProductOrder() {
-		return "productOrder/productOrder_register";
-	}
+	
+	
+	//수주 등록
+		@PostMapping("/k1ProductOrderReg")
+		public String addProductOrder(ProductOrder productOrder) {
+			
+			System.out.println("ProductOrderController 회원등록 화면에서 입력받은 값:" + productOrder);
+			//insert 처리
+			//null 체크
+			String productOrderCode = productOrder.getProductOrderCode();
+			if(productOrderCode != null && !"".equals(productOrderCode)) {
+				productOrderService.addProductOrder(productOrder);
+			}
+			
+			return "productOrder/productOrder_register";
+			
+		}
+		
+		  @GetMapping("/k1ProductOrderReg") 
+		  public String addProductOrder(Model model) {
+		  
+			  System.out.println("/addProductOrder GET 방식 요청"); 
+			  model.addAttribute("title","수주등록");
+		
+			  //DB 계약코드 LIST List<ProductOrder> ProductOrderList =
+			  List<ProductOrder> productOrderList =  productOrderService.getProductOrderList(); 
+			  model.addAttribute("productOrderList", productOrderList);
+		
+			  return "productOrder/productOrder_register"; 
+		  
+		  }
+	
 	
 	//하나의 수주 조회
 	@PostMapping("/k1ProductOrderOne") 
-	public String getSearchContractList( @RequestParam(value="searchKey", required = false) String searchKey
+	public String getSearchProductOrderList( @RequestParam(value="searchKey", required = false) String searchKey
 										,@RequestParam(value="searchValue", required = false)String searchValue
 										,Model model) {
 		System.out.println(searchKey);
@@ -75,9 +103,8 @@ public class ProductOrderController {
 		}else if(searchKey != null && "regDate".equals(searchKey)) {
 		searchKey = "regDate";
 		
-		}else if(searchKey != null && "updateDate".equals(searchKey)) {
+		}else{
 		searchKey = "updateDate";
-		
 		}
 		  // 검색키 검색어를 통해서 계약목록 조회
 			System.out.println(searchKey);
