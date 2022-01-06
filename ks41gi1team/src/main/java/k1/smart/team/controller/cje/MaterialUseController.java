@@ -54,6 +54,7 @@ public class MaterialUseController {
 	public String materialUseInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
 		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1MaterialUse";

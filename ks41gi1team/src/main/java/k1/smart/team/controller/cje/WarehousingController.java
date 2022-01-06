@@ -15,8 +15,8 @@ import k1.smart.team.service.cje.WarehousingService;
 public class WarehousingController {
 	private WarehousingService warehousingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing warehousingInfo; //출하내역 하나
-	private List<Storing> warehousingList; //출하내역 배열
+	private Storing warehousingInfo; //자재사용내역 하나
+	private List<Storing> warehousingList; //자재사용내역 배열
 	private Map<String, Object> resultMap;
 	/**
 	 * 생성자 메서드
@@ -36,7 +36,7 @@ public class WarehousingController {
 		warehousingList = warehousingService.getAllWarehousingList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "자재입고");
 		model.addAttribute("warehousingList", warehousingList);
 		
 		return "storing/warehousing/warehousing_list";
@@ -53,6 +53,7 @@ public class WarehousingController {
 	public String warehousingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Warehousing";
 		
 		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Warehousing";
@@ -61,7 +62,7 @@ public class WarehousingController {
 		warehousingList = (List<Storing>) resultMap.get("warehousingDetails");
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "자재입고 상세정보");
 		model.addAttribute("warehousingInfo", warehousingInfo);
 		model.addAttribute("warehousingDetails", warehousingList);
 		return "storing/warehousing/warehousing_info";

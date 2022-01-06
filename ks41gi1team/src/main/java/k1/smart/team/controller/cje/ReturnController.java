@@ -26,7 +26,11 @@ public class ReturnController {
 		this.returnService = returnService;
 	}
 	
-	//반품내역 전체목록
+	/**
+	 * 반품내역 전체목록
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Return")
 	public String returnMain(Model model) {
 		returnList = returnService.getAllReturnList(mainBusinessCode);
@@ -38,12 +42,19 @@ public class ReturnController {
 		return "storing/return/return_list";
 	}
 	
-	//반품내역 상세정보
+	/**
+	 * 반품내역 상세정보
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Return/{stockAdjCode}")
 	public String returnInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Return";
+		
 		resultMap = returnService.getReturnInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Return";
 		

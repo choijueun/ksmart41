@@ -33,7 +33,7 @@ public class ShipmentController {
 		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentList", shipmentList);
 		
 		return "storing/shipment/shipment_list";
@@ -50,6 +50,7 @@ public class ShipmentController {
 	public String shipmentInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Shipment";
 		
 		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Shipment";
@@ -58,7 +59,7 @@ public class ShipmentController {
 		shipmentList = (List<Storing>) resultMap.get("shipmentDetails");
 		
 		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
+		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentInfo", shipmentInfo);
 		model.addAttribute("shipmentDetails", shipmentList);
 		

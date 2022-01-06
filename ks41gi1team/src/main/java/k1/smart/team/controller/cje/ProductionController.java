@@ -42,6 +42,7 @@ public class ProductionController {
 	public String productionInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Production";
 		
 		resultMap = productionService.getProductionInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Production";
