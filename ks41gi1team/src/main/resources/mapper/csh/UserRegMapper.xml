@@ -5,13 +5,27 @@
 <mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">
 	
 	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
-		SELECT
-			ur.userRegCode
-		FROM
-			k1_tb_user_register AS ur
+		SELECT 
+			 r.userRegCode
+			,r.mainBusinessCode
+			,r.userLevelCode
+			,r.userId
+			,r.userPw
+			,r.userName
+			,r.userGender
+			,r.userAddr
+			,r.userMoblie
+			,r.userEmail
+			,r.userPosition
+			,r.userRegDate
+			,r.userRegStatus
+			,r.userRegComment
+		FROM 
+			k1_tb_user_register AS r
 		WHERE
 			mainBusinessCode = #{mainBusinessCode};
 	</select>
 	
 	
+
 </mapper>
