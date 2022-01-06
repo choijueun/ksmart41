@@ -14,7 +14,7 @@
 		,c.businessName AS clientBusinessName
 		,d.deliveryBusinessCode
 		,cl.businessName AS deliveryBusinessName
-		,d.receivePlace
+		,d.receiveAddr
 		,d.deliveryCost
 		,d.briefs
 		,d.managerId
@@ -50,6 +50,87 @@
 		d.managerId = u.userId
 	WHERE
 		d.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<select id="getDeliveryInfo" parameterType="String" resultType="Delivery">
+	SELECT 
+		 RIGHT(d.deliveryCode,3) AS deliveryCode
+		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(d.returnRegCode,3) AS returnRegCode
+		,d.deliveryBusinessCode
+		,c.businessName AS deliveryBusinessName
+		,RIGHT(s.contractCode,3) AS contractCode
+		,s.clientCode
+		,s.businessName AS clientBusinessName
+		,d.receiveAddr
+		,a.stockAdjCode
+		,a.stockReasonCode
+		,a.stockReason
+		,a.warehouseCode
+		,a.warehouseName
+		,a.loaction
+		,a.outPlace
+		,d.deliveryCost
+		,d.briefs
+		,d.managerId
+		,u.userName AS managerName
+		,d.regDate
+		,d.updateDate
+	FROM 
+		k1_tb_delivery AS d
+		JOIN
+		k1_tb_user AS u
+		ON
+		d.managerId = u.userId
+		LEFT JOIN
+		(SELECT
+			 s.shipmentPlanCode
+			,s.contractCode
+			,c.clientCode
+			,cl.businessName
+		FROM
+			k1_tb_shipment_plan AS s
+			JOIN
+			k1_tb_contract AS c
+			ON
+			s.contractCode = c.contractCode
+			JOIN
+			k1_tb_client AS cl
+			ON
+			c.clientCode = cl.clientCode
+		) AS s
+		ON
+		d.shipmentPlanCode = s.shipmentPlanCode
+		JOIN
+		k1_tb_client AS c
+		ON
+		d.deliveryBusinessCode = c.clientCode
+		LEFT JOIN
+		(SELECT
+			 a.deliveryCode
+			,RIGHT(a.stockAdjCode,3) AS stockAdjCode
+			,a.stockReasonCode
+			,r.reason AS stockReason
+			,RIGHT(a.sendWarehouse,3) AS warehouseCode
+			,w.warehouseName
+			,w.loaction
+			,w.outPlace
+		FROM
+			k1_tb_stock_adjustment AS a
+			JOIN
+			k1_tb_stock_reason AS r
+			ON
+			a.stockReasonCode = r.stockReasonCode
+			JOIN
+			k1_tb_warehouse_info AS w
+			ON
+			a.sendWarehouse = w.warehouseCode
+		) AS a
+		ON
+		d.deliveryCode = a.deliveryCode
+	WHERE
+		d.mainBusinessCode = #{mainBusinessCode}
+		AND d.deliveryCode = CONCAT('deliveryCode_',#{deliveryCode});
 </select>
 
 </mapper>

@@ -10,4 +10,6 @@ import k1.smart.team.dto.cje.Delivery;
 public interface DeliveryMapper {
 	//전체 운송내역 조회
 	public List<Delivery> getAllDeliveryList(String mainBusinessCode);
+	//운송내역 상세조회
+	public Delivery getDeliveryInfo(String mainBusinessCode, String deliveryCode);
 }

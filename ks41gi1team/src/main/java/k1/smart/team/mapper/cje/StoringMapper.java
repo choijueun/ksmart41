@@ -36,4 +36,12 @@ public interface StoringMapper {
 	
 	//8. 불량처리 상세내역 배열
 	public List<Storing> getDefectDetails(String stockAdjCode);
+	
+	//출하계획 전체조회
+	public List<Storing> getShipmentPlanList(String mainBusinessCode);
+	
+	//출하계획 정보
+	public Storing getShipmentPlanInfo(String mainBusinessCode, String shipmentPlanCode);
+	//출하계획 상세정보 배열
+	public List<Storing> getShipmentPlanDetails(String shipmentPlanCode);
 }
