@@ -21,6 +21,7 @@ public class PaymentService {
 	private List<PlanPayment> planPaymentInfoList;
 	private CancelPayment cancelPaymentInfo;
 	private HistoryPayment historyPaymentInfo;
+	private List<HistoryPayment> historyPaymentInfoList;
 	private Map<String,Object> resultMap = new HashMap<String,Object>();
 	
 	
@@ -29,6 +30,7 @@ public class PaymentService {
 	}
 	
 	public List<HistoryPayment> getHistoryPaymentList(String mainBusinessCode) {
+		System.out.println("Service: "+mainBusinessCode);
 		historyPaymentList = paymentMapper.getHistoryPaymentList(mainBusinessCode);
 		return historyPaymentList;
 	}
@@ -72,17 +74,19 @@ public class PaymentService {
 		return cancelPaymentInfo;
 	}
 	
-	public HistoryPayment getHistoryPaymentInfo(String payHistoryCode) {
-		historyPaymentInfo = paymentMapper.getHistoryPaymentInfo(payHistoryCode);
+	public Map<String,Object> getHistoryPaymentInfo(String payHistoryCode) {
+		historyPaymentInfo = paymentMapper.getHistoryPaymentInfo(payHistoryCode); //결제예정 품목 하나 상세
 		if(historyPaymentInfo == null) {
 			System.out.println("결제정보 조회결과 없음");
 			return null;
 		}
+		historyPaymentInfoList = paymentMapper.getHistoryPaymentInfoList(payHistoryCode);//결제정보 품목 상세 여러개
 		
-		historyPaymentInfo.setPayHistoryCode(payHistoryCode);
-		return historyPaymentInfo;
+		resultMap.clear();
+		resultMap.put("historyPaymentInfo", historyPaymentInfo);
+		resultMap.put("historyPaymentInfoList", historyPaymentInfoList);
+		return resultMap;
 	}
-	
 	
 	
 }

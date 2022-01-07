@@ -4,17 +4,69 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	결제정보 상세~!
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-5">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						결제관리 상세내역
+					</div>
+					<div class="card-body" th:if="${ historyPaymentInfo != null }">
+						<table id="historyPaymentInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td>[[${historyPaymentInfo.payPlanCode}]]</td>
+								<th>구분</th>
+								<td>[[${historyPaymentInfo.type}]]</td>
+							</tr>
+							<tr>
+								<th>거래처명</th>
+								<td colspan="3">[[${historyPaymentInfo.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>결제예정코드</th>
+								<td colspan="3">[[${historyPaymentInfo.payPlanCode}]]</td>
+							</tr>
+							<tr>
+								<th>합계금액</th>
+								<td colspan="3">[[${planPaymentInfo.totalPlanCost}]]원</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${planPaymentInfo.briefs}]]</td>
+							</tr>
+							<tr>
+								<th>담당자</th>
+								<td>[[${planPaymentInfo.managerName}]]</td>
+								<th>등록자</th>
+								<td>[[${planPaymentInfo.regName}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${planPaymentInfo.regDate}]]</td>
+								<th>수정일시</th>
+								<td>[[${planPaymentInfo.updateDate}]]</td>
+							</tr>
+						</table>
+						<button type="button" class="btn btn-info">수정</button>
+					</div>
+					<div class="card-body" th:if="${ planPaymentInfo == null }">
+					잘못된 접근입니다.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>
