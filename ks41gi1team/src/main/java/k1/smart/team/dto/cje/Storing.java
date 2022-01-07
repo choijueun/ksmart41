@@ -43,6 +43,7 @@ public class Storing {
 	private int afterCount; //최종수량
 	private int adjWeight; //조정중량
 	private int stockWeight; //최종중량
+	private int amount;
 	
 	private int deliveryCost; //운송비용
 	private int totalPrice; //총가격
@@ -68,6 +69,12 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	public String getShipPlanDetailCode() {
 		return shipPlanDetailCode;
 	}

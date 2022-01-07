@@ -44,4 +44,11 @@ public interface StoringMapper {
 	public Storing getShipmentPlanInfo(String mainBusinessCode, String shipmentPlanCode);
 	//출하계획 상세정보 배열
 	public List<Storing> getShipmentPlanDetails(String shipmentPlanCode);
+	
+	//반품요청 전체조회
+	public List<Storing> getReturnRegList(String mainBusinessCode);
+	
+	//반품요청 상세조회
+	public Storing getReturnRegInfo(String returnRegCode);
+	public List<Storing> getReturnRegDetails(String returnRegCode);
 }

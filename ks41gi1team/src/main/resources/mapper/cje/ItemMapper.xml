@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.ItemMapper">
 
+<!-- 품목정보 전체목록 -->
 <select id="getAllItemList" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(i.itemCode,3) AS itemCode
@@ -30,6 +31,7 @@
 		i.mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 품목정보 상세조회 -->
 <select id="getItemInfo" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(i.itemCode,3) AS itemCode
@@ -68,6 +70,7 @@
 		i.itemCode = CONCAT('itemCode_',#{itemCode});
 </select>
 
+<!-- 특정품목 재고현황 -->
 <select id="getItemStock" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
@@ -97,6 +100,105 @@
 		s.productPriceCode = p.productPriceCode
 	WHERE
 		i.itemCode = CONCAT('itemCode_',#{itemCode});
+</select>
+
+<!-- 카테고리 대분류 조회 -->
+<select id="getCategoryLarge" resultType="String">
+	SELECT
+		DISTINCT(largeCategory)
+	FROM
+		k1_tb_item_category;
+</select>
+
+<!-- 카테고리 중분류 조회 -->
+<select id="getCategoryMiddle" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(middleCategory)
+	FROM
+		k1_tb_item_category
+	WHERE 
+		largeCategory = #{largeCategory};
+</select>
+
+<!-- 카테고리 소분류 조회 -->
+<select id="getCategorySmall" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(smallCategory)
+	FROM
+		k1_tb_item_category
+	WHERE 
+		largeCategory = #{largeCategory} 
+		AND middleCategory = #{middleCategory};
+</select>
+
+<!-- 카테고리 소소분류 조회 -->
+<select id="getCategoryMicro" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(microCategory)
+	FROM
+		k1_tb_item_category
+	WHERE 
+		largeCategory = #{largeCategory} 
+		AND middleCategory = #{middleCategory}
+		AND smallCategory = #{smallCategory};
+</select>
+
+<!-- 아이템 등록 -->
+<insert id="addItem">
+	INSERT INTO k1_tb_item_info
+		(itemCode
+		,mainBusinessCode
+		,itemName
+		,itemType
+		,categoryCode
+		,itemStandard
+		,itemOrigin
+		,itemStatus
+		,itemComment
+		,regDate
+		,updateDate
+	) VALUES(
+		CONCAT('itemCode_',
+		<![CDATA[
+			(SELECT
+				CASE
+					WHEN (MAX(RIGHT(itemCode,3))+1 < 10) THEN CONCAT('00',MAX(RIGHT(itemCode,3))+1)
+					WHEN (MAX(RIGHT(itemCode,3))+1 < 100) THEN CONCAT('0',MAX(RIGHT(itemCode,3))+1)
+				ELSE MAX(RIGHT(itemCode,3))+1
+				END AS newCodeNum
+			FROM
+				k1_tb_item_info)
+		]]>
+		)
+		,#{mainBusinessCode}
+		,#{itemName}
+		,#{itemType}
+		,CONCAT('categoryCode_',#{categoryCode})
+		,#{itemStandard}
+		,#{itemOrigin}
+		,#{itemStatus}
+		,#{itemComment}
+		,NOW()
+		,NOW()
+	);
+</insert>
+
+<select id="getCategoryCode" parameterType="String" resultType="String">
+	SELECT
+		categoryCode
+	FROM
+		k1_tb_item_category
+	WHERE
+		largeCategory = #{largeCategory}
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+		<if test="microCategory != null and microCategory != ''.toString()">
+			AND microCategory = #{microCategory}
+		</if>
 </select>
 
 </mapper>

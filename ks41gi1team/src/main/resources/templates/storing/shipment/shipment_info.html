@@ -29,7 +29,15 @@
 					<table id="shipmentInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
-							<td colspan="3">[[${shipmentInfo.stockAdjCode}]]</td>
+							<td colspan="3">
+								[[${shipmentInfo.stockAdjCode}]]
+								<a th:if="${shipmentInfo.shipmentPlanCode} != null" th:href="@{|/k1ShipmentPlan/${shipmentInfo.shipmentPlanCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">계획</button>
+								</a>
+								<a th:if="${shipmentInfo.deliveryCode} != null" th:href="@{|/k1Delivery/${shipmentInfo.deliveryCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">운송</button>
+								</a>
+							</td>
 							<th>상태</th>
 							<td th:if="${shipmentInfo.endDate != null}">
 								완료
@@ -60,9 +68,6 @@
 							</td>
 							<th>
 								운송비
-								<a th:href="@{|/k1Delivery/${shipmentInfo.deliveryCode}|}">
-									<button type="button" class="btn btn-outline-info btn-xs">요청</button>
-								</a>
 							</th>
 							<td>
 								[[${shipmentInfo.deliveryCost}]] 원

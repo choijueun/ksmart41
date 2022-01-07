@@ -4,17 +4,164 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(()=>{
+	var itemName = $('#itemName'); //품목명 입력폼
+	var itemCategory = $('#itemCategory'); //품목카테고리 선택폼
+	
+	//품목명 중복 검사
+	itemName.on('change', function(){
+		var request = $.ajax({
+			  url: "/k1ItemNameValid", //호출 경로
+			  method: "POST", //호출 방식
+			  data: { itemName : itemName.val() },
+			  dataType: "json" //응답할 페이지의 컨텍스트 타입
+			  //(text, xml, json, html, javascript)
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+		  if(data) {
+			  itemName.addClass('is-warning');
+			  $('#itemNameValid').html('<button type="button" class="btn btn-outline-info btn-xs">품목정보</button>');
+		  } else {
+			  itemName.removeClass('is-warning');
+			  $('#itemNameValid').html('');
+		  }
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+	});
+	
+	//카테고리 목록 자동출력
+	itemCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/k1ItemCategory", //호출 경로
+			  method: "POST", //호출 방식
+			  data: { 
+				  largeCategory : $('#largeCategory').val()
+				  , middleCategory : $('#middleCategory').val()
+				  , smallCategory : $('#smallCategory').val()
+				  },
+			  dataType: "json" //응답할 페이지의 컨텍스트 타입
+			  //(text, xml, json, html, javascript)
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			for(var i=0; i<data.middleCategory.length; i++){
+				//console.log(data.middleCategory[i]);
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+	});
+	
+	//등록 폼 제출
+	$(document).on('click', '#submitBtn', function(){
+		$('#addItem').submit();
+	})
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	품목정보 추가 페이지
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6 col-md-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					품목정보 등록
+				</div>
+				<div class="card-body">
+					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
+						<div class="form-group">
+							<label for="itemName">
+								품목명
+								<a id="itemNameValid" th:href="@{/k1Item}">
+									<!-- <button type="button" class="btn btn-info btn-xs"></button> -->
+								</a>
+							 </label>
+							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+						</div>
+						<div class="row">
+							<div class="form-group col-4">
+								<label>분류</label>
+								<select name="itemType" class="form-control">
+									<option value="원자재">원자재</option>
+									<option value="부자재">부자재</option>
+									<option value="제품">제품</option>
+								</select>
+							</div>
+							<div class="form-group col-4">
+								<label for="itemStandard">규격</label>
+								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard">
+							</div>
+							<div class="form-group col-4">
+								<label for="itemOrigin">원산지</label>
+								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin">
+							</div>
+						</div>
+						<div id="itemCategory" class="form-group">
+							<label>카테고리</label>
+							<div class="form-group row">
+								<div class="col-3">
+									<select id="largeCategory" name="largeCategory" class="form-control" th:each="l : ${largeCategory}">
+										<option>대분류</option>
+										<option th:value="${l}">[[${l}]]</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="middleCategory" name="middleCategory" class="form-control">
+										<option>중분류</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="smallCategory" name="smallCategory" class="form-control">
+										<option>소분류</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="microCategory" name="microCategory" class="form-control">
+										<option>소소분류</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="itemComment">비고</label>
+							<input type="text" name="itemComment" class="form-control" id="itemComment" placeholder="Enter comment">
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<button type="button" id="submitBtn" class="btn btn-info float-right">등록하기</button>
+					<a th:href="@{/k1Item}">
+						<button type="button" class="btn btn-default">이전으로</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 </th:block>
 
 </html>

@@ -46,8 +46,13 @@
 								<td>[[${stockInfo.itemStandard}]]</td>
 							</tr>
 							<tr>
-								<th>단가  <button type="button" class="btn btn-outline-info btn-xs">상세</button></th>
-								<td>[[${stockInfo.productPrice}]] 원</td>
+								<th>단가 </th>
+								<td>
+									[[${stockInfo.productPrice}]] 원
+									<a th:href="@{#}">
+										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
+									</a>
+								</td>
 								<th>합계금액</th>
 								<td>[[${stockInfo.totalPrice}]] 원</td>
 							</tr>
