@@ -16,7 +16,7 @@ public class Delivery {
 	private int deliveryCost; //운송비용 
 	
 	private String stockAdjCode; //물류이동코드
-	private String stockReasonCode; //물류이동사유코드
+	private int stockReasonCode; //물류이동사유코드
 	private String stockReason; //물류이동사유
 	private String stockReasonEng; //물류이동사유
 	
@@ -98,10 +98,10 @@ public class Delivery {
 	public void setStockAdjCode(String stockAdjCode) {
 		this.stockAdjCode = stockAdjCode;
 	}
-	public String getStockReasonCode() {
+	public int getStockReasonCode() {
 		return stockReasonCode;
 	}
-	public void setStockReasonCode(String stockReasonCode) {
+	public void setStockReasonCode(int stockReasonCode) {
 		this.stockReasonCode = stockReasonCode;
 	}
 	public String getStockReason() {

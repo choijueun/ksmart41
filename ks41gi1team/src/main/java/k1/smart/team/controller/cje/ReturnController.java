@@ -83,28 +83,52 @@ public class ReturnController {
 		return "storing/return/return_modify";
 	}
 	
-	//반품요청내역 전체목록
-	@GetMapping("/k1ReturnReq")
+	/**
+	 * 반품요청내역 전체목록
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/k1ReturnReg")
 	public String returnReqMain(Model model) {
+		returnList = returnService.getReturnRegList(mainBusinessCode);
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품요청");
+		model.addAttribute("returnRegList", returnList);
+		
 		return "storing/return/return_request_list";
 	}
 	
 	//반품요청내역 상세정보
-	@GetMapping("/k1ReturnReq/{returnRegCode}")
+	@SuppressWarnings("unchecked")
+	@GetMapping("/k1ReturnReg/{returnRegCode}")
 	public String returnReqInfo(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {
+		if(returnRegCode == null || "".equals(returnRegCode)) return "redirect:/k1ReturnReg";
+		
+		resultMap = returnService.getReturnRegInfo(returnRegCode);
+		if(resultMap == null) return "redirect:/k1ReturnReg";
+		
+		returnInfo = (Storing) resultMap.get("returnRegInfo");
+		returnList = (List<Storing>) resultMap.get("returnRegDetails");
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품요청정보");
+		model.addAttribute("returnRegInfo", returnInfo);
+		model.addAttribute("returnRegDetails", returnList);
+		
 		return "storing/return/return_request_info";
 	}
 
 	//반품요청내역 신규등록
-	@GetMapping("/k1ReturnReqAdd")
+	@GetMapping("/k1ReturnRegAdd")
 	public String addReturnReq(Model model) {
 		return "storing/return/return_request_add";
 	}
 	
 	//반품요청내역 수정
-	@GetMapping("/k1ReturnReqModify/{returnRegCode}")
+	@GetMapping("/k1ReturnRegModify/{returnRegCode}")
 	public String modifyReturnReq(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {

@@ -21,7 +21,7 @@
 		,a.managerId
 		,u.userName AS managerName
 		,a.regDate
-		,a.updateDate
+		,LEFT(a.updateDate,10) AS updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
 		JOIN
@@ -70,6 +70,8 @@
 <select id="getStoringInfo" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,RIGHT(a.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(a.returnRegCode,3) AS returnRegCode
 		,a.clientCode
 		,c.businessName
 		,RIGHT(a.contractCode,3) AS contractCode
@@ -438,7 +440,7 @@
 		,sp.briefs
 		,sp.managerId
 		,u.userName AS managerName
-		,sp.updateDate
+		,LEFT(sp.updateDate,10) AS updateDate
 	FROM 
 		k1_tb_shipment_plan AS sp
 		JOIN
@@ -463,6 +465,7 @@
 		sp.mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 출하계획 상세조회 -->
 <select id="getShipmentPlanInfo" parameterType="String" resultType="Storing">
 SELECT 
 	 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
@@ -554,5 +557,85 @@ WHERE
 		sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
 </select>
 
+<!-- 반품요청내역 전체목록 -->
+<select id="getReturnRegList" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(r.returnRegCode,3) AS returnRegCode
+		,r.clientCode
+		,c.businessName
+		,r.totalPrice
+		,r.briefs
+		,r.managerId
+		,i.userName AS managerName
+		,LEFT(r.updateDate,10) AS updateDate
+	FROM 
+		k1_tb_return_reg AS r
+		JOIN 
+		k1_tb_user AS i
+		ON 
+		r.managerId = i.userId
+		JOIN
+		k1_tb_client AS c
+		ON
+		r.clientCode = c.clientCode
+	WHERE
+		r.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<!-- 반품요청내역 상세정보(날짜) -->
+<select id="getReturnRegInfo" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(r.returnRegCode,3) AS returnRegCode
+		,r.clientCode
+		,c.businessName
+		,RIGHT(r.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(pt.contractCode,3) AS contractCode
+		,RIGHT(r.salesTsCode,3) AS salesTsCode
+		,RIGHT(st.contractCode,3) AS contractCode
+		,r.totalPrice
+		,r.briefs
+		,r.managerId
+		,i.userName AS managerName
+		,r.regDate
+		,r.updateDate
+	FROM 
+		k1_tb_return_reg AS r
+		JOIN 
+		k1_tb_user AS i
+		ON 
+		r.managerId = i.userId
+		JOIN
+		k1_tb_client AS c
+		ON
+		r.clientCode = c.clientCode
+		LEFT JOIN
+		k1_tb_purchase_transaction AS pt
+		ON
+		r.purchaseTsCode = pt.purchaseTsCode
+		LEFT JOIN
+		k1_tb_sales_transaction AS st
+		ON
+		r.salesTsCode = st.salesTsCode
+	WHERE
+		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+</select>
+<!-- 반품요청내역 상세정보 목록 -->
+<select id="getReturnRegDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(d.itemCode,3) AS itemCode
+		,i.itemName
+		,d.amount
+		,d.`count` AS adjCount
+		,(d.amount * d.`count`) AS totalPrice
+		,d.`comment`
+	FROM 
+		k1_tb_return_reg_detail AS d
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		d.itemCode = i.itemCode
+	WHERE
+		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+</select>
 
 </mapper>

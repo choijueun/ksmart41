@@ -26,10 +26,10 @@
 					<tr>
 						<td><input type="checkbox" id="allCheck"></td>
 						<td>No.</td>
+						<td>적요</td>
 						<td>거래처</td>
 						<td>배송지</td>
 						<td>예상출하일</td>
-						<td>적요</td>
 						<td>담당자</td>
 						<td>수정일시</td>
 						<td>수정</td>
@@ -41,7 +41,11 @@
 						<td>
 							<a th:href="@{|/k1ShipmentPlan/${l.shipmentPlanCode}|}">
 								[[${l.shipmentPlanCode}]]
-								<button type="button" class="btn btn-info btn-xs">상세</button>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1ShipmentPlan/${l.shipmentPlanCode}|}">
+								[[${l.briefs}]]
 							</a>
 						</td>
 						<td>
@@ -54,7 +58,6 @@
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
 						<td>[[${l.sendPlanDate}]]</td>
-						<td>[[${l.briefs}]]</td>
 						<td>
 							<a th:href="@{#}"> <!-- 사용자정보LINK -->
 								[[${l.managerName}]]

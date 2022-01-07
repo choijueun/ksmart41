@@ -1,5 +1,6 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,8 @@ public class DeliveryService {
 	 * 생성자 메서드
 	 * @param deliveryMapper
 	 */
-	public DeliveryService(DeliveryMapper deliveryMapper, Map<String,Object> resultMap) {
+	public DeliveryService(DeliveryMapper deliveryMapper) {
 		this.deliveryMapper = deliveryMapper;
-		this.resultMap = resultMap;
 	}
 	
 	/**
@@ -45,16 +45,23 @@ public class DeliveryService {
 		//운송요청
 		deliveryInfo = deliveryMapper.getDeliveryInfo(mainBusinessCode, deliveryCode);
 		if(deliveryInfo == null) return null;
-		resultMap.clear();
+		resultMap = new HashMap<String, Object>();
 		resultMap.put("deliveryInfo", deliveryInfo);
 		
-		//출하계획
-		storingList = deliveryMapper.getShipPlanDetails(deliveryInfo.getShipmentPlanCode());
-		resultMap.put("shipPlanDetails", storingList);
-		
-		//반품요청
-		storingList = deliveryMapper.getReturnRegDetails(deliveryInfo.getReturnRegCode());
-		resultMap.put("returnRegDetails", storingList);
+		//물류이동 사유
+		int stockReasonCode;
+		stockReasonCode = deliveryInfo.getStockReasonCode();
+		if(stockReasonCode == 5) {
+			//출하계획
+			deliveryInfo.setStockReasonEng("Shipment");
+			storingList = deliveryMapper.getShipPlanDetails(deliveryInfo.getShipmentPlanCode());
+			resultMap.put("shipPlanDetails", storingList);
+		} else if(stockReasonCode == 7) {
+			//반품요청
+			deliveryInfo.setStockReasonEng("Return");
+			storingList = deliveryMapper.getReturnRegDetails(deliveryInfo.getReturnRegCode());
+			resultMap.put("returnRegDetails", storingList);
+		}
 		
 		return resultMap;
 	}

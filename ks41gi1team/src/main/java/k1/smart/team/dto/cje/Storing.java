@@ -44,7 +44,6 @@ public class Storing {
 	private int adjWeight; //조정중량
 	private int stockWeight; //최종중량
 	private int amount;
-	private int totalAmount; //합계량
 	
 	private int deliveryCost; //운송비용
 	private int totalPrice; //총가격
@@ -75,12 +74,6 @@ public class Storing {
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
-	}
-	public int getTotalAmount() {
-		return totalAmount;
-	}
-	public void setTotalAmount(int totalAmount) {
-		this.totalAmount = totalAmount;
 	}
 	public String getShipPlanDetailCode() {
 		return shipPlanDetailCode;
