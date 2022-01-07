@@ -3,6 +3,8 @@ package k1.smart.team.service.cje;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
+import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
 
@@ -64,6 +66,12 @@ public class ItemService{
 		}
 		return resultMap;
 	}
+	
+	public boolean itemNameValid(String mainBusinessCode, String itemName) {
+		if(itemName == null || "".equals(itemName)) return false;
+		if(itemMapper.itemNameValid(mainBusinessCode, itemName) > 0) return true; 
+		return false;
+	}
 
 	/**
 	 * 품목정보 등록 process
@@ -78,19 +86,19 @@ public class ItemService{
 	 * @param smallCategory 
 	 * @return
 	 */
-	public int addItem(String mainBusinessCode, String itemName, String itemType, String itemStandard, String itemOrigin
-			, String largeCategory, String middleCategory, String smallCategory, String microCategory, String itemComment) {
+	public int addItem(String mainBusinessCode, Map<String, String> paramMap) {
 		//카테고리 코드 반환
-		List<String> categoryNames = itemMapper.getCategoryCode(largeCategory, middleCategory, smallCategory, microCategory);
-		String itemCategory = null;
-		if(categoryNames == null || categoryNames.size() > 1) {
+		List<String> categoryNames = itemMapper.getCategoryCode(paramMap.get("largeCategory"), paramMap.get("middleCategory"), paramMap.get("smallCategory"), paramMap.get("microCategory"));
+		String categoryCode = null;
+		if(categoryNames == null || categoryNames.size() != 1) {
 			System.out.println("카테고리 코드를 찾을 수 없습니다.");
 			return 0;
-		} else if (categoryNames.size() == 1) {
-			itemCategory = categoryNames.get(0);
+		} if (categoryNames.size() == 1) {
+			categoryCode = categoryNames.get(0);
 		}
 		//등록 처리
-		int result = itemMapper.addItem(mainBusinessCode, itemName, itemType, itemStandard, itemOrigin, itemCategory, itemComment);
+		int result = itemMapper.addItem(mainBusinessCode, paramMap.get("itemName"), paramMap.get("itemType"), categoryCode
+				, paramMap.get("itemStandard"), paramMap.get("itemOrigin"), paramMap.get("itemStatus"), paramMap.get("itemComment"));
 		
 		return result;
 	}

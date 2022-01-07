@@ -10,9 +10,8 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(()=>{
-	var itemName = $('#itemName'); //품목명 입력폼
-	var itemCategory = $('#itemCategory'); //품목카테고리 선택폼
-	
+	var addItem = $('#addItem'); //전체폼
+	var itemName = $('#itemName'); //품목명 입력box
 	//품목명 중복 검사
 	itemName.on('change', function(){
 		var request = $.ajax({
@@ -22,7 +21,6 @@ $(()=>{
 			  dataType: "json" //응답할 페이지의 컨텍스트 타입
 			  //(text, xml, json, html, javascript)
 		});
-		
 		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
 		  if(data) {
@@ -33,44 +31,44 @@ $(()=>{
 			  $('#itemNameValid').html('');
 		  }
 		});
-		
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
 		  alert( "Request failed: " + textStatus );
 		});
 	});
 	
-	//카테고리 목록 자동출력
+	var itemCategory = $('#itemCategory');
+	var largeCategory = $('#largeCategory');
+	var middleCategory = $('middleCategory');
+	var smallCategory = $('#smallCategory');
+	var lowCategory = $('#lowCategory');
+	//카테고리 자동출력
 	itemCategory.on('change', function(){
 		var request = $.ajax({
-			  url: "/k1ItemCategory", //호출 경로
-			  method: "POST", //호출 방식
-			  data: { 
-				  largeCategory : $('#largeCategory').val()
-				  , middleCategory : $('#middleCategory').val()
-				  , smallCategory : $('#smallCategory').val()
-				  },
-			  dataType: "json" //응답할 페이지의 컨텍스트 타입
-			  //(text, xml, json, html, javascript)
+			  url: "/itemCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: addItem.serialize(),
 		});
 		
 		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
-			for(var i=0; i<data.middleCategory.length; i++){
-				//console.log(data.middleCategory[i]);
-			}
+			console.log(data);
 		});
 		
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-		  alert( "Request failed: " + textStatus );
+			alert( "Request failed: " + textStatus );
 		});
 	});
 	
 	//등록 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		$('#addItem').submit();
-	})
+		if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
+			alert('품목 카테고리를 선택해주세요.');
+		} else{
+			addItem.submit();
+		}
+	});
 });
 </script>
 </th:block>
@@ -94,13 +92,13 @@ $(()=>{
 							<label for="itemName">
 								품목명
 								<a id="itemNameValid" th:href="@{/k1Item}">
-									<!-- <button type="button" class="btn btn-info btn-xs"></button> -->
+									<!-- 품목정보 이동 button -->
 								</a>
 							 </label>
 							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
 						</div>
 						<div class="row">
-							<div class="form-group col-4">
+							<div class="form-group col-3">
 								<label>분류</label>
 								<select name="itemType" class="form-control">
 									<option value="원자재">원자재</option>
@@ -108,37 +106,44 @@ $(()=>{
 									<option value="제품">제품</option>
 								</select>
 							</div>
-							<div class="form-group col-4">
+							<div class="form-group col-3">
 								<label for="itemStandard">규격</label>
 								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard">
 							</div>
-							<div class="form-group col-4">
+							<div class="form-group col-3">
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin">
+							</div>
+							<div class="form-group col-3">
+								<label for="itemStatus">상태</label>
+								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus">
 							</div>
 						</div>
 						<div id="itemCategory" class="form-group">
 							<label>카테고리</label>
 							<div class="form-group row">
 								<div class="col-3">
-									<select id="largeCategory" name="largeCategory" class="form-control" th:each="l : ${largeCategory}">
-										<option>대분류</option>
+									<select name="largeCategory" class="form-control" th:each="l : ${largeCategory}">
+										<option value="">대분류</option>
 										<option th:value="${l}">[[${l}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="middleCategory" name="middleCategory" class="form-control">
-										<option>중분류</option>
+										<option value="">중분류</option>
+										<option>중분류입력</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
-										<option>소분류</option>
+										<option value="">소분류</option>
+										<option>소분류입력</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
-										<option>소소분류</option>
+										<option value="">소소분류</option>
+										<option>맛있는 콩나물</option>
 									</select>
 								</div>
 							</div>
