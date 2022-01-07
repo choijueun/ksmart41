@@ -64,6 +64,8 @@
 		s.itemCode = i.itemCode
 	WHERE
 		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+	ORDER BY 
+		s.regDate DESC
 	LIMIT 10;
 </select>
 

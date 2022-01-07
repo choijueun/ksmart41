@@ -38,6 +38,9 @@ public interface ItemMapper {
 	//카테고리 코드 조회
 	public List<String> getCategoryCode(String largeCategory, String middleCategory, String smallCategory, String microCategory);
 	
+	//품목명 중복 검사
+	public int itemNameValid(String mainBusinessCode, String itemName);
+	
 	/**
 	 * 품목정보 등록
 	 * @param mainBusinessCode
@@ -45,10 +48,10 @@ public interface ItemMapper {
 	 * @param itemType
 	 * @param itemStandard
 	 * @param itemOrigin
-	 * @param itemCategory
+	 * @param categoryCode
 	 * @param itemComment
 	 * @return
 	 */
-	public int addItem(String mainBusinessCode, String itemName, String itemType, String itemStandard
-			, String itemOrigin, String itemCategory, String itemComment);
+	public int addItem(String mainBusinessCode, String itemName, String itemType, String categoryCode
+			, String itemStandard, String itemOrigin, String itemStatus, String itemComment);
 }

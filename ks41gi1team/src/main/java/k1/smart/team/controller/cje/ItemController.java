@@ -2,6 +2,8 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -98,24 +102,29 @@ public class ItemController {
 	 * @param smallCategory
 	 * @return Map<String,Object> largeCategory, middleCategory, smallCategory, microCategory
 	 */
-	@PostMapping("/k1ItemCategory")
-	@ResponseBody
-	public Map<String,Object> itemCategory(
-			@RequestParam(value="largeCategory", required = false) String largeCategory,
-			@RequestParam(value="middleCategory", required = false) String middleCategory,
-			@RequestParam(value="smallCategory", required = false) String smallCategory
-			){
+	@RequestMapping(value = "/itemCategory", method = RequestMethod.POST)
+	public String getItemCategory(
+			@RequestParam Map<String, String> paramMap, Model model){
 		//parameter 확인
+		String largeCategory = paramMap.get("largeCategory");
+		String middleCategory = paramMap.get("middleCategory");
+		String smallCategory = paramMap.get("smallCategory");
+		
 		StringJoiner param = new StringJoiner(", ");
 		param.add("largeCategory=" + largeCategory)
 			 .add("middleCategory=" + middleCategory)
 			 .add("smallCategory=" + smallCategory);
 		System.out.println("PARAMETER :: [ "+param+" ]");
 		
-		resultMap = itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
+		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
+		if(largeCategory != null && "".equals(largeCategory)) model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		if(middleCategory != null && "".equals(middleCategory)) model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		if(smallCategory != null && "".equals(smallCategory)) model.addAttribute("microCategory", resultMap.get("microCategory"));
 		
-		return resultMap;
+		return "stock/item/item_add :: #itemCategory";
+		//데이터 받을 페이지 :: #데이터 받을 객체
 	}
+	
 	/**
 	 * AJAX: 품목명 중복 검사
 	 * @param itemName
@@ -126,8 +135,8 @@ public class ItemController {
 	public boolean itemNameValid(
 			@RequestParam(value="itemName", required = false) String itemName) {
 		if(itemName == null || "".equals(itemName)) return false;
-		System.out.println("itemName="+itemName);
-		//chkBoolean =  
+		//System.out.println("itemName="+itemName);
+		chkBoolean = itemService.itemNameValid(mainBusinessCode, itemName);
 		
 		return chkBoolean;
 	}
@@ -135,34 +144,18 @@ public class ItemController {
 	//품목정보 등록
 	@PostMapping("/k1ItemAdd")
 	public String addItem(
-			@RequestParam(value="itemName", required = false) String itemName,
-			@RequestParam(value="itemType", required = false) String itemType,
-			@RequestParam(value="itemStandard", required = false) String itemStandard,
-			@RequestParam(value="itemOrigin", required = false) String itemOrigin,
-			@RequestParam(value="largeCategory", required = false) String largeCategory,
-			@RequestParam(value="middleCategory", required = false) String middleCategory,
-			@RequestParam(value="smallCategory", required = false) String smallCategory,
-			@RequestParam(value="microCategory", required = false) String microCategory,
-			@RequestParam(value="itemComment", required = false) String itemComment
-			) {
+			@RequestParam Map<String, String> paramMap) {
 		//parameter 확인
-		StringJoiner param = new StringJoiner(", ");
-		param.add("itemName=" + itemName)
-			 .add("itemType=" + itemType)
-			 .add("itemStandard=" + itemStandard)
-			 .add("itemOrigin=" + itemOrigin)
-			 .add("largeCategory=" + largeCategory)
-			 .add("middleCategory=" + middleCategory)
-			 .add("smallCategory=" + smallCategory)
-			 .add("microCategory=" + microCategory)
-			 .add("itemComment=" + itemComment);
+		StringJoiner param = new StringJoiner(", "); //구분자
+		for(Entry<String, String> paramKeySet : paramMap.entrySet()) {
+			param.add(paramKeySet.getKey() + "=" + paramKeySet.getValue());
+		}
 		System.out.println("PARAMETER :: [ "+param+" ]");
 		
-		int pro = itemService.addItem(mainBusinessCode, itemName, itemType, itemStandard, itemOrigin
-									, largeCategory, middleCategory, smallCategory, microCategory, itemComment);
+		int pro = itemService.addItem(mainBusinessCode, paramMap);
 		
 		if(pro == 1) return "redirect:/k1Item";
-		else return "redirect:/k1ItemAdd";
+		return "redirect:/k1ItemAdd";
 	}
 	
 	@GetMapping("/k1ItemModify/{itemCode}")
