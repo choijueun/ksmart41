@@ -143,4 +143,62 @@
 		AND smallCategory = #{smallCategory};
 </select>
 
+<!-- 아이템 등록 -->
+<insert id="addItem">
+	INSERT INTO k1_tb_item_info
+		(itemCode
+		,mainBusinessCode
+		,itemName
+		,itemType
+		,categoryCode
+		,itemStandard
+		,itemOrigin
+		,itemStatus
+		,itemComment
+		,regDate
+		,updateDate
+	) VALUES(
+		CONCAT('itemCode_',
+		<![CDATA[
+			(SELECT
+				CASE
+					WHEN (MAX(RIGHT(itemCode,3))+1 < 10) THEN CONCAT('00',MAX(RIGHT(itemCode,3))+1)
+					WHEN (MAX(RIGHT(itemCode,3))+1 < 100) THEN CONCAT('0',MAX(RIGHT(itemCode,3))+1)
+				ELSE MAX(RIGHT(itemCode,3))+1
+				END AS newCodeNum
+			FROM
+				k1_tb_item_info)
+		]]>
+		)
+		,#{mainBusinessCode}
+		,#{itemName}
+		,#{itemType}
+		,CONCAT('categoryCode_',#{categoryCode})
+		,#{itemStandard}
+		,#{itemOrigin}
+		,#{itemStatus}
+		,#{itemComment}
+		,NOW()
+		,NOW()
+	);
+</insert>
+
+<select id="getCategoryCode" parameterType="String" resultType="String">
+	SELECT
+		categoryCode
+	FROM
+		k1_tb_item_category
+	WHERE
+		largeCategory = #{largeCategory}
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+		<if test="microCategory != null and microCategory != ''.toString()">
+			AND microCategory = #{microCategory}
+		</if>
+</select>
+
 </mapper>
