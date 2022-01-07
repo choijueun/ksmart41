@@ -4,17 +4,160 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="customJs"></th:block>
 
 <th:block layout:fragment="customContents">
-	거래처 등록
-</th:block>
 
+	<!--  ************************* 수정   ********************************************************************-->
+	<!-- 거래처 등록 - 아이디 조회(회원가입은 되어있다는 가정) - 등록된 아이디=>거래처 등록 가능 / 등록안된 아이디=>userLevel 4(외부거래처)로 회원등급 수정 -->
+	
+<div class="container-fluid">
+	<form id="businessRegisterForm" th:action="@{/k1Client/clientRegister}" method="post">
+		<section class="content">
+	      <div class="row">
+	        <div class="col-md-6">
+	          <div class="card card-info">
+	            <div class="card-header">
+	              <h3 class="card-title">거래처 등록</h3>
+	
+	              <div class="card-tools">
+	                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+	                  <i class="fas fa-minus"></i>
+	                </button>
+	              </div>
+	            </div>
+	            <div class="card-body">
+					<div class="form-group">
+		                <label for="businessName">담당자 아이디 조회</label>
+		                <div class="col-sm-4">
+							<input type="text" id="mainBusinessCode" class="form-control">
+						</div>
+		                <div class="col-sm-4">
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+						  조회하기
+						</button>
+					</div>
+					</div>
+					
+					<div class="form-group">
+	                	<label for="businessCategory">사업장 구분</label>
+	                	<select id="inputStatus" class="form-control custom-select">
+		                  	<option selected="" disabled="">:: 사업장종류 ::</option>
+							<option value="merge_agency">대리점</option>
+							<option value="merge_fac">공장</option>
+							<option value="merge_mart">마트</option>
+							<option value="merge_shop">쇼핑몰</option>
+							<option value="merge_ware">물류센터</option>
+	                	</select>
+	             	</div>
+					<div class="form-group">
+	                	<label for="businessLevel">사업장 권한</label>
+	                	<select id="inputStatus" class="form-control custom-select">
+		                  	<option selected="" disabled="">:: 권한종류 ::</option>
+							<option value="agency1">대리점 총관리자</option>
+							<option value="fac1">공장 총관리자</option>
+							<option value="mart1">쇼핑몰 총관리자</option>
+							<option value="shop1">일반사용자</option>
+							<option value="user">물류센터 총관리자</option>
+	                	</select>
+	             	</div>
+	             	
+					<div class="form-group">
+	                	<label for="businessRepresentative">대표자명</label>
+	                	<input type="text" id="businessRepresentative" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessNum">사업자번호</label>
+	                	<input type="text" id="businessNum" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessMobile">연락처</label>
+	                	<input type="text" id="businessMobile" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessPlace">소재지</label>
+	                	<input type="text" id="businessPlace" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessEmail">이메일</label>
+	                	<input type="text" id="businessEmail" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessType1">업종</label>
+	                	<input type="text" id="businessType1" class="form-control">
+					</div>
+					<div class="form-group">
+	                	<label for="businessType2">업태</label>
+	                	<input type="text" id="businessType2" class="form-control">
+					</div>
+		              
+				</div>
+	            <!-- /.card-body -->
+	          </div>
+	          <!-- /.card -->
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-12">
+	          <a href="#" class="btn btn-secondary">취소</a>
+	          <input type="submit" value="등록" class="btn btn-info">
+	        </div>
+	      </div>
+	    </section>
+		
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">담당자 아이디 조회</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        	<span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        등록된 아이디 입니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-info">거래처 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+	</form>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</div>
+</th:block>
 </html>

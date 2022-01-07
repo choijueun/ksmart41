@@ -35,7 +35,7 @@ public class MainBusinessController {
 	//사업장 등록
 	@GetMapping("/businessRegister")
 	public String mainBusinessRegister(Model model) {
-		model.addAttribute("SectionTitle", "사업장 조회");
+		model.addAttribute("SectionTitle", "사업장 등록");
 		
 		return "mainBusiness/business_register";
 	}
