@@ -52,6 +52,7 @@
 		d.mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 운송내역 상세조회 -->
 <select id="getDeliveryInfo" parameterType="String" resultType="Delivery">
 	SELECT 
 		 RIGHT(d.deliveryCode,3) AS deliveryCode
@@ -131,6 +132,55 @@
 	WHERE
 		d.mainBusinessCode = #{mainBusinessCode}
 		AND d.deliveryCode = CONCAT('deliveryCode_',#{deliveryCode});
+</select>
+
+<select id="getShipPlanDetails" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(p.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.warehouseCode,3) AS sendWarehouse
+		,w.warehouseName AS sendWarehouseName
+		,w.loaction AS sendWarehouseLocation
+		,w.outPlace AS sendWarehouseOutPlace
+		,i.itemName 
+		,p.itemCount AS adjCount
+		,p.itemWeight AS adjWeight
+		,p.totalPrice
+		,p.`comment`
+	FROM
+		k1_tb_shipment_plan_detail AS p
+		JOIN
+		k1_tb_stock AS s
+		ON
+		p.inventoryCode = s.inventoryCode
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		LEFT JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+	WHERE
+		shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+</select>
+
+<select id="getReturnRegDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(r.returnRegCode,3) AS returnRegCode
+		,RIGHT(r.itemCode,3) AS itemCode
+		,i.itemName
+		,r.amount
+		,r.`count` as adjCount
+		,(r.amount * r.`count`) AS totalAmount
+		,r.`comment`
+	FROM
+		k1_tb_return_reg_detail AS r
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		r.itemCode = i.itemCode
+	WHERE
+		r.returnRegCode = CONCAT('returnRegCode_','001');
 </select>
 
 </mapper>

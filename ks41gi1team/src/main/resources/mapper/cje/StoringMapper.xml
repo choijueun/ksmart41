@@ -514,7 +514,7 @@ WHERE
 		,st.outPlace
 		,sd.itemCount AS adjCount
 		,sd.itemWeight AS adjWeight
-		,sd.totcalPrice
+		,sd.totalPrice
 		,sd.`comment`
 	FROM
 		k1_tb_shipment_plan_detail AS sd

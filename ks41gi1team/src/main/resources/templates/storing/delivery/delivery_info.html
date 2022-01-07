@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${SectionLocation}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customContents">
+
+<!-- <div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					운송요청정보 
+				</div>
+				<div class="card-body" th:if="${ deliveryInfo != null }">
+					<table id="deliveryInfo" class="table table-bordered">
+						<tr>
+							<th>No.</th>
+							<td></td>
+						</tr>
+						<tr>
+							
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-7" th:if="${not #lists.isEmpty(shipPlanDetails)}">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					출하계획정보
+				</div>
+				<div class="card-body">
+					<table id="shipPlanDetails" class="table table-bordered">
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-7" th:if="${not #lists.isEmpty(returnRegDetails)}">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					반품요청정보
+				</div>
+				<div class="card-body">
+					<table id="returnRegDetails" class="table table-bordered">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+</th:block>
+
+</html>
