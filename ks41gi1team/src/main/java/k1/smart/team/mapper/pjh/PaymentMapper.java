@@ -22,6 +22,8 @@ public interface PaymentMapper {
 	
 	//결제예정 전체조회
 	public List<PlanPayment> getPlanPaymentList(String mainBusinessCode);
-	//결제예정 상세조회
-	public PlanPayment getPlanPaymentInfo(String mainBusinessCode);
+	//결제예정 상세조회(거래한 물건 하나일때)
+	public PlanPayment getPlanPaymentInfo(String payPlanCode);
+	//결제예정 상세조회(거래한 물건 여럿일때)
+	public List<PlanPayment> getPlanPaymentInfoList(String payPlanCode);
 }

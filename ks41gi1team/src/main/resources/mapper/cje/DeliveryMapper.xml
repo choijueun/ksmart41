@@ -14,12 +14,12 @@
 		,c.businessName AS clientBusinessName
 		,d.deliveryBusinessCode
 		,cl.businessName AS deliveryBusinessName
-		,d.receivePlace
+		,d.receiveAddr
 		,d.deliveryCost
 		,d.briefs
 		,d.managerId
 		,u.userName AS managerName
-		,d.updateDate
+		,LEFT(d.updateDate,10) AS updateDate
 	FROM
 		k1_tb_delivery AS d
 		LEFT JOIN
@@ -51,5 +51,126 @@
 	WHERE
 		d.mainBusinessCode = #{mainBusinessCode};
 </select>
+
+<!-- 운송내역 상세조회 -->
+<select id="getDeliveryInfo" parameterType="String" resultType="Delivery">
+	SELECT 
+		 RIGHT(d.deliveryCode,3) AS deliveryCode
+		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(d.returnRegCode,3) AS returnRegCode
+		,d.deliveryBusinessCode
+		,c.businessName AS deliveryBusinessName
+		,RIGHT(s.contractCode,3) AS contractCode
+		,s.clientCode
+		,s.businessName AS clientBusinessName
+		,d.receiveAddr
+		,a.stockAdjCode
+		,a.stockReasonCode
+		,a.stockReason
+		,d.deliveryCost
+		,d.briefs
+		,d.managerId
+		,u.userName AS managerName
+		,d.regDate
+		,d.updateDate
+	FROM 
+		k1_tb_delivery AS d
+		JOIN
+		k1_tb_user AS u
+		ON
+		d.managerId = u.userId
+		LEFT JOIN
+		(SELECT
+			 s.shipmentPlanCode
+			,s.contractCode
+			,c.clientCode
+			,cl.businessName
+		FROM
+			k1_tb_shipment_plan AS s
+			JOIN
+			k1_tb_contract AS c
+			ON
+			s.contractCode = c.contractCode
+			JOIN
+			k1_tb_client AS cl
+			ON
+			c.clientCode = cl.clientCode
+		) AS s
+		ON
+		d.shipmentPlanCode = s.shipmentPlanCode
+		JOIN
+		k1_tb_client AS c
+		ON
+		d.deliveryBusinessCode = c.clientCode
+		LEFT JOIN
+		(SELECT
+			 a.deliveryCode
+			,RIGHT(a.stockAdjCode,3) AS stockAdjCode
+			,a.stockReasonCode
+			,r.reason AS stockReason
+		FROM
+			k1_tb_stock_adjustment AS a
+			JOIN
+			k1_tb_stock_reason AS r
+			ON
+			a.stockReasonCode = r.stockReasonCode
+		) AS a
+		ON
+		d.deliveryCode = a.deliveryCode
+	WHERE
+		d.mainBusinessCode = #{mainBusinessCode}
+		AND d.deliveryCode = CONCAT('deliveryCode_',#{deliveryCode});
+</select>
+
+<!-- 출하계획목록 -->
+<select id="getShipPlanDetails" parameterType="String" resultType="Storing">
+	SELECT 
+		 RIGHT(p.inventoryCode,3) AS inventoryCode
+		,i.itemName 
+		,p.itemCount AS adjCount
+		,p.itemWeight AS adjWeight
+		,p.totalPrice
+		,RIGHT(s.warehouseCode,3) AS sendWarehouse
+		,w.warehouseName AS sendWarehouseName
+		,w.loaction AS sendWarehouseLocation
+		,w.outPlace AS sendWarehouseOutPlace
+		,p.`comment`
+	FROM
+		k1_tb_shipment_plan_detail AS p
+		JOIN
+		k1_tb_stock AS s
+		ON
+		p.inventoryCode = s.inventoryCode
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		LEFT JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+	WHERE
+		shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+</select>
+
+<!-- 반품요청목록 -->
+<select id="getReturnRegDetails" parameterType="String" resultType="Storing">
+	SELECT
+		 RIGHT(r.returnRegCode,3) AS returnRegCode
+		,RIGHT(r.itemCode,3) AS itemCode
+		,i.itemName
+		,r.amount
+		,r.`count` as adjCount
+		,(r.amount * r.`count`) AS totalPrice
+		,r.`comment`
+	FROM
+		k1_tb_return_reg_detail AS r
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		r.itemCode = i.itemCode
+	WHERE
+		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+</select> 
 
 </mapper>

@@ -29,7 +29,15 @@
 					<table id="returnInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
-							<td colspan="3">[[${returnInfo.stockAdjCode}]]</td>
+							<td colspan="3">
+								[[${returnInfo.stockAdjCode}]]
+								<a th:if="${returnInfo.returnRegCode} != null" th:href="@{|/k1ReturnReg/${returnInfo.returnRegCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">요청</button>
+								</a>
+								<a th:if="${returnInfo.deliveryCode} != null" th:href="@{|/k1Delivery/${returnInfo.deliveryCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">운송</button>
+								</a>
+							</td>
 							<th>상태</th>
 							<td th:if="${returnInfo.endDate != null}">
 								완료

@@ -1,6 +1,8 @@
 package k1.smart.team.service.pjh;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,11 @@ public class PaymentService {
 	private List<CancelPayment> cancelPaymentList;
 	private List<PlanPayment> planPaymentList;
 	private PlanPayment planPaymentInfo;
+	private List<PlanPayment> planPaymentInfoList;
 	private CancelPayment cancelPaymentInfo;
 	private HistoryPayment historyPaymentInfo;
+	private Map<String,Object> resultMap = new HashMap<String,Object>();
+	
 	
 	public PaymentService(PaymentMapper paymentMapper) {
 		this.paymentMapper = paymentMapper;
@@ -41,15 +46,19 @@ public class PaymentService {
 		return cancelPaymentList;
 	}
 	
-	public PlanPayment getPlanPaymentInfo(String payPlanCode) {
-		planPaymentInfo = paymentMapper.getPlanPaymentInfo(payPlanCode);
-		if(cancelPaymentInfo == null) {
+	public Map<String,Object> getPlanPaymentInfo(String payPlanCode) {
+		planPaymentInfo = paymentMapper.getPlanPaymentInfo(payPlanCode); //결제예정 품목 하나 상세
+		if(planPaymentInfo == null) {
 			System.out.println("결제예정정보 조회결과 없음");
 			return null;
 		}
+		planPaymentInfoList = paymentMapper.getPlanPaymentInfoList(payPlanCode);//결제예정 품목 여러개 상세
 		
-		planPaymentInfo.setPayPlanCode(payPlanCode);
-		return planPaymentInfo;
+		resultMap.clear();
+		resultMap.put("planPaymentInfo", planPaymentInfo);
+		resultMap.put("planPaymentInfoList", planPaymentInfoList);
+		
+		return resultMap;
 	}
 	
 	public CancelPayment getCancelPaymentInfo(String payCancelCode) {
@@ -73,6 +82,9 @@ public class PaymentService {
 		historyPaymentInfo.setPayHistoryCode(payHistoryCode);
 		return historyPaymentInfo;
 	}
+	
+	
+	
 }
 
 

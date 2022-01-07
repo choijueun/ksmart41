@@ -20,6 +20,7 @@ public class PlanPayment {
 	private String purchaseTsCode;
 	private String salesTsCode;
 	private String itemCode;
+	private String itemName;
 	private String madeCompany;
 	private String materialCost;
 	private String tax;
@@ -30,6 +31,13 @@ public class PlanPayment {
 	private String isEnd;
 	private String endDate;
 	private String comment;
+	
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 	public String getManagerId() {
 		return managerId;
 	}
@@ -245,6 +253,8 @@ public class PlanPayment {
 		builder.append(salesTsCode);
 		builder.append(", itemCode=");
 		builder.append(itemCode);
+		builder.append(", itemName=");
+		builder.append(itemName);
 		builder.append(", madeCompany=");
 		builder.append(madeCompany);
 		builder.append(", materialCost=");

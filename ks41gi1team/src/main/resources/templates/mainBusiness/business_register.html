@@ -4,17 +4,112 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="customJs">
 
+
+</th:block>
+
+<!-- Main content -->
 <th:block layout:fragment="customContents">
-	사업장 등록
+	<div class="container-fluid">
+		<div class="card card-info card-outline">
+	
+			<form id="businessRegisterForm" th:action="@{/k1Business/businessRegister}" method="post">
+				<div class="card-body">
+				<div class="card">
+					<div class="form-group">
+						<label for="mainBusinessCode">사업장별 대표코드</label>
+						<input type="text" name="mainBusinessCode" >
+						<button type="button" id="btn" class="btn btn-default">중복확인</button>
+					</div>
+					<div class="form-group">
+						<label for="businessCategory">사업장 구분</label>
+						<select name="searchKey">
+							<option>:: 사업장종류 ::</option>
+							<option value="merge_agency">대리점</option>
+							<option value="merge_fac">공장</option>
+							<option value="merge_mart">마트</option>
+							<option value="merge_shop">쇼핑몰</option>
+							<option value="merge_ware">물류센터</option>
+						</select> 
+					</div>
+					<div class="form-group">
+						<label for="businessCategory">사업장 권한</label>
+						<select name="searchKey">
+							<option>:: 권한종류 ::</option>
+							<option value="agency1">대리점 총관리자</option>
+							<option value="fac1">공장 총관리자</option>
+							<option value="mart1">쇼핑몰 총관리자</option>
+							<option value="shop1">일반사용자</option>
+							<option value="user">물류센터 총관리자</option>
+						</select> 
+					</div>
+					<div class="form-group">
+						<label for="businessName">상호</label>
+						<input type="text" name="businessName" >
+						<button type="button" id="btn" class="btn btn-default">중복확인</button>
+					</div>
+					<div class="form-group">
+						<label for="businessRepresentative">대표자명</label>
+						<input type="text" name="businessRepresentative" >
+					</div>
+					<div class="form-group">
+						<label for="businessNum">사업자번호</label>
+						<input type="text" name="businessNum" >
+					</div>
+					<div class="form-group">
+						<label for="businessMobile">연락처</label>
+						<input type="text" name="businessMobile" >
+					</div>
+					<div class="form-group">
+						<label for="businessPlace">소재지</label>
+						<input type="text" name="businessPlace" >
+					</div>
+					<div class="form-group">
+						<label for="businessEmail">이메일</label>
+						<input type="text" name="businessEmail" >
+					</div>
+					<div class="form-group">
+						<label for="businessType1">업종</label>
+						<input type="text" name="businessType1" >
+					</div>
+					<div class="form-group">
+						<label for="businessType2">업태</label>
+						<input type="text" name="businessType2" >
+					</div>
+					<div class="form-group">
+						<label for="openDate">개업년월일</label>
+						<input type="text" name="openDate" >
+					</div>
+					<div class="form-group">
+						<label for="regDate">플랫폼 가입일시</label>
+						<input type="text" name="regDate" >
+					</div>
+				</div>
+					
+					
+				</div>
+				
+				<div class="card-footer">
+					<button type="submit" id="addContractBtn" class="btn btn-info" disabled="disabled" >등록</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </th:block>
 
 </html>

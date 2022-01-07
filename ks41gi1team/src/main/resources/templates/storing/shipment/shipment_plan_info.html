@@ -4,17 +4,70 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					제품출하계획
+				</div>
+				<div class="card-body" th:if="${ shipPlanInfo != null }">
+					<table id="shipPlanInfo" class="table table-bordered">
+						<tr>
+							<th>No.</th>
+							<td>[[${shipPlanInfo.shipmentPlanCode}]]</td>
+							<th>예상출하일</th>
+							<td>[[${shipPlanInfo.sendPlanDate}]]</td>
+						</tr>
+						<tr>
+							<th>거래처</th>
+							<td>
+								<!-- 거래처정보 LINK -->
+								[[${shipPlanInfo.businessName}]]
+								<a th:if="${shipPlanInfo.contractCode != null}" th:href="@{#}">
+									<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+								</a>
+							</td>
+							<th>도착지</th>
+							<td>[[${shipPlanInfo.receiveAddr}]]</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td>[[${shipPlanInfo.briefs}]]</td>
+							<th>담당자</th>
+							<td>
+								<a th:href="@{#}">
+									[[${shipPlanInfo.managerName}]]
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td>[[${shipPlanInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td>[[${shipPlanInfo.updateDate}]]</td>
+						</tr>
+					</table>
+				</div>
+				<div class="card-body" th:if="${ shipPlanInfo == null }">
+					잘못된 접근입니다.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>

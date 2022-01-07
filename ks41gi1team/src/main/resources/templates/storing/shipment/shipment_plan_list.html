@@ -4,17 +4,81 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<!-- content -->
+<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			제품출하계획 전체목록
+		</div>
+		<div class="card-body">
+			<table id="shipmentList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<td><input type="checkbox" id="allCheck"></td>
+						<td>No.</td>
+						<td>적요</td>
+						<td>거래처</td>
+						<td>배송지</td>
+						<td>예상출하일</td>
+						<td>담당자</td>
+						<td>수정일시</td>
+						<td>수정</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(shipmentList)}" th:each="l : ${shipmentList}">
+						<td><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1ShipmentPlan/${l.shipmentPlanCode}|}">
+								[[${l.shipmentPlanCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1ShipmentPlan/${l.shipmentPlanCode}|}">
+								[[${l.briefs}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+								[[${l.businessName}]]
+							</a>
+							<a th:if="${l.contractCode != null}" th:href="@{#}"> <!-- 계약서 상세정보 LINK -->
+								<button type="button" class="btn btn-outline-info btn-xs" th:if="${l.contractCode != null}">계약</button>
+							</a>
+						</td>
+						<td>[[${l.receiveAddr}]]</td>
+						<td>[[${l.sendPlanDate}]]</td>
+						<td>
+							<a th:href="@{#}"> <!-- 사용자정보LINK -->
+								[[${l.managerName}]]
+							</a>
+						</td>
+						<td>[[${l.updateDate}]]</td>
+						<td>
+							<a th:href="@{|/k1ShipmentPlanModify/${l.shipmentPlanCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(shipmentList)}">
+						<td colspan="9">출하계획이 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>
