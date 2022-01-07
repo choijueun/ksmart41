@@ -2,11 +2,15 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.service.cje.ItemService;
@@ -18,6 +22,7 @@ public class ItemController {
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
 	private Map<String,Object> resultMap;
+	private boolean chkBoolean;
 	/**
 	 * 생성자 메서드
 	 * @param itemService
@@ -70,6 +75,37 @@ public class ItemController {
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목추가");
 		return "stock/item/item_add";
+	}
+	
+	@PostMapping("/k1ItemNameValid")
+	@ResponseBody
+	public boolean itemNameValid(
+			@RequestParam(value="itemName", required = false) String itemName) {
+		if(itemName == null || "".equals(itemName)) return false;
+		
+		//chkBoolean =  
+		
+		return chkBoolean;
+	}
+	
+	@PostMapping("/k1ItemAdd")
+	public String addItem(
+			@RequestParam(value="itemName", required = false) String itemName,
+			@RequestParam(value="itemType", required = false) String itemType,
+			@RequestParam(value="itemStandard", required = false) String itemStandard,
+			@RequestParam(value="itemOrigin", required = false) String itemOrigin,
+			@RequestParam(value="itemComment", required = false) String itemComment
+			) {
+		//parameter 확인
+		StringJoiner param = new StringJoiner(", ");
+		param.add("itemName=" + itemName)
+			 .add("itemType=" + itemType)
+			 .add("itemStandard=" + itemStandard)
+			 .add("itemOrigin=" + itemOrigin)
+			 .add("itemComment=" + itemComment);
+		System.out.println("PARAMETER :: [ "+param+" ]");
+		
+		return "redirect:/k1Item";
 	}
 	
 	@GetMapping("/k1ItemModify/{itemCode}")

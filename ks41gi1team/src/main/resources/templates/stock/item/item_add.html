@@ -7,7 +7,40 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(()=>{
+	var itemName = $('#itemName');
+	$(document).on('change', itemName, function(){
+		var request = $.ajax({
+			  url: "/k1ItemNameValid", //호출 경로
+			  method: "POST", //호출 방식
+			  data: { itemName : itemName.val() },
+			  dataType: "json" //응답할 페이지의 컨텍스트 타입
+			  //(text, xml, json, html, javascript)
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+		  if(data) {
+			  itemName.addClass('is-warning');
+			  $('#itemNameValid').html('<button type="button" class="btn btn-outline-info btn-xs">품목정보</button>');
+		  } else {
+			  itemName.removeClass('is-warning');
+		  }
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+	});
+	$(document).on('click', '#submitBtn', function(){
+		$('#addItem').submit();
+	})
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -23,35 +56,77 @@
 					품목정보 등록
 				</div>
 				<div class="card-body">
-					<form>
+					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
 						<div class="form-group">
-							<label for="itemName">품목명</label>
-							<input type="text" class="form-control" id="itemName" placeholder="Enter itemName">
+							<label for="itemName">
+								품목명
+								<a id="itemNameValid" th:href="@{/k1Item}">
+									<!-- <button type="button" class="btn btn-info btn-xs"></button> -->
+								</a>
+							 </label>
+							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+						</div>
+						<div class="row">
+							<div class="form-group col-4">
+								<label>분류</label>
+								<select name="itemType" class="form-control">
+									<option>원자재</option>
+									<option>부자재</option>
+									<option>제품</option>
+								</select>
+							</div>
+							<div class="form-group col-4">
+								<label for="itemStandard">규격</label>
+								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard">
+							</div>
+							<div class="form-group col-4">
+								<label for="itemOrigin">원산지</label>
+								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin">
+							</div>
 						</div>
 						<div class="form-group">
-							<label>분류</label>
-							<select class="form-control">
-								<option>원자재</option>
-								<option>부자재</option>
-								<option>제품</option>
-							</select>
-							<label for="itemStandard">규격</label>
-							<input type="text" class="form-control" id="itemStandard" placeholder="Enter itemName">
-							<label for="itemOrigin">원산지</label>
-							<input type="text" class="form-control" id="itemOrigin" placeholder="Enter itemName">
-						</div>
-						<div class="form-group">
-							<label for="itemCategory">카테고리</label>
+							<label>카테고리</label>
+							<div class="form-group row">
+								<div class="col-3">
+									<select class="form-control">
+										<option>대분류</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select class="form-control">
+										<option>중분류</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select class="form-control">
+										<option>소분류</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select class="form-control">
+										<option>소소분류</option>
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="itemComment">비고</label>
+							<input type="text" name="itemComment" class="form-control" id="itemComment" placeholder="Enter comment">
 						</div>
 					</form>
+				</div>
+				<div class="card-footer">
+					<button type="button" id="submitBtn" class="btn btn-info float-right">등록하기</button>
+					<a th:href="@{/k1Item}">
+						<button type="button" class="btn btn-default">이전으로</button>
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
 
 </th:block>
 
