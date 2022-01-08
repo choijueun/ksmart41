@@ -37,7 +37,7 @@ public class ItemController {
 	}
 
 	/**
-	 * 품목관리 전체목록 조회
+	 * 품목관리 전체목록 조회 @GetMapping("/k1Item")
 	 * @param model
 	 * @return item_list
 	 */
@@ -80,6 +80,11 @@ public class ItemController {
 		return "stock/item/item_info";
 	}
 	
+	/**
+	 * 품목정보등록 첫 화면 @GetMapping("/k1ItemAdd")
+	 * @param model
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1ItemAdd")
 	public String addItem(Model model) {
@@ -96,7 +101,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * AJAX: 품목카테고리 반환
+	 * AJAX: 품목카테고리 반환 @RequestMapping(value = "/itemCategory", method = RequestMethod.POST)
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
@@ -109,7 +114,7 @@ public class ItemController {
 		String largeCategory = paramMap.get("largeCategory");
 		String middleCategory = paramMap.get("middleCategory");
 		String smallCategory = paramMap.get("smallCategory");
-		
+		//출력
 		StringJoiner param = new StringJoiner(", ");
 		param.add("largeCategory=" + largeCategory)
 			 .add("middleCategory=" + middleCategory)
@@ -117,16 +122,16 @@ public class ItemController {
 		System.out.println("PARAMETER :: [ "+param+" ]");
 		
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
-		if(largeCategory != null && "".equals(largeCategory)) model.addAttribute("middleCategory", resultMap.get("middleCategory"));
-		if(middleCategory != null && "".equals(middleCategory)) model.addAttribute("smallCategory", resultMap.get("smallCategory"));
-		if(smallCategory != null && "".equals(smallCategory)) model.addAttribute("microCategory", resultMap.get("microCategory"));
+		if(largeCategory != null && !"".equals(largeCategory)) model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		if(middleCategory != null && !"".equals(middleCategory)) model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		if(smallCategory != null && !"".equals(smallCategory)) model.addAttribute("microCategory", resultMap.get("microCategory"));
 		
 		return "stock/item/item_add :: #itemCategory";
 		//데이터 받을 페이지 :: #데이터 받을 객체
 	}
 	
 	/**
-	 * AJAX: 품목명 중복 검사
+	 * AJAX: 품목명 중복 검사 @PostMapping("/k1ItemNameValid")
 	 * @param itemName
 	 * @return boolean
 	 */
@@ -142,23 +147,28 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보 등록
+	 * 품목정보 등록 절차 수행 @PostMapping("/k1ItemAdd")
 	 * @param paramMap
 	 * @return
 	 */
 	@PostMapping("/k1ItemAdd")
 	public String addItem(Stock itemInfo) {
 		//parameter 확인
-		System.out.println("PARAMETER :: [ "+itemInfo.toString()+" ]");
+		System.out.println("@PostMapping(\"/k1ItemAdd\") PARAMETER :: "+itemInfo.toString());
 		
 		itemInfo.setMainBusinessCode(mainBusinessCode);
-		
 		int pro = itemService.addItem(itemInfo);
 		
 		if(pro == 1) return "redirect:/k1Item";
 		return "redirect:/k1ItemAdd";
 	}
 	
+	/**
+	 * 품목정보 수정 첫 화면 @GetMapping("/k1ItemModify/{itemCode}")
+	 * @param itemCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ItemModify/{itemCode}")
 	public String modifyItem(
 			@PathVariable(value="itemCode", required=false) String itemCode
