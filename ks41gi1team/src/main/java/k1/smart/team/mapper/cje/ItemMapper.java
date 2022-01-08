@@ -52,6 +52,5 @@ public interface ItemMapper {
 	 * @param itemComment
 	 * @return
 	 */
-	public int addItem(String mainBusinessCode, String itemName, String itemType, String categoryCode
-			, String itemStandard, String itemOrigin, String itemStatus, String itemComment);
+	public int addItem(Stock itemInfo);
 }

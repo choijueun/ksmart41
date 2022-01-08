@@ -141,18 +141,19 @@ public class ItemController {
 		return chkBoolean;
 	}
 	
-	//품목정보 등록
+	/**
+	 * 품목정보 등록
+	 * @param paramMap
+	 * @return
+	 */
 	@PostMapping("/k1ItemAdd")
-	public String addItem(
-			@RequestParam Map<String, String> paramMap) {
+	public String addItem(Stock itemInfo) {
 		//parameter 확인
-		StringJoiner param = new StringJoiner(", "); //구분자
-		for(Entry<String, String> paramKeySet : paramMap.entrySet()) {
-			param.add(paramKeySet.getKey() + "=" + paramKeySet.getValue());
-		}
-		System.out.println("PARAMETER :: [ "+param+" ]");
+		System.out.println("PARAMETER :: [ "+itemInfo.toString()+" ]");
 		
-		int pro = itemService.addItem(mainBusinessCode, paramMap);
+		itemInfo.setMainBusinessCode(mainBusinessCode);
+		
+		int pro = itemService.addItem(itemInfo);
 		
 		if(pro == 1) return "redirect:/k1Item";
 		return "redirect:/k1ItemAdd";
