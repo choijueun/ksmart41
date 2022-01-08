@@ -26,7 +26,14 @@ public class HistoryPayment {
 	private int vat;
 	private int count;
 	private int sum;
+	private String itemCode;
 	
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
 	public String getPayHistoryCode() {
 		return payHistoryCode;
 	}
@@ -177,7 +184,6 @@ public class HistoryPayment {
 	public void setSum(int sum) {
 		this.sum = sum;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -231,8 +237,12 @@ public class HistoryPayment {
 		builder.append(count);
 		builder.append(", sum=");
 		builder.append(sum);
+		builder.append(", itemCode=");
+		builder.append(itemCode);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 	
 }

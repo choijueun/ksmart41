@@ -21,7 +21,7 @@
 	</select>
 	<select id="getCancelPaymentList" parameterType="String" resultType="CancelPayment">
 		SELECT
-			payCancelCode
+			RIGHT(payCancelCode,3) as payCancelCode
 			,mainBusinessCode
 			,payHistoryCode
 			,cancelCost
@@ -65,7 +65,7 @@
 		WHERE
 			p.mainBusinessCode = #{mainBusinessCode};
 	</select>
-	<select id="HistoryPaymentInfo" parameterType="String" resultType="HistoryPayment">
+	<select id="getHistoryPaymentInfo" parameterType="String" resultType="HistoryPayment">
 		SELECT
 			RIGHT(h.payHistoryCode,3) as payHistoryCode
 			,RIGHT(h.payPlanCode,3) as payPlanCode
@@ -106,12 +106,13 @@
 			h.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
 		
 	</select>
-	<select id="HistoryPaymentInfoList" parameterType="String" resultType="HistoryPayment">
+	<select id="getHistoryPaymentInfoList" parameterType="String" resultType="HistoryPayment">
 		SELECT
-			RIGHT(hd.payHistoryDetailCode,3) as payHistoryDetailCode
+			hd.payHistoryDetailCode
 			,RIGHT(hd.payHistoryCode,3) as payHistoryCode
 			,RIGHT(hd.payPlanCode,3) as payPlanCode
 			,i.itemName
+			,RIGHT(hd.itemCode,3) AS itemCode
 			,hd.materialCost
 			,hd.tax
 			,hd.productPrice
@@ -133,14 +134,14 @@
 		ON
 			h.payHistoryCode = hd.payHistoryCode
 		WHERE
-			h.payHistoryCode = CONCAT(('payHistoryCode_', #{payHistoryCode});
+			h.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
 		
 	</select>
 	<select id="getCancelPaymentInfo" parameterType="String" resultType="CancelPayment">
 		SELECT 
-			c.payCancelCode
+			RIGHT(c.payCancelCode,3) as payCancelCode
 			,c.mainBusinessCode
-			,c.payHistoryCode
+			,RIGHT(c.payHistoryCode,3) as payHistoryCode
 			,c.cancelCost
 			,c.issueDate
 			,c.approvalDate
@@ -156,7 +157,7 @@
 		ON
 			c.regId = u.userId
 		WHERE
-			payCancelCode = #{payCancelCode};
+			c.payCancelCode = CONCAT('payCancelCode_' #{payCancelCode});
 		
 	</select>
 	<select id="getPlanPaymentInfo" parameterType="String" resultType="PlanPayment">
