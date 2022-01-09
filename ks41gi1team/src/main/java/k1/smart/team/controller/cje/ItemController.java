@@ -78,7 +78,7 @@ public class ItemController {
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목정보");
-		model.addAttribute("itemInfo", itemInfo);
+		model.addAttribute("i", itemInfo);
 		model.addAttribute("stockList", itemList);
 		return "stock/item/item_info";
 	}
@@ -94,11 +94,13 @@ public class ItemController {
 		
 		//카테고리목록
 		resultMap = itemService.getItemCategory(null, null, null);
-		stringList = (List<String>) resultMap.get("largeCategory");
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
+		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		model.addAttribute("microCategory", resultMap.get("microCategory"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목추가");
-		model.addAttribute("largeCategory", stringList);
 		
 		return "stock/item/item_add";
 	}
@@ -181,12 +183,26 @@ public class ItemController {
 		//품목코드 검사
 		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
+		//카테고리목록
+		resultMap = itemService.getItemCategory(null, null, null);
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
+		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		model.addAttribute("microCategory", resultMap.get("microCategory"));
+		
 		resultMap = itemService.getItemInfo(itemCode);
+		model.addAttribute("i", resultMap.get("itemInfo"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
-		model.addAttribute("itemInfo", resultMap.get("itemInfo"));
 		return "stock/item/item_modify";
+	}
+	
+	@PostMapping("/k1ItemModify")
+	public String modifyItem(Stock itemInfo) {
+		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		
+		return "redirect:/k1Item";
 	}
 	
 	@GetMapping("/k1ItemCategory")

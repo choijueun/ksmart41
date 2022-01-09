@@ -57,15 +57,15 @@ public class ItemService{
 	public Map<String,Object> getItemCategory(String largeCategory, String middleCategory, String smallCategory) {
 		resultMap.clear();
 		resultMap.put("largeCategory", itemMapper.getCategoryLarge());
-		if(largeCategory != null) {
+		//if(largeCategory != null) {
 			resultMap.put("middleCategory", itemMapper.getCategoryMiddle(largeCategory));
-			if(middleCategory != null) {
+			//if(middleCategory != null) {
 				resultMap.put("smallCategory", itemMapper.getCategorySmall(largeCategory, middleCategory));
-				if(smallCategory != null) {
+				//if(smallCategory != null) {
 					resultMap.put("microCategory", itemMapper.getCategoryMicro(largeCategory, middleCategory, smallCategory));
-				}
-			}
-		}
+				//}
+			//}
+		//}
 		return resultMap;
 	}
 	

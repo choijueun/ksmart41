@@ -27,61 +27,61 @@
 						<tbody>
 							<tr>
 								<th>재고번호</th>
-								<td>[[${stockInfo.inventoryCode}]]</td>
+								<td>[[${s.inventoryCode}]]</td>
 								<th>상태</th>
-								<td>[[${stockInfo.status}]]</td>
+								<td>[[${s.status}]]</td>
 							</tr>
 							<tr>
 								<th>품목명</th>
 								<td>
-									<a th:href="@{|/k1Item/${stockInfo.inventoryCode}|}">[[${stockInfo.itemName}]]</a>
+									<a th:href="@{|/k1Item/${s.inventoryCode}|}">[[${s.itemName}]]</a>
 								</td>
 								<th>분류</th>
-								<td>[[${stockInfo.itemType}]]</td>
+								<td>[[${s.itemType}]]</td>
 							</tr>
 							<tr>
 								<th>수량</th>
-								<td>[[${stockInfo.itemCount}]]</td>
+								<td>[[${s.itemCount}]]</td>
 								<th>규격</th>
-								<td>[[${stockInfo.itemStandard}]]</td>
+								<td>[[${s.itemStandard}]]</td>
 							</tr>
 							<tr>
 								<th>단가 </th>
 								<td>
-									[[${stockInfo.productPrice}]] 원
+									[[${s.productPrice}]] 원
 									<a th:href="@{#}">
 										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
 									</a>
 								</td>
 								<th>합계금액</th>
-								<td>[[${stockInfo.totalPrice}]] 원</td>
+								<td>[[${s.totalPrice}]] 원</td>
 							</tr>
 							<tr>
 								<th>중량</th>
-								<td>[[${stockInfo.stockWeight}]] kg</td>
+								<td>[[${s.stockWeight}]] kg</td>
 								<th>원산지</th>
-								<td>[[${stockInfo.itemOrigin}]]</td>
+								<td>[[${s.itemOrigin}]]</td>
 							</tr>
 							<tr>
 								<th>창고명</th>
 								<td>
-									<a th:href="@{|/k1Warehouse/${stockInfo.warehouseCode}|}">
-										[[${stockInfo.warehouseName}]]
+									<a th:href="@{|/k1Warehouse/${s.warehouseCode}|}">
+										[[${s.warehouseName}]]
 									</a>
 								</td>
 								<th>창고위치</th>
-								<td th:if="${stockInfo.outPlace == null}">[[${stockInfo.loaction}]]</td>
-								<td th:if="${stockInfo.outPlace != null}">[[${stockInfo.loaction}]] ([[${stockInfo.outPlace}]])</td>
+								<td th:if="${s.outPlace == null}">[[${s.location}]]</td>
+								<td th:if="${s.outPlace != null}">[[${s.location}]] ([[${s.outPlace}]])</td>
 							</tr>
 							<tr>
 								<th>비고</th>
-								<td colspan="3">[[${stockInfo.comment}]]</td>
+								<td colspan="3">[[${s.comment}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
-								<td>[[${stockInfo.stockRegDate}]]</td>
+								<td>[[${s.stockRegDate}]]</td>
 								<th>수정일시</th>
-								<td>[[${stockInfo.stockUpdateDate}]]</td>
+								<td>[[${s.stockUpdateDate}]]</td>
 							</tr>
 						</tbody>
 					</table>

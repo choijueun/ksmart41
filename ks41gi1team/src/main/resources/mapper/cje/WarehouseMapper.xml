@@ -11,7 +11,7 @@
 		,w.category1
 		,w.category2
 		,w.`area`
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight
@@ -32,7 +32,7 @@
 		,w.category1
 		,w.category2
 		,w.`area`
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight

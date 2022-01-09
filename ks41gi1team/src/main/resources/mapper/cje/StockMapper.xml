@@ -23,7 +23,7 @@
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,s.stockWeight
 		,s.`status`
@@ -82,7 +82,7 @@
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,s.stockWeight
 		,s.`status`
