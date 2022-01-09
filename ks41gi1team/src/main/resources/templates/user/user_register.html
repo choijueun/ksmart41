@@ -15,11 +15,24 @@
 	<link rel="stylesheet"
 		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#myInput").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+
+</th:block>
 
 <th:block layout:fragment="customContents">
 
@@ -27,7 +40,7 @@
 	<div class="container-fluid">
 		<div class="card card-info card-outline">
 			<div class="card-header">
-				card-header
+				<input id="myInput" type="text" placeholder="Search..">
 			</div>
 			
 	<div class="card-body">
@@ -55,7 +68,7 @@
 								<th>수정</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="myTable">
 							<tr th:if="${not #lists.isEmpty(userRegList)}"
 								th:each="l : ${userRegList}">
 								<td><input type="checkbox"></td>
