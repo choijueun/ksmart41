@@ -77,11 +77,11 @@
 		,RIGHT(a.contractCode,3) AS contractCode
 		,RIGHT(a.sendWarehouse,3) AS sendWarehouse
 		,w1.warehouseName AS sendWarehouseName
-		,w1.loaction AS sendWarehouseLocation
+		,w1.location AS sendWarehouseLocation
 		,w1.outPlace AS sendWarehouseOutPlace
 		,RIGHT(a.receiveWarehouse,3) AS receiveWarehouse
 		,w2.warehouseName AS receiveWarehouseName
-		,w2.loaction AS receiveWarehouseLocation
+		,w2.location AS receiveWarehouseLocation
 		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
 		,RIGHT(a.materialOrderCode,3) AS materialOrderCode
@@ -513,7 +513,7 @@
 		,st.productPrice
 		,RIGHT(st.warehouseCode,3) AS warehouseCode
 		,st.warehouseName
-		,st.loaction
+		,st.location
 		,st.outPlace
 		,sd.itemCount AS adjCount
 		,sd.itemWeight AS adjWeight
@@ -534,7 +534,7 @@
 			,p.productPrice
 			,s.warehouseCode
 			,w.warehouseName
-			,w.loaction
+			,w.location
 			,w.outPlace
 		FROM
 			k1_tb_stock AS s

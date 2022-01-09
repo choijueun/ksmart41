@@ -132,7 +132,7 @@
 		,p.totalPrice
 		,RIGHT(s.warehouseCode,3) AS sendWarehouse
 		,w.warehouseName AS sendWarehouseName
-		,w.loaction AS sendWarehouseLocation
+		,w.location AS sendWarehouseLocation
 		,w.outPlace AS sendWarehouseOutPlace
 		,p.`comment`
 	FROM

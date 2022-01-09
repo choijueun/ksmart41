@@ -77,7 +77,7 @@
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(w.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,s.stockWeight
 		,s.itemCount

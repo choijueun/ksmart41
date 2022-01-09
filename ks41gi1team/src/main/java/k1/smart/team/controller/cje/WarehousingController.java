@@ -63,8 +63,8 @@ public class WarehousingController {
 		
 		model.addAttribute("SectionTitle", "물류관리");
 		model.addAttribute("SectionLocation", "자재입고 상세정보");
-		model.addAttribute("warehousingInfo", warehousingInfo);
-		model.addAttribute("warehousingDetails", warehousingList);
+		model.addAttribute("w", warehousingInfo);
+		model.addAttribute("details", warehousingList);
 		return "storing/warehousing/warehousing_info";
 	}
 	

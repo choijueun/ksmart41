@@ -47,7 +47,7 @@ $(()=>{
 				<div class="card-header">
 					품목정보 수정
 				</div>
-				<div class="card-body">
+				<div class="card-body" th:if="${i} != null">
 					<form id="modifyItem"th:action="@{/k1ItemModify}" method="POST">
 						<div class="form-group">
 							<label for="itemName">
@@ -59,9 +59,9 @@ $(()=>{
 							<div class="form-group col-3">
 								<label>분류</label>
 								<select id="itemType" name="itemType" class="form-control">
-									<option value="원자재" th:selected="'원자재' == ${i.itemType}">원자재</option>
-									<option value="부자재" th:selected="'부자재' == ${i.itemType}">부자재</option>
-									<option value="제품" th:selected="'제품' == ${i.itemType}">제품</option>
+									<option th:selected="'원자재' == ${i.itemType}">원자재</option>
+									<option th:selected="'부자재' == ${i.itemType}">부자재</option>
+									<option th:selected="'제품' == ${i.itemType}">제품</option>
 								</select>
 							</div>
 							<div class="form-group col-3">
@@ -83,25 +83,25 @@ $(()=>{
 								<div class="col-3">
 									<select id="largeCategory" name="largeCategory" class="form-control">
 										<option value="">:: 대분류 ::</option>
-										<option th:each="l : ${largeCategory}" th:value="${l}" th:selected="${l} == ${i.largeCategory}">[[${l}]]</option>
+										<option th:each="l : ${largeCategory}" th:selected="${l} == ${i.largeCategory}">[[${l}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="middleCategory" name="middleCategory" class="form-control">
 										<option value="">:: 중분류 ::</option>
-										<option th:each="m : ${middleCategory}" th:value="${m}" th:selected="${m} == ${i.middleCategory}">[[${m}]]</option>
+										<option th:each="m : ${middleCategory}" th:selected="${m} == ${i.middleCategory}">[[${m}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
 										<option value="">:: 소분류 ::</option>
-										<option th:each="s : ${smallCategory}" th:value="${s}" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
+										<option th:each="s : ${smallCategory}" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
 										<option value="">:: 소소분류 ::</option>
-										<option th:each="xs : ${microCategory}" th:value="${xs}" th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
+										<option th:each="xs : ${microCategory}" th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
 									</select>
 								</div>
 							</div>
@@ -112,11 +112,21 @@ $(()=>{
 						</div>
 					</form>
 				</div>
+				<div class="card-body" th:if="${i} == null">
+					잘못된 접근입니다.
+				</div>
 				<div class="card-footer">
-					<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
-					<a th:href="@{/k1Item}">
-						<button type="button" class="btn btn-default">이전으로</button>
-					</a>
+					<th:block th:if="${i} != null">
+						<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+						<a th:href="@{|/k1Item/${i.itemCode}|}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
+					<th:block th:if="${i} == null">
+						<a th:href="@{/k1Item}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
 				</div>
 			</div>
 		</div>

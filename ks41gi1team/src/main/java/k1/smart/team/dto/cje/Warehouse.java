@@ -9,7 +9,7 @@ public class Warehouse {
 	private String category2; //유형 - 재고 출하
 	
 	private int area; //면적
-	private String loaction; //위치
+	private String location; //위치
 	private String outPlace; //외부소재지
 	
 	private int currentWeight; //현재 적재중량
@@ -56,11 +56,11 @@ public class Warehouse {
 	public void setArea(int area) {
 		this.area = area;
 	}
-	public String getLoaction() {
-		return loaction;
+	public String getLocation() {
+		return location;
 	}
-	public void setLoaction(String loaction) {
-		this.loaction = loaction;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public String getOutPlace() {
 		return outPlace;
@@ -104,7 +104,6 @@ public class Warehouse {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -120,8 +119,8 @@ public class Warehouse {
 		builder.append(category2);
 		builder.append(", area=");
 		builder.append(area);
-		builder.append(", loaction=");
-		builder.append(loaction);
+		builder.append(", location=");
+		builder.append(location);
 		builder.append(", outPlace=");
 		builder.append(outPlace);
 		builder.append(", currentWeight=");

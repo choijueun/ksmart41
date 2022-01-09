@@ -108,8 +108,8 @@
 										[[${l.warehouseName}]]
 									</a>
 								</td>
-								<td th:if="${l.outPlace} == null">[[${l.loaction}]]</td>
-								<td th:if="${l.outPlace} != null">[[${l.loaction}]] ([[${l.outPlace}]])</td>
+								<td th:if="${l.outPlace} == null">[[${l.location}]]</td>
+								<td th:if="${l.outPlace} != null">[[${l.location}]] ([[${l.outPlace}]])</td>
 								<td>[[${l.stockWeight}]]</td>
 								<td>[[${l.itemCount}]]</td>
 								<td>[[${l.productPrice}]]</td>
@@ -127,7 +127,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" th:if="${ itemInfo == null }">
+	<div class="row" th:if="${ i == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>
