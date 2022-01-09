@@ -2,10 +2,10 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.StringJoiner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,10 @@ public class ItemController {
 	private List<Stock> itemList; //품목 배열
 	private Map<String,Object> resultMap;
 	private List<String> stringList;
-	private boolean chkBoolean;
+	private boolean chk;
+	
+	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param itemService
@@ -119,7 +122,7 @@ public class ItemController {
 		param.add("largeCategory=" + largeCategory)
 			 .add("middleCategory=" + middleCategory)
 			 .add("smallCategory=" + smallCategory);
-		System.out.println("PARAMETER :: [ "+param+" ]");
+		log.info("PARAMETER 	:: {}", param);
 		
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
 		if(largeCategory != null && !"".equals(largeCategory)) model.addAttribute("middleCategory", resultMap.get("middleCategory"));
@@ -139,11 +142,13 @@ public class ItemController {
 	@ResponseBody
 	public boolean itemNameValid(
 			@RequestParam(value="itemName", required = false) String itemName) {
-		if(itemName == null || "".equals(itemName)) return false;
-		//System.out.println("itemName="+itemName);
-		chkBoolean = itemService.itemNameValid(mainBusinessCode, itemName);
 		
-		return chkBoolean;
+		log.info("PARAMETER 	:: {}", itemName);
+		if(itemName == null || "".equals(itemName)) return false;
+		
+		chk = itemService.itemNameValid(mainBusinessCode, itemName);
+		
+		return chk;
 	}
 	
 	/**
@@ -154,13 +159,13 @@ public class ItemController {
 	@PostMapping("/k1ItemAdd")
 	public String addItem(Stock itemInfo) {
 		//parameter 확인
-		System.out.println("@PostMapping(\"/k1ItemAdd\") PARAMETER :: "+itemInfo.toString());
-		
 		itemInfo.setMainBusinessCode(mainBusinessCode);
-		int pro = itemService.addItem(itemInfo);
+		log.info("PARAMETER 	:: {}", itemInfo.toString());
 		
-		if(pro == 1) return "redirect:/k1Item";
-		return "redirect:/k1ItemAdd";
+		chk = itemService.addItem(itemInfo);
+		
+		if(chk) return "redirect:/k1Item";
+		else return "redirect:/k1ItemAdd";
 	}
 	
 	/**
@@ -176,9 +181,11 @@ public class ItemController {
 		//품목코드 검사
 		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
+		resultMap = itemService.getItemInfo(itemCode);
+		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
-		model.addAttribute("itemCode", itemCode);
+		model.addAttribute("itemInfo", resultMap.get("itemInfo"));
 		return "stock/item/item_modify";
 	}
 	
