@@ -11,6 +11,8 @@
 <script type="text/javascript">
 $(()=>{
 	var addItem = $('#addItem'); //전체폼
+	
+	var itemType = $('#itemType'); //제품분류select
 	var itemName = $('#itemName'); //품목명 입력box
 	//품목명 중복 검사
 	itemName.on('change', function(){
@@ -63,9 +65,13 @@ $(()=>{
 	
 	//등록 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
-			alert('품목 카테고리를 선택해주세요.');
-		} else{
+		if(itemType.val() == '제품') {
+			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
+				alert('품목 카테고리를 선택해주세요.');
+			} else {
+				addItem.submit();
+			}
+		}else{
 			addItem.submit();
 		}
 	});
@@ -100,7 +106,7 @@ $(()=>{
 						<div class="row">
 							<div class="form-group col-3">
 								<label>분류</label>
-								<select name="itemType" class="form-control">
+								<select id="itemType" name="itemType" class="form-control">
 									<option value="원자재">원자재</option>
 									<option value="부자재">부자재</option>
 									<option value="제품">제품</option>

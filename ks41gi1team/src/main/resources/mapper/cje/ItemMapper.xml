@@ -145,7 +145,7 @@
 </select>
 
 <!-- 아이템 등록 -->
-<insert id="addItem" parameterType="String">
+<insert id="addItem" parameterType="Stock">
 	<![CDATA[
 	INSERT INTO k1_tb_item_info
 		(itemCode

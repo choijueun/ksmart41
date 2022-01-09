@@ -43,15 +43,8 @@ public interface ItemMapper {
 	
 	/**
 	 * 품목정보 등록
-	 * @param mainBusinessCode
-	 * @param itemName
-	 * @param itemType
-	 * @param itemStandard
-	 * @param itemOrigin
-	 * @param categoryCode
-	 * @param itemComment
-	 * @return
+	 * @param itemInfo
+	 * @return 성공시 1 실패시 0
 	 */
-	public int addItem(String mainBusinessCode, String itemName, String itemType, String categoryCode
-			, String itemStandard, String itemOrigin, String itemStatus, String itemComment);
+	public int addItem(Stock itemInfo);
 }

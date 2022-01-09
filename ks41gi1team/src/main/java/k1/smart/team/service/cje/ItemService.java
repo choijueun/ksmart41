@@ -3,8 +3,6 @@ package k1.smart.team.service.cje;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
-import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,10 @@ public class ItemService{
 	private List<Stock> stockList;
 	private Map<String,Object> resultMap = new HashMap<String,Object>();
 	
+	/**
+	 * 생성자 메서드
+	 * @param itemMapper
+	 */
 	public ItemService(ItemMapper itemMapper) {
 		this.itemMapper = itemMapper;
 	}
@@ -75,31 +77,20 @@ public class ItemService{
 
 	/**
 	 * 품목정보 등록 process
-	 * @param itemName
-	 * @param itemType
-	 * @param itemStandard
-	 * @param itemOrigin
-	 * @param itemCategory
-	 * @param itemComment
-	 * @param itemComment2 
-	 * @param microCategory 
-	 * @param smallCategory 
+	 * @param itemInfo
 	 * @return
 	 */
-	public int addItem(String mainBusinessCode, Map<String, String> paramMap) {
+	public boolean addItem(Stock itemInfo) {
 		//카테고리 코드 반환
-		List<String> categoryNames = itemMapper.getCategoryCode(paramMap.get("largeCategory"), paramMap.get("middleCategory"), paramMap.get("smallCategory"), paramMap.get("microCategory"));
-		String categoryCode = null;
-		if(categoryNames == null || categoryNames.size() != 1) {
-			System.out.println("카테고리 코드를 찾을 수 없습니다.");
-			return 0;
-		} if (categoryNames.size() == 1) {
-			categoryCode = categoryNames.get(0);
+		List<String> categoryNames = itemMapper.getCategoryCode(
+				itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory(), itemInfo.getMicroCategory());
+		if(categoryNames != null && categoryNames.size() == 1) {
+			itemInfo.setCategoryCode(categoryNames.get(0));
 		}
-		//등록 처리
-		int result = itemMapper.addItem(mainBusinessCode, paramMap.get("itemName"), paramMap.get("itemType"), categoryCode
-				, paramMap.get("itemStandard"), paramMap.get("itemOrigin"), paramMap.get("itemStatus"), paramMap.get("itemComment"));
 		
-		return result;
+		//등록 처리
+		if(itemMapper.addItem(itemInfo) == 1) return true;
+		
+		return false;
 	}
 }
