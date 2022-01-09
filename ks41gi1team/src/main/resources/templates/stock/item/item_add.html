@@ -87,6 +87,8 @@ $(()=>{
 
 <div class="container-fluid">
 	<div class="row">
+		<div class="col-lg-3 col-md-2">
+		</div>
 		<div class="col-lg-6 col-md-8">
 			<div class="card card-info card-outline">
 				<div class="card-header">
@@ -129,27 +131,27 @@ $(()=>{
 							<label>카테고리</label>
 							<div class="form-group row">
 								<div class="col-3">
-									<select name="largeCategory" class="form-control" th:each="l : ${largeCategory}">
-										<option value="">대분류</option>
-										<option th:value="${l}">[[${l}]]</option>
+									<select id="largeCategory" name="largeCategory" class="form-control">
+										<option value="">:: 대분류 ::</option>
+										<option th:each="l : ${largeCategory}" th:value="${l}">[[${l}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="middleCategory" name="middleCategory" class="form-control">
-										<option value="">중분류</option>
-										<option>중분류입력</option>
+										<option value="">:: 중분류 ::</option>
+										<option th:each="m : ${middleCategory}" th:value="${m}">[[${m}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
-										<option value="">소분류</option>
-										<option>소분류입력</option>
+										<option value="">:: 소분류 ::</option>
+										<option th:each="s : ${smallCategory}" th:value="${s}">[[${s}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
-										<option value="">소소분류</option>
-										<option>맛있는 콩나물</option>
+										<option value="">:: 소소분류 ::</option>
+										<option th:each="xs : ${microCategory}" th:value="${xs}">[[${xs}]]</option>
 									</select>
 								</div>
 							</div>

@@ -117,8 +117,11 @@
 		DISTINCT(middleCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory};
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory} 
+		</if>
+	</trim>
 </select>
 
 <!-- 카테고리 소분류 조회 -->
@@ -127,9 +130,14 @@
 		DISTINCT(smallCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory} 
-		AND middleCategory = #{middleCategory};
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+	</trim>
 </select>
 
 <!-- 카테고리 소소분류 조회 -->
@@ -138,10 +146,17 @@
 		DISTINCT(microCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory} 
-		AND middleCategory = #{middleCategory}
-		AND smallCategory = #{smallCategory};
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+	</trim>
 </select>
 
 <!-- 아이템 등록 -->
@@ -186,13 +201,16 @@
 	]]>
 </insert>
 
+<!-- 카테고리 코드 검색 -->
 <select id="getCategoryCode" parameterType="String" resultType="String">
 	SELECT
 		categoryCode
 	FROM
 		k1_tb_item_category
-	WHERE
-		largeCategory = #{largeCategory}
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
 		<if test="middleCategory != null and middleCategory != ''.toString()">
 			AND middleCategory = #{middleCategory}
 		</if>
@@ -202,6 +220,7 @@
 		<if test="microCategory != null and microCategory != ''.toString()">
 			AND microCategory = #{microCategory}
 		</if>
+	</trim>
 </select>
 
 <!-- 품목명 중복 확인 -->
