@@ -7,7 +7,9 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
@@ -55,7 +57,9 @@
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.relateTable}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1TotalAc/modify/${l.totalAccountCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(totalAcList)}">
