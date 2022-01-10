@@ -91,8 +91,11 @@ public class ContractController {
 	
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
-		 mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-		 	  
+
+		/* 최선희 수정
+		 * mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+		 */		  
+
 		  System.out.println("/addContract GET 방식 요청"); 
 		  model.addAttribute("title","계약서 등록");
 	
@@ -103,7 +106,7 @@ public class ContractController {
 		  System.out.println("contractList: " + contractList);
 		 
 		  
-		  List<Client> clientList = clientService.getAllClientList(mainBusinessCode);
+		List<Client> clientList = clientService.getAllClientList(/*최선희수정 mainBusinessCode */);
 		  model.addAttribute("clientList", clientList);
 		  System.out.println("clientList: " + clientList);
 		  

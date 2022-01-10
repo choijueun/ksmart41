@@ -21,8 +21,16 @@
 			,b.regDate
 			,b.updateDate
 		FROM 
-			k1_tb_main_business AS b
-		WHERE 
-			mainBusinessCode = #{mainBusinessCode};
+			k1_tb_main_business AS b;
 	</select>
+	
+	<select id="getBusinessByNum" resultType="int" parameterType="String">
+		SELECT
+			COUNT(1)
+		FROM
+			k1_tb_main_business AS b
+		WHERE
+			b.businessNum = #{businessNum};
+	</select>
+	
 </mapper>

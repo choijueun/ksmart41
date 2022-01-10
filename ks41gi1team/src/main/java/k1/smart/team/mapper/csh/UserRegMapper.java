@@ -11,7 +11,7 @@ import k1.smart.team.dto.csh.UserReg;
 public interface UserRegMapper {
 	
 	//회원가입 요청 전체조회
-	List<UserReg> getAllUserRegList(String mainBusinessCode);
+	List<UserReg> getAllUserRegList();
 	
 	// 로그인 이력 테이블 튜플의 총 갯수
 	public int getLoginHistoryCount();

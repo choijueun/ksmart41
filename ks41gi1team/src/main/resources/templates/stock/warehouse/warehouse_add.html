@@ -30,32 +30,54 @@
 				<div class="card-body">
 					<form id="addWarehouse"th:action="@{/k1Warehouse}" method="POST">
 						<div class="row">
-							<div class="form-group col-md-6">
-								<label for="warehouseName">창고명</label>
-								<input type="text" id="warehouseName" name="warehouseName" class="form-control">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label for="warehouseName">창고명</label>
+									<input type="text" id="warehouseName" name="warehouseName" class="form-control">
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label for="location">위치</label>
+											<input type="text" id="location" name="location" class="form-control">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="outplace">소재지</label>
+										<input type="text" id="outplace" name="outplace" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+								</div>
 							</div>
-							<div class="form-group col-md-3 col-xs-6">
-								<label for="category1">분류</label>
-								<select id="category1" name="category1" class="form-control">
-									<option>일반</option>
-									<option>냉장</option>
-									<option>냉동</option>
-								</select>
-							</div>
-							<div class="form-group col-md-3 col-xs-6">
-								<label for="category2">유형</label>
-								<select id="category2" name="category2" class="form-control">
-									<option>재고</option>
-									<option>출고</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-6">
-								<label for="location">위치</label>
-									<input type="text" id="location" name="location" class="form-control">
-							</div>
-							<div class="form-group col-sm-6">
-								<label for="outplace">소재지</label>
-								<input type="text" id="outplace" name="outplace" class="form-control" placeholder="외부 창고일 경우">
+							<div class="col-md-4">
+								<div class="row">
+									<div class="col-md-12 col-xs-6 col-sm-6">
+										<label>분류</label>
+										<div class="form-group">
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category1" value="일반" autocomplete="off"> 일반
+												</label>
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category1" value="냉장" autocomplete="off"> 냉장
+												</label>
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category1" value="냉동" autocomplete="off"> 냉동
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 col-xs-6 col-sm-6">
+										<label>유형</label>
+										<div class="form-group">
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category2" value="재고" autocomplete="off"> 재고
+												</label>
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category2" value="출고" autocomplete="off"> 출고
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="area">면적(m²)</label>

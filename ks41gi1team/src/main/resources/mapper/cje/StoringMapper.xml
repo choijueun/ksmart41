@@ -66,6 +66,91 @@
 	GROUP BY a.stockAdjCode;
 </select>
 
+<!-- 최근 7일간 물류이동 횟수(사유별) -->
+<select id="getRecentStoring" parameterType="String" resultType="Map">
+	SELECT
+		 s1.s1_Warehousing
+		,s2.s2_MaterialUse
+		,s3.s3_Production
+		,s4.s4_Moving
+		,s5.s5_Shipment
+		,s6.s6_Adjustment
+		,s7.s7_Return
+		,s8.s8_Defect
+	FROM
+		(SELECT
+			COUNT(*) AS s1_Warehousing
+		FROM k1_tb_stock_adjustment AS s1
+		WHERE
+			s1.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 1
+		) AS s1
+		JOIN
+		(SELECT
+			COUNT(*) AS s2_MaterialUse
+		FROM k1_tb_stock_adjustment AS s2
+		WHERE
+			s2.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 2
+		) AS s2
+		JOIN
+		(SELECT
+			COUNT(*) AS s3_Production
+		FROM k1_tb_stock_adjustment AS s3
+		WHERE
+			s3.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 3
+		) AS s3
+		JOIN
+		(SELECT
+			COUNT(*) AS s4_Moving
+		FROM k1_tb_stock_adjustment AS s4
+		WHERE
+			s4.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 4
+		) AS s4
+		JOIN
+		(SELECT
+			COUNT(*) AS s5_Shipment
+		FROM k1_tb_stock_adjustment AS s5
+		WHERE
+			s5.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 5
+		) AS s5
+		JOIN
+		(SELECT
+			COUNT(*) AS s6_Adjustment
+		FROM k1_tb_stock_adjustment AS s6
+		WHERE
+			s6.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 6
+		) AS s6
+		JOIN
+		(SELECT
+			COUNT(*) AS s7_Return
+		FROM k1_tb_stock_adjustment AS s7
+		WHERE
+			s7.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 7
+		) AS s7
+		JOIN
+		(SELECT
+			COUNT(*) AS s8_Defect
+		FROM k1_tb_stock_adjustment AS s8
+		WHERE
+			s8.mainBusinessCode = #{mainBusinessCode}
+			AND adjDate > SUBDATE(CURDATE(), 7)
+			AND stockReasonCode = 8
+		) AS s8;
+</select>
+
 <!-- 물류이동내역 한줄 -->
 <select id="getStoringInfo" parameterType="String" resultType="Storing">
 	SELECT 
@@ -503,7 +588,6 @@
 		sp.mainBusinessCode = #{mainBusinessCode}
 		AND sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
 </select>
-
 <select id="getShipmentPlanDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(sd.inventoryCode,3) AS inventoryCode

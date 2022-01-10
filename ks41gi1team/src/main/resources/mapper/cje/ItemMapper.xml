@@ -117,11 +117,8 @@
 		DISTINCT(middleCategory)
 	FROM
 		k1_tb_item_category
-	<trim prefix="WHERE" prefixOverrides="AND |OR ">
-		<if test="largeCategory != null and largeCategory != ''.toString()">
-			largeCategory = #{largeCategory} 
-		</if>
-	</trim>
+	WHERE
+		largeCategory = #{largeCategory} 
 </select>
 
 <!-- 카테고리 소분류 조회 -->
