@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.csh.Client;
+import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.ClientService;
@@ -90,11 +91,13 @@ public class ContractController {
 	
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
+
 		/* 최선희 수정
 		 * mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		 */		  
+
 		  System.out.println("/addContract GET 방식 요청"); 
-		  model.addAttribute("title","계약등록");
+		  model.addAttribute("title","계약서 등록");
 	
 		  
 		  //DB 계약코드 LIST List<Contract> contractList =
@@ -106,6 +109,10 @@ public class ContractController {
 		List<Client> clientList = clientService.getAllClientList(/*최선희수정 mainBusinessCode */);
 		  model.addAttribute("clientList", clientList);
 		  System.out.println("clientList: " + clientList);
+		  
+		  List<MainBusiness> mainBusinessesList = mainBusinessService.getAllMainBusinessList(mainBusinessCode);
+		  model.addAttribute("mainBusinessesList", mainBusinessesList);
+		  System.out.println("mainBusinessesList" + mainBusinessesList);
 		  
 		  String contractInfo = contractService.getContractInfo();
 		  model.addAttribute("contractInfo", contractInfo);

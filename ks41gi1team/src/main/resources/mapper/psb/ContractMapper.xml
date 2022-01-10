@@ -125,7 +125,9 @@ SELECT
 			contr.regDate as regDate,
 			contr.updateDate as updateDate,
 			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName
+			u.userName AS userName,
+			c.businessName as businessName,
+			mb.businessCode as businessCode
 		FROM 
 			k1_tb_contract AS contr
 			INNER JOIN 
@@ -135,7 +137,11 @@ SELECT
 			INNER JOIN 
 			k1_tb_user AS u
 			on
-			c.mainBusinessCode = u.mainBusinessCode;
+			c.mainBusinessCode = u.mainBusinessCode
+			INNER JOIN
+			k1_tb_main_business as mb
+			on
+			mb.mainBusinessCode = u.mainBusinessCode;
 	</select>
 	
 	<select id="getContractHistoryList" parameterType="map" resultType="map">
@@ -157,7 +163,9 @@ SELECT
 			contr.regDate as regDate,
 			contr.updateDate as updateDate,
 			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName
+			u.userName AS userName,
+			c.businessName as businessName,
+			mb.mainBusinessCode as mainBusinessCode
 		FROM 
 			k1_tb_contract AS contr
 			INNER JOIN 
@@ -167,7 +175,13 @@ SELECT
 			INNER JOIN 
 			k1_tb_user AS u
 			on
-			c.mainBusinessCode = u.mainBusinessCode;
+			c.mainBusinessCode = u.mainBusinessCode
+			INNER JOIN
+			k1_tb_main_business as mb
+			on
+			mb.mainBusinessCode = u.mainBusinessCode
+		GROUP BY 
+			contr.contractCode;
 		<if test="strartNum != null">
 			LIMIT #{startNum}, #{rowPerPage};
 		</if>	

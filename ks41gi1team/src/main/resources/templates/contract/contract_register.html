@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
 <th:block layout:fragment="customTitle">
-	<title>계약서 등록</title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
@@ -102,8 +102,9 @@
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
                     			  th:each="l : ${mainBusinessList}">
-                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
-                    			[[${l.businessName}]]
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
+                    			[[${l.mainBusinessCode}]]
+                    			console.log(mainBusinessList);
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
@@ -141,8 +142,11 @@
                   </div>
                   <div class="form-group">
                     <label for="contractSection">계약 주문유형</label>
-                    <input type="text" name="contractSection" class="form-control" id="contractSection" placeholder="발주" disabled="disabled">
-                  </div>
+                    	<select name="contractSection" disabled="disabled" class="form-control">
+                    		<option>발주</option>
+                    		<option>수주</option>
+                    	</select>
+                    </div>
                   <div class="form-group">
                     <label for="contractType">계약유형</label>
                     <input type="text" name="contractType" class="form-control" id="contractType" placeholder="1년계약" disabled="disabled">

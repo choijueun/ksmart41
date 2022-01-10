@@ -13,11 +13,16 @@
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 <th:block layout:fragment="customJs">
+
 		<script type="text/javascript">
 			$(function(){
 				$(document).on('click', '.modifyBtn', function(){
 					var contractCode = $(this).attr('data-contractCode');
 					alert(contractCode);
+				});
+				
+				$(document).on('click', '.removeBtn', function(){
+					 
 				});
 				
 				
@@ -41,7 +46,7 @@
 			            { "data": "contractCode" },
 			            { "data": "mainBusinessCode" },
 			            { "data": "clientCode" },
-			            { "data": "clientManagerId" },
+			            { "data": "businessName" },
 			            { "data": 'contractSection' },
 			            { "data": 'contractType' },
 			            { "data": 'startDate' },
@@ -61,7 +66,7 @@
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button class="modifyBtn" data-contractCode="' + row.contractCode +'">수정</button>';
+			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-contractCode="' + row.contractCode +'">수정</button>';
 			        						return htmlbtn;
 			        					}
 			        		},
@@ -70,7 +75,7 @@
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button class="removeBtn" data-contractCode="' + row.contractCode +'">삭제</button>';
+			        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'">삭제</button>';
 			        						return htmlbtn;
 			        					}
 			        		}
@@ -82,8 +87,12 @@
 		</script>
 </th:block>
 	<th:block layout:fragment="customContents">
-
-			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
+		<div class="card card-info card-outline">
+			<div class="card-header">
+			</div>
+			<div class="card-body">
+			<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
 					<tr>
 						<th>계약코드</th>
@@ -105,5 +114,8 @@
 					</tr>
 				</thead>
 			</table>
+			</div>
+			</div>
+		</div>
 	</th:block>
 </html>

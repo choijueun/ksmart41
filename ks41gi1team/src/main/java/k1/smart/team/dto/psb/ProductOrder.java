@@ -17,6 +17,7 @@ public class ProductOrder {
 	private String regDate;
 	private String updateDate;
 	private String itemName;
+	private String businessName;
 	public String getProductOrderCode() {
 		return productOrderCode;
 	}
@@ -113,6 +114,12 @@ public class ProductOrder {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -148,9 +155,12 @@ public class ProductOrder {
 		builder.append(updateDate);
 		builder.append(", itemName=");
 		builder.append(itemName);
+		builder.append(", businessName=");
+		builder.append(businessName);
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 
 
