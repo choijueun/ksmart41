@@ -18,66 +18,69 @@
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
-			자재사용내역 전체목록
+			운송요청내역 전체보기
 		</div>
 		<div class="card-body">
-			<table id="materialUseList" class="table table-bordered table-hover dataTable dtr-inline">
+			<div class="card">
+				체크박스
+			</div>
+			<table id="deliveryList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
-						<th>품목</th>
-						<th>합계금액</th>
 						<th>적요</th>
-						<th>요청</th>
-						<th>반품</th>
-						<th>완료</th>
+						<th>거래처</th>
+						<th>운송업체</th>
+						<th>도착지</th>
+						<th>운송비</th>
 						<th>담당자</th>
 						<th>수정일시</th>
 						<th>수정</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${not #lists.isEmpty(materialUseList)}" th:each="l : ${materialUseList}">
+					<tr th:if="${not #lists.isEmpty(deliveryList)}" th:each="l : ${deliveryList}">
+						<td><input type="checkbox"></td>
 						<td>
-							<input type="checkbox">
-						</td>
-						<td>
-							<a th:href="@{|/k1MaterialUse/${l.stockAdjCode}|}">
-								[[${l.stockAdjCode}]]
+							<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
+								[[${l.deliveryCode}]]
 							</a>
 						</td>
 						<td>
-							<a th:href="@{|/k1MaterialUse/${l.stockAdjCode}|}">
-								[[${l.itemList}]]
+							<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
+								[[${l.briefs}]]
 							</a>
 						</td>
-						<td>[[${l.totalPrice}]]</td>
-						<td>[[${l.briefs}]]</td>
-						<td>[[${l.requestDate}]]</td>
-						<td>[[${l.adjDate}]]</td>
-						<td>[[${l.endDate}]]</td>
 						<td>
-							<!-- 회원정보LINK -->
-							[[${l.managerName}]]
+							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+								[[${l.clientBusinessName}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+								[[${l.deliveryBusinessName}]]
+							</a>
+						</td>
+						<td>[[${l.receiveAddr}]]</td>
+						<td>[[${l.deliveryCost}]]</td>
+						<td>
+							<a th:href="@{#}"> <!-- 회원정보 LINK -->
+								[[${l.managerName}]]
+							</a>
 						</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
-							<a th:href="@{|/k1MaterialUseModify/${l.stockAdjCode}|}">
+							<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">
 								<i class="fas fa-pen"></i>
 							</a>
 						</td>
 					</tr>
-					<tr th:if="${#lists.isEmpty(materialUseList)}">
-						<td colspan="12">
-							자재사용내역이 존재하지 않습니다.
-						</td>
+					<tr th:if="${#lists.isEmpty(deliveryList)}">
+						<td colspan="10"></td>
 					</tr>
 				</tbody>
 			</table>
-			<a th:href="@{/k1MaterialUseAdd}">
-				<button type="button" class="btn btn-info">등록</button>
-			</a>
 		</div>
 	</div>
 </div>

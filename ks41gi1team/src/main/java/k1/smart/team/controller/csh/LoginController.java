@@ -17,18 +17,27 @@ import k1.smart.team.service.csh.LoginService;
 @RequestMapping(value="/k1Login")
 public class LoginController {
 	
-	private LoginService memberService;
+	private LoginService loginService;
 	
-	public LoginController(LoginService memberService) {
-		this.memberService = memberService;
+	public LoginController(LoginService loginService) {
+		this.loginService = loginService;
 	}
-	
 	//로그인 내역
 	@GetMapping("/loginList")
-	public String getLoginList(Model model) {
-		model.addAttribute("title", 			"로그인 이력조회");
-		return "login/login_list";
+	public String loginHistory3 (Model model) {
+		model.addAttribute("SectionTitle", 			"로그인 이력조회");
+		
+		return "login/loginHistory3";
 	}
 	
-
+	@PostMapping("/loginList")
+	@ResponseBody
+	public List<Map<String, Object>> loginHistory3 () {
+		
+		List<Map<String, Object>> loginHistoryList = loginService.getLoginHistory3();
+		
+		return loginHistoryList;
+	}
+	
+	
 }

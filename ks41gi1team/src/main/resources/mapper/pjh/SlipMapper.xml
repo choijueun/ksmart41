@@ -7,9 +7,9 @@
 		SELECT
 			p.purchaseSlipCode
 			,p.amount
-			,p.tex
+			,p.tax
 			,p.count
-			,((p.amount + p.tex) * p.COUNT) AS amt
+			,((p.amount + p.tax) * p.COUNT) AS amt
 			,c.businessName
 			,p.briefs
 		FROM
@@ -26,9 +26,9 @@
 		SELECT
 			s.salesSlipCode
 			,s.amount
-			,s.tex
+			,s.tax
 			,s.count
-			,((s.amount + s.tex) * s.COUNT) AS amt
+			,((s.amount + s.tax) * s.COUNT) AS amt
 			,c.businessName
 			,s.briefs
 		FROM
@@ -44,10 +44,10 @@
 		SELECT
 			p.purchaseSlipCode
 			,p.amount
-			,p.tex
+			,p.tax
 			,p.count
 			,p.purchaseTsCode
-			,((p.amount + p.tex) * p.COUNT) AS amt
+			,((p.amount + p.tax) * p.COUNT) AS amt
 			,c.businessName
 			,p.briefs
 			,p.totalAccountCode
@@ -71,10 +71,10 @@
 		SELECT
 			s.salesSlipCode
 			,s.amount
-			,s.tex
+			,s.tax
 			,s.salesTsCode
 			,s.count
-			,((s.amount + s.tex) * s.COUNT) AS amt
+			,((s.amount + s.tax) * s.COUNT) AS amt
 			,c.businessName
 			,s.briefs
 			,s.totalAccountCode

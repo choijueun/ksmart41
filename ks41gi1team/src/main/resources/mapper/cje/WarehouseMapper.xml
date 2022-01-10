@@ -11,7 +11,7 @@
 		,w.category1
 		,w.category2
 		,w.`area`
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight
@@ -32,7 +32,7 @@
 		,w.category1
 		,w.category2
 		,w.`area`
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight
@@ -43,7 +43,30 @@
 	FROM 
 		k1_tb_warehouse_info AS w
 	WHERE
-		w.warehouseCode = #{warehouseCode};
+		w.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode});
+</select>
+
+<select id="getWarehouseStock" parameterType="String" resultType="Stock">
+	SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,i.itemType
+		,s.itemCount
+		,s.totalPrice
+		,s.`status`
+		,s.`comment`
+	FROM 
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+	WHERE
+		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+	ORDER BY 
+		s.regDate DESC
+	LIMIT 10;
 </select>
 
 </mapper>

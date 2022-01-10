@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${SectionLocation}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customContents">
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					운송요청정보 
+				</div>
+				<div class="card-body" th:if="${ deliveryInfo != null }">
+					<table id="deliveryInfo" class="table table-bordered">
+						<tr>
+							<th>No.</th>
+							<td colspan="3">[[${deliveryInfo.deliveryCode}]]</td>
+							<th>사유</th>
+							<td>
+								<a th:if="${deliveryInfo.stockAdjCode != null}" 
+									th:href="@{|/k1${deliveryInfo.stockReasonEng}/${deliveryInfo.stockAdjCode}|}">
+									[[${deliveryInfo.stockReason}]]
+									<button type="button" class="btn btn-outline-info btn-xs">상세</button>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<th>운송업체</th>
+							<td colspan="2">[[${deliveryInfo.deliveryBusinessName}]]</td>
+							<th>거래처</th>
+							<td colspan="2">
+								[[${deliveryInfo.clientBusinessName}]]
+								<a th:href="@{#}"> <!-- 계약서LINK ${deliveryInfo.contractCode} -->
+									<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<th>목적지</th>
+							<td colspan="2">[[${deliveryInfo.receiveAddr}]]</td>
+							<th>운송비</th>
+							<td colspan="2">[[${deliveryInfo.deliveryCost}]] 원</td>
+						</tr>
+						<tr>
+							<th>적요</th>
+							<td colspan="3">[[${deliveryInfo.briefs}]]</td>
+							<th>담당자</th>
+							<td> <!-- 회원정보LINK -->
+								[[${deliveryInfo.managerName}]]
+							</td>
+						</tr>
+						<tr>
+							<th>등록일시</th>
+							<td colspan="2">[[${deliveryInfo.regDate}]]</td>
+							<th>수정일시</th>
+							<td colspan="2">[[${deliveryInfo.updateDate}]]</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-7" th:if="${not #lists.isEmpty(shipPlanDetails)}">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					출하계획정보
+				</div>
+				<div class="card-body">
+					<table id="shipPlanDetails" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>품목</th>
+								<th>수량</th>
+								<th>중량</th>
+								<th>합계금액</th>
+								<th colspan="2">창고</th>
+								<th>비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="l : ${shipPlanDetails}">
+								<td>
+									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+										[[${l.inventoryCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+										[[${l.itemName}]]
+									</a>
+								</td>
+								<td>[[${l.adjCount}]]</td>
+								<td>[[${l.adjWeight}]]</td>
+								<td>[[${l.totalPrice}]]</td>
+								<td>
+									<a th:href="@{|/k1Warehouse/${l.sendWarehouse}|}">
+										[[${l.sendWarehouseName}]]
+									</a>
+								</td>
+								<td>
+									[[${l.sendWarehouseLocation}]]
+									<th:block th:if="${l.sendWarehouseOutPlace} != null">
+										([[${l.sendWarehouseOutPlace}]])
+									</th:block>
+								</td>
+								<td>[[${l.comment}]]</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-7" th:if="${not #lists.isEmpty(returnRegDetails)}">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					반품요청정보
+				</div>
+				<div class="card-body">
+					<table id="returnRegDetails" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>품목</th>
+								<th>금액</th>
+								<th>수량</th>
+								<th>합계금액</th>
+								<th>비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="l : ${returnRegDetails}">
+								<td>
+									[[${l.returnRegCode}]]
+								</td>
+								<td>
+									<a th:href="@{|/k1Item/${l.itemCode}|}">
+										[[${l.itemName}]]
+									</a>
+								</td>
+								<td>
+									[[${l.amount}]]
+								</td>
+								<td>
+									[[${l.adjCount}]]
+								</td>
+								<td>
+									[[${l.totalPrice}]]
+								</td>
+								<td>
+									[[${l.comment}]]
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</th:block>
+
+</html>

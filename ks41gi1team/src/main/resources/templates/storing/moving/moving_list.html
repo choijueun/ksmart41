@@ -4,17 +4,83 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<!-- content -->
+<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			창고이동내역 전체목록
+		</div>
+		<div class="card-body">
+			<table id="movingList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="allCheck"></th>
+						<th>No.</th>
+						<th>품목</th>
+						<th>합계금액</th>
+						<th>적요</th>
+						<th>요청</th>
+						<th>반품</th>
+						<th>완료</th>
+						<th>담당자</th>
+						<th>수정일시</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(movingList)}" th:each="l : ${movingList}">
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>
+							<a th:href="@{|/k1Moving/${l.stockAdjCode}|}">
+								[[${l.stockAdjCode}]]
+							</a>
+						</td>
+						<td>
+							<a th:href="@{|/k1Moving/${l.stockAdjCode}|}">
+								[[${l.itemList}]]
+							</a>
+						</td>
+						<td>[[${l.totalPrice}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.requestDate}]]</td>
+						<td>[[${l.adjDate}]]</td>
+						<td>[[${l.endDate}]]</td>
+						<td>
+							<!-- 회원정보LINK -->
+							[[${l.managerName}]]
+						</td>
+						<td>[[${l.updateDate}]]</td>
+						<td>
+							<a th:href="@{|/k1MovingModify/${l.stockAdjCode}|}">
+								<i class="fas fa-pen"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(movingList)}">
+						<td colspan="11">
+							창고이동내역이 존재하지 않습니다.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a th:href="@{/k1MovingAdd}">
+				<button type="button" class="btn btn-info">등록</button>
+			</a>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>

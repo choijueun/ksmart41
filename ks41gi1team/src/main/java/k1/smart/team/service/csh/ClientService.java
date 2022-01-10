@@ -27,7 +27,7 @@ public class ClientService {
 			clientNum = clientList.get(i).getClientCode().replace("clientCode_","");
 			clientList.get(i).setClientCode(clientNum);
 		}
-		//System.out.println(clientList);
+		System.out.println(clientList);
 		return clientList;
 	};
 	

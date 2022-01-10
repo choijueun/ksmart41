@@ -4,17 +4,85 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	창고정보 등록 페이지
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3 col-md-2">
+		</div>
+		<div class="col-lg-6 col-md-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					창고정보 등록
+				</div>
+				<div class="card-body">
+					<form id="addWarehouse"th:action="@{/k1Warehouse}" method="POST">
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="warehouseName">창고명</label>
+								<input type="text" id="warehouseName" name="warehouseName" class="form-control">
+							</div>
+							<div class="form-group col-md-3 col-xs-6">
+								<label for="category1">분류</label>
+								<select id="category1" name="category1" class="form-control">
+									<option>일반</option>
+									<option>냉장</option>
+									<option>냉동</option>
+								</select>
+							</div>
+							<div class="form-group col-md-3 col-xs-6">
+								<label for="category2">유형</label>
+								<select id="category2" name="category2" class="form-control">
+									<option>재고</option>
+									<option>출고</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="location">위치</label>
+									<input type="text" id="location" name="location" class="form-control">
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="outplace">소재지</label>
+								<input type="text" id="outplace" name="outplace" class="form-control" placeholder="외부 창고일 경우">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="area">면적(m²)</label>
+								<input type="number" id="area" name="area" class="form-control">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="maxWeight">최대적재중량(kg)</label>
+								<input type="number" id="maxWeight" name="maxWeight" class="form-control">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="status">상태</label>
+								<input type="text" id="status" name="status" class="form-control">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<button type="button" id="submitBtn" class="btn btn-info float-right">등록하기</button>
+					<a th:href="@{/k1Warehouse}">
+						<button type="button" class="btn btn-default">이전으로</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>

@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.ItemMapper">
 
+<!-- 품목정보 전체목록 -->
 <select id="getAllItemList" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(i.itemCode,3) AS itemCode
@@ -30,9 +31,10 @@
 		i.mainBusinessCode = #{mainBusinessCode};
 </select>
 
-<select id="getItemInfoByCode" parameterType="String" resultType="Stock">
+<!-- 품목정보 상세조회 -->
+<select id="getItemInfo" parameterType="String" resultType="Stock">
 	SELECT
-		 i.itemCode
+		 RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,i.itemType
 		,i.categoryCode
@@ -40,8 +42,12 @@
 		,c.middleCategory
 		,c.smallCategory
 		,c.microCategory
-		,i.itemStandard
+		,s.itemCount
 		,i.itemOrigin
+		,ROUND(AVG(p.productPrice),0) AS avgPrice
+		,SUM(s.totalPrice) AS totalPrice
+		,SUM(s.stockWeight) AS stockWeight
+		,i.itemStandard
 		,i.itemStatus
 		,i.itemComment
 		,i.regDate AS itemRegDate
@@ -52,19 +58,6 @@
 		k1_tb_item_category AS c
 		ON
 		i.categoryCode = c.categoryCode
-	WHERE
-		i.itemCode = #{itemCode};
-</select>
-
-<select id="getItemStockByCode" parameterType="String" resultType="Stock">
-	SELECT
-		 i.itemCode
-		,SUM(s.itemCount) AS itemCount
-		,p.productPrice
-		,SUM(s.totalPrice) AS totalPrice
-		,SUM(s.stockWeight) AS stockWeight
-	FROM
-		k1_tb_item_info AS i
 		LEFT JOIN
 		k1_tb_stock AS s
 		ON
@@ -74,7 +67,171 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		i.itemCode = #{itemCode};
+		i.itemCode = CONCAT('itemCode_',#{itemCode})
+	GROUP BY i.itemCode;
+</select>
+
+<!-- 특정품목 재고현황 -->
+<select id="getItemStock" parameterType="String" resultType="Stock">
+	SELECT
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+		,w.location
+		,w.outPlace
+		,s.stockWeight
+		,s.itemCount
+		,p.productPrice
+		,s.totalPrice
+		,s.purchaseTsCode
+		,s.productPriceCode
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		JOIN
+		k1_tb_warehouse_info AS w
+		ON
+		s.warehouseCode = w.warehouseCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		s.productPriceCode = p.productPriceCode
+	WHERE
+		i.itemCode = CONCAT('itemCode_',#{itemCode});
+</select>
+
+<!-- 카테고리 대분류 조회 -->
+<select id="getCategoryLarge" resultType="String">
+	SELECT
+		DISTINCT(largeCategory)
+	FROM
+		k1_tb_item_category;
+</select>
+
+<!-- 카테고리 중분류 조회 -->
+<select id="getCategoryMiddle" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(middleCategory)
+	FROM
+		k1_tb_item_category
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory} 
+		</if>
+	</trim>
+</select>
+
+<!-- 카테고리 소분류 조회 -->
+<select id="getCategorySmall" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(smallCategory)
+	FROM
+		k1_tb_item_category
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+	</trim>
+</select>
+
+<!-- 카테고리 소소분류 조회 -->
+<select id="getCategoryMicro" parameterType="String" resultType="String">
+	SELECT
+		DISTINCT(microCategory)
+	FROM
+		k1_tb_item_category
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+	</trim>
+</select>
+
+<!-- 아이템 등록 -->
+<insert id="addItem" parameterType="Stock">
+	<![CDATA[
+	INSERT INTO k1_tb_item_info
+		(itemCode
+		,mainBusinessCode
+		,itemName
+		,itemType
+		,categoryCode
+		,itemStandard
+		,itemOrigin
+		,itemStatus
+		,itemComment
+		,regDate
+		,updateDate
+	) VALUES(
+		CONCAT('itemCode_',
+			(SELECT
+				CASE
+					WHEN (MAX(RIGHT(c.itemCode,3))+1 < 10) 
+					THEN CONCAT('00',MAX(RIGHT(c.itemCode,3))+1)
+					WHEN (MAX(RIGHT(c.itemCode,3))+1 < 100) 
+					THEN CONCAT('0',MAX(RIGHT(c.itemCode,3))+1)
+				ELSE MAX(RIGHT(c.itemCode,3))+1
+				END AS newCodeNum
+			FROM
+				k1_tb_item_info AS c)
+		)
+		,#{mainBusinessCode}
+		,#{itemName}
+		,#{itemType}
+		,#{categoryCode}
+		,#{itemStandard}
+		,#{itemOrigin}
+		,#{itemStatus}
+		,#{itemComment}
+		,NOW()
+		,NOW()
+	);
+	]]>
+</insert>
+
+<!-- 카테고리 코드 검색 -->
+<select id="getCategoryCode" parameterType="String" resultType="String">
+	SELECT
+		categoryCode
+	FROM
+		k1_tb_item_category
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+		<if test="microCategory != null and microCategory != ''.toString()">
+			AND microCategory = #{microCategory}
+		</if>
+	</trim>
+</select>
+
+<!-- 품목명 중복 확인 -->
+<select id="itemNameValid" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_tb_item_info
+	WHERE
+		mainBusinessCode = #{mainBusinessCode}
+		AND itemName = #{itemName};
 </select>
 
 </mapper>

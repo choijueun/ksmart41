@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class DefectController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> defectList; //불량처리내역 배열
 	private Storing defectInfo; //불량처리내역 정보
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	private Map<String, Object> resultMap;
 	/**
 	 * 생성자 메서드
 	 * @param defectService
@@ -58,6 +57,8 @@ public class DefectController {
 		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Defect";
 		
 		resultMap = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
+		if(resultMap == null) return "redirect:/k1Defect";
+		
 		defectInfo = (Storing) resultMap.get("defectInfo");
 		defectList = (List<Storing>) resultMap.get("defectDetail");
 		

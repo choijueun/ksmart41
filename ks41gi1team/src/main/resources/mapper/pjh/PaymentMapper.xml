@@ -5,27 +5,23 @@
 <mapper namespace="k1.smart.team.mapper.pjh.PaymentMapper">
 	<select id="getHistoryPaymentList" parameterType="String" resultType="HistoryPayment">
 		SELECT
-			payHistoryCode
-			,mainBusinessCode
-			,payPlanCode
-			,payCost
-			,totalPlanCost
-			,issueDate
-			,payType
-			,payMethod
-			,payDate
-			,briefs
-			,regId
-			,regDate
-			,updateDate
+			RIGHT(h.payHistoryCode,3) as payHistoryCode
+			,c.businessName
+			,h.`type`
+			,h.payCost
+			,h.briefs
 		FROM
- 			k1_tb_pay_history
+			k1_tb_pay_history AS h
+		JOIN
+			k1_tb_client AS c
+		ON
+			c.clientCode = h.clientCode
 		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			h.mainBusinessCode = #{mainBusinessCode};
 	</select>
 	<select id="getCancelPaymentList" parameterType="String" resultType="CancelPayment">
 		SELECT
-			payCancelCode
+			RIGHT(payCancelCode,3) as payCancelCode
 			,mainBusinessCode
 			,payHistoryCode
 			,cancelCost
@@ -42,21 +38,164 @@
 	</select>
 	<select id="getPlanPaymentList" parameterType="String" resultType="PlanPayment">
 		SELECT
-			 p.payPlanCode
+			 RIGHT(p.payPlanCode,3) AS payPlanCode
 			,p.clientCode
 			,p.mainBusinessCode
 			,p.totalAccountCode
 			,p.contractCode
 			,p.totalPlanCost
 			,p.briefs
+			,p.type
 			,p.managerId
 			,p.regid
 			,p.regDate
 			,p.updateDate
-			,pd.payPlanDetailCode
+			,c.businessName
+			,u.userName
+		FROM
+			k1_tb_pay_plan AS p
+		join
+			k1_tb_client AS c
+		ON
+			p.clientCode = c.clientCode
+		JOIN
+			k1_tb_user AS u
+		ON
+			p.regId = u.userId
+		WHERE
+			p.mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="getHistoryPaymentInfo" parameterType="String" resultType="HistoryPayment">
+		SELECT
+			RIGHT(h.payHistoryCode,3) as payHistoryCode
+			,RIGHT(h.payPlanCode,3) as payPlanCode
+			,c.businessName
+			,h.payCost
+			,p.totalPlanCost
+			,h.issueDate
+			,h.`type`
+			,h.payType
+			,h.payMethod
+			,h.payDate
+			,h.briefs
+			,h.regDate
+			,h.updateDate
+			,h.payStatus
+			,h.endDate
+			,u1.userName AS regName
+			,u2.userName AS managerName
+		FROM
+			k1_tb_pay_history AS h
+		JOIN
+			k1_tb_client AS c
+		ON
+			h.clientCode = c.clientCode
+		JOIN
+			k1_tb_pay_plan AS p
+		ON
+			p.payPlanCode = h.payPlanCode
+		JOIN
+			k1_tb_user AS u1
+		ON
+			u1.userId = h.regId
+		JOIN
+			k1_tb_user AS u2
+		ON
+			u2.userId = h.managerId
+		WHERE
+			h.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
+		
+	</select>
+	<select id="getHistoryPaymentInfoList" parameterType="String" resultType="HistoryPayment">
+		SELECT
+			hd.payHistoryDetailCode
+			,RIGHT(hd.payHistoryCode,3) as payHistoryCode
+			,RIGHT(hd.payPlanCode,3) as payPlanCode
+			,i.itemName
+			,RIGHT(hd.itemCode,3) AS itemCode
+			,hd.materialCost
+			,hd.tax
+			,hd.productPrice
+			,hd.vat
+			,hd.count
+			,hd.sum
+		FROM
+			k1_tb_pay_history_detail AS hd
+		JOIN
+			k1_tb_item_info AS i
+		ON
+			hd.itemCode = i.itemCode
+		JOIN
+			k1_tb_pay_plan AS p
+		ON
+			p.payPlanCode = hd.payPlanCode
+		JOIN
+			k1_tb_pay_history AS h
+		ON
+			h.payHistoryCode = hd.payHistoryCode
+		WHERE
+			h.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
+		
+	</select>
+	<select id="getCancelPaymentInfo" parameterType="String" resultType="CancelPayment">
+		SELECT 
+			RIGHT(c.payCancelCode,3) as payCancelCode
+			,c.mainBusinessCode
+			,RIGHT(c.payHistoryCode,3) as payHistoryCode
+			,c.cancelCost
+			,c.issueDate
+			,c.approvalDate
+			,c.reason
+			,c.regId
+			,c.regDate
+			,c.updateDate
+			,u.userName
+		FROM
+			k1_tb_pay_cancel AS c
+		JOIN
+			k1_tb_user AS u
+		ON
+			c.regId = u.userId
+		WHERE
+			c.payCancelCode = CONCAT('payCancelCode_' #{payCancelCode});
+		
+	</select>
+	<select id="getPlanPaymentInfo" parameterType="String" resultType="PlanPayment">
+		SELECT
+			RIGHT(p.payPlanCode,3) AS payPlanCode
+			,p.`type`
+			,c.businessName
+			,RIGHT(p.contractCode,3) AS contractCode
+			,p.totalPlanCost
+			,p.briefs
+			,u1.userName AS regName
+			,u2.userName AS managerName
+			,p.regDate
+			,p.updateDate
+		FROM
+			k1_tb_pay_plan AS p
+		JOIN
+			k1_tb_user AS u1
+		ON
+			p.regId = u1.userId
+		JOIN
+			k1_tb_user AS u2
+		on
+			p.managerId = u2.userId
+		JOIN
+			k1_tb_client AS c
+		ON
+			c.clientCode = p.clientCode
+		WHERE
+			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
+	</select>
+	<select id="getPlanPaymentInfoList" parameterType="String" resultType="PlanPayment">
+		SELECT
+			pd.payPlanDetailCode
+			,RIGHT(pd.payPlanCode,3) AS payPlanCode
 			,pd.purchaseTsCode
 			,pd.salesTsCode
-			,pd.itemCode
+			,RIGHT(pd.itemCode,3) AS itemCode
 			,pd.madeCompany
 			,pd.materialCost
 			,pd.tax
@@ -64,17 +203,18 @@
 			,pd.vat
 			,pd.count
 			,pd.sum
-			,pd.isEnd
-			,pd.endDate
-			,pd.`comment`
+			,i.itemName
 		FROM
-			k1_tb_pay_plan AS p
-		JOIN
 			k1_tb_pay_plan_detail AS pd
+		JOIN
+			k1_tb_item_info AS i
+		ON
+			pd.itemCode = i.itemCode
+		JOIN
+			k1_tb_pay_plan AS p
 		ON
 			p.payPlanCode = pd.payPlanCode
 		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
 	</select>
-
 </mapper>

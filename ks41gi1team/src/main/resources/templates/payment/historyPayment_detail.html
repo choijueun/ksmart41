@@ -4,17 +4,136 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	결제정보 상세~!
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-5">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						결제관리 상세내역
+					</div>
+					<div class="card-body" th:if="${ historyPaymentInfo != null }">
+						<table id="historyPaymentInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td>[[${historyPaymentInfo.payHistoryCode}]]</td>
+								<th>구분</th>
+								<td>[[${historyPaymentInfo.type}]]</td>
+							</tr>
+							<tr>
+								<th>거래처명</th>
+								<td colspan="3">[[${historyPaymentInfo.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>결제예정코드</th>
+								<td>[[${historyPaymentInfo.payPlanCode}]]</td>
+								<th>결제예정 합계금액</th>
+								<td>[[${historyPaymentInfo.totalPlanCost}]]원</td>
+							</tr>
+							<tr>
+								<th>결제금액</th>
+								<td>[[${historyPaymentInfo.payCost}]]원</td>
+								<th>결제구분</th>
+								<td>[[${historyPaymentInfo.payType}]]</td>
+							</tr>
+							<tr>
+								<th>결제방법</th>
+								<td>[[${historyPaymentInfo.payMethod}]]</td>
+								<th>결제상태</th>
+								<td>[[${historyPaymentInfo.payStatus}]]</td>
+							</tr>
+							<tr>
+								<th>결제일자</th>
+								<td colspan="3">[[${historyPaymentInfo.payDate}]]</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${historyPaymentInfo.briefs}]]</td>
+							</tr>
+							<tr>
+								<th>발행일자</th>
+								<td>[[${historyPaymentInfo.issueDate}]]</td>
+								<th>계약종료일자</th>
+								<td>[[${historyPaymentInfo.endDate}]]</td>
+							</tr>
+							<tr>
+								<th>담당자</th>
+								<td>[[${historyPaymentInfo.managerName}]]</td>
+								<th>등록자</th>
+								<td>[[${historyPaymentInfo.regName}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${historyPaymentInfo.regDate}]]</td>
+								<th>수정일시</th>
+								<td>[[${historyPaymentInfo.updateDate}]]</td>
+							</tr>
+						</table>
+						<button type="button" class="btn btn-info">수정</button>
+					</div>
+					<div class="card-body" th:if="${ historyPaymentInfo == null }">
+					잘못된 접근입니다.
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						단가 상세
+					</div>
+					<div class="card-body" th:if="${ historyPaymentInfoList != null }">
+						<table id="adjDetail" class="table table-bordered">
+							<thead>
+								<tr>
+									<th>품목명</th>
+									<th>매입단가</th>
+									<th>매입세액</th>
+									<th>매출단가</th>
+									<th>매출세액</th>
+									<th>수량</th>
+									<th>소계</th>
+								</tr>
+							</thead>
+							<tbody th:if="${not #lists.isEmpty(historyPaymentInfoList)}">
+								<tr th:each="l : ${historyPaymentInfoList}">
+									<td>
+										<a th:href="@{|/k1Item/${l.itemCode}|}">
+											[[${l.itemName}]]
+										</a>
+									</td>
+									<td>[[${l.materialCost}]]원</td>
+									<td>[[${l.tax}]]원</td>
+									<td>[[${l.productPrice}]]원</td>
+									<td>[[${l.vat}]]원</td>
+									<td>[[${l.count}]]</td>
+									<td>[[${l.sum}]]원</td>
+								</tr>
+							</tbody>
+							<tbody th:if="${#lists.isEmpty(historyPaymentInfoList)}">
+								<tr>
+									<td colspan="12">
+									상세내역을 불러올 수 없습니다.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="card-body" th:if="${historyPaymentInfoList == null }">
+						잘못된 접근입니다.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>

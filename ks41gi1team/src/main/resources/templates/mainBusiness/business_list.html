@@ -15,11 +15,24 @@
 	<link rel="stylesheet"
 		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customJs">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#myInput").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+</th:block>
 
 <th:block layout:fragment="customContents">
 
@@ -33,13 +46,9 @@
 						<option value="">사업장 구분 코드</option>
 						<option value="businessLevel">사업장 권한</option>
 						<option value="businessName">상호</option>
-						<option value="businessType1">업종</option>
-						<option value="businessType2">업태</option>
 						<option value="businessCount">종사업장번호</option>
-					
 					</select> 
-					<input type="text" name="searchValue"/>
-					<button type="submit">검색</button>
+					<input id="myInput" type="text" placeholder="Search..">
 				</form>
 			</div>
 			
@@ -61,11 +70,11 @@
 								<th>사업장 구분 코드</th>
 								<th>사업장 권한</th>
 								<th>상호</th>
-								<th>업태</th>
 								<th>종사업장번호</th>
+								<th>수정</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="myTable">
 							<tr th:if="${not #lists.isEmpty(mainBusinessList)}" th:each="l : ${mainBusinessList}">
 								<td><input type="checkbox"></td>
 								<td><a th:href="@{|/mainBusinessList/${l.mainBusinessCode}|}">
@@ -73,7 +82,6 @@
 								<td>[[${l.businessCategory}]]</td>
 								<td>[[${l.businessLevel}]]</td>
 								<td>[[${l.businessName}]]</td>
-								<td>[[${l.businessType1}]]</td>
 								<td>[[${l.businessCount}]]</td>
 								<td>
 									<a th:href="@{/mainBusinessList/${l.mainBusinessCode}|}">

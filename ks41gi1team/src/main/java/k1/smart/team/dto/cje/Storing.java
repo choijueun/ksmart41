@@ -13,15 +13,17 @@ public class Storing {
 	
 	private String inventoryCode; //재고코드
 	private String itemCode; //*품목코드
-	private String itemName; //*품목코드
+	private String itemName; //*품목이름
 	private String itemList; //*품목배열(GROUP_CONCAT)
 	
 	private String contractCode; //계약코드
 	private String contractSection; //*계약 주문유형 - 수주발주 택1이면 없어도 될지도
 	
 	private String materialOrderCode; //발주 코드
+	private String productOrderCode; //수주 코드
 	private String deliveryCode; //운송요청내역코드
 	private String shipmentPlanCode; //*출하계획코드
+	private String shipPlanDetailCode; //*출하계획상세코드
 	
 	private String returnRegCode; //반품 요청 코드
 	
@@ -41,9 +43,11 @@ public class Storing {
 	private int afterCount; //최종수량
 	private int adjWeight; //조정중량
 	private int stockWeight; //최종중량
+	private int amount;
 	
 	private int deliveryCost; //운송비용
 	private int totalPrice; //총가격
+	private String receiveAddr; //도착지
 	
 	private String sendPlanDate; //발송예정일
 	private String receivePlanDate; //수송예정일
@@ -65,6 +69,18 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public String getShipPlanDetailCode() {
+		return shipPlanDetailCode;
+	}
+	public void setShipPlanDetailCode(String shipPlanDetailCode) {
+		this.shipPlanDetailCode = shipPlanDetailCode;
+	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}
@@ -154,6 +170,12 @@ public class Storing {
 	}
 	public void setMaterialOrderCode(String materialOrderCode) {
 		this.materialOrderCode = materialOrderCode;
+	}
+	public String getProductOrderCode() {
+		return productOrderCode;
+	}
+	public void setProductOrderCode(String productOrderCode) {
+		this.productOrderCode = productOrderCode;
 	}
 	public String getDeliveryCode() {
 		return deliveryCode;
@@ -268,6 +290,12 @@ public class Storing {
 	}
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	public String getReceiveAddr() {
+		return receiveAddr;
+	}
+	public void setReceiveAddr(String receiveAddr) {
+		this.receiveAddr = receiveAddr;
 	}
 	public String getSendPlanDate() {
 		return sendPlanDate;

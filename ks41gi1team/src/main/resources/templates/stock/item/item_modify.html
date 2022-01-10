@@ -4,17 +4,137 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(()=>{
+	var modifyItem = $('#modifyItem'); //수정폼
+	var itemType = $('#itemType'); //품목분류
+	var submitBtn = $('#submitBtn'); //수정버튼
+	var largeCategory = $('#largeCategory');
+	var middleCategory = $('middleCategory');
+	var smallCategory = $('#smallCategory');
+	
+	$(document).on('click', '#submitBtn', function(){
+		if(itemType.val() == '제품') {
+			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
+				alert('품목 카테고리를 선택해주세요.');
+			} else {
+				modifyItem.submit();
+			}
+		}else{
+			modifyItem.submit();
+		}
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	[[${itemCode}]] 수정 페이지
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3 col-md-2">
+		</div>
+		<div class="col-lg-6 col-md-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					품목정보 수정
+				</div>
+				<div class="card-body" th:if="${i} != null">
+					<form id="modifyItem"th:action="@{/k1ItemModify}" method="POST">
+						<div class="form-group">
+							<label for="itemName">
+								품목명
+							 </label>
+							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
+						</div>
+						<div class="row">
+							<div class="form-group col-3">
+								<label>분류</label>
+								<select id="itemType" name="itemType" class="form-control">
+									<option th:selected="'원자재' == ${i.itemType}">원자재</option>
+									<option th:selected="'부자재' == ${i.itemType}">부자재</option>
+									<option th:selected="'제품' == ${i.itemType}">제품</option>
+								</select>
+							</div>
+							<div class="form-group col-3">
+								<label for="itemStandard">규격</label>
+								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard" th:value="${i.itemStandard}">
+							</div>
+							<div class="form-group col-3">
+								<label for="itemOrigin">원산지</label>
+								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin" th:value="${i.itemOrigin}">
+							</div>
+							<div class="form-group col-3">
+								<label for="itemStatus">상태</label>
+								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus" th:value="${i.itemStatus}">
+							</div>
+						</div>
+						<div id="itemCategory" class="form-group">
+							<label>카테고리</label>
+							<div class="form-group row">
+								<div class="col-3">
+									<select id="largeCategory" name="largeCategory" class="form-control">
+										<option value="">:: 대분류 ::</option>
+										<option th:each="l : ${largeCategory}" th:selected="${l} == ${i.largeCategory}">[[${l}]]</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="middleCategory" name="middleCategory" class="form-control">
+										<option value="">:: 중분류 ::</option>
+										<option th:each="m : ${middleCategory}" th:selected="${m} == ${i.middleCategory}">[[${m}]]</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="smallCategory" name="smallCategory" class="form-control">
+										<option value="">:: 소분류 ::</option>
+										<option th:each="s : ${smallCategory}" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<select id="microCategory" name="microCategory" class="form-control">
+										<option value="">:: 소소분류 ::</option>
+										<option th:each="xs : ${microCategory}" th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="itemComment">비고</label>
+							<input type="text" name="itemComment" class="form-control" id="itemComment" placeholder="Enter comment" th:value="${i.itemComment}">
+						</div>
+					</form>
+				</div>
+				<div class="card-body" th:if="${i} == null">
+					잘못된 접근입니다.
+				</div>
+				<div class="card-footer">
+					<th:block th:if="${i} != null">
+						<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+						<a th:href="@{|/k1Item/${i.itemCode}|}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
+					<th:block th:if="${i} == null">
+						<a th:href="@{/k1Item}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 </th:block>
 
 </html>

@@ -27,19 +27,19 @@
 				</div>
 				<div class="modal-body">
 					<div class="text-center justify-content-between">
-						<button type="button" class="btn btn-info mx-2 my-3">자재입고</button>
-						<button type="button" class="btn btn-info mx-2 my-3">자재사용</button>
-						<button type="button" class="btn btn-info mx-2 my-3">제품생산</button>
-						<button type="button" class="btn btn-info mx-2 my-3">창고이동</button>
-						<button type="button" class="btn btn-info mx-2 my-3">제품출하</button>
-						<button type="button" class="btn btn-info mx-2 my-3">재고조정</button>
-						<button type="button" class="btn btn-info mx-2 my-3">반품처리</button>
-						<button type="button" class="btn btn-info mx-2 my-3">불량처리</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">자재입고</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">자재사용</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">제품생산</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">창고이동</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">제품출하</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">재고조정</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">반품처리</button>
+						<button type="button" class="btn btn-outline-info mx-2 my-3">불량처리</button>
 					</div>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-sm btn-outline-info">재고목록</button>
+					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-sm btn-info">재고목록</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -51,7 +51,16 @@
 		<div class="col-lg-8">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					물류내역
+					물류이동내역
+					<a th:href="@{/k1Delivery}">
+						<button type="button" class="btn btn-outline-info btn-xs">운송요청</button>
+					</a>
+					<a th:href="@{/k1ShipmentPlan}">
+						<button type="button" class="btn btn-outline-info btn-xs">출하계획</button>
+					</a>
+					<a th:href="@{/k1ReturnReg}">
+						<button type="button" class="btn btn-outline-info btn-xs">반품요청</button>
+					</a>
 				</div>
 				<div class="card-body">
 					<div class="card">

@@ -31,8 +31,6 @@ public class DefectService {
 	public List<Storing> getAllDefectList(String mainBusinessCode){
 		defectList = storingMapper.getAllStoringList(mainBusinessCode, "8");
 		
-		if(defectList == null) return null;
-		
 		return defectList;
 	}
 	
@@ -47,7 +45,6 @@ public class DefectService {
 		if(defectInfo == null) return null;
 		
 		defectList = storingMapper.getDefectDetails(stockAdjCode);
-		if(defectList == null) return null;
 		
 		resultMap.clear();
 		resultMap.put("defectInfo", defectInfo);

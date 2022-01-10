@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="k1.smart.team.mapper.csh.LoginMapper">
+ 	<select id="getLoginHistoryCount" resultType="int" fetchSize="1000">
+		SELECT
+			COUNT(1)
+		FROM
+			k1_tb_login;
+	</select>
+	
+	<select id="getLoginHistoryList" parameterType="map" resultType="map">
+		SELECT 
+			 l.loginCode
+			,l.mainBusinessCode
+			,l.loginId
+			,l.loginDate
+			,l.logoutDate
+		FROM 
+			k1_tb_login AS l
+		<if test="startNum != null">	
+			LIMIT #{startNum}, #{rowPerPage};
+		</if>
+	</select>
+ 
+ 
+ 
+ </mapper>

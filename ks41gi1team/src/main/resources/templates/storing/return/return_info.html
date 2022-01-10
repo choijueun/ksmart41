@@ -29,14 +29,35 @@
 					<table id="returnInfo" class="table table-bordered">
 						<tr>
 							<th>No.</th>
-							<td colspan="5">[[${returnInfo.stockAdjCode}]]</td>
+							<td colspan="3">
+								[[${returnInfo.stockAdjCode}]]
+								<a th:if="${returnInfo.returnRegCode} != null" th:href="@{|/k1ReturnReg/${returnInfo.returnRegCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">요청</button>
+								</a>
+								<a th:if="${returnInfo.deliveryCode} != null" th:href="@{|/k1Delivery/${returnInfo.deliveryCode}|}">
+									<button type="button" class="btn btn-outline-info btn-xs">운송</button>
+								</a>
+							</td>
+							<th>상태</th>
+							<td th:if="${returnInfo.endDate != null}">
+								완료
+							</td>
+							<td th:if="${returnInfo.endDate == null}">
+							</td>
 						</tr>
 						<tr>
 							<th th:if="${returnInfo.sendWarehouse != null and returnInfo.receiveWarehouse == null}">받는창고</th>
-							<th th:if="${returnInfo.sendWarehouse == null and returnInfo.receiveWarehouse != null}">보내는창고</th>
-							<td th:if="${returnInfo.sendWarehouse != null and returnInfo.receiveWarehouse == null}">[[${returnInfo.sendWarehouseName}]]</td>
-							<td th:if="${returnInfo.sendWarehouse == null and returnInfo.receiveWarehouse != null}">[[${returnInfo.receiveWarehouseName}]]</td>
-							<th>창고위치</th>
+							<th th:if="${returnInfo.sendWarehouse == null and returnInfo.receiveWarehouse != null}">보낸창고</th>
+							<td colspan="2" th:if="${returnInfo.sendWarehouse != null and returnInfo.receiveWarehouse == null}">
+								<a th:href="@{|/k1Warehouse/${returnInfo.sendWarehouse}|}">
+									[[${returnInfo.sendWarehouseName}]]
+								</a>
+							</td>
+							<td colspan="2" th:if="${returnInfo.sendWarehouse == null and returnInfo.receiveWarehouse != null}">
+								<a th:href="@{|/k1Warehouse/${returnInfo.receiveWarehouse}|}">
+									[[${returnInfo.receiveWarehouseName}]]
+								</a>
+							</td>
 							<td th:if="${returnInfo.sendWarehouseOutPlace == null}">[[${returnInfo.sendWarehouseLocation}]]</td>
 							<td th:if="${returnInfo.sendWarehouseOutPlace != null}">[[${returnInfo.sendWarehouseLocation}]] ([[${returnInfo.sendWarehouseOutPlace}]])</td>
 							<th>합계금액</th>
