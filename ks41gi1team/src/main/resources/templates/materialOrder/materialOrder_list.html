@@ -7,13 +7,29 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
+<th:block layout:fragment="customJs">
+<script>
+
+// 모달 버튼에 이벤트를 건다.
+$('#openModalBtn').on('click', function(){
+	$('#modal-default').modal('show');
+	});
+
+//모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+	$('#modalBox').modal('hide');
+	});
+
+
+
+</script>
+</th:block>
 
 <!-- content -->
 	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
@@ -67,7 +83,7 @@
 						<td>[[${l.totalPrice}]]</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}"><i class="fas fa-pen"></i></a>
+							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn"><i class="fas fa-pen"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -118,8 +134,8 @@
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary">수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
           </div>
           <!-- /.modal-content -->
