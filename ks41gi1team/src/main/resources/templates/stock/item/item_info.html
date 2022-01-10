@@ -39,10 +39,18 @@
 						<tr>
 							<th>카테고리</th>
 							<td colspan="3">
-								[[${i.largeCategory}]]
-								/[[${i.middleCategory}]]
-								/[[${i.smallCategory}]]
-								/[[${i.microCategory}]]
+								<th:block th:if="${i.largeCategory != null and i.largeCategory != ''.toString()}">
+									[[${i.largeCategory}]]
+									<th:block th:if="${i.middleCategory != null and i.middleCategory != ''.toString()}">
+										/ [[${i.middleCategory}]]
+										<th:block th:if="${i.smallCategory != null and i.smallCategory != ''.toString()}">
+											/ [[${i.smallCategory}]]
+											<th:block th:if="${i.microCategory != null and i.microCategory != ''.toString()}">
+												/ [[${i.microCategory}]]
+											</th:block>
+										</th:block>
+									</th:block>
+								</th:block>
 							</td>
 						</tr>
 						<tr>
