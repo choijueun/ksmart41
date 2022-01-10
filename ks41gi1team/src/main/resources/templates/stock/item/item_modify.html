@@ -93,7 +93,7 @@ $(()=>{
 	});
 	
 	$(document).on('click', '#submitBtn', function(){
-		if(itemType.val() == '제품') {
+		if( $('input[name="itemType"]:checked').val() == '제품') {
 			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
 				alert('품목 카테고리를 선택해주세요.');
 			} else {
@@ -124,30 +124,45 @@ $(()=>{
 				</div>
 				<div class="card-body" th:if="${i} != null">
 					<form id="modifyItem"th:action="@{/k1ItemModify}" method="POST">
-						<div class="form-group">
-							<label for="itemName">
-								품목명
-							 </label>
-							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
+						<div class="row">
+							<div class="col-8">
+								<div class="form-group">
+									<label for="itemName">
+										품목명
+										<a id="itemNameValid" th:href="@{/k1Item}">
+											<!-- 품목정보 이동 button -->
+										</a>
+									 </label>
+									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
+								</div>
+							</div>
+							<div class="col-4">
+								<label>분류</label>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="원자재" autocomplete="off" th:checked="'원자재' == ${i.itemType}"> 원자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="부자재" autocomplete="off" th:checked="'부자재' == ${i.itemType}"> 부자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="제품" autocomplete="off" th:checked="'제품' == ${i.itemType}"> 제품
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-3">
-								<label>분류</label>
-								<select id="itemType" name="itemType" class="form-control">
-									<option th:selected="'원자재' == ${i.itemType}">원자재</option>
-									<option th:selected="'부자재' == ${i.itemType}">부자재</option>
-									<option th:selected="'제품' == ${i.itemType}">제품</option>
-								</select>
-							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStandard">규격</label>
 								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard" th:value="${i.itemStandard}">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin" th:value="${i.itemOrigin}">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStatus">상태</label>
 								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus" th:value="${i.itemStatus}">
 							</div>
