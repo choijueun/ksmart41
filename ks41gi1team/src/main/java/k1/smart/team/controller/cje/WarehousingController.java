@@ -75,6 +75,10 @@ public class WarehousingController {
 	 */
 	@GetMapping("/k1WarehousingAdd")
 	public String addWarehousing(Model model) {
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "자재입고내역 등록");
+		
 		return "storing/warehousing/warehousing_add";
 	}
 	
