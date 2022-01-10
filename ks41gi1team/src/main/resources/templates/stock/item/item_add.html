@@ -45,7 +45,7 @@ $(()=>{
 	var smallCategory = $('#smallCategory');
 	var microCategory = $('#microCategory');
 	
-	//중분류 자동출력
+	//대분류 선택: 중분류 자동출력
 	largeCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로
@@ -58,7 +58,9 @@ $(()=>{
 			var dataArr = data['middleCategory'];
 			//console.log(data['middleCategory']);
  			var categoryOption = middleCategory.children(":first");
-			categoryOption.siblings().remove();
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
 			for(var i=0; i<dataArr.length; i++) {
 				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
@@ -69,7 +71,7 @@ $(()=>{
 			alert( "Request failed: " + textStatus );
 		});
 	});
-	//소분류 자동출력
+	//중분류 선택: 소분류 자동출력
 	middleCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로
@@ -82,7 +84,8 @@ $(()=>{
 			var dataArr = data['smallCategory'];
 			//console.log(data['smallCategory']);
  			var categoryOption = smallCategory.children(":first");
-			categoryOption.siblings().remove();
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
 			for(var i=0; i<dataArr.length; i++) {
 				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
@@ -93,7 +96,7 @@ $(()=>{
 			alert( "Request failed: " + textStatus );
 		});
 	});
-	//소소분류 자동출력
+	//소분류 선택: 소소분류 자동출력
 	smallCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로

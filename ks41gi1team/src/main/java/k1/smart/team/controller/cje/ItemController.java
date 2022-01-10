@@ -97,7 +97,13 @@ public class ItemController {
 		return "stock/item/item_add";
 	}
 	
-	//AJAX: 하위분류 반환
+	/**
+	 * AJAX: 하위분류 반환
+	 * @param largeCategory
+	 * @param middleCategory
+	 * @param smallCategory
+	 * @return
+	 */
 	@PostMapping("/getLowCategory")
 	@ResponseBody
 	public Map<String, Object> getLowCategory(
@@ -163,15 +169,16 @@ public class ItemController {
 		//품목코드 검사
 		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
-		//카테고리목록
-		resultMap = itemService.getItemCategory(null, null, null);
-		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
-		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
-		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
-		model.addAttribute("microCategory", resultMap.get("microCategory"));
+		//품목정보반환
+		itemInfo = (Stock) itemService.getItemInfo(itemCode).get("itemInfo");
 		
-		resultMap = itemService.getItemInfo(itemCode);
-		model.addAttribute("i", resultMap.get("itemInfo"));
+		//카테고리목록
+		model.addAttribute("largeCategory", itemService.getItemCategory(null, null, null).get("largeCategory"));
+		model.addAttribute("middleCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), null, null).get("middleCategory"));
+		model.addAttribute("smallCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), null).get("smallCategory"));
+		model.addAttribute("microCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory()).get("microCategory"));
+		
+		model.addAttribute("i", itemInfo);
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");

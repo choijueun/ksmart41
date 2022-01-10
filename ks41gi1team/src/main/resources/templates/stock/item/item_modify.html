@@ -14,8 +14,83 @@ $(()=>{
 	var itemType = $('#itemType'); //품목분류
 	var submitBtn = $('#submitBtn'); //수정버튼
 	var largeCategory = $('#largeCategory');
-	var middleCategory = $('middleCategory');
+	var middleCategory = $('#middleCategory');
 	var smallCategory = $('#smallCategory');
+	var microCategory = $('#microCategory');
+	
+	//중분류 자동출력
+	largeCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['middleCategory'];
+ 			var categoryOption = middleCategory.children(":first");
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//소분류 자동출력
+	middleCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['smallCategory'];
+ 			var categoryOption = smallCategory.children(":first");
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//소소분류 자동출력
+	smallCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['microCategory'];
+			//console.log(data['microCategory']);
+ 			var categoryOption = microCategory.children(":first");
+			categoryOption.siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
 	
 	$(document).on('click', '#submitBtn', function(){
 		if(itemType.val() == '제품') {
