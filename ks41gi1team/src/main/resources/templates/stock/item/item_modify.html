@@ -14,11 +14,86 @@ $(()=>{
 	var itemType = $('#itemType'); //품목분류
 	var submitBtn = $('#submitBtn'); //수정버튼
 	var largeCategory = $('#largeCategory');
-	var middleCategory = $('middleCategory');
+	var middleCategory = $('#middleCategory');
 	var smallCategory = $('#smallCategory');
+	var microCategory = $('#microCategory');
+	
+	//중분류 자동출력
+	largeCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['middleCategory'];
+ 			var categoryOption = middleCategory.children(":first");
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//소분류 자동출력
+	middleCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['smallCategory'];
+ 			var categoryOption = smallCategory.children(":first");
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//소소분류 자동출력
+	smallCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['microCategory'];
+			//console.log(data['microCategory']);
+ 			var categoryOption = microCategory.children(":first");
+			categoryOption.siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
 	
 	$(document).on('click', '#submitBtn', function(){
-		if(itemType.val() == '제품') {
+		if( $('input[name="itemType"]:checked').val() == '제품') {
 			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
 				alert('품목 카테고리를 선택해주세요.');
 			} else {
@@ -49,30 +124,45 @@ $(()=>{
 				</div>
 				<div class="card-body" th:if="${i} != null">
 					<form id="modifyItem"th:action="@{/k1ItemModify}" method="POST">
-						<div class="form-group">
-							<label for="itemName">
-								품목명
-							 </label>
-							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
+						<div class="row">
+							<div class="col-8">
+								<div class="form-group">
+									<label for="itemName">
+										품목명
+										<a id="itemNameValid" th:href="@{/k1Item}">
+											<!-- 품목정보 이동 button -->
+										</a>
+									 </label>
+									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
+								</div>
+							</div>
+							<div class="col-4">
+								<label>분류</label>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="원자재" autocomplete="off" th:checked="'원자재' == ${i.itemType}"> 원자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="부자재" autocomplete="off" th:checked="'부자재' == ${i.itemType}"> 부자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="제품" autocomplete="off" th:checked="'제품' == ${i.itemType}"> 제품
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-3">
-								<label>분류</label>
-								<select id="itemType" name="itemType" class="form-control">
-									<option th:selected="'원자재' == ${i.itemType}">원자재</option>
-									<option th:selected="'부자재' == ${i.itemType}">부자재</option>
-									<option th:selected="'제품' == ${i.itemType}">제품</option>
-								</select>
-							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStandard">규격</label>
 								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard" th:value="${i.itemStandard}">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin" th:value="${i.itemOrigin}">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStatus">상태</label>
 								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus" th:value="${i.itemStatus}">
 							</div>

@@ -43,6 +43,7 @@ public class Storing {
 	private int afterCount; //최종수량
 	private int adjWeight; //조정중량
 	private int stockWeight; //최종중량
+	private int totalWeight; //합계중량
 	private int amount;
 	
 	private int deliveryCost; //운송비용
@@ -69,18 +70,6 @@ public class Storing {
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
 	
-	public int getAmount() {
-		return amount;
-	}
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	public String getShipPlanDetailCode() {
-		return shipPlanDetailCode;
-	}
-	public void setShipPlanDetailCode(String shipPlanDetailCode) {
-		this.shipPlanDetailCode = shipPlanDetailCode;
-	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}
@@ -189,6 +178,12 @@ public class Storing {
 	public void setShipmentPlanCode(String shipmentPlanCode) {
 		this.shipmentPlanCode = shipmentPlanCode;
 	}
+	public String getShipPlanDetailCode() {
+		return shipPlanDetailCode;
+	}
+	public void setShipPlanDetailCode(String shipPlanDetailCode) {
+		this.shipPlanDetailCode = shipPlanDetailCode;
+	}
 	public String getReturnRegCode() {
 		return returnRegCode;
 	}
@@ -278,6 +273,18 @@ public class Storing {
 	}
 	public void setStockWeight(int stockWeight) {
 		this.stockWeight = stockWeight;
+	}
+	public int getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(int totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	public int getDeliveryCost() {
 		return deliveryCost;
@@ -380,5 +387,117 @@ public class Storing {
 	}
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Storing [stockAdjCode=");
+		builder.append(stockAdjCode);
+		builder.append(", stockAdjDetailCode=");
+		builder.append(stockAdjDetailCode);
+		builder.append(", mainBusinessCode=");
+		builder.append(mainBusinessCode);
+		builder.append(", stockReasonCode=");
+		builder.append(stockReasonCode);
+		builder.append(", stockReason=");
+		builder.append(stockReason);
+		builder.append(", stockReasonEng=");
+		builder.append(stockReasonEng);
+		builder.append(", clientCode=");
+		builder.append(clientCode);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", inventoryCode=");
+		builder.append(inventoryCode);
+		builder.append(", itemCode=");
+		builder.append(itemCode);
+		builder.append(", itemName=");
+		builder.append(itemName);
+		builder.append(", itemList=");
+		builder.append(itemList);
+		builder.append(", contractCode=");
+		builder.append(contractCode);
+		builder.append(", contractSection=");
+		builder.append(contractSection);
+		builder.append(", materialOrderCode=");
+		builder.append(materialOrderCode);
+		builder.append(", productOrderCode=");
+		builder.append(productOrderCode);
+		builder.append(", deliveryCode=");
+		builder.append(deliveryCode);
+		builder.append(", shipmentPlanCode=");
+		builder.append(shipmentPlanCode);
+		builder.append(", shipPlanDetailCode=");
+		builder.append(shipPlanDetailCode);
+		builder.append(", returnRegCode=");
+		builder.append(returnRegCode);
+		builder.append(", sendWarehouse=");
+		builder.append(sendWarehouse);
+		builder.append(", sendWarehouseName=");
+		builder.append(sendWarehouseName);
+		builder.append(", sendWarehouseLocation=");
+		builder.append(sendWarehouseLocation);
+		builder.append(", sendWarehouseOutPlace=");
+		builder.append(sendWarehouseOutPlace);
+		builder.append(", receiveWarehouse=");
+		builder.append(receiveWarehouse);
+		builder.append(", receiveWarehouseName=");
+		builder.append(receiveWarehouseName);
+		builder.append(", receiveWarehouseLocation=");
+		builder.append(receiveWarehouseLocation);
+		builder.append(", receiveWarehouseOutPlace=");
+		builder.append(receiveWarehouseOutPlace);
+		builder.append(", purchaseTsCode=");
+		builder.append(purchaseTsCode);
+		builder.append(", salesTsCode=");
+		builder.append(salesTsCode);
+		builder.append(", adjCount=");
+		builder.append(adjCount);
+		builder.append(", afterCount=");
+		builder.append(afterCount);
+		builder.append(", adjWeight=");
+		builder.append(adjWeight);
+		builder.append(", stockWeight=");
+		builder.append(stockWeight);
+		builder.append(", totalWeight=");
+		builder.append(totalWeight);
+		builder.append(", amount=");
+		builder.append(amount);
+		builder.append(", deliveryCost=");
+		builder.append(deliveryCost);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
+		builder.append(", receiveAddr=");
+		builder.append(receiveAddr);
+		builder.append(", sendPlanDate=");
+		builder.append(sendPlanDate);
+		builder.append(", receivePlanDate=");
+		builder.append(receivePlanDate);
+		builder.append(", requestDate=");
+		builder.append(requestDate);
+		builder.append(", adjDate=");
+		builder.append(adjDate);
+		builder.append(", endDate=");
+		builder.append(endDate);
+		builder.append(", briefs=");
+		builder.append(briefs);
+		builder.append(", stockStatus=");
+		builder.append(stockStatus);
+		builder.append(", comment=");
+		builder.append(comment);
+		builder.append(", defectType=");
+		builder.append(defectType);
+		builder.append(", defectHandlingType=");
+		builder.append(defectHandlingType);
+		builder.append(", managerId=");
+		builder.append(managerId);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append(", regDate=");
+		builder.append(regDate);
+		builder.append(", updateDate=");
+		builder.append(updateDate);
+		builder.append("]");
+		return builder.toString();
 	}
 }

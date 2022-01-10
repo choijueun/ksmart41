@@ -22,9 +22,7 @@
 			,cli.regDate
 			,cli.updateDate
 		FROM 
-			k1_tb_client AS cli
-		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			k1_tb_client AS cli;
 	</select>
 	
 	<select id="getClientListBySearchKey" parameterType="String" resultType="Client">

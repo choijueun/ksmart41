@@ -1,6 +1,7 @@
 package k1.smart.team.dto.csh;
 
 public class Invoice {
+	private String businessName; //사업장 이름
 	private String invoiceCode; //전자(세금)계산서 코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private String invoiceType; //세금계산서 종류
@@ -17,6 +18,12 @@ public class Invoice {
 	private String briefs; //적요
 	private String issueDate; //발행일자
 	private String regDate; //등록일시
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 	public String getInvoiceCode() {
 		return invoiceCode;
 	}
@@ -116,7 +123,9 @@ public class Invoice {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Invoice [invoiceCode=");
+		builder.append("Invoice [businessName=");
+		builder.append(businessName);
+		builder.append(", invoiceCode=");
 		builder.append(invoiceCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);

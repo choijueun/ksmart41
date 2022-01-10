@@ -30,7 +30,7 @@ public class ProductionController {
 	public String productionMain(Model model) {
 		productionList = productionService.getAllProductionList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산");
 		model.addAttribute("productionList", productionList);
 		
@@ -50,9 +50,9 @@ public class ProductionController {
 		productionInfo = (Storing) resultMap.get("productionInfo");
 		productionList = (List<Storing>) resultMap.get("productionDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산");
-		model.addAttribute("productionInfo", productionInfo);
+		model.addAttribute("s", productionInfo);
 		model.addAttribute("productionDetails", productionList);
 		
 		return "storing/production/production_info";
