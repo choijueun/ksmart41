@@ -2,7 +2,6 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,7 +23,6 @@ public class ItemController {
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
 	private Map<String,Object> resultMap;
-	private List<String> stringList;
 	private boolean chk;
 	
 	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
@@ -88,16 +84,12 @@ public class ItemController {
 	 * @param model
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1ItemAdd")
 	public String addItem(Model model) {
 		
 		//카테고리목록
 		resultMap = itemService.getItemCategory(null, null, null);
 		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
-		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
-		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
-		model.addAttribute("microCategory", resultMap.get("microCategory"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목추가");
@@ -105,34 +97,22 @@ public class ItemController {
 		return "stock/item/item_add";
 	}
 	
-	/**
-	 * AJAX: 품목카테고리 반환 @RequestMapping(value = "/itemCategory", method = RequestMethod.POST)
-	 * @param largeCategory
-	 * @param middleCategory
-	 * @param smallCategory
-	 * @return Map<String,Object> largeCategory, middleCategory, smallCategory, microCategory
-	 */
-	@RequestMapping(value = "/itemCategory", method = RequestMethod.POST)
-	public String getItemCategory(
-			@RequestParam Map<String, String> paramMap, Model model){
+	//AJAX: 하위분류 반환
+	@PostMapping("/getLowCategory")
+	@ResponseBody
+	public Map<String, Object> getLowCategory(
+			@RequestParam(value="largeCategory", required = false) String largeCategory,
+			@RequestParam(value="middleCategory", required = false) String middleCategory,
+			@RequestParam(value="smallCategory", required = false) String smallCategory){
 		//parameter 확인
-		String largeCategory = paramMap.get("largeCategory");
-		String middleCategory = paramMap.get("middleCategory");
-		String smallCategory = paramMap.get("smallCategory");
-		//출력
-		StringJoiner param = new StringJoiner(", ");
-		param.add("largeCategory=" + largeCategory)
-			 .add("middleCategory=" + middleCategory)
-			 .add("smallCategory=" + smallCategory);
-		log.info("PARAMETER 	:: {}", param);
+		/*
+		 * log.info("largeCategory 	:: {}", largeCategory);
+		 * log.info("middleCategory 	:: {}", middleCategory);
+		 * log.info("smallCategory 	:: {}", smallCategory);
+		 */
 		
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
-		if(largeCategory != null && !"".equals(largeCategory)) model.addAttribute("middleCategory", resultMap.get("middleCategory"));
-		if(middleCategory != null && !"".equals(middleCategory)) model.addAttribute("smallCategory", resultMap.get("smallCategory"));
-		if(smallCategory != null && !"".equals(smallCategory)) model.addAttribute("microCategory", resultMap.get("microCategory"));
-		
-		return "stock/item/item_add :: #itemCategory";
-		//데이터 받을 페이지 :: #데이터 받을 객체
+		return resultMap;
 	}
 	
 	/**

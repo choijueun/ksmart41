@@ -21,7 +21,7 @@ public class Stock {
 	
 	private String productPriceCode; //제품단가코드
 	private int productPrice; //제품단가
-	private int avgPrice; //제품단가
+	private int avgPrice; //평균단가
 	private int itemCount; //품목수량
 	private int totalCount; //총수량
 	private int totalPrice; //합계금액
@@ -30,7 +30,7 @@ public class Stock {
 	
 	private String warehouseCode; //창고 코드
 	private String warehouseName; //창고명
-	private String loaction; //창고위치
+	private String location; //창고위치
 	private String outPlace; //창고소재지
 	
 	private String status; //재고상태
@@ -195,11 +195,11 @@ public class Stock {
 	public void setWarehouseName(String warehouseName) {
 		this.warehouseName = warehouseName;
 	}
-	public String getLoaction() {
-		return loaction;
+	public String getLocation() {
+		return location;
 	}
-	public void setLoaction(String loaction) {
-		this.loaction = loaction;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public String getOutPlace() {
 		return outPlace;
@@ -297,7 +297,6 @@ public class Stock {
 	public void setStoringUpdateDate(String storingUpdateDate) {
 		this.storingUpdateDate = storingUpdateDate;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -349,8 +348,8 @@ public class Stock {
 		builder.append(warehouseCode);
 		builder.append(", warehouseName=");
 		builder.append(warehouseName);
-		builder.append(", loaction=");
-		builder.append(loaction);
+		builder.append(", location=");
+		builder.append(location);
 		builder.append(", outPlace=");
 		builder.append(outPlace);
 		builder.append(", status=");
@@ -383,6 +382,94 @@ public class Stock {
 		builder.append(managerName);
 		builder.append(", storingUpdateDate=");
 		builder.append(storingUpdateDate);
+		builder.append(", getInventoryCode()=");
+		builder.append(getInventoryCode());
+		builder.append(", getMainBusinessCode()=");
+		builder.append(getMainBusinessCode());
+		builder.append(", getItemCode()=");
+		builder.append(getItemCode());
+		builder.append(", getItemName()=");
+		builder.append(getItemName());
+		builder.append(", getItemType()=");
+		builder.append(getItemType());
+		builder.append(", getCategoryCode()=");
+		builder.append(getCategoryCode());
+		builder.append(", getLargeCategory()=");
+		builder.append(getLargeCategory());
+		builder.append(", getMiddleCategory()=");
+		builder.append(getMiddleCategory());
+		builder.append(", getSmallCategory()=");
+		builder.append(getSmallCategory());
+		builder.append(", getMicroCategory()=");
+		builder.append(getMicroCategory());
+		builder.append(", getItemStandard()=");
+		builder.append(getItemStandard());
+		builder.append(", getItemOrigin()=");
+		builder.append(getItemOrigin());
+		builder.append(", getItemStatus()=");
+		builder.append(getItemStatus());
+		builder.append(", getItemComment()=");
+		builder.append(getItemComment());
+		builder.append(", getProductPriceCode()=");
+		builder.append(getProductPriceCode());
+		builder.append(", getProductPrice()=");
+		builder.append(getProductPrice());
+		builder.append(", getAvgPrice()=");
+		builder.append(getAvgPrice());
+		builder.append(", getItemCount()=");
+		builder.append(getItemCount());
+		builder.append(", getTotalCount()=");
+		builder.append(getTotalCount());
+		builder.append(", getTotalPrice()=");
+		builder.append(getTotalPrice());
+		builder.append(", getStockWeight()=");
+		builder.append(getStockWeight());
+		builder.append(", getTotalWeight()=");
+		builder.append(getTotalWeight());
+		builder.append(", getWarehouseCode()=");
+		builder.append(getWarehouseCode());
+		builder.append(", getWarehouseName()=");
+		builder.append(getWarehouseName());
+		builder.append(", getLocation()=");
+		builder.append(getLocation());
+		builder.append(", getOutPlace()=");
+		builder.append(getOutPlace());
+		builder.append(", getStatus()=");
+		builder.append(getStatus());
+		builder.append(", getComment()=");
+		builder.append(getComment());
+		builder.append(", getItemRegDate()=");
+		builder.append(getItemRegDate());
+		builder.append(", getItemUpdateDate()=");
+		builder.append(getItemUpdateDate());
+		builder.append(", getStockRegDate()=");
+		builder.append(getStockRegDate());
+		builder.append(", getStockUpdateDate()=");
+		builder.append(getStockUpdateDate());
+		builder.append(", getStockAdjCode()=");
+		builder.append(getStockAdjCode());
+		builder.append(", getStockReasonCode()=");
+		builder.append(getStockReasonCode());
+		builder.append(", getStockReason()=");
+		builder.append(getStockReason());
+		builder.append(", getStockReasonEng()=");
+		builder.append(getStockReasonEng());
+		builder.append(", getEndDate()=");
+		builder.append(getEndDate());
+		builder.append(", getBriefs()=");
+		builder.append(getBriefs());
+		builder.append(", getManagerId()=");
+		builder.append(getManagerId());
+		builder.append(", getManagerName()=");
+		builder.append(getManagerName());
+		builder.append(", getStoringUpdateDate()=");
+		builder.append(getStoringUpdateDate());
+		builder.append(", getClass()=");
+		builder.append(getClass());
+		builder.append(", hashCode()=");
+		builder.append(hashCode());
+		builder.append(", toString()=");
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
