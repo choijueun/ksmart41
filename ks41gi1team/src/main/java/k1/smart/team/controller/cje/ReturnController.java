@@ -63,7 +63,7 @@ public class ReturnController {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리");
-		model.addAttribute("returnInfo", returnInfo);
+		model.addAttribute("s", returnInfo);
 		model.addAttribute("returnDetails", returnList);
 		
 		return "storing/return/return_info";
@@ -115,7 +115,7 @@ public class ReturnController {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품요청정보");
-		model.addAttribute("returnRegInfo", returnInfo);
+		model.addAttribute("r", returnInfo);
 		model.addAttribute("returnRegDetails", returnList);
 		
 		return "storing/return/return_request_info";

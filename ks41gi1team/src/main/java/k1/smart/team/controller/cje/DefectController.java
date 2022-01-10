@@ -64,7 +64,7 @@ public class DefectController {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "불량처리");
-		model.addAttribute("defectInfo", defectInfo);
+		model.addAttribute("s", defectInfo);
 		model.addAttribute("defectDetail", defectList);
 		return "storing/defect/defect_info";
 	}

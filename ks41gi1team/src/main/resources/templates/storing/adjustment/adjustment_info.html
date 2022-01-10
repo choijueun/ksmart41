@@ -22,60 +22,76 @@
 				<div class="card-header">
 					재고차이조정 내역
 				</div>
-				<div class="card-body" th:if="${ adjInfo != null }">
-					<table id="adjInfo" class="table table-bordered">
-						<tr>
-							<th>No.</th>
-							<td colspan="3">[[${adjInfo.stockAdjCode}]]</td>
-							<th>상태</th>
-							<td th:if="${adjInfo.endDate != null}">
-								완료
-							</td>
-							<td th:if="${adjInfo.endDate == null}">
-							</td>
-						</tr>
-						<tr>
-							<th>창고정보</th>
-							<td colspan="2">
-								<a th:href="@{|/k1Warehouse/${adjInfo.sendWarehouse}|}">
-									[[${adjInfo.sendWarehouseName}]]
-								</a>
-							</td>
-							<td th:if="${adjInfo.sendWarehouseOutPlace == null}">[[${adjInfo.sendWarehouseLocation}]]</td>
-							<td th:if="${adjInfo.sendWarehouseOutPlace != null}">[[${adjInfo.sendWarehouseLocation}]] ([[${adjInfo.sendWarehouseOutPlace}]])</td>
-							<th>합계금액</th>
-							<td>[[${adjInfo.totalPrice}]] 원</td>
-						</tr>
-						<tr>
-							<th>적요</th>
-							<td colspan="3">[[${adjInfo.briefs}]]</td>
-							<!-- 회원정보 LINK -->
-							<th>담당자</th>
-							<td>[[${adjInfo.managerName}]]</td>
-						</tr>
-						<tr>
-							<th>요청일자</th>
-							<td>[[${adjInfo.requestDate}]]</td>
-							<th>처리일자</th>
-							<td>[[${adjInfo.adjDate}]]</td>
-							<th>완료일자</th>
-							<td>[[${adjInfo.endDate}]]</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td colspan="2">[[${adjInfo.regDate}]]</td>
-							<th>수정일시</th>
-							<td colspan="2">[[${adjInfo.updateDate}]]</td>
-						</tr>
-					</table>
-					
-					<a th:href="@{|/k1AdjustmentModify/${adjInfo.stockAdjCode}|}">
-						<button type="button" class="btn btn-info">수정</button>
-					</a>
-				</div>
-				<div class="card-body" th:if="${ adjInfo == null }">
-					잘못된 접근입니다.
-				</div>
+				<th:block th:if="${ s != null }">
+					<div class="card-body">
+						<table id="adjInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td colspan="3">[[${s.stockAdjCode}]]</td>
+								<th>상태</th>
+								<td th:if="${s.endDate != null}">
+									완료
+								</td>
+								<td th:if="${s.endDate == null}">
+								</td>
+							</tr>
+							<tr>
+								<th>창고정보</th>
+								<td colspan="2">
+									<a th:href="@{|/k1Warehouse/${s.sendWarehouse}|}">
+										[[${s.sendWarehouseName}]]
+									</a>
+								</td>
+								<td th:if="${s.sendWarehouseOutPlace == null}">[[${s.sendWarehouseLocation}]]</td>
+								<td th:if="${s.sendWarehouseOutPlace != null}">[[${s.sendWarehouseLocation}]] ([[${s.sendWarehouseOutPlace}]])</td>
+								<th>합계금액</th>
+								<td>[[${s.totalPrice}]] 원</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${s.briefs}]]</td>
+								<!-- 회원정보 LINK -->
+								<th>담당자</th>
+								<td>[[${s.managerName}]]</td>
+							</tr>
+							<tr>
+								<th>요청일자</th>
+								<td>[[${s.requestDate}]]</td>
+								<th>처리일자</th>
+								<td>[[${s.adjDate}]]</td>
+								<th>완료일자</th>
+								<td>[[${s.endDate}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td colspan="2">[[${s.regDate}]]</td>
+								<th>수정일시</th>
+								<td colspan="2">[[${s.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Adjustment}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<a th:href="@{/k1AdjustmentRemove}">
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						</a>
+						<a th:href="@{|/k1AdjustmentModify/${s.stockAdjCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</th:block>
+				<th:block th:if="${ s == null }">
+					<div class="card-body">
+						잘못된 접근입니다.
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Adjustment}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+					</div>
+				</th:block>
 			</div>
 		</div>
 		<div class="col-lg-7">
@@ -83,7 +99,7 @@
 				<div class="card-header">
 					재고차이조정 상세내역
 				</div>
-				<div class="card-body" th:if="${ adjInfo != null }">
+				<div class="card-body" th:if="${ s != null }">
 					<table id="adjDetail" class="table table-bordered">
 						<thead>
 							<tr>
@@ -120,7 +136,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="card-body" th:if="${ adjInfo == null }">
+				<div class="card-body" th:if="${ s == null }">
 					잘못된 접근입니다.
 				</div>
 			</div>

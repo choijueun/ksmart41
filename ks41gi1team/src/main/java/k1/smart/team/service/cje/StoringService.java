@@ -1,6 +1,8 @@
 package k1.smart.team.service.cje;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public class StoringService {
 	private StoringMapper storingMapper;
 	private List<Storing> storingList; //물류 배열
 	private Storing storingInfo; //물류
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	/**
 	 * 생성자 메서드
@@ -26,10 +29,16 @@ public class StoringService {
 	 * @param mainBusinessCode
 	 * @return List<Storing>
 	 */
-	public List<Storing> getAllStoringList(String mainBusinessCode) {
+	public Map<String, Object> getAllStoringList(String mainBusinessCode) {
+		//물류이동 내역
 		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
+		//최근 물류이동 현황
+		resultMap.put("recentStoring", storingMapper.getRecentStoring(mainBusinessCode));
 		
-		if(storingList == null) return null;
+		if(storingList == null) {
+			resultMap.put("storingList", null);
+			return resultMap;
+		}
 		
 		//물류이동 사유
 		int stockReasonCode;
@@ -45,7 +54,8 @@ public class StoringService {
 			else if(stockReasonCode == 7) storingInfo.setStockReasonEng("Return");
 			else if(stockReasonCode == 8) storingInfo.setStockReasonEng("Defect");
 		}
-		return storingList;
+		resultMap.put("storingList", storingList);
+		return resultMap;
 	}
 
 }

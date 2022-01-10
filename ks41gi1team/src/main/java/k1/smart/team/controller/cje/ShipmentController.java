@@ -32,7 +32,7 @@ public class ShipmentController {
 	public String shipmentMain(Model model) {
 		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하");
 		model.addAttribute("shipmentList", shipmentList);
 		
@@ -58,9 +58,9 @@ public class ShipmentController {
 		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
 		shipmentList = (List<Storing>) resultMap.get("shipmentDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하");
-		model.addAttribute("shipmentInfo", shipmentInfo);
+		model.addAttribute("s", shipmentInfo);
 		model.addAttribute("shipmentDetails", shipmentList);
 		
 		return "storing/shipment/shipment_info";
@@ -89,7 +89,7 @@ public class ShipmentController {
 	public String shipmentPlanMain(Model model) {
 		shipmentList = shipmentService.getShipmentPlanList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하계획");
 		model.addAttribute("shipmentList", shipmentList);
 		
@@ -110,9 +110,9 @@ public class ShipmentController {
 		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
 		shipmentList = (List<Storing>) resultMap.get("shipPlanDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하계획");
-		model.addAttribute("shipPlanInfo", shipmentInfo);
+		model.addAttribute("p", shipmentInfo);
 		model.addAttribute("shipPlanDetails", shipmentList);
 		
 		return "storing/shipment/shipment_plan_info";

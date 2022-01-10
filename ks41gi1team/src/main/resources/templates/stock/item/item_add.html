@@ -45,7 +45,7 @@ $(()=>{
 	var smallCategory = $('#smallCategory');
 	var microCategory = $('#microCategory');
 	
-	//중분류 자동출력
+	//대분류 선택: 중분류 자동출력
 	largeCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로
@@ -58,7 +58,9 @@ $(()=>{
 			var dataArr = data['middleCategory'];
 			//console.log(data['middleCategory']);
  			var categoryOption = middleCategory.children(":first");
-			categoryOption.siblings().remove();
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
 			for(var i=0; i<dataArr.length; i++) {
 				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
@@ -69,7 +71,7 @@ $(()=>{
 			alert( "Request failed: " + textStatus );
 		});
 	});
-	//소분류 자동출력
+	//중분류 선택: 소분류 자동출력
 	middleCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로
@@ -82,7 +84,8 @@ $(()=>{
 			var dataArr = data['smallCategory'];
 			//console.log(data['smallCategory']);
  			var categoryOption = smallCategory.children(":first");
-			categoryOption.siblings().remove();
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
 			for(var i=0; i<dataArr.length; i++) {
 				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
@@ -93,7 +96,7 @@ $(()=>{
 			alert( "Request failed: " + textStatus );
 		});
 	});
-	//소소분류 자동출력
+	//소분류 선택: 소소분류 자동출력
 	smallCategory.on('change', function(){
 		var request = $.ajax({
 			  url: "/getLowCategory", //호출 경로
@@ -120,7 +123,7 @@ $(()=>{
 	
 	//등록 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		if(itemType.val() == '제품') {
+		if( $('input[name="itemType"]:checked').val() == '제품') {
 			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
 				alert('품목 카테고리를 선택해주세요.');
 			} else {
@@ -151,33 +154,45 @@ $(()=>{
 				</div>
 				<div class="card-body">
 					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
-						<div class="form-group">
-							<label for="itemName">
-								품목명
-								<a id="itemNameValid" th:href="@{/k1Item}">
-									<!-- 품목정보 이동 button -->
-								</a>
-							 </label>
-							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+						<div class="row">
+							<div class="col-8">
+								<div class="form-group">
+									<label for="itemName">
+										품목명
+										<a id="itemNameValid" th:href="@{/k1Item}">
+											<!-- 품목정보 이동 button -->
+										</a>
+									 </label>
+									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+								</div>
+							</div>
+							<div class="col-4">
+								<label>분류</label>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="원자재" autocomplete="off"> 원자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="부자재" autocomplete="off"> 부자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="제품" autocomplete="off"> 제품
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-3">
-								<label>분류</label>
-								<select id="itemType" name="itemType" class="form-control">
-									<option>원자재</option>
-									<option>부자재</option>
-									<option>제품</option>
-								</select>
-							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStandard">규격</label>
 								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin">
 							</div>
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label for="itemStatus">상태</label>
 								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus">
 							</div>

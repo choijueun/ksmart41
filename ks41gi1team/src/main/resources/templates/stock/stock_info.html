@@ -16,7 +16,7 @@
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<div class="row" th:unless="${ stockInfo == null }">
+	<div class="row" th:unless="${ s == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
 				<div class="card-header">
@@ -85,7 +85,17 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info">수정</button>
+				</div>
+				<div class="card-footer">
+					<a th:href="@{/k1Stock}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<a th:href="@{|/k1StockRemove(itemCode=${s.inventoryCode})|}">
+						<button type="button" class="btn btn-danger float-right">삭제</button>
+					</a>
+					<a th:href="@{#}">
+						<button type="button" class="btn btn-info float-right mr-2">수정</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -133,12 +143,12 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info">더보기</button>
+					<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div th:if="${ stockInfo == null }">
+	<div th:if="${ s == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>

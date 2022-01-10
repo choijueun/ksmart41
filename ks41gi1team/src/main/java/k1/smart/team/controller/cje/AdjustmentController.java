@@ -65,7 +65,7 @@ public class AdjustmentController {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "재고차이조정");
-		model.addAttribute("adjInfo", adjInfo); //한줄
+		model.addAttribute("s", adjInfo); //한줄
 		model.addAttribute("adjDetail", adjList); //상세(배열)
 		
 		return "storing/adjustment/adjustment_info";
