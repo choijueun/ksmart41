@@ -94,4 +94,22 @@
 		WHERE
 			salesSlipCode = #{salesSlipCode};
 	</select>
+	<select id="getPurchaseTransactionCode" parameterType="String" resultType="Slip">
+		SELECT
+			RIGHT(pt.purchaseTsCode,3) as purchaseTsCode
+			,pt.briefs
+		FROM
+			k1_tb_purchase_transaction AS pt
+		WHERE
+			pt.mainBusinessCode = #{mainBusinessCode};
+	</select>
+	<select id="getSalesTransactionCode" parameterType="String" resultType="Slip">
+		SELECT
+			RIGHT(st.salesTsCode,3) as salesTsCode
+			,st.briefs
+		FROM
+			k1_tb_sales_transaction AS st
+		WHERE
+			st.mainBusinessCode = #{mainBusinessCode};
+	</select>
 </mapper>

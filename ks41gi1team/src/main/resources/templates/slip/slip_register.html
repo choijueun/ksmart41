@@ -7,14 +7,148 @@
 	<title></title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#TsCode').click(function(){
+				var ps = $('#ps');
+				var psText =  ps.find('option');
+				psText.each(function(){
+					if( $('#ps').val() == 'p' ){
+						$('#pTsAdd').modal('show');
+						$('#sTsAdd').modal('hide');
+					}else if( $('#ps').val() == 's' ){
+						$('#sTsAdd').modal('show');
+						$('#pTsAdd').modal('hide');
+					}
+				});
+			});
+		});
+	</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	전표 등록~!
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						전표등록
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="slipNo">전표일자</label>
+								<input type="date" class="form-control" id="slipNo">
+							</div>
+							<div class="form-group col-md-6">
+								<label>구분</label>
+								<select class="form-control" id="ps">
+									<option value="p" id="p">비용</option>
+									<option value="s" id="s">매출</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="TsCode">명세서코드</label>
+							<input type="text" class="form-control" id="TsCode" placeholder="명세서코드" >
+								<div class="modal fade show" id="pTsAdd" style="display: none; padding-right: 17px;" aria-modal="true" role="dialog">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title">비용명세서 선택</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<table id="pTsList" class="table table-bordered table-hover dataTable dtr-inline">
+													<thead>
+														<tr>
+															<th>비용명세서번호</th>
+															<th>적요</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:if="${not #lists.isEmpty(pTsList)}" th:each="p : ${pTsList}">
+															<td>[[${p.purchaseTsCode}]]</td>
+															<td>[[${p.briefs}]]</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="modal-footer justify-content-between">
+												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+												<button type="button" class="btn btn-primary">저장</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal fade show" id="sTsAdd" style="display: none; padding-right: 17px;" aria-modal="true" role="dialog">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title">매출명세서 선택</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<table id="totalAcList" class="table table-bordered table-hover dataTable dtr-inline">
+												</table>
+											</div>
+											<div class="modal-footer justify-content-between">
+												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+												<button type="button" class="btn btn-primary">저장</button>
+											</div>
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="form-group">
+							<label for="businessName">거래처명</label>
+							<input type="text" class="form-control" id="businessName" placeholder="거래처명">
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="amount">공급가액</label>
+								<input type="number" class="form-control" id="amount" placeholder="공급가액">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="tax">부가세</label>
+								<input type="number" class="form-control" id="tax" placeholder="부가세">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="count">수량</label>
+								<input type="number" class="form-control" id="count" placeholder="수량">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="briefs">적요</label>
+							<input type="text" class="form-control" id="briefs" placeholder="적요">
+						</div>
+						<div class="form-group">
+							<label for="userName">담당자</label>
+							<input type="text" class="form-control" id="userName" placeholder="담당자">
+						</div>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1SlipList}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+							<button type="button" class="btn btn-info float-right">등록하기</button>
+					</div>		
+
+					</div>					
+				</div>
+			</div>
+		</div>
 </th:block>
 
 </html>

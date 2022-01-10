@@ -53,7 +53,7 @@
 								[[${l.etcPurchaseCode}]]
 							</a>
 						</td>
-						<td>[[${l.salesSection}]]</td>
+						<td th:style="${l.salesSection eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.salesSection}"></td>
 						<td>[[${l.totalPrice}]]</td>
 						<td>[[${l.relateTable}]]</td>
 						<td>
