@@ -9,7 +9,7 @@ import k1.smart.team.dto.csh.Client;
 @Mapper
 public interface ClientMapper {
 	//거래처정보 전체조회
-	public List<Client> getAllClientList(String mainBusinessCode);
+	public List<Client> getAllClientList();
 
 	//거래처 전체목록에서 검색
 	public List<Client> getClientListBySearchKey(String searchKey, String searchValue);

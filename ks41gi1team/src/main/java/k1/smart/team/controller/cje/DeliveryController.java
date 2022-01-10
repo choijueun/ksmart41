@@ -62,7 +62,7 @@ public class DeliveryController {
 		
 		//운송내역정보
 		deliveryInfo = (Delivery) resultMap.get("deliveryInfo");
-		model.addAttribute("deliveryInfo", deliveryInfo);
+		model.addAttribute("d", deliveryInfo);
 		//출하예정정보
 		storingList = (List<Storing>) resultMap.get("shipPlanDetails");
 		model.addAttribute("shipPlanDetails", storingList);

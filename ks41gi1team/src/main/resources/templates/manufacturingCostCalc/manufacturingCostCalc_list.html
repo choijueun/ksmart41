@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+
+<!-- content -->
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			제조원가 계산
+		</div>
+		<div class="card">
+
+		</div>
+		<div class="card-body">
+			<table id="manufacturingCostCalcList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>비용목록</th>
+						<th>각 비용 총금액</th>
+						<th>원자재 발주목록</th>
+						<th>원자재 발주 총금액</th>
+						<th>제조원가</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:if="${not #lists.isEmpty(manufacturingCostCalcList)}" th:each="l : ${manufacturingCostCalcList}">
+						<td>no.</td>
+						<td>[[${l.lsAccountName}]]</td>
+						<td>[[${l.amount}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.totalPrice}]]</td>
+							<td><a></a></td>
+						<td>
+							<i class="fas fa-pen"></i>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(manufacturingCostCalcList)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+	<!-- modal -->
+<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Default Modal</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>One fine body…</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+
+</th:block>
+
+</html>

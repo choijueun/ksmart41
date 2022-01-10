@@ -10,9 +10,10 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(()=>{
-	var itemName = $('#itemName'); //품목명 입력폼
-	var itemCategory = $('#itemCategory'); //품목카테고리 선택폼
+	var addItem = $('#addItem'); //전체폼
 	
+	var itemName = $('#itemName'); //품목명 입력box
+	var itemType = $('#itemType'); //제품분류select
 	//품목명 중복 검사
 	itemName.on('change', function(){
 		var request = $.ajax({
@@ -22,7 +23,6 @@ $(()=>{
 			  dataType: "json" //응답할 페이지의 컨텍스트 타입
 			  //(text, xml, json, html, javascript)
 		});
-		
 		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
 		  if(data) {
@@ -33,44 +33,106 @@ $(()=>{
 			  $('#itemNameValid').html('');
 		  }
 		});
-		
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
 		  alert( "Request failed: " + textStatus );
 		});
 	});
 	
-	//카테고리 목록 자동출력
-	itemCategory.on('change', function(){
+	var itemCategory = $('#itemCategory');
+	var largeCategory = $('#largeCategory');
+	var middleCategory = $('#middleCategory');
+	var smallCategory = $('#smallCategory');
+	var microCategory = $('#microCategory');
+	
+	//대분류 선택: 중분류 자동출력
+	largeCategory.on('change', function(){
 		var request = $.ajax({
-			  url: "/k1ItemCategory", //호출 경로
-			  method: "POST", //호출 방식
-			  data: { 
-				  largeCategory : $('#largeCategory').val()
-				  , middleCategory : $('#middleCategory').val()
-				  , smallCategory : $('#smallCategory').val()
-				  },
-			  dataType: "json" //응답할 페이지의 컨텍스트 타입
-			  //(text, xml, json, html, javascript)
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
 		});
 		
 		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
-			for(var i=0; i<data.middleCategory.length; i++){
-				//console.log(data.middleCategory[i]);
+			var dataArr = data['middleCategory'];
+			//console.log(data['middleCategory']);
+ 			var categoryOption = middleCategory.children(":first");
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
 		});
 		
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-		  alert( "Request failed: " + textStatus );
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//중분류 선택: 소분류 자동출력
+	middleCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['smallCategory'];
+			//console.log(data['smallCategory']);
+ 			var categoryOption = smallCategory.children(":first");
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	//소분류 선택: 소소분류 자동출력
+	smallCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
+		});
+		
+		//정상적인 응답이 되었을 경우 실행되는 메서드
+		request.done(function( data ) {
+			var dataArr = data['microCategory'];
+			//console.log(data['microCategory']);
+ 			var categoryOption = microCategory.children(":first");
+			categoryOption.siblings().remove();
+			for(var i=0; i<dataArr.length; i++) {
+				microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		
+		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
 		});
 	});
 	
 	//등록 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		$('#addItem').submit();
-	})
+		if( $('input[name="itemType"]:checked').val() == '제품') {
+			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
+				alert('품목 카테고리를 선택해주세요.');
+			} else {
+				addItem.submit();
+			}
+		}else{
+			addItem.submit();
+		}
+	});
 });
 </script>
 </th:block>
@@ -83,6 +145,8 @@ $(()=>{
 
 <div class="container-fluid">
 	<div class="row">
+		<div class="col-lg-3 col-md-2">
+		</div>
 		<div class="col-lg-6 col-md-8">
 			<div class="card card-info card-outline">
 				<div class="card-header">
@@ -90,24 +154,36 @@ $(()=>{
 				</div>
 				<div class="card-body">
 					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
-						<div class="form-group">
-							<label for="itemName">
-								품목명
-								<a id="itemNameValid" th:href="@{/k1Item}">
-									<!-- <button type="button" class="btn btn-info btn-xs"></button> -->
-								</a>
-							 </label>
-							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+						<div class="row">
+							<div class="col-8">
+								<div class="form-group">
+									<label for="itemName">
+										품목명
+										<a id="itemNameValid" th:href="@{/k1Item}">
+											<!-- 품목정보 이동 button -->
+										</a>
+									 </label>
+									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+								</div>
+							</div>
+							<div class="col-4">
+								<label>분류</label>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="원자재" autocomplete="off"> 원자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="부자재" autocomplete="off"> 부자재
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemType" value="제품" autocomplete="off"> 제품
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-4">
-								<label>분류</label>
-								<select name="itemType" class="form-control">
-									<option value="원자재">원자재</option>
-									<option value="부자재">부자재</option>
-									<option value="제품">제품</option>
-								</select>
-							</div>
 							<div class="form-group col-4">
 								<label for="itemStandard">규격</label>
 								<input type="text" name="itemStandard" class="form-control" id="itemStandard" placeholder="Enter itemStandard">
@@ -116,29 +192,34 @@ $(()=>{
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin">
 							</div>
+							<div class="form-group col-4">
+								<label for="itemStatus">상태</label>
+								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus">
+							</div>
 						</div>
 						<div id="itemCategory" class="form-group">
 							<label>카테고리</label>
 							<div class="form-group row">
 								<div class="col-3">
-									<select id="largeCategory" name="largeCategory" class="form-control" th:each="l : ${largeCategory}">
-										<option>대분류</option>
-										<option th:value="${l}">[[${l}]]</option>
+									<select id="largeCategory" name="largeCategory" class="form-control">
+										<option value="">:: 대분류 ::</option>
+										<option th:each="l : ${largeCategory}">[[${l}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="middleCategory" name="middleCategory" class="form-control">
-										<option>중분류</option>
+										<option value="">:: 중분류 ::</option>
+										<option class="toReplace" value="">대분류를 선택해주세요.</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
-										<option>소분류</option>
+										<option value="">:: 소분류 ::</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
-										<option>소소분류</option>
+										<option value="">:: 소소분류 ::</option>
 									</select>
 								</div>
 							</div>

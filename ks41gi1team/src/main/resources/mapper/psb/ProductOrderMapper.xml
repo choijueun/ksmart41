@@ -39,7 +39,8 @@
 		po.managerId as managerId,
 		po.regDate as regDate,
 		po.updateDate as updateDate,
-		ii.itemName as itemName
+		ii.itemName as itemName,
+		c.businessName as businessName
 	FROM 
 		k1_tb_product_order AS po
 		INNER JOIN 
@@ -85,7 +86,8 @@
 		po.managerId as managerId,
 		po.regDate as regDate,
 		po.updateDate as updateDate,
-		ii.itemName as itemName
+		ii.itemName as itemName,
+		c.businessName as businessName
 	FROM 
 		k1_tb_product_order AS po
 		INNER JOIN 
@@ -111,7 +113,8 @@
 		INNER JOIN 
 		k1_tb_item_info AS ii
 		on
-		ii.itemCode = pp.itemCode;	
+		ii.itemCode = pp.itemCode
+		GROUP BY po.productOrderCode;	
 </select>	
 	
 </mapper>	

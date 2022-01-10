@@ -7,7 +7,53 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+	//-------------
+	//- DONUT CHART -
+	//-------------
+	var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+	var donutData        = {
+		labels: [
+				'입고',
+				'자재사용',
+				'생산',
+				'창고이동',
+				'출하',
+				'재고차이',
+				'반품',
+				'불량'
+		],
+		datasets: [
+			{
+				data: [
+					 [[${recentStoring.s1_Warehousing}]]
+					,[[${recentStoring.s2_MaterialUse}]]
+					,[[${recentStoring.s3_Production}]]
+					,[[${recentStoring.s4_Moving}]]
+					,[[${recentStoring.s5_Shipment}]]
+					,[[${recentStoring.s6_Adjustment}]]
+					,[[${recentStoring.s7_Return}]]
+					,[[${recentStoring.s8_Defect}]]
+				],
+				backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#b28cc2', '#ebdc59', '#ded6de' ],
+			}
+		]
+	}
+	var donutOptions     = {
+		maintainAspectRatio : false,
+		responsive : true,
+	}
+	//Create douhnut chart
+	new Chart(donutChartCanvas, {
+		type: 'doughnut',
+		data: donutData,
+		options: donutOptions
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -27,31 +73,71 @@
 				</div>
 				<div class="modal-body">
 					<div class="text-center justify-content-between">
-						<button type="button" class="btn btn-info mx-2 my-3">자재입고</button>
-						<button type="button" class="btn btn-info mx-2 my-3">자재사용</button>
-						<button type="button" class="btn btn-info mx-2 my-3">제품생산</button>
-						<button type="button" class="btn btn-info mx-2 my-3">창고이동</button>
-						<button type="button" class="btn btn-info mx-2 my-3">제품출하</button>
-						<button type="button" class="btn btn-info mx-2 my-3">재고조정</button>
-						<button type="button" class="btn btn-info mx-2 my-3">반품처리</button>
-						<button type="button" class="btn btn-info mx-2 my-3">불량처리</button>
+						<a th:href="@{/k1WarehousingAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">자재입고</button>
+						</a>
+						<a th:href="@{/k1MaterialUseAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">자재사용</button>
+						</a>
+						<a th:href="@{/k1ProductionAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">제품생산</button>
+						</a>
+						<a th:href="@{/k1MovingAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">창고이동</button>
+						</a>
+						<a th:href="@{/k1ShipmentAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">제품출하</button>
+						</a>
+						<a th:href="@{/k1AdjustmentAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">재고조정</button>
+						</a>
+						<a th:href="@{/k1ReturnAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">반품처리</button>
+						</a>
+						<a th:href="@{/k1DefectAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">불량처리</button>
+						</a>
 					</div>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-sm btn-outline-info">재고목록</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-      
+	
+	<!-- Donut Chart -->
+	
+    <!-- 물류이동내역 -->
 	<div class="row">
+		<div class="col-lg-4">
+			<div class="card card-info">
+				<div class="card-header">
+					<h3 class="card-title">최근 7일 물류이동 현황</h3>
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+						<button type="button" class="btn btn-tool" data-card-widget="remove">
+							<i class="fas fa-times"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body" style="display: block;">
+					<div class="chartjs-size-monitor">
+						<div class="chartjs-size-monitor-expand"><div class=""></div></div>
+						<div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+					</div>
+					<canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 596px;" width="596" height="250" class="chartjs-render-monitor"></canvas>
+				</div>
+			</div>
+		</div>
 		<div class="col-lg-8">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					물류이동내역
+					<h3>물류이동내역</h3>
 					<a th:href="@{/k1Delivery}">
 						<button type="button" class="btn btn-outline-info btn-xs">운송요청</button>
 					</a>
@@ -111,7 +197,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#storingModal">
+					<button type="button" class="btn btn-info mt-3" data-toggle="modal" data-target="#storingModal">
 						등록
 					</button>
 				</div>

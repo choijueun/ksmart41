@@ -22,51 +22,71 @@
 				<div class="card-header">
 					반품요청정보
 				</div>
-				<div class="card-body" th:if="${ returnRegInfo != null }">
-					<table id="returnRegInfo" class="table table-bordered">
-						<tr>
-							<th>No.</th>
-							<td colspan="3">[[${returnRegInfo.returnRegCode}]]</td>
-							<th>구분</th>
-							<td>
-								<th:block th:if="${returnRegInfo.purchaseTsCode} != null">비용</th:block>
-								<th:block th:if="${returnRegInfo.salesTsCode} != null">매출</th:block>
-								<a th:if="${returnRegInfo.purchaseTsCode} != null or ${returnRegInfo.salesTsCode} != null" th:href="@{#}">
-									<button type="button" class="btn btn-outline-info btn-xs">계약</button>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<th>거래처</th>
-							<td colspan="3">[[${returnRegInfo.businessName}]]</td>
-							<th>합계금액</th>
-							<td>[[${returnRegInfo.totalPrice}]] 원</td>
-						</tr>
-						<tr>
-							<th>적요</th>
-							<td colspan="3">[[${returnRegInfo.briefs}]]</td>
-							<th>담당자</th>
-							<td>
-								<a th:href="@{#}">
-									[[${returnRegInfo.managerName}]]
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td colspan="2">[[${returnRegInfo.regDate}]]</td>
-							<th>수정일시</th>
-							<td colspan="2">[[${returnRegInfo.updateDate}]]</td>
-						</tr>
-					</table>
-				</div>
-				<div class="card-body" th:if="${ returnRegInfo == null }">
-					잘못된 접근입니다.
-				</div>
+				<th:block th:if="${ r != null }">
+					<div class="card-body">
+						<table id="returnRegInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td colspan="3">[[${r.returnRegCode}]]</td>
+								<th>구분</th>
+								<td>
+									<th:block th:if="${r.purchaseTsCode} != null">비용</th:block>
+									<th:block th:if="${r.salesTsCode} != null">매출</th:block>
+									<a th:if="${r.purchaseTsCode} != null or ${r.salesTsCode} != null" th:href="@{#}">
+										<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th>거래처</th>
+								<td colspan="3">[[${r.businessName}]]</td>
+								<th>합계금액</th>
+								<td>[[${r.totalPrice}]] 원</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${r.briefs}]]</td>
+								<th>담당자</th>
+								<td>
+									<a th:href="@{#}">
+										[[${r.managerName}]]
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td colspan="2">[[${r.regDate}]]</td>
+								<th>수정일시</th>
+								<td colspan="2">[[${r.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1ReturnReg}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<a th:href="@{|/k1ReturnRegRemove}|">
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						</a>
+						<a th:href="@{|/k1ReturnRegModify/${r.stockAdjCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</th:block>
+				<th:block th:if="${ r == null }">
+					<div class="card-body">
+						잘못된 접근입니다.
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1ReturnReg}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+					</div>
+				</th:block>
 			</div>
 		</div>
 		<div class="col-lg-7">
-			<div class="card card-info card-outline" th:if="${ returnRegInfo != null }">
+			<div class="card card-info card-outline" th:if="${ r != null }">
 				<div class="card-header">
 					반품요청 상세정보
 				</div>

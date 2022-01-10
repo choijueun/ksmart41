@@ -23,6 +23,7 @@ public class PaymentController {
 	private CancelPayment cancelPaymentInfo;
 	private HistoryPayment historyPaymentInfo;
 	private List<PlanPayment> planPaymentInfoList; 
+	private List<HistoryPayment> historyPaymentInfoList; 
 	private Map<String,Object> resultMap;
 	
 	public PaymentController(PaymentService pService) {
@@ -33,6 +34,7 @@ public class PaymentController {
 	@GetMapping("")
 	public String HistoryPayment(Model model) {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
+		System.out.println("Controller: "+mainBusinessCode);
 		List<HistoryPayment> historyPayment = pService.getHistoryPaymentList(mainBusinessCode);
 		System.out.println("PaymentController.java 결제관리 전체조회 :: "+historyPayment);
 		
@@ -43,27 +45,33 @@ public class PaymentController {
 	}
 	
 	//결제관리 상세
+	@SuppressWarnings("unchecked")
 	@GetMapping("history/{payHistoryCode}")
 	public String historyPaymentInfo(
 			@PathVariable(value="payHistoryCode", required=false) String payHistoryCode
 			,Model model) {
-		
+		//결제관리 코드 검사
 		if(payHistoryCode == null || "".equals(payHistoryCode)) {
 			System.out.println("결제코드 ERROR");
 			return "redirect:/k1PaymentList/history";
 		}
-		
-		historyPaymentInfo = pService.getHistoryPaymentInfo(payHistoryCode);
-		if(historyPaymentInfo == null) {
-			System.out.println("결제코드 ERROR");
+		//결제관리 상세
+		resultMap = pService.getHistoryPaymentInfo(payHistoryCode);
+		if(resultMap == null) {
+			System.out.println("결제관리코드 ERROR");
 			return "redirect:/k1PaymentList/history";
 		}
 		
-		model.addAttribute("title", "결제관리: 상세정보");
+		historyPaymentInfo = (HistoryPayment) resultMap.get("historyPaymentInfo");
+		historyPaymentInfoList = (List<HistoryPayment>) resultMap.get("historyPaymentInfoList");
+		
+		model.addAttribute("SectionTitle", "결제관리");
+		model.addAttribute("SectionLocation", "상세정보");
 		model.addAttribute("historyPaymentInfo", historyPaymentInfo);
+		model.addAttribute("historyPaymentInfoList", historyPaymentInfoList);
 		return "payment/historyPayment_detail";
 	}
-	
+		
 	//결제내역 신규
 		@GetMapping("/addPlan")
 		public String addHistoryPayment(Model model) {
@@ -154,7 +162,7 @@ public class PaymentController {
 			System.out.println("결제예정코드 ERROR");
 			return "redirect:/k1PaymentList/plan";
 		}
-		//품목코드 상세
+		//결제예정 상세
 		resultMap = pService.getPlanPaymentInfo(payPlanCode);
 		if(resultMap == null) return "redirect:/k1PaymentList/plan";
 		

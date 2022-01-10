@@ -36,7 +36,7 @@ public class MaterialUseController {
 		
 		materialUseList = materialUseService.getAllMaterialUseList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용");
 		model.addAttribute("materialUseList", materialUseList);
 		
@@ -62,9 +62,9 @@ public class MaterialUseController {
 		materialUseInfo = (Storing) resultMap.get("materialUseInfo");
 		materialUseList = (List<Storing>) resultMap.get("materialUseDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
-		model.addAttribute("SectionLocation", "출하");
-		model.addAttribute("materialUseInfo", materialUseInfo);
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "자재사용");
+		model.addAttribute("s", materialUseInfo);
 		model.addAttribute("materialUseDetails", materialUseList);
 		
 		return "storing/material_use/material_use_info";

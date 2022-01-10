@@ -4,27 +4,34 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionTitle}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
-<th:block layout:fragment="SectionLocation">매출전표 상세보기</th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
 		<div class="row" th:unless="${ salesSlipInfo == null }">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					비용전표[[${salesSlipInfo.purchaseSlipCode}]]
+					매출전표[[${salesSlipInfo.purchaseSlipCode}]]
 				</div>
 				<div class="card-body">
 					<table id="salesSlipInfo" class="table table-bordered">
 						<tr>
 							<th>전표일자</th>
 							<td colspan="3">[[${salesSlipInfo.salesSlipCode}]]</td>
+						</tr>
+						<tr>
+							<th>구분</th>
+							<td colspan="3">매출</td>
 						</tr>
 						<tr>
 							<th>명세서코드</th>
@@ -35,16 +42,14 @@
 							<td colspan="3">[[${salesSlipInfo.businessName}]]</td>
 						</tr>
 						<tr>
-							<th>구분</th>
-							<td>비용</td>
-							<th>수량</th>
-							<td>[[${salesSlipInfo.count}]]</td>
+							<th>공급가액</th>
+							<td>[[${salesSlipInfo.amount}]]원</td>
+							<th>부가세</th>
+							<td>[[${salesSlipInfo.tax}]]원</td>
 						</tr>
 						<tr>
-							<th>공급가액</th>
-							<td>[[${salesSlipInfo.amount}]]</td>
-							<th>부가세</th>
-							<td>[[${salesSlipInfo.tax}]]</td>
+							<th>수량</th>
+							<td colspan="3">[[${salesSlipInfo.count}]]</td>
 						</tr>
 						<tr>
 							<th>합계금액</th>
@@ -65,7 +70,16 @@
 							<td>[[${salesSlipInfo.updateDate}]]</td>
 						</tr>
 					</table>
-					<button type="button" class="btn btn-info">수정</button>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1SlipList}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1SlipList/modify/${salesSlipInfo.salesSlipCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -68,7 +68,7 @@ public class StockController {
 		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "재고정보");
-		model.addAttribute("stockInfo", stockInfo);
+		model.addAttribute("s", stockInfo);
 		model.addAttribute("storingList", storingList);
 		return "stock/stock_info";
 	}

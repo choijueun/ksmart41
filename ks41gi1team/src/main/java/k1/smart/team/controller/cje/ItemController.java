@@ -2,8 +2,9 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,10 @@ public class ItemController {
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
 	private Map<String,Object> resultMap;
-	private List<String> stringList;
-	private boolean chkBoolean;
+	private boolean chk;
+	
+	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param itemService
@@ -33,7 +36,7 @@ public class ItemController {
 	}
 
 	/**
-	 * 품목관리 전체목록 조회
+	 * 품목관리 전체목록 조회 @GetMapping("/k1Item")
 	 * @param model
 	 * @return item_list
 	 */
@@ -71,53 +74,55 @@ public class ItemController {
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목정보");
-		model.addAttribute("itemInfo", itemInfo);
+		model.addAttribute("i", itemInfo);
 		model.addAttribute("stockList", itemList);
 		return "stock/item/item_info";
 	}
 	
-	@SuppressWarnings("unchecked")
+	/**
+	 * 품목정보등록 첫 화면 @GetMapping("/k1ItemAdd")
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ItemAdd")
 	public String addItem(Model model) {
 		
 		//카테고리목록
 		resultMap = itemService.getItemCategory(null, null, null);
-		stringList = (List<String>) resultMap.get("largeCategory");
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목추가");
-		model.addAttribute("largeCategory", stringList);
 		
 		return "stock/item/item_add";
 	}
 	
 	/**
-	 * AJAX: 품목카테고리 반환
+	 * AJAX: 하위분류 반환
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
-	 * @return Map<String,Object> largeCategory, middleCategory, smallCategory, microCategory
+	 * @return
 	 */
-	@PostMapping("/k1ItemCategory")
+	@PostMapping("/getLowCategory")
 	@ResponseBody
-	public Map<String,Object> itemCategory(
+	public Map<String, Object> getLowCategory(
 			@RequestParam(value="largeCategory", required = false) String largeCategory,
 			@RequestParam(value="middleCategory", required = false) String middleCategory,
-			@RequestParam(value="smallCategory", required = false) String smallCategory
-			){
+			@RequestParam(value="smallCategory", required = false) String smallCategory){
 		//parameter 확인
-		StringJoiner param = new StringJoiner(", ");
-		param.add("largeCategory=" + largeCategory)
-			 .add("middleCategory=" + middleCategory)
-			 .add("smallCategory=" + smallCategory);
-		System.out.println("PARAMETER :: [ "+param+" ]");
+		/*
+		 * log.info("largeCategory 	:: {}", largeCategory);
+		 * log.info("middleCategory 	:: {}", middleCategory);
+		 * log.info("smallCategory 	:: {}", smallCategory);
+		 */
 		
-		resultMap = itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
-		
+		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
 		return resultMap;
 	}
+	
 	/**
-	 * AJAX: 품목명 중복 검사
+	 * AJAX: 품목명 중복 검사 @PostMapping("/k1ItemNameValid")
 	 * @param itemName
 	 * @return boolean
 	 */
@@ -125,46 +130,38 @@ public class ItemController {
 	@ResponseBody
 	public boolean itemNameValid(
 			@RequestParam(value="itemName", required = false) String itemName) {
-		if(itemName == null || "".equals(itemName)) return false;
-		System.out.println("itemName="+itemName);
-		//chkBoolean =  
 		
-		return chkBoolean;
+		log.info("PARAMETER 	:: {}", itemName);
+		if(itemName == null || "".equals(itemName)) return false;
+		
+		chk = itemService.itemNameValid(mainBusinessCode, itemName);
+		
+		return chk;
 	}
 	
-	//품목정보 등록
+	/**
+	 * 품목정보 등록 절차 수행 @PostMapping("/k1ItemAdd")
+	 * @param paramMap
+	 * @return
+	 */
 	@PostMapping("/k1ItemAdd")
-	public String addItem(
-			@RequestParam(value="itemName", required = false) String itemName,
-			@RequestParam(value="itemType", required = false) String itemType,
-			@RequestParam(value="itemStandard", required = false) String itemStandard,
-			@RequestParam(value="itemOrigin", required = false) String itemOrigin,
-			@RequestParam(value="largeCategory", required = false) String largeCategory,
-			@RequestParam(value="middleCategory", required = false) String middleCategory,
-			@RequestParam(value="smallCategory", required = false) String smallCategory,
-			@RequestParam(value="microCategory", required = false) String microCategory,
-			@RequestParam(value="itemComment", required = false) String itemComment
-			) {
+	public String addItem(Stock itemInfo) {
 		//parameter 확인
-		StringJoiner param = new StringJoiner(", ");
-		param.add("itemName=" + itemName)
-			 .add("itemType=" + itemType)
-			 .add("itemStandard=" + itemStandard)
-			 .add("itemOrigin=" + itemOrigin)
-			 .add("largeCategory=" + largeCategory)
-			 .add("middleCategory=" + middleCategory)
-			 .add("smallCategory=" + smallCategory)
-			 .add("microCategory=" + microCategory)
-			 .add("itemComment=" + itemComment);
-		System.out.println("PARAMETER :: [ "+param+" ]");
+		itemInfo.setMainBusinessCode(mainBusinessCode);
+		log.info("PARAMETER 	:: {}", itemInfo.toString());
 		
-		int pro = itemService.addItem(mainBusinessCode, itemName, itemType, itemStandard, itemOrigin
-									, largeCategory, middleCategory, smallCategory, microCategory, itemComment);
+		chk = itemService.addItem(itemInfo);
 		
-		if(pro == 1) return "redirect:/k1Item";
+		if(chk) return "redirect:/k1Item";
 		else return "redirect:/k1ItemAdd";
 	}
 	
+	/**
+	 * 품목정보 수정 첫 화면 @GetMapping("/k1ItemModify/{itemCode}")
+	 * @param itemCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ItemModify/{itemCode}")
 	public String modifyItem(
 			@PathVariable(value="itemCode", required=false) String itemCode
@@ -172,10 +169,27 @@ public class ItemController {
 		//품목코드 검사
 		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
 		
+		//품목정보반환
+		itemInfo = (Stock) itemService.getItemInfo(itemCode).get("itemInfo");
+		
+		//카테고리목록
+		model.addAttribute("largeCategory", itemService.getItemCategory(null, null, null).get("largeCategory"));
+		model.addAttribute("middleCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), null, null).get("middleCategory"));
+		model.addAttribute("smallCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), null).get("smallCategory"));
+		model.addAttribute("microCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory()).get("microCategory"));
+		
+		model.addAttribute("i", itemInfo);
+		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
-		model.addAttribute("itemCode", itemCode);
 		return "stock/item/item_modify";
+	}
+	
+	@PostMapping("/k1ItemModify")
+	public String modifyItem(Stock itemInfo) {
+		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		
+		return "redirect:/k1Item";
 	}
 	
 	@GetMapping("/k1ItemCategory")

@@ -16,7 +16,7 @@
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<div class="row" th:unless="${ warehouseInfo == null }">
+	<div class="row" th:unless="${ w == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
 				<div class="card-header">
@@ -26,58 +26,68 @@
 					<table id="warehouseInfo" class="table table-bordered">
 						<tr>
 							<th>창고번호</th>
-							<td>[[${warehouseInfo.warehouseCode}]]</td>
+							<td>[[${w.warehouseCode}]]</td>
 							<th>상태</th>
-							<td>[[${warehouseInfo.status}]]</td>
+							<td>[[${w.status}]]</td>
 						</tr>
 						<tr>
 							<th>창고명</th>
-							<td>[[${warehouseInfo.warehouseName}]]</td>
+							<td>[[${w.warehouseName}]]</td>
 							<th>면적</th>
-							<td>[[${warehouseInfo.area}]] m²</td>
+							<td>[[${w.area}]] m²</td>
 						</tr>
 						<tr>
 							<th>분류</th>
-							<td>[[${warehouseInfo.category1}]]</td>
+							<td>[[${w.category1}]]</td>
 							<th>유형</th>
-							<td>[[${warehouseInfo.category2}]]</td>
+							<td>[[${w.category2}]]</td>
 						</tr>
 						<tr>
 							<th>위치</th>
-							<td>[[${warehouseInfo.loaction}]]</td>
+							<td>[[${w.location}]]</td>
 							<th>소재지</th>
-							<td>[[${warehouseInfo.outPlace}]]</td>
+							<td>[[${w.outPlace}]]</td>
 						</tr>
 						<tr>
 							<th>현재중량</th>
-							<td th:unless="${warehouseInfo.weightPer} == -1">
-								[[${warehouseInfo.currentWeight}]] kg <span class="badge bg-info">[[${warehouseInfo.weightPer}]]%</span>
+							<td th:unless="${w.weightPer} == -1">
+								[[${w.currentWeight}]] kg <span class="badge bg-info">[[${w.weightPer}]]%</span>
 							</td>
-							<td th:if="${warehouseInfo.weightPer} == -1">
-								[[${warehouseInfo.currentWeight}]] kg
+							<td th:if="${w.weightPer} == -1">
+								[[${w.currentWeight}]] kg
 							</td>
 							<th>최대중량</th>
-							<td>[[${warehouseInfo.maxWeight}]] kg</td>
+							<td>[[${w.maxWeight}]] kg</td>
 						</tr>
 						<tr>
 							<th>적재 현황</th>
 							<td colspan="3">
-								<div class="progress progress-xs" th:unless="${warehouseInfo.weightPer} == -1">
-									<div class="progress-bar bg-info" th:style="'width: '+${warehouseInfo.weightPer}+'%;'"></div>
+								<div class="progress progress-xs" th:unless="${w.weightPer} == -1">
+									<div class="progress-bar bg-info" th:style="'width: '+${w.weightPer}+'%;'"></div>
 		                        </div>
-		                        <span th:if="${warehouseInfo.weightPer} == -1">
+		                        <span th:if="${w.weightPer} == -1">
 		                        	최대적재중량을 입력해주세요.
 		                        </span>
 							</td>
 						</tr>
 						<tr>
 							<th>등록일시</th>
-							<td>[[${warehouseInfo.regDate}]]</td>
+							<td>[[${w.regDate}]]</td>
 							<th>수정일시</th>
-							<td>[[${warehouseInfo.updateDate}]]</td>
+							<td>[[${w.updateDate}]]</td>
 						</tr>
 					</table>
-					<button type="button" class="btn btn-info">수정</button>
+				</div>
+				<div class="card-footer">
+					<a th:href="@{/k1Warehouse}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<a th:href="@{|/k1WarehouseRemove(itemCode=${w.warehouseCode})|}">
+						<button type="button" class="btn btn-danger float-right">삭제</button>
+					</a>
+					<a th:href="@{|/k1WarehouseModify/${w.warehouseCode}|}">
+						<button type="button" class="btn btn-info float-right mr-2">수정</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -122,12 +132,12 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info">더보기</button>
+					<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div th:if="${ warehouseInfo == null }">
+	<div th:if="${ w == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
 </div>

@@ -38,17 +38,13 @@ public interface ItemMapper {
 	//카테고리 코드 조회
 	public List<String> getCategoryCode(String largeCategory, String middleCategory, String smallCategory, String microCategory);
 	
+	//품목명 중복 검사
+	public int itemNameValid(String mainBusinessCode, String itemName);
+	
 	/**
 	 * 품목정보 등록
-	 * @param mainBusinessCode
-	 * @param itemName
-	 * @param itemType
-	 * @param itemStandard
-	 * @param itemOrigin
-	 * @param itemCategory
-	 * @param itemComment
-	 * @return
+	 * @param itemInfo
+	 * @return 성공시 1 실패시 0
 	 */
-	public int addItem(String mainBusinessCode, String itemName, String itemType, String itemStandard
-			, String itemOrigin, String itemCategory, String itemComment);
+	public int addItem(Stock itemInfo);
 }

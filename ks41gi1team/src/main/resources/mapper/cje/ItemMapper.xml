@@ -44,7 +44,7 @@
 		,c.microCategory
 		,s.itemCount
 		,i.itemOrigin
-		,AVG(p.productPrice) AS avgPrice
+		,ROUND(AVG(p.productPrice),0) AS avgPrice
 		,SUM(s.totalPrice) AS totalPrice
 		,SUM(s.stockWeight) AS stockWeight
 		,i.itemStandard
@@ -67,7 +67,8 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		i.itemCode = CONCAT('itemCode_',#{itemCode});
+		i.itemCode = CONCAT('itemCode_',#{itemCode})
+	GROUP BY i.itemCode;
 </select>
 
 <!-- 특정품목 재고현황 -->
@@ -76,7 +77,7 @@
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(w.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
-		,w.loaction
+		,w.location
 		,w.outPlace
 		,s.stockWeight
 		,s.itemCount
@@ -116,8 +117,8 @@
 		DISTINCT(middleCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory};
+	WHERE
+		largeCategory = #{largeCategory} 
 </select>
 
 <!-- 카테고리 소분류 조회 -->
@@ -126,9 +127,14 @@
 		DISTINCT(smallCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory} 
-		AND middleCategory = #{middleCategory};
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+	</trim>
 </select>
 
 <!-- 카테고리 소소분류 조회 -->
@@ -137,14 +143,22 @@
 		DISTINCT(microCategory)
 	FROM
 		k1_tb_item_category
-	WHERE 
-		largeCategory = #{largeCategory} 
-		AND middleCategory = #{middleCategory}
-		AND smallCategory = #{smallCategory};
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
+		<if test="middleCategory != null and middleCategory != ''.toString()">
+			AND middleCategory = #{middleCategory}
+		</if>
+		<if test="smallCategory != null and smallCategory != ''.toString()">
+			AND smallCategory = #{smallCategory}
+		</if>
+	</trim>
 </select>
 
 <!-- 아이템 등록 -->
-<insert id="addItem">
+<insert id="addItem" parameterType="Stock">
+	<![CDATA[
 	INSERT INTO k1_tb_item_info
 		(itemCode
 		,mainBusinessCode
@@ -159,21 +173,21 @@
 		,updateDate
 	) VALUES(
 		CONCAT('itemCode_',
-		<![CDATA[
 			(SELECT
 				CASE
-					WHEN (MAX(RIGHT(itemCode,3))+1 < 10) THEN CONCAT('00',MAX(RIGHT(itemCode,3))+1)
-					WHEN (MAX(RIGHT(itemCode,3))+1 < 100) THEN CONCAT('0',MAX(RIGHT(itemCode,3))+1)
-				ELSE MAX(RIGHT(itemCode,3))+1
+					WHEN (MAX(RIGHT(c.itemCode,3))+1 < 10) 
+					THEN CONCAT('00',MAX(RIGHT(c.itemCode,3))+1)
+					WHEN (MAX(RIGHT(c.itemCode,3))+1 < 100) 
+					THEN CONCAT('0',MAX(RIGHT(c.itemCode,3))+1)
+				ELSE MAX(RIGHT(c.itemCode,3))+1
 				END AS newCodeNum
 			FROM
-				k1_tb_item_info)
-		]]>
+				k1_tb_item_info AS c)
 		)
 		,#{mainBusinessCode}
 		,#{itemName}
 		,#{itemType}
-		,CONCAT('categoryCode_',#{categoryCode})
+		,#{categoryCode}
 		,#{itemStandard}
 		,#{itemOrigin}
 		,#{itemStatus}
@@ -181,15 +195,19 @@
 		,NOW()
 		,NOW()
 	);
+	]]>
 </insert>
 
+<!-- 카테고리 코드 검색 -->
 <select id="getCategoryCode" parameterType="String" resultType="String">
 	SELECT
 		categoryCode
 	FROM
 		k1_tb_item_category
-	WHERE
-		largeCategory = #{largeCategory}
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="largeCategory != null and largeCategory != ''.toString()">
+			largeCategory = #{largeCategory}
+		</if>
 		<if test="middleCategory != null and middleCategory != ''.toString()">
 			AND middleCategory = #{middleCategory}
 		</if>
@@ -199,6 +217,18 @@
 		<if test="microCategory != null and microCategory != ''.toString()">
 			AND microCategory = #{microCategory}
 		</if>
+	</trim>
+</select>
+
+<!-- 품목명 중복 확인 -->
+<select id="itemNameValid" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_tb_item_info
+	WHERE
+		mainBusinessCode = #{mainBusinessCode}
+		AND itemName = #{itemName};
 </select>
 
 </mapper>

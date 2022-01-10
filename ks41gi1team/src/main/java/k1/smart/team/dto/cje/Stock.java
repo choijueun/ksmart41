@@ -21,7 +21,7 @@ public class Stock {
 	
 	private String productPriceCode; //제품단가코드
 	private int productPrice; //제품단가
-	private int avgPrice; //제품단가
+	private int avgPrice; //평균단가
 	private int itemCount; //품목수량
 	private int totalCount; //총수량
 	private int totalPrice; //합계금액
@@ -30,7 +30,7 @@ public class Stock {
 	
 	private String warehouseCode; //창고 코드
 	private String warehouseName; //창고명
-	private String loaction; //창고위치
+	private String location; //창고위치
 	private String outPlace; //창고소재지
 	
 	private String status; //재고상태
@@ -51,78 +51,6 @@ public class Stock {
 	private String managerName; //담당자이름
 	private String storingUpdateDate; //수정일자
 	
-	public int getAvgPrice() {
-		return avgPrice;
-	}
-	public void setAvgPrice(int avgPrice) {
-		this.avgPrice = avgPrice;
-	}
-	public int getTotalCount() {
-		return totalCount;
-	}
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-	public int getTotalWeight() {
-		return totalWeight;
-	}
-	public void setTotalWeight(int totalWeight) {
-		this.totalWeight = totalWeight;
-	}
-	public String getStockAdjCode() {
-		return stockAdjCode;
-	}
-	public void setStockAdjCode(String stockAdjCode) {
-		this.stockAdjCode = stockAdjCode;
-	}
-	public int getStockReasonCode() {
-		return stockReasonCode;
-	}
-	public void setStockReasonCode(int stockReasonCode) {
-		this.stockReasonCode = stockReasonCode;
-	}
-	public String getStockReason() {
-		return stockReason;
-	}
-	public void setStockReason(String stockReason) {
-		this.stockReason = stockReason;
-	}
-	public String getStockReasonEng() {
-		return stockReasonEng;
-	}
-	public void setStockReasonEng(String stockReasonEng) {
-		this.stockReasonEng = stockReasonEng;
-	}
-	public String getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-	public String getBriefs() {
-		return briefs;
-	}
-	public void setBriefs(String briefs) {
-		this.briefs = briefs;
-	}
-	public String getManagerId() {
-		return managerId;
-	}
-	public void setManagerId(String managerId) {
-		this.managerId = managerId;
-	}
-	public String getManagerName() {
-		return managerName;
-	}
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
-	public String getStoringUpdateDate() {
-		return storingUpdateDate;
-	}
-	public void setStoringUpdateDate(String storingUpdateDate) {
-		this.storingUpdateDate = storingUpdateDate;
-	}
 	public String getInventoryCode() {
 		return inventoryCode;
 	}
@@ -219,11 +147,23 @@ public class Stock {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
+	public int getAvgPrice() {
+		return avgPrice;
+	}
+	public void setAvgPrice(int avgPrice) {
+		this.avgPrice = avgPrice;
+	}
 	public int getItemCount() {
 		return itemCount;
 	}
 	public void setItemCount(int itemCount) {
 		this.itemCount = itemCount;
+	}
+	public int getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 	public int getTotalPrice() {
 		return totalPrice;
@@ -237,6 +177,12 @@ public class Stock {
 	public void setStockWeight(int stockWeight) {
 		this.stockWeight = stockWeight;
 	}
+	public int getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(int totalWeight) {
+		this.totalWeight = totalWeight;
+	}
 	public String getWarehouseCode() {
 		return warehouseCode;
 	}
@@ -249,11 +195,11 @@ public class Stock {
 	public void setWarehouseName(String warehouseName) {
 		this.warehouseName = warehouseName;
 	}
-	public String getLoaction() {
-		return loaction;
+	public String getLocation() {
+		return location;
 	}
-	public void setLoaction(String loaction) {
-		this.loaction = loaction;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public String getOutPlace() {
 		return outPlace;
@@ -297,7 +243,60 @@ public class Stock {
 	public void setStockUpdateDate(String stockUpdateDate) {
 		this.stockUpdateDate = stockUpdateDate;
 	}
-	
+	public String getStockAdjCode() {
+		return stockAdjCode;
+	}
+	public void setStockAdjCode(String stockAdjCode) {
+		this.stockAdjCode = stockAdjCode;
+	}
+	public int getStockReasonCode() {
+		return stockReasonCode;
+	}
+	public void setStockReasonCode(int stockReasonCode) {
+		this.stockReasonCode = stockReasonCode;
+	}
+	public String getStockReason() {
+		return stockReason;
+	}
+	public void setStockReason(String stockReason) {
+		this.stockReason = stockReason;
+	}
+	public String getStockReasonEng() {
+		return stockReasonEng;
+	}
+	public void setStockReasonEng(String stockReasonEng) {
+		this.stockReasonEng = stockReasonEng;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getBriefs() {
+		return briefs;
+	}
+	public void setBriefs(String briefs) {
+		this.briefs = briefs;
+	}
+	public String getManagerId() {
+		return managerId;
+	}
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getStoringUpdateDate() {
+		return storingUpdateDate;
+	}
+	public void setStoringUpdateDate(String storingUpdateDate) {
+		this.storingUpdateDate = storingUpdateDate;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -333,18 +332,24 @@ public class Stock {
 		builder.append(productPriceCode);
 		builder.append(", productPrice=");
 		builder.append(productPrice);
+		builder.append(", avgPrice=");
+		builder.append(avgPrice);
 		builder.append(", itemCount=");
 		builder.append(itemCount);
+		builder.append(", totalCount=");
+		builder.append(totalCount);
 		builder.append(", totalPrice=");
 		builder.append(totalPrice);
 		builder.append(", stockWeight=");
 		builder.append(stockWeight);
+		builder.append(", totalWeight=");
+		builder.append(totalWeight);
 		builder.append(", warehouseCode=");
 		builder.append(warehouseCode);
 		builder.append(", warehouseName=");
 		builder.append(warehouseName);
-		builder.append(", loaction=");
-		builder.append(loaction);
+		builder.append(", location=");
+		builder.append(location);
 		builder.append(", outPlace=");
 		builder.append(outPlace);
 		builder.append(", status=");
@@ -359,6 +364,112 @@ public class Stock {
 		builder.append(stockRegDate);
 		builder.append(", stockUpdateDate=");
 		builder.append(stockUpdateDate);
+		builder.append(", stockAdjCode=");
+		builder.append(stockAdjCode);
+		builder.append(", stockReasonCode=");
+		builder.append(stockReasonCode);
+		builder.append(", stockReason=");
+		builder.append(stockReason);
+		builder.append(", stockReasonEng=");
+		builder.append(stockReasonEng);
+		builder.append(", endDate=");
+		builder.append(endDate);
+		builder.append(", briefs=");
+		builder.append(briefs);
+		builder.append(", managerId=");
+		builder.append(managerId);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append(", storingUpdateDate=");
+		builder.append(storingUpdateDate);
+		builder.append(", getInventoryCode()=");
+		builder.append(getInventoryCode());
+		builder.append(", getMainBusinessCode()=");
+		builder.append(getMainBusinessCode());
+		builder.append(", getItemCode()=");
+		builder.append(getItemCode());
+		builder.append(", getItemName()=");
+		builder.append(getItemName());
+		builder.append(", getItemType()=");
+		builder.append(getItemType());
+		builder.append(", getCategoryCode()=");
+		builder.append(getCategoryCode());
+		builder.append(", getLargeCategory()=");
+		builder.append(getLargeCategory());
+		builder.append(", getMiddleCategory()=");
+		builder.append(getMiddleCategory());
+		builder.append(", getSmallCategory()=");
+		builder.append(getSmallCategory());
+		builder.append(", getMicroCategory()=");
+		builder.append(getMicroCategory());
+		builder.append(", getItemStandard()=");
+		builder.append(getItemStandard());
+		builder.append(", getItemOrigin()=");
+		builder.append(getItemOrigin());
+		builder.append(", getItemStatus()=");
+		builder.append(getItemStatus());
+		builder.append(", getItemComment()=");
+		builder.append(getItemComment());
+		builder.append(", getProductPriceCode()=");
+		builder.append(getProductPriceCode());
+		builder.append(", getProductPrice()=");
+		builder.append(getProductPrice());
+		builder.append(", getAvgPrice()=");
+		builder.append(getAvgPrice());
+		builder.append(", getItemCount()=");
+		builder.append(getItemCount());
+		builder.append(", getTotalCount()=");
+		builder.append(getTotalCount());
+		builder.append(", getTotalPrice()=");
+		builder.append(getTotalPrice());
+		builder.append(", getStockWeight()=");
+		builder.append(getStockWeight());
+		builder.append(", getTotalWeight()=");
+		builder.append(getTotalWeight());
+		builder.append(", getWarehouseCode()=");
+		builder.append(getWarehouseCode());
+		builder.append(", getWarehouseName()=");
+		builder.append(getWarehouseName());
+		builder.append(", getLocation()=");
+		builder.append(getLocation());
+		builder.append(", getOutPlace()=");
+		builder.append(getOutPlace());
+		builder.append(", getStatus()=");
+		builder.append(getStatus());
+		builder.append(", getComment()=");
+		builder.append(getComment());
+		builder.append(", getItemRegDate()=");
+		builder.append(getItemRegDate());
+		builder.append(", getItemUpdateDate()=");
+		builder.append(getItemUpdateDate());
+		builder.append(", getStockRegDate()=");
+		builder.append(getStockRegDate());
+		builder.append(", getStockUpdateDate()=");
+		builder.append(getStockUpdateDate());
+		builder.append(", getStockAdjCode()=");
+		builder.append(getStockAdjCode());
+		builder.append(", getStockReasonCode()=");
+		builder.append(getStockReasonCode());
+		builder.append(", getStockReason()=");
+		builder.append(getStockReason());
+		builder.append(", getStockReasonEng()=");
+		builder.append(getStockReasonEng());
+		builder.append(", getEndDate()=");
+		builder.append(getEndDate());
+		builder.append(", getBriefs()=");
+		builder.append(getBriefs());
+		builder.append(", getManagerId()=");
+		builder.append(getManagerId());
+		builder.append(", getManagerName()=");
+		builder.append(getManagerName());
+		builder.append(", getStoringUpdateDate()=");
+		builder.append(getStoringUpdateDate());
+		builder.append(", getClass()=");
+		builder.append(getClass());
+		builder.append(", hashCode()=");
+		builder.append(hashCode());
+		builder.append(", toString()=");
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}

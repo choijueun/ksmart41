@@ -20,8 +20,8 @@ public class UserRegService {
 	}
 	
 	//회원가입 요청 목록
-	public List<UserReg> getAllUserRegList(String mainBusinessCode) {
-		userRegList = userRegMapper.getAllUserRegList(mainBusinessCode);
+	public List<UserReg> getAllUserRegList() {
+		userRegList = userRegMapper.getAllUserRegList();
 		if(userRegList == null) {
 			System.out.println("검색결과 없음");
 			return null;

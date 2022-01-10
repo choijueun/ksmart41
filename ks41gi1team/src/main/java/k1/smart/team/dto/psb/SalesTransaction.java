@@ -7,9 +7,9 @@ public class SalesTransaction {
 	private String lsAccountCode;
 	private String contractCode;
 	private String vatType;
-	private String amount;
-	private String VAT;
-	private String totalPrice;
+	private int amount;
+	private int VAT;
+	private int totalPrice;
 	private String dealDate;
 	private String briefs;
 	private String regId;
@@ -51,22 +51,23 @@ public class SalesTransaction {
 	public void setVatType(String vatType) {
 		this.vatType = vatType;
 	}
-	public String getAmount() {
+
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public String getVAT() {
+	public int getVAT() {
 		return VAT;
 	}
-	public void setVAT(String vAT) {
+	public void setVAT(int vAT) {
 		VAT = vAT;
 	}
-	public String getTotalPrice() {
+	public int getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(String totalPrice) {
+	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public String getDealDate() {
