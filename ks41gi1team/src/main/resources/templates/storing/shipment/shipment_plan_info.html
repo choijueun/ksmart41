@@ -22,47 +22,67 @@
 				<div class="card-header">
 					제품출하계획
 				</div>
-				<div class="card-body" th:if="${ shipPlanInfo != null }">
-					<table id="shipPlanInfo" class="table table-bordered">
-						<tr>
-							<th>No.</th>
-							<td>[[${shipPlanInfo.shipmentPlanCode}]]</td>
-							<th>예상출하일</th>
-							<td>[[${shipPlanInfo.sendPlanDate}]]</td>
-						</tr>
-						<tr>
-							<th>거래처</th>
-							<td>
-								<!-- 거래처정보 LINK -->
-								[[${shipPlanInfo.businessName}]]
-								<a th:if="${shipPlanInfo.contractCode != null}" th:href="@{#}">
-									<button type="button" class="btn btn-outline-info btn-xs">계약</button>
-								</a>
-							</td>
-							<th>도착지</th>
-							<td>[[${shipPlanInfo.receiveAddr}]]</td>
-						</tr>
-						<tr>
-							<th>적요</th>
-							<td>[[${shipPlanInfo.briefs}]]</td>
-							<th>담당자</th>
-							<td>
-								<a th:href="@{#}">
-									[[${shipPlanInfo.managerName}]]
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td>[[${shipPlanInfo.regDate}]]</td>
-							<th>수정일시</th>
-							<td>[[${shipPlanInfo.updateDate}]]</td>
-						</tr>
-					</table>
-				</div>
-				<div class="card-body" th:if="${ shipPlanInfo == null }">
-					잘못된 접근입니다.
-				</div>
+				<th:block th:if="${ p != null }">
+					<div class="card-body">
+						<table id="shipPlanInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td>[[${p.shipmentPlanCode}]]</td>
+								<th>예상출하일</th>
+								<td>[[${p.sendPlanDate}]]</td>
+							</tr>
+							<tr>
+								<th>거래처</th>
+								<td>
+									<!-- 거래처정보 LINK -->
+									[[${p.businessName}]]
+									<a th:if="${p.contractCode != null}" th:href="@{#}">
+										<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+									</a>
+								</td>
+								<th>도착지</th>
+								<td>[[${p.receiveAddr}]]</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td>[[${p.briefs}]]</td>
+								<th>담당자</th>
+								<td>
+									<a th:href="@{#}">
+										[[${p.managerName}]]
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${p.regDate}]]</td>
+								<th>수정일시</th>
+								<td>[[${p.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1ShipmentPlan}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<a th:href="@{|/k1ShipmentPlanRemove}|">
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						</a>
+						<a th:href="@{|/k1ShipmentPlanModify/${p.shipmentPlanCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</th:block>
+				<th:block th:if="${ p == null }">
+					<div class="card-body">
+						잘못된 접근입니다.
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1ShipmentPlan}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+					</div>
+				</th:block>
 			</div>
 		</div>
 	</div>

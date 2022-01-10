@@ -35,7 +35,7 @@ public class MovingController {
 	public String movingMain(Model model) {
 		movingList = movingService.getAllShipmentList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
 		model.addAttribute("movingList", movingList);
 		
@@ -55,9 +55,9 @@ public class MovingController {
 		movingInfo = (Storing) resultMap.get("movingInfo");
 		movingList = (List<Storing>) resultMap.get("movingDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
-		model.addAttribute("movingInfo", movingInfo);
+		model.addAttribute("s", movingInfo);
 		model.addAttribute("movingDetails", movingList);
 		
 		return "storing/moving/moving_info";

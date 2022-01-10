@@ -13,9 +13,6 @@
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
-
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
@@ -25,83 +22,100 @@
 				<div class="card-header">
 					제품출하내역
 				</div>
-				<div class="card-body" th:if="${ shipmentInfo != null }">
-					<table id="shipmentInfo" class="table table-bordered">
-						<tr>
-							<th>No.</th>
-							<td colspan="3">
-								[[${shipmentInfo.stockAdjCode}]]
-								<a th:if="${shipmentInfo.shipmentPlanCode} != null" th:href="@{|/k1ShipmentPlan/${shipmentInfo.shipmentPlanCode}|}">
-									<button type="button" class="btn btn-outline-info btn-xs">계획</button>
-								</a>
-								<a th:if="${shipmentInfo.deliveryCode} != null" th:href="@{|/k1Delivery/${shipmentInfo.deliveryCode}|}">
-									<button type="button" class="btn btn-outline-info btn-xs">운송</button>
-								</a>
-							</td>
-							<th>상태</th>
-							<td th:if="${shipmentInfo.endDate != null}">
-								완료
-							</td>
-							<td th:if="${shipmentInfo.endDate == null}">
-							</td>
-						</tr>
-						<tr>
-							<th>출하창고</th>
-							<td colspan="2">
-								<a th:href="@{|/k1Warehouse/${shipmentInfo.sendWarehouse}|}">
-									[[${shipmentInfo.sendWarehouseName}]]
-								</a>
-							</td>
-							<td th:if="${shipmentInfo.sendWarehouseOutPlace == null}">[[${shipmentInfo.sendWarehouseLocation}]]</td>
-							<td th:if="${shipmentInfo.sendWarehouseOutPlace != null}">[[${shipmentInfo.sendWarehouseLocation}]] ([[${shipmentInfo.sendWarehouseOutPlace}]])</td>
-							<th>합계금액</th>
-							<td>[[${shipmentInfo.totalPrice}]] 원</td>
-						</tr>
-						<tr>
-							<th>거래처</th>
-							<td colspan="3">
-								<!-- 거래처정보LINK -->
-								[[${shipmentInfo.businessName}]]
-								<a th:if="${shipmentInfo.contractCode != null}">
-									<button type="button" class="btn btn-outline-info btn-xs">[[${shipmentInfo.contractCode}]]</button>
-								</a>
-							</td>
-							<th>
-								운송비
-							</th>
-							<td>
-								[[${shipmentInfo.deliveryCost}]] 원
-							</td>
-						</tr>
-						<tr>
-							<th>적요</th>
-							<td colspan="3">[[${shipmentInfo.briefs}]]</td>
-							<!-- 회원정보 LINK -->
-							<th>담당자</th>
-							<td>[[${shipmentInfo.managerName}]]</td>
-						</tr>
-						<tr>
-							<th>요청일자</th>
-							<td>[[${shipmentInfo.requestDate}]]</td>
-							<th>처리일자</th>
-							<td>[[${shipmentInfo.adjDate}]]</td>
-							<th>완료일자</th>
-							<td>[[${shipmentInfo.endDate}]]</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td colspan="2">[[${shipmentInfo.regDate}]]</td>
-							<th>수정일시</th>
-							<td colspan="2">[[${shipmentInfo.updateDate}]]</td>
-						</tr>
-					</table>
-					<a th:href="@{|/k1ShipmentModify/${shipmentInfo.stockAdjCode}|}">
-						<button type="button" class="btn btn-info">수정</button>
-					</a>
-				</div>
-				<div class="card-body" th:if="${ shipmentInfo == null}">
-					잘못된 접근입니다.
-				</div>
+				<th:block th:if="${ s != null }">
+					<div class="card-body">
+						<table id="shipmentInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td colspan="3">
+									[[${s.stockAdjCode}]]
+									<a th:if="${s.shipmentPlanCode} != null" th:href="@{|/k1ShipmentPlan/${s.shipmentPlanCode}|}">
+										<button type="button" class="btn btn-outline-info btn-xs">계획</button>
+									</a>
+									<a th:if="${s.deliveryCode} != null" th:href="@{|/k1Delivery/${s.deliveryCode}|}">
+										<button type="button" class="btn btn-outline-info btn-xs">운송</button>
+									</a>
+								</td>
+								<th>상태</th>
+								<td th:if="${s.endDate != null}">
+									완료
+								</td>
+								<td th:if="${s.endDate == null}">
+								</td>
+							</tr>
+							<tr>
+								<th>출하창고</th>
+								<td colspan="2">
+									<a th:href="@{|/k1Warehouse/${s.sendWarehouse}|}">
+										[[${s.sendWarehouseName}]]
+									</a>
+								</td>
+								<td th:if="${s.sendWarehouseOutPlace == null}">[[${s.sendWarehouseLocation}]]</td>
+								<td th:if="${s.sendWarehouseOutPlace != null}">[[${s.sendWarehouseLocation}]] ([[${s.sendWarehouseOutPlace}]])</td>
+								<th>합계금액</th>
+								<td>[[${s.totalPrice}]] 원</td>
+							</tr>
+							<tr>
+								<th>거래처</th>
+								<td colspan="3">
+									<!-- 거래처정보LINK -->
+									[[${s.businessName}]]
+									<a th:if="${s.contractCode != null}">
+										<button type="button" class="btn btn-outline-info btn-xs">[[${s.contractCode}]]</button>
+									</a>
+								</td>
+								<th>
+									운송비
+								</th>
+								<td>
+									[[${s.deliveryCost}]] 원
+								</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${s.briefs}]]</td>
+								<!-- 회원정보 LINK -->
+								<th>담당자</th>
+								<td>[[${s.managerName}]]</td>
+							</tr>
+							<tr>
+								<th>요청일자</th>
+								<td>[[${s.requestDate}]]</td>
+								<th>처리일자</th>
+								<td>[[${s.adjDate}]]</td>
+								<th>완료일자</th>
+								<td>[[${s.endDate}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td colspan="2">[[${s.regDate}]]</td>
+								<th>수정일시</th>
+								<td colspan="2">[[${s.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Shipment}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<a th:href="@{|/k1ShipmentRemove}|">
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						</a>
+						<a th:href="@{|/k1ShipmentModify/${s.stockAdjCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</th:block>
+				<th:block th:if="${ s == null }">
+					<div class="card-body">
+						잘못된 접근입니다.
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Shipment}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+					</div>
+				</th:block>
 			</div>
 		</div>
 		<div class="col-lg-7">
@@ -124,7 +138,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${ shipmentInfo != null and shipmentDetails != null }" th:each=" l : ${shipmentDetails}">
+							<tr th:if="${ s != null and shipmentDetails != null }" th:each=" l : ${shipmentDetails}">
 								<td>
 									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 										[[${l.itemName}]]
@@ -138,7 +152,7 @@
 								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
-							<tr th:if="${ shipmentInfo == null or shipmentDetails == null }">
+							<tr th:if="${ s == null or shipmentDetails == null }">
 								<td>상세내역이 존재하지 않습니다.</td>
 							</tr>
 						</tbody>

@@ -14,7 +14,6 @@ public class StoringController {
 	private StoringService storingService;
 	private String mainBusinessCode= "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> storingList; //물류 배열
-	private Storing storingInfo; //물류 정보
 	
 	/**
 	 * 생성자 메서드
@@ -34,7 +33,7 @@ public class StoringController {
 		//재고 전체목록
 		storingList = storingService.getAllStoringList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("storingList", storingList);
 		return "storing/storing_history";

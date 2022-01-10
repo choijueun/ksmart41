@@ -35,7 +35,7 @@ public class WarehousingController {
 	public String warehousingMain(Model model) {
 		warehousingList = warehousingService.getAllWarehousingList(mainBusinessCode);
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고");
 		model.addAttribute("warehousingList", warehousingList);
 		
@@ -61,9 +61,9 @@ public class WarehousingController {
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
 		warehousingList = (List<Storing>) resultMap.get("warehousingDetails");
 		
-		model.addAttribute("SectionTitle", "물류관리");
+		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고 상세정보");
-		model.addAttribute("w", warehousingInfo);
+		model.addAttribute("s", warehousingInfo);
 		model.addAttribute("details", warehousingList);
 		return "storing/warehousing/warehousing_info";
 	}
