@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.WarehousingService;
 
@@ -53,10 +54,10 @@ public class WarehousingController {
 	public String warehousingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Warehousing";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
 		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1Warehousing";
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
 		warehousingList = (List<Storing>) resultMap.get("warehousingDetails");
@@ -69,7 +70,7 @@ public class WarehousingController {
 	}
 	
 	/**
-	 * 입고내역 신규등록
+	 * 입고내역 신규등록화면
 	 * @param model
 	 * @return
 	 */
@@ -83,7 +84,7 @@ public class WarehousingController {
 	}
 	
 	/**
-	 * 입고내역 수정
+	 * 입고내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
 	 * @return
@@ -92,6 +93,14 @@ public class WarehousingController {
 	public String modifyWarehousing(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
+		
+		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
+		
+		model.addAttribute("w", resultMap.get("warehousingInfo"));
+		model.addAttribute("d", resultMap.get("warehousingDetails"));
+		
 		return "storing/warehousing/warehousing_modify";
 	}
 }
