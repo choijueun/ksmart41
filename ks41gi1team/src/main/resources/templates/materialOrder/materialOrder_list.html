@@ -52,6 +52,7 @@
 						<th>수량</th>
 						<th>금액</th>
 						<th>발주진행상태</th>
+						<th>수정</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,14 +60,14 @@
 						<td><input type="checkbox"></td>
 						<td>[[${l.materialOrderCode}]]</td>
 						<td>[[${l.orderDate}]]</td>
-						<td>거래처명</td>
-						<td>품목명</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictDate}]]</td>
-						<td>[[${l.totalCount}]]</td>
+						<td>[[${l.totalCount}]] EA</td>
 						<td>[[${l.totalPrice}]]</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}"><i class="fas fa-pen"></i></a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -76,8 +77,58 @@
 			</table>
 		</div>
 	</div>
+	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+          <div class="modal-content">
+          	발주 목록 수정 화면
+            <div class="modal-header">
+              <h4 class="modal-title">발주 목록 수정 화면</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>발주요청일자</th>
+						<th>거래처명</th>
+						<th>품목</th>
+						<th>납기일자</th>
+						<th>수량</th>
+						<th>금액</th>
+						<th>발주진행상태</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
+						<td><input type="checkbox"></td>
+						<td>[[${l.materialOrderCode}]]</td>
+						<td>[[${l.orderDate}]]</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.predictDate}]]</td>
+						<td>[[${l.totalCount}]] EA</td>
+						<td>[[${l.totalPrice}]]</td> 
+						<td>[[${l.status}]]</td> 
+				</tr>	
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+          <!-- /.modal-dialog -->
+        </div>
 </div>
-
+</div>
+</div>
 </th:block>
 
 </html>

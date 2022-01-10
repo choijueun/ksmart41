@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
-	<resultMap type="MaterialOrder" id="MaterialOrderResultMap">
+	<resultMap type="MaterialOrder" id="materialOrderResultMap">
 		<result column="materialOrderCode" 		property="materialOrderCode"/>
 		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
 		<result column="contractCode" 		property="contractCode"/>
@@ -19,7 +19,77 @@
 		<result column="updateDate" 	property="updateDate"/>
 	</resultMap>  
 	
-<select id="getMaterialOrderListBySearchKey" parameterType="String" resultMap="MaterialOrderResultMap">
+
+<select id="getMaterialOrderInfoByMaterialOrderCode" parameterType="String" resultType="MaterialOrder">
+	SELECT 
+		materialOrderCode,
+		mainBusinessCode,
+		contractCode,
+		clientCode,
+		totalCount,
+		totalPrice,
+		orderDate,
+		predictDate,
+		status,
+		briefs,
+		managerId,
+		regDate,
+		updateDate
+	FROM	
+		k1_tb_material_order
+	WHERE 
+		materialOrderCode = #{materialOrderCode};
+</select>
+
+
+
+<update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
+	update k1_tb_material_order
+	<trim prefix="SET" prefixOverrides=",">
+		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+			mainBusinessCode =#{mainBusinessCode}
+		</if>
+		<if test="contractCode != null and contractCode != ''.toString()">
+			contractCode =#{contractCode}
+		</if>
+		<if test="clientCode != null and clientCode != ''.toString()">
+			clientCode =#{clientCode}
+		</if>
+		<if test="totalCount != null and totalCount != ''.toString()">
+			totalCount =#{totalCount}
+		</if>
+		<if test="totalPrice != null and totalPrice != ''.toString()">
+			totalPrice =#{mainBusinessCode}
+		</if>
+		<if test="orderDate != null and orderDate != ''.toString()">
+			orderDate =#{orderDate}
+		</if>
+		<if test="predictDate != null and predictDate != ''.toString()">
+			predictDate =#{predictDate}
+		</if>
+		<if test="status != null and status != ''.toString()">
+			status =#{status}
+		</if>
+		<if test="briefs != null and briefs != ''.toString()">
+			briefs =#{briefs}
+		</if>
+		<if test="managerId != null and managerId != ''.toString()">
+			managerId =#{managerId}
+		</if>
+		<if test="regDate != null and regDate != ''.toString()">
+			regDate =#{regDate}
+		</if>
+		<if test="updateDate != null and updateDate != ''.toString()">
+			updateDate =#{updateDate}
+		</if>
+	</trim>
+	WHERE 
+		materialOrderCode=#{materialOrderCode};
+</update>
+
+
+
+<select id="getMaterialOrderListBySearchKey" parameterType="String" resultMap="materialOrderResultMap">
 		SELECT
 			mo.materialOrderCode as materialOrderCode,
 			mo.mainBusinessCode as mainBusinessCode,
@@ -40,7 +110,7 @@
 	</select>	
 		
 <select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
-	SELECT 
+			SELECT 
 		mo.materialOrderCode as materialOrderCode,
 		mo.mainBusinessCode as mainBusinessCode,
 		mo.contractCode as contractCode,
@@ -54,13 +124,21 @@
 		mo.managerId as managerId,
 		mo.regDate as regDate,
 		mo.updateDate as updateDate,
-		c.businessName as businessName
+		c.businessName as businessName,
+		ii.itemName AS itemName,
+		c.businessName AS businessName
 	FROM	
 		k1_tb_material_order AS mo
 				INNER join
 		k1_tb_client AS c
 		on
 		mo.mainBusinessCode = c.mainBusinessCode
+		INNER JOIN 
+		k1_tb_item_info AS ii
+		on
+		ii.mainBusinessCode = c.mainBusinessCode
+		GROUP BY mo.materialOrderCode
+		
 </select>	
 	
 </mapper>	

@@ -30,7 +30,7 @@
 					pageLength: 5,
 					aLengthMenu : aLengthMenuArray,
 					ajax: {
-			        	url: '/k1SalesTransaction/k1SalesTransactionHistory',
+			        	url: '/k1PurchaseTransaction/k1PurchaseTransactionHistory',
 			        	type: 'POST',
 			        	dataSrc: function(data){
 			        				console.log(JSON.stringify(data));
@@ -38,39 +38,34 @@
 			        			} 
 			        },
 			        columns: [
-			            { "data": "salesTsCode" },
+			            { "data": "purchaseTsCode" },
 			            { "data": "mainBusinessCode" },
 			            { "data": "clientCode" },
-			            { "data": "lsAccountCode" },
-			            { "data": "contractCode" },
-			            { "data": "vatType" },
-			            { "data": "amount" },
-			            { "data": "VAT" },
-			            { "data": "totalPrice" },
-			            { "data": "dealDate" },
+			            { "data": "contractCode"},
 			            { "data": "briefs" },
-			            { "data": "regId" },
-			            { "data": "regDate" },
-			            { "data": "updateDate" },
-			            { "data": "수정" },
-			            { "data": "삭제" }
+			            { "data": 'dealDate' },
+			            { "data": 'regId' },
+			            { "data": 'regDate' },
+			            { "data": 'updateDate' },
+			            { "data": '수정' },
+			            { "data": '삭제' }
 			        	],
 			        	columnDefs:[
 			        		{
-			        			'targets' : [14],
+			        			'targets' : [09],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button class="modifyBtn" data-salesTsCode="' + row.salesTsCode +'">수정</button>';
+			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-purchaseTsCode="' + row.purchaseTsCode +'">수정</button>';
 			        						return htmlbtn;
 			        					}
 			        		},
 			        		{
-			        			'targets' : [15],
+			        			'targets' : [10],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button class="removeBtn" data-salesTsCode="' + row.salesTsCode +'">삭제</button>';
+			        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-purchaseTsCode="' + row.purchaseTsCode +'">삭제</button>';
 			        						return htmlbtn;
 			        					}
 			        		}
@@ -82,21 +77,21 @@
 		</script>
 </th:block>
 	<th:block layout:fragment="customContents">
-
+		<div class="card card-info card-outline">
+		<div class="card-header">
+			매출 거래 명세서 목록
+		</div>
+		<div class="card-body">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
 			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
 				<thead>
 					<tr>
-						<th>매출 거래명세서 코드</th>
+						<th>비용 거래명세서 코드</th>
 						<th>사업장별 대표코드</th>
 						<th>거래처 대표코드</th>
-						<th>계정과목코드</th>
 						<th>계약코드</th>
-						<th>부가세 유형</th>
-						<th>공급가액</th>
-						<th>부가세</th>
-						<th>총 가격</th>
-						<th>거래일자</th>
 						<th>적요</th>
+						<th>거래일자</th>
 						<th>등록자</th>
 						<th>등록일시</th>
 						<th>수정일시</th>
@@ -105,5 +100,8 @@
 					</tr>
 				</thead>
 			</table>
+			</div>
+			</div>
+			</div>
 	</th:block>
 </html>

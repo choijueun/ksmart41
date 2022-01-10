@@ -14,6 +14,8 @@ public class MaterialOrder {
 	private String managerId;
 	private String regDate;
 	private String updateDate;
+	private String itemName;
+	private String businessName;
 	public String getMaterialOrderCode() {
 		return materialOrderCode;
 	}
@@ -92,6 +94,18 @@ public class MaterialOrder {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -121,9 +135,15 @@ public class MaterialOrder {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", itemName=");
+		builder.append(itemName);
+		builder.append(", businessName=");
+		builder.append(businessName);
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 	
 }

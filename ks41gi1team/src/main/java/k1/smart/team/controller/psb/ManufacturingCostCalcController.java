@@ -15,7 +15,7 @@ import k1.smart.team.common.CommonUtils;
 
 
 @Controller
-@RequestMapping(value="/k1ManufacturingCostCals")
+@RequestMapping(value="/k1ManufacturingCostCalc")
 public class ManufacturingCostCalcController {
 	private ManufacturingCostCalcService manufacturingCostCalcService;
 	private String materialCode;
@@ -23,7 +23,7 @@ public class ManufacturingCostCalcController {
 		this.manufacturingCostCalcService = manufacturingCostCalcService;
 	}
 		
-	@GetMapping("/k1ManufacturingCostCalsList")
+	@GetMapping("/k1ManufacturingCostCalcList")
 	public String k1ManufacturingCostCalcMain(Model model) {
 		
 		  List<ManufacturingCostCalc> manufacturingCostCalcList = manufacturingCostCalcService.getManufacturingCostCalcList();
