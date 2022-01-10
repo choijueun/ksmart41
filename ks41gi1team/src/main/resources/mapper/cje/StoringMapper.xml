@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
 
-<!-- 물류이동내역(목록) -->
+<!-- 물류이동내역(전체목록) -->
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -169,6 +169,7 @@
 		,w2.location AS receiveWarehouseLocation
 		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
+		,a.totalWeight
 		,RIGHT(a.materialOrderCode,3) AS materialOrderCode
 		,RIGHT(a.productOrderCode,3) AS productOrderCode
 		,a.deliveryCost
@@ -183,14 +184,14 @@
 		,a.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
-		LEFT JOIN
-		k1_tb_client AS c
-		ON
-		a.clientCode = c.clientCode
 		JOIN
 		k1_tb_user AS u
 		ON
 		a.managerId = u.userId
+		LEFT JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode = c.clientCode
 		LEFT JOIN
 		k1_tb_warehouse_info AS w1
 		ON
