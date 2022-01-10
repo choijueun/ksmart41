@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.ManufacturingCostMapper">
+	<resultMap type="ManufacturingCost" id="manufacturingCostResultMap">
+		<result column="manufacturingCostCalCode" 					property="manufacturingCostCalCode"/>
+		<result column="manufacturingCostCode" 				property="manufacturingCostCode"/>
+		<result column="materialCode" 					property="materialCode"/>
+		<result column="purchaseTsCode" 				property="purchaseTsCode"/>
+		<result column="cost" 				property="cost"/>
+		<result column="amount" 					property="amount"/>
+		<result column="totalCost" 						property="totalCost"/>
+	</resultMap>
+
+
+	<select id="getAllManufacturingCostList" resultType="ManufacturingCost">
+		SELECT
+ls.lsAccountName as lsAccountName
+,ep.amount  as amount
+,mo.totalPrice as totalPrice
+FROM 
+	k1_tb_etc_purchase AS ep
+	INNER JOIN 
+	k0_tb_ls AS ls
+	on
+	ls.lsAccountCode = ep.lsAccountCode
+	INNER JOIN 
+	k1_tb_material_order AS mo
+	on
+	mo.mainBusinessCode = ep.mainBusinessCode
+
+	</select>
+
+</mapper>

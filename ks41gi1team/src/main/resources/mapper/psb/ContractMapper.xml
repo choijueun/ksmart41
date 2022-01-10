@@ -173,7 +173,7 @@ SELECT
 		</if>	
 	</select>
 	
-	<select id="getAllContractList" parameterType="String" resultType="Contract">
+	<!-- <select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
 			contr.contractCode as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
@@ -209,6 +209,6 @@ SELECT
 			u.mainBusinessCode = mb.mainBusinessCode;
 	
 
-	</select>
+	</select> -->
 
 </mapper>

@@ -5,8 +5,8 @@ public class MaterialOrder {
 	private String mainBusinessCode;
 	private String contractCode;
 	private String clientCode;
-	private String totalCount;
-	private String totalPrice;
+	private int totalCount;
+	private int totalPrice;
 	private String orderDate;
 	private String predictDate;
 	private String status;
@@ -38,16 +38,16 @@ public class MaterialOrder {
 	public void setClientCode(String clientCode) {
 		this.clientCode = clientCode;
 	}
-	public String getTotalCount() {
+	public int getTotalCount() {
 		return totalCount;
 	}
-	public void setTotalCount(String totalCount) {
+	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-	public String getTotalPrice() {
+	public int getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(String totalPrice) {
+	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public String getOrderDate() {
@@ -95,7 +95,7 @@ public class MaterialOrder {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Order [materialOrderCode=");
+		builder.append("MaterialOrder [materialOrderCode=");
 		builder.append(materialOrderCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
@@ -124,5 +124,6 @@ public class MaterialOrder {
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 }
