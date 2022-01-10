@@ -20,6 +20,35 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 	
+	<insert id="addSalesTransaction" parameterType="SalesTransaction">
+		INSERT INTO k1_tb_contract
+		(
+			salesTsCode,
+			mainBusinessCode,
+			clientCode,
+			lsAccountCode,
+			contractCode,
+			vatType,
+			amount,
+			VAT,
+			totalPrice,
+			dealDate,
+			briefs
+		)VALUES(					
+			#{salesTsCode},
+			#{mainBusinessCode},
+			#{clientCode},
+			#{lsAccountCode},
+			#{contractCode},
+			#{amount},
+			#{VAT},
+			#{totalPrice},
+			#{dealDate},
+			#{briefs}
+		);
+	</insert>
+	
+	
 	<select id="getSalesTransactionHistoryList" parameterType="map" resultType="map">
 		SELECT	
 			st.salesTsCode,

@@ -1,25 +1,21 @@
 package k1.smart.team.dto.psb;
 
-public class SalesTransaction {
-	private String salesTsCode;
+public class EtcPurchase {
+	private String etcPurchaseCode;
 	private String mainBusinessCode;
-	private String clientCode;
-	private String lsAccountCode;
-	private String contractCode;
-	private String vatType;
+	private int lsAccountCode;
+	private String totalAccountCode;
 	private int amount;
-	private int VAT;
-	private int totalPrice;
 	private String dealDate;
+	private String reportPoint;
 	private String briefs;
-	private String regId;
 	private String regDate;
 	private String updateDate;
-	public String getSalesTsCode() {
-		return salesTsCode;
+	public String getEtcPurchaseCode() {
+		return etcPurchaseCode;
 	}
-	public void setSalesTsCode(String salesTsCode) {
-		this.salesTsCode = salesTsCode;
+	public void setEtcPurchaseCode(String etcPurchaseCode) {
+		this.etcPurchaseCode = etcPurchaseCode;
 	}
 	public String getMainBusinessCode() {
 		return mainBusinessCode;
@@ -27,48 +23,23 @@ public class SalesTransaction {
 	public void setMainBusinessCode(String mainBusinessCode) {
 		this.mainBusinessCode = mainBusinessCode;
 	}
-	public String getClientCode() {
-		return clientCode;
-	}
-	public void setClientCode(String clientCode) {
-		this.clientCode = clientCode;
-	}
-	public String getLsAccountCode() {
+	public int getLsAccountCode() {
 		return lsAccountCode;
 	}
-	public void setLsAccountCode(String lsAccountCode) {
+	public void setLsAccountCode(int lsAccountCode) {
 		this.lsAccountCode = lsAccountCode;
 	}
-	public String getContractCode() {
-		return contractCode;
+	public String getTotalAccountCode() {
+		return totalAccountCode;
 	}
-	public void setContractCode(String contractCode) {
-		this.contractCode = contractCode;
+	public void setTotalAccountCode(String totalAccountCode) {
+		this.totalAccountCode = totalAccountCode;
 	}
-	public String getVatType() {
-		return vatType;
-	}
-	public void setVatType(String vatType) {
-		this.vatType = vatType;
-	}
-
 	public int getAmount() {
 		return amount;
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
-	}
-	public int getVAT() {
-		return VAT;
-	}
-	public void setVAT(int vAT) {
-		VAT = vAT;
-	}
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 	public String getDealDate() {
 		return dealDate;
@@ -76,17 +47,17 @@ public class SalesTransaction {
 	public void setDealDate(String dealDate) {
 		this.dealDate = dealDate;
 	}
+	public String getReportPoint() {
+		return reportPoint;
+	}
+	public void setReportPoint(String reportPoint) {
+		this.reportPoint = reportPoint;
+	}
 	public String getBriefs() {
 		return briefs;
 	}
 	public void setBriefs(String briefs) {
 		this.briefs = briefs;
-	}
-	public String getRegId() {
-		return regId;
-	}
-	public void setRegId(String regId) {
-		this.regId = regId;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -103,30 +74,22 @@ public class SalesTransaction {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("SalesTransaction [salesTsCode=");
-		builder.append(salesTsCode);
+		builder.append("EtcPurchase [etcPurchaseCode=");
+		builder.append(etcPurchaseCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
-		builder.append(", clientCode=");
-		builder.append(clientCode);
 		builder.append(", lsAccountCode=");
 		builder.append(lsAccountCode);
-		builder.append(", contractCode=");
-		builder.append(contractCode);
-		builder.append(", vatType=");
-		builder.append(vatType);
+		builder.append(", totalAccountCode=");
+		builder.append(totalAccountCode);
 		builder.append(", amount=");
 		builder.append(amount);
-		builder.append(", VAT=");
-		builder.append(VAT);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
 		builder.append(", dealDate=");
 		builder.append(dealDate);
+		builder.append(", reportPoint=");
+		builder.append(reportPoint);
 		builder.append(", briefs=");
 		builder.append(briefs);
-		builder.append(", regId=");
-		builder.append(regId);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", updateDate=");
