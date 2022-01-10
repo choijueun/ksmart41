@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.csh.InvoiceMapper">
+
+	<select id="getAllPurchaseIvList" parameterType="String" resultType="Invoice">
+		SELECT 
+			 b.businessName
+			,i.invoiceCode
+			,i.mainBusinessCode
+			,i.invoiceType
+			,i.supplyBusinessCode
+			,i.supplyManagerId
+			,i.demandBusinessCode
+			,i.demandManagerId
+			,i.invoicePrice
+			,i.invoiceTax
+			,i.totalPrice
+			,i.issueStatus
+			,i.payMethod
+			,i.invoiceConfirm
+			,i.briefs
+			,i.issueDate
+			,i.regDate
+		FROM 
+			k1_tb_invoice AS i
+			INNER JOIN
+			k1_tb_main_business AS b
+			ON 
+			i.mainBusinessCode = b.mainBusinessCode;
+	</select>
+</mapper>

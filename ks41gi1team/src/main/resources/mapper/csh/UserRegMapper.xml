@@ -21,9 +21,7 @@
 			,r.userRegStatus
 			,r.userRegComment
 		FROM 
-			k1_tb_user_register AS r
-		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			k1_tb_user_register AS r;
 	</select>
 	
 	
