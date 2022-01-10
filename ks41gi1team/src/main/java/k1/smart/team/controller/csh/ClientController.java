@@ -17,7 +17,6 @@ import k1.smart.team.service.csh.ClientService;
 @RequestMapping(value="/k1Client")
 public class ClientController {
 	private ClientService clientService;
-	private String mainBusinessCode;
 	
 	public ClientController(ClientService clientService) {
 		this.clientService = clientService;
@@ -26,8 +25,9 @@ public class ClientController {
 	//거래처정보 전체목록
 	@GetMapping("/clientList")
 	public String getClientList(Model model) {
-		mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시 지정
-		List<Client> clientList = clientService.getAllClientList(mainBusinessCode);
+		
+		List<Client> clientList = clientService.getAllClientList();
+		
 		model.addAttribute("SectionTitle", "거래처 조회");
 		model.addAttribute("clientList", clientList);
 		

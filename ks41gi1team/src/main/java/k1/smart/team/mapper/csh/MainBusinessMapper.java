@@ -8,6 +8,8 @@ import k1.smart.team.dto.csh.MainBusiness;
 @Mapper
 public interface MainBusinessMapper {
 
-	List<MainBusiness> getAllMainBusinessList(String mainBusinessCode);
+	List<MainBusiness> getAllMainBusinessList();
+	
+	public int getBusinessByNum(String businessNum);
 
 }

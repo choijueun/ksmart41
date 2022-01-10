@@ -80,30 +80,29 @@
 								<thead class="text-center">
 									<tr role="row">
 										<th><input type="checkbox" id="purchaseIvAllCheck"></th>
-										<th>문서 종류</th>
 										<th>전자(세금)계산서 코드</th>
-										<th>발행일자</th>
 										<th>사업자명</th>
-										<th>사업자번호</th>
 										<th>전체공급가액</th>
 										<th>전체세액</th>
 										<th>전체금액</th>
+										<th>계산서 종류</th>
+										<th>발행일자</th>
 										<th>발행상태</th>
+										<th>수정</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:if="${not #lists.isEmpty(purchaseIvList)}"
 										th:each="l : ${purchaseIvList}">
 										<td><input type="checkbox"></td>
-										<td>[[${l.invoiceType}]]</td>
 										<td><a th:href="@{|/purchaseIvList/${l.invoiceCode}|}">
 												[[${l.invoiceCode}]] </a></td>
-										<td>[[${l.issueDate}]]</td>
-										<td>[[${l.mainBusinessName}]]</td>
-										<td>[[${l.mainBusinessCode}]]</td>
+										<td>[[${l.businessName}]]</td>
 										<td>[[${l.invoicePrice}]]</td>
 										<td>[[${l.invoiceTax}]]</td>
 										<td>[[${l.totalPrice}]]</td>
+										<td>[[${l.invoiceType}]]</td>
+										<td>[[${l.issueDate}]]</td>
 										<td>[[${l.issueStatus}]]</td>
 										<td><a th:href="@{/purchaseIvList/${l.invoiceCode}|}">
 												<i class="fas fa-pen"></i>
@@ -114,7 +113,6 @@
 									</tr>
 								</tbody>
 							</table>
-							<button type="button" class="btn btn-info">등록</button>
 						</div>
 					</div>
 

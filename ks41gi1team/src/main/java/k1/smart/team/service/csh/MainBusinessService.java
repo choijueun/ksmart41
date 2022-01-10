@@ -22,8 +22,8 @@ public class MainBusinessService {
 	};
 	
 	//사업장 전체 목록 조회
-	public List<MainBusiness> getAllMainBusinessList(String mainBusinessCode) {
-		mainBusinessList = mainBusinessMapper.getAllMainBusinessList(mainBusinessCode);
+	public List<MainBusiness> getAllMainBusinessList() {
+		mainBusinessList = mainBusinessMapper.getAllMainBusinessList();
 		String mainBusinessNum;
 		for(int i=0; i<mainBusinessList.size(); i++) {
 			mainBusinessNum = mainBusinessList.get(i).getMainBusinessCode().replace("mainBusinessCode_","");
@@ -32,6 +32,14 @@ public class MainBusinessService {
 		System.out.println(mainBusinessList);
 		
 		return mainBusinessList;
+	}
+	
+	//사업자번호 중복확인
+	public int getBusinessByNum(String businessNum) {
+		int businessNumCheck = 0;
+		businessNumCheck += mainBusinessMapper.getBusinessByNum(businessNum);
+		
+		return businessNumCheck;
 	}
 
 	
