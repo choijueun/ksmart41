@@ -41,16 +41,16 @@ $(function(){
 	
 	//상세내역 폼 추가
 	var details = $('#details');
-	var forms = $('form.row:first-of-type');
+	var detailrow = $('#details .row:first-of-type');
 	$(document).on('click', '#addLine', function(){
-		var clone = forms.clone();
+		var clone = detailrow.clone();
 		clone.find('input').val('');
 		details.append(clone);
 	});
 	//상세내역 폼 삭제
 	var removeLine = $('button.removeLine')
 	$(document).on('click', '.removeLine', function(){
-		$(this).parents('form.row').remove();
+		$(this).parents('#details .row').remove();
 	});
 	
 	//합계중량 구하기
@@ -67,14 +67,14 @@ $(function(){
 	$(document).on('keyup', 'input[name="adjCount"]', function(){
 		var sum=0;
 		$('input[name="adjCount"]').each(function(){
-			sum += Number( $(this).val() ) * Number( $(this).parents('form.row').find('input[name="productPrice"]').val() );
+			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input[name="unitPrice"]').val() );
 		});
 		totalPrice.val(sum);
 	});
-	$(document).on('keyup', 'input[name="productPrice"]', function(){
+	$(document).on('keyup', 'input[name="unitPrice"]', function(){
 		var sum=0;
-		$('input[name="productPrice"]').each(function(){
-			sum += Number( $(this).val() ) * Number( $(this).parents('form.row').find('input[name="adjCount"]').val() );
+		$('input[name="unitPrice"]').each(function(){
+			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input[name="adjCount"]').val() );
 		});
 		totalPrice.val(sum);
 	});
@@ -93,7 +93,7 @@ $(function(){
 		<div class="col-lg-4">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<h3 class="card-title">제품출하내역  등록</h3>
+					<h3 class="card-title">제품생산내역  등록</h3>
 				</div>
 				<div class="card-body">
 					<form id="addProduction"th:action="@{/k1ProductionAdd}" method="POST">
@@ -210,16 +210,16 @@ $(function(){
 		<div class="col-lg-8">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<h3 class="card-title">제품출하 상세내역  등록</h3>
+					<h3 class="card-title">제품생산 상세내역  등록</h3>
 				</div>
 				<div id="details" class="card-body">
-					<form class="row">
+					<div class="row">
 						<div class="form-group col-lg-2 col-sm-6">
 							<input type="hidden" name="inventoryCode" class="form-control">
 							<input type="text" name="itemName" class="form-control" placeholder="품목명">
 						</div>
 						<div class="form-group col-lg-1 col-sm-6">
-							<input type="text" name="productPrice" class="form-control" placeholder="단가">
+							<input type="text" name="unitPrice" class="form-control" placeholder="단가">
 						</div>
 						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
 							<input type="number" name="adjCount" class="form-control" placeholder="생산수량">
@@ -238,7 +238,7 @@ $(function(){
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="card-footer">
 					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
