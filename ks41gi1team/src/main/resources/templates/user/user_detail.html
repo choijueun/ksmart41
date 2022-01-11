@@ -53,28 +53,6 @@
 										<th>수정</th>
 									</tr>
 								</thead>
-								<!-- <tbody id="myTable">
-									<tr th:if="${not #lists.isEmpty(userRegList)}"
-										th:each="l : ${userRegDetail}">
-										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/k1UserReg/userRegDetail/${l.userRegCode}|}">
-												[[${l.userRegCode}]] </a></td>
-										<td>[[${l.mainBusinessCode}]]</td>
-										<td>[[${l.userLevelCode}]]</td>
-										<td>[[${l.userId}]]</td>
-										<td>[[${l.userName}]]</td>
-										<td>[[${l.userRegDate}]]</td>
-										<td>[[${l.userRegStatus}]]</td>
-										<td>
-											<a th:href="@{/userRegDetail/${l.userRegCode}|}">
-												<i class="fas fa-pen"></i>
-											</a>
-										</td>
-									</tr>
-									<tr th:if="${#lists.isEmpty(userRegList)}">
-										<td colspan="8">거래처 정보가 없습니다.</td>
-									</tr>
-								</tbody> -->
 							</table>
 							<button type="button" class="btn btn-info">승인</button>
 						</div>

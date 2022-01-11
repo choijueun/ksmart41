@@ -70,7 +70,7 @@
 									<tr th:if="${not #lists.isEmpty(userRegList)}"
 										th:each="l : ${userRegList}">
 										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/k1UserReg/userRegList/${l.userRegCode}|}">
+										<td><a th:href="@{|/k1UserReg/userRegDetail/${l.userRegCode}|}">
 												[[${l.userRegCode}]] </a></td>
 										<td>[[${l.mainBusinessCode}]]</td>
 										<td>[[${l.userLevelCode}]]</td>

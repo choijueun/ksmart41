@@ -37,6 +37,7 @@ public class UserRegController {
 	public String getUserRegDetail(
 			 @PathVariable(value = "userRegCode", required = false) String userRegCode
 			,Model model) {
+		System.out.println(userRegCode);
 		
 		//회원가입 요청코드 검사
 		if(userRegCode == null || "".equals(userRegCode)) {

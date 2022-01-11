@@ -6,22 +6,22 @@
 	
 <select id="getAllUserRegList" parameterType="String" resultType="UserReg">
 	SELECT 
-		 r.userRegCode
-		,r.mainBusinessCode
-		,r.userLevelCode
-		,r.userId
-		,r.userPw
-		,r.userName
-		,r.userGender
-		,r.userAddr
-		,r.userMoblie
-		,r.userEmail
-		,r.userPosition
-		,r.userRegDate
-		,r.userRegStatus
-		,r.userRegComment
+		 userRegCode
+		,mainBusinessCode
+		,userLevelCode
+		,userId
+		,userPw
+		,userName
+		,userGender
+		,userAddr
+		,userMoblie
+		,userEmail
+		,userPosition
+		,userRegDate
+		,userRegStatus
+		,userRegComment
 	FROM 
-		k1_tb_user_register AS r;
+		k1_tb_user_register;
 </select>
 
 <select id="getUserRegDetail" parameterType="String" resultType="UserReg">
@@ -44,7 +44,6 @@
 		k1_tb_user_register
 	WHERE 
 		userRegCode = #{userRegCode};
-	
 </select>
 	
 	
