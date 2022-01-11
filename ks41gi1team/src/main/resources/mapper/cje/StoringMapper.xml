@@ -626,7 +626,7 @@
 		,RIGHT(st.itemCode,3) AS itemCode
 		,st.itemName
 		,RIGHT(st.productPriceCode,3) AS productPriceCode
-		,st.productPrice
+		,st.productPrice AS unitPrice
 		,RIGHT(st.warehouseCode,3) AS warehouseCode
 		,st.warehouseName
 		,st.location
