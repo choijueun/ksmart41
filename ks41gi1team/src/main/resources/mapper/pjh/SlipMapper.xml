@@ -112,4 +112,33 @@
 		WHERE
 			st.mainBusinessCode = #{mainBusinessCode};
 	</select>
+	<select id="addSlip" parameterType="String" resultType="Slip">
+		INSERT INTO k1_tb_purchase_slip(
+			purchaseSlipCode
+			,mainBusinessCode
+			,totalAccountCode
+			,purchaseTsCode
+			,clientCode
+			,amount
+			,tax
+			,count
+			,briefs
+			,regId
+			,regDate
+			,updateDate
+		)VALUES(
+			#{purchaseSlipCode}
+			,'fac_ksmartSeoul_Seoul_001'
+			,#{totalAccountCode}
+			,#{purchaseTsCode}
+			,#{clientCode}
+			,#{amount}
+			,#{tax}
+			,#{count}
+			,#{briefs}
+			,#{regId}
+			,CURDATE()
+			,CURDATE()
+		);
+	</select>
 </mapper>
