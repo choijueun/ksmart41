@@ -63,7 +63,7 @@
 							</a>
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
-						<td>[[${l.deliveryCost}]]</td>
+						<td>[[${#numbers.formatInteger(l.deliveryCost,0,'COMMA')}]]</td>
 						<td>
 							<a th:href="@{#}"> <!-- 회원정보 LINK -->
 								[[${l.managerName}]]

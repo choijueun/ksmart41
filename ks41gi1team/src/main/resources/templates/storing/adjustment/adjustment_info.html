@@ -45,7 +45,7 @@
 								<td th:if="${s.sendWarehouseOutPlace == null}">[[${s.sendWarehouseLocation}]]</td>
 								<td th:if="${s.sendWarehouseOutPlace != null}">[[${s.sendWarehouseLocation}]] ([[${s.sendWarehouseOutPlace}]])</td>
 								<th>합계금액</th>
-								<td>[[${s.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
@@ -119,10 +119,10 @@
 										[[${l.itemName}]]
 									</a>
 								</td>
-								<td>[[${l.adjCount}]]</td>
-								<td>[[${l.afterCount}]]</td>
-								<td>[[${l.adjWeight}]] kg</td>
-								<td>[[${l.stockWeight}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.afterCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
 								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>

@@ -52,7 +52,7 @@
 								<th>목적지</th>
 								<td colspan="2">[[${d.receiveAddr}]]</td>
 								<th>운송비</th>
-								<td colspan="2">[[${d.deliveryCost}]] 원</td>
+								<td colspan="2">[[${#numbers.formatInteger(d.deliveryCost,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
@@ -124,9 +124,9 @@
 										[[${l.itemName}]]
 									</a>
 								</td>
-								<td>[[${l.adjCount}]]</td>
-								<td>[[${l.adjWeight}]]</td>
-								<td>[[${l.totalPrice}]]</td>
+								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] kg</td>
 								<td>
 									<a th:href="@{|/k1Warehouse/${l.sendWarehouse}|}">
 										[[${l.sendWarehouseName}]]

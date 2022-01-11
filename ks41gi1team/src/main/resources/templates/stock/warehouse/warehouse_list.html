@@ -57,7 +57,7 @@
 						</td>
 						<td>[[${l.category1}]]</td>
 						<td>[[${l.category2}]]</td>
-						<td>[[${l.area}]]</td>
+						<td>[[${#numbers.formatInteger(l.area,0,'COMMA')}]]</td>
 						<td>
 							<div class="progress progress-xs">
 								<div class="progress-bar bg-info" th:style="'width: '+${l.weightPer}+'%;'"></div>
