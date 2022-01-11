@@ -145,7 +145,7 @@
 		,clientCode
 		,amount
 		,VAT
-		,totalPrice
+		,count
 		,briefs
 	FROM
 		k1_tb_sales_transaction
