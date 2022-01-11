@@ -110,7 +110,7 @@ public class ContractController {
 		  model.addAttribute("clientList", clientList);
 		  System.out.println("clientList: " + clientList);
 		  
-		  List<MainBusiness> mainBusinessesList = mainBusinessService.getAllMainBusinessList(mainBusinessCode);
+		  List<MainBusiness> mainBusinessesList = mainBusinessService.getAllMainBusinessList();
 		  model.addAttribute("mainBusinessesList", mainBusinessesList);
 		  System.out.println("mainBusinessesList" + mainBusinessesList);
 		  
