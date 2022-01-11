@@ -50,7 +50,6 @@
 			,((p.amount + p.tax) * p.COUNT) AS amt
 			,c.businessName
 			,p.briefs
-			,p.totalAccountCode
 			,p.regDate
 			,p.updateDate
 			,u.userName
@@ -77,7 +76,6 @@
 			,((s.amount + s.tax) * s.COUNT) AS amt
 			,c.businessName
 			,s.briefs
-			,s.totalAccountCode
 			,s.regDate
 			,s.updateDate
 			,u.userName
@@ -140,5 +138,16 @@
 			,CURDATE()
 			,CURDATE()
 		);
+	</select>
+	<select id="saleTransactionList" parameterType="map" resultType="map">
+	SELECT
+		salesTsCode
+		,clientCode
+		,amount
+		,VAT
+		,totalPrice
+		,briefs
+	FROM
+		k1_tb_sales_transaction
 	</select>
 </mapper>

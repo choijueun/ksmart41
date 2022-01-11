@@ -54,7 +54,7 @@
 							</a>
 						</td>
 						<td th:style="${l.salesSection eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.salesSection}"></td>
-						<td>[[${l.totalPrice}]]</td>
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]원</td>
 						<td>[[${l.relateTable}]]</td>
 						<td>
 							<a th:href="@{|/k1TotalAc/modify/${l.totalAccountCode}|}">

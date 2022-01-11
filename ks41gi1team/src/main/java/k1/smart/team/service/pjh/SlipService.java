@@ -1,6 +1,7 @@
 package k1.smart.team.service.pjh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,5 +69,10 @@ public class SlipService {
 	public int addSlip(Slip slip) {
 	int addSlip = slipAddMapper.addSlip(slip);
 		return addSlip;
+	}
+	
+	public List<Map<String, Object>> saleTransactionList() {
+		List<Map<String, Object>> salesList = slipMapper.saleTransactionList(null);
+		return salesList;
 	}
 }
