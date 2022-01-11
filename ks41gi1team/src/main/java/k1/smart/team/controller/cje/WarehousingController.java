@@ -3,10 +3,14 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
@@ -19,6 +23,8 @@ public class WarehousingController {
 	private Storing warehousingInfo; //자재사용내역 하나
 	private List<Storing> warehousingList; //자재사용내역 배열
 	private Map<String, Object> resultMap;
+	
+	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
@@ -83,6 +89,7 @@ public class WarehousingController {
 		return "storing/warehousing/warehousing_add";
 	}
 	
+	
 	/**
 	 * 입고내역 수정화면
 	 * @param stockAdjCode
@@ -99,7 +106,7 @@ public class WarehousingController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
 		model.addAttribute("w", resultMap.get("warehousingInfo"));
-		model.addAttribute("d", resultMap.get("warehousingDetails"));
+		model.addAttribute("details", resultMap.get("warehousingDetails"));
 		
 		return "storing/warehousing/warehousing_modify";
 	}
