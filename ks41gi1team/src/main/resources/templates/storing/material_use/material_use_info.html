@@ -36,7 +36,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th>출하창고</th>
+								<th>출고창고</th>
 								<td colspan="2">
 									<a th:href="@{|/k1MaterialUse/${s.sendWarehouse}|}">
 										[[${s.sendWarehouseName}]]
@@ -104,11 +104,11 @@
 						<thead>
 							<tr>
 								<th>품목명</th>
+								<th>거래명세서</th>
 								<th>조정수량</th>
 								<th>최종수량</th>
 								<th>조정중량</th>
 								<th>최종중량</th>
-								<th>거래명세서</th>
 								<th>상태</th>
 								<th>비고</th>
 							</tr>
@@ -120,11 +120,11 @@
 										[[${l.itemName}]]
 									</a>
 								</td>
+								<td>비용 [[${l.purchaseTsCode}]]</td>
 								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.afterCount,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
 								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
-								<td>매출 [[${l.salesTsCode}]]</td>
 								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>

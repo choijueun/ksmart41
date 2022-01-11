@@ -47,6 +47,7 @@ public class Storing {
 	private int amount;
 	
 	private int deliveryCost; //운송비용
+	private int unitPrice; //단가
 	private int totalPrice; //총가격
 	private String receiveAddr; //도착지
 	
@@ -99,6 +100,12 @@ public class Storing {
 	}
 	public void setStockReason(String stockReason) {
 		this.stockReason = stockReason;
+	}
+	public int getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 	public String getStockReasonEng() {
 		return stockReasonEng;
@@ -465,6 +472,8 @@ public class Storing {
 		builder.append(amount);
 		builder.append(", deliveryCost=");
 		builder.append(deliveryCost);
+		builder.append(", unitPrice=");
+		builder.append(unitPrice);
 		builder.append(", totalPrice=");
 		builder.append(totalPrice);
 		builder.append(", receiveAddr=");
@@ -497,6 +506,120 @@ public class Storing {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", getStockAdjCode()=");
+		builder.append(getStockAdjCode());
+		builder.append(", getStockAdjDetailCode()=");
+		builder.append(getStockAdjDetailCode());
+		builder.append(", getMainBusinessCode()=");
+		builder.append(getMainBusinessCode());
+		builder.append(", getStockReasonCode()=");
+		builder.append(getStockReasonCode());
+		builder.append(", getStockReason()=");
+		builder.append(getStockReason());
+		builder.append(", getUnitPrice()=");
+		builder.append(getUnitPrice());
+		builder.append(", getStockReasonEng()=");
+		builder.append(getStockReasonEng());
+		builder.append(", getClientCode()=");
+		builder.append(getClientCode());
+		builder.append(", getBusinessName()=");
+		builder.append(getBusinessName());
+		builder.append(", getInventoryCode()=");
+		builder.append(getInventoryCode());
+		builder.append(", getItemCode()=");
+		builder.append(getItemCode());
+		builder.append(", getItemName()=");
+		builder.append(getItemName());
+		builder.append(", getItemList()=");
+		builder.append(getItemList());
+		builder.append(", getContractCode()=");
+		builder.append(getContractCode());
+		builder.append(", getContractSection()=");
+		builder.append(getContractSection());
+		builder.append(", getMaterialOrderCode()=");
+		builder.append(getMaterialOrderCode());
+		builder.append(", getProductOrderCode()=");
+		builder.append(getProductOrderCode());
+		builder.append(", getDeliveryCode()=");
+		builder.append(getDeliveryCode());
+		builder.append(", getShipmentPlanCode()=");
+		builder.append(getShipmentPlanCode());
+		builder.append(", getShipPlanDetailCode()=");
+		builder.append(getShipPlanDetailCode());
+		builder.append(", getReturnRegCode()=");
+		builder.append(getReturnRegCode());
+		builder.append(", getSendWarehouse()=");
+		builder.append(getSendWarehouse());
+		builder.append(", getSendWarehouseName()=");
+		builder.append(getSendWarehouseName());
+		builder.append(", getSendWarehouseLocation()=");
+		builder.append(getSendWarehouseLocation());
+		builder.append(", getSendWarehouseOutPlace()=");
+		builder.append(getSendWarehouseOutPlace());
+		builder.append(", getReceiveWarehouse()=");
+		builder.append(getReceiveWarehouse());
+		builder.append(", getReceiveWarehouseName()=");
+		builder.append(getReceiveWarehouseName());
+		builder.append(", getReceiveWarehouseLocation()=");
+		builder.append(getReceiveWarehouseLocation());
+		builder.append(", getReceiveWarehouseOutPlace()=");
+		builder.append(getReceiveWarehouseOutPlace());
+		builder.append(", getPurchaseTsCode()=");
+		builder.append(getPurchaseTsCode());
+		builder.append(", getSalesTsCode()=");
+		builder.append(getSalesTsCode());
+		builder.append(", getAdjCount()=");
+		builder.append(getAdjCount());
+		builder.append(", getAfterCount()=");
+		builder.append(getAfterCount());
+		builder.append(", getAdjWeight()=");
+		builder.append(getAdjWeight());
+		builder.append(", getStockWeight()=");
+		builder.append(getStockWeight());
+		builder.append(", getTotalWeight()=");
+		builder.append(getTotalWeight());
+		builder.append(", getAmount()=");
+		builder.append(getAmount());
+		builder.append(", getDeliveryCost()=");
+		builder.append(getDeliveryCost());
+		builder.append(", getTotalPrice()=");
+		builder.append(getTotalPrice());
+		builder.append(", getReceiveAddr()=");
+		builder.append(getReceiveAddr());
+		builder.append(", getSendPlanDate()=");
+		builder.append(getSendPlanDate());
+		builder.append(", getReceivePlanDate()=");
+		builder.append(getReceivePlanDate());
+		builder.append(", getRequestDate()=");
+		builder.append(getRequestDate());
+		builder.append(", getAdjDate()=");
+		builder.append(getAdjDate());
+		builder.append(", getEndDate()=");
+		builder.append(getEndDate());
+		builder.append(", getBriefs()=");
+		builder.append(getBriefs());
+		builder.append(", getStockStatus()=");
+		builder.append(getStockStatus());
+		builder.append(", getComment()=");
+		builder.append(getComment());
+		builder.append(", getDefectType()=");
+		builder.append(getDefectType());
+		builder.append(", getDefectHandlingType()=");
+		builder.append(getDefectHandlingType());
+		builder.append(", getManagerId()=");
+		builder.append(getManagerId());
+		builder.append(", getManagerName()=");
+		builder.append(getManagerName());
+		builder.append(", getRegDate()=");
+		builder.append(getRegDate());
+		builder.append(", getUpdateDate()=");
+		builder.append(getUpdateDate());
+		builder.append(", getClass()=");
+		builder.append(getClass());
+		builder.append(", hashCode()=");
+		builder.append(hashCode());
+		builder.append(", toString()=");
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}

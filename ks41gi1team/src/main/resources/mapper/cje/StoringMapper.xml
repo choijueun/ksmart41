@@ -213,6 +213,7 @@
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,p.unitPrice
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
@@ -239,6 +240,19 @@
 		) AS i
 		ON
 		ad.inventoryCode = i.inventoryCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.unitPrice
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS p
+		ON
+		ad.purchaseTsCode = p.purchaseTsCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 1;
@@ -249,6 +263,8 @@
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,p.unitPrice
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -276,6 +292,19 @@
 		) AS i
 		ON
 		ad.inventoryCode = i.inventoryCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.unitPrice
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS p
+		ON
+		ad.purchaseTsCode = p.purchaseTsCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 2;
