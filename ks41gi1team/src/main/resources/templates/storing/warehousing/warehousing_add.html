@@ -27,6 +27,7 @@ $(function(){
 		dateToday += dateObj.getDate();
 	}
 	$('.inputDate').find('input').val(dateToday);
+	
 	//datetimepicker
 	$('#requestDate').datetimepicker({
 		format: 'yy-mm-DD'
@@ -38,8 +39,22 @@ $(function(){
 		format: 'yy-mm-DD'
 	});
 	
+	//상세내역 폼 추가
+	var details = $('#details');
+	var forms = $('form.row:first-of-type');
+	$(document).on('click', '#addLine', function(){
+		var clone = forms.clone();
+		clone.find('input').val('');
+		details.append(clone);
+	});
+	//상세내역 폼 삭제
+	var removeLine = $('button.removeLine')
+	$(document).on('click', '.removeLine', function(){
+		$(this).parents('form.row').remove();
+	})
 	
-})
+	
+});
 </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
@@ -173,8 +188,8 @@ $(function(){
 				<div class="card-header">
 					<h3 class="card-title">자재입고 상세내역  등록</h3>
 				</div>
-				<div class="card-body">
-					<div class="row">
+				<div id="details" class="card-body">
+					<form class="row">
 						<div class="form-group col-lg-2 col-sm-6">
 							<input type="hidden" id="inventoryCode" name="inventoryCode" class="form-control">
 							<input type="text" id="itemName" name="itemName" class="form-control" placeholder="품목명">
@@ -199,10 +214,10 @@ $(function(){
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
-					</div>
+					</form>
 				</div>
 				<div class="card-footer">
-					<button type="button" class="btn btn-default btn-sm float-right addLine">
+					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
 						<i class="far fa-plus-square"></i>
 					</button>
 				</div>
