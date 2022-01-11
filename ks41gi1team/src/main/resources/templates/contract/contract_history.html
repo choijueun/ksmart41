@@ -66,7 +66,7 @@
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-contractCode="' + row.contractCode +'">수정</button>';
+			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
 			        						return htmlbtn;
 			        					}
 			        		},
@@ -75,7 +75,7 @@
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'">삭제</button>';
+			        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'"><i class="fas fa-trash"></i></button>';
 			        						return htmlbtn;
 			        					}
 			        		}
@@ -92,7 +92,7 @@
 			</div>
 			<div class="card-body">
 			<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-			<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
+			<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;" >
 				<thead>
 					<tr>
 						<th>계약코드</th>
@@ -116,6 +116,80 @@
 			</table>
 			</div>
 			</div>
+			
+			  <div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+          <div class="modal-content">
+          	계약 목록 수정 화면
+            <div class="modal-header">
+              <h4 class="modal-title">계약 목록 수정 화면</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <table id="contractListModifyList" class="table table-bordered table-hover dataTable dtr-inline">
+				<tbody th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+				<tr>
+						 <td>사업장별 대표코드: <input type="text" th:placeholder="${l.mainBusinessCode}"/></td>
+				</tr>	
+				<tr>
+						 <td>거래처 대표코드: <input type="text" th:placeholder="${l.clientCode}"/></td>
+				</tr>	
+				<tr>
+						 <td>거래처 담당자: <input type="text" th:placeholder="${l.businessRepresentative}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약 주문유형: <input type="text" th:placeholder="${l.contractSection}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약유형: <input type="text" th:placeholder="${l.contractType}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약시작날짜: <input type="text" th:placeholder="${l.startDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약종료날짜: <input type="text" th:placeholder="${l.endDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>담당자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>등록자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>승인자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약일자: <input type="text" th:placeholder="${l.contractDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약상태: <input type="text" th:placeholder="${l.contractStatus}"/></td>
+				</tr>	
+				<tr>
+						 <td>적요: <input type="text" th:placeholder="${l.briefs}"/></td>
+				</tr>	
+				<tr>
+						 <td>등록일시: <input type="text" th:placeholder="${l.regDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>수정일시: <input type="text" th:placeholder="${l.updateDate}"/></td>
+				</tr>	
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-primary" >수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+				</tbody>
+				</table>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+          <!-- /.modal-dialog -->
+        </div>
+</div>   
+			
 		</div>
 	</th:block>
 </html>

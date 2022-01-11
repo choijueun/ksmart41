@@ -46,7 +46,7 @@ $('#closeModalBtn').on('click', function(){
 
 
 <div class="container-fluid">
-	<div class="card">
+	<div class="card card-info card-outline">
 		<div class="card-header">
 			발주 목록
 		</div>
@@ -54,7 +54,8 @@ $('#closeModalBtn').on('click', function(){
 
 		</div>
 		<div class="card-body">
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -69,6 +70,7 @@ $('#closeModalBtn').on('click', function(){
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
+						<th>삭제></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,10 +82,13 @@ $('#closeModalBtn').on('click', function(){
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictDate}]]</td>
 						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${l.totalPrice}]]</td> 
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn"><i class="fas fa-pen"></i></button>
+							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn"><i class="fas fa-trash"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -93,7 +98,9 @@ $('#closeModalBtn').on('click', function(){
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+	
+	
+	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
           <div class="modal-content">
           	발주 목록 수정 화면
@@ -123,7 +130,7 @@ $('#closeModalBtn').on('click', function(){
 				<tbody>
 				<tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td><input type="text" placeholder=[[${l.materialOrderCode}]]></td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
@@ -134,9 +141,11 @@ $('#closeModalBtn').on('click', function(){
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-primary">수정</button>
+              <button type="button" class="btn btn-primary" >수정</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
+				</tbody>
+				</table>
           </div>
           <!-- /.modal-content -->
         </div>

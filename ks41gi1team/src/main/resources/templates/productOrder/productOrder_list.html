@@ -7,12 +7,43 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
+<th:block layout:fragment="customJs">
+<script>
+
+// 모달 버튼에 이벤트를 건다.
+
+$('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하면
+            var 글번호 = e.target.dataset.id; // e.target > 지금 클릭한 것
+            var 지금누른거 = $(this); // this > 지금 이벤트 동작하는 곳
+            // 지금 누른 값의 data-id 를 가져와주세요.
+  $.ajax({
+    method : 'DELETE',
+    url : '/delete',
+    data : '1번게시물'
+  }).done(function(결과){
+    AJAX 성공시 실행할 코드는 여기
+  }).fail(function(에러){
+    실패시 실행할 코드는 여기
+  });
+
+/*  function rowDel(obj)
+ {
+     var tr = obj.parentNode.parentNode;
+	if(confirm("정말 삭제하시겠습니까??") == true){
+     tr.parentNode.removeChild(tr);
+	}else{
+		return false;
+	}
+ } */
+
+
+</script>
+</th:block>
 <th:block layout:fragment="customContents">
 <!-- content -->
 	<form th:action="@{/k1ProductOrder/k1ProductOrderOne}" method="post" style="text-align: center;">
@@ -37,7 +68,7 @@
 
 
 <div class="container-fluid">
-	<div class="card">
+	<div class="card card-info card-outline">
 		<div class="card-header">
 			수주 목록
 		</div>
@@ -45,7 +76,8 @@
 
 		</div>
 		<div class="card-body">
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="productOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -59,6 +91,8 @@
 						<th>수량</th>
 						<th>금액</th>
 						<th>수주진행상태</th>
+						<th>수정</th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,11 +103,14 @@
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictProductDate}]]</td>
-						<td>[[${l.totalProductCount}]]</td>
-						<td>[[${l.totalProductPrice}]] 원</td> 
+						<td>[[${#numbers.formatInteger(l.totalProductCount,0,'COMMA')}]] &#8361;</td>
+						<td>[[${#numbers.formatInteger(l.totalProductPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<i class="fas fa-pen"></i>
+							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn" onclick='javascript:rowDel(this);'><i class="fas fa-trash"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(productOrderList)}">
@@ -83,8 +120,59 @@
 			</table>
 		</div>
 	</div>
-</div>
+	
+	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+          <div class="modal-content">
+          	수주 목록 수정 화면
+            <div class="modal-header">
+              <h4 class="modal-title">수주 목록 수정 화면</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
+				<tbody th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
 
+				<tr>
+						 <td>수주요청일자: <input type="text" th:placeholder="${l.productOrderDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>거래처명: <input type="text" th:placeholder="${l.businessName}"/></td>
+				</tr>	
+				<tr>
+						 <td>제품: <input type="text" th:placeholder="${l.itemName}"/></td>
+				</tr>	
+				<tr>
+						 <td>예상제품출하일자: <input type="text" th:placeholder="${l.predictProductDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>수량: <input type="text" th:placeholder="${#numbers.formatInteger(l.totalProductCount,0,'COMMA')}"/></td>
+				</tr>	
+				<tr>
+						 <td>금액: <input type="text" th:placeholder="${#numbers.formatInteger(l.totalProductPrice,0,'COMMA')}"/></td>
+				</tr>	
+				<tr>
+						<td>수주진행상태: <input type="text" th:placeholder="${l.status}"/></td>
+				</tr>	
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-primary" >수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+				</tbody>
+				</table>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+          <!-- /.modal-dialog -->
+        </div>
+</div>
+	
+</div>
+</div>
 </th:block>
 
 </html>
