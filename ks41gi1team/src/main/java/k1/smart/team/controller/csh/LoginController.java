@@ -25,7 +25,7 @@ public class LoginController {
 	//로그인 내역
 	@GetMapping("/loginList")
 	public String loginHistory3 (Model model) {
-		model.addAttribute("SectionTitle", 			"로그인 이력조회");
+		model.addAttribute("SectionTitle", "로그인 이력조회");
 		
 		return "login/loginHistory3";
 	}
