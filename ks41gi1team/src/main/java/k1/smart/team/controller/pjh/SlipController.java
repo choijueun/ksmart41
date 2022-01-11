@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Slip;
@@ -30,7 +31,8 @@ public class SlipController {
 		List<Slip> p_slipList = slipService.getAllPSlipList(mainBusinessCode);
 		List<Slip> s_slipList = slipService.getAllSSlipList(mainBusinessCode);
 		
-		model.addAttribute("title", "전표목록관리");
+		model.addAttribute("SectionTitle", "전표관리");
+		model.addAttribute("SectionLocation", "전표조회");
 		model.addAttribute("p_slipList", p_slipList);
 		model.addAttribute("s_slipList", s_slipList);
 		return "slip/slip_list";
@@ -54,7 +56,8 @@ public class SlipController {
 			return "redirect:/k1SlipList";
 		}
 		
-		model.addAttribute("title", "비용전표: 상세정보");
+		model.addAttribute("SectionTitle", "전표관리");
+		model.addAttribute("SectionLocation", "비용전표상세");
 		model.addAttribute("purchaseSlipInfo", purchaseSlipInfo);
 		return "slip/slip_purchaseDetail";
 	}
@@ -75,7 +78,8 @@ public class SlipController {
 			return "redirect:/k1SlipList";
 		}
 		
-		model.addAttribute("title", "비용전표: 상세정보");
+		model.addAttribute("SectionTitle", "전표관리");
+		model.addAttribute("SectionLocation", "매출전표상세");
 		model.addAttribute("salesSlipInfo", salesSlipInfo);
 		return "slip/slip_salesDetail";
 	}
@@ -84,6 +88,14 @@ public class SlipController {
 	public String addSlip(Model model) {
 		model.addAttribute("title", "전표관리: 등록");
 		return "slip/slip_register";
+	}
+	
+	@PostMapping("/add")
+	public String addSlip(Slip slip) {
+		System.out.println("SlipController에서 입력받은값" + slip);
+		slipService.addSlip(slip);
+		return "redirect:/slip/slip_list";
+		
 	}
 	
 	@GetMapping("/modify/{slipCode}")

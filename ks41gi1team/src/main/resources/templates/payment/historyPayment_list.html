@@ -39,7 +39,7 @@
 							</a>
 						</td>
 						<td>[[${l.businessName}]]</td>
-						<td>[[${l.type}]]</td>
+						<td th:style="${l.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.type}"></td>
 						<td>[[${l.payCost}]]</td>
 						<td>[[${l.briefs}]]</td>
 						<td>
