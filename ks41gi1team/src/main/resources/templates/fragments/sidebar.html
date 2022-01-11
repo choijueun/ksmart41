@@ -3,8 +3,18 @@
 
 <th:block th:fragment="sidebarFragment">
 <style type="text/css">
-.nav-item:hover ul.nav-treeview { display: block; margin-top: 0; transform: translateX(1em); transition: 0.3s;}
+.nav-item ul.nav-treeview { transform: translateX(1em); }
 </style>
+<script type="text/javascript">
+$(function(){
+	$(document).on('mouseenter', '.nav-item', function(){
+		$(this).find('.nav-treeview').slideDown(500);
+	});
+	$(document).on('mouseleave', '.nav-item', function(){
+		$(this).find('.nav-treeview').slideUp(500);
+	});
+});
+</script>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
@@ -131,49 +141,49 @@
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a th:href="@{/k1Warehousing}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>자재입고</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1MaterialUse}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>자재사용</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Production}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>제품생산</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Moving}"class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>창고이동</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Shipment}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>제품출하</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Adjustment}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>재고조정</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Return}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>반품처리</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Defect}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
+								<i class="far fa-circle nav-icon"></i>
 								<p>불량처리</p>
 							</a>
 						</li>
