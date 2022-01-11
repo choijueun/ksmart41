@@ -92,8 +92,6 @@ public class ContractController {
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
 
-		 	  
-
 		/* 최선희 수정
 		 * mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		 */		  
@@ -230,3 +228,4 @@ public class ContractController {
 		 */
 	
 }
+

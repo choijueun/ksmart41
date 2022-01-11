@@ -142,8 +142,5 @@ public class MaterialOrder {
 		builder.append("]");
 		return builder.toString();
 	}
-
-
-
 	
 }
