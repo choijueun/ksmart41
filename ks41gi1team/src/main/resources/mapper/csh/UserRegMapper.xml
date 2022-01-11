@@ -4,25 +4,49 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">
 	
-	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
-		SELECT 
-			 r.userRegCode
-			,r.mainBusinessCode
-			,r.userLevelCode
-			,r.userId
-			,r.userPw
-			,r.userName
-			,r.userGender
-			,r.userAddr
-			,r.userMoblie
-			,r.userEmail
-			,r.userPosition
-			,r.userRegDate
-			,r.userRegStatus
-			,r.userRegComment
-		FROM 
-			k1_tb_user_register AS r;
-	</select>
+<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
+	SELECT 
+		 r.userRegCode
+		,r.mainBusinessCode
+		,r.userLevelCode
+		,r.userId
+		,r.userPw
+		,r.userName
+		,r.userGender
+		,r.userAddr
+		,r.userMoblie
+		,r.userEmail
+		,r.userPosition
+		,r.userRegDate
+		,r.userRegStatus
+		,r.userRegComment
+	FROM 
+		k1_tb_user_register AS r;
+</select>
+
+<select id="getUserRegDetail" parameterType="String" resultType="UserReg">
+	SELECT 
+		 userRegCode
+		,mainBusinessCode
+		,userLevelCode
+		,userId
+		,userPw
+		,userName
+		,userGender
+		,userAddr
+		,userMoblie
+		,userEmail
+		,userPosition
+		,userRegDate
+		,userRegStatus
+		,userRegComment
+	FROM 
+		k1_tb_user_register
+	WHERE 
+		userRegCode = #{userRegCode};
+	
+</select>
+	
 	
 	
 

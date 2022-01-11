@@ -19,4 +19,7 @@ public interface UserRegMapper {
 	// 로그인 이력 조회
 	public List<Map<String, Object>> getLoginHistoryList(Map<String, Object> paramMap);
 
+	//회원가입요청 상세
+	public UserReg getUserRegDetail(String userRegCode);
+
 }
