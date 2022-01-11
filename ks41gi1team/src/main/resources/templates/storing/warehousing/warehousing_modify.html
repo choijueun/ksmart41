@@ -221,6 +221,32 @@ $(function(){
 							</button>
 						</div>
 					</form>
+					<form class="row">
+						<div class="form-group col-lg-2 col-sm-6">
+							<input type="hidden" id="inventoryCode" name="inventoryCode" class="form-control">
+							<input type="text" name="itemName" class="form-control" placeholder="품목명">
+						</div>
+						<div class="form-group col-lg-1 col-sm-6">
+							<input type="number" name="unitPrice" class="form-control" placeholder="비용">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="number" name="adjCount" class="form-control" placeholder="입고수량">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="number" name="adjWeight" class="form-control" placeholder="입고중량">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="text" name="stockStatus" class="form-control" placeholder="조정상태">
+						</div>
+						<div class="form-group col-lg-2 col-sm-8">
+							<input type="text" name="comment" class="form-control" placeholder="비고">
+						</div>
+						<div class="form-group col-lg-1 col-sm-4">
+							<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</form>
 				</div>
 				<div class="card-footer">
 					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">

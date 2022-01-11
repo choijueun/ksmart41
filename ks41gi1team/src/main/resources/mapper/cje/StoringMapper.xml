@@ -296,6 +296,7 @@
 		(SELECT
 			 p.purchaseTsCode
 			,pd.unitPrice
+			,pd.itemCode
 		FROM
 			k1_tb_purchase_transaction AS p
 			JOIN
@@ -305,6 +306,7 @@
 		) AS p
 		ON
 		ad.purchaseTsCode = p.purchaseTsCode
+		AND i.itemCode = p.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 2;
