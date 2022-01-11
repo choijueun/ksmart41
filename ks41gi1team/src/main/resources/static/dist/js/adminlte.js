@@ -2814,22 +2814,22 @@
 
     var _proto = Treeview.prototype;
 
-    _proto.init = function init() {
+/*    _proto.init = function init() {
       $__default['default']("" + SELECTOR_LI + SELECTOR_OPEN + " " + SELECTOR_TREEVIEW_MENU + SELECTOR_OPEN).css('display', 'block');
 
       this._setupListeners();
-    };
+    };*/
 
     _proto.expand = function expand(treeviewMenu, parentLi) {
       var _this = this;
 
       var expandedEvent = $__default['default'].Event(EVENT_EXPANDED);
 
-      if (this._config.accordion) {
+/*      if (this._config.accordion) {
         var openMenuLi = parentLi.siblings(SELECTOR_OPEN).first();
         var openTreeview = openMenuLi.find(SELECTOR_TREEVIEW_MENU).first();
         this.collapse(openTreeview, openMenuLi);
-      }
+      }*/
 
       parentLi.addClass(CLASS_NAME_IS_OPENING);
       treeviewMenu.stop().slideDown(this._config.animationSpeed, function () {
@@ -2842,7 +2842,7 @@
       }
     };
 
-    _proto.collapse = function collapse(treeviewMenu, parentLi) {
+/*    _proto.collapse = function collapse(treeviewMenu, parentLi) {
       var _this2 = this;
 
       var collapsedEvent = $__default['default'].Event(EVENT_COLLAPSED);
@@ -2852,7 +2852,7 @@
         treeviewMenu.find(SELECTOR_OPEN + " > " + SELECTOR_TREEVIEW_MENU).slideUp();
         treeviewMenu.find(SELECTOR_OPEN).removeClass(CLASS_NAME_OPEN);
       });
-    };
+    };*/
 
     _proto.toggle = function toggle(event) {
       var $relativeTarget = $__default['default'](event.currentTarget);
