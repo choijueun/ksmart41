@@ -56,7 +56,7 @@ public class MaterialOrderController {
 			model.addAttribute("materialOrderInfo", materialOrderInfo);
 			
 			model.addAttribute("title", "발주관리: 수정");
-			return "materialOrder/materialOrder_modify";
+			return "materialOrder/materialOrder_list";
 		}
 		
 		

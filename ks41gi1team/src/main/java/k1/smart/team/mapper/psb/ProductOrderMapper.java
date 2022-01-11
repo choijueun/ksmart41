@@ -21,4 +21,7 @@ public interface ProductOrderMapper {
 	//전체 수주 검색
 	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode);
 
+	//수주 삭제
+	public String k1ProductOrderRemove();
+
 }

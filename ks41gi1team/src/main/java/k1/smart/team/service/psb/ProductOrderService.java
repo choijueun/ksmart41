@@ -49,6 +49,12 @@ public class ProductOrderService {
 		}
 		return productOrderList;
 	}
+	
+	//수주 삭제
+	public String k1ProductOrderRemove() {
+			String result = productOrderMapper.k1ProductOrderRemove();
+		return result;
+	}
 
 
 }

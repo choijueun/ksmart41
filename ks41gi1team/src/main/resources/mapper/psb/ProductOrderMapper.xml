@@ -22,6 +22,14 @@
 		<result column="itemName" 				property="itemName"/>
 	</resultMap>  
 	
+	<delete id="k1ProductOrderRemove" parameterType="String">
+		DELETE
+		FROM
+			k1_tb_product_order
+		WHERE
+				
+	</delete>
+	
 <select id="getProductOrderListBySearchKey" parameterType ="String" resultMap="productOrderResultMap">
 	SELECT 
 		po.productOrderCode as productOrderCode,

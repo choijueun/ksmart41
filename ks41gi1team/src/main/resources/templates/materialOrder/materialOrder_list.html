@@ -7,13 +7,29 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
+<th:block layout:fragment="customJs">
+<script>
+
+// 모달 버튼에 이벤트를 건다.
+$('#openModalBtn').on('click', function(){
+	$('#modal-default').modal('show');
+	});
+
+//모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+	$('#modalBox').modal('hide');
+	});
+
+
+
+</script>
+</th:block>
 
 <!-- content -->
 	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
@@ -30,7 +46,7 @@
 
 
 <div class="container-fluid">
-	<div class="card">
+	<div class="card card-info card-outline">
 		<div class="card-header">
 			발주 목록
 		</div>
@@ -38,7 +54,8 @@
 
 		</div>
 		<div class="card-body">
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -53,6 +70,7 @@
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
+						<th>삭제></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,10 +82,13 @@
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictDate}]]</td>
 						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${l.totalPrice}]]</td> 
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}"><i class="fas fa-pen"></i></a>
+							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn"><i class="fas fa-trash"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -77,7 +98,9 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+	
+	
+	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
           <div class="modal-content">
           	발주 목록 수정 화면
@@ -107,7 +130,7 @@
 				<tbody>
 				<tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td><input type="text" placeholder=[[${l.materialOrderCode}]]></td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
@@ -118,9 +141,11 @@
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" >수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
+				</tbody>
+				</table>
           </div>
           <!-- /.modal-content -->
         </div>
