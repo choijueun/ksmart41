@@ -24,4 +24,7 @@ public interface SlipMapper {
 	public Slip getPurchaseTransactionCode(String mainBusinessCode);
 	//매출명세서 조회
 	public Slip getSalesTransactionCode(String mainBusinessCode);
+	
+	//전표 등록
+	public int addSlip (Slip slip);
 }

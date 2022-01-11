@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Slip;
@@ -87,6 +88,14 @@ public class SlipController {
 	public String addSlip(Model model) {
 		model.addAttribute("title", "전표관리: 등록");
 		return "slip/slip_register";
+	}
+	
+	@PostMapping("/add")
+	public String addSlip(Slip slip) {
+		System.out.println("SlipController에서 입력받은값" + slip);
+		slipService.addSlip(slip);
+		return "redirect:/slip/slip_list";
+		
 	}
 	
 	@GetMapping("/modify/{slipCode}")
