@@ -59,7 +59,7 @@
 								</td>
 								<td>비용</td>
 								<td>[[${l.businessName}]]</td>
-								<td>[[${l.amt}]]원</td>
+								<td>[[${#numbers.formatInteger(l.amt,0,'COMMA')}]]원</td>
 								<td>[[${l.briefs}]]</td>
 								<td>
 									<a th:href="@{|/k1SlipList/modify/${l.purchaseSlipCode}|}">
@@ -99,7 +99,7 @@
 									</td>
 									<td>매출</td>
 									<td>[[${s.businessName}]]</td>
-									<td>[[${s.amt}]]원</td>
+									<td>[[${#numbers.formatInteger(s.amt,0,'COMMA')}]]원</td>
 									<td>[[${s.briefs}]]</td>
 									<td>
 									<a th:href="@{|/k1SlipList/modify/${s.salesSlipCode}|}">

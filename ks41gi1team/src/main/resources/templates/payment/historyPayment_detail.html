@@ -37,11 +37,11 @@
 								<th>결제예정코드</th>
 								<td>[[${historyPaymentInfo.payPlanCode}]]</td>
 								<th>결제예정 합계금액</th>
-								<td>[[${historyPaymentInfo.totalPlanCost}]]원</td>
+								<td>[[${#numbers.formatInteger(historyPaymentInfo.totalPlanCost,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>결제금액</th>
-								<td>[[${historyPaymentInfo.payCost}]]원</td>
+								<td>[[${#numbers.formatInteger(historyPaymentInfo.payCost,0,'COMMA')}]]원</td>
 								<th>결제구분</th>
 								<td>[[${historyPaymentInfo.payType}]]</td>
 							</tr>
@@ -110,12 +110,12 @@
 											[[${l.itemName}]]
 										</a>
 									</td>
-									<td>[[${l.materialCost}]]원</td>
-									<td>[[${l.tax}]]원</td>
-									<td>[[${l.productPrice}]]원</td>
-									<td>[[${l.vat}]]원</td>
+									<td>[[${#numbers.formatInteger(l.materialCost,0,'COMMA')}]]원</td>
+									<td>[[${#numbers.formatInteger(l.tax,0,'COMMA')}]]원</td>
+									<td>[[${#numbers.formatInteger(l.productPrice,0,'COMMA')}]]원</td>
+									<td>[[${#numbers.formatInteger(l.vat,0,'COMMA')}]]원</td>
 									<td>[[${l.count}]]</td>
-									<td>[[${l.sum}]]원</td>
+									<td>[[${#numbers.formatInteger(l.sum,0,'COMMA')}]]원</td>
 								</tr>
 							</tbody>
 							<tbody th:if="${#lists.isEmpty(historyPaymentInfoList)}">

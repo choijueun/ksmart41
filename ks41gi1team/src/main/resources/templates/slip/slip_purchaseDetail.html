@@ -43,9 +43,9 @@
 							</tr>
 							<tr>
 								<th>공급가액</th>
-								<td>[[${purchaseSlipInfo.amount}]]원</td>
+								<td>[[${#numbers.formatInteger(purchaseSlipInfo.amount,0,'COMMA')}]]원</td>
 								<th>부가세</th>
-								<td>[[${purchaseSlipInfo.tax}]]원</td>
+								<td>[[${#numbers.formatInteger(purchaseSlipInfo.tax,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>수량</th>
@@ -54,7 +54,7 @@
 							
 							<tr>
 								<th>합계금액</th>
-								<td colspan="3">[[${purchaseSlipInfo.amt}]]원</td>
+								<td colspan="3">[[${#numbers.formatInteger(purchaseSlipInfo.amt,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>적요</th>

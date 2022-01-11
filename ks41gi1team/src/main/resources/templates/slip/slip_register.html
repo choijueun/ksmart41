@@ -23,6 +23,70 @@
 					}
 				});
 			});
+			$(document).on('click', '#TsCode', function(){
+				var aLengthMenuArray = [];
+				aLengthMenuArray.push([5,10,-1]);
+				aLengthMenuArray.push([5,10,'ALL']);
+				
+				$('#stList').DataTable({
+					destroy: true,
+					pageLength: 5,
+					aLengthMenu: aLengthMenuArray,
+					ajax: {
+						url: '/k1SlipList/salesList',
+	   					type: 'POST',
+	   					dataSrc: function(data){
+	        				console.log(JSON.stringify(data));
+	        				return data;
+	        			}
+					},
+					columns: [
+						{ "data": "선택"},
+						{ "data": "salesTsCode"},
+						{ "data": "clientCode"},
+						{ "data": "amount"},						
+						{ "data": "VAT"},
+						{ "data": "totalPrice"},
+						{ "data": "briefs"}
+					],
+					columnDefs: [
+						{
+							targets: [0],
+							orderable : false,
+							searchable : false,
+							render : function(data, type, row){
+								var htmlbtn = '<input type="radio" class="salesTsCode" name="salesTsCode" value="'+ row.salesTsCode +'">'
+								return htmlbtn;
+							}
+						}
+					]
+				});			
+			});
+			$(document).on('click', '#sBtn', function(){
+				var selected = $('.salesTsCode:checked');
+				console.log(selected)
+  				var TsCode = $('#TsCode');
+				var businessName = $('#businessName');
+				var amount = $('#amount');
+				var tax = $('#tax');
+				var count = $('#count');
+				var briefs = $('#briefs');
+				
+				var TsCodeValue = selected.parent().parent().children().eq(1).text();
+				var businessNameValue = selected.parent().parent().children().eq(2).text();
+				var amountValue = selected.parent().parent().children().eq(3).text();
+				var taxValue = selected.parent().parent().children().eq(4).text();
+				var countValue = selected.parent().parent().children().eq(5).text();
+				var briefsValue = selected.parent().parent().children().eq(6).text();
+				
+				TsCode.attr('value',TsCodeValue);
+				businessName.attr('value',businessNameValue);
+				amount.attr('value',amountValue);
+				tax.attr('value',taxValue);
+				count.attr('value',countValue);
+				briefs.attr('value',briefsValue);  
+			});
+			
 		});
 	</script>
 </th:block>
@@ -73,20 +137,15 @@
 													<thead>
 														<tr>
 															<th>비용명세서번호</th>
+															<th>거래처명</th>
 															<th>적요</th>
 														</tr>
 													</thead>
-													<tbody>
-														<tr th:if="${not #lists.isEmpty(pTsList)}" th:each="p : ${pTsList}">
-															<td>[[${p.purchaseTsCode}]]</td>
-															<td>[[${p.briefs}]]</td>
-														</tr>
-													</tbody>
 												</table>
 											</div>
 											<div class="modal-footer justify-content-between">
 												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-												<button type="button" class="btn btn-primary">저장</button>
+												<button type="button" class="btn btn-primary" id="pBtn">저장</button>
 											</div>
 										</div>
 									</div>
@@ -101,12 +160,23 @@
 												</button>
 											</div>
 											<div class="modal-body">
-												<table id="totalAcList" class="table table-bordered table-hover dataTable dtr-inline">
+												<table id="stList" class="table table-bordered table-hover dataTable dtr-inline">
+													<thead>
+														<tr>
+															<th>선택<th>
+															<th>매출명세서번호</th>
+															<th>거래처명</th>
+															<th>공급가액</th>
+															<th>부가세</th>
+															<th>수량</th>
+															<th>적요</th>
+														</tr>
+													</thead>
 												</table>
 											</div>
 											<div class="modal-footer justify-content-between">
 												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-												<button type="button" class="btn btn-primary">저장</button>
+												<button type="button" class="btn btn-primary" id="sBtn">저장</button>
 											</div>
 										</div>
 									</div>

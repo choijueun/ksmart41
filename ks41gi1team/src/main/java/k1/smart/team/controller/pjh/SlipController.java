@@ -1,6 +1,7 @@
 package k1.smart.team.controller.pjh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.service.pjh.SlipService;
@@ -107,5 +109,12 @@ public class SlipController {
 		return "slip/slip_modify";
 	}
 			
-			
+	@PostMapping(value="/salesList")
+	@ResponseBody
+	public List<Map<String, Object>> saleTransactionList(){
+		List<Map<String, Object>> salesList = slipService.saleTransactionList();
+		
+		return salesList;
+	}
+	
 }	

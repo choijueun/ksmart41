@@ -40,7 +40,7 @@
 						</td>
 						<td>[[${l.businessName}]]</td>
 						<td th:style="${l.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.type}"></td>
-						<td>[[${l.payCost}]]</td>
+						<td>[[${#numbers.formatInteger(l.payCost,0,'COMMA')}]]원</td>
 						<td>[[${l.briefs}]]</td>
 						<td>
 							<a th:href="@{|/k1PaymentList/modify/${l.payHistoryCode}|}">
