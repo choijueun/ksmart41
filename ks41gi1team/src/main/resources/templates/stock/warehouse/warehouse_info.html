@@ -34,7 +34,7 @@
 							<th>창고명</th>
 							<td>[[${w.warehouseName}]]</td>
 							<th>면적</th>
-							<td>[[${w.area}]] m²</td>
+							<td>[[${#numbers.formatInteger(w.area,0,'COMMA')}]] m²</td>
 						</tr>
 						<tr>
 							<th>분류</th>
@@ -51,13 +51,13 @@
 						<tr>
 							<th>현재중량</th>
 							<td th:unless="${w.weightPer} == -1">
-								[[${w.currentWeight}]] kg <span class="badge bg-info">[[${w.weightPer}]]%</span>
+								[[${#numbers.formatInteger(w.currentWeight,0,'COMMA')}]] kg <span class="badge bg-info">[[${w.weightPer}]]%</span>
 							</td>
 							<td th:if="${w.weightPer} == -1">
-								[[${w.currentWeight}]] kg
+								[[${#numbers.formatInteger(w.currentWeight,0,'COMMA')}]] kg
 							</td>
 							<th>최대중량</th>
-							<td>[[${w.maxWeight}]] kg</td>
+							<td>[[${#numbers.formatInteger(w.maxWeight,0,'COMMA')}]] kg</td>
 						</tr>
 						<tr>
 							<th>적재 현황</th>
@@ -122,8 +122,8 @@
 									</a>
 								</td>
 								<td>[[${l.itemType}]]</td>
-								<td>[[${l.itemCount}]]</td>
-								<td>[[${l.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] 원</td>
 								<td>[[${l.status}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>

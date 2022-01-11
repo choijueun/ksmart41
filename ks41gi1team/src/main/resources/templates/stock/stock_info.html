@@ -41,24 +41,24 @@
 							</tr>
 							<tr>
 								<th>수량</th>
-								<td>[[${s.itemCount}]]</td>
+								<td>[[${#numbers.formatInteger(s.itemCount,0,'COMMA')}]]</td>
 								<th>규격</th>
 								<td>[[${s.itemStandard}]]</td>
 							</tr>
 							<tr>
 								<th>단가 </th>
 								<td>
-									[[${s.productPrice}]] 원
+									[[${#numbers.formatInteger(s.productPrice,0,'COMMA')}]] 원
 									<a th:href="@{#}">
 										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
 									</a>
 								</td>
 								<th>합계금액</th>
-								<td>[[${s.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>중량</th>
-								<td>[[${s.stockWeight}]] kg</td>
+								<td>[[${#numbers.formatInteger(s.stockWeight,0,'COMMA')}]] kg</td>
 								<th>원산지</th>
 								<td>[[${s.itemOrigin}]]</td>
 							</tr>
@@ -130,7 +130,7 @@
 									</a>
 								</td>
 								<td>[[${l.briefs}]]</td>
-								<td>[[${l.totalPrice}]]</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
 								<td>[[${l.endDate}]]</td>
 								<td>
 									<!-- 회원정보 LINK -->
