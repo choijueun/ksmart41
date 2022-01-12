@@ -3,11 +3,15 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.StockService;
@@ -20,6 +24,8 @@ public class StockController {
 	private Stock stockInfo; //재고 하나 정보
 	private List<Storing> storingList; //재고조정내역 상세정보
 	private Map<String, Object> resultMap;
+	
+	private static final Logger log = LoggerFactory.getLogger(StockController.class);
 	
 	/**
 	 * 생성자 메서드
@@ -44,6 +50,20 @@ public class StockController {
 		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("stockList", stockList);
 		return "stock/stock_list";
+	}
+	
+	/**
+	 * AJAX :: 재고 수정 모달
+	 * @return stock/stockModal
+	 */
+	@GetMapping(value="/stockModifyModal", produces="application/json")
+	public String stockModifyModal(String inventoryCode, Model model) {
+		//System.out.println("INVENTORYCODE :: "+inventoryCode);
+		if(CommonUtils.isEmpty(inventoryCode)) return null;
+		
+		model.addAttribute("inventoryCode", inventoryCode);
+		
+		return "stock/stockModal";
 	}
 	
 	/**

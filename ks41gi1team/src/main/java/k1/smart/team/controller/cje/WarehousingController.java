@@ -28,7 +28,7 @@ public class WarehousingController {
 	private Stock stockInfo; //재고정보
 	private Map<String, Object> resultMap;
 	
-	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
@@ -89,8 +89,6 @@ public class WarehousingController {
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
 			,Model model) {
 		
-		System.out.println(inventoryCode);
-		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고내역 등록");
 		
@@ -98,7 +96,6 @@ public class WarehousingController {
 		
 		stockInfo = warehousingService.getStockForStoring(mainBusinessCode, inventoryCode);
 		model.addAttribute("s", stockInfo);
-		System.out.println(stockInfo);
 		
 		return "storing/warehousing/warehousing_add";
 	}

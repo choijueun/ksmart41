@@ -7,7 +7,29 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/stockModifyModal?inventoryCode="+$(this).attr('data-inventoryCode'),
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			$('#stockModifyModal').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -124,7 +146,7 @@
 						<td>[[${l.comment}]]</td>
 						<td>[[${l.status}]]</td>
 						<td>
-							<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#stockModifyModal"
+							<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
 									th:data-inventoryCode="${l.inventoryCode}">
 								<i class="fas fa-pen"></i>
 							</button>
