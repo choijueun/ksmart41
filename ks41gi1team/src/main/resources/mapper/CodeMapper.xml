@@ -4,18 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.CodeMapper">
 
+<!-- 특정 테이블의 PRIMARY KEY -->
+<select id="getPrimaryKey" parameterType="String" resultType="String">
+	SELECT 
+		COLUMN_NAME
+	FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	WHERE 
+		CONSTRAINT_NAME = 'PRIMARY'
+		AND TABLE_NAME = ${tableName};
+</select>
+
 <!-- 기본키 숫자부분 새로 형성 MAX+1  -->
 <select id="getNewCodeNum" parameterType="String" resultType="String">
 	SELECT
-	<![CDATA[
-		CASE
-			WHEN (MAX(RIGHT(${codeName},3))+1 < 10) THEN CONCAT('00',MAX(RIGHT(${codeName},3))+1)
-			WHEN (MAX(RIGHT(${codeName},3))+1 < 100) THEN CONCAT('0',MAX(RIGHT(${codeName},3))+1)
-		ELSE MAX(RIGHT(${codeName},3))+1
-		END AS newCodeNum
-	]]>
-	FROM
-		${tableName};
+	   LPAD(CAST(MAX(RIGHT(${columnName},3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   ${tableName};
 </select>
 
 </mapper>
