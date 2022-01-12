@@ -28,7 +28,6 @@ public class UserRegController {
 		userRegList = userRegService.getAllUserRegList();
 		model.addAttribute("SectionTitle", "회원가입 요청 목록");
 		model.addAttribute("userRegList", userRegList);
-		
 		return "user/user_register";
 	}
 	
@@ -51,10 +50,8 @@ public class UserRegController {
 			System.out.println("회원가입 요청 상세 error");
 			return "redirect:/userRegList";
 		}
-		
 		model.addAttribute("SectionTitle", "회원가입 요청 상세");
 		model.addAttribute("userRegDetail", userRegDetail);
-		
 		return "user/user_detail";
 	}
 	
@@ -65,9 +62,7 @@ public class UserRegController {
 			,Model model) {
 		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
 		model.addAttribute("userRegCode", userRegCode);
-		
-		
-		return null;
+		return "user/user_modify";
 	}
 	
 	

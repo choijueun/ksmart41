@@ -42,7 +42,7 @@
 			            { 'data': 'loginDate' },
 			            { 'data': 'logoutDate' },
 			            { 'data': '수정' },
-			            /* { 'data': '삭제' } */
+			            { 'data': '삭제' }
 			        ],
 			        columnDefs: [
 			        	{
@@ -50,19 +50,19 @@
 			        		'orderable' : false,
 			        		'searchable' : false,
 			        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
-			        					var htmlbtn1 = '<button class="modifyBtn" data-loginCode="'+ row.loginCode +'"><i class="fas fa-pen"></i></button>';
+			        					var htmlbtn1 = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
 			        					return htmlbtn1;
 			        				 }
 			        	},
-			        	/* {
+			        	{
 			        		'targets' : [6],
 			        		'orderable' : false,
 			        		'searchable' : false,
 			        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
-			        					var htmlbtn1 = '<button class="removeBtn" data-loginCode="'+ row.loginCode +'">삭제</button>';
+			        					var htmlbtn1 = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'"><i class="fas fa-trash"></i></button>';
 			        					return htmlbtn1;
 			        				 }
-			        	} */
+			        	}
 			        ]
 			    });
 			});
@@ -84,6 +84,7 @@
 								<th>로그인날짜</th>
 								<th>로그아웃날짜</th>
 								<th>수정</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 					</table>

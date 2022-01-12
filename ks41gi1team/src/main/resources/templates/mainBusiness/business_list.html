@@ -77,14 +77,14 @@
 						<tbody id="myTable">
 							<tr th:if="${not #lists.isEmpty(mainBusinessList)}" th:each="l : ${mainBusinessList}">
 								<td><input type="checkbox"></td>
-								<td><a th:href="@{|/mainBusinessList/${l.mainBusinessCode}|}">
+								<td><a th:href="@{|/k1Business/mainBusinessDetail/${l.mainBusinessCode}|}">
 										[[${l.mainBusinessCode}]] </a></td>
 								<td>[[${l.businessCategory}]]</td>
 								<td>[[${l.businessLevel}]]</td>
 								<td>[[${l.businessName}]]</td>
 								<td>[[${l.businessCount}]]</td>
 								<td>
-									<a th:href="@{/mainBusinessList/${l.mainBusinessCode}|}">
+									<a th:href="@{/k1Business/modify/${l.mainBusinessCode}|}">
 										<i class="fas fa-pen"></i>
 									</a>
 								</td>
@@ -94,7 +94,9 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info">등록</button>
+					<a th:href="@{/k1Business/businessRegister}">
+						<button type="button" class="btn btn-info">등록</button>
+					</a>
 				</div>
 			</div>
 		</div>
