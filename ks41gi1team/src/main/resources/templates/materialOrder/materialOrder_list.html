@@ -15,19 +15,27 @@
 <th:block layout:fragment="customContents">
 <th:block layout:fragment="customJs">
 <script>
-
-// 모달 버튼에 이벤트를 건다.
-$('#openModalBtn').on('click', function(){
-	$('#modal-default').modal('show');
+$(function(){
+	//Modal
+	var materialOrderModifyModal = $('#materialOrderModifyModal');
+	//Modal SHOW
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/materialOrderModifyModal
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			stockModifyModal.find('.modal-body').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
 	});
 
-//모달 안의 취소 버튼에 이벤트를 건다.
-$('#closeModalBtn').on('click', function(){
-	$('#modalBox').modal('hide');
-	});
-
-
-
+});
 </script>
 </th:block>
 
@@ -96,7 +104,7 @@ $('#closeModalBtn').on('click', function(){
 	
 	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" style="width:100%;">
           	발주 목록 수정 화면
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
@@ -104,7 +112,7 @@ $('#closeModalBtn').on('click', function(){
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="width:100%;">
              <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
