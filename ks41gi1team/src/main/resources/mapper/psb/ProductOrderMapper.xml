@@ -85,7 +85,7 @@ SELECT
 		GROUP BY po.productOrderCode	
 </select>	
 	
-<select id="getAllProductOrderList" parameterType="String" resultType="ProductOrder">
+<select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
 	SELECT 
 		po.productOrderCode as productOrderCode,
 		po.mainBusinessCode as mainBusinessCode,

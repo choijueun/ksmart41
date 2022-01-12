@@ -72,7 +72,7 @@ public class ProductOrderController {
 		@PostMapping("/k1ProductOrderReg")
 		public String addProductOrder(ProductOrder productOrder) {
 			
-			System.out.println("ProductOrderController 회원등록 화면에서 입력받은 값:" + productOrder);
+			System.out.println("ProductOrderController 등록 화면에서 입력받은 값:" + productOrder);
 			//insert 처리
 			//null 체크
 			String productOrderCode = productOrder.getProductOrderCode();
