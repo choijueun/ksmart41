@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 
 @Mapper
@@ -55,4 +56,7 @@ public interface StoringMapper {
 	//반품요청 상세조회
 	public Storing getReturnRegInfo(String returnRegCode);
 	public List<Storing> getReturnRegDetails(String returnRegCode);
+	
+	//물류이동 등록페이지에서 특정 재고 정보 불러오기
+	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode);
 }
