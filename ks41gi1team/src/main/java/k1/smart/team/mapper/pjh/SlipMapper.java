@@ -26,6 +26,11 @@ public interface SlipMapper {
 	//매출명세서 조회
 	public Slip getSalesTransactionCode(String mainBusinessCode);
 	
+	//매출 전표 날짜 코드화
+	public String salesSlipNum (String slipDate);
+	//매출전표 등록
+	public void registerSalesSlip (Slip addSlip);
+	
 	//전표 등록
 	public int addSlip (Slip slip);
 	//모달 판매리스트 
