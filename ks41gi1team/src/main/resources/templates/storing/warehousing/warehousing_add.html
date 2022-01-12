@@ -78,6 +78,38 @@ $(function(){
 		});
 		totalPrice.val(sum);
 	});
+	
+	//거래처 Modal
+	var businessName = $('#businessName');
+	$(document).on('click', '#businessName', function(){
+		
+	});
+	
+	//자재발주내역 Modal
+	var materialOrderCode = $('#materialOrderCode');
+	var materialOrderModal = $('#materialOrderModal');
+	$(document).on('click', '#materialOrderCode', function(){
+		console.log($(this));
+		var request = $.ajax({
+			url: "/materialOrder",
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			materialOrderModal.html(data);
+			materialOrderModal.modal('show');
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+	
+	//창고목록 Modal
+	
+	//회원정보 Modal
+	
 });
 </script>
 </th:block>
@@ -105,6 +137,7 @@ $(function(){
 								<input type="hidden" id="clientCode" name="clientCode">
 								<input type="text" id="businessName" name="businessName" class="form-control" placeholder="거래처 상호">
 							</div>
+							<!-- 자재발주내역 선택시 거래처/계약서 자동선택. 거래처 선택시 자재발주내역/계약서 씻음 -->
 							<div class="form-group col-lg-3 col-sm-6">
 								<label for="materialOrderCode">
 									자재발주내역
@@ -115,7 +148,7 @@ $(function(){
 								<label for="contractCode">
 									계약서
 								</label>
-								<input type="text" id="contractCode" name="contractCode" class="form-control" placeholder="선택사항">
+								<input type="text" id="contractCode" name="contractCode" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="row">
@@ -130,7 +163,7 @@ $(function(){
 								<label for="receiveWarehouse">
 									위치(소재지)
 								</label>
-								<input type="text" id="receiveWarehouseLocation" name="receiveWarehouseLocation" class="form-control" readonly>
+								<input type="text" id="receiveWarehouseLocation" class="form-control" readonly>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="totalWeight">
@@ -274,6 +307,30 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="materialOrderModal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">자재발주내역</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				
+					<!-- INSERT HTML -->
+				
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 </div>
 </th:block>
 
