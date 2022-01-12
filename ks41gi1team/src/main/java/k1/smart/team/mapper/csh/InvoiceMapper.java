@@ -10,5 +10,5 @@ import k1.smart.team.dto.csh.Invoice;
 public interface InvoiceMapper {
 	
 	//비용전자세금계산서 전체 목록 조회
-	public List<Invoice> getAllPurchaseIvList();
+	public List<Invoice> getAllInvoiceList();
 }

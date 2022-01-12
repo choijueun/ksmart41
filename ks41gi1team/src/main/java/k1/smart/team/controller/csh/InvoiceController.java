@@ -19,24 +19,22 @@ public class InvoiceController {
 		this.invoiceService = invoiceService;
 	}
 	
-	//비용전자세금계산서 리스트
-	@GetMapping("/purchaseIvList")
+	//전자세금계산서 리스트
+	@GetMapping("/invoiceList")
 	public String getInvoiceList(Model model) {
 		
-		List<Invoice> purchaseIvList = invoiceService.getAllPurchaseIvList();
+		List<Invoice> invoiceList = invoiceService.getAllPurchaseIvList();
 		
-		model.addAttribute("SectionTitle", "비용전자세금계산서 조회");
-		model.addAttribute("purchaseIvList", purchaseIvList);
+		model.addAttribute("SectionTitle", "전자세금계산서 조회");
+		model.addAttribute("invoiceList", invoiceList);
 		
-		return "invoice/purchase_iv_list";
+		return "invoice/invoice_list";
 	}
 	
 	
 	//매출전자세금계산서 리스트
 	@GetMapping("/salesIvList")
 	public String getSalesIvList(Model model) {
-		
-		
 		
 		return "invoice/sales_iv_list";
 	}

@@ -13,7 +13,7 @@ import k1.smart.team.mapper.csh.InvoiceMapper;
 @Transactional
 public class InvoiceService {
 	private InvoiceMapper invoiceMapper;
-	private List<Invoice> purchaseIvList;
+	private List<Invoice> invoiceList;
 	
 	//생성자 메서드
 	public InvoiceService(InvoiceMapper invoiceMapper) {
@@ -22,10 +22,10 @@ public class InvoiceService {
 
 	//비용전자세금계산서 전체 목록 조회
 	public List<Invoice> getAllPurchaseIvList() {
-		purchaseIvList = invoiceMapper.getAllPurchaseIvList();
+		invoiceList = invoiceMapper.getAllInvoiceList();
 		
-		System.out.println(purchaseIvList);
-		return purchaseIvList;
+		System.out.println(invoiceList);
+		return invoiceList;
 	};
 
 	
