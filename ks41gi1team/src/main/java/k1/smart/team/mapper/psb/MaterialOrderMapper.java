@@ -19,13 +19,14 @@ public interface MaterialOrderMapper {
 	 */
 	
 	//발주내역 상세조회(여러개 일경우)
-	public List<MaterialOrderInfo> getMaterialOrderInfoList(String materialOrderCode);
+	public List<MaterialOrder> getMaterialOrderInfoList(String materialOrderCode);
 	
-	//하나의 발주 조회
-	public List<MaterialOrder> getMaterialOrderListBySearchKey(String searchKey, String searchValue);
-		
+	//발주 상세
+	public MaterialOrder getMaterialOrderInfo(String materialOrderCode);
+	
+	
 	//발주 전체 조회
-	public List<MaterialOrder> getAllMaterialOrderList(String mainBusinessCode);
+	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode);
 
 	//발주 수정 조회
 	public int modifyMaterilOrderInfo(MaterialOrder materialOrder);
@@ -33,6 +34,7 @@ public interface MaterialOrderMapper {
 	//발주 정보 조회
 	public MaterialOrder getMaterialOrderInfoByMaterialOrderCode(String materialOrderCode);
 
+	
 
 
 

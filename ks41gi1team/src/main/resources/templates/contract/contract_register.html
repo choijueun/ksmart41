@@ -60,12 +60,12 @@
 				var contractCodeConfirm = data;
 				
 				if(contractCodeConfirm){
-					alert('중복된 아이디입니다.');
+					alert('중복된 계약코드입니다.');
 					$('#addContractForm input').not('#contractCode').prop('disabled', true);
 					$('#addContractForm select').prop('disabled', true);
 					$('#addContractForm button').not('#btn').prop('disabled', true);
 				}else{
-					alert('등록이 가능한 아이디입니다.');
+					alert('등록이 가능한 계약코드입니다.');
 					$('#addContractForm input').prop('disabled', false);
 					$('#addContractForm select').prop('disabled', false);
 					$('#addContractForm button').prop('disabled', false);

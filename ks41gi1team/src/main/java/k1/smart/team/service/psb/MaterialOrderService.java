@@ -16,8 +16,8 @@ public class MaterialOrderService {
 	private MaterialOrderMapper materialOrderMapper;
 	private List<MaterialOrder> materialOrderList;
 	private Map<String,Object> resultMap = new HashMap<String,Object>();
-	private MaterialOrderInfo materialOrderInfo;
-	private List<MaterialOrderInfo> materialOrderInfoList;
+	private MaterialOrder materialOrderInfo;
+	private List<MaterialOrder> materialOrderInfoList;
 	
 	//생성자메서드 주입방식
 	public MaterialOrderService(MaterialOrderMapper materialOrderMapper) {
@@ -48,22 +48,29 @@ public class MaterialOrderService {
 	 */
 	
 	
-	//하나의 발주 검색
-	public List<MaterialOrder> getMaterialOrderListBySearchKey(String searchKey, String searchValue) {
-		
-		return materialOrderMapper.getMaterialOrderListBySearchKey(searchKey, searchValue);
-	}
+	
 	
 	//전체 발주 검색
-	public List<MaterialOrder> getAllMaterialOrderList(String mainBusinessCode){
-		materialOrderList = materialOrderMapper.getAllMaterialOrderList(mainBusinessCode);
-	
-		String materialOrderNum;
-		for(int i=0; i<materialOrderList.size(); i++) {
-			materialOrderNum = materialOrderList.get(i).getMaterialOrderCode().replace("material_orderCode_", "");
-			materialOrderList.get(i).setMaterialOrderCode(materialOrderNum);
-		}
+	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode){
+		materialOrderList = materialOrderMapper.getMaterialOrderList(mainBusinessCode);
+		
 		return materialOrderList;
+	}
+	
+	//발주 상세
+	public Map<String, Object> getMaterialOrderInfo(String materialOrderCode) {
+		materialOrderInfo = materialOrderMapper.getMaterialOrderInfo(materialOrderCode);
+
+		if(materialOrderInfo == null) {
+			System.out.println("발주정보 조회결과 없음");
+			return null;
+		}
+		materialOrderInfoList = materialOrderMapper.getMaterialOrderInfoList(materialOrderCode);
+
+		resultMap.clear();
+		resultMap.put("materialOrderInfo", materialOrderInfo);
+		resultMap.put("materialOrderInfoList", materialOrderInfoList);	
+		return resultMap;
 	}
 
 

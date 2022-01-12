@@ -32,17 +32,7 @@ $('#closeModalBtn').on('click', function(){
 </th:block>
 
 <!-- content -->
-	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
-		<select name="searchKey">
-			<option value="materialOrderCode">발주 코드</option>
-			<option value="mainBusinessCode">사업장별 대표코드</option>
-			<option value="contractCode">계약 코드</option>
-			<option value="clientCode">거래처 대표코드</option>
-			<option value="managerId">담당자</option>
-		</select>
-		<input type="text" name="searchValue"/>
-		<button type="submit">검색</button>
-		</form>
+
 
 
 <div class="container-fluid">
@@ -70,13 +60,17 @@ $('#closeModalBtn').on('click', function(){
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
-						<th>삭제></th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td>
+							<a th:href="@{|/k1MaterialOrder/materialOrder/${l.materialOrderCode}|}">
+								[[${l.materialOrderCode}]]
+							</a>
+						</td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
