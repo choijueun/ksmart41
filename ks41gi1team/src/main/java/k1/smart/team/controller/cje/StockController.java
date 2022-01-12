@@ -53,20 +53,6 @@ public class StockController {
 	}
 	
 	/**
-	 * AJAX :: 재고 수정 모달
-	 * @return stock/stockModal
-	 */
-	@GetMapping(value="/stockModifyModal", produces="application/json")
-	public String stockModifyModal(String inventoryCode, Model model) {
-		//System.out.println("INVENTORYCODE :: "+inventoryCode);
-		if(CommonUtils.isEmpty(inventoryCode)) return null;
-		
-		model.addAttribute("inventoryCode", inventoryCode);
-		
-		return "modal/stock";
-	}
-	
-	/**
 	 * 재고 상세정보 조회
 	 * @param inventoryCode
 	 * @param model
