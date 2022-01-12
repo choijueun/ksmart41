@@ -49,7 +49,7 @@ public class StockController {
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("stockList", stockList);
-		return "stock/stock_list";
+		return "stock/stock_list.html";
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class StockController {
 		
 		model.addAttribute("inventoryCode", inventoryCode);
 		
-		return "stock/stockModal";
+		return "modal/stock";
 	}
 	
 	/**
