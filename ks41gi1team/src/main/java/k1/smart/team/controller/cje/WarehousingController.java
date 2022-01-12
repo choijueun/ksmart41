@@ -5,17 +5,13 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
-import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.WarehousingService;
 
@@ -25,7 +21,6 @@ public class WarehousingController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Storing warehousingInfo; //자재사용내역 하나
 	private List<Storing> warehousingList; //자재사용내역 배열
-	private Stock stockInfo; //재고정보
 	private Map<String, Object> resultMap;
 	
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
@@ -94,8 +89,7 @@ public class WarehousingController {
 		
 		if(CommonUtils.isEmpty(inventoryCode)) return "storing/warehousing/warehousing_add";
 		
-		stockInfo = warehousingService.getStockForStoring(mainBusinessCode, inventoryCode);
-		model.addAttribute("s", stockInfo);
+		model.addAttribute("s", warehousingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/warehousing/warehousing_add";
 	}

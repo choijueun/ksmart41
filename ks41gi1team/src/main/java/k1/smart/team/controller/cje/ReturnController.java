@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.ReturnService;
 
@@ -69,9 +71,24 @@ public class ReturnController {
 		return "storing/return/return_info";
 	}
 	
-	//반품내역 신규등록
+	/**
+	 * 반품내역 신규등록
+	 * @param inventoryCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ReturnAdd")
-	public String addReturn(Model model) {
+	public String addReturn(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "반품처리내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/production/production_add";
+		
+		model.addAttribute("s", returnService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/return/return_add";
 	}
 	

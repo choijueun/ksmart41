@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.ShipmentService;
 
@@ -66,16 +68,35 @@ public class ShipmentController {
 		return "storing/shipment/shipment_info";
 	}
 	
-	//출하내역 신규등록
+	/**
+	 * 출하내역 신규등록
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1ShipmentAdd")
-	public String addShipment(Model model) {
+	public String addShipment(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "제품출하");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/shipment/shipment_add";
+		
+		model.addAttribute("s", shipmentService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/shipment/shipment_add";
 	}
 	
-	//출하내역 수정
-	@GetMapping("/k1ShipmentModify/{shipmentPlanCode}")
+	/**
+	 * 출하내역 수정화면
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/k1ShipmentModify/{stockAdjCode}")
 	public String modifyShipment(
-			@PathVariable(value="shipmentPlanCode", required=false) String shipmentPlanCode
+			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		return "storing/shipment/shipment_modify";
 	}

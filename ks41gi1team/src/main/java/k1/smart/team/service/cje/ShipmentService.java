@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
 
@@ -80,6 +81,17 @@ public class ShipmentService {
 		resultMap.put("shipPlanDetails", shipmentList);
 		
 		return resultMap;
+	}
+
+	/**
+	 * 재고정보 하나 조회
+	 * @param mainBusinessCode
+	 * @param inventoryCode
+	 * @return
+	 */
+	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode) {
+		
+		return storingMapper.getStockForStoring(mainBusinessCode, inventoryCode);
 	}
 	
 }
