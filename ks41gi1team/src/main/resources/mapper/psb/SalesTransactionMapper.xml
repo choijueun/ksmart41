@@ -48,6 +48,25 @@
 		);
 	</insert>
 	
+	<select id="getSalesTransactionList" parameterType="String" resultType="SalesTransaction" >
+	SELECT	
+			st.salesTsCode as salesTsCode,
+			st.mainBusinessCode as mainBusinessCode,
+			st.clientCode as clientCode,
+			st.lsAccountCode as lsAccountCode,
+			st.contractCode as contractCode,
+			st.vatType as vatType,
+			st.amount as amount,
+			st.VAT as VAT,
+			st.totalPrice as totalPrice,
+			st.dealDate as dealDate,
+			st.briefs as briefs,
+			st.regId as regId,
+			st.regDate as regDate,
+			st.updateDate as updateDate
+		FROM 
+		k1_tb_sales_transaction AS st;
+	</select>
 	
 	<select id="getSalesTransactionHistoryList" parameterType="map" resultType="map">
 		SELECT	

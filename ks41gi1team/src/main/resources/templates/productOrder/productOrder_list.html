@@ -46,27 +46,6 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 </th:block>
 <th:block layout:fragment="customContents">
 <!-- content -->
-	<form th:action="@{/k1ProductOrder/k1ProductOrderOne}" method="post" style="text-align: center;">
-		<select name="searchKey">
-			<option value="productOrderCode">제품 수주 코드</option>
-			<option value="mainBusinessCode">사업장별 대표코드</option>
-			<option value="contractCode">계약 코드</option>
-			<option value="clientCode">거래처 대표코드</option>
-			<option value="productPriceCode">제품가격 코드</option>
-			<option value="totalProductCount">제품 총수량</option>
-			<option value="totalProductPrice">제품 총가격</option>
-			<option value="productOrderDate">수주 일자</option>
-			<option value="productDate">생산일자</option>
-			<option value="predictProductDate">예상제품출하일</option>
-			<option value="status">상태</option>
-			<option value="briefs">적요</option>
-			<option value="managerId">담당자</option>
-		</select>
-		<input type="text" name="searchValue"/>
-		<button type="submit">검색</button>
-		</form>
-
-
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
@@ -98,7 +77,11 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.productOrderCode}]]</td>
+						<td>
+							<a th:href="@{/k1ProductOrder/k1ProductOrderInfo}">
+								[[${l.productOrderCode}]]
+							</a>
+						</td>
 						<td>[[${l.productOrderDate}]]</td> 
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>

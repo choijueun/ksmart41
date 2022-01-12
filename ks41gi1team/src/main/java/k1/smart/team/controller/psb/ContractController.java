@@ -195,7 +195,7 @@ public class ContractController {
 	  @GetMapping("/k1ContractList") 
 	  public String contractMain(Model model) {
 		  mainBusinessCode = "fac_ksmartSeoul_Seoul001";
-		  List<Contract> contractList = contractService.getAllContractList(mainBusinessCode);
+		  List<Contract> contractList = contractService.getAllContractList();
 		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
 		  

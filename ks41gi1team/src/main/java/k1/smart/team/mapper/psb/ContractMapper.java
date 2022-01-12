@@ -24,7 +24,7 @@ public interface ContractMapper {
 	public List<Contract> getContractListBySearchKey(String searchKey, String searchValue);
 	
 	//계약서 전체 조회
-		public List<Contract> getAllContractList(String mainBusinessCode);
+		public List<Contract> getAllContractList();
 
 	//계약서 전체 이력 조회	
 		public List<Map<String, Object>> getContractHistoryList(Map<String, Object> paramMap);

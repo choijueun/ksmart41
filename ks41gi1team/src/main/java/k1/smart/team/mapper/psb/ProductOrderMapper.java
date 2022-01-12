@@ -24,4 +24,10 @@ public interface ProductOrderMapper {
 	//수주 삭제
 	public String k1ProductOrderRemove();
 
+	//수주내역 상세조회(하나)	
+	public ProductOrder getProductOrderInfo(String productOrderCode);
+
+	//수주내역 상세조회(여러개)
+	public List<ProductOrder> getProductOrderInfoList(String productOrderCode);
+
 }

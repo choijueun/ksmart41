@@ -15,34 +15,32 @@
 <th:block layout:fragment="customContents">
 <th:block layout:fragment="customJs">
 <script>
-
-// 모달 버튼에 이벤트를 건다.
-$('#openModalBtn').on('click', function(){
-	$('#modal-default').modal('show');
+$(function(){
+	//Modal
+	var materialOrderModifyModal = $('#materialOrderModifyModal');
+	//Modal SHOW
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/materialOrderModifyModal
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			stockModifyModal.find('.modal-body').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
 	});
 
-//모달 안의 취소 버튼에 이벤트를 건다.
-$('#closeModalBtn').on('click', function(){
-	$('#modalBox').modal('hide');
-	});
-
-
-
+});
 </script>
 </th:block>
 
 <!-- content -->
-	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
-		<select name="searchKey">
-			<option value="materialOrderCode">발주 코드</option>
-			<option value="mainBusinessCode">사업장별 대표코드</option>
-			<option value="contractCode">계약 코드</option>
-			<option value="clientCode">거래처 대표코드</option>
-			<option value="managerId">담당자</option>
-		</select>
-		<input type="text" name="searchValue"/>
-		<button type="submit">검색</button>
-		</form>
+
 
 
 <div class="container-fluid">
@@ -70,13 +68,17 @@ $('#closeModalBtn').on('click', function(){
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
-						<th>삭제></th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td>
+							<a th:href="@{|/k1MaterialOrder/materialOrder/${l.materialOrderCode}|}">
+								[[${l.materialOrderCode}]]
+							</a>
+						</td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
@@ -102,7 +104,7 @@ $('#closeModalBtn').on('click', function(){
 	
 	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" style="width:100%;">
           	발주 목록 수정 화면
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
@@ -110,7 +112,7 @@ $('#closeModalBtn').on('click', function(){
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="width:100%;">
              <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>

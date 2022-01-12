@@ -3,45 +3,98 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
-	<resultMap type="MaterialOrder" id="materialOrderResultMap">
-		<result column="materialOrderCode" 		property="materialOrderCode"/>
-		<result column="mainBusinessCode" 	property="mainBusinessCode"/>
-		<result column="contractCode" 		property="contractCode"/>
-		<result column="clientCode" 	property="clientCode"/>
-		<result column="totalCount" 	property="totalCount"/>
-		<result column="totalPrice" 		property="totalPrice"/>
-		<result column="orderDate" 			property="orderDate"/>
-		<result column="predictDate" 			property="predictDate"/>
-		<result column="status" 			property="status"/>
-		<result column="briefs" 				property="briefs"/>
-		<result column="managerId" 		property="managerId"/>
-		<result column="regDate" 		property="regDate"/>
-		<result column="updateDate" 	property="updateDate"/>
-	</resultMap>  
+
 	
-
-<select id="getMaterialOrderInfoByMaterialOrderCode" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
-		materialOrderCode,
-		mainBusinessCode,
-		contractCode,
-		clientCode,
-		totalCount,
-		totalPrice,
-		orderDate,
-		predictDate,
-		status,
-		briefs,
-		managerId,
-		regDate,
-		updateDate
-	FROM	
-		k1_tb_material_order
+		mord.materialOrderOngoingCode
+		,mo.mainBusinessCode
+		,mo.contractCode
+		,mo.clientCode
+		,mo.totalCount
+		,mo.totalPrice
+		,mo.orderDate
+		,mo.predictDate
+		,mo.`status`
+		,mo.briefs
+		,mo.managerId
+		,mo.regDate
+		,mo.updateDate
+		,RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+		,c.businessName
+		,ii.itemName
+		,u.userName
+		,mord.itemCount
+		,mord.itemPrice
+		,mord.realReceiveDate
+		,mord.reserveStatus
+		,mord.`comment`
+	FROM 
+		k1_tb_material_order_detail AS mord
+	INNER JOIN 
+		k1_tb_material_order AS mo
+	on
+		mo.materialOrderCode = mord.materialOrderCode
+	INNER JOIN 
+		k1_tb_item_info AS ii
+	on
+		mo.mainBusinessCode =ii.mainBusinessCode
+	INNER JOIN
+		k1_tb_client AS c
+		on
+		c.mainBusinessCode = mo.mainBusinessCode
+	INNER JOIN
+		k1_tb_user AS u
+		on
+		u.mainBusinessCode = mo.mainBusinessCode 	
 	WHERE 
-		materialOrderCode = #{materialOrderCode};
+		mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+</select>	
+	
+<select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
+SELECT 
+	RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+	,mo.mainBusinessCode
+	,mo.contractCode
+	,mo.clientCode
+	,mo.orderDate
+	,c.businessName
+	,mo.managerId
+	,ii.itemName
+	,mo.predictDate
+	,mo.totalCount
+	,mo.totalPrice
+	,mo.`status`
+	,u.userName
+	,mo.regDate
+	,mo.updateDate
+	,mo.briefs
+FROM 
+	k1_tb_material_order AS mo
+	INNER JOIN 
+	k1_tb_main_business AS mb
+	on
+	mo.mainBusinessCode = mb.mainBusinessCode
+	INNER JOIN
+	k1_tb_contract AS contr
+	ON 
+	mb.mainBusinessCode = contr.mainBusinessCode
+	INNER JOIN
+	k1_tb_client AS c
+	on
+	contr.mainBusinessCode =c.mainBusinessCode
+	INNER JOIN 
+	k1_tb_user AS u
+	ON 
+	mo.mainBusinessCode = u.mainBusinessCode
+	INNER JOIN 
+	k1_tb_item_info AS ii
+	ON 
+	u.mainBusinessCode = ii.mainBusinessCode
+	WHERE 
+		mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+	GROUP BY mo.materialOrderCode
 </select>
-
-
 
 <update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
 	update k1_tb_material_order
@@ -89,7 +142,7 @@
 
 
 
-<select id="getMaterialOrderListBySearchKey" parameterType="String" resultMap="materialOrderResultMap">
+<select id="getMaterialOrderListBySearchKey" parameterType="String" resultType="MaterialOrder">
 		SELECT
 			mo.materialOrderCode as materialOrderCode,
 			mo.mainBusinessCode as mainBusinessCode,
@@ -109,7 +162,7 @@
 		
 	</select>	
 		
-<select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 			SELECT 
 		mo.materialOrderCode as materialOrderCode,
 		mo.mainBusinessCode as mainBusinessCode,

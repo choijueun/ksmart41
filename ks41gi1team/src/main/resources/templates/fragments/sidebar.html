@@ -212,12 +212,6 @@ $(function(){
 								<p>계약서 조회 - #</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Contract/k1ContractDetail}" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>계약서 상세현황 - #</p>
-							</a>
-						</li>
 					</ul>
 				</li>
 				<li class="nav-item">
@@ -307,7 +301,7 @@ $(function(){
 						<li class="nav-item">
 							<a th:href="@{/k1MaterialOrder/k1MaterialOrderReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>발주 요청 입력 - #</p>
+								<p>발주서 등록 - #</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -317,15 +311,9 @@ $(function(){
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>발주 요청 현황 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
 							<a th:href="@{/k1ProductOrder/k1ProductOrderReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>수주 요청 입력 - #</p>
+								<p>수주서 등록 - #</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -333,12 +321,6 @@ $(function(){
 								<i class="far fa-circle nav-icon"></i>
 								<p>수주 요청 조회  - #</p>
 							</a>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>수주 요청 현황 - #</p>
-							</a>
-						</li>
 					</ul>
 				</li>
 				<li class="nav-item">
@@ -368,7 +350,7 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{#}" class="nav-link">
+							<a th:href="@{/k1SalesTransaction/k1SalesTransactionReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 매출 거래 명세서 등록 - #</p>
 							</a>
@@ -384,7 +366,7 @@ $(function(){
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{#}" class="nav-link">
+							<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 비용 거래 명세서 등록- #</p>
 							</a>

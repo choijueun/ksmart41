@@ -3,25 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.ProductOrderMapper">
-	<resultMap type="ProductOrder" id="productOrderResultMap">
-		<result column="productOrderCode" 		property="productOrderCode"/>
-		<result column="mainBusinessCode" 		property="mainBusinessCode"/>
-		<result column="contractCode" 			property="contractCode"/>
-		<result column="clientCode" 			property="clientCode"/>
-		<result column="productPriceCode" 		property="productPriceCode"/>
-		<result column="totalProductCount" 		property="totalProductCount"/>
-		<result column="totalProductPrice" 		property="totalProductPrice"/>
-		<result column="productOrderDate" 		property="productOrderDate"/>
-		<result column="productDate" 			property="productDate"/>
-		<result column="predictProductDate" 	property="predictProductDate"/>
-		<result column="status" 				property="status"/>
-		<result column="briefs" 				property="briefs"/>
-		<result column="managerId" 				property="managerId"/>
-		<result column="regDate" 				property="regDate"/>
-		<result column="updateDate" 			property="updateDate"/>
-		<result column="itemName" 				property="itemName"/>
-	</resultMap>  
-	
 	<delete id="k1ProductOrderRemove" parameterType="String">
 		DELETE
 		FROM
@@ -30,9 +11,33 @@
 				
 	</delete>
 	
-<select id="getProductOrderListBySearchKey" parameterType ="String" resultMap="productOrderResultMap">
+<select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
 	SELECT 
-		po.productOrderCode as productOrderCode,
+pod.productOrderOngoingCode
+,RIGHT(pod.productOrderCode,3) AS productOrderCode
+,ii.itemName
+,pod.productCount
+,pod.productPrice
+,pod.productShipmentDate
+,pod.`COMMENT`
+FROM
+	k1_tb_product_order_detail AS pod
+	INNER JOIN 
+	k1_tb_product_order AS po 
+	on
+	pod.productOrderCode=po.productOrderCode
+	INNER JOIN 
+	k1_tb_item_info AS ii
+	on
+	po.mainBusinessCode=ii.mainBusinessCode
+WHERE 
+	pod.productOrderCode = CONCAT('product_orderCode_', #{productOrderCode})
+	GROUP BY pod.productOrderCode	
+</select>	
+	
+<select id="getProductOrderInfo" parameterType="String" resultType="ProductOrder">
+SELECT 
+		RIGHT(po.productOrderCode,3) as productOrderCode,
 		po.mainBusinessCode as mainBusinessCode,
 		po.contractCode as contractCode,
 		po.clientCode as clientCode,
@@ -74,10 +79,13 @@
 		INNER JOIN 
 		k1_tb_item_info AS ii
 		on
-		ii.itemCode = pp.itemCode;	
+		ii.itemCode = pp.itemCode
+	WHERE
+		po.productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})	
+		GROUP BY po.productOrderCode	
 </select>	
 	
-<select id="getAllProductOrderList" parameterType="String" resultType="ProductOrder">
+<select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
 	SELECT 
 		po.productOrderCode as productOrderCode,
 		po.mainBusinessCode as mainBusinessCode,
