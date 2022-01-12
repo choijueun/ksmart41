@@ -41,7 +41,7 @@
 								<th>거래처</th>
 								<td colspan="3">[[${r.businessName}]]</td>
 								<th>합계금액</th>
-								<td>[[${r.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(r.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
@@ -106,9 +106,9 @@
 										[[${l.itemName}]]
 									</a>
 								</td>
-								<td>[[${l.amount}]] 원</td>
-								<td>[[${l.adjCount}]]</td>
-								<td>[[${l.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(l.amount,0,'COMMA')}]] 원</td>
+								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] 원</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
 						</thead>

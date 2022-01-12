@@ -15,6 +15,20 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 
+	<select id="getPurchaseTransactionList" parameterType="String" resultType="PurchaseTransaction">
+	SELECT 
+			pt.purchaseTsCode as purchaseTsCode,
+			pt.mainBusinessCode as mainBusinessCode,
+			pt.clientCode as clientCode,
+			pt.contractCode as contractCode,
+			pt.briefs as briefs,
+			pt.dealDate as dealDate,
+			pt.regId as regId,
+			pt.regDate as regDate,
+			pt.updateDate as updateDate
+		FROM 
+			k1_tb_purchase_transaction AS pt;
+	</select>
 	
 	<select id="getPurchaseTransactionHistoryList" parameterType="map" resultType="map">
 		SELECT 

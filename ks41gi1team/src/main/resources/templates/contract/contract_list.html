@@ -10,12 +10,23 @@
 	<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="customJs">
+<script>
+// 모달 버튼에 이벤트를 건다.
+$('#openModalBtn').on('click', function(){
+	$('#modal-default').modal('show');
+	});
 
+//모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+	$('#modalBox').modal('hide');
+	});
+</script>
+</th:block>
 <th:block layout:fragment="customContents">
 	
 <!-- DataTables -->
@@ -77,7 +88,6 @@
                   </tr>
                   </thead>
                   <tbody>
-                  
                   <tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
                   <td><input type="checkbox"></td>
                   <td>
@@ -108,8 +118,10 @@
                 </table>
                 </div>
                 </div>
-	                <div class="row"><div class="col-sm-12 col-md-5">
-	                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"></div>
+	                <div class="row">
+	                <div class="col-sm-12 col-md-5">
+	                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+	                </div>
                 </div>
 	                <div class="col-sm-12 col-md-7">
 	                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
@@ -120,6 +132,82 @@
                 </div>
                 </div>
               </div>
+              
+              
+           <div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+          <div class="modal-content">
+          	계약 목록 수정 화면
+            <div class="modal-header">
+              <h4 class="modal-title">계약 목록 수정 화면</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <table id="contractListModifyList" class="table table-bordered table-hover dataTable dtr-inline">
+				<tbody th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+				<tr>
+						 <td>사업장별 대표코드: <input type="text" th:placeholder="${l.mainBusinessCode}"/></td>
+				</tr>	
+				<tr>
+						 <td>거래처 대표코드: <input type="text" th:placeholder="${l.clientCode}"/></td>
+				</tr>	
+				<tr>
+						 <td>거래처 담당자: <input type="text" th:placeholder="${l.businessRepresentative}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약 주문유형: <input type="text" th:placeholder="${l.contractSection}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약유형: <input type="text" th:placeholder="${l.contractType}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약시작날짜: <input type="text" th:placeholder="${l.startDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약종료날짜: <input type="text" th:placeholder="${l.endDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>담당자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>등록자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>승인자: <input type="text" th:placeholder="${l.userName}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약일자: <input type="text" th:placeholder="${l.contractDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>계약상태: <input type="text" th:placeholder="${l.contractStatus}"/></td>
+				</tr>	
+				<tr>
+						 <td>적요: <input type="text" th:placeholder="${l.briefs}"/></td>
+				</tr>	
+				<tr>
+						 <td>등록일시: <input type="text" th:placeholder="${l.regDate}"/></td>
+				</tr>	
+				<tr>
+						 <td>수정일시: <input type="text" th:placeholder="${l.updateDate}"/></td>
+				</tr>	
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-primary" >수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+				</tbody>
+				</table>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+          <!-- /.modal-dialog -->
+        </div>
+</div>   
+
+              
               </div>
               </div>
   </th:block>            

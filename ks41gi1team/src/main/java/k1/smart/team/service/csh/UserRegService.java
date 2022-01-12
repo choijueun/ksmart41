@@ -13,6 +13,7 @@ import k1.smart.team.mapper.csh.UserRegMapper;
 public class UserRegService {
 	private UserRegMapper userRegMapper;
 	private List<UserReg> userRegList;
+	private UserReg userRegDetail; //요청내역 상세
 	
 	//생성자 메서드
 	public UserRegService(UserRegMapper userRegMapper) {
@@ -34,6 +35,21 @@ public class UserRegService {
 		System.out.println(userRegList);
 		return userRegList;
 	}
+	
+	//회원가입 요청 상세
+	public UserReg getAllUserRegDetail(String userRegCode) {
+		//회원가입 요청 상세
+		userRegDetail = userRegMapper.getUserRegDetail(userRegCode);
+		if(userRegDetail == null) {
+			System.out.println("조회 결과 없음");
+			return null;
+		}
+		userRegDetail.setUserRegCode(userRegCode);
+		return userRegDetail;
+	}
+	
+	//회원가입 요청 수정
+	
 
 	
 

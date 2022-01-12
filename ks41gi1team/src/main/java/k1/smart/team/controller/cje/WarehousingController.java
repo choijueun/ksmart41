@@ -3,11 +3,15 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.WarehousingService;
 
@@ -18,6 +22,8 @@ public class WarehousingController {
 	private Storing warehousingInfo; //자재사용내역 하나
 	private List<Storing> warehousingList; //자재사용내역 배열
 	private Map<String, Object> resultMap;
+	
+	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
@@ -53,10 +59,10 @@ public class WarehousingController {
 	public String warehousingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Warehousing";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
 		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1Warehousing";
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
 		warehousingList = (List<Storing>) resultMap.get("warehousingDetails");
@@ -69,21 +75,27 @@ public class WarehousingController {
 	}
 	
 	/**
-	 * 입고내역 신규등록
+	 * 입고내역 신규등록화면 (특정재고)
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/k1WarehousingAdd")
-	public String addWarehousing(Model model) {
+	public String addWarehousing(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/warehousing/warehousing_add";
+		
+		model.addAttribute("s", warehousingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/warehousing/warehousing_add";
 	}
 	
 	/**
-	 * 입고내역 수정
+	 * 입고내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
 	 * @return
@@ -92,6 +104,14 @@ public class WarehousingController {
 	public String modifyWarehousing(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
+		
+		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
+		
+		model.addAttribute("w", resultMap.get("warehousingInfo"));
+		model.addAttribute("details", resultMap.get("warehousingDetails"));
+		
 		return "storing/warehousing/warehousing_modify";
 	}
 }

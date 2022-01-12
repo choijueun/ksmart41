@@ -15,8 +15,6 @@ import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.SalesTransaction;
 import k1.smart.team.service.psb.SalesTransactionService;
 
-
-
 @Controller
 @RequestMapping(value="/k1SalesTransaction")
 public class SalesTransactionController {

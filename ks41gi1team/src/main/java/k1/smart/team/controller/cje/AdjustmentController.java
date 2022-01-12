@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.AdjustmentService;
 
@@ -71,9 +73,23 @@ public class AdjustmentController {
 		return "storing/adjustment/adjustment_info";
 	}
 	
+	/**
+	 * 재고조정내역 신규등록(+재고하나정보)
+	 * @param inventoryCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1AdjustmentAdd")
-	public String addAdj(Model model) {
-		model.addAttribute("title", "재고조정내역추가");
+	public String addAdj(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "재고조정내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/adjustment/adjustment_add";
+		
+		model.addAttribute("s", adjService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/adjustment/adjustment_add";
 	}
 	

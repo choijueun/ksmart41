@@ -85,46 +85,93 @@
 </th:block>
 <!-- Main content -->
 <th:block layout:fragment="customContents">
-	<form id="addProductOrderForm" th:action="@{/k1ProductOrder/k1ProductOrderReg}" method="post">
-		<div class="card-body">
+	<div class="content-wrapper" style="min-height: 844.062px;">
+			<!-- Content 영역 상단(location) -->
+	<div class="row">
+	<div class="col-lg-3 col-md-2">
+	</div>
+	<div class="col-lg-6 col-md-8 mb-3">
+		<div class="card card-info card-outline">
+	<div class="content-header">
+	<div class="container-fluid">
+		<div class="row mb-2">
+			<div class="col-sm-6">
+				<h1 class="m-0">
+					수주서 등록
+				</h1>
+			</div>
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item">
+						수주서 등록
+					</li>
+					<li class="breadcrumb-item">
+						
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+		<!-- Content 영역 본문 -->
+<section class="content" style="margin: auto;">
+			
+<div class="container-fluid">
+	<form id="productOrderRegisterForm" action="/k1ProductOrder/productOrderRegister" method="post">
+		<section class="content">
+	      <div class="row">
+	        <div >
+	          <div class="card card-info">
+	            <div class="card-header">
+	              <h3 class="card-title">수주서 등록</h3>
+	
+	              <div class="card-tools">
+	                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+	                  <i class="fas fa-minus"></i>
+	                </button>
+	              </div>
+	            </div>
+<div class="card-body">
                   <div class="form-group">
-                    <label for="productOrderCode">제품 수주 코드</label>
-                    <input type="text" name="productOrderCode" class="form-control" id="productOrderCode" placeholder="productOrderCode000">
+                    <label for="productOrderCode">수주코드</label>
+                   
+                    	<input type="text" name="productOrderCode" class="form-control" id="productOrderCode" th:value="${productOrderInfo}">	  
+                
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
                   <div class="form-group">
                     <label for="mainBusinessCode">사업장별 대표코드</label>
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${@not #lists.isEmpty(mainBusinessList)}"
+                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
                     			  th:each="l : ${mainBusinessList}">
-                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
-                    			[[${l.businessName}]]
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
+                    			[[${l.mainBusinessCode}]]
+                    			console.log(mainBusinessList);
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
                     		<option>사업장 먼저 등록 해주세요. </option> 
                     	</th:block>	
                     </select>
-                    <!-- <input type="text" name="mainBusinessCode" class="form-control" id="mainBusinessCode" placeholder="fac_ksmartSeoul_Seoul_000"> -->
-                  </div>
-                    <div class="form-group">
-                    <label for="contractCode">계약코드</label>
-                     <select name="contractCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${@not #lists.isEmpty(contractList)}"
+                   </div>
+                  <div class="form-group">
+                    <label for="contractCode">계약 코드</label>
+                    <select name="contractCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(contractList)}"
                     			  th:each="l : ${contractList}">
                     		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
                     			[[${l.contractCode}]]
                     		</option>
                     	</th:block>	
-                    	<th:block th:unless="${not #lists.isEmpty(${contractList})}">	
-                    		<option>계약 코드 등록 해주세요. </option> 
-                    	</th:block>
-                    </select>		
-                  </div>
+                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    		<option>계약서 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                   </div>
                   <div class="form-group">
                     <label for="clientCode">거래처 대표코드</label>
                      <select name="clientCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${@not #lists.isEmpty(clientList)}"
+                    	<th:block th:if="${not #lists.isEmpty(clientList)}"
                     			  th:each="l : ${clientList}">
                     		<option th:value="${l.clientCode}" th:text="${l.businessName}">	  
                     			[[${l.businessName}]]
@@ -134,55 +181,53 @@
                     		<option>거래처 먼저 등록 해주세요. </option> 
                     	</th:block>
                     </select>		
-                    <!-- <input type="text" name="clientCode" class="form-control" id="clientCode" placeholder="client_agency_000"> -->
                   </div>
                   <div class="form-group">
-                    <label for="productPriceCode">제품단가 코드</label>
-                      <select name="productPriceCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${@not #lists.isEmpty(productPriceList)}"
+                    <label for="productPriceCode">제품 단가코드</label>
+                     <select name="productPriceCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(productPriceList)}"
                     			  th:each="l : ${productPriceList}">
-                    		<option th:value="${l.productPriceCode}" th:text="${l.productPrice}">	  
-                    			[[${l.productPrice}]]
+                    		<option th:value="${l.productPriceCode}" th:text="${l.productOrderCode}">	  
+                    			[[${l.productPriceCode}]]
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
-                    		<option>제품단가 먼저 등록 해주세요. </option> 
+                    		<option>제품 단가 먼저 등록 해주세요. </option> 
                     	</th:block>
-                    </select>	
-                    <!-- <input type="text" name="clientManagerId" class="form-control" id="clientManagerId" placeholder="id100"> -->
+                    </select>		
                   </div>
                   <div class="form-group">
-                    <label for="totalProductCount">제품 총수량</label>
-                    <input type="text" name="totalProductCount" class="form-control" id="totalProductCount" placeholder="제품 총수량" disabled="disabled">
+                    <label for="totalProductCount">제품 총 수량</label>
+                    <input type="text" name="totalProductCount" class="form-control" id="totalProductCount" placeholder="1000" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="totalProductPrice">계약유형</label>
-                    <input type="text" name="totalProductPrice" class="form-control" id="totalProductPrice" placeholder="제품 총가격" disabled="disabled">
+                    <label for="totalProductPrice">제품 총 가격</label>
+                    <input type="text" name="totalPrice" class="form-control" id="totalPrice" placeholder="5000000" disabled="disabled">
                   </div>
                   <div class="form-group">
                     <label for="productOrderDate">수주일자</label>
                     <input type="date" name="productOrderDate" class="form-control" id="productOrderDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="productDate">제품 생산일자</label>
-                    <input type="date" name="productDate" class="form-control" id="productDate" placeholder="2021-11-02" disabled="disabled">
+                    <label for="productDate">생산 일자</label>
+                    <input type="date" name="productDate" class="form-control" id="productDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="predictProductDate">예상제품출하일</label>
+                    <label for="predictProductDate">예상 제품 출하일</label>
                     <input type="date" name="predictProductDate" class="form-control" id="predictProductDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
                   <div class="form-group">
                     <label for="status">상태</label>
-                    <input type="text" name="status" class="form-control" id="status" placeholder="제품 납품 완료" disabled="disabled">
+                    <input type="text" name="status" class="form-control" id="status" placeholder="결제 중" disabled="disabled">
                   </div>
                   <div class="form-group">
                     <label for="briefs">적요</label>
-                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="2021-11-01" disabled="disabled">
+                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="콩 1톤 5000000원 구입" disabled="disabled">
                   </div>
                   <div class="form-group">
-                    <label for="briefs">담당자</label>
-                    <select name="briefs" disabled="disabled" class="form-control">
-                    	<th:block th:if="${@not #lists.isEmpty(userList)}"
+                    <label for="managerId">담당자</label>
+                    <select name="managerId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
                     			  th:each="l : ${userList}">
                     		<option th:value="${l.userId}" th:text="${l.userName}">	  
                     			[[${l.userName}]]
@@ -192,8 +237,7 @@
                     		<option>회원 먼저 등록 해주세요. </option> 
                     	</th:block>
                     </select>
-                    <!-- <input type="text" name="managerId" class="form-control" id="managerId" placeholder="id002	">--> 
-                  </div>
+                 </div>
                   <div class="form-group">
                     <label for="regDate">등록일시</label>
                     <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
@@ -209,10 +253,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <button type="submit" id="addProductOrderBtn" class="btn btn-info" disabled="disabled" >등록</button>
-                </div>
-             </form>
+	            <!-- /.card-body -->
+	          </div>
+	          <!-- /.card -->
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-12">
+	          <a href="#" class="btn btn-secondary">취소</a>
+	          <input type="submit" value="등록" class="btn btn-info">
+	        </div>
+	      </div>
+	    </section>
+	</form>
+	</div>
+</section>
+</div>
+</div>
+</div>
+</div>
 </th:block>
 
 </html>

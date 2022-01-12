@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.csh.UserReg;
@@ -14,7 +15,8 @@ import k1.smart.team.service.csh.UserRegService;
 @RequestMapping(value="/k1UserReg")
 public class UserRegController {
 	private UserRegService userRegService;
-	private String mainBusinessCode;
+	private List<UserReg> userRegList; //요청내역 배열
+	private UserReg userRegDetail; //요청내역 상세
 	
 	public UserRegController( UserRegService userRegService) {
 		this.userRegService = userRegService;
@@ -23,13 +25,51 @@ public class UserRegController {
 	//회원가입 요청 전체목록
 	@GetMapping("/userRegList")
 	public String getUserRegList(Model model) {
-		mainBusinessCode = "fac_EHN_Jeonju_001"; //임시저장
-		List<UserReg> userRegList = userRegService.getAllUserRegList();
+		userRegList = userRegService.getAllUserRegList();
 		model.addAttribute("SectionTitle", "회원가입 요청 목록");
 		model.addAttribute("userRegList", userRegList);
-		
 		return "user/user_register";
 	}
+	
+	//회원가입 요청 상세정보
+	@GetMapping("/userRegDetail/{userRegCode}")
+	public String getUserRegDetail(
+			 @PathVariable(value = "userRegCode", required = false) String userRegCode
+			,Model model) {
+		System.out.println(userRegCode);
+		
+		//회원가입 요청코드 검사
+		if(userRegCode == null || "".equals(userRegCode)) {
+			System.out.println("회원가입 요청 상세 error");
+			return "redirect:/userRegList";
+		}
+		
+		//회원가입요청 상세
+		userRegDetail = userRegService.getAllUserRegDetail(userRegCode);
+		if(userRegDetail == null) {
+			System.out.println("회원가입 요청 상세 error");
+			return "redirect:/userRegList";
+		}
+		model.addAttribute("SectionTitle", "회원가입 요청 상세");
+		model.addAttribute("userRegDetail", userRegDetail);
+		return "user/user_detail";
+	}
+	
+	//회원가입 요청 수정
+	@GetMapping("/modify/{userRegCode}")
+	public String modifyUserReg(
+			@PathVariable(value = "userRegCode", required = false) String userRegCode
+			,Model model) {
+		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
+		model.addAttribute("userRegCode", userRegCode);
+		return "user/user_modify";
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

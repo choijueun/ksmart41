@@ -95,8 +95,8 @@ public class ContractService {
 		} 
 		
 	//전체 계약 검색
-		public List<Contract> getAllContractList(String mainBusinessCode){
-			contractList = contractMapper.getAllContractList(mainBusinessCode);
+		public List<Contract> getAllContractList(){
+			contractList = contractMapper.getAllContractList();
 			
 			String contractNum;
 			for(int i=0; i<contractList.size(); i++) {

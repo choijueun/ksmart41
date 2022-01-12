@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
 
-<!-- 물류이동내역(목록) -->
+<!-- 물류이동내역(전체목록) -->
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -169,6 +169,7 @@
 		,w2.location AS receiveWarehouseLocation
 		,w2.outPlace AS receiveWarehouseOutPlace
 		,a.totalPrice
+		,a.totalWeight
 		,RIGHT(a.materialOrderCode,3) AS materialOrderCode
 		,RIGHT(a.productOrderCode,3) AS productOrderCode
 		,a.deliveryCost
@@ -183,14 +184,14 @@
 		,a.updateDate
 	FROM 
 		k1_tb_stock_adjustment AS a
-		LEFT JOIN
-		k1_tb_client AS c
-		ON
-		a.clientCode = c.clientCode
 		JOIN
 		k1_tb_user AS u
 		ON
 		a.managerId = u.userId
+		LEFT JOIN
+		k1_tb_client AS c
+		ON
+		a.clientCode = c.clientCode
 		LEFT JOIN
 		k1_tb_warehouse_info AS w1
 		ON
@@ -212,6 +213,7 @@
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,p.unitPrice
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
@@ -238,6 +240,19 @@
 		) AS i
 		ON
 		ad.inventoryCode = i.inventoryCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.unitPrice
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS p
+		ON
+		ad.purchaseTsCode = p.purchaseTsCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 1;
@@ -248,6 +263,8 @@
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
+		,p.unitPrice
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -275,6 +292,21 @@
 		) AS i
 		ON
 		ad.inventoryCode = i.inventoryCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.unitPrice
+			,pd.itemCode
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS p
+		ON
+		ad.purchaseTsCode = p.purchaseTsCode
+		AND i.itemCode = p.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 2;
@@ -594,7 +626,7 @@
 		,RIGHT(st.itemCode,3) AS itemCode
 		,st.itemName
 		,RIGHT(st.productPriceCode,3) AS productPriceCode
-		,st.productPrice
+		,st.productPrice AS unitPrice
 		,RIGHT(st.warehouseCode,3) AS warehouseCode
 		,st.warehouseName
 		,st.location
@@ -720,6 +752,49 @@
 		d.itemCode = i.itemCode
 	WHERE
 		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+</select>
+
+<!-- 물류이동 등록페이지에서 특정 재고 정보 불러오기 -->
+<select id="getStockForStoring" parameterType="String" resultType="Stock">
+	SELECT
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
+		,t.unitPrice
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.itemCode
+			,pd.unitPrice
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS t
+		ON
+		t.purchaseTsCode = s.purchaseTsCode 
+		AND t.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		p.productPriceCode = s.productPriceCode
+	WHERE
+		s.mainBusinessCode = #{mainBusinessCode}
+		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </select>
 
 </mapper>

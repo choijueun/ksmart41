@@ -1,19 +1,23 @@
 package k1.smart.team.service.pjh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.mapper.pjh.SlipMapper;
 
 @Service
+@Transactional
 public class SlipService {
 	private SlipMapper slipMapper;
 	private List<Slip> p_slipList;
 	private List<Slip> s_slipList;
 	private Slip purchaseSlipInfo;
 	private Slip salesSlipInfo;
+	private SlipMapper slipAddMapper;
 	
 	//생성자메서드
 	public SlipService(SlipMapper slipMapper) {
@@ -62,4 +66,13 @@ public class SlipService {
 		return salesSlipInfo;
 	}
 	
+	public int addSlip(Slip slip) {
+	int addSlip = slipAddMapper.addSlip(slip);
+		return addSlip;
+	}
+	
+	public List<Map<String, Object>> saleTransactionList() {
+		List<Map<String, Object>> salesList = slipMapper.saleTransactionList(null);
+		return salesList;
+	}
 }

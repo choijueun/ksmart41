@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.MaterialUseService;
 
@@ -15,7 +17,6 @@ import k1.smart.team.service.cje.MaterialUseService;
 public class MaterialUseController {
 	private MaterialUseService materialUseService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing materialUseInfo; //출하내역 하나
 	private List<Storing> materialUseList; //출하내역 배열
 	private Map<String, Object> resultMap;
 	/**
@@ -49,29 +50,42 @@ public class MaterialUseController {
 	 * @param model
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1MaterialUse/{stockAdjCode}")
 	public String materialUseInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1MaterialUse";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
 		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1MaterialUse";
-		
-		materialUseInfo = (Storing) resultMap.get("materialUseInfo");
-		materialUseList = (List<Storing>) resultMap.get("materialUseDetails");
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용");
-		model.addAttribute("s", materialUseInfo);
-		model.addAttribute("materialUseDetails", materialUseList);
+		model.addAttribute("s", resultMap.get("materialUseInfo"));
+		model.addAttribute("materialUseDetails", resultMap.get("materialUseDetails"));
 		
 		return "storing/material_use/material_use_info";
 	}
 	
+	/**
+	 * 자재사용내역 신규등록화면 (특정재고)
+	 * @param inventoryCode
+	 * @param model
+	 * @return
+	 */
+
 	@GetMapping("/k1MaterialUseAdd")
-	public String addMaterialUse(Model model) {
+	public String addMaterialUse(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "자재사용내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/material_use/material_use_add";
+		
+		model.addAttribute("s", materialUseService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/material_use/material_use_add";
 	}
 	
@@ -79,6 +93,16 @@ public class MaterialUseController {
 	public String modifyMaterialUse(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
+		
+		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "자재사용내역 수정");
+		model.addAttribute("s", resultMap.get("materialUseInfo"));
+		model.addAttribute("details", resultMap.get("materialUseDetails"));
+		
 		return "storing/material_use/material_use_modify";
 	}
 }

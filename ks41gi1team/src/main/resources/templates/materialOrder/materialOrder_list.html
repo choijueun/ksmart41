@@ -7,30 +7,44 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
+<th:block layout:fragment="customJs">
+<script>
+$(function(){
+	//Modal
+	var materialOrderModifyModal = $('#materialOrderModifyModal');
+	//Modal SHOW
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/materialOrderModifyModal
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			stockModifyModal.find('.modal-body').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+
+});
+</script>
+</th:block>
 
 <!-- content -->
-	<form th:action="@{/k1MaterialOrder/k1MaterialOrderOne}" method="post" style="text-align: center;">
-		<select name="searchKey">
-			<option value="materialOrderCode">발주 코드</option>
-			<option value="mainBusinessCode">사업장별 대표코드</option>
-			<option value="contractCode">계약 코드</option>
-			<option value="clientCode">거래처 대표코드</option>
-			<option value="managerId">담당자</option>
-		</select>
-		<input type="text" name="searchValue"/>
-		<button type="submit">검색</button>
-		</form>
+
 
 
 <div class="container-fluid">
-	<div class="card">
+	<div class="card card-info card-outline">
 		<div class="card-header">
 			발주 목록
 		</div>
@@ -38,7 +52,8 @@
 
 		</div>
 		<div class="card-body">
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>
@@ -53,21 +68,29 @@
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td>
+							<a th:href="@{|/k1MaterialOrder/materialOrder/${l.materialOrderCode}|}">
+								[[${l.materialOrderCode}]]
+							</a>
+						</td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictDate}]]</td>
 						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${l.totalPrice}]]</td> 
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}"><i class="fas fa-pen"></i></a>
+							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn"><i class="fas fa-trash"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -77,9 +100,11 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+	
+	
+	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" style="width:100%;">
           	발주 목록 수정 화면
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
@@ -87,7 +112,7 @@
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="width:100%;">
              <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -107,7 +132,7 @@
 				<tbody>
 				<tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
+						<td><input type="text" placeholder=[[${l.materialOrderCode}]]></td>
 						<td>[[${l.orderDate}]]</td>
 						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
@@ -118,9 +143,11 @@
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" >수정</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
+				</tbody>
+				</table>
           </div>
           <!-- /.modal-content -->
         </div>

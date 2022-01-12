@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+
+<div class="text-center justify-content-between">
+	<a th:href="@{|/k1WarehousingAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">자재입고</button>
+	</a>
+	<a th:href="@{|/k1MaterialUseAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">자재사용</button>
+	</a>
+	<a th:href="@{|/k1ProductionAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">제품생산</button>
+	</a>
+	<a th:href="@{|/k1ShipmentAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">제품출하</button>
+	</a>
+	<a th:href="@{|/k1MovingAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">창고이동</button>
+	</a>
+	<a th:href="@{|/k1AdjustmentAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">재고조정</button>
+	</a>
+	<a th:href="@{|/k1ReturnAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">반품처리</button>
+	</a>
+	<a th:href="@{|/k1DefectAdd?inventoryCode=${inventoryCode}|}">
+		<button type="button" class="btn btn-outline-info mx-2 my-3">불량처리</button>
+	</a>
+</div>
+
+</body>
+</html>

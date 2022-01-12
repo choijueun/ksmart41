@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.psb.PurchaseTransaction;
 import k1.smart.team.mapper.psb.PurchaseTransactionMapper;
 
 @Service
@@ -20,5 +21,18 @@ public class PurchaseTransactionService {
 			public List<Map<String, Object>> getPurchaseTransactionHistory() {
 			
 			return purchaseTransactionMapper.getPurchaseTransactionHistoryList(null);
-		} 
+		}
+
+			//비용거래명세서 등록
+			public int addPurchaseTransaction(PurchaseTransaction purchaseTransaction) {
+				int result = purchaseTransactionMapper.addPurchaseTransaction(purchaseTransaction);
+				return result;
+			}
+
+			public List<PurchaseTransaction> getPurchaseTransactionList() {
+				List<PurchaseTransaction> purchaseTransactionList = purchaseTransactionMapper.getPurchaseTransactionList();
+				return null;
+			} 
+			
+			
 }

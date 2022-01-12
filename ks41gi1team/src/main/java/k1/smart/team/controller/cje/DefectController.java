@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.DefectService;
 
@@ -54,10 +56,10 @@ public class DefectController {
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		//매개변수 검사
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Defect";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Defect";
 		
 		resultMap = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1Defect";
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Defect";
 		
 		defectInfo = (Storing) resultMap.get("defectInfo");
 		defectList = (List<Storing>) resultMap.get("defectDetail");
@@ -69,8 +71,23 @@ public class DefectController {
 		return "storing/defect/defect_info";
 	}
 	
+	/**
+	 * 불량처리내역 신규등록(+재고정보하나)
+	 * @param inventoryCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1DefectAdd")
-	public String addDefect(Model model) {
+	public String addDefect(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "불량처리내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/production/production_add";
+		
+		model.addAttribute("s", defectService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/defect/defect_add";
 	}
 	

@@ -45,7 +45,7 @@
 								<td th:if="${s.receiveWarehouseOutPlace == null}">[[${s.receiveWarehouseLocation}]]</td>
 								<td th:if="${s.receiveWarehouseOutPlace != null}">[[${s.receiveWarehouseLocation}]] ([[${s.receiveWarehouseOutPlace}]])</td>
 								<th>합계금액</th>
-								<td>[[${s.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>거래처</th>
@@ -125,20 +125,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${ s != null and productionDetails != null }" th:each=" l : ${productionDetails}">
+							<tr th:if="${ s != null and details != null }" th:each=" l : ${details}">
 								<td>
 									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 										[[${l.itemName}]]
 									</a>
 								</td>
-								<td>[[${l.adjCount}]]</td>
-								<td>[[${l.afterCount}]]</td>
-								<td>[[${l.adjWeight}]] kg</td>
-								<td>[[${l.stockWeight}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.afterCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
 								<td>[[${l.stockStatus}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
-							<tr th:if="${ s == null or productionDetails == null }">
+							<tr th:if="${ s == null or details == null }">
 								<td>상세내역이 존재하지 않습니다.</td>
 							</tr>
 						</tbody>

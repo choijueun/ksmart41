@@ -55,7 +55,7 @@
 								[[${l.businessName}]]
 							</a>
 						</td>
-						<td>[[${l.totalPrice}]]</td>
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
 						<td>
 							<a th:href="@{#}"> <!-- 회원정보LINK -->
 								[[${l.managerName}]]

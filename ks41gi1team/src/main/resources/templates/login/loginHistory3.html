@@ -11,6 +11,7 @@
 	<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 	
 	<th:block layout:fragment="customJs">
+	
 		<script type="text/javascript">
 			$(function(){
 				$(document).on('click', '.modifyBtn', function(){
@@ -49,7 +50,7 @@
 			        		'orderable' : false,
 			        		'searchable' : false,
 			        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
-			        					var htmlbtn1 = '<button class="modifyBtn" data-loginCode="'+ row.loginCode +'">수정</button>';
+			        					var htmlbtn1 = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
 			        					return htmlbtn1;
 			        				 }
 			        	},
@@ -58,7 +59,7 @@
 			        		'orderable' : false,
 			        		'searchable' : false,
 			        		'render' : function( data, type, row){	//ajax data 3번째 매개변수 row
-			        					var htmlbtn1 = '<button class="removeBtn" data-loginCode="'+ row.loginCode +'">삭제</button>';
+			        					var htmlbtn1 = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'"><i class="fas fa-trash"></i></button>';
 			        					return htmlbtn1;
 			        				 }
 			        	}
@@ -68,18 +69,27 @@
 		</script>
 	</th:block>
 	<th:block layout:fragment="customContents">
-		<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
-			<thead>
-				<tr>
-					<th>로그인코드</th>
-					<th>사업장코드</th>
-					<th>회원아이디</th>
-					<th>로그인날짜</th>
-					<th>로그아웃날짜</th>
-					<th>수정</th>
-					<th>삭제</th>
-				</tr>
-			</thead>
-		</table>
+		<div class="container-fluid">
+			<div class="card card-info card-outline">
+				<div class="card-header"></div>
+				
+				<div class="card-body">
+					<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline "
+									role="grid" aria-describedby="example2_info" style="text-align: center;">
+						<thead>
+							<tr>
+								<th>로그인코드</th>
+								<th>사업장코드</th>
+								<th>회원아이디</th>
+								<th>로그인날짜</th>
+								<th>로그아웃날짜</th>
+								<th>수정</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
 	</th:block>
 </html>

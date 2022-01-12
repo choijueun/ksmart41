@@ -2,6 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="sidebarFragment">
+<style type="text/css">
+.nav-item ul.nav-treeview { transform: translateX(1em); }
+</style>
+<script type="text/javascript">
+$(function(){
+	$(document).on('mouseenter', '.nav-item', function(){
+		$(this).find('.nav-treeview').stop();
+		$(this).find('.nav-treeview').slideDown(500);
+	});
+	$(document).on('mouseleave', '.nav-item', function(){
+		$(this).find('.nav-treeview').stop();
+		$(this).find('.nav-treeview').slideUp(500);
+	});
+});
+</script>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
@@ -26,7 +41,7 @@
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1UserReg/userRegList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p> 
 							회원 관리 - 최선희 
@@ -49,7 +64,7 @@
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1Business/businessList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p> 
 							사업장 관리 - 최선희
@@ -72,7 +87,7 @@
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1Client/clientList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p> 
 							거래처 관리 - 최선희
@@ -90,6 +105,88 @@
 							<a th:href="@{/k1Client/clientRegister}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 거래처 등록 -! </p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a th:href="@{/k1Stock}" class="nav-link">
+						<i class="nav-icon fas fa-circle"></i>
+						<p>
+							재고 관리 -주은
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1Warehouse}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>창고 관리</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Item}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>품목 관리</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a th:href="@{/k1Storing}" class="nav-link">
+						<i class="nav-icon fas fa-circle"></i>
+						<p>
+							물류 관리 -주은
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1Warehousing}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>자재입고</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1MaterialUse}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>자재사용</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Production}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>제품생산</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Moving}"class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>창고이동</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Shipment}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>제품출하</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Adjustment}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>재고조정</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Return}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>반품처리</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1Defect}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>불량처리</p>
 							</a>
 						</li>
 					</ul>
@@ -113,12 +210,6 @@
 							<a th:href="@{/k1Contract/k1ContractHistory}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>계약서 조회 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Contract/k1ContractDetail}" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>계약서 상세현황 - #</p>
 							</a>
 						</li>
 					</ul>
@@ -210,7 +301,7 @@
 						<li class="nav-item">
 							<a th:href="@{/k1MaterialOrder/k1MaterialOrderReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>발주 요청 입력 - #</p>
+								<p>발주서 등록 - #</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -220,15 +311,9 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>발주 요청 현황 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
 							<a th:href="@{/k1ProductOrder/k1ProductOrderReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>수주 요청 입력 - #</p>
+								<p>수주서 등록 - #</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -236,12 +321,6 @@
 								<i class="far fa-circle nav-icon"></i>
 								<p>수주 요청 조회  - #</p>
 							</a>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>수주 요청 현황 - #</p>
-							</a>
-						</li>
 					</ul>
 				</li>
 				<li class="nav-item">
@@ -271,7 +350,7 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{#}" class="nav-link">
+							<a th:href="@{/k1SalesTransaction/k1SalesTransactionReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 매출 거래 명세서 등록 - #</p>
 							</a>
@@ -287,7 +366,7 @@
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{#}" class="nav-link">
+							<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionReg}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 비용 거래 명세서 등록- #</p>
 							</a>
@@ -303,125 +382,12 @@
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1Invoice/invoiceList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p> 
 							전자세금계산서 - 최선희
-							<i class="right fas fa-angle-left"></i>
 						</p>
 					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1Invoice/salesIvList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>매출 전자세금계산서 -!</p>
-							</a> 
-							<a th:href="@{/k1Invoice/salesIvRegister}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>매출세금계산서 등록 -!</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Invoice/purchaseIvList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>비용 전자세금계산서 -!</p>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-circle"></i>
-						<p>
-							재고 관리 -주은
-							<i class="right fas fa-angle-left"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1Stock}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>재고 관리</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Warehouse}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>창고 관리</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Item}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>품목 관리</p>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-circle"></i>
-						<p>
-							물류 관리 -주은
-							<i class="right fas fa-angle-left"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1Storing}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>물류 관리</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Warehousing}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>자재입고X</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1MaterialUse}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>자재사용X</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Production}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>제품생산</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Moving}"class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>창고이동</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Shipment}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>제품출하</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Adjustment}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>재고조정</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Return}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>반품처리</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Defect}" class="nav-link">
-								<i class="far fa-dot-circle nav-icon"></i>
-								<p>불량처리</p>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li class="nav-item">
 					<a href="#" class="nav-link">

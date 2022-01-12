@@ -60,7 +60,7 @@
 							<!-- 거래처정보 LINK -->
 								[[${l.businessName}]]
 						</td>
-						<td>[[${l.totalPrice}]]</td>
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
 						<td>[[${l.briefs}]]</td>
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>

@@ -7,7 +7,30 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	
+	var stockModifyModal = $('#stockModifyModal');
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/stockModifyModal?inventoryCode="+$('#inventoryCode').text(),
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			stockModifyModal.find('.modal-body').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -16,6 +39,7 @@
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
+
 	<div class="row" th:unless="${ s == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
@@ -27,7 +51,7 @@
 						<tbody>
 							<tr>
 								<th>재고번호</th>
-								<td>[[${s.inventoryCode}]]</td>
+								<td id="inventoryCode">[[${s.inventoryCode}]]</td>
 								<th>상태</th>
 								<td>[[${s.status}]]</td>
 							</tr>
@@ -41,24 +65,24 @@
 							</tr>
 							<tr>
 								<th>수량</th>
-								<td>[[${s.itemCount}]]</td>
+								<td>[[${#numbers.formatInteger(s.itemCount,0,'COMMA')}]]</td>
 								<th>규격</th>
 								<td>[[${s.itemStandard}]]</td>
 							</tr>
 							<tr>
 								<th>단가 </th>
 								<td>
-									[[${s.productPrice}]] 원
+									[[${#numbers.formatInteger(s.productPrice,0,'COMMA')}]] 원
 									<a th:href="@{#}">
 										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
 									</a>
 								</td>
 								<th>합계금액</th>
-								<td>[[${s.totalPrice}]] 원</td>
+								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>중량</th>
-								<td>[[${s.stockWeight}]] kg</td>
+								<td>[[${#numbers.formatInteger(s.stockWeight,0,'COMMA')}]] kg</td>
 								<th>원산지</th>
 								<td>[[${s.itemOrigin}]]</td>
 							</tr>
@@ -93,9 +117,8 @@
 					<a th:href="@{|/k1StockRemove(itemCode=${s.inventoryCode})|}">
 						<button type="button" class="btn btn-danger float-right">삭제</button>
 					</a>
-					<a th:href="@{#}">
-						<button type="button" class="btn btn-info float-right mr-2">수정</button>
-					</a>
+					<button type="button" class="btn btn-info float-right mr-2 modalBtn" 
+							data-toggle="modal" data-target="#stockModifyModal">수정</button>
 				</div>
 			</div>
 		</div>
@@ -130,7 +153,7 @@
 									</a>
 								</td>
 								<td>[[${l.briefs}]]</td>
-								<td>[[${l.totalPrice}]]</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
 								<td>[[${l.endDate}]]</td>
 								<td>
 									<!-- 회원정보 LINK -->
@@ -151,6 +174,28 @@
 	<div th:if="${ s == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
 	</div>
+	
+	<div class="modal fade" id="stockModifyModal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">물류이동</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- INSERT HTML -->
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
 </div>
 </th:block>
 
