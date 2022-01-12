@@ -50,4 +50,21 @@
 			</if>
 		</trim>
 	</select>
+	
+	<select id="getClientDetail" parameterType="String" resultType="Client">
+		SELECT
+			 cli.clientCode
+			,cli.mainBusinessCode
+			,cli.businessCategory
+			,cli.userId
+			,cli.businessName
+			,cli.businessRepresentative
+			,cli.businessType1
+			,cli.businessType2
+			,cli.businessNum
+		FROM 
+			k1_tb_client AS cli;
+	
+	</select>
+	
 </mapper>
