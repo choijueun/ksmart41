@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.MovingService;
 
@@ -63,8 +65,23 @@ public class MovingController {
 		return "storing/moving/moving_info";
 	}
 	
+	/**
+	 * 창고이동내역 신규등록(+재고하나정보)
+	 * @param inventoryCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1MovingAdd")
-	public String addMoving(Model model) {
+	public String addMoving(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "창고이동내역 등록");
+		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/moving/moving_add";
+		
+		model.addAttribute("s", movingService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/moving/moving_add";
 	}
 	

@@ -754,4 +754,47 @@
 		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 
+<!-- 물류이동 등록페이지에서 특정 재고 정보 불러오기 -->
+<select id="getStockForStoring" parameterType="String" resultType="Stock">
+	SELECT
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,RIGHT(s.itemCode,3) AS itemCode
+		,i.itemName
+		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
+		,t.unitPrice
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,p.productPrice
+		,s.stockWeight
+		,s.`status`
+		,s.`comment`
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_item_info AS i
+		ON
+		s.itemCode = i.itemCode
+		LEFT JOIN
+		(SELECT
+			 p.purchaseTsCode
+			,pd.itemCode
+			,pd.unitPrice
+		FROM
+			k1_tb_purchase_transaction AS p
+			JOIN
+			k1_tb_purchase_transaction_detail AS pd
+			ON
+			p.purchaseTsCode = pd.purchaseTsCode
+		) AS t
+		ON
+		t.purchaseTsCode = s.purchaseTsCode 
+		AND t.itemCode = s.itemCode
+		LEFT JOIN
+		k1_tb_product_price AS p
+		ON
+		p.productPriceCode = s.productPriceCode
+	WHERE
+		s.mainBusinessCode = #{mainBusinessCode}
+		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
+</select>
+
 </mapper>

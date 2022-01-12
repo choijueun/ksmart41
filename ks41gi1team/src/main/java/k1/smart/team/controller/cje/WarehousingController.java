@@ -9,8 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
@@ -24,7 +23,7 @@ public class WarehousingController {
 	private List<Storing> warehousingList; //자재사용내역 배열
 	private Map<String, Object> resultMap;
 	
-	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
@@ -76,19 +75,24 @@ public class WarehousingController {
 	}
 	
 	/**
-	 * 입고내역 신규등록화면
+	 * 입고내역 신규등록화면 (특정재고)
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/k1WarehousingAdd")
-	public String addWarehousing(Model model) {
+	public String addWarehousing(
+			@RequestParam(value="inventoryCode", required = false) String inventoryCode
+			,Model model) {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고내역 등록");
 		
+		if(CommonUtils.isEmpty(inventoryCode)) return "storing/warehousing/warehousing_add";
+		
+		model.addAttribute("s", warehousingService.getStockForStoring(mainBusinessCode, inventoryCode));
+		
 		return "storing/warehousing/warehousing_add";
 	}
-	
 	
 	/**
 	 * 입고내역 수정화면

@@ -7,7 +7,29 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: "/stockModifyModal?inventoryCode="+$(this).attr('data-inventoryCode'),
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			$('#stockModifyModal').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -17,32 +39,76 @@
 
 <!-- content -->
 <div class="container-fluid">
+
+	<!-- Begin Modal -->
+	<div class="modal fade" id="stockModifyModal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">물류이동</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="text-center justify-content-between">
+						<a th:href="@{/k1WarehousingAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">자재입고</button>
+						</a>
+						<a th:href="@{/k1MaterialUseAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">자재사용</button>
+						</a>
+						<a th:href="@{/k1ProductionAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">제품생산</button>
+						</a>
+						<a th:href="@{/k1MovingAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">창고이동</button>
+						</a>
+						<a th:href="@{/k1ShipmentAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">제품출하</button>
+						</a>
+						<a th:href="@{/k1AdjustmentAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">재고조정</button>
+						</a>
+						<a th:href="@{/k1ReturnAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">반품처리</button>
+						</a>
+						<a th:href="@{/k1DefectAdd}">
+							<button type="button" class="btn btn-outline-info mx-2 my-3">불량처리</button>
+						</a>
+					</div>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 	<div class="card card-info card-outline">
 		<div class="card-header">
 			재고 목록
 		</div>
 		<div class="card-body">
 			<div class="card">
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="rawMaterial" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						원자재
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="subsidiary" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						부자재
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="product" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						제품
-					</label>
+				<div class="card-body">
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+							type="checkbox" id="rawMaterial">
+						<label for="rawMaterial" class="custom-control-label">원자재</label>
+					</div>
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+							type="checkbox" id="subsidiary">
+						<label for="subsidiary" class="custom-control-label">부자재</label>
+					</div>
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+							type="checkbox" id="product">
+						<label for="product" class="custom-control-label">제품</label>
+					</div>
 				</div>
 			</div>
 			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
@@ -80,9 +146,10 @@
 						<td>[[${l.comment}]]</td>
 						<td>[[${l.status}]]</td>
 						<td>
-							<a th:href="@{|/k1Stock/modify/${l.inventoryCode}|}">
+							<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
+									th:data-inventoryCode="${l.inventoryCode}">
 								<i class="fas fa-pen"></i>
-							</a>
+							</button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(stockList)}">
