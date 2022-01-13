@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
 
@@ -34,6 +35,17 @@ public interface MaterialOrderMapper {
 	//발주 정보 조회
 	public MaterialOrder getMaterialOrderInfoByMaterialOrderCode(String materialOrderCode);
 
+	//발주 등록
+	public int addMaterialOrder(MaterialOrder materialOrder);
+		
+	//발주 전체 이력 조회
+	public List<MaterialOrder> getMaterialOrderList();
+
+	//발주 코드 자동 추가 보여주기
+	public String getMaterialOrderCode();
+
+	//발주 중복 체크
+	public int getMaterialOrderByMaterialOrderCode(String materialOrderCode);
 	
 
 

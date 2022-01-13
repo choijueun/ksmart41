@@ -27,7 +27,7 @@ public interface ContractMapper {
 		public List<Contract> getAllContractList();
 
 	//계약서 전체 이력 조회	
-		public List<Map<String, Object>> getContractHistoryList(Map<String, Object> paramMap);
+		public List<Contract> getContractHistoryList(String mainBusinessCode);
 
 	//계약서 이력 테이블 튜플의 총 갯수	
 		public int getContractHistoryCount();

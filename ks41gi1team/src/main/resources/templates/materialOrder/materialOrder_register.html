@@ -6,7 +6,74 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script>
+$(function(){
+		
+		$(document).on('click', '#addMaterialOrderBtn', function(){
+			var submitCheck = true;
+			
+			var inputObj = $('#addMaterialOrderForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var inputCode = $(this).attr('code');
+				var labelText = $('label[for=' + inputCode + ']').text();
+				if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+					alert(labelText + '입력해주세요');
+					$(this).focus();
+					submitCheck = false;
+					return false;
+				}
+			});
+			
+			if(submitCheck) $('#addMaterialOrderForm').submit();
+			
+		});
+	
+	$('#btn').click(function(){
+	
+		var materialOrderCode = $('#materialOrderCode').val();
+		
+		if(typeof materialOrderCode != 'undefined' && materialOrderCode != null && materialOrderCode != ''){
+			// ajax 호출
+			var request = $.ajax({
+				url: '/k1MaterialOrder/k1MaterialOrderCodeCheck',
+				method: 'POST',
+				data: {'materialOrderCode' : materialOrderCode},
+				dataType: 'json'
+				});
+			request.done(function(data){
+				//중복여부체크(true: 중복, false: 등록가능)
+				var materialOrderCodeConfirm = data;
+				
+				if(materialOrderCodeConfirm){
+					alert('중복된 발주코드입니다.');
+					$('#addMaterialOrderForm input').not('#materialOrderCode').prop('disabled', true);
+					$('#addMaterialOrderForm select').prop('disabled', true);
+					$('#addMaterialOrderForm button').not('#btn').prop('disabled', true);
+				}else{
+					alert('등록이 가능한 발주코드입니다.');
+					$('#addMaterialOrderForm input').prop('disabled', false);
+					$('#addMaterialOrderForm select').prop('disabled', false);
+					$('#addMaterialOrderForm button').prop('disabled', false);
+				}
+				
+				
+				
+			});
+			request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+			});	
+		}else{
+			alert('발주코드를 입력해주세요')
+			return false;
+		}
+		
+		});
+	});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
@@ -45,7 +112,7 @@
 <section class="content" style="margin: auto;">
 			
 <div class="container-fluid">
-	<form id="materialOrderRegisterForm" action="/k1MaterialOrder/materialOrderRegister" method="post">
+		<form id="addMaterialOrderForm" th:action="@{/k1MaterialOrder/k1MaterialOrderReg}" method="post">	
 		<section class="content">
 	      <div class="row">
 	        <div >
@@ -58,12 +125,12 @@
 	                  <i class="fas fa-minus"></i>
 	                </button>
 	              </div>
-	            </div>
-<div class="card-body">
+	            </div>	
+	<div class="card-body">
                   <div class="form-group">
                     <label for="materialOrderCode">발주코드</label>
                    
-                    	<input type="text" name="materialOrderCode" class="form-control" id="materialOrderCode" th:value="${materialOrderInfo}">	  
+                    	<input type="text" name="materialOrderCode" class="form-control" id="materialOrderCode" th:value="${getMaterialOrderCode}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
@@ -171,7 +238,7 @@
 	      <div class="row">
 	        <div class="col-12">
 	          <a href="#" class="btn btn-secondary">취소</a>
-	          <input type="submit" value="등록" class="btn btn-info">
+	          <input type="submit" id="addMaterialOrderBtn" value="등록" class="btn btn-info" disabled="disabled">
 	        </div>
 	      </div>
 	    </section>

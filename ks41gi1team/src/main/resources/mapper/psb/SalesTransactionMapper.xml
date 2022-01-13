@@ -50,27 +50,28 @@
 	
 	<select id="getSalesTransactionList" parameterType="String" resultType="SalesTransaction" >
 	SELECT	
-			st.salesTsCode as salesTsCode,
-			st.mainBusinessCode as mainBusinessCode,
-			st.clientCode as clientCode,
-			st.lsAccountCode as lsAccountCode,
-			st.contractCode as contractCode,
-			st.vatType as vatType,
-			st.amount as amount,
-			st.VAT as VAT,
-			st.totalPrice as totalPrice,
-			st.dealDate as dealDate,
-			st.briefs as briefs,
-			u.userName as userName,
-			st.regDate as regDate,
-			st.updateDate as updateDate
-		FROM 
+		st.salesTsCode as salesTsCode,
+		st.mainBusinessCode as mainBusinessCode,
+		st.clientCode as clientCode,
+		st.lsAccountCode as lsAccountCode,
+		st.contractCode as contractCode,
+		st.vatType as vatType,
+		st.amount as amount,
+		st.VAT as VAT,
+		st.totalPrice as totalPrice,
+		st.dealDate as dealDate,
+		st.briefs as briefs,
+		u.userName as userName,
+		st.regDate as regDate,
+		st.updateDate as updateDate
+	FROM 
 		k1_tb_sales_transaction AS st
-		INNER JOIN
+	INNER JOIN
 		k1_tb_user as u
-		on
+	on
 		st.mainBusinessCode = u.mainBusinessCode
-		
+	GROUP BY 
+		st.salesTsCode;	
 	</select>
 	
 	<select id="getSalesTransactionHistoryList" parameterType="map" resultType="map">
@@ -91,10 +92,12 @@
 			st.updateDate
 		FROM 
 			k1_tb_sales_transaction AS st
-			INNER JOIN
-		k1_tb_user as u
+		INNER JOIN
+			k1_tb_user as u
 		on
-		st.mainBusinessCode = u.mainBusinessCode
+			st.mainBusinessCode = u.mainBusinessCode
+		GROUP BY 
+			st.salesTsCode;	
 	</select>
 
 </mapper>
