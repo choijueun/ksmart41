@@ -68,7 +68,7 @@ public class MainBusinessController {
 			return "redirect:/businessList";
 		}
 		//사업장 상세
-		mainBusinessDetail = mainBusinessService.getAllMainBusinessList(mainBusinessDetail);
+		mainBusinessDetail = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
 		if(mainBusinessDetail == null) {
 			System.out.println("사업장 상세 error");
 		}

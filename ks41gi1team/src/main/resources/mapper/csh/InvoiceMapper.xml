@@ -30,4 +30,44 @@
 			ON 
 			i.mainBusinessCode = b.mainBusinessCode;
 	</select>
+	
+	<select id="getInvoiceDetail" parameterType="String" resultType="Invoice">
+		SELECT 
+			 i.invoiceCode
+			,i.mainBusinessCode
+			,i.invoiceType
+			,i.supplyBusinessCode
+			,i.supplyManagerId
+			,i.demandBusinessCode
+			,i.demandManagerId
+			,i.invoicePrice
+			,i.invoiceTax
+			,i.totalPrice
+			,i.issueStatus
+			,i.payMethod
+			,i.invoiceConfirm
+			,i.briefs
+			,i.issueDate
+			,i.regDate
+			,d.invoiceDetailCode
+			,d.lsAccountCode
+			,d.totalAccountCode
+			,d.salesTsCode
+			,d.itemCode
+			,d.amount
+			,d.unitPrice
+			,d.supplyPrice
+			,d.tax
+			,d.`comment`
+		FROM 
+			k1_tb_invoice AS i
+			INNER JOIN
+			k1_tb_invoice_detail AS d
+			ON 
+			i.invoiceCode = d.invoiceCode
+		WHERE
+			i.invoiceCode = #{invoiceCode};
+	 
+	
+	</select>
 </mapper>
