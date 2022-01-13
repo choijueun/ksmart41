@@ -14,6 +14,7 @@ public class Slip {
 	private String businessName; //거래처상호
 	private int amount; //단가
 	private int tax;  //개당 세금
+	private int vat;  //개당 세금
 	private int count;  //수량
 	private int amt;  //((단가+세금)*수량) = amt
 	private String briefs;
@@ -84,6 +85,12 @@ public class Slip {
 	}
 	public void setTax(int tax) {
 		this.tax = tax;
+	}
+	public int getVat() {
+		return vat;
+	}
+	public void setVat(int vat) {
+		this.vat = vat;
 	}
 	public int getCount() {
 		return count;
@@ -168,6 +175,8 @@ public class Slip {
 		builder.append(amount);
 		builder.append(", tax=");
 		builder.append(tax);
+		builder.append(", vat=");
+		builder.append(vat);
 		builder.append(", count=");
 		builder.append(count);
 		builder.append(", amt=");
@@ -191,6 +200,8 @@ public class Slip {
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 }
 	
 
