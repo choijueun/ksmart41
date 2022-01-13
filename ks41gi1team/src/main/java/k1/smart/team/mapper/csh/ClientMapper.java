@@ -14,4 +14,7 @@ public interface ClientMapper {
 	//거래처 전체목록에서 검색
 	public List<Client> getClientListBySearchKey(String searchKey, String searchValue);
 
+	//거래처 상세
+	public Client getClientDetail(String clientCode);
+
 }

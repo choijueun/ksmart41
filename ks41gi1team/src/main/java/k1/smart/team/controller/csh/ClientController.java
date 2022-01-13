@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import k1.smart.team.service.csh.ClientService;
 @RequestMapping(value="/k1Client")
 public class ClientController {
 	private ClientService clientService;
+	private Client clientDetail; //거래처 상세
 	
 	public ClientController(ClientService clientService) {
 		this.clientService = clientService;
@@ -39,7 +41,6 @@ public class ClientController {
 	public String getSearchClientList(@RequestParam(value = "searchKey", required = false) String searchKey
 									,@RequestParam(value = "searchValue", required = false) String searchValue
 									,Model model) {
-		
 		if(searchKey != null && "clientCode".equals(searchKey)) {
 			searchKey = "clientCode";
 		}else if(searchKey != null && "mainBusinessCode".equals(searchKey)) {
@@ -79,8 +80,6 @@ public class ClientController {
 		//조회된 회원목록을 model에 값 저장
 		model.addAttribute("SectionTitle", "거래처목록");
 		model.addAttribute("clientList", clientList);
-		
-		
 		return "clientBusiness/client_list";
 		
 	}
@@ -94,6 +93,41 @@ public class ClientController {
 	}
 	
 	//거래처 등록 모달
+	
+	
+	//거래처 상세정보
+	@GetMapping("/clientDetail/{clientCode}")
+	public String getClientDetail(
+			 @PathVariable(value = "clientCode", required = false) String clientCode
+			,Model model) {
+		System.out.println(clientCode);
+		
+		//거래처코드 검사
+		if(clientCode == null || "".equals(clientCode)) {
+			System.out.println("거래처코드 error");
+			return "redirect:/clientList";
+		}
+		
+		//거래처 상세
+		clientDetail = clientService.getAllClientDetail(clientCode);
+		if(clientDetail == null) {
+			System.out.println("거래처정보 상세 error");
+			return "redirect:/clientList";
+		}
+		model.addAttribute("SectionTitle", "거래처정보 상세");
+		model.addAttribute("clientDetail", clientDetail);
+		return "clientBusiness/client_detail";
+	}
+	
+	//거래처정보 수정
+	@GetMapping("/modify/{clientCode}")
+	public String modifyClient(
+			@PathVariable(value = "clientCode", required = false) String clientCode
+			,Model model) {
+		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
+		model.addAttribute("clientCode", clientCode);
+		return "clientBusiness/client_modify";
+	}
 	
 	
 	

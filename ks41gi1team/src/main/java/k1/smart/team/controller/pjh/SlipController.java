@@ -86,17 +86,31 @@ public class SlipController {
 		return "slip/slip_salesDetail";
 	}
 	
+	//전표 등록화면
 	@GetMapping("/add")
 	public String addSlip(Model model) {
 		model.addAttribute("title", "전표관리: 등록");
 		return "slip/slip_register";
 	}
 	
+	/**
+	 * 전표 등록절차 수행
+	 * @param slip
+	 */
 	@PostMapping("/add")
 	public String addSlip(Slip slip) {
 		System.out.println("SlipController에서 입력받은값" + slip);
+		//P인지 S인지 구분 - 서비스로이동!!
+		//if(purchase인 경우) {
+		
+		//}else(sales인 경우){
+			slip.setSalesTsCode(slip.getTsCode());
+		//}
+		System.out.println(slip.getTsCode() + "<-- 220112 slip.getTsCode() addSlip  SlipController.java 비용 거래명세서 코드 ");
 		slipService.addSlip(slip);
-		return "redirect:/slip/slip_list";
+		
+
+		return "redirect:/k1SlipList";
 		
 	}
 	

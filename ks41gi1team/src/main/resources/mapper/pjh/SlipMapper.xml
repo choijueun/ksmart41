@@ -150,4 +150,42 @@
 	FROM
 		k1_tb_sales_transaction
 	</select>
+	
+	<select id="salesSlipNum" parameterType="String" resultType="String">
+		<![CDATA[
+		SELECT
+			CASE
+				WHEN (MAX(RIGHT(salesSlipCode,1)) > 0) 
+				THEN CONCAT( 'S', DATE_FORMAT(#{slipDate}, '%y-%m-%d'), '-', MAX(RIGHT(salesSlipCode,1))+1 )
+			ELSE CONCAT( 'S',DATE_FORMAT(#{slipDate}, '%y-%m-%d'), '-', 1 )
+			END AS salesSlipCode
+		FROM
+			k1_tb_sales_slip
+		WHERE
+			SUBSTR(salesSlipCode,4,8) = #{slipDate};
+		]]>
+	</select>
+	
+	<insert id="registerSalesSlip" parameterType="Slip">
+	INSERT INTO k1_tb_sales_slip
+	(
+		salesSlipCode, mainBusinessCode, salesTsCode, clientCode, amount, tax, count, briefs, regId, regDate, updateDate
+	)
+	VALUES (
+		#{salesSlipCode}
+		,'fac_ksmartSeoul_Seoul_001'
+		,#{salesTsCode}
+		,#{clientCode}
+		,#{amount}
+		,#{tax}
+		,#{count}
+		,#{briefs}
+		,#{regId}
+		, NOW()
+		, NOW()	
+	);	
+	</insert>
+	
+	
+	
 </mapper>

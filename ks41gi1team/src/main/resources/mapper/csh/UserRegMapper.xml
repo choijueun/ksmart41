@@ -6,42 +6,63 @@
 	
 <select id="getAllUserRegList" parameterType="String" resultType="UserReg">
 	SELECT 
-		 userRegCode
-		,mainBusinessCode
-		,userLevelCode
-		,userId
-		,userPw
-		,userName
-		,userGender
-		,userAddr
-		,userMoblie
-		,userEmail
-		,userPosition
-		,userRegDate
-		,userRegStatus
-		,userRegComment
+		 r.userRegCode
+		,r.mainBusinessCode
+		,r.userLevelCode
+		,r.userId
+		,r.userPw
+		,r.userName
+		,r.userGender
+		,r.userAddr
+		,r.userMoblie
+		,r.userEmail
+		,r.userPosition
+		,r.userRegDate
+		,r.userRegStatus
+		,r.userRegComment	
+		,b.businessName
+		,l.userLevelName
 	FROM 
-		k1_tb_user_register;
+		k1_tb_user_register AS r
+		INNER JOIN 
+		k1_tb_main_business AS b
+		ON 
+		r.mainBusinessCode = b.mainBusinessCode
+		INNER JOIN 
+		k1_tb_user_level AS l
+		ON 
+		r.userLevelCode = l.userLevelCode
+	GROUP BY r.userRegCode;
 </select>
 
 <select id="getUserRegDetail" parameterType="String" resultType="UserReg">
 	SELECT 
-		 userRegCode
-		,mainBusinessCode
-		,userLevelCode
-		,userId
-		,userPw
-		,userName
-		,userGender
-		,userAddr
-		,userMoblie
-		,userEmail
-		,userPosition
-		,userRegDate
-		,userRegStatus
-		,userRegComment
+		 r.userRegCode
+		,r.mainBusinessCode
+		,r.userLevelCode
+		,r.userId
+		,r.userPw
+		,r.userName
+		,r.userGender
+		,r.userAddr
+		,r.userMoblie
+		,r.userEmail
+		,r.userPosition
+		,r.userRegDate
+		,r.userRegStatus
+		,r.userRegComment	
+		,b.businessName
+		,l.userLevelName
 	FROM 
-		k1_tb_user_register
+		k1_tb_user_register AS r
+		INNER JOIN 
+		k1_tb_main_business AS b
+		ON 
+		r.mainBusinessCode = b.mainBusinessCode
+		INNER JOIN 
+		k1_tb_user_level AS l
+		ON 
+		r.userLevelCode = l.userLevelCode
 	WHERE 
 		userRegCode = #{userRegCode};
 </select>

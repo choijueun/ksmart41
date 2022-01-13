@@ -42,6 +42,12 @@ public class MainBusinessService {
 		return businessNumCheck;
 	}
 
+	//사업장 상세
+	public MainBusiness getAllMainBusinessList(MainBusiness mainBusinessDetail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

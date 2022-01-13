@@ -4,6 +4,8 @@ package k1.smart.team.dto.pjh;
 public class Slip {
 	private String purchaseSlipCode; //비용전표코드
 	private String salesSlipCode; //매출전표코드
+	
+	
 	private String mainBusinessCode; //삭제할지말지?
 	private String totalAccountCode; //통합 회계 관리코드
 	private String purchaseTsCode; //비용 거래명세서 코드
@@ -21,6 +23,8 @@ public class Slip {
 	private String regDate;
 	private String updateDate;
 	
+	private String slipDate; //전표일자
+	private String TsCode; //명세서
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
 	}
@@ -129,7 +133,18 @@ public class Slip {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+	public String getSlipDate() {
+		return slipDate;
+	}
+	public void setSlipDate(String slipDate) {
+		this.slipDate = slipDate;
+	}
+	public String getTsCode() {
+		return TsCode;
+	}
+	public void setTsCode(String tsCode) {
+		TsCode = tsCode;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -169,11 +184,13 @@ public class Slip {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", slipDate=");
+		builder.append(slipDate);
+		builder.append(", TsCode=");
+		builder.append(TsCode);
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 }
 	
 
