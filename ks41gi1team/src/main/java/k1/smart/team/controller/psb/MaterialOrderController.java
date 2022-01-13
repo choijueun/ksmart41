@@ -23,6 +23,7 @@ import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.MaterialOrderService;
 
 
+
 @Controller
 @RequestMapping(value="/k1MaterialOrder")
 public class MaterialOrderController {
@@ -48,6 +49,9 @@ public class MaterialOrderController {
 		}
 		
 	
+		
+		
+		//발주 등록
 		@GetMapping("/k1MaterialOrderReg")
 		public String addOrder() {
 			return "materialOrder/materialOrder_register";
@@ -106,8 +110,7 @@ public class MaterialOrderController {
 		  }
 	 
 		
-		
-		
+	
 		
 		//발주 전체 목록
 		@GetMapping("/k1MaterialOrderList")

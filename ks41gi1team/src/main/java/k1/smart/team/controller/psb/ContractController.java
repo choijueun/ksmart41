@@ -81,8 +81,7 @@ public class ContractController {
 		if(contractCode != null && !"".equals(contractCode)) {
 			contractService.addContract(contract);
 		}
-		
-		return "contract/contract_register";
+		return "redirect:/k1Contract/k1ContractHistory";
 		
 	}
 	
@@ -195,7 +194,7 @@ public class ContractController {
 	  //계약 전체 목록
 	  @GetMapping("/k1ContractList") 
 	  public String contractMain(Model model) {
-		  mainBusinessCode = "fac_ksmartSeoul_Seoul001";
+	
 		  List<Contract> contractList = contractService.getAllContractList();
 		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
@@ -216,10 +215,10 @@ public class ContractController {
 	  
 	  @PostMapping("/k1ContractHistory")
 	  @ResponseBody
-	  public List<Map<String, Object>> contractMain(){
+	  public  List<Contract> contractMain(){
 		  
-		  List<Map<String, Object>> contractHistoryList = contractService.getContractHistory();
-		  
+		  List<Contract> contractHistoryList = contractService.getContractHistoryList(mainBusinessCode);
+		  System.out.println("controller contractHistoryList: " + contractHistoryList);
 		  return contractHistoryList;
 	  }
 	  

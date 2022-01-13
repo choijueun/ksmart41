@@ -25,9 +25,10 @@
 	</resultMap>
 
 	<select id="getContractInfo" resultType="String">
-SELECT 
-	CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
-	FROM k1_tb_contract AS c
+		SELECT 
+			CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
+		FROM 
+			k1_tb_contract AS c
 	
 	</select>
 
@@ -155,33 +156,33 @@ SELECT
 			contr.startDate as startDate,
 			contr.endDate as endDate,
 			contr.managerId as managerId,
+			u1.userName as managerName,
 			contr.regId as regId,
-			u.userName as userName,
+			u2.userName as regName,
 			contr.contractDate as contractDate,
 			contr.contractStatus as contractStatus,
 			contr.briefs as briefs,
 			contr.regDate as regDate,
 			contr.updateDate as updateDate,
 			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName,
 			c.businessName as businessName,
-			mb.mainBusinessCode as mainBusinessCode
+			contr.mainBusinessCode
 		FROM 
 			k1_tb_contract AS contr
 			INNER JOIN 
 			k1_tb_client AS c
 			on
-			contr.mainBusinessCode = c.mainBusinessCode
-			INNER JOIN 
-			k1_tb_user AS u
-			on
-			c.mainBusinessCode = u.mainBusinessCode
+			contr.clientCode = c.clientCode
 			INNER JOIN
-			k1_tb_main_business as mb
+			k1_tb_user AS u1
+			ON
+			contr.managerId = u1.userId
+			INNER JOIN 
+			k1_tb_user AS u2
 			on
-			mb.mainBusinessCode = u.mainBusinessCode
-		GROUP BY 
-			contr.contractCode;
+			contr.regId = u2.userId
+		WHERE
+			contr.mainBusinessCode IS NOT NULL
 		<if test="strartNum != null">
 			LIMIT #{startNum}, #{rowPerPage};
 		</if>	

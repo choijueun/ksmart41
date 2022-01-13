@@ -47,6 +47,8 @@
 			k1_tb_user as u
 		on
 			u.mainBusinessCode = pt.mainBusinessCode	
+		GROUP BY
+			pt.purchaseTsCode;	
 	<if test="strartNum != null">
 			LIMIT #{startNum}, #{rowPerPage};
 		</if>	
