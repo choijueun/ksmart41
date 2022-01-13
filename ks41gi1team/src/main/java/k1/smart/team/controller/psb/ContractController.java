@@ -43,15 +43,7 @@ public class ContractController {
 	
 	
 	
-	/*
-	 * @GetMapping("/k1ContractReg") public String k1addContract() { return
-	 * "contract/contract_register"; }
-	 */
-	
-	/*
-	 * @GetMapping("/k1ContractList") public String k1getAllContract() { return
-	 * "contract/contract_list"; }
-	 */
+
 	@GetMapping("/k1ContractDetail")
 	public String k1getContract() {
 		return "contract/contract_detail";
@@ -199,7 +191,6 @@ public class ContractController {
 		  model.addAttribute("title", "계약목록");
 		  model.addAttribute("contractList", contractList);
 		  
-
 		  
 		  return "contract/contract_list";
 	  }

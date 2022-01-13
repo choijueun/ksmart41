@@ -100,7 +100,7 @@ public class ContractService {
 			
 			String contractNum;
 			for(int i=0; i<contractList.size(); i++) {
-				contractNum = contractList.get(i).getContractCode().replace("contractCode", "");
+				contractNum = contractList.get(i).getContractCode().replace("contractCode_", "");
 				contractList.get(i).setContractCode(contractNum);
 			}
 			return contractList;

@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import k1.smart.team.dto.cje.Stock;
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.service.cje.ItemService;
+import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.MaterialOrderService;
 
 
@@ -26,15 +30,21 @@ public class MaterialOrderController {
 	private static final Logger log = LoggerFactory.getLogger(MaterialOrderController.class);
 	
 		private MaterialOrderService materialOrderService;
+		private ClientService clientService;
+		private ItemService itemService;
 		private String mainBusinessCode;
 		private List<MaterialOrder> materialOrderInfoList;  //발주 상세정보
 		private MaterialOrder materialOrderInfo; // 발주 하나 정보
 		private Map<String,Object> resultMap;
+
+		
 		
 		
 		//생성자 메서드
-		public MaterialOrderController(MaterialOrderService materialOrderService) {
+		public MaterialOrderController(MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService) {
 			this.materialOrderService = materialOrderService;
+			this.clientService = clientService;
+			this.itemService = itemService;
 		}
 		
 	
@@ -102,10 +112,18 @@ public class MaterialOrderController {
 		//발주 전체 목록
 		@GetMapping("/k1MaterialOrderList")
 		public String materialOrderMain(Model model) {
-			mainBusinessCode = "fac_ksmartSeoul_Seoul001";
+			mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 			List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList(mainBusinessCode);
 			model.addAttribute("title", "발주목록");
 			model.addAttribute("materialOrderList", materialOrderList);
+			
+			List<Client> clientList = clientService.getAllClientList();
+			model.addAttribute("clientList", clientList);
+			System.out.println("clientList" + clientList);
+			
+			List<Stock> itemList = itemService.getAllItemList(mainBusinessCode);
+			model.addAttribute("itemList", itemList);
+			System.out.println("itemList" + itemList);
 			
 			return "materialOrder/materialOrder_list";
 		}
