@@ -5,9 +5,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.service.ModalService;
 
 @Controller
 public class ModalController {
+	private ModalService modalService;
+	/**
+	 * 생성자 메서드
+	 * @param modalService
+	 */
+	public ModalController(ModalService modalService) {
+		this.modalService = modalService;
+	}
+	
 	
 	/**
 	 * AJAX :: 재고 수정사유 선택
@@ -29,6 +39,7 @@ public class ModalController {
 	@GetMapping(value="/materialOrder", produces="application/json")
 	public String materialOrderModal(Model model) {
 		
+		model.addAttribute("dataList", modalService.getMaterialOrderList());
 		
 		return "modal/material_order";
 	}
