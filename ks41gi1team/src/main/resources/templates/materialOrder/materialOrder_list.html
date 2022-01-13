@@ -87,7 +87,7 @@ $(function(){
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
-							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-pen"></i></button>
 						</td>
 						<td>
 							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn"><i class="fas fa-trash"></i></button>
@@ -102,8 +102,8 @@ $(function(){
 	</div>
 	
 	
-	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal fade" id="modal-xl"  style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
           <div class="modal-content" style="width:150%;">
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
@@ -131,14 +131,26 @@ $(function(){
 				<tbody>
 				<tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
 						<td><input type="checkbox"></td>
-						<td><input type="text" th:placeholder="${l.materialOrderCode}"></td>
-						<td>[[${l.orderDate}]]</td>
-						<td>[[${l.businessName}]]</td>
-						<td>[[${l.itemName}]]</td>
-						<td>[[${l.predictDate}]]</td>
-						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${l.totalPrice}]]</td> 
-						<td>[[${l.status}]]</td> 
+						<td>[[${l.materialOrderCode}]]</td>
+						<td><input type="date" th:placeholder="${l.orderDate}"></td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(clientList)}" th:each="l : ${clientList}">
+								<option>[[${l.businessName}]]</option>
+							</div>
+							</select>
+						</td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
+								<option>[[${l.itemName}]]</option>
+							</div>
+							</select>
+						</td>
+						<td><input type="date" th:placeholder="${l.predictDate}"></td>
+						<td><input type="text" th:placeholder="${l.totalCount}">EA</td>
+						<td><input type="text" th:placeholder="${l.totalPrice}">원</td> 
+						<td><input type="text" th:placeholder="${l.status}"></td> 
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">

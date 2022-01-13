@@ -19,6 +19,7 @@ public class Contract {
 	private String updateDate;
 	private String businessRepresentative;
 	private String userName;
+	private String userId;
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -127,6 +128,12 @@ public class Contract {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -166,9 +173,11 @@ public class Contract {
 		builder.append(businessRepresentative);
 		builder.append(", userName=");
 		builder.append(userName);
+		builder.append(", userId=");
+		builder.append(userId);
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	
 }
