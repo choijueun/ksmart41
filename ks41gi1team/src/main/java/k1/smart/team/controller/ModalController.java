@@ -32,4 +32,22 @@ public class ModalController {
 		
 		return "modal/material_order";
 	}
+	
+	@GetMapping(value="/transaction", produces="application/json")
+	public String tsModal(String slipType, Model model) {
+		System.out.println(slipType);
+		if(CommonUtils.isEmpty(slipType)) return null;
+		
+		if("p".equals(slipType)) {
+			System.out.println(slipType + "<<--비용 선택시");
+			model.addAttribute("slipType",slipType);
+			return "modal/purchaseTsModal";
+		}else if ("s".equals(slipType)) {
+			System.out.println(slipType + "<<--매출 선택시");
+			model.addAttribute("slipType",slipType);
+			return "modal/salesTsModal";
+		}
+		
+		return null;
+	}
 }
