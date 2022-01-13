@@ -144,7 +144,7 @@ SELECT
 			mb.mainBusinessCode = u.mainBusinessCode;
 	</select>
 	
-	<select id="getContractHistoryList" parameterType="map" resultType="map">
+	<select id="getContractHistoryList" parameterType="String" resultType="Contract">
 		SELECT
 			contr.contractCode as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
@@ -156,7 +156,7 @@ SELECT
 			contr.endDate as endDate,
 			contr.managerId as managerId,
 			contr.regId as regId,
-			contr.approvalId as approvalId,
+			u.userName as userName,
 			contr.contractDate as contractDate,
 			contr.contractStatus as contractStatus,
 			contr.briefs as briefs,
