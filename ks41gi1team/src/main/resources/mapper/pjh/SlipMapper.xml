@@ -110,45 +110,32 @@
 		WHERE
 			st.mainBusinessCode = #{mainBusinessCode};
 	</select>
-	<select id="addSlip" parameterType="String" resultType="Slip">
-		INSERT INTO k1_tb_purchase_slip(
-			purchaseSlipCode
-			,mainBusinessCode
-			,totalAccountCode
-			,purchaseTsCode
-			,clientCode
-			,amount
-			,tax
-			,count
-			,briefs
-			,regId
-			,regDate
-			,updateDate
-		)VALUES(
-			#{purchaseSlipCode}
-			,'fac_ksmartSeoul_Seoul_001'
-			,#{totalAccountCode}
-			,#{purchaseTsCode}
-			,#{clientCode}
-			,#{amount}
-			,#{tax}
-			,#{count}
-			,#{briefs}
-			,#{regId}
-			,CURDATE()
-			,CURDATE()
-		);
-	</select>
-	<select id="saleTransactionList" parameterType="map" resultType="map">
+	<select id="salesTransactionList" resultType="Slip">
 	SELECT
 		salesTsCode
 		,clientCode
 		,amount
-		,VAT
+		,vat
 		,count
 		,briefs
 	FROM
 		k1_tb_sales_transaction
+	</select>
+	
+	<select id="purchaseTransactionList" parameterType="String" resultType="Slip">
+	SELECT
+		pt.purchaseTsCode
+		,pt.clientCode
+		,ptd.count 
+		,ptd.unitPrice AS amount
+		,ptd.vat 
+		,pt.briefs
+	FROM
+		k1_tb_purchase_transaction AS pt
+	JOIN
+		k1_tb_purchase_transaction_detail AS ptd
+	ON
+		pt.purchaseTsCode = ptd.purchaseTsCode;
 	</select>
 	
 	<select id="salesSlipNum" parameterType="String" resultType="String">
@@ -162,7 +149,21 @@
 		FROM
 			k1_tb_sales_slip
 		WHERE
-			SUBSTR(salesSlipCode,4,8) = #{slipDate};
+			SUBSTR(salesSlipCode,2,8) = DATE_FORMAT(#{slipDate}, '%y-%m-%d');
+		]]>
+	</select>
+	<select id="purchaseSlipNum" parameterType="String" resultType="String">
+		<![CDATA[
+		SELECT
+			CASE
+				WHEN (MAX(RIGHT(purchaseSlipCode,1)) > 0) 
+				THEN CONCAT( 'P', DATE_FORMAT(#{slipDate}, '%y-%m-%d'), '-', MAX(RIGHT(purchaseSlipCode,1))+1 )
+			ELSE CONCAT( 'P',DATE_FORMAT(#{slipDate}, '%y-%m-%d'), '-', 1 )
+			END AS purchaseSlipCode
+		FROM
+			k1_tb_purchase_slip
+		WHERE
+			SUBSTR(purchaseSlipCode,2,8) = DATE_FORMAT(#{slipDate}, '%y-%m-%d');
 		]]>
 	</select>
 	
@@ -185,7 +186,25 @@
 		, NOW()	
 	);	
 	</insert>
-	
+	<insert id="registerPurchaseSlip" parameterType="Slip">
+		INSERT INTO k1_tb_purchase_slip
+	(
+		purchaseSlipCode, mainBusinessCode, purchaseTsCode, clientCode, amount, tax, count, briefs, regId, regDate, updateDate
+	)
+	VALUES (
+		#{purchaseSlipCode}
+		,'fac_ksmartSeoul_Seoul_001'
+		,#{purchaseTsCode}
+		,#{clientCode}
+		,#{amount}
+		,#{tax}
+		,#{count}
+		,#{briefs}
+		,#{regId}
+		, NOW()
+		, NOW()	
+	);
+	</insert>
 	
 	
 </mapper>

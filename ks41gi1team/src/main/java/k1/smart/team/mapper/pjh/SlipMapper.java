@@ -1,8 +1,6 @@
 package k1.smart.team.mapper.pjh;
 
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import k1.smart.team.dto.pjh.Slip;
@@ -33,6 +31,8 @@ public interface SlipMapper {
 	
 	//전표 등록
 	public int addSlip (Slip slip);
-	//모달 판매리스트 
-	public List<Map<String, Object>> saleTransactionList(Map<String,Object> paramMap);
+	//모달 판매명세서리스트 
+	public List<Slip> salesTransactionList();
+	//모달 비용명세서리스트
+	public List<Slip> purchaseTransactionList();
 }

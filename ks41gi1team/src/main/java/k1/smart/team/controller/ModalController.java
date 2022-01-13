@@ -1,15 +1,20 @@
 package k1.smart.team.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.service.ModalService;
 
 @Controller
 public class ModalController {
 	private ModalService modalService;
+	private List<Slip> salesTransactionList;
+	private List<Slip> purchaseTransactionList;
 	/**
 	 * 생성자 메서드
 	 * @param modalService
@@ -49,13 +54,16 @@ public class ModalController {
 		System.out.println(slipType);
 		if(CommonUtils.isEmpty(slipType)) return null;
 		
+		
 		if("p".equals(slipType)) {
 			System.out.println(slipType + "<<--비용 선택시");
-			model.addAttribute("slipType",slipType);
+			purchaseTransactionList = modalService.purchaseTransactionList();
+			model.addAttribute("purchaseTransactionList",purchaseTransactionList);
 			return "modal/purchaseTsModal";
 		}else if ("s".equals(slipType)) {
 			System.out.println(slipType + "<<--매출 선택시");
-			model.addAttribute("slipType",slipType);
+			salesTransactionList = modalService.salesTransactionList();
+			model.addAttribute("salesTransactionList",salesTransactionList);
 			return "modal/salesTsModal";
 		}
 		

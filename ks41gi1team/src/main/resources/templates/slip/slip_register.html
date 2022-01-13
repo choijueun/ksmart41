@@ -8,6 +8,71 @@
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs">
+<script type="text/javascript">
+	$(function(){
+ 		$(document).on('change', '#ps', function(){
+			if($('#ps').val() == 'p'){
+				$("#TsCode").attr('name', "purchaseTsCode");
+			}else if($('#ps').val() == 's'){
+				$("#TsCode").attr('name', "salesTsCode");
+			}
+		});
+		//명세서 모달 띄우기
+		var TsCode = $('#TsCode');
+		var TsModal = $('#TsModal');
+		
+		$(document).on('click', '#TsCode', function(){
+			console.log($(this));
+			var request = $.ajax({
+				url: "/transaction"
+				,data: { 'slipType' : $('#ps').val() }
+				,method: "GET"
+				,dataType: "html"
+			});
+			
+			request.done(function( data ) {
+				console.log('AJAX응답');
+				TsModal.find('.modal-body').html(data);
+				TsModal.modal('show');
+				
+				
+			});
+			
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});
+		});
+		var clientCode = $("#clientCode");
+		var amount = $("#amount");
+		var vat = $("#vat");
+		var count = $("#count");
+		var briefs = $("#briefs");
+		$(document).on('click', '#saveModalData', function(){
+			var tsCheck = $("input[name='tsCheck']:checked");
+			console.log('=== tsCheck===');
+			console.log(tsCheck);
+			
+			var tr = tsCheck.parent().parent().children();
+			console.log('=== tr===');
+			console.log(tr);
+			var TsCodeValue = tr.eq(1).text();
+			var clientCodeValue = tr.eq(2).text();
+			var amountValue = tr.eq(3).text();
+			var vatValue = tr.eq(4).text();
+			var countValue = tr.eq(5).text();
+			var briefsValue = tr.eq(6).text();
+			
+			TsCode.attr('value',TsCodeValue);
+			clientCode.attr('value',clientCodeValue);
+			amount.attr('value',amountValue);
+			vat.attr('value',vatValue);
+			count.attr('value',countValue);
+			briefs.attr('value',briefsValue);
+			
+		});
+		
+	});
+  </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
@@ -33,37 +98,37 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label>구분</label>
-								<select class="form-control" id="ps">
-									<option value="p" id="p">비용</option>
-									<option value="s" id="s">매출</option>
+								<select class="form-control" id="ps" name="psType">
+									<option value="p">비용</option>
+									<option value="s">매출</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="TsCode">명세서코드</label>
-							<input type="text" class="form-control" name="TsCode" placeholder="명세서코드" >
+							<input type="text" class="form-control" id="TsCode" name="purchaseTsCode" placeholder="명세서코드" >
 						</div>
 						<div class="form-group">
 							<label for="businessName">거래처명</label>
-							<input type="text" class="form-control" name="clientCode" value="client_agency_001" placeholder="">
+							<input type="text" class="form-control" name="clientCode" id="clientCode" placeholder="">
 						</div>
 						<div class="row">
 							<div class="form-group col-md-4">
 								<label for="amount">공급가액</label>
-								<input type="number" class="form-control" name="amount" placeholder="공급가액">
+								<input type="number" class="form-control" name="amount" id="amount" placeholder="공급가액">
 							</div>
 							<div class="form-group col-md-4">
-								<label for="tax">부가세</label>
-								<input type="number" class="form-control" name="tax" placeholder="부가세">
+								<label for="vat">부가세</label>
+								<input type="number" class="form-control" name="vat" id="vat" placeholder="부가세">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="count">수량</label>
-								<input type="number" class="form-control" name="count" placeholder="수량">
+								<input type="number" class="form-control" name="count" id="count" placeholder="수량">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="briefs">적요</label>
-							<input type="text" class="form-control" name="briefs" placeholder="적요">
+							<input type="text" class="form-control" name="briefs" id="briefs" placeholder="적요">
 						</div>
 						<div class="form-group">
 							<label for="userName">담당자</label>
@@ -81,6 +146,36 @@
 					</div>					
 				</div>
 			</div>
+			
+			<div class="modal fade" id="TsModal" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title">명세서 조회</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+						
+							<!-- INSERT HTML -->
+						
+						</div>
+						<div class="modal-footer justify-content-between">
+							<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-info" data-dismiss="modal" id="saveModalData">저장</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			
+			
+			
+			
+			
+			
 		</div>
 </th:block>
 
