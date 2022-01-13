@@ -3,7 +3,34 @@
 	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
 <body>
 
-자재발주내역 선택
+<table id="materialOrderList" class="dataTable" border="1">
+	<thead>
+		<tr>
+			<th>materialOrderCode</th>
+			<th>contractCode</th>
+			<th>clientCode</th>
+			<th>totalCount</th>
+			<th>totalPrice</th>
+			<th>orderDate</th>
+			<th>status</th>
+			<th>briefs</th>
+			<th>managerId</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="l : ${dataList}">
+			<td>[[${l.materialOrderCode}]]</td>
+			<td>[[${l.contractCode}]]</td>
+			<td>[[${l.clientCode}]]</td>
+			<td>[[${l.totalCount}]]</td>
+			<td>[[${l.totalPrice}]]</td>
+			<td>[[${l.orderDate}]]</td>
+			<td>[[${l.status}]]</td>
+			<td>[[${l.briefs}]]</td>
+			<td>[[${l.managerId}]]</td>
+		</tr>
+	</tbody>
+</table>
 
 </body>
 </html>
