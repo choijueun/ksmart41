@@ -70,7 +70,7 @@
 			,updateDate
 		FROM 
 			k1_tb_client 
-		where
+		WHERE
 			clientCode = #{clientCode};
 	</select>
 	

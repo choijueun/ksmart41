@@ -4,17 +4,143 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- DataTables -->
+	<link rel="stylesheet"
+		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs"></th:block>
 
 <th:block layout:fragment="customContents">
-	거래처 정보 상세
+	<div class="container-fluid">
+		<div class="row" th:unless="${clientDetail == null}">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						거래처정보 상세[[${clientDetail.clientCode}]]
+					</div>
+					<div class="card-body">
+						<table id="clientDetail" class="table table-bordered">
+							<tr>
+								<th>거래처 대표코드</th>
+								<td colspan="3">
+									[[${clientDetail.clientCode}]]
+								</td>
+							</tr>
+							<tr>
+								<th>사업장별 대표코드</th>
+								<td colspan="3">
+									[[${clientDetail.mainBusinessCode}]]
+								</td>
+							</tr>
+							<tr>
+								<th>거래처 구분 코드</th>
+								<td colspan="3">
+									[[${clientDetail.businessCategory}]]
+								</td>
+							</tr>
+							<tr>
+								<th>거래처 대표아이디</th>
+								<td colspan="3">
+									[[${clientDetail.userId}]]
+								</td>
+							</tr>
+							<tr>
+								<th>상호</th>
+								<td colspan="3">
+									[[${clientDetail.businessName}]]
+								</td>
+							</tr>
+							<tr>
+								<th>대표자명</th>
+								<td colspan="3">
+									[[${clientDetail.businessRepresentative}]]
+								</td>
+							</tr>
+							<tr>
+								<th>업종</th>
+								<td colspan="3">
+									[[${clientDetail.businessType1}]]
+								</td>
+							</tr>
+							<tr>
+								<th>업태</th>
+								<td colspan="3">
+									[[${clientDetail.businessType2}]]
+								</td>
+							</tr>
+							<tr>
+								<th>사업자번호</th>
+								<td colspan="3">
+									[[${clientDetail.businessNum}]]
+								</td>
+							</tr>
+							<tr>
+								<th>종사업장번호</th>
+								<td colspan="3">
+									[[${clientDetail.businessCount}]]
+								</td>
+							</tr>
+							<tr>
+								<th>연락처</th>
+								<td colspan="3">
+									[[${clientDetail.businessMobile}]]
+								</td>
+							</tr>
+							<tr>
+								<th>소재지</th>
+								<td colspan="3">
+									[[${clientDetail.businessPlace}]]
+								</td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td colspan="3">
+									[[${clientDetail.businessEmail}]]
+								</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td colspan="3">
+									[[${clientDetail.regDate}]]
+								</td>
+							</tr>
+							<tr>
+								<th>수정일시</th>
+								<td colspan="3">
+									[[${clientDetail.updateDate}]]
+								</td>
+							</tr>
+						</table>
+						<div>
+							<a th:href="@{/k1Client/clientList}">
+								<button type="button" class="btn btn-default">목록으로</button>
+							</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+							<a th:href="@{|/k1Client/modify/${clientDetail.clientCode}|}">
+								<button type="button" class="btn btn-info float-right mr-2">수정</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ clientDetail == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>

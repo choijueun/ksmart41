@@ -33,4 +33,26 @@
 			b.businessNum = #{businessNum};
 	</select>
 	
+	<select id="getMainBusinessDetail" parameterType="String" resultType="MainBusiness">
+		SELECT 
+			 b.mainBusinessCode
+			,b.businessCategory
+			,b.businessLevel
+			,b.businessName
+			,b.businessRepresentative
+			,b.businessType1
+			,b.businessType2
+			,b.businessNum
+			,b.businessCount
+			,b.businessMobile
+			,b.businessPlace
+			,b.businessEmail
+			,b.openDate
+			,b.regDate
+			,b.updateDate
+		FROM 
+			k1_tb_main_business AS b
+		WHERE
+			b.mainBusinessCode = #{mainBusinessCode};
+	</select>
 </mapper>
