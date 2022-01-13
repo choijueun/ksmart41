@@ -53,18 +53,25 @@
 	
 	<select id="getClientDetail" parameterType="String" resultType="Client">
 		SELECT
-			 cli.clientCode
-			,cli.mainBusinessCode
-			,cli.businessCategory
-			,cli.userId
-			,cli.businessName
-			,cli.businessRepresentative
-			,cli.businessType1
-			,cli.businessType2
-			,cli.businessNum
+			 clientCode
+			,mainBusinessCode
+			,businessCategory
+			,userId
+			,businessName
+			,businessRepresentative
+			,businessType1
+			,businessType2
+			,businessNum
+			,businessCount
+			,businessMobile
+			,businessPlace
+			,businessEmail
+			,regDate
+			,updateDate
 		FROM 
-			k1_tb_client AS cli;
-	
+			k1_tb_client 
+		where
+			clientCode = #{clientCode};
 	</select>
 	
 </mapper>

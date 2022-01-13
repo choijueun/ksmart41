@@ -14,6 +14,7 @@ import k1.smart.team.mapper.csh.InvoiceMapper;
 public class InvoiceService {
 	private InvoiceMapper invoiceMapper;
 	private List<Invoice> invoiceList;
+	private Invoice invoiceDetail; //세금계산서 상세
 	
 	//생성자 메서드
 	public InvoiceService(InvoiceMapper invoiceMapper) {
@@ -26,7 +27,20 @@ public class InvoiceService {
 		
 		System.out.println(invoiceList);
 		return invoiceList;
+	}
+
+	//세금계산서 상세
+	public Invoice getInvoiceDetail(String invoiceCode) {
+		invoiceDetail = invoiceMapper.getInvoiceDetail(invoiceCode);
+		if(invoiceDetail == null) {
+			System.out.println("조회결과 없음");
+			return null;
+		}
+		invoiceDetail.setInvoiceCode(invoiceCode);
+		return invoiceDetail;
 	};
+	
+	//세금계산서 수정
 
 	
 

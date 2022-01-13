@@ -10,6 +10,7 @@ public class PurchaseTransaction {
 	private String regId;
 	private String regDate;
 	private String updateDate;
+	private String userName;
 	public String getPurchaseTsCode() {
 		return purchaseTsCode;
 	}
@@ -64,6 +65,12 @@ public class PurchaseTransaction {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -85,9 +92,12 @@ public class PurchaseTransaction {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 	
 }

@@ -97,7 +97,8 @@ $(function(){
 		});
 		 
 		request.done(function( data ) {
-			materialOrderModal.html(data);
+			materialOrderModal.find('.modal-body').html(data);
+			$('#materialOrderList').DataTable();
 			materialOrderModal.modal('show');
 		});
 		 

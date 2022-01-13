@@ -131,8 +131,8 @@
                       <select name="clientManagerId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
                     			  th:each="l : ${clientList}">
-                    		<option th:value="${l.clientCode}" th:text="${l.businessRepresentative}">	  
-                    			[[${l.userName}]]
+                    		<option th:value="${l.userId}" th:text="${l.businessRepresentative}">	  
+                    			[[${l.businessRepresentative}]]
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(clientList)}">	

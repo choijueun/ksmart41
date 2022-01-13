@@ -26,7 +26,7 @@
 
 	<select id="getContractInfo" resultType="String">
 SELECT 
-	CONCAT(SUBSTRING(c.contractCode,1,13),MAX(SUBSTRING(c.contractCode,14))+1)
+	CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
 	FROM k1_tb_contract AS c
 	
 	</select>
@@ -89,8 +89,8 @@ SELECT
 			#{mainBusinessCode},
 			#{clientCode},
 			#{clientManagerId},
-			#{contractType},
 			#{contractSection},
+			#{contractType},
 			#{startDate},
 			#{endDate},
 			#{managerId},
@@ -156,7 +156,7 @@ SELECT
 			contr.endDate as endDate,
 			contr.managerId as managerId,
 			contr.regId as regId,
-			contr.approvalId as approvalId,
+			u.userName as userName,
 			contr.contractDate as contractDate,
 			contr.contractStatus as contractStatus,
 			contr.briefs as briefs,

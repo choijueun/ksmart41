@@ -95,7 +95,7 @@
 									<tr th:if="${not #lists.isEmpty(invoiceList)}"
 										th:each="l : ${invoiceList}">
 										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/invoiceList/${l.invoiceCode}|}">
+										<td><a th:href="@{|/k1Invoice/invoiceDetail/${l.invoiceCode}|}">
 												[[${l.invoiceCode}]] </a></td>
 										<td>[[${l.businessName}]]</td>
 										<td>[[${l.invoicePrice}]]</td>
@@ -104,7 +104,7 @@
 										<td>[[${l.invoiceType}]]</td>
 										<td>[[${l.issueDate}]]</td>
 										<td>[[${l.issueStatus}]]</td>
-										<td><a th:href="@{/invoiceList/${l.invoiceCode}|}">
+										<td><a th:href="@{/k1Invoice/modify/${l.invoiceCode}|}">
 												<i class="fas fa-pen"></i>
 										</a></td>
 									</tr>
