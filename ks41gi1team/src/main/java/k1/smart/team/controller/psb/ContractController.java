@@ -74,7 +74,7 @@ public class ContractController {
 	@PostMapping("/k1ContractReg")
 	public String addContract(Contract contract) {
 		
-		System.out.println("ContractController 회원등록 화면에서 입력받은 값:" + contract);
+		System.out.println("ContractController 계약서 화면에서 입력받은 값:" + contract);
 		//insert 처리
 		//null 체크
 		String contractCode = contract.getContractCode();
@@ -88,9 +88,7 @@ public class ContractController {
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
 
-		/* 최선희 수정
-		 * mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-		 */		  
+		  
 
 		  System.out.println("/addContract GET 방식 요청"); 
 		  model.addAttribute("title","계약서 등록");
@@ -222,9 +220,7 @@ public class ContractController {
 		  return contractHistoryList;
 	  }
 	  
-	  /*
-		 * ModelAndView (화면에 보내질 데이터 + 화면경로)
-		 */
+	
 	
 }
 

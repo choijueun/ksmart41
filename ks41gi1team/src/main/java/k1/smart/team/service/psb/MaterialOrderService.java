@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
@@ -47,7 +48,20 @@ public class MaterialOrderService {
 	 * resultMap; }
 	 */
 	
+	//발주 등록 
+	public int addMaterialOrder(MaterialOrder materialOrder) {
+		
+		int result = materialOrderMapper.addMaterialOrder(materialOrder);
+		
+		return result;
+	}
 	
+	//발주 전체조회 이력 조회
+	public List<MaterialOrder> getMaterialOrderList(){
+		List<MaterialOrder> materialOrderList = materialOrderMapper.getMaterialOrderList();
+		
+		return materialOrderList;
+	}
 	
 	
 	//전체 발주 검색
@@ -72,6 +86,20 @@ public class MaterialOrderService {
 		resultMap.put("materialOrderInfoList", materialOrderInfoList);	
 		return resultMap;
 	}
+
+	// 발주서 코드 새로 자동으로 표시
+	public String getMaterialOrderCode() {
+		
+		return materialOrderMapper.getMaterialOrderCode();
+	}
+	
+	//발주서 여부 체크
+	public int getMaterialOrderByMaterialOrderCode(String materialOrderCode) {
+		int result = 0;
+		result += materialOrderMapper.getMaterialOrderByMaterialOrderCode(materialOrderCode);
+		return result;
+	}
+
 
 
 	

@@ -4,6 +4,53 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
 
+<select id="getMaterialOrderCode" resultType="String">
+		SELECT 
+			CONCAT(SUBSTRING(mo.materialOrderCode,1,19),MAX(SUBSTRING(mo.materialOrderCode,20))+1)
+		FROM 
+			k1_tb_material_order AS mo
+	</select>
+
+ <select id="getMaterialOrderByMaterialOrderCode" parameterType="String" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM	
+			k1_tb_material_order
+		WHERE  
+			materialOrderCode = #{materialOrderCode};
+	</select>
+
+<insert id="addMaterialOrder" parameterType="MaterialOrder">
+		INSERT INTO k1_tb_material_order(
+			materialOrderCode
+			, mainBusinessCode
+			, contractCode
+			, clientCode
+			, totalCount
+			, totalPrice
+			, orderDate
+			, predictDate
+			, `status`
+			, briefs
+			, managerId
+			, regDate
+			, updateDate)
+		VALUES (
+			#{materialOrderCode}
+			,#{mainBusinessCode}
+			,#{contractCode}
+			,#{clientCode} 
+			,#{totalCount} 
+			,#{totalPrice} 
+			,#{orderDate} 
+			,#{predictDate} 
+			,#{status} 
+			,#{briefs} 
+			,#{managerId} 
+			,curdate()
+			,#{updateDate} 
+			);
+	</insert>
 	
 <select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
@@ -190,7 +237,10 @@ FROM
 		k1_tb_item_info AS ii
 		on
 		ii.mainBusinessCode = c.mainBusinessCode
-		GROUP BY mo.materialOrderCode
+	WHERE
+		mo.mainBusinessCode IS NOT NULL	
+	GROUP BY 
+		mo.materialOrderCode
 		
 </select>	
 	
