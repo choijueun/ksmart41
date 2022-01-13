@@ -13,11 +13,11 @@
 	<th:block layout:fragment="customJs">
 	
 		<script type="text/javascript">
-			$(function(){
-				$(document).on('click', '.modifyBtn', function(){
-					var memberId = $(this).attr('data-memberId');
-					alert(memberId);
+				$(document).on('click', '#modifyBtn', function(){
+					var loginId = $(this).attr('data-loginId');
+					alert(loginId);
 				});
+			$(function(){
 
 				var aLengthMenuArray = [];
 				aLengthMenuArray.push([5,10,15,20,25,-1]);

@@ -45,7 +45,7 @@ public class MainBusinessService {
 
 	//사업장 상세
 	public MainBusiness getMainBusinessDetail(String mainBusinessCode) {
-		
+		mainBusinessDetail = mainBusinessMapper.getMainBusinessDetail(mainBusinessCode);
 		
 		return mainBusinessDetail;
 	}

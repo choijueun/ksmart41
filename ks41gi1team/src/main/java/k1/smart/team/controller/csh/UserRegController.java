@@ -58,10 +58,12 @@ public class UserRegController {
 	//회원가입 요청 수정
 	@GetMapping("/modify/{userRegCode}")
 	public String modifyUserReg(
-			@PathVariable(value = "userRegCode", required = false) String userRegCode
+			@PathVariable(value = "userRegCode", required = false) String userId
 			,Model model) {
+		
+		
 		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
-		model.addAttribute("userRegCode", userRegCode);
+		model.addAttribute("userId", userId);
 		return "user/user_modify";
 	}
 	
