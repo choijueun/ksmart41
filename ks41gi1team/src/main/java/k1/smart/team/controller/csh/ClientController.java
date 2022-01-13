@@ -109,7 +109,7 @@ public class ClientController {
 		}
 		
 		//거래처 상세
-		clientDetail = clientService.getAllClientDetail(clientCode);
+		clientDetail = clientService.getClientDetail(clientCode);
 		if(clientDetail == null) {
 			System.out.println("거래처정보 상세 error");
 			return "redirect:/clientList";
