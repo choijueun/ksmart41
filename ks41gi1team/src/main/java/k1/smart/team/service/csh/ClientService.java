@@ -53,5 +53,6 @@ public class ClientService {
 		return clientDetail;
 	}
 	
+	//거래처 등급 수정
 
 }

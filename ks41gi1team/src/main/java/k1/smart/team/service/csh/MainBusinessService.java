@@ -36,6 +36,13 @@ public class MainBusinessService {
 	}
 	
 	//사업자번호 중복확인
+	public int getBusinessByCode(String mainBusinessCode) {
+		int mainBusinessCodeCheck = 0;
+		mainBusinessCodeCheck += mainBusinessMapper.getBusinessByCode(mainBusinessCode);
+		
+		return mainBusinessCodeCheck;
+	}
+	//사업자번호 중복확인
 	public int getBusinessByNum(String businessNum) {
 		int businessNumCheck = 0;
 		businessNumCheck += mainBusinessMapper.getBusinessByNum(businessNum);

@@ -24,6 +24,15 @@
 			k1_tb_main_business AS b;
 	</select>
 	
+	<select id="getBusinessByCode" resultType="int" parameterType="String">
+		SELECT
+			COUNT(1)
+		FROM
+			k1_tb_main_business AS b
+		WHERE
+			b.mainBusinessCode = #{mainBusinessCode};
+	</select>
+	
 	<select id="getBusinessByNum" resultType="int" parameterType="String">
 		SELECT
 			COUNT(1)
