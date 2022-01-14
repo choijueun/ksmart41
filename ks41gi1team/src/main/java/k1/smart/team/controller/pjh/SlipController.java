@@ -98,12 +98,7 @@ public class SlipController {
 	@PostMapping("/add")
 	public String addSlip(Slip slip) {
 		System.out.println("SlipController에서 입력받은값" + slip);
-		//P인지 S인지 구분 - 서비스로이동!!
-		//if(purchase인 경우) {
 		
-		//}else(sales인 경우){
-			slip.setSalesTsCode(slip.getTsCode());
-		//}
 		System.out.println(slip.getTsCode() + "<-- 220112 slip.getTsCode() addSlip  SlipController.java 비용 거래명세서 코드 ");
 		slipService.addSlip(slip);
 		

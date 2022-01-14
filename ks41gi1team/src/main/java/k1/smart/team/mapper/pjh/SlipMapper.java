@@ -28,6 +28,8 @@ public interface SlipMapper {
 	public String salesSlipNum (String slipDate);
 	//매출전표 등록
 	public void registerSalesSlip (Slip addSlip);
+	//비용전표
+	public void registerPurchaseSlip (Slip addSlip);
 	
 	//전표 등록
 	public int addSlip (Slip slip);
