@@ -7,7 +7,22 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//DataTables
+	$('#returnList').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -67,7 +82,9 @@
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1ReturnModify/${l.stockAdjCode}|}">
-								<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 							</a>
 						</td>
 					</tr>

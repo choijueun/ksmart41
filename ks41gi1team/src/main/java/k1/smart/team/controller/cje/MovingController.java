@@ -15,9 +15,8 @@ import k1.smart.team.service.cje.MovingService;
 
 @Controller
 public class MovingController {
-	private MovingService movingService;
+	private final MovingService movingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing movingInfo; //창고이동내역 하나
 	private List<Storing> movingList; //창고이동내역 배열
 	private Map<String, Object> resultMap;
 	/**
@@ -35,32 +34,40 @@ public class MovingController {
 	 */
 	@GetMapping("/k1Moving")
 	public String movingMain(Model model) {
+		//창고이동내역 전체목록 List<Storing>
 		movingList = movingService.getAllShipmentList(mainBusinessCode);
+		model.addAttribute("movingList", movingList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
-		model.addAttribute("movingList", movingList);
 		
 		return "storing/moving/moving_list";
 	}
 	
-	@SuppressWarnings("unchecked")
+	/**
+	 * 창고이동내역 상세조회
+	 * @param stockAdjCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1Moving/{stockAdjCode}")
 	public String movingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Moving";
+		//매개변수 검사
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Moving";
 		
+		//창고이동내역 상세정보 조회결과
 		resultMap = movingService.getMovingInfo(mainBusinessCode, stockAdjCode);
 		if(resultMap == null) return "redirect:/k1Moving";
 		
-		movingInfo = (Storing) resultMap.get("movingInfo");
-		movingList = (List<Storing>) resultMap.get("movingDetails");
+		//창고이동내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("movingInfo"));
+		//창고이동내역 상세정보 List<Storing>
+		model.addAttribute("movingDetails", resultMap.get("movingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
-		model.addAttribute("s", movingInfo);
-		model.addAttribute("movingDetails", movingList);
 		
 		return "storing/moving/moving_info";
 	}
@@ -75,12 +82,14 @@ public class MovingController {
 	public String addMoving(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
 			,Model model) {
+		//inventoryCode 정보를 받은 경우
+		if(!CommonUtils.isEmpty(inventoryCode)) {
+			//해당 재고 정보를 model 속성에 추가
+			model.addAttribute("s", movingService.getStockForStoring(mainBusinessCode, inventoryCode));
+		}
+		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동내역 등록");
-		
-		if(CommonUtils.isEmpty(inventoryCode)) return "storing/moving/moving_add";
-		
-		model.addAttribute("s", movingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/moving/moving_add";
 	}
@@ -89,6 +98,9 @@ public class MovingController {
 	public String modifyMoving(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Moving";
 		return "storing/moving/moving_modify";
 	}
 }
+

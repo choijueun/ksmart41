@@ -30,11 +30,16 @@
 								<td colspan="3">[[${d.deliveryCode}]]</td>
 								<th>사유</th>
 								<td>
-									<a th:if="${d.stockAdjCode != null}" 
-										th:href="@{|/k1${d.stockReasonEng}/${d.stockAdjCode}|}">
-										[[${d.stockReason}]]
-										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
-									</a>
+									<th:block th:if="${d.stockReasonCode} == 5">
+										<a th:href="@{|/k1ShipmentPlan/${d.shipmentPlanCode}|}">
+											[[${d.stockReason}]]
+										</a>
+									</th:block>
+									<th:block th:if="${d.stockReasonCode} == 7">
+										<a th:href="@{|/k1ReturnReg/${d.returnRegCode}|}">
+											[[${d.stockReason}]]
+										</a>
+									</th:block>
 								</td>
 							</tr>
 							<tr>
@@ -43,9 +48,6 @@
 								<th>거래처</th>
 								<td colspan="2">
 									[[${d.clientBusinessName}]]
-									<a th:href="@{#}"> <!-- 계약서LINK ${d.contractCode} -->
-										<button type="button" class="btn btn-outline-info btn-xs">계약</button>
-									</a>
 								</td>
 							</tr>
 							<tr>

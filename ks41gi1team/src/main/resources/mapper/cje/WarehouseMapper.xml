@@ -65,7 +65,7 @@
 	WHERE
 		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
 	ORDER BY 
-		s.regDate DESC
+		s.inventoryCode ASC
 	LIMIT 10;
 </select>
 

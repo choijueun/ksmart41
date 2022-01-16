@@ -587,6 +587,7 @@
 	SELECT 
 		 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(sp.contractCode,3) AS contractCode
+		,RIGHT(sp.productOrderCode,3) AS productOrderCode
 		,c.clientCode
 		,c.businessName AS businessName
 		,sp.receiveAddr

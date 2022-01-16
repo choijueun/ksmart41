@@ -8,8 +8,9 @@
 <select id="getAllDeliveryList" parameterType="String" resultType="Delivery">
 	SELECT 
 		 RIGHT(d.deliveryCode,3) AS deliveryCode
-		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(c.contractCode,3) AS contractCode
+		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(d.returnRegCode,3) AS returnRegCode
 		,c.clientCode
 		,c.businessName AS clientBusinessName
 		,d.deliveryBusinessCode
@@ -64,7 +65,7 @@
 		,s.clientCode
 		,s.businessName AS clientBusinessName
 		,d.receiveAddr
-		,a.stockAdjCode
+		,RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
 		,a.stockReason
 		,d.deliveryCost
@@ -105,7 +106,7 @@
 		LEFT JOIN
 		(SELECT
 			 a.deliveryCode
-			,RIGHT(a.stockAdjCode,3) AS stockAdjCode
+			,stockAdjCode
 			,a.stockReasonCode
 			,r.reason AS stockReason
 		FROM

@@ -15,7 +15,7 @@ import k1.smart.team.service.cje.ProductionService;
 
 @Controller
 public class ProductionController {
-	private ProductionService productionService;
+	private final ProductionService productionService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> productionList; //출하내역 배열
 	private Map<String, Object> resultMap;
@@ -34,11 +34,12 @@ public class ProductionController {
 	 */
 	@GetMapping("/k1Production")
 	public String productionMain(Model model) {
+		//제품생산내역 전체목록 List<Storing>
 		productionList = productionService.getAllProductionList(mainBusinessCode);
+		model.addAttribute("productionList", productionList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산");
-		model.addAttribute("productionList", productionList);
 		
 		return "storing/production/production_list";
 	}
@@ -53,15 +54,20 @@ public class ProductionController {
 	public String productionInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Production";
 		
+		//제품생산내역 상세정보 조회결과
 		resultMap = productionService.getProductionInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Production";
 		
+		//제품생산내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("productionInfo"));
+		//제품생산내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("productionDetails"));
+
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산");
-		model.addAttribute("s", resultMap.get("productionInfo"));
-		model.addAttribute("details", resultMap.get("productionDetails"));
 		
 		return "storing/production/production_info";
 	}
@@ -75,12 +81,14 @@ public class ProductionController {
 	public String addProduction(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
 			,Model model) {
+		//inventoryCode 정보를 받은 경우
+		if(!CommonUtils.isEmpty(inventoryCode)) {
+			//해당 재고 정보를 model 속성에 추가
+			model.addAttribute("s", productionService.getStockForStoring(mainBusinessCode, inventoryCode));
+		}
+		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산내역 등록");
-		
-		if(CommonUtils.isEmpty(inventoryCode)) return "storing/production/production_add";
-		
-		model.addAttribute("s", productionService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/production/production_add";
 	}
@@ -95,15 +103,20 @@ public class ProductionController {
 	public String modifyProduction(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Production";
 		
+		//제품생산내역 상세정보 조회결과
 		resultMap = productionService.getProductionInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Production";
 		
+		//제품생산내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("productionInfo"));
+		//제품생산내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("productionDetails"));
+		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산내역 수정");
-		model.addAttribute("s", resultMap.get("productionInfo"));
-		model.addAttribute("details", resultMap.get("productionDetails"));
 		
 		return "storing/production/production_modify";
 	}

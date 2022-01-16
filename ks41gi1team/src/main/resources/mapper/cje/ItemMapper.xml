@@ -100,7 +100,10 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		i.itemCode = CONCAT('itemCode_',#{itemCode});
+		i.itemCode = CONCAT('itemCode_',#{itemCode})
+	ORDER BY
+		s.inventoryCode ASC
+	LIMIT 10;
 </select>
 
 <!-- 카테고리 대분류 조회 -->

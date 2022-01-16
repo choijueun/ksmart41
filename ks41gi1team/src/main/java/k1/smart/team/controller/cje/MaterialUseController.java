@@ -15,7 +15,7 @@ import k1.smart.team.service.cje.MaterialUseService;
 
 @Controller
 public class MaterialUseController {
-	private MaterialUseService materialUseService;
+	private final MaterialUseService materialUseService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> materialUseList; //출하내역 배열
 	private Map<String, Object> resultMap;
@@ -34,12 +34,12 @@ public class MaterialUseController {
 	 */
 	@GetMapping("/k1MaterialUse")
 	public String materialUseMain(Model model) {
-		
+		//자재사용내역 전체목록 List<Storing>
 		materialUseList = materialUseService.getAllMaterialUseList(mainBusinessCode);
+		model.addAttribute("materialUseList", materialUseList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용");
-		model.addAttribute("materialUseList", materialUseList);
 		
 		return "storing/material_use/material_use_list";
 	}
@@ -54,15 +54,20 @@ public class MaterialUseController {
 	public String materialUseInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
+		//자재사용내역 상세정보 조회결과
 		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
 		
+		//자재사용내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("materialUseInfo"));
+		//자재사용내역 상세정보 List<Storing>
+		model.addAttribute("materialUseDetails", resultMap.get("materialUseDetails"));
+
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용");
-		model.addAttribute("s", resultMap.get("materialUseInfo"));
-		model.addAttribute("materialUseDetails", resultMap.get("materialUseDetails"));
 		
 		return "storing/material_use/material_use_info";
 	}
@@ -78,13 +83,14 @@ public class MaterialUseController {
 	public String addMaterialUse(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
 			,Model model) {
+		//inventoryCode 정보를 받은 경우
+		if(!CommonUtils.isEmpty(inventoryCode)) {
+			//해당 재고 정보를 model 속성에 추가
+			model.addAttribute("s", materialUseService.getStockForStoring(mainBusinessCode, inventoryCode));
+		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용내역 등록");
-		
-		if(CommonUtils.isEmpty(inventoryCode)) return "storing/material_use/material_use_add";
-		
-		model.addAttribute("s", materialUseService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/material_use/material_use_add";
 	}
@@ -93,15 +99,20 @@ public class MaterialUseController {
 	public String modifyMaterialUse(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
+		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
+		//자재사용내역 상세정보 조회결과
 		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
+
+		//자재사용내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("materialUseInfo"));
+		//자재사용내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("materialUseDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재사용내역 수정");
-		model.addAttribute("s", resultMap.get("materialUseInfo"));
-		model.addAttribute("details", resultMap.get("materialUseDetails"));
 		
 		return "storing/material_use/material_use_modify";
 	}
