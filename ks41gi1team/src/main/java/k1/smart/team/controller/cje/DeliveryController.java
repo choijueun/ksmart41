@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Delivery;
-import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.DeliveryService;
 
 @Controller
@@ -50,7 +49,6 @@ public class DeliveryController {
 	 * @param model
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Delivery/{deliveryCode}")
 	public String deliveryInfo(
 			@PathVariable(value="deliveryCode", required=false) String deliveryCode
