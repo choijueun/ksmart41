@@ -15,10 +15,9 @@ import k1.smart.team.service.cje.AdjustmentService;
 
 @Controller
 public class AdjustmentController {
-	private AdjustmentService adjService;
+	private final AdjustmentService adjService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드
 	private List<Storing> adjList; //재고조정내역 배열
-	private Storing adjInfo; //재고조정내역 상세정보
 	private Map<String, Object> resultMap;
 	
 	/**
@@ -32,15 +31,15 @@ public class AdjustmentController {
 	/**
 	 * 재고조정내역 전체조회
 	 * @param model
-	 * @return
 	 */
 	@GetMapping("/k1Adjustment")
 	public String adjustmentMain(Model model) {
+		//재고조정내역 전체목록 List<Storing>
 		adjList = adjService.getAllAdjList(mainBusinessCode);
+		model.addAttribute("adjList", adjList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "재고차이조정");
-		model.addAttribute("adjList", adjList);
 		
 		return "storing/adjustment/adjustment_list";
 	}
@@ -49,26 +48,25 @@ public class AdjustmentController {
 	 * 재고조정내역 상세조회
 	 * @param stockAdjCode
 	 * @param model
-	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Adjustment/{stockAdjCode}")
 	public String adjInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		//매개변수 검사
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Adjustment";
 		
+		//재고조정내역 상세정보 조회결과
 		resultMap = adjService.getAdjInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1Adjustment";
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Adjustment";
 		
-		adjInfo = (Storing) resultMap.get("adjInfo");
-		adjList = (List<Storing>) resultMap.get("adjDetailList");
+		//재고조정내역 한줄정보 Storing
+		model.addAttribute("s", resultMap.get("adjInfo"));
+		//재고조정내역 상세정보 List<Storing>
+		model.addAttribute("adjDetail", resultMap.get("adjDetailList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "재고차이조정");
-		model.addAttribute("s", adjInfo); //한줄
-		model.addAttribute("adjDetail", adjList); //상세(배열)
 		
 		return "storing/adjustment/adjustment_info";
 	}
@@ -77,32 +75,40 @@ public class AdjustmentController {
 	 * 재고조정내역 신규등록(+재고하나정보)
 	 * @param inventoryCode
 	 * @param model
-	 * @return
 	 */
 	@GetMapping("/k1AdjustmentAdd")
 	public String addAdj(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
 			,Model model) {
+		//inventoryCode 정보를 받은 경우
+		if(!CommonUtils.isEmpty(inventoryCode)) {
+			//해당 재고 정보를 model 속성에 추가
+			model.addAttribute("s", adjService.getStockForStoring(mainBusinessCode, inventoryCode));
+		}
+		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "재고조정내역 등록");
-		
-		if(CommonUtils.isEmpty(inventoryCode)) return "storing/adjustment/adjustment_add";
-		
-		model.addAttribute("s", adjService.getStockForStoring(mainBusinessCode, inventoryCode));
 		
 		return "storing/adjustment/adjustment_add";
 	}
 	
+	/**
+	 * 재고조정내역 수정화면 첫페이지
+	 * @param stockAdjCode
+	 * @param model
+	 */
 	@GetMapping("/k1AdjustmentModify/{stockAdjCode}")
 	public String modifyAdj(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		//매개변수 검사
-		if(stockAdjCode == null || "".equals(stockAdjCode)) return "redirect:/k1Adjustment";
+		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Adjustment";
+		
+		model.addAttribute("stockAdjCode", stockAdjCode);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "재고차이조정");
-		model.addAttribute("stockAdjCode", stockAdjCode);
+		
 		return "storing/adjustment/adjustment_modify";
 	}
 }
