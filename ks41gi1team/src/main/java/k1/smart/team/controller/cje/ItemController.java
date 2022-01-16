@@ -23,7 +23,7 @@ public class ItemController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
-	private Map<String,Object> resultMap;
+	private Map<String, Object> resultMap;
 	private boolean chk;
 	
 	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
@@ -179,14 +179,17 @@ public class ItemController {
 		model.addAttribute("i", itemInfo);
 		log.info("itemInfo :: {}", itemInfo);
 		
-		//카테고리목록
-		model.addAttribute("largeCategory", itemService.getItemCategory(null, null, null).get("largeCategory"));
-		model.addAttribute("middleCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), null, null).get("middleCategory"));
-		model.addAttribute("smallCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), null).get("smallCategory"));
-		model.addAttribute("microCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory()).get("microCategory"));
-		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
+		
+		//카테고리목록 조회
+		resultMap = itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory());
+		if(CommonUtils.isEmpty(resultMap)) return "stock/item/item_modify";
+		
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
+		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		model.addAttribute("microCategory", resultMap.get("microCategory"));
 		
 		return "stock/item/item_modify";
 	}
