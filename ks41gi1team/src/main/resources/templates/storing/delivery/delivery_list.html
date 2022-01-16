@@ -14,7 +14,7 @@ $(function(){
 	$('#deliveryList').DataTable({
 		"paging": true,
 		"lengthChange": false,
-		"searching": false,
+		"searching": true,
 		"ordering": true,
 		"info": true,
 		"autoWidth": false,
@@ -87,7 +87,9 @@ $(function(){
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">
-								<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 							</a>
 						</td>
 					</tr>

@@ -56,7 +56,7 @@ $(function(){
 	$('#storingList').DataTable({
 		"paging": true,
 		"lengthChange": false,
-		"searching": false,
+		"searching": true,
 		"ordering": true,
 		"info": true,
 		"autoWidth": false,
@@ -149,7 +149,9 @@ $(function(){
 								<td>[[${l.adjDate}]]</td>
 								<td>
 									<a th:href="@{|/k1${l.stockReasonEng}Modify/${l.stockAdjCode}|}">
-										<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 									</a>
 								</td>
 							</tr>
@@ -160,9 +162,6 @@ $(function(){
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info mt-3" data-toggle="modal" data-target="#storingModal">
-						등록
-					</button>
 				</div>
 			</div>
 		</div>
