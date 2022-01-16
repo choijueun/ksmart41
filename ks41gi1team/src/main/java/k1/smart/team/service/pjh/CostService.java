@@ -47,6 +47,12 @@ public class CostService {
 		return costInfo;
 	}
 	
+	//기타비용 등록
+	public int addCost(Cost cost) {
+		int addCost = costMapper.addCost(cost);
+		return addCost;
+	}
+	
 }
 
 

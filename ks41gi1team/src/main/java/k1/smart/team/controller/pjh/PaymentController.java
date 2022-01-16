@@ -73,7 +73,7 @@ public class PaymentController {
 	}
 		
 	//결제내역 신규
-		@GetMapping("/addPlan")
+		@GetMapping("/history/add")
 		public String addHistoryPayment(Model model) {
 			return "payment/historyPayment_register";
 		}

@@ -35,7 +35,10 @@
 							</tr>
 							<tr>
 								<th>결제예정코드</th>
-								<td>[[${historyPaymentInfo.payPlanCode}]]</td>
+								<td>
+									<a th:href="@{|/k1PaymentList/plan/${historyPaymentInfo.payPlanCode}|}">
+										[[${historyPaymentInfo.payPlanCode}]]
+									</a>
 								<th>결제예정 합계금액</th>
 								<td>[[${#numbers.formatInteger(historyPaymentInfo.totalPlanCost,0,'COMMA')}]]원</td>
 							</tr>
