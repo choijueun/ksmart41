@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.csh.UserReg;
@@ -61,11 +62,25 @@ public class UserRegController {
 			@PathVariable(value = "userRegCode", required = false) String userId
 			,Model model) {
 		
-		
+		UserReg getAllUserRegDetail = userRegService.getAllUserRegDetail(userId);
+		model.addAttribute("getAllUserRegDetail", getAllUserRegDetail);
+		System.out.println(userId+"받아온 userId (controller)");
+		if(userId != null && !"".equals(userId)) {
+			UserReg getUserReg = userRegService.getAllUserRegDetail(userId);
+			model.addAttribute("getUserReg", getUserReg);
+		}
 		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
 		model.addAttribute("userId", userId);
 		return "user/user_modify";
 	}
+	
+	//회원가입 요청 수정
+	@PostMapping("/modify/{userRegCode}")
+	public String modifyUserReg(UserReg userReg) {
+		userRegService.modifyUserReg(userReg);
+		return "redirect:user/user_register";
+	}
+			
 	
 	
 	
