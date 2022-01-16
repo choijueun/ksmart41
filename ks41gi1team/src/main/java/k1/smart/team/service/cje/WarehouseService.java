@@ -49,7 +49,7 @@ public class WarehouseService {
 		//창고정보
 		warehouseInfo = warehouseMapper.getWarehouseInfo(mainBusinessCode, warehouseCode);
 		if(warehouseInfo == null) return null;
-		//물류이동정보
+		//창고적재품 목록
 		itemList = warehouseMapper.getWarehouseStock(warehouseCode);
 			
 		resultMap.clear();
