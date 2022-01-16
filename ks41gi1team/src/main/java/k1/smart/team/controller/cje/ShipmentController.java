@@ -17,7 +17,6 @@ import k1.smart.team.service.cje.ShipmentService;
 public class ShipmentController {
 	private final ShipmentService shipmentService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing shipmentInfo; //출하내역 하나
 	private List<Storing> shipmentList; //출하내역 배열
 	private Map<String, Object> resultMap;
 	/**
@@ -127,7 +126,6 @@ public class ShipmentController {
 	 * @param shipmentPlanCode
 	 * @param model
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1ShipmentPlan/{shipmentPlanCode}")
 	public String shipmentPlanInfo(
 			@PathVariable(value="shipmentPlanCode", required=false) String shipmentPlanCode

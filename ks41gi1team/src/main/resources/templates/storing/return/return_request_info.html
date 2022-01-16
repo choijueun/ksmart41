@@ -32,14 +32,16 @@
 								<td>
 									<th:block th:if="${r.purchaseTsCode} != null">비용</th:block>
 									<th:block th:if="${r.salesTsCode} != null">매출</th:block>
-									<a th:if="${r.purchaseTsCode} != null or ${r.salesTsCode} != null" th:href="@{#}">
-										<button type="button" class="btn btn-outline-info btn-xs">계약</button>
-									</a>
 								</td>
 							</tr>
 							<tr>
 								<th>거래처</th>
-								<td colspan="3">[[${r.businessName}]]</td>
+								<td colspan="3">
+								[[${r.businessName}]]
+									<a th:if="${r.productOrderCode} != null">
+										<button type="button" class="btn btn-outline-info btn-xs">[[${r.productOrderCode}]]</button>
+									</a>
+								</td>
 								<th>합계금액</th>
 								<td>[[${#numbers.formatInteger(r.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>

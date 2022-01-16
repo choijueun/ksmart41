@@ -27,9 +27,9 @@
 						<th><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
 						<th>품목</th>
+						<th>적요</th>
 						<th>거래처</th>
 						<th>합계금액</th>
-						<th>적요</th>
 						<th>요청</th>
 						<th>반품</th>
 						<th>완료</th>
@@ -54,11 +54,15 @@
 							</a>
 						</td>
 						<td>
+							<a th:href="@{|/k1Warehousing/${l.stockAdjCode}|}">
+								[[${l.briefs}]]
+							</a>
+						</td>
+						<td>
 							<!-- 거래처정보 LINK -->
 								[[${l.businessName}]]
 						</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
-						<td>[[${l.briefs}]]</td>
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
