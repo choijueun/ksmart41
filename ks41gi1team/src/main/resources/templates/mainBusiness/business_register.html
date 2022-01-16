@@ -21,6 +21,47 @@
 <th:block layout:fragment="customJs">
 	<script>
 		$(function(){
+			$('#mainBusinessCodeCheckBtn').click(function(){
+				console.log('click: #mainBusinessCodeCheckBtn');
+				
+				var businessNum = $('#mainBusinessCode').val();
+				
+				if(typeof businessNum != 'undefind' && businessNum != null && businessNum !=''){
+					var request = $.ajax({
+						  url: '/k1Business/businessNumCheck',
+						  method: 'POST',
+						  data: { 'businessNum' : businessNum },
+						  dataType: 'json' 
+					});
+					
+					request.done(function(data) {
+						console.log('중복 여부: ',data);
+						
+						if(data){
+							alert('중복된 사업자번호입니다.');
+							$('#businessRegisterForm input').not('#businessNum').prop('disabled',true);
+							$('#businessRegisterForm select').prop('disabled',true);
+							$('#businessRegisterForm button').not('#businessNumCheck').prop('disabled',true);
+							
+						}else{
+							alert('등록가능한 사업자번호입니다.');
+							$('#businessRegisterForm input').prop('disabled',false);
+							$('#businessRegisterForm select').prop('disabled',false);
+							$('#businessRegisterForm button').prop('disabled',false);
+						}
+					});
+					
+					request.fail(function( jqXHR, textStatus ) {
+					  alert( "Request failed: " + textStatus );
+					});
+					
+				}else{
+					alert('사업자번호를 입력해주세요.');
+					return false;
+				}
+			});
+		});
+		$(function(){
 			$('#businessNumCheckBtn').click(function(){
 				console.log('click: #businessNumCheckBtn');
 				
@@ -84,9 +125,9 @@
 	            </div>
 	            <div class="card-body">
 					<div class="form-group">
-		                <label for="businessNum">사업자번호</label>
-		                <input type="text" id="businessNum" class="form-control">
-		                <button type="button" id="businessNumCheckBtn" class="btn btn-default">중복확인</button>
+		                <label for="mainBusinessCode">사업장대표코드</label>
+		                <input type="text" id="mainBusinessCode" class="form-control">
+		                <button type="button" id="mainBusinessCodeCheckBtn" class="btn btn-default">중복확인</button>
 					</div>
 					
 					<div class="form-group">
@@ -111,6 +152,12 @@
 							<option value="user">물류센터 총관리자</option>
 	                	</select>
 	             	</div>
+	             	
+	             	<div class="form-group">
+		                <label for="businessNum">사업자번호</label>
+		                <input type="text" id="businessNum" class="form-control">
+		                <button type="button" id="businessNumCheckBtn" class="btn btn-default">중복확인</button>
+					</div>
 	             	
 					<div class="form-group">
 	                	<label for="businessName">상호</label>

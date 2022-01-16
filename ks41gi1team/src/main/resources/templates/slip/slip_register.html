@@ -8,87 +8,71 @@
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs">
-	<script>
-		$(function(){
-			$('#TsCode').click(function(){
-				var ps = $('#ps');
-				var psText =  ps.find('option');
-				psText.each(function(){
-					if( $('#ps').val() == 'p' ){
-						$('#pTsAdd').modal('show');
-						$('#sTsAdd').modal('hide');
-					}else if( $('#ps').val() == 's' ){
-						$('#sTsAdd').modal('show');
-						$('#pTsAdd').modal('hide');
-					}
-				});
-			});
-			$(document).on('click', '#TsCode', function(){
-				var aLengthMenuArray = [];
-				aLengthMenuArray.push([5,10,-1]);
-				aLengthMenuArray.push([5,10,'ALL']);
-				
-				$('#stList').DataTable({
-					destroy: true,
-					pageLength: 5,
-					aLengthMenu: aLengthMenuArray,
-					ajax: {
-						url: '/k1SlipList/salesList',
-	   					type: 'POST',
-	   					dataSrc: function(data){
-	        				console.log(JSON.stringify(data));
-	        				return data;
-	        			}
-					},
-					columns: [
-						{ "data": "선택"},
-						{ "data": "salesTsCode"},
-						{ "data": "clientCode"},
-						{ "data": "amount"},						
-						{ "data": "VAT"},
-						{ "data": "count"},
-						{ "data": "briefs"}
-					],
-					columnDefs: [
-						{
-							targets: [0],
-							orderable : false,
-							searchable : false,
-							render : function(data, type, row){
-								var htmlbtn = '<input type="radio" class="salesTsCode" name="salesTsCode" value="'+ row.salesTsCode +'">'
-								return htmlbtn;
-							}
-						}
-					]
-				});			
-			});
-			$(document).on('click', '#sBtn', function(){
-				var selected = $('.salesTsCode:checked');
-				console.log(selected)
-  				var TsCode = $('#TsCode');
-				var businessName = $('#businessName');
-				var amount = $('#amount');
-				var tax = $('#tax');
-				var count = $('#count');
-				var briefs = $('#briefs');
-				
-				var TsCodeValue = selected.parent().parent().children().eq(1).text();
-				var businessNameValue = selected.parent().parent().children().eq(2).text();
-				var amountValue = selected.parent().parent().children().eq(3).text();
-				var taxValue = selected.parent().parent().children().eq(4).text();
-				var countValue = selected.parent().parent().children().eq(5).text();
-				var briefsValue = selected.parent().parent().children().eq(6).text();
-				
-				TsCode.attr('value',TsCodeValue);
-				businessName.attr('value',businessNameValue);
-				amount.attr('value',amountValue);
-				tax.attr('value',taxValue);
-				count.attr('value',countValue);
-				briefs.attr('value',briefsValue);  
+<script type="text/javascript">
+	$(function(){
+ 		$(document).on('change', '#ps', function(){
+			if($('#ps').val() == 'p'){
+				$("#TsCode").attr('name', "purchaseTsCode");
+			}else if($('#ps').val() == 's'){
+				$("#TsCode").attr('name', "salesTsCode");
+			}
+		});
+		//명세서 모달 띄우기
+		var TsCode = $('#TsCode');
+		var TsModal = $('#TsModal');
+		
+		$(document).on('click', '#TsCode', function(){
+			console.log($(this));
+			var request = $.ajax({
+				url: "/transaction"
+				,data: { 'slipType' : $('#ps').val() }
+				,method: "GET"
+				,dataType: "html"
 			});
 			
+			request.done(function( data ) {
+				console.log('AJAX응답');
+				TsModal.find('.modal-body').html(data);
+				TsModal.modal('show');
+				
+				
+			});
+			
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});
 		});
-	</script>
+		var clientCode = $("#clientCode");
+		var amount = $("#amount");
+		var vat = $("#vat");
+		var count = $("#count");
+		var briefs = $("#briefs");
+		$(document).on('click', '#saveModalData', function(){
+			var tsCheck = $("input[name='tsCheck']:checked");
+			console.log('=== tsCheck===');
+			console.log(tsCheck);
+			
+			var tr = tsCheck.parent().parent().children();
+			console.log('=== tr===');
+			console.log(tr);
+			var TsCodeValue = tr.eq(1).text();
+			var clientCodeValue = tr.eq(2).text();
+			var amountValue = tr.eq(3).text();
+			var vatValue = tr.eq(4).text();
+			var countValue = tr.eq(5).text();
+			var briefsValue = tr.eq(6).text();
+			
+			TsCode.attr('value',TsCodeValue);
+			clientCode.attr('value',clientCodeValue);
+			amount.attr('value',amountValue);
+			vat.attr('value',vatValue);
+			count.attr('value',countValue);
+			briefs.attr('value',briefsValue);
+			
+		});
+		
+	});
+  </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
@@ -109,104 +93,46 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="form-group col-md-6">
-								<label for="slipNo">전표일자</label>
-								<input type="date" class="form-control" id="slipNo">
+								<label for="slipDate">전표일자</label>
+								<input type="date" class="form-control" name="slipDate">
 							</div>
 							<div class="form-group col-md-6">
 								<label>구분</label>
-								<select class="form-control" id="ps">
-									<option value="p" id="p">비용</option>
-									<option value="s" id="s">매출</option>
+								<select class="form-control" id="ps" name="psType">
+									<option value="p">비용</option>
+									<option value="s">매출</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="TsCode">명세서코드</label>
-							<input type="text" class="form-control" id="TsCode" placeholder="명세서코드" >
-								<div class="modal fade show" id="pTsAdd" style="display: none; padding-right: 17px;" aria-modal="true" role="dialog">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title">비용명세서 선택</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">×</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<table id="pTsList" class="table table-bordered table-hover dataTable dtr-inline">
-													<thead>
-														<tr>
-															<th>비용명세서번호</th>
-															<th>거래처명</th>
-															<th>적요</th>
-														</tr>
-													</thead>
-												</table>
-											</div>
-											<div class="modal-footer justify-content-between">
-												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-												<button type="button" class="btn btn-primary" id="pBtn">저장</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal fade show" id="sTsAdd" style="display: none; padding-right: 17px;" aria-modal="true" role="dialog">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title">매출명세서 선택</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">×</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<table id="stList" class="table table-bordered table-hover dataTable dtr-inline">
-													<thead>
-														<tr>
-															<th>선택<th>
-															<th>매출명세서번호</th>
-															<th>거래처명</th>
-															<th>공급가액</th>
-															<th>부가세</th>
-															<th>수량</th>
-															<th>적요</th>
-														</tr>
-													</thead>
-												</table>
-											</div>
-											<div class="modal-footer justify-content-between">
-												<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-												<button type="button" class="btn btn-primary" id="sBtn">저장</button>
-											</div>
-										</div>
-									</div>
-								</div>
+							<input type="text" class="form-control" id="TsCode" name="purchaseTsCode" placeholder="명세서코드" >
 						</div>
 						<div class="form-group">
 							<label for="businessName">거래처명</label>
-							<input type="text" class="form-control" id="businessName" placeholder="거래처명">
+							<input type="text" class="form-control" name="clientCode" id="clientCode" placeholder="">
 						</div>
 						<div class="row">
 							<div class="form-group col-md-4">
 								<label for="amount">공급가액</label>
-								<input type="number" class="form-control" id="amount" placeholder="공급가액">
+								<input type="number" class="form-control" name="amount" id="amount" placeholder="공급가액">
 							</div>
 							<div class="form-group col-md-4">
-								<label for="tax">부가세</label>
-								<input type="number" class="form-control" id="tax" placeholder="부가세">
+								<label for="vat">부가세</label>
+								<input type="number" class="form-control" name="vat" id="vat" placeholder="부가세">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="count">수량</label>
-								<input type="number" class="form-control" id="count" placeholder="수량">
+								<input type="number" class="form-control" name="count" id="count" placeholder="수량">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="briefs">적요</label>
-							<input type="text" class="form-control" id="briefs" placeholder="적요">
+							<input type="text" class="form-control" name="briefs" id="briefs" placeholder="적요">
 						</div>
 						<div class="form-group">
 							<label for="userName">담당자</label>
-							<input type="text" class="form-control" id="userName" placeholder="담당자">
+							<input type="text" class="form-control" name="regId" placeholder="담당자">
 						</div>
 					</div>
 					<div class="card-footer">
@@ -220,6 +146,36 @@
 					</div>					
 				</div>
 			</div>
+			
+			<div class="modal fade" id="TsModal" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title">명세서 조회</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+						
+							<!-- INSERT HTML -->
+						
+						</div>
+						<div class="modal-footer justify-content-between">
+							<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-info" data-dismiss="modal" id="saveModalData">저장</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			
+			
+			
+			
+			
+			
 		</div>
 </th:block>
 

@@ -43,6 +43,18 @@ public class MainBusinessController {
 		return "mainBusiness/business_register";
 	}
 	
+	//사업장대표코드 중복검사
+	@PostMapping("/mainBusinessCodeCheckBtn")
+	@ResponseBody
+	public boolean mainBusinessCodeCheckBtn(@RequestParam(value = "mainBusinessCode", required = false)String mainBusinessCode) {
+		System.out.println("ajax 통신으로 요청받은 param mainBusinessCode: " + mainBusinessCode);
+		
+		boolean checkResult = false;
+		int businessNumCheck = mainBusinessService.getBusinessByCode(mainBusinessCode);
+		if(businessNumCheck > 0) checkResult = true;
+		
+		return checkResult;
+	}
 	//사업자번호 중복검사
 	@PostMapping("/businessNumCheck")
 	@ResponseBody
@@ -68,7 +80,7 @@ public class MainBusinessController {
 			return "redirect:/businessList";
 		}
 		//사업장 상세
-		mainBusinessDetail = mainBusinessService.getAllMainBusinessList(mainBusinessDetail);
+		mainBusinessDetail = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
 		if(mainBusinessDetail == null) {
 			System.out.println("사업장 상세 error");
 		}

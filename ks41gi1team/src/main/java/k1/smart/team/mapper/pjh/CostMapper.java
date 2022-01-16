@@ -12,4 +12,7 @@ public interface CostMapper {
 	public List<Cost> getAllCostList(String mainBusinessCode);
 	//기타비용 상세
 	public Cost getCostInfoByCode(String etcPurchaseCode);
+	
+	//기타비용 등록
+	public int addCost(Cost cost);
 }

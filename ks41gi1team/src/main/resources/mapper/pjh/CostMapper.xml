@@ -8,7 +8,6 @@
 			etcPurchaseCode
 			,mainBusinessCode
 			,lsAccountCode
-			,totalAccountCode
 			,amount
 			,dealDate
 			,reportPoint
@@ -25,7 +24,6 @@
 			etcPurchaseCode
 			,mainBusinessCode
 			,lsAccountCode
-			,totalAccountCode
 			,amount
 			,dealDate
 			,reportPoint
@@ -37,4 +35,18 @@
 		WHERE
 			etcPurchaseCode = #{etcPurchaseCode};
 	</select>
+	<insert id="addCost" parameterType="Cost">
+	INSERT INTO k1_tb_etc_purchase
+			(etcPurchaseCode, mainBusinessCode, lsAccountCode, amount, dealDate, reportPoint, briefs, regDate, updateDate)
+	VALUES (
+		#{etcPurchaseCode}
+		,'fac_ksmartSeoul_Seoul_001'
+		,#{lsAccountCode}
+		,#{amount}
+		,#{dealDate}
+		,#{reportPoint}
+		,#{briefs}
+		,NOW()
+		,NOW());
+	</insert>
 </mapper>

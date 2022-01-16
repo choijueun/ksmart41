@@ -2,6 +2,7 @@ package k1.smart.team.dto.csh;
 
 public class Invoice {
 	private String businessName; //사업장 이름
+	
 	private String invoiceCode; //전자(세금)계산서 코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private String invoiceType; //세금계산서 종류
@@ -18,6 +19,19 @@ public class Invoice {
 	private String briefs; //적요
 	private String issueDate; //발행일자
 	private String regDate; //등록일시
+	
+	//세금계산서 상세
+	private String invoiceDetailCode; //전자(세금)계산서 상세코드
+	private String lsAccountCode; //계정과목코드
+	private String totalAccountCode; //통합회계관리코드
+	private String salesTsCode; //매출 거래명세서 코드
+	private String itemCode; //품목코드
+	private int amount; //수량
+	private int unitPrice; //단가
+	private int supplyPrice; //공급가액
+	private int tax; //세액
+	private String comment; //비고
+	
 	public String getBusinessName() {
 		return businessName;
 	}
@@ -120,6 +134,66 @@ public class Invoice {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
+	public String getInvoiceDetailCode() {
+		return invoiceDetailCode;
+	}
+	public void setInvoiceDetailCode(String invoiceDetailCode) {
+		this.invoiceDetailCode = invoiceDetailCode;
+	}
+	public String getLsAccountCode() {
+		return lsAccountCode;
+	}
+	public void setLsAccountCode(String lsAccountCode) {
+		this.lsAccountCode = lsAccountCode;
+	}
+	public String getTotalAccountCode() {
+		return totalAccountCode;
+	}
+	public void setTotalAccountCode(String totalAccountCode) {
+		this.totalAccountCode = totalAccountCode;
+	}
+	public String getSalesTsCode() {
+		return salesTsCode;
+	}
+	public void setSalesTsCode(String salesTsCode) {
+		this.salesTsCode = salesTsCode;
+	}
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public int getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+	public int getSupplyPrice() {
+		return supplyPrice;
+	}
+	public void setSupplyPrice(int supplyPrice) {
+		this.supplyPrice = supplyPrice;
+	}
+	public int getTax() {
+		return tax;
+	}
+	public void setTax(int tax) {
+		this.tax = tax;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -157,9 +231,32 @@ public class Invoice {
 		builder.append(issueDate);
 		builder.append(", regDate=");
 		builder.append(regDate);
+		builder.append(", invoiceDetailCode=");
+		builder.append(invoiceDetailCode);
+		builder.append(", lsAccountCode=");
+		builder.append(lsAccountCode);
+		builder.append(", totalAccountCode=");
+		builder.append(totalAccountCode);
+		builder.append(", salesTsCode=");
+		builder.append(salesTsCode);
+		builder.append(", itemCode=");
+		builder.append(itemCode);
+		builder.append(", amount=");
+		builder.append(amount);
+		builder.append(", unitPrice=");
+		builder.append(unitPrice);
+		builder.append(", supplyPrice=");
+		builder.append(supplyPrice);
+		builder.append(", tax=");
+		builder.append(tax);
+		builder.append(", comment=");
+		builder.append(comment);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
+	
 	
 
 }

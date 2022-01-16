@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+	<table id="salesTransactionList" class="table table-bordered table-hover dataTable dtr-inline" >
+		<thead>
+			<tr>
+				<th>선택</th>
+				<th>명세서코드</th>
+				<th>거래처명</th>
+				<th>공급가액</th>
+				<th>부가세</th>
+				<th>수량</th>
+				<th>적요</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${not #lists.isEmpty(salesTransactionList)}" th:each="l : ${salesTransactionList}">
+				<td><input type="radio" name="tsCheck"></td>
+				<td class="TsCode">[[${l.salesTsCode}]]</td>
+				<td class="clientCode">[[${l.clientCode}]]</td>
+				<td class="amount">[[${l.amount}]]</td>
+				<td class="vat">[[${l.vat}]]</td>
+				<td class="count">[[${l.count}]]</td>
+				<td class="briefs">[[${l.briefs}]]</td>
+			</tr>
+			<tr th:unless="${not #lists.isEmpty(salesTransactionList)}"></tr>
+		</tbody>
+	</table>
+</body>
+</html>

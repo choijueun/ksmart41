@@ -15,6 +15,7 @@ import k1.smart.team.mapper.csh.ClientMapper;
 public class MainBusinessService {
 	private MainBusinessMapper mainBusinessMapper;
 	private List<MainBusiness> mainBusinessList;
+	private MainBusiness mainBusinessDetail;
 	
 	//생성자 메서드
 	public MainBusinessService(MainBusinessMapper mainBusinessMapper) {
@@ -35,6 +36,13 @@ public class MainBusinessService {
 	}
 	
 	//사업자번호 중복확인
+	public int getBusinessByCode(String mainBusinessCode) {
+		int mainBusinessCodeCheck = 0;
+		mainBusinessCodeCheck += mainBusinessMapper.getBusinessByCode(mainBusinessCode);
+		
+		return mainBusinessCodeCheck;
+	}
+	//사업자번호 중복확인
 	public int getBusinessByNum(String businessNum) {
 		int businessNumCheck = 0;
 		businessNumCheck += mainBusinessMapper.getBusinessByNum(businessNum);
@@ -43,10 +51,12 @@ public class MainBusinessService {
 	}
 
 	//사업장 상세
-	public MainBusiness getAllMainBusinessList(MainBusiness mainBusinessDetail) {
-		// TODO Auto-generated method stub
-		return null;
+	public MainBusiness getMainBusinessDetail(String mainBusinessCode) {
+		mainBusinessDetail = mainBusinessMapper.getMainBusinessDetail(mainBusinessCode);
+		
+		return mainBusinessDetail;
 	}
+
 
 	
 

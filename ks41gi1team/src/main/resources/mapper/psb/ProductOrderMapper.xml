@@ -132,5 +132,52 @@ SELECT
 		ii.itemCode = pp.itemCode
 		GROUP BY po.productOrderCode;	
 </select>	
+<select id="getAllProductOrderList" parameterType="String" resultType="ProductOrder">
+	SELECT 
+		po.productOrderCode as productOrderCode,
+		po.mainBusinessCode as mainBusinessCode,
+		po.contractCode as contractCode,
+		po.clientCode as clientCode,
+		po.productPriceCode as productPriceCode,
+		po.totalProductCount as totalProductCount,
+		po.totalProductPrice as totalProductPrice,
+		po.productOrderDate as productOrderDate,
+		po.productDate as productDate,
+		po.predictProductDate as predictProductDate,
+		po.status as status,
+		po.briefs as briefs,
+		po.managerId as managerId,
+		po.regDate as regDate,
+		po.updateDate as updateDate,
+		ii.itemName as itemName,
+		c.businessName as businessName
+	FROM 
+		k1_tb_product_order AS po
+		INNER JOIN 
+		k1_tb_client AS c
+		on
+		po.mainBusinessCode =c.mainBusinessCode
+		INNER JOIN 
+		k1_tb_user AS u
+		ON 
+		c.userId = u.userId
+		INNER JOIN 
+		k1_tb_contract AS contr
+		on
+		contr.mainBusinessCode = u.mainBusinessCode
+		INNER JOIN 
+		k1_tb_main_business AS mb
+		on
+		mb.mainBusinessCode = contr.mainBusinessCode
+		INNER JOIN 
+		k1_tb_product_price AS pp
+		on
+		pp.mainBusinessCode = mb.mainBusinessCode
+		INNER JOIN 
+		k1_tb_item_info AS ii
+		on
+		ii.itemCode = pp.itemCode
+		GROUP BY po.productOrderCode;	
+</select>	
 	
 </mapper>	

@@ -4,17 +4,145 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- DataTables -->
+	<link rel="stylesheet"
+		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs"></th:block>
 
 <th:block layout:fragment="customContents">
-	사업장 정보 상세
+	<div class="container-fluid">
+		<div class="row" th:unless="${mainBusinessDetail == null}">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						사업장정보 상세[[${mainBusinessDetail.mainBusinessCode}]]
+					</div>
+					<div class="card-body">
+						<table id="userRegDetail" class="table table-bordered">
+							<tr>
+								<th>사업장별 대표코드</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.mainBusinessCode}]]
+								</td>
+							</tr>
+							<tr>
+								<th>사업장 구분 코드</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessCategory}]]
+								</td>
+							</tr>
+							<tr>
+								<th>사업장 권한</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessLevel}]]
+								</td>
+							</tr>
+							<tr>
+								<th>상호</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessName}]]
+								</td>
+							</tr>
+							<tr>
+								<th>대표자명</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessRepresentative}]]
+								</td>
+							</tr>
+							<tr>
+								<th>업종</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessType1}]]
+								</td>
+							</tr>
+							<tr>
+								<th>업태</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessType2}]]
+								</td>
+							</tr>
+							<tr>
+								<th>사업자번호</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessNum}]]
+								</td>
+							</tr>
+							<tr>
+								<th>종사업장번호</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessCount}]]
+								</td>
+							</tr>
+							<tr>
+								<th>연락처</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessMobile}]]
+								</td>
+							</tr>
+							<tr>
+								<th>소재지</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessPlace}]]
+								</td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.businessEmail}]]
+								</td>
+							</tr>
+							<tr>
+								<th>개업년월일</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.openDate}]]
+								</td>
+							</tr>
+							<tr>
+								<th>플랫폼 가입일시</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.joinDate}]]
+								</td>
+							</tr>
+							<tr>
+								<th>수정일시</th>
+								<td colspan="3">
+									[[${mainBusinessDetail.updateDate}]]
+								</td>
+							</tr>
+						</table>
+						<div>
+							<a th:href="@{/k1Business/businessList}">
+								<button type="button" class="btn btn-default">목록으로</button>
+							</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+							<a th:href="@{|/k1Business/modify/${mainBusinessDetail.mainBusinessCode}|}">
+								<button type="button" class="btn btn-info float-right mr-2">수정</button>
+							</a>
+						</div>
+					</div>
+				
+				</div>
+			
+			</div>
+		</div>
+		<div th:if="${ mainBusinessDetail == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>

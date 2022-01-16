@@ -4,6 +4,8 @@ package k1.smart.team.dto.pjh;
 public class Slip {
 	private String purchaseSlipCode; //비용전표코드
 	private String salesSlipCode; //매출전표코드
+	
+	
 	private String mainBusinessCode; //삭제할지말지?
 	private String totalAccountCode; //통합 회계 관리코드
 	private String purchaseTsCode; //비용 거래명세서 코드
@@ -12,6 +14,7 @@ public class Slip {
 	private String businessName; //거래처상호
 	private int amount; //단가
 	private int tax;  //개당 세금
+	private int vat;  //개당 세금
 	private int count;  //수량
 	private int amt;  //((단가+세금)*수량) = amt
 	private String briefs;
@@ -21,6 +24,8 @@ public class Slip {
 	private String regDate;
 	private String updateDate;
 	
+	private String slipDate; //전표일자
+	private String TsCode; //명세서
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
 	}
@@ -81,6 +86,12 @@ public class Slip {
 	public void setTax(int tax) {
 		this.tax = tax;
 	}
+	public int getVat() {
+		return vat;
+	}
+	public void setVat(int vat) {
+		this.vat = vat;
+	}
 	public int getCount() {
 		return count;
 	}
@@ -129,7 +140,18 @@ public class Slip {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+	public String getSlipDate() {
+		return slipDate;
+	}
+	public void setSlipDate(String slipDate) {
+		this.slipDate = slipDate;
+	}
+	public String getTsCode() {
+		return TsCode;
+	}
+	public void setTsCode(String tsCode) {
+		TsCode = tsCode;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -153,6 +175,8 @@ public class Slip {
 		builder.append(amount);
 		builder.append(", tax=");
 		builder.append(tax);
+		builder.append(", vat=");
+		builder.append(vat);
 		builder.append(", count=");
 		builder.append(count);
 		builder.append(", amt=");
@@ -169,6 +193,10 @@ public class Slip {
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
+		builder.append(", slipDate=");
+		builder.append(slipDate);
+		builder.append(", TsCode=");
+		builder.append(TsCode);
 		builder.append("]");
 		return builder.toString();
 	}

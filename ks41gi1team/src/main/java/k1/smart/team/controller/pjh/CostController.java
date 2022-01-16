@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.Cost;
@@ -54,6 +55,16 @@ public class CostController {
 		model.addAttribute("costInfo", costInfo);
 		return "cost/cost_detail";
 	}	
+	
+	@PostMapping("/add")
+	public String addCost(Cost cost) {
+		System.out.println("CostController 회원등록 화면에서 입력받은 값: " + cost);
+		String costCode = cost.getEtcPurchaseCode();
+		if(costCode != null && !"".equals(costCode)) {
+			costService.addCost(cost);
+		}
+		return "redirect:/k1CostList";
+	}
 	
 	@GetMapping("/add")
 	public String addCost(Model model) {

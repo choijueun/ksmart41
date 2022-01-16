@@ -38,11 +38,17 @@
 			pt.contractCode,
 			pt.briefs,
 			pt.dealDate,
-			pt.regId,
+			u.userName,
 			pt.regDate,
 			pt.updateDate
 		FROM 
-			k1_tb_purchase_transaction AS pt;
+			k1_tb_purchase_transaction AS pt
+		INNER JOIN
+			k1_tb_user as u
+		on
+			u.mainBusinessCode = pt.mainBusinessCode	
+		GROUP BY
+			pt.purchaseTsCode;	
 	<if test="strartNum != null">
 			LIMIT #{startNum}, #{rowPerPage};
 		</if>	

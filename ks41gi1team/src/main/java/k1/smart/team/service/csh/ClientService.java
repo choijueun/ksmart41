@@ -42,7 +42,7 @@ public class ClientService {
 	}
 	
 	//거래처정보 상세
-	public Client getAllClientDetail(String clientCode) {
+	public Client getClientDetail(String clientCode) {
 		//거래처 상세
 		clientDetail = clientMapper.getClientDetail(clientCode);
 		if(clientDetail == null) {
@@ -53,5 +53,6 @@ public class ClientService {
 		return clientDetail;
 	}
 	
+	//거래처 등급 수정
 
 }

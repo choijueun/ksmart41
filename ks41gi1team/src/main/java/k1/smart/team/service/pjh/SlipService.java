@@ -1,7 +1,6 @@
 package k1.smart.team.service.pjh;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ public class SlipService {
 	private List<Slip> s_slipList;
 	private Slip purchaseSlipInfo;
 	private Slip salesSlipInfo;
-	private SlipMapper slipAddMapper;
 	
 	//생성자메서드
 	public SlipService(SlipMapper slipMapper) {
@@ -66,13 +64,38 @@ public class SlipService {
 		return salesSlipInfo;
 	}
 	
-	public int addSlip(Slip slip) {
-	int addSlip = slipAddMapper.addSlip(slip);
-		return addSlip;
+	/**
+	 * 전표 등록 절차
+	 * @param map
+	 * @return 1이면 성공 0이면 실패
+	 */
+	public void addSlip(Slip slip) {
+		System.out.println("220112 addSlip slipSErvice.java");
+		//1-1 매출
+		if(slip.getSalesTsCode() != null && slip.getPurchaseTsCode() == null) {
+			System.out.println("1-1 220112 getSalesTsCode null 아니고 getPurchaseTsCode null 220112 addSlip slipSErvice.java");
+//========================================
+//전표자동 생성 후 셋팅
+			String salesSlipCode = slipMapper.salesSlipNum(slip.getSlipDate());
+			slip.setSalesSlipCode(salesSlipCode);
+			System.out.println(salesSlipCode + "<-- salesSlipCode 220112 addSlip slipSErvice.java");			
+//========================================			
+			slipMapper.registerSalesSlip(slip);
+			
+		//1-2 비용			
+		}else if(slip.getPurchaseTsCode() != null && slip.getSalesTsCode() == null ) {
+			System.out.println("1-2 220112 getPurchaseTsCode null 아니고 getSalesTsCode null 220112 addSlip slipSErvice.java");
+			String purchaseSlipCode = slipMapper.salesSlipNum(slip.getSlipDate());
+			slip.setPurchaseSlipCode(purchaseSlipCode);
+			
+			slipMapper.registerPurchaseSlip(slip);
+		}
+		
+		//return 1;
 	}
 	
-	public List<Map<String, Object>> saleTransactionList() {
-		List<Map<String, Object>> salesList = slipMapper.saleTransactionList(null);
-		return salesList;
+	public List<Slip> salesTransactionList() {
+		List<Slip> salesTransactionList = slipMapper.salesTransactionList();
+		return salesTransactionList;
 	}
 }

@@ -16,20 +16,21 @@
 
 	<select id="getAllManufacturingCostList" resultType="ManufacturingCost">
 		SELECT
-ls.lsAccountName as lsAccountName
-,ep.amount  as amount
-,mo.totalPrice as totalPrice
-FROM 
-	k1_tb_etc_purchase AS ep
-	INNER JOIN 
-	k0_tb_ls AS ls
-	on
-	ls.lsAccountCode = ep.lsAccountCode
-	INNER JOIN 
-	k1_tb_material_order AS mo
-	on
-	mo.mainBusinessCode = ep.mainBusinessCode
-
+			ls.lsAccountName as lsAccountName
+			,ep.amount  as amount
+			,mo.totalPrice as totalPrice
+		FROM 
+			k1_tb_etc_purchase AS ep
+		INNER JOIN 
+			k0_tb_ls AS ls
+		on
+			ls.lsAccountCode = ep.lsAccountCode
+		INNER JOIN 
+			k1_tb_material_order AS mo
+		on
+			mo.mainBusinessCode = ep.mainBusinessCode 
+		GROUP BY 
+			ep.etcPurchaseCode
 	</select>
 
 </mapper>
