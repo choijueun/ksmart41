@@ -16,45 +16,49 @@
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
 	<div class="row" th:unless="${ costInfo == null }">
-			<div class="card card-info card-outline">
-				<div class="card-header">
-					비용[[${costInfo.etcPurchaseCode}]]
-				</div>
-				<div class="card-body">
-					<table id="costInfo" class="table table-bordered">
-						<tr>
-							<th>비용번호</th>
-							<td>[[${costInfo.etcPurchaseCode}]]</td>
-							<th>계정과목</th>
-							<td>[[${costInfo.lsAccountCode}]]</td>
-						</tr>
-						<tr>
-							<th>결산시점</th>
-							<td>[[${costInfo.reportPoint}]]</td>
-							<th>금액</th>
-							<td>[[${costInfo.amount}]] 원</td>
-						</tr>
-						<tr>
-							<th>적요</th>
-							<td colspan="3">[[${costInfo.briefs}]]</td>
-						</tr>
-						<tr>
-							<th>거래일자</th>
-							<td colspan="3">[[${costInfo.dealDate}]]</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td>[[${costInfo.regDate}]]</td>
-							<th>수정일시</th>
-							<td>[[${costInfo.updateDate}]]</td>
-						</tr>
-					</table>
-					<button type="button" class="btn btn-info">수정</button>
+		<div class="col-lg-3 col-md-2">
+		</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						비용[[${costInfo.etcPurchaseCode}]]
+					</div>
+					<div class="card-body">
+						<table id="costInfo" class="table table-bordered">
+							<tr>
+								<th>비용번호</th>
+								<td>[[${costInfo.etcPurchaseCode}]]</td>
+								<th>계정과목</th>
+								<td>[[${costInfo.lsAccountCode}]]</td>
+							</tr>
+							<tr>
+								<th>결산시점</th>
+								<td>[[${costInfo.reportPoint}]]</td>
+								<th>금액</th>
+								<td>[[${#numbers.formatInteger(costInfo.amount,0,'COMMA')}]]원</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${costInfo.briefs}]]</td>
+							</tr>
+							<tr>
+								<th>거래일자</th>
+								<td colspan="3">[[${costInfo.dealDate}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${costInfo.regDate}]]</td>
+								<th>수정일시</th>
+								<td>[[${costInfo.updateDate}]]</td>
+							</tr>
+						</table>
+						<button type="button" class="btn btn-info mt-3">수정</button>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div th:if="${ costInfo == null }">
-			잘못된 접근입니다.
+			<div th:if="${ costInfo == null }">
+				잘못된 접근입니다.
+			</div>
 		</div>
 	</div>
 </th:block>
