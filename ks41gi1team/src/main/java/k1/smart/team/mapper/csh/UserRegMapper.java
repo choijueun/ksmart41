@@ -22,4 +22,7 @@ public interface UserRegMapper {
 	//회원가입요청 상세
 	public UserReg getUserRegDetail(String userRegCode);
 
+	//회원가입 요청 수정
+	public int modifyUserReg(UserReg userReg);
+
 }
