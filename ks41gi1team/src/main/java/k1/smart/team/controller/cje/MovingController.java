@@ -103,12 +103,32 @@ public class MovingController {
 		return "storing/moving/moving_add";
 	}
 	
+	/**
+	 * 창고이동내역 수정화면
+	 * @param stockAdjCode
+	 * @param model
+	 */
 	@GetMapping("/k1MovingModify/{stockAdjCode}")
 	public String modifyMoving(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Moving";
+		
+		//창고이동내역 상세정보 조회결과
+		resultMap = storingService.getMovingInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Moving";
+		
+		//창고이동내역 한줄정보 Storing
+		movingInfo = (Storing) resultMap.get("movingInfo");
+		log.info("창고이동내역 INFO :: {}", movingInfo);
+		model.addAttribute("s", movingInfo);
+		//창고이동내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("movingDetails"));
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "창고이동내역 수정");
+		
 		return "storing/moving/moving_modify";
 	}
 }

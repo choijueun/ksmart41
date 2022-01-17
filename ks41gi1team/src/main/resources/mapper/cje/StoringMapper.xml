@@ -156,11 +156,14 @@
 	SELECT
 		 p.productCnt
 		,s.shipmentCnt
-		,p.adjDate
+		,CASE 
+			WHEN p.adjDate IS NULL THEN s.adjDate
+			ELSE p.adjDate
+		 END AS adjDate
 	FROM
 		(SELECT
 			 COUNT(*) AS productCnt
-			,p.adjDate
+			,DATE_FORMAT(p.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS p
 		WHERE
@@ -170,10 +173,48 @@
 		GROUP BY
 			p.adjDate
 		) AS p
-		JOIN
+		LEFT JOIN
 		(SELECT
 			 COUNT(*) AS shipmentCnt
-			,s.adjDate
+			,DATE_FORMAT(s.adjDate, '%y-%m-%d') AS adjDate
+		FROM
+			k1_tb_stock_adjustment AS s
+		WHERE
+			stockReasonCode = 5
+			AND s.adjDate > SUBDATE(CURDATE(), 7)
+			AND s.mainBusinessCode = #{mainBusinessCode}
+		GROUP BY
+			s.adjDate
+		) AS s
+		ON
+		p.adjDate = s.adjDate
+	GROUP BY
+		p.adjDate
+	UNION
+	SELECT
+		 p.productCnt
+		,s.shipmentCnt
+		,CASE 
+			WHEN p.adjDate IS NULL THEN s.adjDate
+			ELSE p.adjDate
+		 END AS adjDate
+	FROM
+		(SELECT
+			 COUNT(*) AS productCnt
+			,DATE_FORMAT(p.adjDate, '%y-%m-%d') AS adjDate
+		FROM
+			k1_tb_stock_adjustment AS p
+		WHERE
+			stockReasonCode = 3
+			AND p.adjDate > SUBDATE(CURDATE(), 7)
+			AND p.mainBusinessCode = #{mainBusinessCode}
+		GROUP BY
+			p.adjDate
+		) AS p
+		RIGHT JOIN
+		(SELECT
+			 COUNT(*) AS shipmentCnt
+			,DATE_FORMAT(s.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS s
 		WHERE
@@ -256,7 +297,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -308,7 +349,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -360,7 +401,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -397,7 +438,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -435,7 +476,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -475,7 +516,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.`comment`
 	FROM
 		k1_tb_stock_adjustment AS a
@@ -514,7 +555,7 @@
 		,ad.stockWeight
 		,RIGHT(ad.purchaseTsCode,3 ) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
-		,ad.stockStatus
+		,ad.status
 		,ad.defectType
 		,ad.defectHandlingType
 		,ad.`comment`
@@ -554,7 +595,7 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.stockStatus
+		,ad.status
 		,ad.defectType
 		,ad.defectHandlingType
 		,ad.`comment`
