@@ -24,7 +24,7 @@ public class ContractService {
 
 	//계약서 등록
 	public int addContract(Contract contract) {
-		
+		System.out.println(contract.toString());
 		int result = contractMapper.addContract(contract);
 		
 		return result;
