@@ -97,7 +97,7 @@ public class ShipmentController {
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "제품출하");
+		model.addAttribute("SectionLocation", "제품출하내역 등록");
 		
 		return "storing/shipment/shipment_add";
 	}
