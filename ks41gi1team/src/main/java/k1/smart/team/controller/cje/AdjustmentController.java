@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +12,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class AdjustmentController {
 	private final StoringService storingService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드
-	private List<Storing> adjList; //재고조정내역 배열
 	private Map<String, Object> resultMap;
+	private Stock stockInfo; //재고정보
+	private Storing adjInfo; //재고조정내역
+	private List<Storing> adjList; //재고조정내역 배열
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드
+	private static final Logger log = LoggerFactory.getLogger(AdjustmentController.class);
 	
 	/**
 	 * 생성자 메서드
@@ -36,6 +42,7 @@ public class AdjustmentController {
 	public String adjustmentMain(Model model) {
 		//재고조정내역 전체목록 List<Storing>
 		adjList = storingService.getAllAdjList(mainBusinessCode);
+		log.info("재고조정내역 LIST :: {}", adjList);
 		model.addAttribute("adjList", adjList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -61,7 +68,9 @@ public class AdjustmentController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Adjustment";
 		
 		//재고조정내역 한줄정보 Storing
-		model.addAttribute("s", resultMap.get("adjInfo"));
+		adjInfo = (Storing) resultMap.get("adjInfo");
+		log.info("재고조정내역 INFO :: {}", adjInfo);
+		model.addAttribute("s", adjInfo);
 		//재고조정내역 상세정보 List<Storing>
 		model.addAttribute("adjDetail", resultMap.get("adjDetailList"));
 		
@@ -82,8 +91,10 @@ public class AdjustmentController {
 			,Model model) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
-			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
+			//해당 재고 정보
+			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			log.info("특정재고정보 INFO :: {}", stockInfo);
+			model.addAttribute("s", stockInfo);
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");

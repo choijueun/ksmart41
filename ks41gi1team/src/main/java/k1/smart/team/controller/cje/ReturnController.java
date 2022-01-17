@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.StoringService;
 
@@ -17,8 +20,12 @@ import k1.smart.team.service.cje.StoringService;
 public class ReturnController {
 	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private List<Storing> returnList; //반품처리내역 배열
 	private Map<String, Object> resultMap;
+	private Stock stockInfo; //재고정보
+	private Storing returnInfo; //출하내역
+	private List<Storing> returnList; //반품처리내역 배열
+	private static final Logger log = LoggerFactory.getLogger(ReturnController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param returnService
@@ -36,6 +43,7 @@ public class ReturnController {
 	public String returnMain(Model model) {
 		//반품내역 전체목록 List<Storing>
 		returnList = storingService.getAllReturnList(mainBusinessCode);
+		log.info("반품내역 LIST :: {}", returnList);
 		model.addAttribute("returnList", returnList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -62,7 +70,9 @@ public class ReturnController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Return";
 		
 		//반품내역 한줄정보 Storing
-		model.addAttribute("s", resultMap.get("returnInfo"));
+		returnInfo = (Storing) resultMap.get("returnInfo");
+		log.info("반품내역 INFO :: {}", returnInfo);
+		model.addAttribute("s", returnInfo);
 		//반품내역 상세정보 List<Storing>
 		model.addAttribute("returnDetails", resultMap.get("returnDetails"));
 		
@@ -84,8 +94,10 @@ public class ReturnController {
 			,Model model) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
-			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
+			//해당 재고 정보
+			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			log.info("특정재고정보 INFO :: {}", stockInfo);
+			model.addAttribute("s", stockInfo);
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -124,6 +136,7 @@ public class ReturnController {
 	public String returnReqMain(Model model) {
 		//반품요청내역 전체목록 List<Storing>
 		returnList = storingService.getReturnRegList(mainBusinessCode);
+		log.info("반품요청내역 LIST :: {}", returnList);
 		model.addAttribute("returnRegList", returnList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -144,13 +157,15 @@ public class ReturnController {
 			,Model model) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(returnRegCode)) return "redirect:/k1ReturnReg";
-		//재고조정내역 상세정보 조회결과
+		//반품요청내역 상세정보 조회결과
 		resultMap = storingService.getReturnRegInfo(returnRegCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ReturnReg";
 
-		//재고조정내역 한줄정보 Storing
-		model.addAttribute("r", resultMap.get("returnRegInfo"));
-		//재고조정내역 상세정보 List<Storing>
+		//반품요청내역 한줄정보 Storing
+		returnInfo = (Storing) resultMap.get("returnRegInfo");
+		log.info("반품요청내역 INFO :: {}", returnInfo);
+		model.addAttribute("r", returnInfo);
+		//반품요청내역 상세정보 List<Storing>
 		model.addAttribute("returnRegDetails", resultMap.get("returnRegDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
