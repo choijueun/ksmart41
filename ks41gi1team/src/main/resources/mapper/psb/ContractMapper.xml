@@ -62,7 +62,9 @@
 			c.regDate,
 			c.updateDate
 		FROM 
-			k1_tb_contract AS c;
+			k1_tb_contract AS c
+		WHERE 
+			c.mainBusinessCode IS NOT NULL;	
 	</select>
 	
 
