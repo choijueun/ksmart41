@@ -87,8 +87,6 @@
 			userRegComment = #{userRegComment}
 		WHERE 
 			userRegCode = #{userRegCode};
-			
-	
 	</update>
 	
 	

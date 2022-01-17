@@ -78,7 +78,7 @@ public class UserRegController {
 	@PostMapping("/modify/{userRegCode}")
 	public String modifyUserReg(UserReg userReg) {
 		userRegService.modifyUserReg(userReg);
-		return "redirect:user/user_register";
+		return "redirect:/k1UserReg/userRegList";
 	}
 			
 	
