@@ -35,6 +35,9 @@
 									<a th:if="${s.deliveryCode} != null" th:href="@{|/k1Delivery/${s.deliveryCode}|}">
 										<button type="button" class="btn btn-outline-info btn-xs">운송</button>
 									</a>
+									<a th:if="${s.productOrderCode} != null">
+										<button type="button" class="btn btn-outline-info btn-xs">[[${s.productOrderCode}]]</button>
+									</a>
 								</td>
 								<th>상태</th>
 								<td th:if="${s.endDate != null}">

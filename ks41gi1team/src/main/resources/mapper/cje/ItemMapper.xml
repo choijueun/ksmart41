@@ -100,7 +100,10 @@
 		ON
 		s.productPriceCode = p.productPriceCode
 	WHERE
-		i.itemCode = CONCAT('itemCode_',#{itemCode});
+		i.itemCode = CONCAT('itemCode_',#{itemCode})
+	ORDER BY
+		s.inventoryCode ASC
+	LIMIT 10;
 </select>
 
 <!-- 카테고리 대분류 조회 -->
@@ -177,6 +180,7 @@
 			   LPAD(CAST(MAX(RIGHT(c.itemCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
 			FROM 
 			   k1_tb_item_info AS c)
+		)
 		,#{mainBusinessCode}
 		,#{itemName}
 		,#{itemType}

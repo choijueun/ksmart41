@@ -13,7 +13,7 @@ $(function(){
 	//-------------
 	//- DONUT CHART -
 	//-------------
-	var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+	var donutChartCanvas = $('#recentStoring').get(0).getContext('2d')
 	var donutData        = {
 		labels: [
 				'입고',
@@ -41,15 +41,86 @@ $(function(){
 			}
 		]
 	}
+	// 옵션
 	var donutOptions     = {
 		maintainAspectRatio : false,
 		responsive : true,
 	}
-	//Create douhnut chart
+	// Donut Chart 그리기
 	new Chart(donutChartCanvas, {
 		type: 'doughnut',
 		data: donutData,
 		options: donutOptions
+	});
+	
+	
+	//-------------
+	//- BAR CHART -
+	//-------------
+	// !Chart 그리기
+	var barChartCanvas = $('#recentProShip').get(0).getContext('2d');
+	// ! DATA
+	var recentProShip = [[${recentProShip}]];
+	var productCnt = [];
+	var shipmentCnt = [];
+	var adjDate = [];
+	for(var i=0; i<recentProShip.length; i++) {
+		productCnt.push(recentProShip[i].productCnt);
+		shipmentCnt.push(recentProShip[i].shipmentCnt);
+		adjDate.push(recentProShip[i].adjDate);
+	}
+	var recentProShipData = {
+		labels  : adjDate,
+		datasets: [
+			{
+				label				: '생산',
+				backgroundColor		: 'rgba(60,141,188,0.9)',
+				borderColor			: 'rgba(60,141,188,0.8)',
+				pointRadius			: false,
+				pointColor			: '#3b8bba',
+				pointStrokeColor	: 'rgba(60,141,188,1)',
+				pointHighlightFill	: '#fff',
+				pointHighlightStroke: 'rgba(60,141,188,1)',
+				data				: productCnt
+			},
+			{
+				label				: '출하',
+				backgroundColor		: 'rgba(210, 214, 222, 1)',
+				borderColor			: 'rgba(210, 214, 222, 1)',
+				pointRadius			: false,
+				pointColor			: 'rgba(210, 214, 222, 1)',
+				pointStrokeColor	: '#c1c7d1',
+				pointHighlightFill	: '#fff',
+				pointHighlightStroke: 'rgba(220,220,220,1)',
+				data				: shipmentCnt
+			},
+		]
+	}
+	var barChartData = $.extend(true, {}, recentProShipData);
+		barChartData.datasets[0] = recentProShipData.datasets[0];
+		barChartData.datasets[1] = recentProShipData.datasets[1];
+	// 옵션
+	var barChartOptions = {
+		responsive              : true,
+		maintainAspectRatio     : false,
+		datasetFill             : false
+	};
+	// Bar Chart 그리기
+	new Chart(barChartCanvas, {
+		type: 'bar',
+		data: barChartData,
+		options: barChartOptions
+	});
+	
+	// 표 플러그인 적용
+	$('#storingList').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
 	});
 });
 </script>
@@ -83,9 +154,32 @@ $(function(){
 						<div class="chartjs-size-monitor-expand"><div class=""></div></div>
 						<div class="chartjs-size-monitor-shrink"><div class=""></div></div>
 					</div>
-					<canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 596px;" width="596" height="250" class="chartjs-render-monitor"></canvas>
+					<canvas id="recentStoring" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 596px;" width="596" height="250" class="chartjs-render-monitor"></canvas>
 				</div>
 			</div>
+			
+			<!-- BAR CHART -->
+			<div class="card card-info">
+				<div class="card-header">
+					최근 7일 생산·출하 현황
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+						<button type="button" class="btn btn-tool" data-card-widget="remove">
+							<i class="fas fa-times"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="chart">
+						<canvas id="recentProShip" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+					</div>
+				</div>
+				<!-- /.card-body -->
+			</div>
+			<!-- /.card -->
+			
 		</div>
 		
 	    <!-- 물류이동내역 -->
@@ -138,7 +232,9 @@ $(function(){
 								<td>[[${l.adjDate}]]</td>
 								<td>
 									<a th:href="@{|/k1${l.stockReasonEng}Modify/${l.stockAdjCode}|}">
-										<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 									</a>
 								</td>
 							</tr>
@@ -149,9 +245,6 @@ $(function(){
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-info mt-3" data-toggle="modal" data-target="#storingModal">
-						등록
-					</button>
 				</div>
 			</div>
 		</div>
@@ -168,32 +261,7 @@ $(function(){
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="text-center justify-content-between">
-						<a th:href="@{/k1WarehousingAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">자재입고</button>
-						</a>
-						<a th:href="@{/k1MaterialUseAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">자재사용</button>
-						</a>
-						<a th:href="@{/k1ProductionAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">제품생산</button>
-						</a>
-						<a th:href="@{/k1ShipmentAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">제품출하</button>
-						</a>
-						<a th:href="@{/k1MovingAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">창고이동</button>
-						</a>
-						<a th:href="@{/k1AdjustmentAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">재고조정</button>
-						</a>
-						<a th:href="@{/k1ReturnAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">반품처리</button>
-						</a>
-						<a th:href="@{/k1DefectAdd}">
-							<button type="button" class="btn btn-outline-info mx-2 my-3">불량처리</button>
-						</a>
-					</div>
+					<!-- Modal Ajax 들어갈 공간 -->
 				</div>
 				<div class="modal-footer justify-content-between">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>

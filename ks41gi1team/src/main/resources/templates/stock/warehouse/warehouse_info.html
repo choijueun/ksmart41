@@ -62,7 +62,7 @@
 						<tr>
 							<th>적재 현황</th>
 							<td colspan="3">
-								<div class="progress progress-xs" th:unless="${w.weightPer} == -1">
+								<div class="progress progress-xs mt-2" th:unless="${w.weightPer} == -1">
 									<div class="progress-bar bg-info" th:style="'width: '+${w.weightPer}+'%;'"></div>
 		                        </div>
 		                        <span th:if="${w.weightPer} == -1">

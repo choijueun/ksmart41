@@ -7,7 +7,22 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//DataTables
+	$('#deliveryList').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -53,12 +68,12 @@
 							</a>
 						</td>
 						<td>
-							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+							<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
 								[[${l.clientBusinessName}]]
 							</a>
 						</td>
 						<td>
-							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+							<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
 								[[${l.deliveryBusinessName}]]
 							</a>
 						</td>
@@ -72,7 +87,9 @@
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">
-								<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 							</a>
 						</td>
 					</tr>

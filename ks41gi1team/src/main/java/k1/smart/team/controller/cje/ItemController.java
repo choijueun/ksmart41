@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.service.cje.ItemService;
 
 @Controller
 public class ItemController {
-	private ItemService itemService;
+	private final ItemService itemService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
-	private Map<String,Object> resultMap;
+	private Map<String, Object> resultMap;
 	private boolean chk;
 	
 	private static final Logger log = LoggerFactory.getLogger(ItemController.class);
@@ -42,12 +43,14 @@ public class ItemController {
 	 */
 	@GetMapping("/k1Item")
 	public String itemMain(Model model) {
-		//품목 전체목록
+		//품목 전체목록 List<Stock>
 		itemList = itemService.getAllItemList(mainBusinessCode);
+		log.info("품목 LIST :: {}", itemList);
+		model.addAttribute("itemList", itemList);
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "전체목록");
-		model.addAttribute("itemList", itemList);
+		
 		return "stock/item/item_list";
 	}
 	
@@ -57,25 +60,27 @@ public class ItemController {
 	 * @param model
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Item/{itemCode}")
 	public String itemInfo(
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
-		//품목코드 검사
-		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
+		//매개변수 검사
+		if(CommonUtils.isEmpty(itemCode)) return "redirect:/k1Item";
 		
 		//품목 상세정보
 		resultMap = itemService.getItemInfo(itemCode);
-		if(resultMap == null) return "redirect:/k1Item";
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Item";
 		
+		//품목정보
 		itemInfo = (Stock) resultMap.get("itemInfo");
-		itemList = (List<Stock>) resultMap.get("stockList");
+		log.info("재고 INFO :: {}", itemInfo);
+		model.addAttribute("i", itemInfo);
+		//해당 품목의 창고별 재고 현황
+		model.addAttribute("stockList", resultMap.get("stockList"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목정보");
-		model.addAttribute("i", itemInfo);
-		model.addAttribute("stockList", itemList);
+		
 		return "stock/item/item_info";
 	}
 	
@@ -110,13 +115,13 @@ public class ItemController {
 			@RequestParam(value="largeCategory", required = false) String largeCategory,
 			@RequestParam(value="middleCategory", required = false) String middleCategory,
 			@RequestParam(value="smallCategory", required = false) String smallCategory){
-		//parameter 확인
 		/*
-		 * log.info("largeCategory 	:: {}", largeCategory);
-		 * log.info("middleCategory 	:: {}", middleCategory);
-		 * log.info("smallCategory 	:: {}", smallCategory);
+		 * log.info("대분류 	:: {}", largeCategory);
+		 * log.info("중분류 	:: {}", middleCategory);
+		 * log.info("소분류 	:: {}", smallCategory);
 		 */
 		
+		//대분류, 중분류, 소분류, 소소분류 조회결과 Map 객체 반환
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
 		return resultMap;
 	}
@@ -131,9 +136,10 @@ public class ItemController {
 	public boolean itemNameValid(
 			@RequestParam(value="itemName", required = false) String itemName) {
 		
-		log.info("PARAMETER 	:: {}", itemName);
-		if(itemName == null || "".equals(itemName)) return false;
+		log.info("품목명 :: {}", itemName);
+		if(CommonUtils.isEmpty(itemName)) return false;
 		
+		//동일한 이름의 품목이 등록되어 있다면 true 반환
 		chk = itemService.itemNameValid(mainBusinessCode, itemName);
 		
 		return chk;
@@ -146,10 +152,12 @@ public class ItemController {
 	 */
 	@PostMapping("/k1ItemAdd")
 	public String addItem(Stock itemInfo) {
-		//parameter 확인
+		//매개변수 검사
+		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1ItemAdd";
 		itemInfo.setMainBusinessCode(mainBusinessCode);
-		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		log.info("품목 INFO :: {}", itemInfo.toString());
 		
+		//등록 절차 수행: 성공 시 true
 		chk = itemService.addItem(itemInfo);
 		
 		if(chk) return "redirect:/k1Item";
@@ -167,35 +175,43 @@ public class ItemController {
 			@PathVariable(value="itemCode", required=false) String itemCode
 			,Model model) {
 		//품목코드 검사
-		if(itemCode == null || "".equals(itemCode)) return "redirect:/k1Item";
+		if(CommonUtils.isEmpty(itemCode)) return "redirect:/k1Item";
 		
 		//품목정보반환
 		itemInfo = (Stock) itemService.getItemInfo(itemCode).get("itemInfo");
-		
-		//카테고리목록
-		model.addAttribute("largeCategory", itemService.getItemCategory(null, null, null).get("largeCategory"));
-		model.addAttribute("middleCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), null, null).get("middleCategory"));
-		model.addAttribute("smallCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), null).get("smallCategory"));
-		model.addAttribute("microCategory", itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory()).get("microCategory"));
-		
+		log.info("품목 INFO :: {}", itemInfo);
 		model.addAttribute("i", itemInfo);
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
+		
+		//카테고리목록 조회
+		resultMap = itemService.getItemCategory(itemInfo.getLargeCategory(), itemInfo.getMiddleCategory(), itemInfo.getSmallCategory());
+		if(CommonUtils.isEmpty(resultMap)) return "stock/item/item_modify";
+		
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
+		model.addAttribute("middleCategory", resultMap.get("middleCategory"));
+		model.addAttribute("smallCategory", resultMap.get("smallCategory"));
+		model.addAttribute("microCategory", resultMap.get("microCategory"));
+		
 		return "stock/item/item_modify";
 	}
 	
 	@PostMapping("/k1ItemModify")
 	public String modifyItem(Stock itemInfo) {
-		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		//품목 검사
+		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
+		log.info("품목 INFO :: {}", itemInfo.toString());
 		
 		return "redirect:/k1Item";
 	}
 	
 	@GetMapping("/k1ItemCategory")
 	public String itemCategory(Model model) {
+		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "카테고리");
+		
 		return "stock/item/item_category";
 	}
 }

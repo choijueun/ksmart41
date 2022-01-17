@@ -28,7 +28,17 @@ $(function(){
 			alert( "Request failed: " + textStatus );
 		});
 	});
-
+	
+	//DataTables
+    $('#stockList').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
 });
 </script>
 </th:block>
@@ -42,7 +52,7 @@ $(function(){
 <!-- content -->
 <div class="container-fluid">
 
-	<div class="card card-info card-outline">
+	<div class="card card-info card-outline mb-5">
 		<div class="card-header">
 			재고 목록
 		</div>

@@ -7,7 +7,22 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//DataTables
+	$('#shipmentList').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -52,9 +67,6 @@
 							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
 								[[${l.businessName}]]
 							</a>
-							<a th:if="${l.contractCode != null}" th:href="@{#}"> <!-- 계약서 상세정보 LINK -->
-								<button type="button" class="btn btn-outline-info btn-xs" th:if="${l.contractCode != null}">계약</button>
-							</a>
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
 						<td>[[${l.sendPlanDate}]]</td>
@@ -66,7 +78,9 @@
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1ShipmentPlanModify/${l.shipmentPlanCode}|}">
-								<i class="fas fa-pen"></i>
+								<button type="button" class="btn btn-info btn-sm">
+									<i class="fas fa-pen"></i>
+								</button>
 							</a>
 						</td>
 					</tr>

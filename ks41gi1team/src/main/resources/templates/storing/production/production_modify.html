@@ -195,7 +195,7 @@ $(function(){
 					<h3 class="card-title">제품생산 상세내역  수정</h3>
 				</div>
 				<div id="details" class="card-body">
-					<div class="row" th:if="${details ne null}" th:each="d : ${details}">
+					<div class="row" th:each="d : ${details}">
 						<div class="form-group col-lg-2 col-sm-6">
 							<input type="hidden" name="inventoryCode" th:value="${d.inventoryCode}" class="form-control">
 							<input type="text" name="itemName" class="form-control" th:value="${d.itemName}" placeholder="품목명">
@@ -221,7 +221,7 @@ $(function(){
 							</button>
 						</div>
 					</div>
-					<div class="row" th:if="${details eq null}">
+					<div class="row">
 						<div class="form-group col-lg-2 col-sm-6">
 							<input type="hidden" name="inventoryCode" class="form-control">
 							<input type="text" name="itemName" class="form-control" placeholder="품목명">
