@@ -55,6 +55,8 @@
 		FROM 
 			k1_tb_etc_purchase AS c		
 	</select>
+	
+	
 	<update id="costModify"  parameterType="Cost">
 		
 	</update>

@@ -81,11 +81,13 @@ public class CostController {
 	@GetMapping("/modify/{etcPurchaseCode}")
 	public String modifyCost(
 			@PathVariable(value="etcPurchaseCode", required=false) String etcPurchaseCode
-			,Model model) {
+			,Model model, Cost cost) {
+		Cost getCostInfo = costService.getCostInfo(etcPurchaseCode);
+		model.addAttribute("getCostInfo", getCostInfo);
 		
 		if(etcPurchaseCode != null && !"".equals(etcPurchaseCode)) {
-			Cost costInfo = costService.getCostInfoByCode(etcPurchaseCode);
-			model.addAttribute("costInfo", costInfo);
+			Cost getCostInfoByCode = costService.getCostInfoByCode(etcPurchaseCode);
+			model.addAttribute("getCostInfoByCode", getCostInfoByCode);
 		}
 		
 		model.addAttribute("title", "기타비용: 수정");
