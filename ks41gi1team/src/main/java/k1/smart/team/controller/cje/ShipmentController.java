@@ -114,6 +114,21 @@ public class ShipmentController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Shipment";
 		
+		//출하내역 상세정보 조회결과
+		resultMap = storingService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Shipment";
+		
+		//출하내역 한줄정보 Storing
+		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
+		log.info("창고이동내역 INFO :: {}", shipmentInfo);
+		model.addAttribute("s", shipmentInfo);
+		//출하내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("shipmentDetails"));
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "출하내역 수정");
+
+		
 		return "storing/shipment/shipment_modify";
 	}
 	
@@ -176,7 +191,6 @@ public class ShipmentController {
 	 * 출하계획 수정화면 첫페이지
 	 * @param shipmentPlanCode
 	 * @param model
-	 * @return
 	 */
 	@GetMapping("/k1ShipmentPlanModify/{shipmentPlanCode}")
 	public String modifyShipmentPlan(
@@ -185,6 +199,20 @@ public class ShipmentController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
 		
+		//출하계획 상세정보 조회결과
+		resultMap = storingService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ShipmentPlan";
+		
+		//출하계획 한줄정보 Storing
+		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
+		log.info("창고이동내역 INFO :: {}", shipmentInfo);
+		model.addAttribute("s", shipmentInfo);
+		//출하계획 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("shipPlanDetails"));
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "출하계획 수정");
+
 		return "storing/shipment/shipment_plan_modify";
 	}
 	
