@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class AdjustmentService {
 	private StoringMapper storingMapper;;
-	private List<Storing> adjList; //재고조정내역 배열
-	private Storing adjInfo; //재고조정내역 상세정보
+	private Storing storingInfo; //재고조정내역 상세정보
+	private List<Storing> storingList; //재고조정내역 배열
 	/**
 	 * 생성자 메서드
 	 * @param adjMapper
@@ -30,9 +30,7 @@ public class AdjustmentService {
 	 */
 	public List<Storing> getAllAdjList(String mainBusinessCode) {
 		//재고조정내역 전체목록
-		adjList = storingMapper.getAllStoringList(mainBusinessCode, "6");
-		
-		return adjList;
+		return storingMapper.getAllStoringList(mainBusinessCode, "6");
 	}
 	
 	/**
@@ -42,14 +40,14 @@ public class AdjustmentService {
 	 */
 	public Map<String, Object> getAdjInfo(String mainBusinessCode, String stockAdjCode) {
 		//한줄정보
-		adjInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "6");
-		if(CommonUtils.isEmpty(adjInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "6");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//상세정보(배열)
-		adjList = storingMapper.getAdjDetails(stockAdjCode);
+		storingList = storingMapper.getAdjDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("adjInfo", adjInfo);
-		resultMap.put("adjDetailList", adjList);
+		resultMap.put("adjInfo", storingInfo);
+		resultMap.put("adjDetailList", storingList);
 		
 		return resultMap;
 	}

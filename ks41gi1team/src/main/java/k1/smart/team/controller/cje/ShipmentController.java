@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.ShipmentService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class ShipmentController {
-	private final ShipmentService shipmentService;
+	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> shipmentList; //출하내역 배열
 	private Map<String, Object> resultMap;
@@ -23,8 +23,8 @@ public class ShipmentController {
 	 * 생성자 메서드
 	 * @param shipmentService
 	 */
-	public ShipmentController(ShipmentService shipmentService) {
-		this.shipmentService = shipmentService;
+	public ShipmentController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class ShipmentController {
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
 		//출하내역 전체목록 List<Storing>
-		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
+		shipmentList = storingService.getAllShipmentList(mainBusinessCode);
 		model.addAttribute("shipmentList", shipmentList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -56,7 +56,7 @@ public class ShipmentController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Shipment";
 		
 		//재고조정내역 상세정보 조회결과
-		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getShipmentInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Shipment";
 		
 		//재고조정내역 한줄정보 Storing
@@ -81,7 +81,7 @@ public class ShipmentController {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", shipmentService.getStockForStoring(mainBusinessCode, inventoryCode));
+			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -112,7 +112,7 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentPlan")
 	public String shipmentPlanMain(Model model) {
 		//출하계획 전체목록 List<Storing>
-		shipmentList = shipmentService.getShipmentPlanList(mainBusinessCode);
+		shipmentList = storingService.getShipmentPlanList(mainBusinessCode);
 		model.addAttribute("shipmentList", shipmentList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -134,7 +134,7 @@ public class ShipmentController {
 		if(CommonUtils.isEmpty(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 상세정보 조회결과
-		resultMap = shipmentService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		resultMap = storingService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 한줄정보 Storing

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.DefectService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class DefectController {
-	private final DefectService defectService;
+	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> defectList; //불량처리내역 배열
 	private Map<String, Object> resultMap;
@@ -23,8 +23,8 @@ public class DefectController {
 	 * 생성자 메서드
 	 * @param defectService
 	 */
-	public DefectController(DefectService defectService) {
-		this.defectService = defectService;
+	public DefectController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class DefectController {
 	@GetMapping("/k1Defect")
 	public String defectMain(Model model) {
 		//불량처리내역 전체목록 List<Storing> 반환 및 model 속성 추가
-		defectList = defectService.getAllDefectList(mainBusinessCode);
+		defectList = storingService.getAllDefectList(mainBusinessCode);
 		model.addAttribute("defectList", defectList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -58,7 +58,7 @@ public class DefectController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Defect";
 		
 		//불량처리내역 상세정보 조회결과
-		resultMap = defectService.getDefectInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getDefectInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Defect";
 		
 		//불량처리내역 한줄정보 Storing
@@ -85,7 +85,7 @@ public class DefectController {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", defectService.getStockForStoring(mainBusinessCode, inventoryCode));
+			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");

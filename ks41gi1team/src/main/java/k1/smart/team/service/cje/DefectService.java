@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class DefectService {
 	private StoringMapper storingMapper;
-	private List<Storing> defectList; //불량처리내역 배열
-	private Storing defectInfo; //불량처리내역 정보
+	private Storing storingInfo; //불량처리내역 정보
+	private List<Storing> storingList; //불량처리내역 배열
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -31,9 +31,7 @@ public class DefectService {
 	 */
 	public List<Storing> getAllDefectList(String mainBusinessCode){
 		//불량처리내역 전체목록
-		defectList = storingMapper.getAllStoringList(mainBusinessCode, "8");
-		
-		return defectList;
+		return storingMapper.getAllStoringList(mainBusinessCode, "8");
 	}
 	
 	/**
@@ -44,15 +42,15 @@ public class DefectService {
 	 */
 	public Map<String, Object> getDefectInfo(String mainBusinessCode, String stockAdjCode) {
 		//불량처리내역 한줄정보 조회
-		defectInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "8");
-		if(CommonUtils.isEmpty(defectInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "8");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		
 		//불량처리내역 상세정보 배열
-		defectList = storingMapper.getDefectDetails(stockAdjCode);
+		storingList = storingMapper.getDefectDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("defectInfo", defectInfo);
-		resultMap.put("defectDetail", defectList);
+		resultMap.put("defectInfo", storingInfo);
+		resultMap.put("defectDetail", storingList);
 		
 		return resultMap;
 	}

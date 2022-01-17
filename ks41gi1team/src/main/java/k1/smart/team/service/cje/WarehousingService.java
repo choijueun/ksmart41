@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class WarehousingService {
 	private StoringMapper storingMapper;
-	private Storing warehousingInfo; //자재사용내역 하나
-	private List<Storing> warehousingList; //자재사용내역 배열
+	private Storing storingInfo; //자재사용내역 하나
+	private List<Storing> storingList; //자재사용내역 배열
 
 	/**
 	 * 생성자 메서드
@@ -31,9 +31,9 @@ public class WarehousingService {
 	 * @return
 	 */
 	public List<Storing> getAllWarehousingList(String mainBusinessCode) {
-		warehousingList = storingMapper.getAllStoringList(mainBusinessCode, "1");
+		storingList = storingMapper.getAllStoringList(mainBusinessCode, "1");
 		
-		return warehousingList;
+		return storingList;
 	}
 	
 	/**
@@ -44,14 +44,14 @@ public class WarehousingService {
 	 */
 	public Map<String, Object> getWarehousingInfo(String mainBusinessCode, String stockAdjCode) {
 		//입고내역 정보
-		warehousingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "1");
-		if(CommonUtils.isEmpty(warehousingInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "1");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//입고내역 상세정보 배열
-		warehousingList = storingMapper.getWarehousingDetails(stockAdjCode);
+		storingList = storingMapper.getWarehousingDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("warehousingInfo", warehousingInfo);
-		resultMap.put("warehousingDetails", warehousingList);
+		resultMap.put("warehousingInfo", storingInfo);
+		resultMap.put("warehousingDetails", storingList);
 		
 		return resultMap;
 	}

@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class MaterialUseService {
 	private StoringMapper storingMapper;
-	private Storing materialUseInfo; //자재사용내역 하나
-	private List<Storing> materialUseList; //자재사용내역 배열
+	private Storing storingInfo; //자재사용내역 하나
+	private List<Storing> storingList; //자재사용내역 배열
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -30,9 +30,7 @@ public class MaterialUseService {
 	 * @return
 	 */
 	public List<Storing> getAllMaterialUseList(String mainBusinessCode) {
-		materialUseList = storingMapper.getAllStoringList(mainBusinessCode, "2");
-		
-		return materialUseList;
+		return storingMapper.getAllStoringList(mainBusinessCode, "2");
 	}
 	
 	/**
@@ -43,14 +41,14 @@ public class MaterialUseService {
 	 */
 	public Map<String, Object> getMaterialUseInfo(String mainBusinessCode, String stockAdjCode) {
 		//자재사용내역 정보
-		materialUseInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "2");
-		if(CommonUtils.isEmpty(materialUseInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "2");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//자재사용내역 상세정보 배열
-		materialUseList = storingMapper.getMaterialUseDetails(stockAdjCode);
+		storingList = storingMapper.getMaterialUseDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("materialUseInfo", materialUseInfo);
-		resultMap.put("materialUseDetails", materialUseList);
+		resultMap.put("materialUseInfo", storingInfo);
+		resultMap.put("materialUseDetails", storingList);
 		
 		return resultMap;
 	}

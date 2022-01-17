@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class MovingService {
 	private StoringMapper storingMapper;
-	private Storing movingInfo; //창고이동내역 하나
-	private List<Storing> movingList; //창고이동내역 배열
+	private Storing storingInfo; //창고이동내역 하나
+	private List<Storing> storingList; //창고이동내역 배열
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -30,9 +30,7 @@ public class MovingService {
 	 * @return
 	 */
 	public List<Storing> getAllShipmentList(String mainBusinessCode) {
-		movingList = storingMapper.getAllStoringList(mainBusinessCode, "4");
-		
-		return movingList;
+		return storingMapper.getAllStoringList(mainBusinessCode, "4");
 	}
 	
 	/**
@@ -42,14 +40,14 @@ public class MovingService {
 	 */
 	public Map<String,Object> getMovingInfo(String mainBusinessCode, String stockAdjCode) {
 		//창고이동내역 정보
-		movingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "4");
-		if(CommonUtils.isEmpty(movingInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "4");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//창고이동내역 상세정보 배열
-		movingList = storingMapper.getMovingDetails(stockAdjCode);
+		storingList = storingMapper.getMovingDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("movingInfo", movingInfo);
-		resultMap.put("movingDetails", movingList);
+		resultMap.put("movingInfo", storingInfo);
+		resultMap.put("movingDetails", storingList);
 		
 		return resultMap;
 	}

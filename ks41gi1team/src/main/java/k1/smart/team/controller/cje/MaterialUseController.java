@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.MaterialUseService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class MaterialUseController {
-	private final MaterialUseService materialUseService;
+	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> materialUseList; //출하내역 배열
 	private Map<String, Object> resultMap;
@@ -23,8 +23,8 @@ public class MaterialUseController {
 	 * 생성자 메서드
 	 * @param materialUseService
 	 */
-	public MaterialUseController(MaterialUseService materialUseService) {
-		this.materialUseService = materialUseService;
+	public MaterialUseController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class MaterialUseController {
 	@GetMapping("/k1MaterialUse")
 	public String materialUseMain(Model model) {
 		//자재사용내역 전체목록 List<Storing>
-		materialUseList = materialUseService.getAllMaterialUseList(mainBusinessCode);
+		materialUseList = storingService.getAllMaterialUseList(mainBusinessCode);
 		model.addAttribute("materialUseList", materialUseList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -58,7 +58,7 @@ public class MaterialUseController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
 		//자재사용내역 상세정보 조회결과
-		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
 		
 		//자재사용내역 한줄정보 Storing
@@ -86,7 +86,7 @@ public class MaterialUseController {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", materialUseService.getStockForStoring(mainBusinessCode, inventoryCode));
+			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -95,6 +95,11 @@ public class MaterialUseController {
 		return "storing/material_use/material_use_add";
 	}
 	
+	/**
+	 * 자재사용내역 수정화면
+	 * @param stockAdjCode
+	 * @param model
+	 */
 	@GetMapping("/k1MaterialUseModify/{stockAdjCode}")
 	public String modifyMaterialUse(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
@@ -103,7 +108,7 @@ public class MaterialUseController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1MaterialUse";
 		
 		//자재사용내역 상세정보 조회결과
-		resultMap = materialUseService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getMaterialUseInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1MaterialUse";
 
 		//자재사용내역 한줄정보 Storing

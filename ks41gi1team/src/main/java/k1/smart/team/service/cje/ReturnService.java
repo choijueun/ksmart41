@@ -14,8 +14,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 public class ReturnService {
 	private StoringMapper storingMapper;
-	private List<Storing> returnList; //반품처리내역 배열
-	private Storing returnInfo; //반품처리내역 하나
+	private Storing storingInfo; //반품처리내역 하나
+	private List<Storing> storingList; //반품처리내역 배열
 	
 	/**
 	 * 생성자 메서드
@@ -31,9 +31,7 @@ public class ReturnService {
 	 * @return 배열
 	 */
 	public List<Storing> getAllReturnList(String mainBusinessCode) {
-		returnList = storingMapper.getAllStoringList(mainBusinessCode, "7");
-		
-		return returnList;
+		return storingMapper.getAllStoringList(mainBusinessCode, "7");
 	}
 	
 	/**
@@ -44,14 +42,14 @@ public class ReturnService {
 	 */
 	public Map<String, Object> getReturnInfo(String mainBusinessCode, String stockAdjCode) {
 		//반품처리내역 정보
-		returnInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "7");
-		if(CommonUtils.isEmpty(returnInfo)) return null;
+		storingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "7");
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//반품처리내역 상세정보 조회
-		returnList = storingMapper.getReturnDetails(stockAdjCode);
+		storingList = storingMapper.getReturnDetails(stockAdjCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("returnInfo", returnInfo);
-		resultMap.put("returnDetails", returnList);
+		resultMap.put("returnInfo", storingInfo);
+		resultMap.put("returnDetails", storingList);
 		
 		return resultMap;
 	}
@@ -62,9 +60,7 @@ public class ReturnService {
 	 * @return
 	 */
 	public List<Storing> getReturnRegList(String mainBusinessCode) {
-		returnList = storingMapper.getReturnRegList(mainBusinessCode);
-		
-		return returnList;
+		return storingMapper.getReturnRegList(mainBusinessCode);
 	}
 	
 	/**
@@ -74,14 +70,14 @@ public class ReturnService {
 	 */
 	public Map<String, Object> getReturnRegInfo(String returnRegCode) {
 		//반품요청내역 정보
-		returnInfo = storingMapper.getReturnRegInfo(returnRegCode);
-		if(CommonUtils.isEmpty(returnInfo)) return null;
+		storingInfo = storingMapper.getReturnRegInfo(returnRegCode);
+		if(CommonUtils.isEmpty(storingInfo)) return null;
 		//반품요청내역 상세정보 배열
-		returnList = storingMapper.getReturnRegDetails(returnRegCode);
+		storingList = storingMapper.getReturnRegDetails(returnRegCode);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("returnRegInfo", returnInfo);
-		resultMap.put("returnRegDetails", returnList);
+		resultMap.put("returnRegInfo", storingInfo);
+		resultMap.put("returnRegDetails", storingList);
 		
 		return resultMap;
 	}

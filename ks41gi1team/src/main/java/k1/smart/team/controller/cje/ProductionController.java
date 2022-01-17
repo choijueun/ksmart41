@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.ProductionService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class ProductionController {
-	private final ProductionService productionService;
+	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> productionList; //출하내역 배열
 	private Map<String, Object> resultMap;
@@ -23,8 +23,8 @@ public class ProductionController {
 	 * 생성자 메서드
 	 * @param productionService
 	 */
-	public ProductionController(ProductionService productionService) {
-		this.productionService = productionService;
+	public ProductionController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class ProductionController {
 	@GetMapping("/k1Production")
 	public String productionMain(Model model) {
 		//제품생산내역 전체목록 List<Storing>
-		productionList = productionService.getAllProductionList(mainBusinessCode);
+		productionList = storingService.getAllProductionList(mainBusinessCode);
 		model.addAttribute("productionList", productionList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -58,7 +58,7 @@ public class ProductionController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Production";
 		
 		//제품생산내역 상세정보 조회결과
-		resultMap = productionService.getProductionInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getProductionInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Production";
 		
 		//제품생산내역 한줄정보 Storing
@@ -84,7 +84,7 @@ public class ProductionController {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", productionService.getStockForStoring(mainBusinessCode, inventoryCode));
+			model.addAttribute("s", storingService.getStockForStoring(mainBusinessCode, inventoryCode));
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -107,7 +107,7 @@ public class ProductionController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Production";
 		
 		//제품생산내역 상세정보 조회결과
-		resultMap = productionService.getProductionInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getProductionInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Production";
 		
 		//제품생산내역 한줄정보 Storing
