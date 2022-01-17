@@ -180,6 +180,7 @@
 			   LPAD(CAST(MAX(RIGHT(c.itemCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
 			FROM 
 			   k1_tb_item_info AS c)
+		)
 		,#{mainBusinessCode}
 		,#{itemName}
 		,#{itemType}
