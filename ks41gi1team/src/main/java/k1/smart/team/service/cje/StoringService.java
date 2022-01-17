@@ -39,6 +39,8 @@ public class StoringService {
 		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
 		//최근 물류이동 현황
 		resultMap.put("recentStoring", storingMapper.getRecentStoring(mainBusinessCode));
+		//최근 생산·출하 현황
+		resultMap.put("recentProShip", storingMapper.getRecentProShip(mainBusinessCode));
 		
 		//물류이동내역이 없다면
 		if(CommonUtils.isEmpty(storingList)) {

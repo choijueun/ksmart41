@@ -31,6 +31,12 @@ public interface StoringMapper {
 	 */
 	public Map<String,Object> getRecentStoring(String mainBusinessCode);
 	
+	/**
+	 * 최근 7일간 날짜별 생산·출하 횟수
+	 * @param mainBusinessCode
+	 */
+	public List<Map<String, Object>> getRecentProShip(String mainBusinessCode);
+	
 	//1. 자재입고 상세내역 배열
 	public List<Storing> getWarehousingDetails(String stockAdjCode);
 	//2. 자재사용 상세내역 배열

@@ -42,8 +42,13 @@ public class StoringController {
 		resultMap = storingService.getAllStoringList(mainBusinessCode);
 		if(CommonUtils.isEmpty(resultMap)) return "storing/storing_history";
 
-		//최근 물류내역
+		//최근 물류이동 현황
+		log.info("최근 물류이동 :: {}", resultMap.get("recentStoring"));
 		model.addAttribute("recentStoring", resultMap.get("recentStoring"));
+		//최근 생산출하 현황
+		log.info("최근 생산출하 :: {}", resultMap.get("recentProShip"));
+		model.addAttribute("recentProShip", resultMap.get("recentProShip"));
+		
 		//물류 전체목록
 		storingList = (List<Storing>) resultMap.get("storingList");
 		log.info("물류이동내역 LIST :: {}", storingList);

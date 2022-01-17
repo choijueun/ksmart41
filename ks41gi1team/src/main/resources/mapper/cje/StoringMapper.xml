@@ -151,6 +151,44 @@
 		) AS s8;
 </select>
 
+<!-- 최근 7일간 생산·출하 횟수 -->
+<select id="getRecentProShip" parameterType="String" resultType="map">
+	SELECT
+		 p.productCnt
+		,s.shipmentCnt
+		,p.adjDate
+	FROM
+		(SELECT
+			 COUNT(*) AS productCnt
+			,p.adjDate
+		FROM
+			k1_tb_stock_adjustment AS p
+		WHERE
+			stockReasonCode = 3
+			AND p.adjDate > SUBDATE(CURDATE(), 7)
+			AND p.mainBusinessCode = #{mainBusinessCode}
+		GROUP BY
+			p.adjDate
+		) AS p
+		JOIN
+		(SELECT
+			 COUNT(*) AS shipmentCnt
+			,s.adjDate
+		FROM
+			k1_tb_stock_adjustment AS s
+		WHERE
+			stockReasonCode = 5
+			AND s.adjDate > SUBDATE(CURDATE(), 7)
+			AND s.mainBusinessCode = #{mainBusinessCode}
+		GROUP BY
+			s.adjDate
+		) AS s
+		ON
+		p.adjDate = s.adjDate
+	GROUP BY
+		p.adjDate;
+</select>
+
 <!-- 물류이동내역 한줄 -->
 <select id="getStoringInfo" parameterType="String" resultType="Storing">
 	SELECT 
