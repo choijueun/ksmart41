@@ -69,7 +69,7 @@
 						</td>
 						<td>[[${l.dealDate}]]</td>
 						<td>[[${l.reportPoint}]]</td>
-						<td>[[${l.amount}]]</td>
+						<td>[[${#numbers.formatInteger(l.amount,0,'COMMA')}]]원</td>
 						<td>[[${l.briefs}]]</td>
 						<td>
 							<a th:href="@{|/k1CostList/modify/${l.etcPurchaseCode}|}">

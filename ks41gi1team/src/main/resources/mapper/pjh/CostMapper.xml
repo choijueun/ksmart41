@@ -49,4 +49,13 @@
 		,NOW()
 		,NOW());
 	</insert>
+	<select id="getAddCostCode" resultType="String">
+		SELECT 
+			CONCAT(SUBSTRING(c.etcPurchaseCode,1,17),MAX(SUBSTRING(c.etcPurchaseCode,18))+1)
+		FROM 
+			k1_tb_etc_purchase AS c		
+	</select>
+	<update id="costModify"  parameterType="Cost">
+		
+	</update>
 </mapper>

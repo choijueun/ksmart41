@@ -56,6 +56,7 @@ public class CostController {
 		return "cost/cost_detail";
 	}	
 	
+	//비용 등록
 	@PostMapping("/add")
 	public String addCost(Cost cost) {
 		System.out.println("CostController 회원등록 화면에서 입력받은 값: " + cost);
@@ -65,17 +66,28 @@ public class CostController {
 		}
 		return "redirect:/k1CostList";
 	}
-	
+	//비용등록 페이지
 	@GetMapping("/add")
 	public String addCost(Model model) {
 		model.addAttribute("title", "기타비용: 등록");
+		
+		String addCostCode = costService.getAddCostCode();
+		model.addAttribute("addCostCode", addCostCode);
+		
 		return "cost/cost_register";
 	}
 	
+	//비용 수정 페이지
 	@GetMapping("/modify/{etcPurchaseCode}")
 	public String modifyCost(
 			@PathVariable(value="etcPurchaseCode", required=false) String etcPurchaseCode
 			,Model model) {
+		
+		if(etcPurchaseCode != null && !"".equals(etcPurchaseCode)) {
+			Cost costInfo = costService.getCostInfoByCode(etcPurchaseCode);
+			model.addAttribute("costInfo", costInfo);
+		}
+		
 		model.addAttribute("title", "기타비용: 수정");
 		model.addAttribute("etcPurchaseCode", etcPurchaseCode);
 		return "cost/cost_modify";
