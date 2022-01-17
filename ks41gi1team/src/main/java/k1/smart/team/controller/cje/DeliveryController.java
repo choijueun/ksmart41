@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,11 @@ import k1.smart.team.service.cje.DeliveryService;
 public class DeliveryController {
 	private final DeliveryService deliveryService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드 임시지정
+	private Delivery deliveryInfo; //운송요청내역 정보
 	private List<Delivery> deliveryList; //운송요청정보 배열
 	private Map<String,Object> resultMap;
+	private static final Logger log = LoggerFactory.getLogger(DeliveryController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param delivryService
@@ -33,8 +38,9 @@ public class DeliveryController {
 	 */
 	@GetMapping("/k1Delivery")
 	public String deliveryMain(Model model) {
-		//재고조정내역 전체목록 List<Delivery> 반환 및 model 속성 추가
+		//운송내역 전체목록 List<Delivery> 반환 및 model 속성 추가
 		deliveryList = deliveryService.getAllDeliveryList(mainBusinessCode);
+		log.info("운송요청내역 LIST :: {}", deliveryList);
 		model.addAttribute("deliveryList", deliveryList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -60,7 +66,9 @@ public class DeliveryController {
 		resultMap = deliveryService.getDeliveryInfo(mainBusinessCode, deliveryCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Delivery";
 		
-		//운송내역정보
+		//운송요청정보
+		deliveryInfo = (Delivery) resultMap.get("deliveryInfo");
+		log.info("운송요청 INFO :: {}", deliveryInfo);
 		model.addAttribute("d", resultMap.get("deliveryInfo"));
 		//출하예정정보
 		model.addAttribute("shipPlanDetails", resultMap.get("shipPlanDetails"));
