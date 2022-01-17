@@ -4,17 +4,363 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//datetimepicker
+	$('#planDate').datetimepicker({
+		format: 'yy-mm-DD'
+	});
+	$('#requestDate').datetimepicker({
+		format: 'yy-mm-DD'
+	});
+	$('#adjDate').datetimepicker({
+		format: 'yy-mm-DD'
+	});
+	$('#endDate').datetimepicker({
+		format: 'yy-mm-DD'
+	});
+	
+	//상세내역 폼 추가
+	var details = $('#details');
+	var detailrow = $('#details .row:first-of-type');
+	$(document).on('click', '#addLine', function(){
+		var clone = detailrow.clone();
+		clone.find('input').val('');
+		details.append(clone);
+	});
+	//상세내역 폼 삭제
+	var removeLine = $('button.removeLine')
+	$(document).on('click', '.removeLine', function(){
+		$(this).parents('#details .row').remove();
+	});
+	
+	//수·발주 선택
+	var selectType = $('#selectType');
+	var orderCode = $('#orderCode');
+	var warehouse = $('#warehouse');
+	var planDate = $('#planDate');
+	$(document).on('change', '#selectType', function(){
+		console.log(selectType);
+		if(selectType.val() == 'in') {
+			orderCode.attr('name', 'productOrderCode');
+			warehouse.attr('name', 'receiveWarehouse');
+			planDate.find('input').attr('name', 'receivePlanDate');
+			planDate.siblings('label').text('수송예정일');
+		}else if (selectType.val() == 'go') {
+			orderCode.attr('name', 'materialOrderCode');
+			warehouse.attr('name', 'sendWarehouse');
+			planDate.find('input').attr('name', 'sendPlanDate');
+			planDate.siblings('label').text('발송예정일');
+		}
+	});
+	
+	//합계중량 구하기
+	var totalWeight = $('#totalWeight');
+	$(document).on('keyup', 'input[name="adjWeight"]', function(){
+		var sum=0;
+		$('input[name="adjWeight"]').each(function(){
+			sum += Number($(this).val());
+		});
+		totalWeight.val(sum);
+	});
+	//합계금액 구하기
+	var totalPrice = $('#totalPrice');
+	$(document).on('keyup', 'input[name="adjCount"]', function(){
+		var sum=0;
+		$('input[name="adjCount"]').each(function(){
+			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input[name="unitPrice"]').val() );
+		});
+		totalPrice.val(sum);
+	});
+	$(document).on('keyup', 'input[name="unitPrice"]', function(){
+		var sum=0;
+		$('input[name="unitPrice"]').each(function(){
+			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input[name="adjCount"]').val() );
+		});
+		totalPrice.val(sum);
+	});
+	
+	//거래처정보 Modal
+	
+	//계약서 Modal
+	
+	//창고목록 Modal
+	
+	//출하계획 Modal
+	
+	//운송요청 Modal
+	
+	//회원정보 Modal
+	
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					<h3 class="card-title">반품처리내역  등록</h3>
+				</div>
+				<div class="card-body">
+					<form id="modifyShipment"th:action="@{/k1ReturnModify}" method="POST">
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="selectType">
+									유형
+								</label>
+								<select id="selectType" class="form-control">
+									<option value="in" th:selected="${s.sendWarehouse} != null">수송</option>
+									<option value="go" th:selected="${s.receiveWarehouse} != null">발송</option>
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="orderCode">
+									주문내역
+								</label>
+								<input type="text" id="orderCode" name="materialOrderCode" th:if="${s.materialOrderCode} != null and ${s.productOrderCode} == null"
+										th:value="${s.materialOrderCode}" class="form-control">
+								<input type="text" id="orderCode" name="productOrderCode" th:if="${s.materialOrderCode} == null and ${s.productOrderCode} != null"
+										th:value="${s.productOrderCode}" class="form-control">
+								<input type="text" id="orderCode" th:if="${s.materialOrderCode} == null and ${s.productOrderCode} == null"
+										class="form-control">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="contractCode">
+									계약서
+								</label>
+								<input type="text" id="contractCode" name="contractCode" th:value="${s.contractCode}" class="form-control">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="businessName">
+									거래처
+								</label>
+								<input type="hidden" id="clientCode" name="clientCode" th:value="${s.clientCode}">
+								<input type="text" id="businessName" th:value="${s.businessName}" class="form-control" placeholder="거래처 상호">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="deliveryCode">
+									운송요청내역
+								</label>
+								<input type="text" id="deliveryCode" name="deliveryCode" th:value="${s.deliveryCode}" class="form-control" placeholder="deliveryCode">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="returnRegCode">
+									반품요청내역
+								</label>
+								<input type="text" id="returnRegCode" name="returnRegCode" th:value="${s.returnRegCode}" class="form-control" placeholder="returnRegCode">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="warehouse">
+									창고
+								</label>
+								<input type="hidden" id="warehouse" name="sendWarehouse" th:if="${s.sendWarehouse} != null and ${s.receiveWarehouse} == null" 
+										th:value="${s.sendWarehouse}" class="form-control">
+								<input type="hidden" id="warehouse" name="receiveWarehouse" th:if="${s.sendWarehouse} == null and ${s.receiveWarehouse} != null" 
+										th:value="${s.receiveWarehouse}" class="form-control">
+								<input type="hidden" id="warehouse" th:if="${s.sendWarehouse} == null and ${s.receiveWarehouse} == null" 
+										class="form-control">
+								<input type="text" id="warehouseName" th:if="${s.sendWarehouseName} != null and ${s.receiveWarehouseName} == null" 
+										th:value="${s.sendWarehouseName}" class="form-control" placeholder="창고명">
+								<input type="text" id="warehouseName" th:if="${s.sendWarehouseName} == null and ${s.receiveWarehouseName} != null" 
+										th:value="${s.receiveWarehouseName}" class="form-control" placeholder="창고명">
+								<input type="text" id="warehouseName" th:if="${s.sendWarehouseName} == null and ${s.receiveWarehouseName} == null" 
+										class="form-control" placeholder="창고명">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="warehouseLocation">
+									위치(소재지)
+								</label>
+								<input type="text" id="warehouseLocation" th:if="${s.sendWarehouseLocation} != null and ${s.receiveWarehouseLocation} == null" 
+										th:value="${s.sendWarehouseLocation}" class="form-control" readonly>
+								<input type="text" id="warehouseLocation" th:if="${s.sendWarehouseLocation} == null and ${s.receiveWarehouseLocation} != null" 
+										th:value="${s.receiveWarehouseLocation}" class="form-control" readonly>
+								<input type="text" id="warehouseLocation" th:if="${s.sendWarehouseLocation} == null and ${s.receiveWarehouseLocation} == null" 
+										class="form-control" readonly>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label for="planDate">수송예정일</label>
+								<div class="input-group date" id="planDate" data-target-input="nearest">
+									<input type="text" name="sendPlanDate" th:if="${s.sendPlanDate} != null and ${s.receivePlanDate} == null" 
+											th:value="${s.sendPlanDate}" class="form-control datetimepicker-input" data-target="#planDate">
+									<input type="text" name="receivePlanDate" th:if="${s.sendPlanDate} == null and ${s.receivePlanDate} != null" 
+											th:value="${s.receivePlanDate}" class="form-control datetimepicker-input" data-target="#planDate">
+									<input type="text" th:if="${s.sendPlanDate} == null and ${s.receivePlanDate} == null" 
+											class="form-control datetimepicker-input" data-target="#planDate">
+									<div class="input-group-append" data-target="#planDate" data-toggle="datetimepicker">
+										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="totalPrice">
+									합계금액
+								</label>
+								<input type="text" id="totalPrice" name="totalPrice" th:value="${s.totalPrice}" class="form-control" placeholder="totalPrice" readonly>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="totalWeight">
+									합계중량
+								</label>
+								<input type="number" id="totalWeight" name="totalWeight" th:value="${s.totalWeight}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="shipmentPlanCode">
+									출하계획내역
+								</label>
+								<input type="text" id="shipmentPlanCode" name="shipmentPlanCode" th:value="${s.shipmentPlanCode}" class="form-control" placeholder="shipmentPlanCode">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="deliveryCode">
+									운송요청내역
+								</label>
+								<input type="text" id="deliveryCode" name="deliveryCode" th:value="${s.deliveryCode}" class="form-control" placeholder="deliveryCode">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="deliveryCost">
+									운송비
+								</label>
+								<input type="number" id="deliveryCost" name="deliveryCost" th:value="${s.deliveryCost}" class="form-control">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-lg-8">
+								<label for="briefs">
+									적요
+								</label>
+								<input type="text" id="briefs" name="briefs" th:value="${s.briefs}" class="form-control" placeholder="적요를 입력하세요.">
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="managerId">
+									담당자
+								</label>
+								<input type="hidden" id="managerId" name="managerId" th:value="${s.managerId}" class="form-control">
+								<input type="text" id="managerName" th:value="${s.managerName}" class="form-control" placeholder="담당자">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label>요청일자</label>
+								<div class="input-group date" id="requestDate" data-target-input="nearest">
+									<input type="text" name="requestDate" th:value="${s.requestDate}" class="form-control datetimepicker-input" data-target="#requestDate">
+									<div class="input-group-append" data-target="#requestDate" data-toggle="datetimepicker">
+										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>처리일자</label>
+								<div class="input-group date" id="adjDate" data-target-input="nearest">
+									<input type="text" name="adjDate" th:value="${s.adjDate}" class="form-control datetimepicker-input" data-target="#adjDate">
+									<div class="input-group-append" data-target="#adjDate" data-toggle="datetimepicker">
+										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>완료일자</label>
+								<div class="input-group date" id="endDate" data-target-input="nearest">
+									<input type="text" name="endDate" th:value="${s.endDate}" class="form-control datetimepicker-input" data-target="#endDate">
+									<div class="input-group-append" data-target="#endDate" data-toggle="datetimepicker">
+										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<a th:href="@{/k1Return}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					<h3 class="card-title">반품처리 상세내역  등록</h3>
+				</div>
+				<div id="details" class="card-body">
+					<div class="row" th:each="d : ${details}">
+						<div class="form-group col-lg-2 col-sm-6">
+							<input type="hidden" name="inventoryCode" th:value="${d.inventoryCode}" class="form-control">
+							<input type="text" th:value="${d.itemName}" class="form-control"  placeholder="품목명">
+						</div>
+						<div class="form-group col-lg-1 col-sm-6">
+							<input type="number" name="unitPrice" th:value="${d.unitPrice}" class="form-control" placeholder="비용">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="number" name="adjCount" th:value="${d.adjCount}" class="form-control" placeholder="입고수량">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="number" name="adjWeight" th:value="${d.adjWeight}" class="form-control" placeholder="입고중량">
+						</div>
+						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+							<input type="text" name="status" th:value="${d.status}" class="form-control" placeholder="상태">
+						</div>
+						<div class="form-group col-lg-2 col-sm-8">
+							<input type="text" name="comment" th:value="${d.comment}" class="form-control" placeholder="비고">
+						</div>
+						<div class="form-group col-lg-1 col-sm-4">
+							<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+						<i class="far fa-plus-square"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="Modal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">모달 제목</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				
+					<!-- INSERT HTML -->
+				
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+</div>
 </th:block>
 
 </html>
