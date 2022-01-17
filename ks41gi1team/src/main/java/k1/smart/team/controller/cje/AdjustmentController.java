@@ -115,10 +115,19 @@ public class AdjustmentController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Adjustment";
 		
-		model.addAttribute("stockAdjCode", stockAdjCode);
+		//재고조정내역 상세정보 조회결과
+		resultMap = storingService.getAdjInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
+		
+		//재고조정내역 한줄정보 Storing
+		adjInfo = (Storing) resultMap.get("adjInfo");
+		log.info("자재입고내역 수정화면 INFO :: {}", adjInfo);
+		model.addAttribute("s", adjInfo);
+		//자재입고내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("adjDetailList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "재고차이조정");
+		model.addAttribute("SectionLocation", "재고조정내역 수정");
 		
 		return "storing/adjustment/adjustment_modify";
 	}
