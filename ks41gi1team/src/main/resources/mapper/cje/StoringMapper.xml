@@ -256,6 +256,8 @@
 		,a.briefs
 		,a.managerId
 		,u.userName AS managerName
+		,a.sendPlanDate
+		,a.receivePlanDate
 		,a.requestDate
 		,a.adjDate
 		,a.endDate

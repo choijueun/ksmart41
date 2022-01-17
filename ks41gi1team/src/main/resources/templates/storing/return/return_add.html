@@ -29,7 +29,7 @@ $(function(){
 	$('.date').find('input').val(dateToday);
 	
 	//datetimepicker
-	$('#sendPlanDate').datetimepicker({
+	$('#planDate').find('input').datetimepicker({
 		format: 'yy-mm-DD'
 	});
 	$('#requestDate').datetimepicker({
@@ -66,12 +66,12 @@ $(function(){
 		if(selectType.val() == 'in') {
 			orderCode.attr('name', 'productOrderCode');
 			warehouse.attr('name', 'receiveWarehouse');
-			planDate.attr('name', 'receivePlanDate');
+			planDate.find('input').attr('name', 'receivePlanDate');
 			planDate.siblings('label').text('수송예정일');
 		}else if (selectType.val() == 'go') {
 			orderCode.attr('name', 'materialOrderCode');
 			warehouse.attr('name', 'sendWarehouse');
-			planDate.attr('name', 'sendPlanDate');
+			planDate.find('input').attr('name', 'sendPlanDate');
 			planDate.siblings('label').text('발송예정일');
 		}
 	});
@@ -131,7 +131,7 @@ $(function(){
 					<h3 class="card-title">반품처리내역  등록</h3>
 				</div>
 				<div class="card-body">
-					<form id="addShipment"th:action="@{/k1ShipmentAdd}" method="POST">
+					<form id="addReturn"th:action="@{/k1ReturnAdd}" method="POST">
 						<div class="row">
 							<div class="form-group col-md-4">
 								<label for="selectType">
@@ -281,7 +281,7 @@ $(function(){
 					</form>
 				</div>
 				<div class="card-footer">
-					<a th:href="@{/k1Shipment}">
+					<a th:href="@{/k1Return}">
 						<button type="button" class="btn btn-default">목록으로</button>
 					</a>
 					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
