@@ -9,10 +9,17 @@ import k1.smart.team.dto.cje.Storing;
 
 @Mapper
 public interface DeliveryMapper {
-	//전체 운송내역 조회
+	/**
+	 * 전체 운송내역 조회
+	 * @param mainBusinessCode
+	 */
 	public List<Delivery> getAllDeliveryList(String mainBusinessCode);
 	
-	//운송내역 상세조회
+	/**
+	 * 운송내역 상세조회
+	 * @param mainBusinessCode
+	 * @param deliveryCode
+	 */
 	public Delivery getDeliveryInfo(String mainBusinessCode, String deliveryCode);
 	//출하계획
 	public List<Storing> getShipPlanDetails(String shipmentPlanCode);

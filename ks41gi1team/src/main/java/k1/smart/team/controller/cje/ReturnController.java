@@ -18,7 +18,6 @@ public class ReturnController {
 	private final ReturnService returnService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private List<Storing> returnList; //반품처리내역 배열
-	private Storing returnInfo; //반품처리내역 하나
 	private Map<String, Object> resultMap;
 	/**
 	 * 생성자 메서드

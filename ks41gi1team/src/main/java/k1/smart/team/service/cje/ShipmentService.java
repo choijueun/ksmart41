@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
@@ -15,7 +16,6 @@ public class ShipmentService {
 	private final StoringMapper storingMapper;
 	private Storing shipmentInfo; //출하내역 하나
 	private List<Storing> shipmentList; //출하내역 배열
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	/**
 	 * 생성자 메서드
@@ -43,11 +43,13 @@ public class ShipmentService {
 	 * @return
 	 */
 	public Map<String, Object> getShipmentInfo(String mainBusinessCode, String stockAdjCode) {
+		//출하내역 정보
 		shipmentInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "5");
-		if(shipmentInfo == null) return null;
+		if(CommonUtils.isEmpty(shipmentInfo)) return null;
+		//출하내역 상세정보 배열
 		shipmentList = storingMapper.getShipmentDetails(stockAdjCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("shipmentInfo", shipmentInfo);
 		resultMap.put("shipmentDetails", shipmentList);
 		
@@ -66,17 +68,19 @@ public class ShipmentService {
 	}
 	
 	/**
-	 * 출하내역 상세조회
+	 * 출하계획 상세조회
 	 * @param mainBusinessCode
 	 * @param shipmentPlanCode
 	 * @return
 	 */
 	public Map<String, Object> getShipmentPlanInfo(String mainBusinessCode, String shipmentPlanCode) {
+		//출하계획 정보
 		shipmentInfo = storingMapper.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
-		if(shipmentInfo == null) return null;
+		if(CommonUtils.isEmpty(shipmentInfo)) return null;
+		//출하계획 상세정보 배열
 		shipmentList = storingMapper.getShipmentPlanDetails(shipmentPlanCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("shipPlanInfo", shipmentInfo);
 		resultMap.put("shipPlanDetails", shipmentList);
 		

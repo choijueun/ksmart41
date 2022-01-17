@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
@@ -15,7 +16,6 @@ public class DefectService {
 	private StoringMapper storingMapper;
 	private List<Storing> defectList; //불량처리내역 배열
 	private Storing defectInfo; //불량처리내역 정보
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -30,6 +30,7 @@ public class DefectService {
 	 * @return 불량처리내역 배열
 	 */
 	public List<Storing> getAllDefectList(String mainBusinessCode){
+		//불량처리내역 전체목록
 		defectList = storingMapper.getAllStoringList(mainBusinessCode, "8");
 		
 		return defectList;
@@ -42,12 +43,14 @@ public class DefectService {
 	 * @return 불량처리내역 한줄&상세
 	 */
 	public Map<String, Object> getDefectInfo(String mainBusinessCode, String stockAdjCode) {
+		//불량처리내역 한줄정보 조회
 		defectInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "8");
-		if(defectInfo == null) return null;
+		if(CommonUtils.isEmpty(defectInfo)) return null;
 		
+		//불량처리내역 상세정보 배열
 		defectList = storingMapper.getDefectDetails(stockAdjCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("defectInfo", defectInfo);
 		resultMap.put("defectDetail", defectList);
 		

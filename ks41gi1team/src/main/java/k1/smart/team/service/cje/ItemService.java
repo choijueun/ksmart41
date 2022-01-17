@@ -18,7 +18,6 @@ public class ItemService {
 	private List<Stock> itemList;
 	private Stock itemInfo;
 	private List<Stock> stockList;
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
 
 	/**
 	 * 생성자 메서드
@@ -50,7 +49,7 @@ public class ItemService {
 		itemInfo = itemMapper.getItemInfo(itemCode);
 		if (CommonUtils.isEmpty(itemInfo)) return null;
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("itemInfo", itemInfo);
 		
 		//해당 품목의 창고별 재고현황 조회
@@ -68,7 +67,7 @@ public class ItemService {
 	 * @return largeCategory, middleCategory, smallCategory, microCategory
 	 */
 	public Map<String, Object> getItemCategory(String largeCategory, String middleCategory, String smallCategory) {
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		//대분류 전체조회
 		resultMap.put("largeCategory", itemMapper.getCategoryLarge());
 		//선택된 대분류의 하위 중분류 전체조회
@@ -91,8 +90,10 @@ public class ItemService {
 	 */
 	public boolean itemNameValid(String mainBusinessCode, String itemName) {
 		if (CommonUtils.isEmpty(itemName)) {
+			//itemName NULL or 공백
 			return false;
 		} else if (itemMapper.itemNameValid(mainBusinessCode, itemName) > 0) {
+			//동일한 품목명 존재
 			return true;
 		}
 		return false;
@@ -104,9 +105,10 @@ public class ItemService {
 	 * @return 등록성공 true 실패 false
 	 */
 	public boolean addItem(Stock itemInfo) {
-		// 카테고리 코드 반환
+		//카테고리 코드 반환
 		List<String> categoryCodes = itemMapper.getCategoryCode(
 				itemInfo.getLargeCategory(),itemInfo.getMiddleCategory(), itemInfo.getSmallCategory(), itemInfo.getMicroCategory());
+		//카테고리코드 정상조회
 		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
 			itemInfo.setCategoryCode(categoryCodes.get(0));
 		}

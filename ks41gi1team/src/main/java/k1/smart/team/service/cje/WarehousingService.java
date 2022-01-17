@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
@@ -15,7 +16,7 @@ public class WarehousingService {
 	private StoringMapper storingMapper;
 	private Storing warehousingInfo; //자재사용내역 하나
 	private List<Storing> warehousingList; //자재사용내역 배열
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -42,11 +43,13 @@ public class WarehousingService {
 	 * @return
 	 */
 	public Map<String, Object> getWarehousingInfo(String mainBusinessCode, String stockAdjCode) {
+		//입고내역 정보
 		warehousingInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "1");
-		if(warehousingInfo == null) return null;
+		if(CommonUtils.isEmpty(warehousingInfo)) return null;
+		//입고내역 상세정보 배열
 		warehousingList = storingMapper.getWarehousingDetails(stockAdjCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("warehousingInfo", warehousingInfo);
 		resultMap.put("warehousingDetails", warehousingList);
 		
@@ -57,7 +60,6 @@ public class WarehousingService {
 	 * 재고정보 하나 조회
 	 * @param mainBusinessCode
 	 * @param inventoryCode
-	 * @return
 	 */
 	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode) {
 		

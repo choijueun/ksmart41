@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
 
@@ -14,8 +15,6 @@ public class StoringService {
 	private StoringMapper storingMapper;
 	private List<Storing> storingList; //물류 배열
 	private Storing storingInfo; //물류
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
-	
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -30,12 +29,14 @@ public class StoringService {
 	 * @return List<Storing>
 	 */
 	public Map<String, Object> getAllStoringList(String mainBusinessCode) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
 		//물류이동 내역
 		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
 		//최근 물류이동 현황
 		resultMap.put("recentStoring", storingMapper.getRecentStoring(mainBusinessCode));
 		
-		if(storingList == null) {
+		if(CommonUtils.isEmpty(storingList)) {
 			resultMap.put("storingList", null);
 			return resultMap;
 		}

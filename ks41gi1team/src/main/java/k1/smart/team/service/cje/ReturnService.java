@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.cje.StoringMapper;
@@ -15,7 +16,7 @@ public class ReturnService {
 	private StoringMapper storingMapper;
 	private List<Storing> returnList; //반품처리내역 배열
 	private Storing returnInfo; //반품처리내역 하나
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
+	
 	/**
 	 * 생성자 메서드
 	 * @param storingMapper
@@ -42,10 +43,13 @@ public class ReturnService {
 	 * @return
 	 */
 	public Map<String, Object> getReturnInfo(String mainBusinessCode, String stockAdjCode) {
+		//반품처리내역 정보
 		returnInfo = storingMapper.getStoringInfo(mainBusinessCode, stockAdjCode, "7");
+		if(CommonUtils.isEmpty(returnInfo)) return null;
+		//반품처리내역 상세정보 조회
 		returnList = storingMapper.getReturnDetails(stockAdjCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("returnInfo", returnInfo);
 		resultMap.put("returnDetails", returnList);
 		
@@ -69,11 +73,13 @@ public class ReturnService {
 	 * @return
 	 */
 	public Map<String, Object> getReturnRegInfo(String returnRegCode) {
+		//반품요청내역 정보
 		returnInfo = storingMapper.getReturnRegInfo(returnRegCode);
-		if(returnInfo == null) return null;
+		if(CommonUtils.isEmpty(returnInfo)) return null;
+		//반품요청내역 상세정보 배열
 		returnList = storingMapper.getReturnRegDetails(returnRegCode);
 		
-		resultMap.clear();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("returnRegInfo", returnInfo);
 		resultMap.put("returnRegDetails", returnList);
 		

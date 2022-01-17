@@ -19,10 +19,8 @@ import k1.smart.team.service.cje.WarehousingService;
 public class WarehousingController {
 	private final WarehousingService warehousingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing warehousingInfo; //자재사용내역 하나
 	private List<Storing> warehousingList; //자재사용내역 배열
 	private Map<String, Object> resultMap;
-	
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	/**
 	 * 생성자 메서드
