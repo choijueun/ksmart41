@@ -45,6 +45,7 @@ public class ItemController {
 	public String itemMain(Model model) {
 		//품목 전체목록 List<Stock>
 		itemList = itemService.getAllItemList(mainBusinessCode);
+		log.info("품목 LIST :: {}", itemList);
 		model.addAttribute("itemList", itemList);
 		
 		model.addAttribute("SectionTitle", "품목관리");
@@ -71,7 +72,9 @@ public class ItemController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Item";
 		
 		//품목정보
-		model.addAttribute("i", resultMap.get("itemInfo"));
+		itemInfo = (Stock) resultMap.get("itemInfo");
+		log.info("재고 INFO :: {}", itemInfo);
+		model.addAttribute("i", itemInfo);
 		//해당 품목의 창고별 재고 현황
 		model.addAttribute("stockList", resultMap.get("stockList"));
 		
@@ -113,9 +116,9 @@ public class ItemController {
 			@RequestParam(value="middleCategory", required = false) String middleCategory,
 			@RequestParam(value="smallCategory", required = false) String smallCategory){
 		/*
-		 * log.info("largeCategory 	:: {}", largeCategory);
-		 * log.info("middleCategory 	:: {}", middleCategory);
-		 * log.info("smallCategory 	:: {}", smallCategory);
+		 * log.info("대분류 	:: {}", largeCategory);
+		 * log.info("중분류 	:: {}", middleCategory);
+		 * log.info("소분류 	:: {}", smallCategory);
 		 */
 		
 		//대분류, 중분류, 소분류, 소소분류 조회결과 Map 객체 반환
@@ -133,7 +136,7 @@ public class ItemController {
 	public boolean itemNameValid(
 			@RequestParam(value="itemName", required = false) String itemName) {
 		
-		log.info("PARAMETER 	:: {}", itemName);
+		log.info("품목명 :: {}", itemName);
 		if(CommonUtils.isEmpty(itemName)) return false;
 		
 		//동일한 이름의 품목이 등록되어 있다면 true 반환
@@ -152,7 +155,7 @@ public class ItemController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1ItemAdd";
 		itemInfo.setMainBusinessCode(mainBusinessCode);
-		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		log.info("품목 INFO :: {}", itemInfo.toString());
 		
 		//등록 절차 수행: 성공 시 true
 		chk = itemService.addItem(itemInfo);
@@ -176,8 +179,8 @@ public class ItemController {
 		
 		//품목정보반환
 		itemInfo = (Stock) itemService.getItemInfo(itemCode).get("itemInfo");
+		log.info("품목 INFO :: {}", itemInfo);
 		model.addAttribute("i", itemInfo);
-		log.info("itemInfo :: {}", itemInfo);
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "품목수정");
@@ -196,9 +199,9 @@ public class ItemController {
 	
 	@PostMapping("/k1ItemModify")
 	public String modifyItem(Stock itemInfo) {
-		//품목코드 검사
+		//품목 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
-		log.info("PARAMETER 	:: {}", itemInfo.toString());
+		log.info("품목 INFO :: {}", itemInfo.toString());
 		
 		return "redirect:/k1Item";
 	}

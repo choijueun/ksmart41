@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,21 +12,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.ShipmentService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class ShipmentController {
-	private final ShipmentService shipmentService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private List<Storing> shipmentList; //출하내역 배열
+	private final StoringService storingService;
 	private Map<String, Object> resultMap;
+	private Stock stockInfo; //재고정보
+	private Storing shipmentInfo; //출하내역
+	private List<Storing> shipmentList; //출하내역 배열
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	private static final Logger log = LoggerFactory.getLogger(ShipmentController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param shipmentService
 	 */
-	public ShipmentController(ShipmentService shipmentService) {
-		this.shipmentService = shipmentService;
+	public ShipmentController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 	
 	/**
@@ -34,7 +41,8 @@ public class ShipmentController {
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
 		//출하내역 전체목록 List<Storing>
-		shipmentList = shipmentService.getAllShipmentList(mainBusinessCode);
+		shipmentList = storingService.getAllShipmentList(mainBusinessCode);
+		log.info("출하내역 LIST :: {}", shipmentList);
 		model.addAttribute("shipmentList", shipmentList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -55,13 +63,15 @@ public class ShipmentController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Shipment";
 		
-		//재고조정내역 상세정보 조회결과
-		resultMap = shipmentService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		//출하내역 상세정보 조회결과
+		resultMap = storingService.getShipmentInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Shipment";
 		
-		//재고조정내역 한줄정보 Storing
-		model.addAttribute("s", resultMap.get("shipmentInfo"));
-		//재고조정내역 상세정보 List<Storing>
+		//출하내역 한줄정보 Storing
+		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
+		log.info("출하내역 INFO :: {}", shipmentInfo);
+		model.addAttribute("s", shipmentInfo);
+		//출하내역 상세정보 List<Storing>
 		model.addAttribute("shipmentDetails", resultMap.get("shipmentDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -80,8 +90,10 @@ public class ShipmentController {
 			,Model model) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
-			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", shipmentService.getStockForStoring(mainBusinessCode, inventoryCode));
+			//해당 재고 정보
+			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			log.info("특정재고정보 INFO :: {}", stockInfo);
+			model.addAttribute("s", stockInfo);
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -112,7 +124,8 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentPlan")
 	public String shipmentPlanMain(Model model) {
 		//출하계획 전체목록 List<Storing>
-		shipmentList = shipmentService.getShipmentPlanList(mainBusinessCode);
+		shipmentList = storingService.getShipmentPlanList(mainBusinessCode);
+		log.info("출하계획 LIST :: {}", shipmentList);
 		model.addAttribute("shipmentList", shipmentList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -134,11 +147,13 @@ public class ShipmentController {
 		if(CommonUtils.isEmpty(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 상세정보 조회결과
-		resultMap = shipmentService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		resultMap = storingService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 한줄정보 Storing
-		model.addAttribute("p", resultMap.get("shipPlanInfo"));
+		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
+		log.info("출하계획 INFO :: {}", shipmentInfo);
+		model.addAttribute("p", shipmentInfo);
 		//출하계획 상세정보 List<Storing>
 		model.addAttribute("shipPlanDetails", resultMap.get("shipPlanDetails"));
 		

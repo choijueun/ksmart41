@@ -18,6 +18,7 @@ import k1.smart.team.service.cje.StockService;
 public class StockController {
 	private final StockService stockService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드 임시지정
+	private Stock stockInfo; //재고정보
 	private List<Stock> stockList; //재고 배열
 	private Map<String, Object> resultMap;
 	
@@ -40,6 +41,7 @@ public class StockController {
 	public String stockMain(Model model) {
 		//재고 전체목록 List<Stock>
 		stockList = stockService.getAllStockList(mainBusinessCode);
+		log.info("재고 LIST :: {}", stockList);
 		model.addAttribute("stockList", stockList);
 		
 		model.addAttribute("SectionTitle", "재고관리");
@@ -64,9 +66,11 @@ public class StockController {
 		resultMap = stockService.getStockInfo(mainBusinessCode, inventoryCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Stock";
 		
-		//재고조정내역 한줄정보 Stock
-		model.addAttribute("s", resultMap.get("stockInfo"));
-		//재고조정내역 상세정보 List<Storing>
+		//재고 한줄정보 Stock
+		stockInfo = (Stock) resultMap.get("stockInfo");
+		log.info("재고 INFO :: {}", stockInfo);
+		model.addAttribute("s", stockInfo);
+		//재고 물류이동내역 List<Storing>
 		model.addAttribute("storingList", resultMap.get("storingList"));
 		
 		model.addAttribute("SectionTitle", "재고관리");

@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
-import k1.smart.team.service.cje.WarehousingService;
+import k1.smart.team.service.cje.StoringService;
 
 @Controller
 public class WarehousingController {
-	private final WarehousingService warehousingService;
+	private final StoringService storingService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	private Storing warehousingInfo; //자재사용내역 하나
-	private List<Storing> warehousingList; //자재사용내역 배열
+	private Stock stockInfo; //재고정보
+	private Storing warehousingInfo; //자재입고내역
+	private List<Storing> warehousingList; //자재입고내역 배열
 	private Map<String, Object> resultMap;
-	
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
 	 */
-	public WarehousingController(WarehousingService warehousingService) {
-		this.warehousingService = warehousingService;
+	public WarehousingController(StoringService storingService) {
+		this.storingService = storingService;
 	}
 
 	/**
@@ -39,7 +40,8 @@ public class WarehousingController {
 	@GetMapping("/k1Warehousing")
 	public String warehousingMain(Model model) {
 		//입고내역 전체목록 List<Storing>
-		warehousingList = warehousingService.getAllWarehousingList(mainBusinessCode);
+		warehousingList = storingService.getAllWarehousingList(mainBusinessCode);
+		log.info("자재입고내역 LIST :: {}", warehousingList);
 		model.addAttribute("warehousingList", warehousingList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -61,11 +63,14 @@ public class WarehousingController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
 		//자재입고내역 상세정보 조회결과
-		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
+		
 		//자재입고내역 한줄정보 Storing
-		model.addAttribute("s", resultMap.get("warehousingInfo"));
+		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
+		log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
+		model.addAttribute("s", warehousingInfo);
 		//자재입고내역 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("warehousingDetails"));
 		
@@ -85,8 +90,10 @@ public class WarehousingController {
 			,Model model) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
-			//해당 재고 정보를 model 속성에 추가
-			model.addAttribute("s", warehousingService.getStockForStoring(mainBusinessCode, inventoryCode));
+			//해당 재고 정보
+			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			log.info("특정재고정보 INFO :: {}", stockInfo);
+			model.addAttribute("s", stockInfo);
 		}
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -108,11 +115,13 @@ public class WarehousingController {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
 		//자재입고내역 상세정보 조회결과
-		resultMap = warehousingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		resultMap = storingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
 		//자재입고내역 한줄정보 Storing
-		model.addAttribute("s", resultMap.get("warehousingInfo"));
+		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
+		log.info("자재입고내역 수정화면 INFO :: {}", warehousingInfo);
+		model.addAttribute("s", warehousingInfo);
 		//자재입고내역 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("warehousingDetails"));
 		

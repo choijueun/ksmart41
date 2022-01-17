@@ -19,9 +19,11 @@ import k1.smart.team.service.cje.WarehouseService;
 public class WarehouseController {
 	private final WarehouseService warehouseService;
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
-	private List<Warehouse> warehouseList; //창고 배열
 	private Map<String, Object> resultMap;
+	private Warehouse warehouseInfo; //창고정보
+	private List<Warehouse> warehouseList; //창고배열
 	private static final Logger log = LoggerFactory.getLogger(WarehouseController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param warehouseService
@@ -38,8 +40,7 @@ public class WarehouseController {
 	public String warehouseMain(Model model) {
 		//창고 전체목록
 		warehouseList = warehouseService.getAllWarehouseList(mainBusinessCode);
-		//System.out.println("WarehouseController :: "+warehouseList);
-		//System.out.println("WarehouseController warehouseList.get(0).getWarehouseCode() :: "+warehouseList.get(0).getWarehouseCode());
+		log.info("창고 LIST :: {}", warehouseList);
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "전체목록");
@@ -65,7 +66,9 @@ public class WarehouseController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehouse";
 		
 		//창고 한줄정보 Warehouse
-		model.addAttribute("w", resultMap.get("warehouseInfo"));
+		warehouseInfo = (Warehouse) resultMap.get("warehouseInfo");
+		log.info("창고 INFO :: {}", warehouseInfo);
+		model.addAttribute("w", warehouseInfo);
 		//창고 적재품 목록 List<Stock>
 		model.addAttribute("itemList", resultMap.get("itemList"));
 		
@@ -92,7 +95,6 @@ public class WarehouseController {
 	public String addWarehouse(Warehouse wInfo) {
 		log.info("PARAMETER 	:: {}", wInfo.toString());
 		
-		
 		return "redirect:/k1Warehouse";
 	}
 	
@@ -113,8 +115,10 @@ public class WarehouseController {
 		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehouse";
 		
-		//창고정보 Warehouse model 속성에 추가
-		model.addAttribute("w", resultMap.get("warehouseInfo"));
+		//창고정보 Warehouse
+		warehouseInfo = (Warehouse) resultMap.get("warehouseInfo");
+		log.info("창고 INFO :: {}", warehouseInfo);
+		model.addAttribute("w", warehouseInfo);
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "창고등록");
