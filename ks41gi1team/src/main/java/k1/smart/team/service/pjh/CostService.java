@@ -53,6 +53,16 @@ public class CostService {
 		return addCost;
 	}
 	
+	//기타비용 등록시 코드 세팅
+	public String getAddCostCode() {
+		
+		return costMapper.getAddCostCode();
+	}
+	
+	public int costModify(Cost cost) {
+		return costMapper.costModify(cost);
+	}
+	
 }
 
 

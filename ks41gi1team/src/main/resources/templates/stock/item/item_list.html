@@ -7,7 +7,23 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//DataTables
+	$('#itemList').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+	});
+});
+</script>
+</th:block>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -83,7 +99,10 @@
 						<th>No.</th>
 						<th>품목명</th>
 						<th>분류</th>
-						<th colspan="4">카테고리</th>
+						<th>대</th>
+						<th>중</th>
+						<th>소</th>
+						<th>소소</th>
 						<th>원산지</th>
 						<th>비고</th>
 						<th>상태</th>
@@ -113,7 +132,9 @@
 						<td>[[${l.itemComment}]]</td>
 						<td>
 							<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
-								<i class="fas fa-pen"></i>
+								<button type="button" class="btn btn-info btn-sm">
+									<i class="fas fa-pen"></i>
+								</button>
 							</a>
 						</td>
 					</tr>

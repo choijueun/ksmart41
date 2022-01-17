@@ -14,7 +14,59 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	비용 수정~!
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						비용 수정
+					</div>
+					<form id="addCostForm" th:action="@{|/k1CostList/modify|}" method="post" class="form-horizontal">
+						<div class="card-body">
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="etcPurchaseCode">비용 코드</label>
+									<input type="text" class="form-control" name="etcPurchaseCode" id="etcPurchaseCode" value="${costInfo.etcPurchaseCode}">
+								</div>
+								<div class="form-group col-md-6">
+									<label>구분</label>
+										<select class="form-control" id="lsAccountCode" name="lsAccountCode">
+											<option value="51600">전력비</option>
+											<option value="51500">가스수도료</option>
+											<option value="50300">임금</option>
+										</select>
+								</div>
+								<div class="form-group col-md-12">
+									<label for="reportPoint">결산시점</label>
+									<input type="text" class="form-control" id="reportPoint" name="reportPoint" placeholder="결산시점" >
+								</div>
+								<div class="form-group col-md-12">
+									<label for="amount">금액</label>
+									<input type="text" class="form-control" id="amount" name="amount" placeholder="금액" >
+								</div>
+								<div class="form-group col-md-12">
+									<label for="briefs">적요</label>
+									<input type="text" class="form-control" id="briefs" name="briefs" placeholder="적요" >
+								</div>
+								<div class="form-group col-md-12">
+									<label for="dealDate">거래일자</label>
+									<input type="date" class="form-control" id="dealDate" name="dealDate" placeholder="거래일자" >
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a th:href="@{/k1CostList}">
+								<button type="button" class="btn btn-default">이전으로</button>
+							</a>
+								<button type="submit" class="btn btn-info float-right">수정하기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>

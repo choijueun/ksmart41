@@ -22,11 +22,6 @@ public interface StockMapper {
 	 * @return 재고 하나 정보
 	 */
 	public Stock getStockInfo(String mainBusinessCode, String inventoryCode);
-	
-	/**
-	 * 특정 재고의 물류이동내역 조회
-	 * @param inventoryCode
-	 * @return 물류이동내역 여러개
-	 */
+	//특정 재고의 물류이동내역 조회
 	public List<Storing> getStockStorings(String inventoryCode);
 }

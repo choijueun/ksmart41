@@ -36,8 +36,11 @@
 								<td>
 									<!-- 거래처정보 LINK -->
 									[[${p.businessName}]]
-									<a th:if="${p.contractCode != null}" th:href="@{#}">
-										<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+									<a th:if="${p.productOrderCode != null}">
+										<button type="button" class="btn btn-outline-info btn-xs">[[${p.productOrderCode}]]</button>
+									</a>
+									<a th:if="${p.returnRegCode != null}">
+										<button type="button" class="btn btn-outline-info btn-xs">[[${p.returnRegCode}]]</button>
 									</a>
 								</td>
 								<th>도착지</th>

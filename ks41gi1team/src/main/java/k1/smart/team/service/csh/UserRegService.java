@@ -47,8 +47,14 @@ public class UserRegService {
 		userRegDetail.setUserRegCode(userRegCode);
 		return userRegDetail;
 	}
-	
+
 	//회원가입 요청 수정
+	public int modifyUserReg(UserReg userReg) {
+		
+		return userRegMapper.modifyUserReg(userReg);
+	}
+	
+	
 	
 
 	

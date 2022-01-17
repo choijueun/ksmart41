@@ -15,4 +15,10 @@ public interface CostMapper {
 	
 	//기타비용 등록
 	public int addCost(Cost cost);
+	
+	//기타비용 코드 가져오기 
+	public String getAddCostCode();
+	
+	//기타비용 수정
+	public int costModify(Cost cost);
 }

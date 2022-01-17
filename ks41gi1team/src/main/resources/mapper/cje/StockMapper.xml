@@ -151,6 +151,7 @@
 		a.managerId = u.userId
 	WHERE
 		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+	ORDER BY a.endDate DESC
 	LIMIT 10;
 </select>
 
