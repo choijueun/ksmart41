@@ -163,7 +163,7 @@
 	FROM
 		(SELECT
 			 COUNT(*) AS productCnt
-			,p.adjDate
+			,DATE_FORMAT(p.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS p
 		WHERE
@@ -176,7 +176,7 @@
 		LEFT JOIN
 		(SELECT
 			 COUNT(*) AS shipmentCnt
-			,s.adjDate
+			,DATE_FORMAT(s.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS s
 		WHERE
@@ -201,7 +201,7 @@
 	FROM
 		(SELECT
 			 COUNT(*) AS productCnt
-			,p.adjDate
+			,DATE_FORMAT(p.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS p
 		WHERE
@@ -214,7 +214,7 @@
 		RIGHT JOIN
 		(SELECT
 			 COUNT(*) AS shipmentCnt
-			,s.adjDate
+			,DATE_FORMAT(s.adjDate, '%y-%m-%d') AS adjDate
 		FROM
 			k1_tb_stock_adjustment AS s
 		WHERE
