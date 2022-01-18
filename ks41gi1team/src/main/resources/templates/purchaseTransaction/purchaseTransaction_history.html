@@ -14,6 +14,32 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 <th:block layout:fragment="customJs">
 		<script type="text/javascript">
+		$(document).ready(function() {
+			$("#purchaseTsAllCheck").click(function() {
+				if($("#purchaseTsAllCheck").is(":checked")) $("input[name=purchaseTsCheck]").prop("checked", true);
+				else $("input[name=purchaseTsCheck]").prop("checked", false);
+			});
+			$("input[name=purchaseTsCheck]").click(function() {
+				var total = $("input[name=purchaseTsCheck]").length;
+				var checked = $("input[name=purchaseTsCheck]:checked").length;
+
+				if(total != checked) $("#purchaseTsAllCheck").prop("checked", false);
+				else $("#purchaseTsAllCheck").prop("checked", true); 
+			});
+			$("#salesTsAllCheck").click(function() {
+				if($("#salesTsAllCheck").is(":checked")) $("input[name=salesTsCheck]").prop("checked", true);
+				else $("input[name=salesTsCheck]").prop("checked", false);
+			});
+
+			$("input[name=purchaseTsCheck]").click(function() {
+				var total = $("input[name=purchaseTsCheck]").length;
+				var checked = $("input[name=purchaseTsCheck]:checked").length;
+
+				if(total != checked) $("#purchaseTsAllCheck").prop("checked", false);
+				else $("#purchaseTsAllCheck").prop("checked", true); 
+			});
+		});
+		
 			$(function(){
 				$(document).on('click', '.modifyBtn', function(){
 					var purchaseTsCode = $(this).attr('data-contractCode');
@@ -43,6 +69,7 @@
 			        			} 
 			        },
 			        columns: [
+			        		 { "data": "" },
 			        		 { "data": "purchaseTsCode" },
 				            { "data": "businessName" },
 				            { "data": "businessName" },
@@ -56,7 +83,15 @@
 				        	],
 				        	columnDefs:[
 				        		{
-				        			'targets' : [09],
+				        			'targets' : [00],
+				        			'searchable' : false,
+				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
+				        						var htmlbtn = '<input type="checkBox" name="purchaseTsCheck"></input>';
+				        						return htmlbtn;
+				        					}
+				        		},
+				        		{
+				        			'targets' : [10],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -82,6 +117,7 @@
 			        			} 
 			        },
 			        columns: [
+			        	 	{ "data": "" },
 			        		{ "data": "salesTsCode" },
 				            { "data": "mbBusinessName" },
 				            { "data": "businessName" },
@@ -97,7 +133,16 @@
 				        	],
 				        	columnDefs:[
 				        		{
-				        			'targets' : [11],
+				        			'targets' : [00],
+				        			'orderable' : false,
+				        			'searchable' : false,
+				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
+				        						var htmlbtn = '<input type="checkBox" name="salesTsCheck"></input>';
+				        						return htmlbtn;
+				        					}
+				        		},
+				        		{
+				        			'targets' : [12],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -106,17 +151,17 @@
 				        					}
 				        		},
 				        		{
-				        			'targets' : [06],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
-				        					
-				        		},
-				        		{
 				        			'targets' : [07],
 				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
 				        					
 				        		},
 				        		{
 				        			'targets' : [08],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        					
+				        		},
+				        		{
+				        			'targets' : [09],
 				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
 				        					
 				        		}
@@ -148,7 +193,8 @@
 		<div class="dataTables_wrapper dt-bootstrap4">
 			<table id="purchaseTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
-					<tr>
+					<tr>					
+						<th><input type="checkBox" id="purchaseTsAllCheck"></th>
 						<th>비용 거래명세서 코드</th>
 						<th>사업장명</th>
 						<th>거래처명</th>
@@ -174,6 +220,7 @@
 			<table id="salesTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
 					<tr>
+						<th><input type="checkBox" id="salesTsAllCheck"></th>
 						<th>매출 거래명세서 코드</th>
 						<th>사업장명</th>
 						<th>거래처명</th>

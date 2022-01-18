@@ -63,19 +63,17 @@ public class ProductOrderService {
 	}
 
 	//수주 상세
-	public Map<String, Object> getProductOrderInfo(String productOrderCode) {
-		productOrderInfo = productOrderMapper.getProductOrderInfo(productOrderCode); //결제예정 품목 하나 상세
+	public ProductOrder getProductOrderInfo(String productOrderCode) {
+		productOrderInfo = productOrderMapper.getProductOrderInfo(productOrderCode);
+
 		if(productOrderInfo == null) {
-			System.out.println("수주정보 조회결과 없음");
+			System.out.println("발주정보 조회결과 없음");
 			return null;
 		}
-		productOrderInfoList = productOrderMapper.getProductOrderInfoList(productOrderCode);
-		
-		resultMap.clear();
-		resultMap.put("productOrderInfo",productOrderInfo);
-		resultMap.put("productOrderInfoList",productOrderInfoList);
-		
-		return resultMap;
+
+		productOrderInfo.setProductOrderCode(productOrderCode);
+		System.out.println("productOrderInfo-->:" + productOrderInfo);
+		return productOrderInfo;
 	}
 
 

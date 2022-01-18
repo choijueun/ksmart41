@@ -40,33 +40,31 @@ public class ProductOrderController {
 		return "redirect:/productOrder/productOrder_list";
 	}
 	
-	//수주관리 상세
-	@SuppressWarnings("unchecked")
-	@GetMapping("history/{productOrderCode}")
-	public String ProductOrderInfo(
-			@PathVariable(value="productOrderCode", required=false) String productOrderCode
-			,Model model) {
-		//수주관리 코드검사
-		if(productOrderCode == null || "".equals(productOrderCode)) {
-			System.out.println("수주코드 에러");
-			return "redirect:/k1ProductOrder/history";
-		}
-		//수주관리 상세
-		resultMap = productOrderService.getProductOrderInfo(productOrderCode);
-		if(resultMap == null) {
-			System.out.println("수주관리코드 에러");
-			return "redirect:/k1ProductOrder/history";
-		}
-		
-		productOrderInfo = (ProductOrder) resultMap.get("productOrderInfo");
-		productOrderInfoList = (List<ProductOrder>) resultMap.get("productOrderInfoList");
-		
-		model.addAttribute("SectionTitle", "수주관리");
-		model.addAttribute("SectionLocation", "수주 상세정보");
-		model.addAttribute("productOrderInfo", productOrderInfo);
-		model.addAttribute("productOrderInfoList", productOrderInfoList);
-		return "productOrder/productOrder_detail";
-	}
+	 //수주관리 상세
+	  @GetMapping("productOrder/{productOrderCode}") 
+	  public String productOrderInfo(
+			  	@PathVariable(value="productOrderCode", required=false) String productOrderCode
+			  	,Model model) { 
+		  	//슈주관리 코드 검사 if(productOrderCode == null
+		  		System.out.println(productOrderCode);
+			  if(productOrderCode == null || "".equals(productOrderCode)) { 
+				  System.out.println("발주코드 ERROR"); 
+				  return "redirect:/k1ProductOrder/k1ProductOrderList"; 
+				  } 
+			  
+			  //수주관리 상세정보 
+			  productOrderInfo = productOrderService.getProductOrderInfo(productOrderCode);
+			  if(productOrderInfo == null) {
+				  System.out.println("발주관리코드 ERROR"); 
+				  return"redirect:/k1ProductOrder/k1ProductOrderList"; 
+			  }
+			    
+			  model.addAttribute("title", "수주관리 상세");
+			  model.addAttribute("SectionTitle", "수주관리");
+			  model.addAttribute("SectionLocation", "상세정보");
+			  model.addAttribute("productOrderInfo", productOrderInfo);
+			  return "productOrder/productOrder_info";
+		  }
 	
 	//수주 등록
 		@PostMapping("/k1ProductOrderReg")
@@ -97,11 +95,6 @@ public class ProductOrderController {
 			  return "productOrder/productOrder_register"; 
 		  
 		  }
-	
-	
-	
-	  
-	
 	
 	//전체 수주 조회
 	@GetMapping("/k1ProductOrderList")

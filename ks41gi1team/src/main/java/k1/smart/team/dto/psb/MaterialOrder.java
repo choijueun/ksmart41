@@ -16,6 +16,7 @@ public class MaterialOrder {
 	private String updateDate;
 	private String itemName;
 	private String businessName;
+	private String userName;
 	public String getMaterialOrderCode() {
 		return materialOrderCode;
 	}
@@ -106,6 +107,12 @@ public class MaterialOrder {
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -139,8 +146,11 @@ public class MaterialOrder {
 		builder.append(itemName);
 		builder.append(", businessName=");
 		builder.append(businessName);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }
