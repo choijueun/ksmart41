@@ -114,6 +114,9 @@
 		,c.middleCategory
 		,c.smallCategory
 		,c.microCategory
+		,c.`comment`
+		,c.regDate AS itemRegDate
+		,c.updateDate AS itemUpdateDate
 	FROM
 		k1_tb_item_category AS c
 	WHERE
@@ -242,6 +245,7 @@
 		AND itemName = #{itemName};
 </select>
 
+<!-- 카테고리 정보 등록 -->
 <insert id="addItemCategory" parameterType="Stock">
 	INSERT INTO k1_tb_item_category
 		(categoryCode, mainBusinessCode, largeCategory, middleCategory, smallCategory, microCategory, `comment`, regDate, updateDate)
@@ -254,5 +258,22 @@
 		, #{mainBusinessCode}, #{largeCategory}, #{middleCategory}, #{smallCategory}, #{microCategory}, #{comment}, NOW(), NOW()
 	);
 </insert>
+
+<!-- 카테고리 정보 수정 -->
+<update id="modifyItemCategory" parameterType="Stock">
+	UPDATE 
+		k1_tb_item_category
+	SET
+		largeCategory=#{largeCategory},
+		middleCategory=#{middleCategory},
+		smallCategory=#{smallCategory},
+		microCategory=#{microCategory},
+		`comment`=#{comment},
+		updateDate=NOW()
+	WHERE
+		categoryCode = CONCAT('categoryCode_',#{categoryCode})
+		AND mainBusinessCode = #{mainBusinessCode};
+</update>
+
 
 </mapper>

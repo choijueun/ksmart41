@@ -229,13 +229,14 @@ public class ItemController {
 		return "stock/item/item_category";
 	}
 	
+	/**
+	 * 카테고리 정보 추가 프로세스
+	 * @param stock
+	 */
 	@PostMapping("/k1ItemCategoryAdd")
 	public String addItemCategory(Stock stock) {
 		//카테고리 정보 확인
-		log.info("largeCategory :: {}", stock.getLargeCategory());
-		log.info("middleCategory :: {}", stock.getMiddleCategory());
-		log.info("smallCategory :: {}", stock.getSmallCategory());
-		log.info("microCategory :: {}", stock.getMicroCategory());
+		log.info("Stock :: {}", stock);
 		
 		//카테고리 정보 검사
 		if(CommonUtils.isEmpty(stock.getLargeCategory()) || CommonUtils.isEmpty(stock.getMiddleCategory())) {
@@ -244,6 +245,22 @@ public class ItemController {
 		//등록 프로세스 진행
 		stock.setMainBusinessCode(mainBusinessCode);
 		itemService.addItemCategory(stock);
+		
+		return "redirect:/k1ItemCategory";
+	}
+	
+	@PostMapping("/k1ItemCategoryModify")
+	public String modifyItemCategory(Stock stock) {
+		//카테고리 정보 확인
+		log.info("Stock :: {}", stock);
+		
+		//카테고리 정보 검사
+		if(CommonUtils.isEmpty(stock.getLargeCategory()) || CommonUtils.isEmpty(stock.getMiddleCategory())) {
+			return "redirect:/k1ItemCategory";
+		}
+		//수정 프로세스 진행
+		stock.setMainBusinessCode(mainBusinessCode);
+		itemService.modifyItemCategory(stock);
 		
 		return "redirect:/k1ItemCategory";
 	}
