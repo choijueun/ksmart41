@@ -43,29 +43,50 @@ $(function(){
 	<div class="row" th:unless="${ s == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					재고정보
-				</div>
 				<div class="card-body">
-					<table id="stockInfo" class="table table-bordered">
+					<p class="lead">재고정보</p>
+					<table id="stockInfo" class="table">
 						<tbody>
 							<tr>
 								<th>재고번호</th>
 								<td id="inventoryCode">[[${s.inventoryCode}]]</td>
-								<th>상태</th>
-								<td>[[${s.status}]]</td>
 							</tr>
 							<tr>
 								<th>품목명</th>
 								<td>
 									<a th:href="@{|/k1Item/${s.inventoryCode}|}">[[${s.itemName}]]</a>
 								</td>
+							</tr>
+							<tr>
+								<th>상태</th>
+								<td>[[${s.status}]]</td>
+							</tr>
+							<tr>
 								<th>분류</th>
 								<td>[[${s.itemType}]]</td>
 							</tr>
 							<tr>
+								<th>카테고리</th>
+								<td>
+									<th:block th:if="${s.largeCategory != null and s.largeCategory != ''.toString()}">
+										[[${s.largeCategory}]]
+										<th:block th:if="${s.middleCategory != null and s.middleCategory != ''.toString()}">
+											/ [[${s.middleCategory}]]
+											<th:block th:if="${s.smallCategory != null and s.smallCategory != ''.toString()}">
+												/ [[${s.smallCategory}]]
+												<th:block th:if="${s.microCategory != null and s.microCategory != ''.toString()}">
+													/ [[${s.microCategory}]]
+												</th:block>
+											</th:block>
+										</th:block>
+									</th:block>
+								</td>
+							</tr>
+							<tr>
 								<th>수량</th>
 								<td>[[${#numbers.formatInteger(s.itemCount,0,'COMMA')}]]</td>
+							</tr>
+							<tr>
 								<th>규격</th>
 								<td>[[${s.itemStandard}]]</td>
 							</tr>
@@ -77,12 +98,16 @@ $(function(){
 										<button type="button" class="btn btn-outline-info btn-xs">상세</button>
 									</a>
 								</td>
+							</tr>
+							<tr>
 								<th>합계금액</th>
 								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>중량</th>
 								<td>[[${#numbers.formatInteger(s.stockWeight,0,'COMMA')}]] kg</td>
+							</tr>
+							<tr>
 								<th>원산지</th>
 								<td>[[${s.itemOrigin}]]</td>
 							</tr>
@@ -93,17 +118,23 @@ $(function(){
 										[[${s.warehouseName}]]
 									</a>
 								</td>
+							</tr>
+							<tr>
 								<th>창고위치</th>
-								<td th:if="${s.outPlace == null}">[[${s.location}]]</td>
-								<td th:if="${s.outPlace != null}">[[${s.location}]] ([[${s.outPlace}]])</td>
+								<td>
+									[[${s.location}]] 
+									<th:block th:if="${s.outPlace != null}">([[${s.outPlace}]])</th:block>
+								</td>
 							</tr>
 							<tr>
 								<th>비고</th>
-								<td colspan="3">[[${s.comment}]]</td>
+								<td>[[${s.comment}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
 								<td>[[${s.stockRegDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
 								<td>[[${s.stockUpdateDate}]]</td>
 							</tr>

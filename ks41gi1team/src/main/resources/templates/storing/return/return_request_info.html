@@ -19,15 +19,15 @@
 	<div class="row">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					반품요청정보
-				</div>
 				<th:block th:if="${ r != null }">
 					<div class="card-body">
-						<table id="returnRegInfo" class="table table-bordered">
+						<p class="lead">반품요청정보</p>
+						<table id="returnRegInfo" class="table">
 							<tr>
 								<th>No.</th>
-								<td colspan="3">[[${r.returnRegCode}]]</td>
+								<td>[[${r.returnRegCode}]]</td>
+							</tr>
+							<tr>
 								<th>구분</th>
 								<td>
 									<th:block th:if="${r.purchaseTsCode} != null">비용</th:block>
@@ -36,18 +36,22 @@
 							</tr>
 							<tr>
 								<th>거래처</th>
-								<td colspan="3">
+								<td>
 								[[${r.businessName}]]
 									<a th:if="${r.productOrderCode} != null">
 										<button type="button" class="btn btn-outline-info btn-xs">[[${r.productOrderCode}]]</button>
 									</a>
 								</td>
+							</tr>
+							<tr>
 								<th>합계금액</th>
 								<td>[[${#numbers.formatInteger(r.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
-								<td colspan="3">[[${r.briefs}]]</td>
+								<td>[[${r.briefs}]]</td>
+							</tr>
+							<tr>
 								<th>담당자</th>
 								<td>
 									<a th:href="@{#}">
@@ -57,9 +61,11 @@
 							</tr>
 							<tr>
 								<th>등록일시</th>
-								<td colspan="2">[[${r.regDate}]]</td>
+								<td>[[${r.regDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
-								<td colspan="2">[[${r.updateDate}]]</td>
+								<td>[[${r.updateDate}]]</td>
 							</tr>
 						</table>
 					</div>
