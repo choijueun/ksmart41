@@ -42,7 +42,7 @@ $(function(){
 			<table id="shipmentList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="allCheck"></th>
+						<th class="text-center"><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
 						<th>품목</th>
 						<th>거래처</th>
@@ -52,12 +52,12 @@ $(function(){
 						<th>반품</th>
 						<th>완료</th>
 						<th>수정일시</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(shipmentList)}" th:each="l : ${shipmentList}">
-						<td>
+						<td class="text-center">
 							<input type="checkbox">
 						</td>
 						<td>
@@ -71,7 +71,6 @@ $(function(){
 							</a>
 						</td>
 						<td>
-							<!-- 거래처정보 LINK -->
 								[[${l.businessName}]]
 						</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
@@ -80,7 +79,7 @@ $(function(){
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
 						<td>[[${l.updateDate}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1ShipmentModify/${l.stockAdjCode}|}">
 								<button type="button" class="btn btn-info btn-sm">
 									<i class="fas fa-pen"></i>

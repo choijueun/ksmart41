@@ -39,7 +39,7 @@ $(function(){
 			<table id="defectList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="allCheck"></th>
+						<th class="text-center"><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
 						<th>품목</th>
 						<th>합계금액</th>
@@ -48,12 +48,12 @@ $(function(){
 						<th>처리</th>
 						<th>완료</th>
 						<th>수정일시</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(defectList)}" th:each="l : ${defectList}">
-						<td><input type="checkbox"></td>
+						<td class="text-center"><input type="checkbox"></td>
 						<td>
 							<a th:href="@{|/k1Defect/${l.stockAdjCode}|}">
 								[[${l.stockAdjCode}]]
@@ -70,7 +70,7 @@ $(function(){
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
 						<td>[[${l.updateDate}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1DefectModify/${l.stockAdjCode}|}">
 										<button type="button" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>
