@@ -9,6 +9,50 @@
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
+$(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	//Form
+	var addWarehouse = $('#addWarehouse');
+	//input객체
+	var inputs = $('input');
+	//등록 버튼 클릭
+	$(document).on('click', '.submitBtn', function(){
+		//체크용 변수
+		var chkText = 0;
+		var chkRadio1 = 0;
+		var chkRadio2 = 0;
+		//input 객체 반복
+		inputs.each(function(i, obj){
+			if($(obj).attr('name') == 'outPlace') {
+				return true;
+			}
+			if( $(obj).attr('name') == 'category1' && $(obj).is(':checked')) {
+				chkRadio1 += 1;
+			}
+			if( $(obj).attr('name') == 'category2' && $(obj).is(':checked')) {
+				chkRadio2 += 1;
+			}
+			if( $(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '' ) {
+				chkText += 1;
+			}
+		});
+		if(chkText == 0 && chkRadio1 > 0 && chkRadio2 > 0) {
+			//유효
+			addWarehouse.submit();
+		} else {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		}
+	});
+});
 </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
@@ -28,7 +72,7 @@
 					창고정보 등록
 				</div>
 				<div class="card-body">
-					<form id="addWarehouse"th:action="@{/k1Warehouse}" method="POST">
+					<form id="addWarehouse"th:action="@{/k1WarehouseAdd}" method="POST">
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
@@ -42,7 +86,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label for="outplace">소재지</label>
-										<input type="text" id="outplace" name="outplace" class="form-control" placeholder="외부 창고일 경우">
+										<input type="text" id="outPlace" name="outPlace" class="form-control" placeholder="외부 창고일 경우">
 									</div>
 								</div>
 							</div>
@@ -95,7 +139,7 @@
 					</form>
 				</div>
 				<div class="card-footer">
-					<button type="button" id="submitBtn" class="btn btn-info float-right">등록하기</button>
+					<button type="button" class="btn btn-info float-right submitBtn">등록하기</button>
 					<a th:href="@{/k1Warehouse}">
 						<button type="button" class="btn btn-default">이전으로</button>
 					</a>

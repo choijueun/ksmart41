@@ -93,11 +93,14 @@ public class WarehouseController {
 	 */
 	@PostMapping("/k1WarehouseAdd")
 	public String addWarehouse(Warehouse wInfo) {
-		log.info("PARAMETER 	:: {}", wInfo.toString());
+		log.info("PARAMETER 	:: {}", wInfo);
+		if(CommonUtils.isEmpty(wInfo)) return "redirect:/k1Warehouse";
+		
+		wInfo.setMainBusinessCode(mainBusinessCode);
+		warehouseService.addWarehouse(wInfo);
 		
 		return "redirect:/k1Warehouse";
 	}
-	
 	
 	/**
 	 * 창고정보 수정화면 첫페이지
