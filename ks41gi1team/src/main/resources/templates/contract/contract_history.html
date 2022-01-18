@@ -44,9 +44,9 @@
 			        },
 			        columns: [
 			            { "data": "contractCode" },
-			            { "data": "mainBusinessCode" },
-			            { "data": "clientCode" },
+			            { "data": "mbBusinessName" },
 			            { "data": "businessName" },
+			            { "data": "businessRepresentative" },
 			            { "data": 'contractSection' },
 			            { "data": 'contractType' },
 			            { "data": 'startDate' },
@@ -55,31 +55,20 @@
 			            { "data": 'contractDate' },
 			            { "data": 'contractStatus' },
 			            { "data": 'briefs' },
-			            { "data": 'regDate' },
-			            { "data": 'updateDate' },
-			            { "data": '수정' },
-			            { "data": '삭제' }
+			            { "data": '수정' }
 			        	],
 			        	columnDefs:[
 
 			        		{
-			        			'targets' : [14],
+			        			'targets' : [12],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
 			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
 			        						return htmlbtn;
 			        					}
-			        		},
-			        		{
-			        			'targets' : [15],
-			        			'orderable' : false,
-			        			'searchable' : false,
-			        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-contractCode="' + row.contractCode +'"><i class="fas fa-trash"></i></button>';
-			        						return htmlbtn;
-			        					}
 			        		}
+
 			        	]
 					});
 			   
@@ -97,8 +86,8 @@
 				<thead>
 					<tr>
 						<th>계약코드</th>
-						<th>사업장별 대표코드</th>
-						<th>거래처 대표코드</th>
+						<th>사업장 상호명</th>
+						<th>거래처 상호명</th>
 						<th>거래처 담당자</th>
 						<th>계약 주문유형</th>
 						<th>계약유형</th>
@@ -108,14 +97,15 @@
 						<th>계약일자</th>
 						<th>계약상태</th>
 						<th>적요</th>
-						<th>등록일시</th>
-						<th>수정일시</th>
 						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 			</table>
 			</div>
+				<a th:href="@{|/k1Contract/k1ContractReg|}">
+					<button type="button" class="btn btn-info">등록</button>
+				</a>
+				<button type="button" class="btn btn-danger">삭제</button>
 			</div>
 			
 			  <div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">

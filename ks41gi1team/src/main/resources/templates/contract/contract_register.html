@@ -33,6 +33,7 @@
 				var labelText = $('label[for=' + inputCode + ']').text();
 				if(typeof inputData =='undefined' || inputData == null || inputData == ''){
 					alert(labelText + '입력해주세요');
+					throw Exception;
 					$(this).focus();
 					submitCheck = false;
 					return false;

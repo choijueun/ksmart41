@@ -40,13 +40,23 @@
 			pt.dealDate,
 			u.userName,
 			pt.regDate,
-			pt.updateDate
+			pt.updateDate,
+			mb.businessName,
+			c.businessName
 		FROM 
 			k1_tb_purchase_transaction AS pt
 		INNER JOIN
 			k1_tb_user as u
 		on
 			u.mainBusinessCode = pt.mainBusinessCode	
+		INNER JOIN
+			k1_tb_main_business	as mb
+		ON
+			mb.mainBusinessCode = pt.mainBusinessCode
+		INNER JOIN
+			k1_tb_client as c
+		ON
+			c.clientCode = pt.clientCode			
 		GROUP BY
 			pt.purchaseTsCode;	
 	<if test="strartNum != null">
