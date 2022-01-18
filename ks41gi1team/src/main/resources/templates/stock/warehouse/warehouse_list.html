@@ -20,6 +20,16 @@ $(function(){
 		"autoWidth": false,
 		"responsive": true,
 	});
+	
+	//allCheck
+	var chkbox = $('input[type="checkbox"]');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
+	});
 });
 </script>
 </th:block>

@@ -89,9 +89,6 @@ $(function(){
 			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th class="text-center">
-							<input type="checkbox" id="allCheck">
-						</th>
 						<th>No.</th>
 						<th>품목명</th>
 						<th>분류</th>
@@ -105,7 +102,6 @@ $(function(){
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-						<td class="text-center"><input type="checkbox"></td>
 						<td>
 							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 								[[${l.inventoryCode}]]
