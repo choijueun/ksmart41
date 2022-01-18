@@ -23,6 +23,20 @@ public class UserRegController {
 		this.userRegService = userRegService;
 	}
 	
+	//관리자 마이페이지
+	@GetMapping("/managerPage")
+	public String managerPage() {
+		
+		return "user/manager_page";
+	}
+	
+	//회원 마이페이지
+	@GetMapping("/myPage")
+	public String myPage() {
+		
+		return "user/user_mypage";
+	}
+	
 	//회원가입 요청 전체목록
 	@GetMapping("/userRegList")
 	public String getUserRegList(Model model) {

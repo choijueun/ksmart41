@@ -22,6 +22,15 @@ public class LoginController {
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
+	
+	//로그인 화면
+	@GetMapping("/login")
+	public String login() {
+		
+		return "login/login";
+	}
+	
+	
 	//로그인 내역
 	@GetMapping("/loginList")
 	public String loginHistory3 (Model model) {
@@ -38,6 +47,8 @@ public class LoginController {
 		
 		return loginHistoryList;
 	}
+	
+	
 	
 	
 }
