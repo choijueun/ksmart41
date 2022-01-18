@@ -8,7 +8,19 @@
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
-<th:block layout:fragment="customStyle"></th:block>
+<th:block layout:fragment="customStyle">
+<style type="text/css">
+	body{
+		background-color:#eee;
+	}
+	@media(min-width: 1580px) {
+		.wrapper {
+			width: 70%;
+			margin: 0 auto 0;
+		}
+	}
+</style>
+</th:block>
 	
 <th:block layout:fragment="blankContents">
 
@@ -17,134 +29,117 @@
 		<div class="preloader flex-column justify-content-center align-items-center">
 			<img class="animation__shake" src="SMARTORY/preloaderLogo.png" alt="SMARTORYLogo" width="120">
 		</div>
-		
-		<!-- Header -->
-		<div th:replace="fragments/header :: headerFragment"></div>
-		
-		<!-- SideBar -->
-		<div th:replace="fragments/sidebar :: sidebarFragment"></div>
-		
-	    <!-- Main content -->
-	    <div class="content-wrapper">
-	    
-	    	<!-- 상단INFO -->
-	    	<section class="content">
-		    	<div class="container-fluid">
-		    		<!-- 상단INFO -->
-			    	<div class="row pt-5 mr-auto ml-auto" style="width:70%;">
-						<div class="col-md-4">
-							<!-- 관리자 로그인 -->
-							<a th:href="@{#}">
-								<div class="small-box bg-info">
-									<div class="inner">
-										<h3>ADMIN</h3>
-										<p>최고관리자 및 중간관리자 권한</p>
-									</div>
-									<div class="icon">
-										<i class="fas fa-users-cog"></i>
-									</div>
-									<span class="small-box-footer">Login Now <i class="fas fa-arrow-circle-right"></i></span>
-								</div>
-							</a>
-						</div>
-						<!-- ./col -->
-						<div class="col-md-4">
-							<!-- 직원 로그인 -->
-							<a th:href="@{#}">
-								<div class="small-box bg-olive">
-									<div class="inner">
-										<h3>USER</h3>
-										<p>일반직원 권한</p>
-									</div>
-									<div class="icon">
-										<i class="far fa-user-circle"></i>
-									</div>
-									<span class="small-box-footer">Login Now <i class="fas fa-arrow-circle-right"></i></span>
-								</div>
-							</a>
-						</div>
-						<!-- ./col -->
-						<div class="col-md-4">
-							<!-- 회원가입 -->
-							<a th:href="@{#}">
-								<div class="small-box bg-purple">
-									<div class="inner">
-										<h3>JOIN</h3>
-										<p>회원가입 페이지</p>
-									</div>
-									<div class="icon">
-										<i class="fas fa-file-signature"></i>
-									</div>
-									<span class="small-box-footer">Join Now <i class="fas fa-arrow-circle-right"></i></span>
-								</div>
-							</a>
-						</div>
-						<!-- ./col -->
-					</div>
-					
-					<!-- 프로젝트INFO -->
-					<div class="ml-auto mr-auto mb-3 pl-2 pr-2" style="width:70%;">
-						<div class="callout callout-warning">
-							<h5>SMARTORY</h5>
-							<p>다중 스마트 팩토리 사업자 물류관리 플랫폼</p>
-							<p></p>
-							<p>
-								<small>한국스마트정보교육원 SW개발자양성과정C 팀 프로젝트 1TEAM</small> <br>
-								<small>최종배포시각 /2022-01-17 17:46</small>
-							</p>
-						</div>
-					</div>
-					
-					<!-- 팀원INFO -->
-					<div class="row mr-5 ml-5">
-						<div class="col-md-3 col-xs-6">
-							<div class="card card-success card-outline">
-								<div class="card-header">
-									TEAM MEMBER
-								</div>
-								<div class="card-body">
-								</div>
+    	<!-- 상단INFO -->
+    	<div class="container-fluid">
+    		<!-- 상단INFO -->
+	    	<div class="row pt-5 mr-auto ml-auto" style="width:70%;">
+				<div class="col-md-4">
+					<!-- 관리자 로그인 -->
+					<a th:href="@{/main}">
+						<div class="small-box bg-info">
+							<div class="inner">
+								<h3>ADMIN</h3>
+								<p>최고관리자 및 중간관리자 권한</p>
 							</div>
-						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="card card-success card-outline">
-								<div class="card-header">
-									TEAM MEMBER
-								</div>
-								<div class="card-body">
-								</div>
+							<div class="icon">
+								<i class="fas fa-users-cog"></i>
 							</div>
+							<span class="small-box-footer">Login Now <i class="fas fa-arrow-circle-right"></i></span>
 						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="card card-success card-outline">
-								<div class="card-header">
-									TEAM MEMBER
-								</div>
-								<div class="card-body">
-								</div>
+					</a>
+				</div>
+				<!-- ./col -->
+				<div class="col-md-4">
+					<!-- 직원 로그인 -->
+					<a th:href="@{#}">
+						<div class="small-box bg-olive">
+							<div class="inner">
+								<h3>USER</h3>
+								<p>일반직원 권한</p>
 							</div>
+							<div class="icon">
+								<i class="far fa-user-circle"></i>
+							</div>
+							<span class="small-box-footer">Login Now <i class="fas fa-arrow-circle-right"></i></span>
 						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="card card-success card-outline">
-								<div class="card-header">
-									TEAM MEMBER
-								</div>
-								<div class="card-body">
-								</div>
+					</a>
+				</div>
+				<!-- ./col -->
+				<div class="col-md-4">
+					<!-- 회원가입 -->
+					<a th:href="@{#}">
+						<div class="small-box bg-purple">
+							<div class="inner">
+								<h3>JOIN</h3>
+								<p>회원가입 페이지</p>
 							</div>
+							<div class="icon">
+								<i class="fas fa-file-signature"></i>
+							</div>
+							<span class="small-box-footer">Join Now <i class="fas fa-arrow-circle-right"></i></span>
+						</div>
+					</a>
+				</div>
+				<!-- ./col -->
+			</div>
+			
+			<!-- 프로젝트INFO -->
+			<div class="ml-auto mr-auto mb-3 pl-2 pr-2" style="width:70%;">
+				<div class="callout callout-warning">
+					<h5>SMARTORY</h5>
+					<p>다중 스마트 팩토리 사업자 물류관리 플랫폼</p>
+					<p></p>
+					<p>
+						<small>한국스마트정보교육원 SW개발자양성과정C 팀 프로젝트 1TEAM</small> <br>
+						<small>최종배포시각 /2022-01-17 17:46</small>
+					</p>
+				</div>
+			</div>
+			
+			<!-- 팀원INFO -->
+			<div class="row mr-5 ml-5">
+				<div class="col-md-3 col-xs-6">
+					<div class="card card-success card-outline">
+						<div class="card-header">
+							TEAM MEMBER
+						</div>
+						<div class="card-body">
 						</div>
 					</div>
 				</div>
-			</section>
-			
-			<!-- 팀원INFO -->
-			
-			
-			
+				<div class="col-md-3 col-xs-6">
+					<div class="card card-success card-outline">
+						<div class="card-header">
+							TEAM MEMBER
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-xs-6">
+					<div class="card card-success card-outline">
+						<div class="card-header">
+							TEAM MEMBER
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-xs-6">
+					<div class="card card-success card-outline">
+						<div class="card-header">
+							TEAM MEMBER
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
-		<!-- Begin Footer -->
-		<div th:replace="fragments/footer :: footerFragment"></div>
+		<!-- 팀원INFO -->
+		
+			
 	</div>
 	
 </th:block>
