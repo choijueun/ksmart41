@@ -704,8 +704,7 @@
 </select>
 <select id="getShipmentPlanDetails" parameterType="String" resultType="Storing">
 	SELECT
-		 RIGHT(sd.inventoryCode,3) AS inventoryCode
-		,RIGHT(st.itemCode,3) AS itemCode
+		 RIGHT(sd.itemCode,3) AS itemCode
 		,st.itemName
 		,RIGHT(st.productPriceCode,3) AS productPriceCode
 		,st.productPrice AS unitPrice
@@ -725,8 +724,7 @@
 		sd.shipmentPlanCode = sp.shipmentPlanCode
 		JOIN
 		(SELECT
-			 s.inventoryCode
-			,s.itemCode
+			 s.itemCode
 			,i.itemName
 			,s.productPriceCode
 			,p.productPrice
@@ -750,7 +748,7 @@
 			s.productPriceCode = p.productPriceCode
 		) AS st
 		ON
-		sd.inventoryCode = st.inventoryCode
+		sd.itemCode = st.itemCode
 	WHERE
 		sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
 </select>

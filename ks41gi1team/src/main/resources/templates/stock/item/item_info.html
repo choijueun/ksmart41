@@ -19,26 +19,28 @@
 	<div class="row">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					품목정보
-				</div>
 				<div class="card-body">
-					<table id="itemInfo" class="table table-bordered">
+					<p class="lead">품목정보</p>
+					<table id="itemInfo" class="table">
 						<tr>
 							<th>품목번호</th>
 							<td>[[${i.itemCode}]]</td>
+						</tr>
+						<tr>
 							<th>상태</th>
 							<td>[[${i.itemStatus}]]</td>
 						</tr>
 						<tr>
 							<th>품목명</th>
 							<td>[[${i.itemName}]]</td>
+						</tr>
+						<tr>
 							<th>분류</th>
 							<td>[[${i.itemType}]]</td>
 						</tr>
 						<tr>
 							<th>카테고리</th>
-							<td colspan="3">
+							<td>
 								<th:block th:if="${i.largeCategory != null and i.largeCategory != ''.toString()}">
 									[[${i.largeCategory}]]
 									<th:block th:if="${i.middleCategory != null and i.middleCategory != ''.toString()}">
@@ -56,18 +58,24 @@
 						<tr>
 							<th>총수량</th>
 							<td>[[${#numbers.formatInteger(i.itemCount,0,'COMMA')}]]</td>
+						</tr>
+						<tr>
 							<th>규격</th>
 							<td>[[${i.itemStandard}]]</td>
 						</tr>
 						<tr>
 							<th>평균단가
 							<td>[[${#numbers.formatInteger(i.avgPrice,0,'COMMA')}]] 원</td>
+						</tr>
+						<tr>
 							<th>합계금액</th>
 							<td>[[${#numbers.formatInteger(i.totalPrice,0,'COMMA')}]] 원</td>
 						</tr>
 						<tr>
 							<th>총중량</th>
 							<td>[[${#numbers.formatInteger(i.stockWeight,0,'COMMA')}]] kg</td>
+						</tr>
+						<tr>
 							<th>원산지</th>
 							<td>[[${i.itemOrigin}]]</td>
 						</tr>
@@ -78,6 +86,8 @@
 						<tr>
 							<th>등록일시</th>
 							<td>[[${i.itemRegDate}]]</td>
+						</tr>
+						<tr>
 							<th>수정일시</th>
 							<td>[[${i.itemUpdateDate}]]</td>
 						</tr>

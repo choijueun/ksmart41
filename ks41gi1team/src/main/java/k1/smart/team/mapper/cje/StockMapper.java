@@ -1,6 +1,7 @@
 package k1.smart.team.mapper.cje;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,4 +25,15 @@ public interface StockMapper {
 	public Stock getStockInfo(String mainBusinessCode, String inventoryCode);
 	//특정 재고의 물류이동내역 조회
 	public List<Storing> getStockStorings(String inventoryCode);
+	
+	//재고의 수량·중량이 0인지 검사
+	public Map<String, Object> stockRemoveValid(String mainBusinessCode, String inventoryCode);
+	
+	/**
+	 * 재고정보 삭제
+	 * @param inventoryCode
+	 */
+	public void removeStock(String mainBusinessCode, String inventoryCode);
+	//재고조정상세내역 삭제
+	public void removeAdjDetailByStock(String mainBusinessCode, String inventoryCode);
 }
