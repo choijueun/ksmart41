@@ -49,6 +49,19 @@
 							<div class="col-md-4">
 								<div class="row">
 									<div class="col-md-12 col-xs-6 col-sm-6">
+										<label>유형</label>
+										<div class="form-group">
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category2" value="재고" th:checked="'재고' == ${w.category2}" autocomplete="off"> 재고
+												</label>
+												<label class="btn btn-outline-info">
+													<input type="radio" name="category2" value="출고" th:checked="'출고' == ${w.category2}" autocomplete="off"> 출고
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 col-xs-6 col-sm-6">
 										<label>분류</label>
 										<div class="form-group">
 											<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -60,19 +73,6 @@
 												</label>
 												<label class="btn btn-outline-info">
 													<input type="radio" name="category1" value="냉동" th:checked="'냉동' == ${w.category1}" autocomplete="off"> 냉동
-												</label>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12 col-xs-6 col-sm-6">
-										<label>유형</label>
-										<div class="form-group">
-											<div class="btn-group btn-group-toggle" data-toggle="buttons">
-												<label class="btn btn-outline-info">
-													<input type="radio" name="category2" value="재고" th:checked="'재고' == ${w.category2}" autocomplete="off"> 재고
-												</label>
-												<label class="btn btn-outline-info">
-													<input type="radio" name="category2" value="출고" th:checked="'출고' == ${w.category2}" autocomplete="off"> 출고
 												</label>
 											</div>
 										</div>
