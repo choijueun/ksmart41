@@ -9,8 +9,16 @@ public class TotalAc {
 	private String etcPurchaseCode;
 	private String salesSection;
 	private String relateTable;
+	private String regDate;
 	private int totalPrice;
 	
+	
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
 	public String getTotalAccountCode() {
 		return totalAccountCode;
 	}
