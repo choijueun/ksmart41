@@ -15,6 +15,20 @@
 <th:block layout:fragment="customJs">
 
 		<script type="text/javascript">
+		$(document).ready(function() {
+			$("#contractAllCheck").click(function() {
+				if($("#contractAllCheck").is(":checked")) $("input[name=contractCheck]").prop("checked", true);
+				else $("input[name=contractCheck]").prop("checked", false);
+			});
+			$("input[name=contractCheck]").click(function() {
+				var total = $("input[name=contractCheck]").length;
+				var checked = $("input[name=contractCheck]:checked").length;
+
+				if(total != checked) $("#contractAllCheck").prop("checked", false);
+				else $("#contractAllCheck").prop("checked", true); 
+			});
+		});	
+		
 			$(function(){
 				$(document).on('click', '.modifyBtn', function(){
 					var contractCode = $(this).attr('data-contractCode');
@@ -30,7 +44,7 @@
 					aLengthMenuArray.push([5,10,15,20,25,-1]);
 					aLengthMenuArray.push([5,10,15,20,25,'ALL']);
 					
-				$('#dataTableAjax').DataTable( {
+				$('#contractList').DataTable( {
 			        destroy : true,
 					pageLength: 5,
 					aLengthMenu : aLengthMenuArray,
@@ -43,6 +57,7 @@
 			        			} 
 			        },
 			        columns: [
+			            { "data": "" },
 			            { "data": "contractCode" },
 			            { "data": "mbBusinessName" },
 			            { "data": "businessName" },
@@ -60,11 +75,20 @@
 			        	columnDefs:[
 
 			        		{
-			        			'targets' : [12],
+			        			'targets' : [13],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
 			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
+			        						return htmlbtn;
+			        					}
+			        		},
+			        		{
+			        			'targets' : [00],
+			        			'orderable' : false,
+			        			'searchable' : false,
+			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
+			        						var htmlbtn = '<input type="checkBox" name="contractCheck"></input>';
 			        						return htmlbtn;
 			        					}
 			        		}
@@ -82,9 +106,10 @@
 			</div>
 			<div class="card-body">
 			<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-			<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;" >
+			<table id="contractList" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;" >
 				<thead>
 					<tr>
+						<th><input type="checkBox" id="contractAllCheck"></input></th>
 						<th>계약코드</th>
 						<th>사업장 상호명</th>
 						<th>거래처 상호명</th>
@@ -112,7 +137,14 @@
 	<div class="modal-dialog">
           <div class="modal-content">
           	계약 목록 수정 화면
-            <div class="modal-header">
+            <div class="modal-header" style="position: fixed;
+						top: 50%;
+						left: 50%;
+						-webkit-transform: translate(-50%, -50%);
+						-moz-transform: translate(-50%, -50%);
+						-ms-transform: translate(-50%, -50%);
+						-o-transform: translate(-50%, -50%);
+						transform: translate(-50%, -50%);">
               <h4 class="modal-title">계약 목록 수정 화면</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>

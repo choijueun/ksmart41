@@ -16,6 +16,20 @@
 <script>
 
 // 모달 버튼에 이벤트를 건다.
+$(document).ready(function() {
+			$("#productOrderAllCheck").click(function() {
+				if($("#productOrderAllCheck").is(":checked")) $("input[name=productOrderCheck]").prop("checked", true);
+				else $("input[name=productOrderCheck]").prop("checked", false);
+			});
+			$("input[name=productOrderCheck]").click(function() {
+				var total = $("input[name=productOrderCheck]").length;
+				var checked = $("input[name=productOrderCheck]:checked").length;
+
+				if(total != checked) $("#productOrderAllCheck").prop("checked", false);
+				else $("#productOrderAllCheck").prop("checked", true); 
+			});
+		});	
+
 
 $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하면
             var 글번호 = e.target.dataset.id; // e.target > 지금 클릭한 것
@@ -60,7 +74,7 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" id="allCheck">
+							<input type="checkbox" id="productOrderAllCheck">
 						</th>
 						<th>No.</th>
 						<th>수주요청일자</th>
@@ -71,14 +85,13 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 						<th>금액</th>
 						<th>수주진행상태</th>
 						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
-						<td><input type="checkbox"></td>
+						<td><input type="checkbox" name="productOrderCheck"></td>
 						<td>
-							<a th:href="@{/k1ProductOrder/k1ProductOrderInfo}">
+							<a th:href="@{|/k1ProductOrder/productOrder/${l.productOrderCode}|}">
 								[[${l.productOrderCode}]]
 							</a>
 						</td>
@@ -92,9 +105,7 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 						<td>
 							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
 						</td>
-						<td>
-							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn" onclick='javascript:rowDel(this);'><i class="fas fa-trash"></i></button>
-						</td>
+
 					</tr>
 					<tr th:if="${#lists.isEmpty(productOrderList)}">
 						<td colspan="9">정보가 없습니다.</td>
@@ -102,13 +113,24 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 				</tbody>
 			</table>
 		</div>
+		<a th:href="@{|/k1ProductOrder/k1ProductOrderReg|}">
+					<button type="button" class="btn btn-info">등록</button>
+				</a>
+				<button type="button" class="btn btn-danger">삭제</button>
 	</div>
 	
 	<div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" >
           	수주 목록 수정 화면
-            <div class="modal-header">
+            <div class="modal-header" style="position: fixed;
+						top: 50%;
+						left: 50%;
+						-webkit-transform: translate(-50%, -50%);
+						-moz-transform: translate(-50%, -50%);
+						-ms-transform: translate(-50%, -50%);
+						-o-transform: translate(-50%, -50%);
+						transform: translate(-50%, -50%);">
               <h4 class="modal-title">수주 목록 수정 화면</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>

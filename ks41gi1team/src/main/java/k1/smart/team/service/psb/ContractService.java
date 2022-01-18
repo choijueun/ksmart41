@@ -13,7 +13,7 @@ import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ContractService {
 	private ContractMapper contractMapper;
 	private List<Contract> contractList;
