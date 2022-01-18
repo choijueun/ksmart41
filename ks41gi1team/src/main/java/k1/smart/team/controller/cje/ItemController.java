@@ -206,6 +206,13 @@ public class ItemController {
 		return "redirect:/k1Item";
 	}
 	
+	@PostMapping("/k1ItemRemove")
+	public String removeItem(String itemCode) {
+		//삭제진행
+		
+		return "redirect:/k1Item";
+	}
+	
 	/**
 	 * 카테고리 목록 조회
 	 * @param model
@@ -222,10 +229,22 @@ public class ItemController {
 		return "stock/item/item_category";
 	}
 	
-	@PostMapping("/k1ItemRemove")
-	public String removeItem(String itemCode) {
-		//삭제진행
+	@PostMapping("/k1ItemCategoryAdd")
+	public String addItemCategory(Stock stock) {
+		//카테고리 정보 확인
+		log.info("largeCategory :: {}", stock.getLargeCategory());
+		log.info("middleCategory :: {}", stock.getMiddleCategory());
+		log.info("smallCategory :: {}", stock.getSmallCategory());
+		log.info("microCategory :: {}", stock.getMicroCategory());
 		
-		return "redirect:/k1Item";
+		//카테고리 정보 검사
+		if(CommonUtils.isEmpty(stock.getLargeCategory()) || CommonUtils.isEmpty(stock.getMiddleCategory())) {
+			return "redirect:/k1ItemCategory";
+		}
+		//등록 프로세스 진행
+		stock.setMainBusinessCode(mainBusinessCode);
+		itemService.addItemCategory(stock);
+		
+		return "redirect:/k1ItemCategory";
 	}
 }
