@@ -4,17 +4,73 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//DataTables
+	$('#categories').DataTable({
+		"paging": true,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	품목 카테고리 관리 페이지
+
+<div class="container-fluid">
+	<div class="card card-info card-outline">
+		<div class="card-header">
+			품목 카테고리 전체목록
+		</div>
+		<div class="card-body" th:if="${categories} != null">
+			<table id="categories" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th class="text-center"><input type="checkbox" id="allCheck"></th>
+						<th>No.</th>
+						<th>대분류</th>
+						<th>중분류</th>
+						<th>소분류</th>
+						<th>소소분류</th>
+						<th class="text-center">수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="c : ${categories}">
+						<td class="text-center"><input type="checkbox"></td>
+						<td>[[${c.categoryCode}]]</td>
+						<td>[[${c.largeCategory}]]</td>
+						<td>[[${c.middleCategory}]]</td>
+						<td>[[${c.smallCategory}]]</td>
+						<td>[[${c.microCategory}]]</td>
+						<td class="text-center">
+							<button type="button" class="btn btn-info btn-sm modifyBtn">
+								<i class="fas fa-pen"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="card-body" th:if="${categories} == null">
+			카테고리 정보가 존재하지 않습니다.
+		</div>
+	</div>
+</div>
+
 </th:block>
 
 </html>
