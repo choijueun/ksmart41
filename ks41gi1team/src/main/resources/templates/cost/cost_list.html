@@ -7,7 +7,28 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+		$(function(){
+			//DataTables
+			$('#costList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+		});
+	</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
@@ -18,33 +39,8 @@
 <!-- content -->
 <div class="container-fluid">
 	<div class="card card-info card-outline">
-		<div class="card-header">
-			asdf
-		</div>
 		<div class="card-body">
-			<div class="card">
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="Wages" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						임금
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="electric" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						전기세
-					</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<label class="custom-control-label">
-						<input type="checkbox" value="gaswater" 
-							class="custom-control-input custom-control-input-info custom-control-input-outline">
-						가스수도료
-					</label>
-				</div>
-			</div>
+
 			<table id="costList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -56,7 +52,7 @@
 						<th>결산시점</th>
 						<th>금액</th>
 						<th>적요</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>

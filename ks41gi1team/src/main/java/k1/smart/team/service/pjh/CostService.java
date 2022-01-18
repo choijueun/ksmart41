@@ -54,10 +54,11 @@ public class CostService {
 	}
 	
 	//기타비용 등록
-	public int addCost(Cost cost) {
-		int addCost = costMapper.addCost(cost);
-		return addCost;
+	public void addCost(Cost cost) {
+		costMapper.addCost(cost);
+		costMapper.addCostAc(cost);
 	}
+	
 	
 	//기타비용 등록시 코드 세팅
 	public String getAddCostCode() {
@@ -68,6 +69,7 @@ public class CostService {
 	//기타비용 수정
 	public void costModify(Cost cost) {
 		costMapper.costModify(cost);
+		costMapper.costModifyAc(cost);
 	}
 	
 	

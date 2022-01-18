@@ -49,11 +49,27 @@
 			,NOW()
 			,NOW());
 	</insert>
+	
+	<insert id="addCostAc" parameterType="Cost">
+		INSERT INTO k1_tb_total_accounting
+			(totalAccountCode, mainBusinessCode, etcPurchaseCode, salesSection, totalPrice, regDate)
+		VALUES( 
+			(SELECT
+				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
+			FROM 
+			   k1_tb_total_accounting AS ac),
+			'fac_ksmartSeoul_Seoul_001',
+			#{etcPurchaseCode},
+			'비용',
+			#{amount},
+			NOW())
+	</insert>
+	
 	<select id="getAddCostCode" resultType="String">
 		SELECT 
 			CONCAT(SUBSTRING(c.etcPurchaseCode,1,17),MAX(SUBSTRING(c.etcPurchaseCode,18))+1)
 		FROM 
-			k1_tb_etc_purchase AS c		
+			k1_tb_etc_purchase AS c	
 	</select>
 	
 	
@@ -74,5 +90,13 @@
 			updateDate = NOW()
 		WHERE 
 			etcPurchaseCode = CONCAT('etcPurchaseCode_',#{etcPurchaseCode});
+	</update>
+	
+	<update id="costModifyAc"  parameterType="Cost">
+		UPDATE k1_tb_total_accounting
+			SET
+				totalPrice = #{amount}
+			WHERE 
+				etcPurchaseCode = CONCAT('etcPurchaseCode_',#{etcPurchaseCode});
 	</update>
 </mapper>

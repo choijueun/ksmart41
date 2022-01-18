@@ -28,11 +28,16 @@ public interface SlipMapper {
 	public String salesSlipNum (String slipDate);
 	//매출전표 등록
 	public void registerSalesSlip (Slip addSlip);
-	//비용전표
-	public void registerPurchaseSlip (Slip addSlip);
+	//매출전표 등록시 통합회계 등록
+	public void addSalesSlipAc (Slip addSlip);
 	
-	//전표 등록
-	public int addSlip (Slip slip);
+	//비용 전표 날짜 코드화
+	public String purchaseSlipNum (String slipDate);
+	//비용전표 등록
+	public void registerPurchaseSlip (Slip addSlip);
+	//비용전표 등록시 통합회계 등록
+	public void addPurchaseSlipAc (Slip addSlip);
+	
 	//모달 판매명세서리스트 
 	public List<Slip> salesTransactionList();
 	//모달 비용명세서리스트

@@ -8,7 +8,20 @@
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs">
-
+	<script type="text/javascript">
+		$(function(){
+			//DataTables
+			$('#totalAcList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+			});
+		});
+	</script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
@@ -19,28 +32,23 @@
 	<div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
-			asdf
+			통합회계 전체목록
 		</div>
 		<div class="card-body">
 			<table id="totalAcList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th class="text-center">
-							<input type="checkbox" id="allCheck">
-						</th>
-						<th>통합회계관리코드</th>
-						<th>매출전표코드</th>
-						<th>비용전표코드</th>
-						<th>기타비용코드</th>
+						<th>NO.</th>
+						<th>매출전표</th>
+						<th>비용전표</th>
+						<th>기타비용</th>
 						<th>구분</th>
 						<th>금액</th>
-						<th>연관 테이블</th>
-						<th>수정</th>
+						<th>등록일자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(totalAcList)}" th:each="l : ${totalAcList}">
-						<td class="text-center"><input type="checkbox"></td>
 						<td>[[${l.totalAccountCode}]]</td>
 						<td>
 							<a th:href="@{|/k1SlipList/sales/${l.salesSlipCode}|}">
@@ -59,24 +67,13 @@
 						</td>
 						<td th:style="${l.salesSection eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.salesSection}"></td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]원</td>
-						<td>[[${l.relateTable}]]</td>
-						<td class="text-center">
-							<a th:href="@{|/k1TotalAc/modify/${l.totalAccountCode}|}">
-								<button type="button" class="btn btn-info btn-sm">
-									<i class="fas fa-pen"></i>
-								</button>
-							</a>
-						</td>
+						<td>[[${l.regDate}]]</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(totalAcList)}">
 						<td colspan="8">정보가 없습니다.</td>
 					</tr>
 				</tbody>
 			</table>
-			<a th:href="@{|/k1TotalAc/add|}">
-				<button type="button" class="btn btn-info mt-3">등록</button>
-			</a>
-			<button type="button" class="btn btn-danger mt-3">삭제</button>
 		</div>
 	</div>
 </div>

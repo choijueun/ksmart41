@@ -20,53 +20,54 @@
 			</div>
 			<div class="col-lg-6 col-md-8 mb-3">
 				<div class="card card-info card-outline">
-					<div class="card-header">
-						비용전표[[${purchaseSlipInfo.purchaseSlipCode}]]
-					</div>
 					<div class="card-body">
-						<table id="purchaseSlipInfo" class="table table-bordered">
+						<p class="lead">비용전표[[${purchaseSlipInfo.purchaseSlipCode}]]</p>
+						<table id="purchaseSlipInfo" class="table">
 							<tr>
-								<th>전표일자</th>
-								<td colspan="3">[[${purchaseSlipInfo.purchaseSlipCode}]]</td>
+								<th>NO.</th>
+								<td>[[${purchaseSlipInfo.purchaseSlipCode}]]</td>
 							</tr>
 							<tr>
 								<th>구분</th>
-								<td colspan="3">비용</td>
+								<td>비용</td>
 							</tr>
 							<tr>
 								<th>명세서코드</th>
-								<td colspan="3">[[${purchaseSlipInfo.purchaseTsCode}]]</td>
+								<td>[[${purchaseSlipInfo.purchaseTsCode}]]</td>
 							</tr>
 							<tr>
 								<th>거래처명</th>
-								<td colspan="3">[[${purchaseSlipInfo.businessName}]]</td>
+								<td>[[${purchaseSlipInfo.businessName}]]</td>
 							</tr>
 							<tr>
 								<th>공급가액</th>
 								<td>[[${#numbers.formatInteger(purchaseSlipInfo.amount,0,'COMMA')}]]원</td>
+							</tr>
+							<tr>
 								<th>부가세</th>
 								<td>[[${#numbers.formatInteger(purchaseSlipInfo.tax,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>수량</th>
-								<td colspan="3">[[${purchaseSlipInfo.count}]]</td>
+								<td>[[${purchaseSlipInfo.count}]]</td>
 							</tr>
-							
 							<tr>
 								<th>합계금액</th>
-								<td colspan="3">[[${#numbers.formatInteger(purchaseSlipInfo.amt,0,'COMMA')}]]원</td>
+								<td>[[${#numbers.formatInteger(purchaseSlipInfo.amt,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
-								<td colspan="3">[[${purchaseSlipInfo.briefs}]]</td>
+								<td>[[${purchaseSlipInfo.briefs}]]</td>
 							</tr>
 							<tr>
 								<th>담당자</th>
-								<td colspan="3">[[${purchaseSlipInfo.userName}]]</td>
+								<td>[[${purchaseSlipInfo.userName}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
 								<td>[[${purchaseSlipInfo.regDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
 								<td>[[${purchaseSlipInfo.updateDate}]]</td>
 							</tr>
