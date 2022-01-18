@@ -39,12 +39,18 @@ public class CostService {
 	
 	public Cost getCostInfoByCode(String etcPurchaseCode) {
 		costInfo = costMapper.getCostInfoByCode("etcPurchaseCode_"+etcPurchaseCode);
+		
 		if(costInfo == null) {
 			System.out.println("비용정보 조회결과 없음");
 			return null;
 		}
 		costInfo.setEtcPurchaseCode(etcPurchaseCode);
 		return costInfo;
+	}
+	
+	public Cost getCostInfo (String etcPurchaseCode) {
+		Cost getCostInfo = costMapper.getCostInfoByCode(etcPurchaseCode);
+		return getCostInfo;
 	}
 	
 	//기타비용 등록
@@ -62,6 +68,7 @@ public class CostService {
 	public int costModify(Cost cost) {
 		return costMapper.costModify(cost);
 	}
+	
 	
 }
 
