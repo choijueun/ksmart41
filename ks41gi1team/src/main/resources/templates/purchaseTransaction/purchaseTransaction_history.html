@@ -16,6 +16,11 @@
 		<script type="text/javascript">
 			$(function(){
 				$(document).on('click', '.modifyBtn', function(){
+					var purchaseTsCode = $(this).attr('data-contractCode');
+					alert(purchaseTsCode);
+				});
+				
+				$(document).on('click', '.modifyBtn', function(){
 					var salesTsCode = $(this).attr('data-contractCode');
 					alert(salesTsCode);
 				});
@@ -25,7 +30,7 @@
 					aLengthMenuArray.push([5,10,15,20,25,-1]);
 					aLengthMenuArray.push([5,10,15,20,25,'ALL']);
 					
-				$('#dataTableAjax').DataTable( {
+				$('#purchaseTs').DataTable( {
 			        destroy : true,
 					pageLength: 5,
 					aLengthMenu : aLengthMenuArray,
@@ -39,16 +44,15 @@
 			        },
 			        columns: [
 			        		 { "data": "purchaseTsCode" },
-				            { "data": "mainBusinessCode" },
-				            { "data": "clientCode" },
+				            { "data": "businessName" },
+				            { "data": "businessName" },
 				            { "data": "contractCode"},
 				            { "data": "briefs" },
 				            { "data": 'dealDate' },
 				            { "data": 'userName' },
 				            { "data": 'regDate' },
 				            { "data": 'updateDate' },
-				            { "data": '수정' },
-				            { "data": '삭제' }
+				            { "data": '수정' }
 				        	],
 				        	columnDefs:[
 				        		{
@@ -59,37 +63,95 @@
 				        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-purchaseTsCode="' + row.purchaseTsCode +'"><i class="fas fa-pen"></i></button>';
 				        						return htmlbtn;
 				        					}
-				        		},
+				        		}
+				        		
+				        	]
+					});
+			   
+			
+				$('#salesTs').DataTable( {
+			        destroy : true,
+					pageLength: 5,
+					aLengthMenu : aLengthMenuArray,
+					ajax: {
+			        	url: '/k1SalesTransaction/k1SalesTransactionHistory',
+			        	type: 'POST',
+			        	dataSrc: function(data){
+			        				console.log(JSON.stringify(data));
+			        				return data;
+			        			} 
+			        },
+			        columns: [
+			        		{ "data": "salesTsCode" },
+				            { "data": "mbBusinessName" },
+				            { "data": "businessName" },
+				            { "data": "lsAccountName" },
+				            { "data": "contractStatus" },
+				            { "data": "vatType" },
+				            { "data": "amount" },
+				            { "data": "VAT" },
+				            { "data": "totalPrice" },
+				            { "data": "dealDate" },
+				            { "data": "briefs" },
+				            { "data": "수정" }
+				        	],
+				        	columnDefs:[
 				        		{
-				        			'targets' : [10],
+				        			'targets' : [11],
 				        			'orderable' : false,
 				        			'searchable' : false,
-				        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-purchaseTsCode="' + row.purchaseTsCode +'"><i class="fas fa-trash"></i></button>';
+				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
+				        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-salesTsCode="' + row.salesTsCode +'"><i class="fas fa-pen"></i></button>';		      
 				        						return htmlbtn;
 				        					}
 				        		},
-				        		
+				        		{
+				        			'targets' : [06],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        					
+				        		},
+				        		{
+				        			'targets' : [07],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        					
+				        		},
+				        		{
+				        			'targets' : [08],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        					
+				        		}
 				        	]
 					});
 			   
 			});
 		
+	
+		
 		</script>
 </th:block>
+<section class="content">
 	<th:block layout:fragment="customContents">
 	<div class="card card-info card-outline">
-		<div class="card-header">
-			비용 거래 명세서 목록
+	<div class="card-header p-0 pt-1 border-bottom-0">
+	<ul class="nav nav-tabs" id="transaction-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="purchase-home-tab" data-toggle="pill" href="#purchase" role="tab" aria-controls="purchase" aria-selected="true">비용거래명세서</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="sales-home-tab" data-toggle="pill" href="#sales" role="tab" aria-controls="sales" aria-selected="false">매출거래명세서</a>
+					</li>
+				</ul>
 		</div>
 		<div class="card-body">
-		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
+		<div class="card tab-content" id= "p_slip">
+		<div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-home-tab">
+		<div class="dataTables_wrapper dt-bootstrap4">
+			<table id="purchaseTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
 					<tr>
 						<th>비용 거래명세서 코드</th>
-						<th>사업장별 대표코드</th>
-						<th>거래처 대표코드</th>
+						<th>사업장명</th>
+						<th>거래처명</th>
 						<th>계약코드</th>
 						<th>적요</th>
 						<th>거래일자</th>
@@ -97,12 +159,46 @@
 						<th>등록일시</th>
 						<th>수정일시</th>
 						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 			</table>
 			</div>
+				<a th:href="@{|/k1PurchaseTransaction/k1PurchaseTransactionReg|}">
+					<button type="button" class="btn btn-info">등록</button>
+				</a>
+				<button type="button" class="btn btn-danger">삭제</button>
+			</div>
+			
+			<div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-home-tab">
+			<div id="sales" class="dataTables_wrapper dt-bootstrap4">
+			<table id="salesTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
+				<thead>
+					<tr>
+						<th>매출 거래명세서 코드</th>
+						<th>사업장명</th>
+						<th>거래처명</th>
+						<th style="width:9%;">계정과목</th>
+						<th>계약상태</th>
+						<th style="width:10%;">부가세 유형</th>
+						<th style="width:9%;">공급가액</th>
+						<th style="width:9%;">부가세</th>
+						<th>총 가격</th>
+						<th>거래일자</th>
+						<th>적요</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+			</table>
+			</div>
+			<a th:href="@{|/k1SalesTransaction/k1SalesTransactionReg|}">
+					<button type="button" class="btn btn-info">등록</button>
+			</a>
+			<button type="button" class="btn btn-danger">삭제</button>
+			
+		</div>
+		</div>	
 			</div>
 			</div>
+			</section>
 	</th:block>
 </html>

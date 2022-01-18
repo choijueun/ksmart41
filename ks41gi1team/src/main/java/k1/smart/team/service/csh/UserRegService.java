@@ -2,9 +2,11 @@ package k1.smart.team.service.csh;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.mapper.csh.UserRegMapper;
 
@@ -14,10 +16,22 @@ public class UserRegService {
 	private UserRegMapper userRegMapper;
 	private List<UserReg> userRegList;
 	private UserReg userRegDetail; //요청내역 상세
+	private List<User> userList; //회원전체 목록
+	
+	@Autowired
+	private LoginService loginService; //로그인 최근내역
 	
 	//생성자 메서드
 	public UserRegService(UserRegMapper userRegMapper) {
 		this.userRegMapper = userRegMapper;
+	}
+	
+	//회원 전체 목록
+	public List<User> getAllUserList() {
+		userList = userRegMapper.getAllUserList();
+		
+		
+		return null;
 	}
 	
 	//회원가입 요청 목록
@@ -53,6 +67,8 @@ public class UserRegService {
 		
 		return userRegMapper.modifyUserReg(userReg);
 	}
+
+	
 	
 	
 	

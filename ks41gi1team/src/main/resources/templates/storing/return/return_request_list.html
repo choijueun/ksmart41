@@ -42,19 +42,18 @@ $(function(){
 			<table id="returnRegList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="allCheck"></th>
+						<th class="text-center"><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
 						<th>적요</th>
 						<th>거래처</th>
 						<th>합계금액</th>
-						<th>담당자</th>
 						<th>수정일</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(returnRegList)}" th:each="l : ${returnRegList}">
-						<td><input type="checkbox"></td>
+						<td class="text-center"><input type="checkbox"></td>
 						<td>
 							<a th:href="@{|/k1ReturnReg/${l.returnRegCode}|}">
 								[[${l.returnRegCode}]]
@@ -66,18 +65,11 @@ $(function(){
 							</a>
 						</td>
 						<td>
-							<a th:href="@{#}"> <!-- 거래처LINK -->
 								[[${l.businessName}]]
-							</a>
 						</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
-						<td>
-							<a th:href="@{#}"> <!-- 회원정보LINK -->
-								[[${l.managerName}]]
-							</a>
-						</td>
 						<td>[[${l.updateDate}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1ReturnRegModify/${l.returnRegCode}|}">
 										<button type="button" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>

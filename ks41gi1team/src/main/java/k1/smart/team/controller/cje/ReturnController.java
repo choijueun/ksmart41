@@ -117,7 +117,16 @@ public class ReturnController {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Return";
 		
-		model.addAttribute("stockAdjCode", stockAdjCode);
+		//제품생산내역 상세정보 조회결과
+		resultMap = storingService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Return";
+		
+		//반품처리내역 한줄정보 Storing
+		returnInfo = (Storing) resultMap.get("returnInfo");
+		log.info("자재사용내역 INFO :: {}", returnInfo);
+		model.addAttribute("s", returnInfo);
+		//반품처리내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("returnDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리내역 수정");

@@ -81,14 +81,16 @@ public class SlipService {
 			System.out.println(salesSlipCode + "<-- salesSlipCode 220112 addSlip slipSErvice.java");			
 //========================================			
 			slipMapper.registerSalesSlip(slip);
+			slipMapper.addSalesSlipAc(slip);
 			
 		//1-2 비용			
 		}else if(slip.getPurchaseTsCode() != null && slip.getSalesTsCode() == null ) {
 			System.out.println("1-2 220112 getPurchaseTsCode null 아니고 getSalesTsCode null 220112 addSlip slipSErvice.java");
-			String purchaseSlipCode = slipMapper.salesSlipNum(slip.getSlipDate());
+			String purchaseSlipCode = slipMapper.purchaseSlipNum(slip.getSlipDate());
 			slip.setPurchaseSlipCode(purchaseSlipCode);
 			
 			slipMapper.registerPurchaseSlip(slip);
+			slipMapper.addPurchaseSlipAc(slip);
 		}
 		
 		//return 1;

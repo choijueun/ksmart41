@@ -155,4 +155,43 @@
 	LIMIT 10;
 </select>
 
+<!-- 재고의 수량·중량이 0인지 검사 -->
+<select id="stockRemoveValid" parameterType="String" resultType="map">
+	SELECT 
+		 s.itemCount
+		,s.stockWeight
+	FROM 
+		k1_tb_stock AS s
+	WHERE
+		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+		AND mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<delete id="removeAdjDetailByStock" parameterType="String">
+	DELETE 
+		ad
+	FROM
+		k1_tb_stock AS s
+		JOIN
+		k1_tb_stock_adjustment_detail AS ad
+		ON
+		ad.inventoryCode = s.inventoryCode
+		JOIN
+		k1_tb_stock_adjustment AS a
+		ON
+		s.mainBusinessCode = a.mainBusinessCode
+	WHERE
+		s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+		AND s.mainBusinessCode = #{mainBusinessCode};
+</delete>
+
+<delete id="removeStock">
+	DELETE 
+	FROM 
+		k1_tb_stock
+	WHERE 
+		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+		AND mainBusinessCode = #{mainBusinessCode};
+</delete>
+
 </mapper>

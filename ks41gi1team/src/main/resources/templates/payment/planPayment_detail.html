@@ -18,47 +18,59 @@
 		<div class="row">
 			<div class="col-lg-5">
 				<div class="card card-info card-outline">
-					<div class="card-header">
-						결제예정 상세내역
-					</div>
 					<div class="card-body" th:if="${ planPaymentInfo != null }">
-						<table id="planPaymentInfo" class="table table-bordered">
+						<p class="lead">결제예정[[${planPaymentInfo.payPlanCode}]]</p>
+						<table id="planPaymentInfo" class="table">
 							<tr>
 								<th>No.</th>
 								<td>[[${planPaymentInfo.payPlanCode}]]</td>
+							</tr>
+							<tr>
 								<th>구분</th>
 								<td>[[${planPaymentInfo.type}]]</td>
 							</tr>
 							<tr>
 								<th>거래처명</th>
-								<td colspan="3">[[${planPaymentInfo.businessName}]]</td>
+								<td>[[${planPaymentInfo.businessName}]]</td>
 							</tr>
 							<tr>
 								<th>계약코드</th>
-								<td colspan="3">[[${planPaymentInfo.contractCode}]]</td>
+								<td>[[${planPaymentInfo.contractCode}]]</td>
 							</tr>
 							<tr>
 								<th>합계금액</th>
-								<td colspan="3">[[${#numbers.formatInteger(planPaymentInfo.totalPlanCost,0,'COMMA')}]]원</td>
+								<td>[[${#numbers.formatInteger(planPaymentInfo.totalPlanCost,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
-								<td colspan="3">[[${planPaymentInfo.briefs}]]</td>
+								<td>[[${planPaymentInfo.briefs}]]</td>
 							</tr>
 							<tr>
 								<th>담당자</th>
 								<td>[[${planPaymentInfo.managerName}]]</td>
+							</tr>
+							<tr>
 								<th>등록자</th>
 								<td>[[${planPaymentInfo.regName}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
 								<td>[[${planPaymentInfo.regDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
 								<td>[[${planPaymentInfo.updateDate}]]</td>
 							</tr>
 						</table>
-						<button type="button" class="btn btn-info">수정</button>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1PaymentList}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1PaymentList/plan/modify/${planPaymentInfo.payPlanCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
 					</div>
 					<div class="card-body" th:if="${ planPaymentInfo == null }">
 					잘못된 접근입니다.

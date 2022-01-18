@@ -1,28 +1,24 @@
 package k1.smart.team.controller.psb;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
-import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.UserRegService;
-import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.ContractService;
 
 
@@ -32,6 +28,7 @@ import k1.smart.team.service.psb.ContractService;
 
 public class ContractController {
 
+	
 	private ContractService contractService;
 	private String mainBusinessCode;
 	private ClientService clientService;
@@ -70,6 +67,13 @@ public class ContractController {
 		return checkResult;
 	}
 	
+	//계약서 유효성검사
+	@PostMapping("/k1ContractRegCheck")
+	public Object contracts(@RequestBody Contract contract) {
+		
+		return null;
+	}
+	
 	//계약서 등록
 	@PostMapping("/k1ContractReg")
 	public String addContract(Contract contract) {
@@ -87,8 +91,6 @@ public class ContractController {
 	
 	  @GetMapping("/k1ContractReg") 
 	  public String addContract(Model model) {
-
-		  
 
 		  System.out.println("/addContract GET 방식 요청"); 
 		  model.addAttribute("title","계약서 등록");

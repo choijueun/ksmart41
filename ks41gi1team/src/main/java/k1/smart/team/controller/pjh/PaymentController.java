@@ -36,12 +36,16 @@ public class PaymentController {
 		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 		System.out.println("Controller: "+mainBusinessCode);
 		List<HistoryPayment> historyPayment = pService.getHistoryPaymentList(mainBusinessCode);
+		List<CancelPayment> cancelPayment = pService.getCancelPaymentList(mainBusinessCode);
+		List<PlanPayment> planPayment = pService.getPlanPaymentList(mainBusinessCode);
 		System.out.println("PaymentController.java 결제관리 전체조회 :: "+historyPayment);
 		
 		model.addAttribute("title","결제관리");
 		model.addAttribute("historyPayment", historyPayment);
+		model.addAttribute("planPayment", planPayment);
+		model.addAttribute("cancelPayment", cancelPayment);
 		
-		return "payment/historyPayment_list";
+		return "payment/payment_list";
 	}
 	
 	//결제관리 상세
@@ -88,18 +92,6 @@ public class PaymentController {
 		return "payment/historyPayment_modify";
 	}	
 	
-	//결제취소내역 전체조회
-	@GetMapping("/cancel")
-	public String CancelPayment(Model model) {
-		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<CancelPayment> cancelPayment = pService.getCancelPaymentList(mainBusinessCode);
-		
-		model.addAttribute("title","결제취소 관리");
-		model.addAttribute("cancelPayment", cancelPayment);
-		
-		return "payment/cancelPayment_list";
-	}
-	
 	//결제취소관리 상세
 	@GetMapping("/cancel/{payCancelCode}")
 	public String cancelPaymentInfo(
@@ -138,18 +130,6 @@ public class PaymentController {
 		return "payment/cancelPayment_modify";
 	}
 	
-	//결제예정 조회
-	@GetMapping("/plan")
-	public String PlanPayment(Model model) {
-		mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
-		List<PlanPayment> planPayment = pService.getPlanPaymentList(mainBusinessCode);
-		System.out.println("PaymentController !!!!!!!!!!!!! "+planPayment);
-		model.addAttribute("SectionTitle","결제예정");
-		model.addAttribute("SectionLocation","전체목록");
-		model.addAttribute("planPayment", planPayment);
-		
-		return "payment/planPayment_list";
-	}
 	
 	//결제예정 상세
 	@SuppressWarnings("unchecked")

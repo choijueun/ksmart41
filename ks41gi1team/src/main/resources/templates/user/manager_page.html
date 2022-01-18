@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${SectionLocation}]]</title>
+</th:block>
+<th:block layout:fragment="customCss">
+	<!-- DataTables -->
+	<link rel="stylesheet"
+		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs"></th:block>
+
+<th:block layout:fragment="customContents">
+<!-- content   -->
+	<div class="container-fluid">
+		<div class="card card-info card-outline">
+			<!-- small box 시작  -->
+			<div class="row pt-3"> 
+				<div class="col-lg-4 col-4">
+		            <!-- small box -->
+		            <div class="small-box bg-success">
+		              <div class="inner">
+		                <h3>USER</h3>
+		                <p>마이페이지</p>
+		              </div>
+		              <div class="icon">
+		                <i class="fas fa-cog"></i>
+		              </div>
+		              <a href="#" class="small-box-footer">더보기 <i class="fas fa-arrow-circle-right"></i></a>
+		            </div>
+				</div>
+			
+				<div class="col-lg-4 col-4 ">
+		            <!-- small box -->
+		            <div class="small-box bg-info">
+		              <div class="inner">
+		                <h3>5</h3>
+		                <p>신규 회원가입요청</p>
+		              </div>
+		              <div class="icon">
+		                <i class="fas fa-users"></i>
+		              </div>
+		              <a href="#" class="small-box-footer">더보기 <i class="fas fa-arrow-circle-right"></i></a>
+		            </div>
+				</div>
+				
+				<div class="col-lg-4 col-4 ">
+		            <!-- small box -->
+		            <div class="small-box bg-warning">
+		              <div class="inner">
+		                <h3>2</h3>
+		                <p>일정</p>
+		              </div>
+		              <div class="icon">
+		                <i class="fas fa-calendar"></i>
+		              </div>
+		              <a href="#" class="small-box-footer">더보기 <i class="fas fa-arrow-circle-right"></i></a>
+		            </div>
+				</div>
+			</div>
+			<!-- /small box 마지막  -->
+			
+			<!-- 로그인 내역 시작 -->
+			<div class="card">
+				<div class="card-head">
+					최근 로그인 기록
+				</div>
+						
+				<div class="card-body">
+					<table id="example2"
+						class="table table-bordered table-hover dataTable dtr-inline"
+						role="grid" aria-describedby="example2_info"
+						style="overflow: auto;">
+						<thead class="text-center">
+							<tr role="row">
+								<th>로그인코드</th>
+								<th>사업장코드</th>
+								<th>회원아이디</th>
+								<th>로그인날짜</th>
+								<th>로그아웃날짜</th>
+							</tr>
+						</thead>
+						<tbody id="myTable" class="text-center">
+							<tr th:if="${not #lists.isEmpty(loginList2)}"
+								th:each="l : ${loginList2}">
+								<td><a th:href="@{|/k1Login/loginList/${l.loginCode}|}">
+										[[${l.loginCode}]] </a></td>
+								<td>[[${l.mainBusinessCode}]]</td>
+								<td>[[${l.loginId}]]</td>
+								<td>[[${l.loginDate}]]</td>
+								<td>[[${l.logoutDate}]]</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			
+			</div>
+			<!-- /로그인 내역 마지막 -->
+			
+			<!-- 회원 목록 시작 -->
+			<div class="card">
+				회원목록
+			
+			</div>
+			<!-- /회원 목록 마지막 -->
+			
+			
+			
+		</div>
+	</div>
+
+	
+	
+	
+	
+	
+</th:block>
+
+</html>

@@ -19,49 +19,59 @@
 	<div class="row" th:unless="${ w == null }">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					창고정보
-				</div>
 				<div class="card-body">
-					<table id="warehouseInfo" class="table table-bordered">
+					<p class="lead">창고정보</p>
+					<table id="warehouseInfo" class="table">
 						<tr>
 							<th>창고번호</th>
 							<td>[[${w.warehouseCode}]]</td>
+						</tr>
+						<tr>
 							<th>상태</th>
 							<td>[[${w.status}]]</td>
 						</tr>
 						<tr>
 							<th>창고명</th>
 							<td>[[${w.warehouseName}]]</td>
+						</tr>
+						<tr>
 							<th>면적</th>
 							<td>[[${#numbers.formatInteger(w.area,0,'COMMA')}]] m²</td>
 						</tr>
 						<tr>
 							<th>분류</th>
 							<td>[[${w.category1}]]</td>
+						</tr>
+						<tr>
 							<th>유형</th>
 							<td>[[${w.category2}]]</td>
 						</tr>
 						<tr>
 							<th>위치</th>
 							<td>[[${w.location}]]</td>
+						</tr>
+						<tr>
 							<th>소재지</th>
 							<td>[[${w.outPlace}]]</td>
 						</tr>
 						<tr>
-							<th>현재중량</th>
-							<td th:unless="${w.weightPer} == -1">
-								[[${#numbers.formatInteger(w.currentWeight,0,'COMMA')}]] kg <span class="badge bg-info">[[${w.weightPer}]]%</span>
-							</td>
-							<td th:if="${w.weightPer} == -1">
-								[[${#numbers.formatInteger(w.currentWeight,0,'COMMA')}]] kg
-							</td>
 							<th>최대중량</th>
 							<td>[[${#numbers.formatInteger(w.maxWeight,0,'COMMA')}]] kg</td>
 						</tr>
 						<tr>
+							<th>현재중량</th>
+							<td>
+								<th:block th:unless="${w.weightPer} == -1">
+									[[${#numbers.formatInteger(w.currentWeight,0,'COMMA')}]] kg <span class="badge bg-info">[[${w.weightPer}]]%</span>
+								</th:block>
+								<th:block th:if="${w.weightPer} == -1">
+									error
+								</th:block>
+							</td>
+						</tr>
+						<tr>
 							<th>적재 현황</th>
-							<td colspan="3">
+							<td>
 								<div class="progress progress-xs mt-2" th:unless="${w.weightPer} == -1">
 									<div class="progress-bar bg-info" th:style="'width: '+${w.weightPer}+'%;'"></div>
 		                        </div>
@@ -73,6 +83,8 @@
 						<tr>
 							<th>등록일시</th>
 							<td>[[${w.regDate}]]</td>
+						</tr>
+						<tr>
 							<th>수정일시</th>
 							<td>[[${w.updateDate}]]</td>
 						</tr>
@@ -132,7 +144,9 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
+					<a th:href="@{/k1Stock}">
+						<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
+					</a>
 				</div>
 			</div>
 		</div>

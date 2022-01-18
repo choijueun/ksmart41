@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import k1.smart.team.dto.csh.Login;
 import k1.smart.team.service.Mservice;
 import k1.smart.team.service.csh.LoginService;
 
@@ -22,12 +23,32 @@ public class LoginController {
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
+	
+	//회원가입
+	@GetMapping("/signUp")
+	public String signUp() {
+		
+		return "login/signUp";
+				
+	}
+	
+	//로그인 화면
+	@GetMapping("/login")
+	public String login() {
+		
+		return "login/login";
+	}
+	
+	
 	//로그인 내역
 	@GetMapping("/loginList")
-	public String loginHistory3 (Model model) {
-		model.addAttribute("SectionTitle", "로그인 이력조회");
+	public String loginList (Model model) {
+		List<Login> loginList = loginService.getAllLoginList();
 		
-		return "login/loginHistory3";
+		model.addAttribute("SectionTitle", "로그인 이력조회");
+		model.addAttribute("loginList", loginList);
+		
+		return "login/loginList";
 	}
 	
 	@PostMapping("/loginList")
@@ -38,6 +59,8 @@ public class LoginController {
 		
 		return loginHistoryList;
 	}
+	
+	
 	
 	
 }

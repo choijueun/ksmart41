@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
@@ -12,6 +13,7 @@ import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
+@Transactional(readOnly = true)
 public class ContractService {
 	private ContractMapper contractMapper;
 	private List<Contract> contractList;

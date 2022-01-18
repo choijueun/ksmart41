@@ -39,38 +39,25 @@
 			        },
 			        columns: [
 			        		{ "data": "salesTsCode" },
-				            { "data": "mainBusinessCode" },
-				            { "data": "clientCode" },
-				            { "data": "lsAccountCode" },
-				            { "data": "contractCode" },
+				            { "data": "mbBusinessName" },
+				            { "data": "businessName" },
+				            { "data": "lsAccountName" },
+				            { "data": "contractStatus" },
 				            { "data": "vatType" },
 				            { "data": "amount" },
 				            { "data": "VAT" },
 				            { "data": "totalPrice" },
 				            { "data": "dealDate" },
 				            { "data": "briefs" },
-				            { "data": "userName" },
-				            { "data": "regDate" },
-				            { "data": "updateDate" },
-				            { "data": "수정" },
-				            { "data": "삭제" }
+				            { "data": "수정" }
 				        	],
 				        	columnDefs:[
 				        		{
-				        			'targets' : [14],
+				        			'targets' : [11],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
 				        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-salesTsCode="' + row.salesTsCode +'"><i class="fas fa-pen"></i></button>';		      
-				        						return htmlbtn;
-				        					}
-				        		},
-				        		{
-				        			'targets' : [15],
-				        			'orderable' : false,
-				        			'searchable' : false,
-				        			'render' : function(data, type, row){              //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<button id="removeBtn" class="btn btn-danger float-right" data-salesTsCode="' + row.salesTsCode +'"><i class="fas fa-trash"></i></button>';
 				        						return htmlbtn;
 				        					}
 				        		},
@@ -102,30 +89,30 @@
 			매출 거래 명세서 목록
 		</div>
 		<div class="card-body">
-		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-			<table id="dataTableAjax" class="dataTable" border="1" style="text-align: center;">
+		<div id="sales" class="dataTables_wrapper dt-bootstrap4">
+			<table id="dataTableAjax" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
 					<tr>
 						<th>매출 거래명세서 코드</th>
-						<th>사업장별 대표코드</th>
-						<th>거래처 대표코드</th>
-						<th>계정과목코드</th>
-						<th>계약코드</th>
-						<th>부가세 유형</th>
-						<th>공급가액</th>
-						<th>부가세</th>
+						<th>사업장명</th>
+						<th>거래처명</th>
+						<th style="width:9%;">계정과목</th>
+						<th>계약상태</th>
+						<th style="width:10%;">부가세 유형</th>
+						<th style="width:9%;">공급가액</th>
+						<th style="width:9%;">부가세</th>
 						<th>총 가격</th>
 						<th>거래일자</th>
 						<th>적요</th>
-						<th>등록자</th>
-						<th>등록일시</th>
-						<th>수정일시</th>
 						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 			</table>
 			</div>
+			<a th:href="@{|/k1SalesTransaction/k1SalesTransactionReg|}">
+					<button type="button" class="btn btn-info">등록</button>
+			</a>
+			<button type="button" class="btn btn-danger">삭제</button>
 			</div>
 			</div>
 	</th:block>

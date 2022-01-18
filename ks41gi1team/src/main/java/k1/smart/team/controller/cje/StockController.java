@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
@@ -60,7 +62,6 @@ public class StockController {
 			,Model model) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(inventoryCode)) return "redirect:/k1Stock";
-		log.info("INVENTORY CODE :: {}", inventoryCode);
 		
 		//재고 상세정보 조회결과
 		resultMap = stockService.getStockInfo(mainBusinessCode, inventoryCode);
@@ -77,5 +78,23 @@ public class StockController {
 		model.addAttribute("SectionLocation", "재고정보");
 		
 		return "stock/stock_info";
+	}
+	
+	/**
+	 * Ajax :: 재고 수량/중량 검사
+	 * @param inventoryCode
+	 */
+	@GetMapping("/k1stockRemove")
+	@ResponseBody
+	public char stockRemoveValid(String inventoryCode) {
+		char result = stockService.stockRemoveValid(mainBusinessCode, inventoryCode);
+		return result;
+	}
+	
+	@PostMapping("/k1StockRemove")
+	public String removeStock(String inventoryCode) {
+		stockService.removeStock(mainBusinessCode, inventoryCode);
+		
+		return "redirect:/k1Stock";
 	}
 }

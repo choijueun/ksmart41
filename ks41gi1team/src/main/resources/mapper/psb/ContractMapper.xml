@@ -168,7 +168,8 @@
 			contr.updateDate as updateDate,
 			c.businessRepresentative AS businessRepresentative,
 			c.businessName as businessName,
-			contr.mainBusinessCode
+			contr.mainBusinessCode,
+			mb.businessName as mbBusinessName
 		FROM 
 			k1_tb_contract AS contr
 			INNER JOIN 
@@ -183,6 +184,10 @@
 			k1_tb_user AS u2
 			on
 			contr.regId = u2.userId
+			INNER JOIN
+			k1_tb_main_business as mb
+			ON
+			mb.mainBusinessCode = contr.mainBusinessCode
 		WHERE
 			contr.mainBusinessCode IS NOT NULL
 		<if test="strartNum != null">

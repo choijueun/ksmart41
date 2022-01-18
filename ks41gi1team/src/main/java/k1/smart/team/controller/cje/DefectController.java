@@ -104,12 +104,30 @@ public class DefectController {
 		return "storing/defect/defect_add";
 	}
 	
-	//불량처리내역 수정
+	/**
+	 * 불량처리내역 수정화면
+	 * @param stockAdjCode
+	 * @param model
+	 */
 	@GetMapping("/k1DefectModify/{stockAdjCode}")
 	public String modifyDefect(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
 			,Model model) {
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Defect";
+		
+		//불량처리내역 상세정보 조회결과
+		resultMap = storingService.getDefectInfo(mainBusinessCode, stockAdjCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Defect";
+		
+		//불량처리내역 한줄정보 Storing
+		defectInfo = (Storing) resultMap.get("defectInfo");
+		log.info("자재입고내역 수정화면 INFO :: {}", defectInfo);
+		model.addAttribute("s", defectInfo);
+		//불량처리내역 상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("defectDetail"));
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "불량처리내역 수정");
 		
 		return "storing/defect/defect_modify";
 	}

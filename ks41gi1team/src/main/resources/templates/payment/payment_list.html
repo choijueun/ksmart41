@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title></title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+		$(function(){
+			//DataTables
+			$('#HistoryPayment').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+			$('#PlanPayment').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+			$('#CancelPayment').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 5]
+			        }
+			    ]
+			});
+		});
+	</script>
+</th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+<section class="content">
+	<div class="container-fluid">
+		<div class="card card-info card-outline card-tabs">
+			<div class="card-header p-0 pt-1 border-bottom-0">
+				<ul class="nav nav-tabs" id="purchase-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="history-home-tab" data-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="true">결제내역</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="plan-home-tab" data-toggle="pill" href="#plan" role="tab" aria-controls="plan" aria-selected="false">결제예정</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="cancel-home-tab" data-toggle="pill" href="#cancel" role="tab" aria-controls="cancel" aria-selected="false">결제취소</a>
+					</li>
+				</ul>
+			</div>
+		
+			<div class="card-body">
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="history" role="tabpanel" aria-labelledby="history-home-tab">
+						<table id="HistoryPayment" class="table table-bordered table-hover dataTable dtr-inline">
+							<thead>
+								<tr>
+									<th class="text-center">
+										<input type="checkbox" id="h-allCheck">
+									</th>
+									<th>NO.</th>
+									<th>거래처명</th>
+									<th>구분</th>
+									<th>합계금액</th>
+									<th>적요</th>
+									<th class="text-center">수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${not #lists.isEmpty(historyPayment)}" th:each="h : ${historyPayment}">
+									<td class="text-center"><input type="checkbox"></td>
+									<td>
+										<a th:href="@{|/k1PaymentList/history/${h.payHistoryCode}|}">
+											[[${h.payHistoryCode}]]
+										</a>
+									</td>
+									<td>[[${h.businessName}]]</td>
+									<td th:style="${h.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${h.type}"></td>
+									<td>[[${#numbers.formatInteger(h.payCost,0,'COMMA')}]]원</td>
+									<td>[[${h.briefs}]]</td>
+									<td class="text-center">
+										<a th:href="@{|/k1PaymentList/modify/${h.payHistoryCode}|}">
+											<button type="button" class="btn btn-info btn-sm">
+												<i class="fas fa-pen"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(historyPayment)}">
+									<td colspan="9">정보가 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+						<a th:href="@{|/k1PaymentList/history/add|}">
+							<button type="button" class="btn btn-info mt-3">등록</button>
+						</a>
+						<button type="button" class="btn btn-danger mt-3">삭제</button>
+					</div>
+				
+				
+					<div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="plan-home-tab">
+						<table id="PlanPayment" class="table table-bordered table-hover dataTable dtr-inline">
+							<thead>
+								<tr>
+									<th class="text-center">
+										<input type="checkbox" id="p-allCheck">
+									</th>
+									<th>결제 예정번호</th>
+									<th>거래처명</th>
+									<th>구분</th>
+									<th>결제예정 합계금액</th>
+									<th>적요</th>
+									<th class="text-center">수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${not #lists.isEmpty(planPayment)}" th:each="p : ${planPayment}">
+									<td class="text-center"><input type="checkbox"></td>
+									<td>
+										<a th:href="@{|/k1PaymentList/plan/${p.payPlanCode}|}">
+											[[${p.payPlanCode}]]
+										</a>
+									</td>
+									<td>[[${p.businessName}]]</td>
+									<td th:style="${p.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${p.type}"></td>
+									<td>[[${#numbers.formatInteger(p.totalPlanCost,0,'COMMA')}]]원</td>
+									<td>[[${p.briefs}]]</td>
+									<td class="text-center">
+										<a th:href="@{|/k1PaymentList/plan/modify/${p.payPlanCode}|}">
+											<button type="button" class="btn btn-info btn-sm">
+												<i class="fas fa-pen"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(planPayment)}">
+									<td colspan="9">정보가 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+						<a th:href="@{|/k1PaymentList/plan/add|}">
+							<button type="button" class="btn btn-info mt-3">등록</button>
+						</a>
+							<button type="button" class="btn btn-danger mt-3">삭제</button>
+					</div>
+					
+					<div class="tab-pane fade" id="cancel" role="tabpanel" aria-labelledby="cancel-home-tab">
+						<table id="CancelPayment" class="table table-bordered table-hover dataTable dtr-inline">
+							<thead>
+								<tr>
+									<th class="text-center">
+										<input type="checkbox" id="c-allCheck">
+									</th>
+									<th>결제취소코드</th>
+									<th>취소금액</th>
+									<th>승인일자</th>
+									<th>취소사유</th>
+									<th class="text-center">수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${not #lists.isEmpty(cancelPayment)}" th:each="c : ${cancelPayment}">
+									<td class="text-center"><input type="checkbox"></td>
+									<td>
+										<a th:href="@{|/k1PaymentList/cancel/${c.payCancelCode}|}">
+											[[${c.payCancelCode}]]
+										</a>
+									</td>
+									<td>[[${#numbers.formatInteger(c.cancelCost,0,'COMMA')}]]원</td>
+									<td>[[${c.approvalDate}]]</td>
+									<td>[[${c.reason}]]</td>
+									<td class="text-center">
+										<a th:href="@{|/k1PaymentList/cancel/modify/${c.payCancelCode}|}">
+											<button type="button" class="btn btn-info btn-sm">
+												<i class="fas fa-pen"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(cancelPayment)}">
+									<td colspan="9">정보가 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+						<a th:href="@{|/k1PaymentList/cancel/add|}">
+							<button type="button" class="btn btn-info mt-3">등록</button>
+						</a>
+							<button type="button" class="btn btn-danger mt-3">삭제</button>
+					</div>
+					
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</th:block>
+
+</html>

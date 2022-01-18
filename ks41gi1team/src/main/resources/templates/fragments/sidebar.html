@@ -20,7 +20,7 @@ $(function(){
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
-	<a th:href="@{/}" class="brand-link">
+	<a th:href="@{/main}" class="brand-link">
 		<img th:src="@{/SMARTORY/SidebarLogo.png}" alt="SMARTORY Logo" class="brand-image" style="opacity: .8; float:none;">
 		<!-- <span class="brand-text font-weight-light">SMARTORY</span> -->
 	</a>
@@ -41,73 +41,22 @@ $(function(){
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a th:href="@{/k1UserReg/userRegList}" class="nav-link">
+					<a th:href="@{/k1UserReg/managerPage}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
-						<p> 
-							회원 관리 - 최선희 
-							<i class="right fas fa-angle-left"></i>
-						</p>
+						<p> 회원 관리 - 최선희 </p>
 					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1UserReg/userRegList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 회원가입 요청 내역 -!</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Login/loginList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 로그인 내역 -!</p>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li class="nav-item">
 					<a th:href="@{/k1Business/businessList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
-						<p> 
-							사업장 관리 - 최선희
-							<i class="right fas fa-angle-left"></i>
-						</p>
+						<p>	사업장 관리 - 최선희	</p>
 					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1Business/businessList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 사업장 조회 -! </p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Business/businessRegister}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 사업장 등록 -! </p>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li class="nav-item">
 					<a th:href="@{/k1Client/clientList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
-						<p> 
-							거래처 관리 - 최선희
-							<i class="right fas fa-angle-left"></i>
-						</p>
+						<p>거래처 관리 - 최선희</p>
 					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1Client/clientList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 거래처 조회 -! </p>
-							</a> 
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1Client/clientRegister}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 거래처 등록 -! </p>
-							</a>
-						</li>
-					</ul>
 				</li>
 				<li class="nav-item">
 					<a th:href="@{/k1Stock}" class="nav-link">
@@ -192,7 +141,7 @@ $(function(){
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1Contract/k1ContractHistory}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							계약 관리 - 박수빈
@@ -201,12 +150,6 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1Contract/k1ContractReg}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>계약서 등록 - # </p>
-							</a>
-						</li>
-						<li class="nav-item">
 							<a th:href="@{/k1Contract/k1ContractHistory}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>계약서 조회 - #</p>
@@ -214,57 +157,13 @@ $(function(){
 						</li>
 					</ul>
 				</li>
+				
+				
 				<li class="nav-item">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
-							전표 관리 - 박재형
-							<i class="right fas fa-angle-left"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1SlipList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>전표 조회 - # </p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1SlipList/add}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>전표 등록 - #</p>
-							</a>
-					</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-circle"></i>
-						<p>
-							비용 관리 - 박재형
-							<i class="right fas fa-angle-left"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1CostList/add}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>비용 등록 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1CostList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>비용 조회 - # </p>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-circle"></i>
-						<p>
-							결제 관리 - 박재형
+							거래 관리 - 박재형
 							<i class="right fas fa-angle-left"></i>
 						</p>
 					</a>
@@ -275,16 +174,10 @@ $(function(){
 								<p>결제 조회 - #</p>
 							</a>
 						</li>
-							<li class="nav-item">
-							<a th:href="@{/k1PaymentList/plan}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>결제예정 조회 - # </p>
-							</a>
-						</li>
 						<li class="nav-item">
-							<a th:href="@{/k1PaymentList/cancel}" class="nav-link">
+							<a th:href="@{/k1SlipList}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>결제취소 조회 - #</p>
+								<p>전표 조회 - # </p>
 							</a>
 						</li>
 					</ul>
@@ -350,25 +243,9 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1SalesTransaction/k1SalesTransactionReg}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 매출 거래 명세서 등록 - #</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
 							<a th:href="@{/k1SalesTransaction/k1SalesTransactionHistory}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p> 매출 거래 명세서 조회 - #</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionReg}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 비용 거래 명세서 등록- #</p>
 							</a>
 						</li>
 					</ul>
@@ -399,15 +276,15 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1InvoiceList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>계정과목 조회- #</p>
-							</a>
-						</li>
-						<li class="nav-item">
 							<a th:href="@{/k1TotalAc}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>통합회계 관리 - # </p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/k1CostList}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>비용 조회 - # </p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -416,6 +293,7 @@ $(function(){
 								<p>결산 현황 - #</p>
 							</a>
 						</li>
+						
 					</ul>
 				</li>
 			</ul>
