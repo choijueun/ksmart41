@@ -65,8 +65,9 @@ public class CostService {
 		return costMapper.getAddCostCode();
 	}
 	
-	public int costModify(Cost cost) {
-		return costMapper.costModify(cost);
+	//기타비용 수정
+	public void costModify(Cost cost) {
+		costMapper.costModify(cost);
 	}
 	
 	

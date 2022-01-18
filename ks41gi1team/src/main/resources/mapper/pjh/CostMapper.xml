@@ -36,18 +36,18 @@
 			etcPurchaseCode = #{etcPurchaseCode};
 	</select>
 	<insert id="addCost" parameterType="Cost">
-	INSERT INTO k1_tb_etc_purchase
-			(etcPurchaseCode, mainBusinessCode, lsAccountCode, amount, dealDate, reportPoint, briefs, regDate, updateDate)
-	VALUES (
-		#{etcPurchaseCode}
-		,'fac_ksmartSeoul_Seoul_001'
-		,#{lsAccountCode}
-		,#{amount}
-		,#{dealDate}
-		,#{reportPoint}
-		,#{briefs}
-		,NOW()
-		,NOW());
+		INSERT INTO k1_tb_etc_purchase
+				(etcPurchaseCode, mainBusinessCode, lsAccountCode, amount, dealDate, reportPoint, briefs, regDate, updateDate)
+		VALUES (
+			#{etcPurchaseCode}
+			,'fac_ksmartSeoul_Seoul_001'
+			,#{lsAccountCode}
+			,#{amount}
+			,#{dealDate}
+			,#{reportPoint}
+			,#{briefs}
+			,NOW()
+			,NOW());
 	</insert>
 	<select id="getAddCostCode" resultType="String">
 		SELECT 
@@ -58,6 +58,21 @@
 	
 	
 	<update id="costModify"  parameterType="Cost">
-		
+		UPDATE k1_tb_etc_purchase
+		SET
+			<if test="lsAccountCode !=null and lsAccountCode != ''.toString()">
+			lsAccountCode = #{lsAccountCode},
+			</if>
+			<if test="amount !=null and amount != ''.toString()">
+			amount = #{amount},
+			</if>
+			<if test="dealDate !=null and dealDate != ''.toString()">
+			dealDate = #{dealDate},
+			</if>
+			reportPoint = #{reportPoint},
+			briefs = #{briefs},
+			updateDate = NOW()
+		WHERE 
+			etcPurchaseCode = CONCAT('etcPurchaseCode_',#{etcPurchaseCode});
 	</update>
 </mapper>
