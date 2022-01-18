@@ -60,4 +60,10 @@ public interface ItemMapper {
 	 * @param stock
 	 */
 	public void addItemCategory(Stock stock);
+
+	/**
+	 * 카테고리 정보 수정
+	 * @param stock
+	 */
+	public void modifyItemCategory(Stock stock);
 }
