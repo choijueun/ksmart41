@@ -7,9 +7,44 @@
 	<title>[[${SectionTitle}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+		$(function(){
+			//DataTables
+			$('#p_slipList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+			$('#s_slipList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+		});
+	</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
-
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
@@ -32,12 +67,12 @@
 			
 			
 			<div class="card-body ">
-				<div class="card tab-content" id= "p_slip">
+				<div class="tab-content" id= "p_slip">
 					<div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-home-tab">
 						<table id="p_slipList" class="table table-bordered table-hover dataTable dtr-inline" >
 							<thead>
 								<tr>
-									<th>
+									<th class="text-center">
 										<input type="checkbox" id="p_allCheck">
 									</th>
 									<th>전표코드</th>
@@ -45,13 +80,13 @@
 									<th>거래처명</th>
 									<th>금액</th>
 									<th>적요</th>
-									<th>수정</th>
+									<th class="text-center">수정</th>
 								</tr>
 							</thead>
 							
 						<tbody>
 							<tr th:if="${not #lists.isEmpty(p_slipList)}" th:each="l : ${p_slipList}">
-								<td><input type="checkbox"></td>
+								<td class="text-center"><input type="checkbox"></td>
 								<td>
 									<a th:href="@{|/k1SlipList/purchase/${l.purchaseSlipCode}|}">
 										[[${l.purchaseSlipCode}]]
@@ -61,9 +96,11 @@
 								<td>[[${l.businessName}]]</td>
 								<td>[[${#numbers.formatInteger(l.amt,0,'COMMA')}]]원</td>
 								<td>[[${l.briefs}]]</td>
-								<td>
+								<td class="text-center">
 									<a th:href="@{|/k1SlipList/modify/${l.purchaseSlipCode}|}">
-										<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 									</a>
 								</td>
 							</tr>
@@ -71,13 +108,12 @@
 						</tbody>
 					</table>
 				</div>
-			
 				
 					<div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-home-tab">
 						<table id="s_slipList" class="table table-bordered table-hover dataTable dtr-inline">
 							<thead>
 								<tr>
-									<th>
+									<th class="text-center">
 										<input type="checkbox" id="s_allCheck">
 									</th>
 									<th>전표코드</th>
@@ -91,7 +127,7 @@
 								
 							<tbody>
 								<tr th:if="${not #lists.isEmpty(s_slipList)}" th:each="s : ${s_slipList}">
-									<td><input type="checkbox"></td>
+									<td class="text-center"><input type="checkbox"></td>
 									<td>
 										<a th:href="@{|/k1SlipList/sales/${s.salesSlipCode}|}">
 											[[${s.salesSlipCode}]]
@@ -101,9 +137,11 @@
 									<td>[[${s.businessName}]]</td>
 									<td>[[${#numbers.formatInteger(s.amt,0,'COMMA')}]]원</td>
 									<td>[[${s.briefs}]]</td>
-									<td>
+									<td class="text-center">
 									<a th:href="@{|/k1SlipList/modify/${s.salesSlipCode}|}">
-										<i class="fas fa-pen"></i>
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
 									</a>
 								</td>
 								</tr>

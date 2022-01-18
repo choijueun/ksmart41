@@ -17,10 +17,11 @@
 		</ul>
 		<!-- Right navbar links -->
 		<ul class="navbar-nav ml-auto">
-		
+			
+			<!-- 사업장 선택 드롭다운 -->
 			<li class="nav-item dropdown">
 				<a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-					<i class="far fa-building"></i>
+					<i class="far fa-building"></i> 사업장 선택
 					<span class="badge badge-info navbar-badge">2</span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
@@ -42,25 +43,6 @@
 					
 					<div class="dropdown-divider"></div>
 					<a th:href="@{/k1Business/businessList}" class="dropdown-item dropdown-footer">사업장 관리</a>
-				</div>
-			</li>
-			
-			<li class="nav-item dropdown">
-				<a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-					<i class="fas fa-user-tie"></i>
-					 [직원] 최주은 님
-				</a>
-				<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-					<span class="dropdown-item dropdown-header">id003</span>
-					
-					<div class="dropdown-divider"></div>
-					
-					<a href="#" class="dropdown-item">
-						<i class="fas fa-info-circle"></i> 회원정보
-					</a>
-					
-					<div class="dropdown-divider"></div>
-					<a th:href="@{#}" class="dropdown-item dropdown-footer">LOGOUT</a>
 				</div>
 			</li>
 			

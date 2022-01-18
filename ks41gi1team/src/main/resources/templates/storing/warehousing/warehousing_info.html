@@ -19,15 +19,15 @@
 	<div class="row">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					자재입고내역
-				</div>
 				<th:block th:if="${ s != null }">
 					<div class="card-body">
-						<table id="warehousingInfo" class="table table-bordered">
+						<p class="lead">자재입고내역</p>
+						<table id="warehousingInfo" class="table">
 							<tr>
 								<th>No.</th>
-								<td colspan="3">[[${s.stockAdjCode}]]</td>
+								<td>[[${s.stockAdjCode}]]</td>
+							</tr>
+							<tr>
 								<th>상태</th>
 								<td th:if="${s.endDate != null}">
 									완료
@@ -37,19 +37,27 @@
 							</tr>
 							<tr>
 								<th>입고창고</th>
-								<td colspan="2">
+								<td>
 									<a th:href="@{|/k1Warehouse/${s.receiveWarehouse}|}">
 										[[${s.receiveWarehouseName}]]
 									</a>
 								</td>
-								<td th:if="${s.receiveWarehouseOutPlace == null}">[[${s.receiveWarehouseLocation}]]</td>
-								<td th:if="${s.receiveWarehouseOutPlace != null}">[[${s.receiveWarehouseLocation}]] ([[${s.receiveWarehouseOutPlace}]])</td>
+							</tr>
+							<tr>
+								<th>위치 (소재지)</th>
+								<td>[[${s.receiveWarehouseLocation}]] 
+									<th:block th:if="${s.receiveWarehouseOutPlace != null}">
+										([[${s.receiveWarehouseOutPlace}]])
+									</th:block>
+								</td>
+							</tr>
+							<tr>
 								<th>합계금액</th>
 								<td>[[${#numbers.formatInteger(s.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>거래처</th>
-								<td colspan="5">
+								<td>
 									<!-- 거래처정보LINK -->
 									[[${s.businessName}]]
 									<a th:if="${s.contractCode != null}">
@@ -63,23 +71,31 @@
 							<tr>
 								<th>적요</th>
 								<td colspan="3">[[${s.briefs}]]</td>
+							</tr>
+							<tr>
 								<!-- 회원정보 LINK -->
 								<th>담당자</th>
 								<td>[[${s.managerName}]]</td>
 							</tr>
 							<tr>
-								<th>요청</th>
+								<th>요청일자</th>
 								<td>[[${s.requestDate}]]</td>
-								<th>처리</th>
+							</tr>
+							<tr>
+								<th>처리일자</th>
 								<td>[[${s.adjDate}]]</td>
-								<th>완료</th>
+							</tr>
+							<tr>
+								<th>완료일자</th>
 								<td>[[${s.endDate}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
-								<td colspan="2">[[${s.regDate}]]</td>
+								<td>[[${s.regDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
-								<td colspan="2">[[${s.updateDate}]]</td>
+								<td>[[${s.updateDate}]]</td>
 							</tr>
 						</table>
 					</div>
@@ -138,7 +154,7 @@
 								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
 								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
 								<td>매출 [[${l.salesTsCode}]]</td>
-								<td>[[${l.stockStatus}]]</td>
+								<td>[[${l.status}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
 							<tr th:if="${ s == null or details == null }">

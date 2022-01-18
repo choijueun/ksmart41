@@ -29,6 +29,12 @@ public interface ItemMapper {
 	 */
 	public List<Stock> getItemStock(String itemCode);
 	
+	/**
+	 * 사업장의 모든 카테고리 목록 조회
+	 * @param mainBusinessCode
+	 */
+	public List<Stock> getAllCategories(String mainBusinessCode);
+	
 	//카테고리 목록 조회
 	public List<String> getCategoryLarge();
 	public List<String> getCategoryMiddle(String largeCategory);
@@ -47,4 +53,11 @@ public interface ItemMapper {
 	 * @return 성공시 1 실패시 0
 	 */
 	public int addItem(Stock itemInfo);
+	
+	/**
+	 * 카테고리 정보 등록
+	 * @param mainBusinessCode
+	 * @param stock
+	 */
+	public void addItemCategory(Stock stock);
 }

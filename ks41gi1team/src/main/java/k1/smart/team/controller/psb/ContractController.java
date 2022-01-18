@@ -1,13 +1,8 @@
 package k1.smart.team.controller.psb;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
-import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.UserRegService;
-import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.psb.ContractService;
 
 
@@ -76,7 +69,7 @@ public class ContractController {
 	
 	//계약서 유효성검사
 	@PostMapping("/k1ContractRegCheck")
-	public Object contracts(@Valid @RequestBody Contract contract) {
+	public Object contracts(@RequestBody Contract contract) {
 		
 		return null;
 	}

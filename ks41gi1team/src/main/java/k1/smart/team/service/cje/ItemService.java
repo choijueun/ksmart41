@@ -58,9 +58,13 @@ public class ItemService {
 
 		return resultMap;
 	}
+	
+	public List<Stock> getAllCategories(String mainBusinessCode) {
+		return itemMapper.getAllCategories(mainBusinessCode);
+	}
 
 	/**
-	 * 품목 카테고리 조회
+	 * 특정 카테고리 조회
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
@@ -117,5 +121,14 @@ public class ItemService {
 		if (itemMapper.addItem(itemInfo) == 1) return true;
 
 		return false;
+	}
+	
+	/**
+	 * 카테고리 정보 등록 절차
+	 * @param mainBusinessCode
+	 * @param stock
+	 */
+	public void addItemCategory(Stock stock) {
+		itemMapper.addItemCategory(stock);
 	}
 }

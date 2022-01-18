@@ -39,6 +39,16 @@ $(function(){
         "autoWidth": false,
         "responsive": true,
       });
+	
+	//allCheck
+	var chkbox = $('.chkbox');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
+	});
 });
 </script>
 </th:block>
@@ -79,22 +89,23 @@ $(function(){
 			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th>
+						<th class="text-center">
 							<input type="checkbox" id="allCheck">
 						</th>
 						<th>No.</th>
 						<th>품목명</th>
 						<th>분류</th>
-						<th>수량</th>
 						<th>창고</th>
+						<th>수량</th>
+						<th>중량</th>
 						<th>비고</th>
 						<th>상태</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-						<td><input type="checkbox"></td>
+						<td class="text-center"><input type="checkbox" class="chkbox"></td>
 						<td>
 							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 								[[${l.inventoryCode}]]
@@ -106,11 +117,12 @@ $(function(){
 							</a>
 						</td>
 						<td>[[${l.itemType}]]</td>
-						<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
 						<td>[[${l.warehouseName}]]</td>
+						<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
+						<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]]</td>
 						<td>[[${l.comment}]]</td>
 						<td>[[${l.status}]]</td>
-						<td>
+						<td class="text-center">
 							<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
 									th:data-inventoryCode="${l.inventoryCode}">
 								<i class="fas fa-pen"></i>

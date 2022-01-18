@@ -20,52 +20,54 @@
 			</div>
 			<div class="col-lg-6 col-md-8 mb-3">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					매출전표[[${salesSlipInfo.purchaseSlipCode}]]
-				</div>
 				<div class="card-body">
-					<table id="salesSlipInfo" class="table table-bordered">
+					<p class="lead">매출전표[[${salesSlipInfo.purchaseSlipCode}]]</p>
+					<table id="salesSlipInfo" class="table">
 						<tr>
 							<th>전표일자</th>
-							<td colspan="3">[[${salesSlipInfo.salesSlipCode}]]</td>
+							<td>[[${salesSlipInfo.salesSlipCode}]]</td>
 						</tr>
 						<tr>
 							<th>구분</th>
-							<td colspan="3">매출</td>
+							<td>매출</td>
 						</tr>
 						<tr>
 							<th>명세서코드</th>
-							<td colspan="3">[[${salesSlipInfo.salesTsCode}]]</td>
+							<td>[[${salesSlipInfo.salesTsCode}]]</td>
 						</tr>
 						<tr>
 							<th>거래처명</th>
-							<td colspan="3">[[${salesSlipInfo.businessName}]]</td>
+							<td>[[${salesSlipInfo.businessName}]]</td>
 						</tr>
 						<tr>
 							<th>공급가액</th>
 							<td>[[${#numbers.formatInteger(salesSlipInfo.amount,0,'COMMA')}]]원</td>
+						</tr>
+						<tr>
 							<th>부가세</th>
 							<td>[[${#numbers.formatInteger(salesSlipInfo.tax,0,'COMMA')}]]원</td>
 						</tr>
 						<tr>
 							<th>수량</th>
-							<td colspan="3">[[${salesSlipInfo.count}]]</td>
+							<td>[[${salesSlipInfo.count}]]</td>
 						</tr>
 						<tr>
 							<th>합계금액</th>
-							<td colspan="3">[[${#numbers.formatInteger(salesSlipInfo.amt,0,'COMMA')}]]원</td>
+							<td>[[${#numbers.formatInteger(salesSlipInfo.amt,0,'COMMA')}]]원</td>
 						</tr>
 						<tr>
 							<th>적요</th>
-							<td colspan="3">[[${salesSlipInfo.briefs}]]</td>
+							<td>[[${salesSlipInfo.briefs}]]</td>
 						</tr>
 						<tr>
 							<th>담당자</th>
-							<td colspan="3">[[${salesSlipInfo.userName}]]</td>
+							<td>[[${salesSlipInfo.userName}]]</td>
 						</tr>
 						<tr>
 							<th>등록일시</th>
 							<td>[[${salesSlipInfo.regDate}]]</td>
+						</tr>
+						<tr>
 							<th>수정일시</th>
 							<td>[[${salesSlipInfo.updateDate}]]</td>
 						</tr>
