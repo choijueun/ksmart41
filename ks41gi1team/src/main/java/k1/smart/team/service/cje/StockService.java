@@ -74,4 +74,27 @@ public class StockService {
 		
 		return resultMap;
 	}
+	
+	/**
+	 * 재고 수량/중량 검사
+	 * @param mainBusinessCode
+	 * @param inventoryCode
+	 * @return E: 에러 / Y: 수량중량0(삭제가능) / N: 삭제 불가능
+	 */
+	public char stockRemoveValid(String mainBusinessCode, String inventoryCode) {
+		Map<String, Object> resultMap = stockMapper.stockRemoveValid(mainBusinessCode, inventoryCode);
+		if(CommonUtils.isEmpty(resultMap)) {
+			return 'E';
+		}
+		if ( (int) resultMap.get("itemCount") == 0 && (int) resultMap.get("stockWeight") == 0) {
+			return 'Y';
+		}
+		
+		return 'N';
+	}
+	
+	public void removeStock(String mainBusinessCode, String inventoryCode) {
+		stockMapper.removeAdjDetailByStock(mainBusinessCode, inventoryCode);
+		stockMapper.removeStock(mainBusinessCode, inventoryCode);
+	}
 }
