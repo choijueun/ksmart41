@@ -242,4 +242,17 @@
 		AND itemName = #{itemName};
 </select>
 
+<insert id="addItemCategory" parameterType="Stock">
+	INSERT INTO k1_tb_item_category
+		(categoryCode, mainBusinessCode, largeCategory, middleCategory, smallCategory, microCategory, `comment`, regDate, updateDate)
+	VALUES (
+		CONCAT('categoryCode_',(SELECT
+									LPAD(CAST(MAX(RIGHT(c.categoryCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+								FROM 
+									k1_tb_item_category AS c)
+				)
+		, #{mainBusinessCode}, #{largeCategory}, #{middleCategory}, #{smallCategory}, #{microCategory}, #{comment}, NOW(), NOW()
+	);
+</insert>
+
 </mapper>
