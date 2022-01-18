@@ -10,20 +10,30 @@
 			k1_tb_login;
 	</select>
 	
-	<select id="getLoginHistoryList" parameterType="map" resultType="map">
+	<select id="getAllLoginList" parameterType="String" resultType="Login">
 		SELECT 
-			 l.loginCode
-			,l.mainBusinessCode
-			,l.loginId
-			,l.loginDate
-			,l.logoutDate
+			 loginCode
+			,mainBusinessCode
+			,loginId
+			,loginDate
+			,logoutDate
 		FROM 
-			k1_tb_login AS l
-		<if test="startNum != null">	
-			LIMIT #{startNum}, #{rowPerPage};
-		</if>
+			k1_tb_login
 	</select>
- 
+ 	
+ 	<select id="getLimitLoginList" resultType="Login">
+		SELECT 
+			 loginCode
+			,mainBusinessCode
+			,loginId
+			,loginDate
+			,logoutDate
+		FROM 
+			k1_tb_login
+		ORDER BY loginCode DESC
+		LIMIT 0,5 ;
+	</select>
+	
  
  
  </mapper>
