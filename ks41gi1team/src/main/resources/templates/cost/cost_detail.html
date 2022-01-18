@@ -52,7 +52,9 @@
 								<td>[[${costInfo.updateDate}]]</td>
 							</tr>
 						</table>
-						<button type="button" class="btn btn-info mt-3">수정</button>
+						<a th:href="@{|/k1CostList/modify/${costInfo.etcPurchaseCode}|}">
+							<button type="button" class="btn btn-info mt-3">수정</button>
+						</a>
 					</div>
 				</div>
 			</div>
