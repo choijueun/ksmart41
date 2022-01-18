@@ -39,7 +39,7 @@ $(function(){
 			<table id="adjList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th>
+						<th class="text-center">
 							<input type="checkbox" id="allCheck">
 						</th>
 						<th>No.</th>
@@ -49,14 +49,13 @@ $(function(){
 						<th>요청</th>
 						<th>조정</th>
 						<th>완료</th>
-						<th>담당자</th>
 						<th>수정일시</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(adjList)}" th:each="l : ${adjList}">
-						<td>
+						<td class="text-center">
 							<input type="checkbox">
 						</td>
 						<td>
@@ -74,10 +73,8 @@ $(function(){
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
-						<!-- 회원정보 LINK -->
-						<td>[[${l.managerName}]]</td>
 						<td>[[${l.updateDate}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1AdjustmentModify/${l.stockAdjCode}|}">
 										<button type="button" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>

@@ -208,6 +208,9 @@ public class ItemController {
 	
 	@GetMapping("/k1ItemCategory")
 	public String itemCategory(Model model) {
+		itemList = itemService.getAllCategories(mainBusinessCode);
+		
+		model.addAttribute("categories", itemList);
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "카테고리");

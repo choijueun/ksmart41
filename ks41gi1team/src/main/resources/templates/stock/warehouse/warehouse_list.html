@@ -42,7 +42,7 @@ $(function(){
 			<table id="warehouseList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th>
+						<th class="text-center">
 							<input type="checkbox" id="allCheck">
 						</th>
 						<th>No.</th>
@@ -54,12 +54,12 @@ $(function(){
 						<th>%</th>
 						<th>위치(외부소재지)</th>
 						<th>상태</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(warehouseList)}" th:each="l : ${warehouseList}">
-						<td><input type="checkbox"></td>
+						<td class="text-center"><input type="checkbox"></td>
 						<td>
 							<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
 								[[${l.warehouseCode}]]
@@ -88,7 +88,7 @@ $(function(){
 							[[${l.location}]] ([[${l.outPlace}]])
 						</td>
 						<td>[[${l.status}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
 								<button type="button" class="btn btn-info btn-sm">
 									<i class="fas fa-pen"></i>

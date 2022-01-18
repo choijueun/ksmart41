@@ -42,21 +42,20 @@ $(function(){
 			<table id="deliveryList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="allCheck"></th>
+						<th class="text-center"><input type="checkbox" id="allCheck"></th>
 						<th>No.</th>
 						<th>적요</th>
 						<th>거래처</th>
 						<th>운송업체</th>
 						<th>도착지</th>
 						<th>운송비</th>
-						<th>담당자</th>
 						<th>수정일시</th>
-						<th>수정</th>
+						<th class="text-center">수정</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(deliveryList)}" th:each="l : ${deliveryList}">
-						<td><input type="checkbox"></td>
+						<td class="text-center"><input type="checkbox"></td>
 						<td>
 							<a th:href="@{|/k1Delivery/${l.deliveryCode}|}">
 								[[${l.deliveryCode}]]
@@ -79,13 +78,8 @@ $(function(){
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
 						<td>[[${#numbers.formatInteger(l.deliveryCost,0,'COMMA')}]]</td>
-						<td>
-							<a th:href="@{#}"> <!-- 회원정보 LINK -->
-								[[${l.managerName}]]
-							</a>
-						</td>
 						<td>[[${l.updateDate}]]</td>
-						<td>
+						<td class="text-center">
 							<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">
 										<button type="button" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>

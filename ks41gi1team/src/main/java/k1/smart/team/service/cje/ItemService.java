@@ -58,9 +58,13 @@ public class ItemService {
 
 		return resultMap;
 	}
+	
+	public List<Stock> getAllCategories(String mainBusinessCode) {
+		return itemMapper.getAllCategories(mainBusinessCode);
+	}
 
 	/**
-	 * 품목 카테고리 조회
+	 * 특정 카테고리 조회
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
