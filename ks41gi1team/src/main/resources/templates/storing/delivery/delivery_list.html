@@ -49,7 +49,6 @@ $(function(){
 						<th>운송업체</th>
 						<th>도착지</th>
 						<th>운송비</th>
-						<th>담당자</th>
 						<th>수정일시</th>
 						<th>수정</th>
 					</tr>
@@ -79,11 +78,6 @@ $(function(){
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
 						<td>[[${#numbers.formatInteger(l.deliveryCost,0,'COMMA')}]]</td>
-						<td>
-							<a th:href="@{#}"> <!-- 회원정보 LINK -->
-								[[${l.managerName}]]
-							</a>
-						</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1DeliveryModify/${l.deliveryCode}|}">

@@ -48,7 +48,6 @@ $(function(){
 						<th>요청</th>
 						<th>반품</th>
 						<th>완료</th>
-						<th>담당자</th>
 						<th>수정일시</th>
 						<th>수정</th>
 					</tr>
@@ -69,7 +68,6 @@ $(function(){
 							</a>
 						</td>
 						<td>
-							<!-- 거래처정보 LINK -->
 								[[${l.businessName}]]
 						</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
@@ -77,10 +75,6 @@ $(function(){
 						<td>[[${l.requestDate}]]</td>
 						<td>[[${l.adjDate}]]</td>
 						<td>[[${l.endDate}]]</td>
-						<td>
-							<!-- 회원정보LINK -->
-							[[${l.managerName}]]
-						</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1ProductionModify/${l.stockAdjCode}|}">

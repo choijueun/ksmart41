@@ -47,7 +47,6 @@ $(function(){
 						<th>적요</th>
 						<th>거래처</th>
 						<th>합계금액</th>
-						<th>담당자</th>
 						<th>수정일</th>
 						<th>수정</th>
 					</tr>
@@ -66,16 +65,9 @@ $(function(){
 							</a>
 						</td>
 						<td>
-							<a th:href="@{#}"> <!-- 거래처LINK -->
 								[[${l.businessName}]]
-							</a>
 						</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>
-						<td>
-							<a th:href="@{#}"> <!-- 회원정보LINK -->
-								[[${l.managerName}]]
-							</a>
-						</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1ReturnRegModify/${l.returnRegCode}|}">

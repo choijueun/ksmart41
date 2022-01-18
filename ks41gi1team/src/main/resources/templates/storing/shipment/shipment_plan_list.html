@@ -45,7 +45,6 @@ $(function(){
 						<td>거래처</td>
 						<td>배송지</td>
 						<td>예상출하일</td>
-						<td>담당자</td>
 						<td>수정일시</td>
 						<td>수정</td>
 					</tr>
@@ -64,17 +63,12 @@ $(function(){
 							</a>
 						</td>
 						<td>
-							<a th:href="@{#}"> <!-- 거래처정보 LINK -->
+							<a th:href="@{|/k1ShipmentPlan/${l.shipmentPlanCode}|}">
 								[[${l.businessName}]]
 							</a>
 						</td>
 						<td>[[${l.receiveAddr}]]</td>
 						<td>[[${l.sendPlanDate}]]</td>
-						<td>
-							<a th:href="@{#}"> <!-- 사용자정보LINK -->
-								[[${l.managerName}]]
-							</a>
-						</td>
 						<td>[[${l.updateDate}]]</td>
 						<td>
 							<a th:href="@{|/k1ShipmentPlanModify/${l.shipmentPlanCode}|}">
