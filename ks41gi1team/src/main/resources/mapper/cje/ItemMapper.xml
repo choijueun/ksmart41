@@ -115,6 +115,8 @@
 		,c.smallCategory
 		,c.microCategory
 		,c.`comment`
+		,c.regDate AS itemRegDate
+		,c.updateDate AS itemUpdateDate
 	FROM
 		k1_tb_item_category AS c
 	WHERE
