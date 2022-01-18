@@ -1,13 +1,20 @@
 package k1.smart.team.dto.psb;
 
+import javax.validation.constraints.NotBlank;
+
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+
 public class Contract {
+	
 	private String contractCode;
 	private String mainBusinessCode;
 	private String clientCode;
 	private String clientManagerId;
 	private String contractSection;
 	private String contractType;
+	@NotBlank(message="계약시작일을 입력해주세요.")
 	private String startDate;
+	@NotBlank(message="계약종료일을 입력해주세요.")
 	private String endDate;
 	private String managerId;
 	private String regId;
@@ -16,6 +23,7 @@ public class Contract {
 	private String contractStatus;
 	private String briefs;
 	private String regDate;
+	@NotBlank(message="수정날짜를 입력해주세요.")
 	private String updateDate;
 	private String businessRepresentative;
 	private String userName;
