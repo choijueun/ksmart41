@@ -226,7 +226,7 @@
 				AND smallCategory = #{smallCategory}
 			</when>
 			<otherwise>
-				AND smallCategory = null
+				AND smallCategory is null
 			</otherwise>
 		</choose>
 		<choose>
@@ -234,9 +234,10 @@
 				AND microCategory = #{microCategory}
 			</when>
 			<otherwise>
-				AND microCategory = null
+				AND microCategory is null
 			</otherwise>
 		</choose>
+		AND mainBusinessCode = #{mainBusinessCode};
 </select>
 
 <!-- 품목명 중복 확인 -->

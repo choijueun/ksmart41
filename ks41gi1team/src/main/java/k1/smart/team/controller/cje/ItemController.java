@@ -144,7 +144,12 @@ public class ItemController {
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
 		return resultMap;
 	}
-
+	
+	/**
+	 * Ajax :: 품목 카테고리 코드 반환
+	 * @param categories
+	 * @return
+	 */
 	@PostMapping("/getItemCategoryCode")
 	@ResponseBody
 	public String getItemCategoryCode(
@@ -154,6 +159,7 @@ public class ItemController {
 				|| CommonUtils.isEmpty(categories.get(0)) || CommonUtils.isEmpty(categories.get(1))) {
 			return null;
 		}
+		categories.add(mainBusinessCode);
 		//카테고리 코드 반환
 		return itemService.getItemCategoryCode(categories);
 	}
@@ -166,6 +172,7 @@ public class ItemController {
 	public String addItem(Stock itemInfo) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1ItemAdd";
+		//사업장코드 등록
 		itemInfo.setMainBusinessCode(mainBusinessCode);
 		log.info("품목 INFO :: {}", itemInfo);
 		
