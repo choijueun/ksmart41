@@ -103,6 +103,25 @@ public class ItemController {
 	}
 	
 	/**
+	 * AJAX: 품목명 중복 검사 @PostMapping("/k1ItemNameValid")
+	 * @param itemName
+	 * @return boolean
+	 */
+	@PostMapping("/itemNameValid")
+	@ResponseBody
+	public boolean itemNameValid(
+			@RequestParam(value="itemName", required = false) String itemName) {
+		
+		log.info("품목명 :: {}", itemName);
+		if(CommonUtils.isEmpty(itemName)) return false;
+		
+		//동일한 이름의 품목이 등록되어 있다면 true 반환
+		chk = itemService.itemNameValid(mainBusinessCode, itemName);
+		
+		return chk;
+	}
+	
+	/**
 	 * AJAX: 하위분류 반환
 	 * @param largeCategory
 	 * @param middleCategory
@@ -125,24 +144,18 @@ public class ItemController {
 		resultMap= itemService.getItemCategory(largeCategory, middleCategory, smallCategory);
 		return resultMap;
 	}
-	
-	/**
-	 * AJAX: 품목명 중복 검사 @PostMapping("/k1ItemNameValid")
-	 * @param itemName
-	 * @return boolean
-	 */
-	@PostMapping("/k1ItemNameValid")
+
+	@PostMapping("/getItemCategoryCode")
 	@ResponseBody
-	public boolean itemNameValid(
-			@RequestParam(value="itemName", required = false) String itemName) {
-		
-		log.info("품목명 :: {}", itemName);
-		if(CommonUtils.isEmpty(itemName)) return false;
-		
-		//동일한 이름의 품목이 등록되어 있다면 true 반환
-		chk = itemService.itemNameValid(mainBusinessCode, itemName);
-		
-		return chk;
+	public String getItemCategoryCode(
+			@RequestParam(value="categories[]", required = false) List<String> categories){
+		//NULL체크
+		if(	CommonUtils.isEmpty(categories)
+				|| CommonUtils.isEmpty(categories.get(0)) || CommonUtils.isEmpty(categories.get(1))) {
+			return null;
+		}
+		//카테고리 코드 반환
+		return itemService.getItemCategoryCode(categories);
 	}
 	
 	/**
@@ -199,7 +212,7 @@ public class ItemController {
 	public String modifyItem(Stock itemInfo) {
 		//품목 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
-		log.info("품목 INFO :: {}", itemInfo.toString());
+		log.info("품목 INFO :: {}", itemInfo);
 		
 		return "redirect:/k1Item";
 	}

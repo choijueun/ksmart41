@@ -64,7 +64,7 @@ public class ItemService {
 	}
 
 	/**
-	 * 특정 카테고리 조회
+	 * 특정 카테고리 목록 조회
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
@@ -101,6 +101,16 @@ public class ItemService {
 			return true;
 		}
 		return false;
+	}
+	
+	public String getItemCategoryCode(List<String> categories) {
+		//카테고리 코드 검색
+		List<String> categoryCodes = itemMapper.getCategoryCode(categories.get(0), categories.get(1), categories.get(2), categories.get(3));
+		//NULL체크 & 개수 검사
+		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
+			return categoryCodes.get(0);
+		}
+		return null;
 	}
 
 	/**
