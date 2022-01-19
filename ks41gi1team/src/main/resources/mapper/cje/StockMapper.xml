@@ -33,23 +33,7 @@
 	FROM
 		k1_tb_stock AS s
 		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
+		k1_view_item_info AS i
 		ON
 		i.itemCode = s.itemCode
 		JOIN
@@ -92,23 +76,7 @@
 	FROM
 		k1_tb_stock AS s
 		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
+		k1_view_item_info AS i
 		ON
 		i.itemCode = s.itemCode
 		JOIN

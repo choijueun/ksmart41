@@ -107,13 +107,50 @@ public class SlipController {
 		
 	}
 	
-	@GetMapping("/modify/{slipCode}")
-	public String modifySlip(
-			@PathVariable(value="slipCode", required=false) String slipCode
+	//매출전표 수정시 값 세팅하면서 화면 이동
+	@GetMapping("/salesModify/{salesSlipCode}")
+	public String salesModifySlip(
+			@PathVariable(value="salesSlipCode", required=false) String salesSlipCode
 			,Model model) {
+		Slip salesSlipData = slipService.getSalesSlipData(salesSlipCode);
+		model.addAttribute("salesSlipData", salesSlipData);
+		System.out.println("컨트롤러 수정화면 넘어갈 때 들어올값"+salesSlipData);
+		
 		model.addAttribute("title", "전표관리: 수정");
-		model.addAttribute("slipCode", slipCode);
-		return "slip/slip_modify";
+		model.addAttribute("salesSlipCode", salesSlipCode);
+		return "slip/slip_salesModify";
+	}
+	
+	//비용전표 수정시 값 세팅하면서 화면 이동
+	@GetMapping("/purchaseModify/{purchaseSlipCode}")
+	public String purchaseModifySlip(
+			@PathVariable(value="purchaseSlipCode", required=false) String purchaseSlipCode
+			,Model model) {
+		Slip purchaseSlipData = slipService.getPurchaseSlipData(purchaseSlipCode);
+		model.addAttribute("purchaseSlipData", purchaseSlipData);
+		System.out.println("컨트롤러 수정화면 넘어갈 때 들어올값"+purchaseSlipData);
+		
+		model.addAttribute("title", "전표관리: 수정");
+		model.addAttribute("purchaseSlipCode", purchaseSlipCode);
+		return "slip/slip_purchaseModify";
+	}
+	
+	//매출전표 수정절차 수행 (통합회계 반영)
+	@PostMapping("/salesModify")
+	public String salesSlipModify(Slip slip) {
+		System.out.println("매출전표 수정"+ slip);
+		slipService.salesSlipModify(slip);
+		
+		return "redirect:/k1SlipList";
+	}
+	
+	//비용전표 수정절차 수행 (통합회계 반영)
+	@PostMapping("/purchaseModify")
+	public String purchaseSlipModify(Slip slip) {
+		System.out.println("비용전표 수정"+ slip);
+		slipService.purchaseSlipModify(slip);
+		
+		return "redirect:/k1SlipList";
 	}
 			
 	

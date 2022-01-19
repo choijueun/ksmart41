@@ -10,9 +10,16 @@ public class TotalAc {
 	private String salesSection;
 	private String relateTable;
 	private String regDate;
+	private String briefs;
 	private int totalPrice;
 	
 	
+	public String getBriefs() {
+		return briefs;
+	}
+	public void setBriefs(String briefs) {
+		this.briefs = briefs;
+	}
 	public String getRegDate() {
 		return regDate;
 	}

@@ -51,18 +51,14 @@
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
+		,s.itemName
+		,s.itemType
 		,s.itemCount
 		,s.totalPrice
 		,s.`status`
 		,s.`comment`
 	FROM 
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		s.itemCode = i.itemCode
+		k1_view_stock AS s
 	WHERE
 		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
 	ORDER BY 
@@ -82,5 +78,23 @@
 		)
 		, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${currentWeight}, ${maxWeight}, #{status}, NOW(), NOW());
 </insert>
+
+<update id="modifyWarehouse" parameterType="Warehouse">
+	UPDATE 
+		k1_tb_warehouse_info
+	SET
+		warehouseName=#{warehouseName},
+		category1=#{category1},
+		category2=#{category2},
+		`area`=${area},
+		location=#{location},
+		outPlace=#{outPlace},
+		maxWeight=${maxWeight},
+		`status`=#{status},
+		updateDate=NOW()
+	WHERE 
+		warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+		AND mainBusinessCode = #{mainBusinessCode};
+</update>
 
 </mapper>

@@ -42,7 +42,7 @@ public interface ItemMapper {
 	public List<String> getCategoryMicro(String largeCategory, String middleCategory, String smallCategory);
 	
 	//카테고리 코드 조회
-	public List<String> getCategoryCode(String largeCategory, String middleCategory, String smallCategory, String microCategory);
+	public List<String> getCategoryCode(String largeCategory, String middleCategory, String smallCategory, String microCategory, String mainBusinessCode);
 	
 	//품목명 중복 검사
 	public int itemNameValid(String mainBusinessCode, String itemName);
@@ -59,7 +59,7 @@ public interface ItemMapper {
 	 * @param mainBusinessCode
 	 * @param stock
 	 */
-	public void addItemCategory(Stock stock);
+	public int addItemCategory(Stock stock);
 
 	/**
 	 * 카테고리 정보 수정

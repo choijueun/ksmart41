@@ -2,8 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">
-	
+<mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">	
 	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
 		SELECT 
 			 r.userRegCode
@@ -138,7 +137,7 @@
 			u.userLevelCode = l.userLevelCode
 		ORDER BY u.userId DESC 
 		LIMIT 0,5 ;
-	</select>
+</select>
 	
 	
 	

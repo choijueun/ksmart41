@@ -78,6 +78,11 @@ public class WarehouseController {
 		return "stock/warehouse/warehouse_info";
 	}
 	
+	/**
+	 * 창고정보 등록 페이지 첫 화면
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/k1WarehouseAdd")
 	public String addWarehouse(Model model) {
 		
@@ -96,10 +101,12 @@ public class WarehouseController {
 		log.info("PARAMETER 	:: {}", wInfo);
 		if(CommonUtils.isEmpty(wInfo)) return "redirect:/k1Warehouse";
 		
+		//등록 프로세스
 		wInfo.setMainBusinessCode(mainBusinessCode);
-		warehouseService.addWarehouse(wInfo);
+		boolean chk = warehouseService.addWarehouse(wInfo);
 		
-		return "redirect:/k1Warehouse";
+		if(chk) return "redirect:/k1Warehouse";
+		return "redirect:/k1WarehouseAdd";
 	}
 	
 	/**
@@ -128,5 +135,23 @@ public class WarehouseController {
 		
 		return "stock/warehouse/warehouse_modify";
 	}
+	
+	/**
+	 * 창고정보 수정 프로세스
+	 * @param wInfo
+	 */
+	@PostMapping("/k1WarehouseModify")
+	public String modifyWarehouse(Warehouse wInfo) {
+		//매개변수 검사
+		if(CommonUtils.isEmpty(wInfo)) return "redirect:/k1Warehouse";
+		
+		wInfo.setMainBusinessCode(mainBusinessCode);
+		boolean chk = warehouseService.modifyWarehouse(wInfo);
+		
+		if(chk) return "redirect:/k1Warehouse";
+		
+		return "redirect:/k1WarehouseModify/"+wInfo.getWarehouseCode();
+	}
+	
 	
 }
