@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 
 @Mapper
 public interface ContractMapper {
@@ -34,6 +35,14 @@ public interface ContractMapper {
 
 		//계약서 이름 가져오기
 		public String getContractInfo();
+
+	// 계약서 수정
+		public int modifyContract(Contract contract);
+
+	//발주서 등록을 위한 발주만을 위한 계약서 코드	
+	/* public List<Contract> getContractCodeForMaterialOrderCode(); */
+
+		public List<Contract> getContractCodeForMaterialOrderCodeList();
 
 
 }

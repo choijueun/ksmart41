@@ -79,7 +79,7 @@
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-default" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
+			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-xl" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
 			        						return htmlbtn;
 			        					}
 			        		},
@@ -114,10 +114,10 @@
 						<th>사업장 상호명</th>
 						<th>거래처 상호명</th>
 						<th>거래처 담당자</th>
-						<th>계약 주문유형</th>
+						<th>주문유형</th>
 						<th>계약유형</th>
-						<th>계약시작날짜</th>
-						<th>계약종료날짜</th>
+						<th>계약시작</th>
+						<th>계약종료</th>
 						<th>담당자</th>
 						<th>계약일자</th>
 						<th>계약상태</th>
@@ -133,11 +133,12 @@
 				<button type="button" class="btn btn-danger">삭제</button>
 			</div>
 			
-			  <div class="modal fade" id="modal-default"  style="display: none;" aria-hidden="true">
-	<div class="modal-dialog">
-          <div class="modal-content">
-          	계약 목록 수정 화면
-            <div class="modal-header" style="position: fixed;
+			
+   <div class="modal fade" id="modal-xl"  style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+	<form action="/k1Contract/k1ContractModify" method="post">
+          <div class="modal-content"
+         			 style="position: fixed;
 						top: 50%;
 						left: 50%;
 						-webkit-transform: translate(-50%, -50%);
@@ -145,6 +146,7 @@
 						-ms-transform: translate(-50%, -50%);
 						-o-transform: translate(-50%, -50%);
 						transform: translate(-50%, -50%);">
+            <div class="modal-header">
               <h4 class="modal-title">계약 목록 수정 화면</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
@@ -152,56 +154,74 @@
             </div>
             <div class="modal-body">
              <table id="contractListModifyList" class="table table-bordered table-hover dataTable dtr-inline">
-				<tbody th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
-				<tr>
-						 <td>사업장별 대표코드: <input type="text" th:placeholder="${l.mainBusinessCode}"/></td>
-				</tr>	
-				<tr>
-						 <td>거래처 대표코드: <input type="text" th:placeholder="${l.clientCode}"/></td>
-				</tr>	
-				<tr>
-						 <td>거래처 담당자: <input type="text" th:placeholder="${l.businessRepresentative}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약 주문유형: <input type="text" th:placeholder="${l.contractSection}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약유형: <input type="text" th:placeholder="${l.contractType}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약시작날짜: <input type="text" th:placeholder="${l.startDate}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약종료날짜: <input type="text" th:placeholder="${l.endDate}"/></td>
-				</tr>	
-				<tr>
-						 <td>담당자: <input type="text" th:placeholder="${l.userName}"/></td>
-				</tr>	
-				<tr>
-						 <td>등록자: <input type="text" th:placeholder="${l.userName}"/></td>
-				</tr>	
-				<tr>
-						 <td>승인자: <input type="text" th:placeholder="${l.userName}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약일자: <input type="text" th:placeholder="${l.contractDate}"/></td>
-				</tr>	
-				<tr>
-						 <td>계약상태: <input type="text" th:placeholder="${l.contractStatus}"/></td>
-				</tr>	
-				<tr>
-						 <td>적요: <input type="text" th:placeholder="${l.briefs}"/></td>
-				</tr>	
-				<tr>
-						 <td>등록일시: <input type="text" th:placeholder="${l.regDate}"/></td>
-				</tr>	
-				<tr>
-						 <td>수정일시: <input type="text" th:placeholder="${l.updateDate}"/></td>
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="allCheck">
+						</th>
+						<th>No.</th>
+						<th>사업장명</th>
+						<th>거래처명</th>
+						<th>거래처담당자</th>
+						<th>주문유형</th>
+						<th>계약유형</th>
+						<th>계약시작</th>
+						<th>계약종료</th>
+						<th>담당자</th>
+						<th>계약상태</th>
+						<th>적요</th>
+					</tr>
+				</thead>
+				<tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+					<td><input type="checkbox"></td>
+						<td>[[${l.contractCode}]]</td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(mainBusinessList)}" th:each="l : ${mainBusinessList}">
+								<option>[[${l.businessName}]]</option>
+							</div>
+							</select>
+						</td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(clientList)}" th:each="c : ${clientList}">
+								<option>[[${c.businessName}]]</option>
+							</div>
+							</select>
+						</td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(clientList)}" th:each="c : ${clientList}">
+								<option>[[${c.businessRepresentative}]]</option>
+							</div>
+							</select>
+						</td>
+						<td>
+							<select>
+							<div>
+								<option>발주</option>
+								<option>수주</option>
+							</div>	
+							</select>
+						</td>
+						<td><input type="text" th:placeholder="${l.contractType}"></td>
+						<td><input type="date" th:placeholder="${l.startDate}"></td>
+						<td><input type="date" th:placeholder="${l.endDate}"></td>
+						<td>
+							<select>
+							<div th:if="${not #lists.isEmpty(userList)}" th:each="u : ${userList}">
+								<option>[[${u.userName}]]</option>
+							</div>
+							</select>
+						</td>
+						<td><input type="date" th:placeholder="${l.contractDate}"></td>
+
+						<td><input type="text" th:placeholder="${l.status}"></td> 
 				</tr>	
 
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-primary" >수정</button>
+              <a th:href="@{/k1Contract/k1ContractList}"><button type="button" class="btn btn-primary" >수정</button></a>
               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
 				</tbody>

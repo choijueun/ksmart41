@@ -27,7 +27,7 @@ public interface MaterialOrderMapper {
 	public MaterialOrder getMaterialOrderInfo(String materialOrderCode);
 	
 	//수주 상세
-	public ProductOrder getProductOrderInfo(String productOrderCode);
+
 
 	
 	//발주 전체 조회

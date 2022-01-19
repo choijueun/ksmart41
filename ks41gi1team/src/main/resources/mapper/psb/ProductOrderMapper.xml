@@ -7,37 +7,36 @@
 		DELETE
 		FROM
 			k1_tb_product_order
-		WHERE
+		
 				
 	</delete>
 	
 <select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
 	SELECT 
-pod.productOrderOngoingCode
-,RIGHT(pod.productOrderCode,3) AS productOrderCode
-,ii.itemName
-,pod.productCount
-,pod.productPrice
-,pod.productShipmentDate
-,pod.`COMMENT`
-FROM
-	k1_tb_product_order_detail AS pod
+		pod.productOrderOngoingCode
+		,RIGHT(pod.productOrderCode,3) AS productOrderCode
+		,ii.itemName
+		,pod.productCount
+		,pod.productPrice
+		,pod.productShipmentDate
+		,pod.`COMMENT`
+	FROM
+		k1_tb_product_order_detail AS pod
 	INNER JOIN 
-	k1_tb_product_order AS po 
+		k1_tb_product_order AS po 
 	on
-	pod.productOrderCode=po.productOrderCode
+		pod.productOrderCode=po.productOrderCode
 	INNER JOIN 
-	k1_tb_item_info AS ii
+		k1_tb_item_info AS ii
 	on
-	po.mainBusinessCode=ii.mainBusinessCode
-WHERE 
-	pod.productOrderCode = CONCAT('product_orderCode_', #{productOrderCode})
-GROUP BY 
-	pod.productOrderCode	
+		po.mainBusinessCode=ii.mainBusinessCode
+	WHERE 
+		pod.productOrderCode = CONCAT('product_orderCode_', #{productOrderCode})
+	
 </select>	
 	
  <select id="getProductOrderInfo" parameterType="String" resultType="ProductOrder">
-SELECT 
+	SELECT 
 		RIGHT(po.productOrderCode,3) as productOrderCode,
 		po.mainBusinessCode as mainBusinessCode,
 		po.contractCode as contractCode,
@@ -57,34 +56,34 @@ SELECT
 		c.businessName as businessName
 	FROM 
 		k1_tb_product_order AS po
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_client AS c
-		on
+	on
 		po.mainBusinessCode =c.mainBusinessCode
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_user AS u
-		ON 
+	ON 
 		c.userId = u.userId
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_contract AS contr
-		on
+	on
 		contr.mainBusinessCode = u.mainBusinessCode
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_main_business AS mb
-		on
+	on
 		mb.mainBusinessCode = contr.mainBusinessCode
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_product_price AS pp
-		on
+	on
 		pp.mainBusinessCode = mb.mainBusinessCode
-		INNER JOIN 
+	INNER JOIN 
 		k1_tb_item_info AS ii
-		on
+	on
 		ii.itemCode = pp.itemCode
-	WHERE
-		po.productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})	
+	WHERE 
+		productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})
 	GROUP BY 
-		po.productOrderCode	
+		po.productOrderCode 
 </select>	 
 	
 <select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
