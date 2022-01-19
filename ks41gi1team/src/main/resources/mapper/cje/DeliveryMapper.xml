@@ -12,7 +12,7 @@
 		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(d.returnRegCode,3) AS returnRegCode
 		,c.clientCode
-		,c.businessName AS clientBusinessName
+		,c.clientBusinessName
 		,d.deliveryBusinessCode
 		,cl.businessName AS deliveryBusinessName
 		,d.receiveAddr
@@ -28,17 +28,7 @@
 		ON
 		d.shipmentPlanCode = s.shipmentPlanCode
 		LEFT JOIN
-		(SELECT
-			 c.contractCode
-			,c.clientCode
-			,cl.businessName
-		FROM
-			k1_tb_contract AS c
-			JOIN
-			k1_tb_client AS cl
-			ON
-			c.clientCode = cl.clientCode
-		) AS c
+		k1_view_contract AS c
 		ON
 		s.contractCode = c.contractCode
 		LEFT JOIN
@@ -63,7 +53,7 @@
 		,c.businessName AS deliveryBusinessName
 		,RIGHT(s.contractCode,3) AS contractCode
 		,s.clientCode
-		,s.businessName AS clientBusinessName
+		,s.clientBusinessName
 		,d.receiveAddr
 		,RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
@@ -81,22 +71,7 @@
 		ON
 		d.managerId = u.userId
 		LEFT JOIN
-		(SELECT
-			 s.shipmentPlanCode
-			,s.contractCode
-			,c.clientCode
-			,cl.businessName
-		FROM
-			k1_tb_shipment_plan AS s
-			JOIN
-			k1_tb_contract AS c
-			ON
-			s.contractCode = c.contractCode
-			JOIN
-			k1_tb_client AS cl
-			ON
-			c.clientCode = cl.clientCode
-		) AS s
+		k1_view_shipment_plan AS s
 		ON
 		d.shipmentPlanCode = s.shipmentPlanCode
 		JOIN

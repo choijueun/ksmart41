@@ -11,10 +11,10 @@
 		,i.itemName
 		,i.itemType
 		,RIGHT(i.categoryCode,3) AS categoryCode
-		,c.largeCategory
-		,c.middleCategory
-		,c.smallCategory
-		,c.microCategory
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.microCategory
 		,i.itemStandard
 		,i.itemOrigin
 		,i.itemStatus
@@ -22,11 +22,7 @@
 		,i.regDate AS itemRegDate
 		,i.updateDate AS itemUpdateDate
 	FROM
-		k1_tb_item_info AS i
-		LEFT JOIN
-		k1_tb_item_category AS c
-		ON
-		i.categoryCode = c.categoryCode
+		k1_view_item_info AS i
 	WHERE
 		i.mainBusinessCode = #{mainBusinessCode}
 	ORDER BY
@@ -40,13 +36,13 @@
 		,i.itemName
 		,i.itemType
 		,i.categoryCode
-		,c.largeCategory
-		,c.middleCategory
-		,c.smallCategory
-		,c.microCategory
+		,i.largeCategory
+		,i.middleCategory
+		,i.smallCategory
+		,i.microCategory
 		,s.itemCount
 		,i.itemOrigin
-		,ROUND(AVG(p.productPrice),0) AS avgPrice
+		,ROUND(AVG(s.productPrice),0) AS avgPrice
 		,SUM(s.totalPrice) AS totalPrice
 		,SUM(s.stockWeight) AS stockWeight
 		,i.itemStandard
@@ -55,19 +51,11 @@
 		,i.regDate AS itemRegDate
 		,i.updateDate AS itemUpdateDate
 	FROM
-		k1_tb_item_info AS i
+		k1_view_item_info AS i
 		LEFT JOIN
-		k1_tb_item_category AS c
-		ON
-		i.categoryCode = c.categoryCode
-		LEFT JOIN
-		k1_tb_stock AS s
+		k1_view_stock AS s
 		ON
 		i.itemCode = s.itemCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
 	WHERE
 		i.itemCode = CONCAT('itemCode_',#{itemCode})
 	GROUP BY i.itemCode;
@@ -77,30 +65,18 @@
 <select id="getItemStock" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
-		,RIGHT(w.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-		,w.location
-		,w.outPlace
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,s.warehouseName
+		,s.location
+		,s.outPlace
 		,s.stockWeight
 		,s.itemCount
-		,p.productPrice
+		,s.productPrice
 		,s.totalPrice
 		,s.purchaseTsCode
 		,s.productPriceCode
 	FROM
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		s.itemCode = i.itemCode
-		JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
+		k1_view_stock AS s
 	WHERE
 		i.itemCode = CONCAT('itemCode_',#{itemCode})
 	ORDER BY
@@ -178,7 +154,7 @@
 	</trim>
 </select>
 
-<!-- 아이템 등록 -->
+<!-- 품목정보 등록 -->
 <insert id="addItem" parameterType="Stock">
 	INSERT INTO k1_tb_item_info
 		(itemCode
