@@ -28,7 +28,9 @@
 		ON
 		i.categoryCode = c.categoryCode
 	WHERE
-		i.mainBusinessCode = #{mainBusinessCode};
+		i.mainBusinessCode = #{mainBusinessCode}
+	ORDER BY
+		i.itemCode DESC;
 </select>
 
 <!-- 품목정보 상세조회 -->
@@ -216,20 +218,25 @@
 		categoryCode
 	FROM
 		k1_tb_item_category
-	<trim prefix="WHERE" prefixOverrides="AND |OR ">
-		<if test="largeCategory != null and largeCategory != ''.toString()">
-			largeCategory = #{largeCategory}
-		</if>
-		<if test="middleCategory != null and middleCategory != ''.toString()">
-			AND middleCategory = #{middleCategory}
-		</if>
-		<if test="smallCategory != null and smallCategory != ''.toString()">
-			AND smallCategory = #{smallCategory}
-		</if>
-		<if test="microCategory != null and microCategory != ''.toString()">
-			AND microCategory = #{microCategory}
-		</if>
-	</trim>
+	WHERE
+		largeCategory = #{largeCategory}
+		AND middleCategory = #{middleCategory}
+		<choose>
+			<when test="smallCategory != null and smallCategory != ''.toString()">
+				AND smallCategory = #{smallCategory}
+			</when>
+			<otherwise>
+				AND smallCategory = null
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="microCategory != null and microCategory != ''.toString()">
+				AND microCategory = #{microCategory}
+			</when>
+			<otherwise>
+				AND microCategory = null
+			</otherwise>
+		</choose>
 </select>
 
 <!-- 품목명 중복 확인 -->

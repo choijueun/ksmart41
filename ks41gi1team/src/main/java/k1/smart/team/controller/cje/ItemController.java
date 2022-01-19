@@ -45,7 +45,7 @@ public class ItemController {
 	public String itemMain(Model model) {
 		//품목 전체목록 List<Stock>
 		itemList = itemService.getAllItemList(mainBusinessCode);
-		log.info("품목 LIST :: {}", itemList);
+		//log.info("품목 LIST :: {}", itemList);
 		model.addAttribute("itemList", itemList);
 		
 		model.addAttribute("SectionTitle", "품목관리");

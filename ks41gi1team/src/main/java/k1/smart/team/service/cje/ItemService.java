@@ -124,7 +124,9 @@ public class ItemService {
 				itemInfo.setCategoryCode(categoryCodes.get(0));
 			}
 		}
-
+		if("제품".equals(itemInfo.getItemType()) && itemInfo.getCategoryCode() == null) {
+			return false;
+		}
 		// 등록 처리
 		if (itemMapper.addItem(itemInfo) == 1) return true;
 
