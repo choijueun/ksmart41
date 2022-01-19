@@ -33,6 +33,9 @@ public interface UserRegMapper {
 	//회원가입 요청 수정
 	public int modifyUserReg(UserReg userReg);
 
+	//관리자페이지 회원 목록 보여주기
+	public List<User> getLimitUserList();
+
 	
 
 }

@@ -27,21 +27,69 @@ public class UserRegController {
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
 	
-	
 	public UserRegController( UserRegService userRegService) {
 		this.userRegService = userRegService;
 	}
+	
+	/**
+	 * 회원 정보
+	 */
 	//회원 전체 목록
 	@GetMapping("/userList")
 	public String userList(Model model) {
 		userList = userRegService.getAllUserList();
 		
 		model.addAttribute("SectionTitle", "회원 전체 목록");
+		model.addAttribute("userList", userList);
 		
 		return "user/user_list";
 	}
+	//회원등록
+	@GetMapping("/addUser")
+	public String addUser(Model model) {
+		model.addAttribute("SectionTitle", "회원정보 등록");
+		
+		
+		return "user/user_register";
+	}
 	
+	//회원정보 수정
+	@GetMapping("/modifyUser/{userId}")
+	public String modifyUser(Model model) {
+		model.addAttribute("SectionTitle", "회원정보 수정");
+		
+		return "user/user_modify";
+	}
+	//회원정보 상세
+	@GetMapping("/userDetail")
+	public String userDetail(
+			@PathVariable(value = "userRegCode", required = false) String userRegCode
+			,Model model) {
+		System.out.println(userRegCode);
+		
+		//회원가입 요청코드 검사
+		if(userRegCode == null || "".equals(userRegCode)) {
+			System.out.println("회원가입 요청 상세 error");
+			return "redirect:/userRegList";
+		}
+		
+		//회원가입요청 상세
+		userRegDetail = userRegService.getAllUserRegDetail(userRegCode);
+		if(userRegDetail == null) {
+			System.out.println("회원가입 요청 상세 error");
+			return "redirect:/userRegList";
+		}
+		model.addAttribute("SectionTitle", "회원가입 요청 상세");
+		model.addAttribute("userRegDetail", userRegDetail);
+		
+		
+		
+		return "user/user_detail";
+	}
 	
+	/**
+	 * 관리자페이지
+	 */
 	//관리자 페이지
 	@GetMapping("/managerPage")
 	public String managerPage(Model model) {
@@ -49,12 +97,16 @@ public class UserRegController {
 		//List<Login> loginList = loginService.getAllLoginList();
 		
 		List<Login> loginList2 = loginService.getLimitLoginList();
+		userList = userRegService.getLimitUserList();
 		
 		model.addAttribute("SectionTitle", "관리자 페이지");
 		System.out.println(loginList2);
+		System.out.println(userList);
 		
 		//로그인 최근내역
 		model.addAttribute("loginList2", loginList2);
+		//회원목록 최근순서
+		model.addAttribute("userList", userList);
 		
 		
 		return "user/manager_page";
@@ -68,13 +120,16 @@ public class UserRegController {
 		return "user/user_mypage";
 	}
 	
+	/**
+	 * 회원가입 요청
+	 */
 	//회원가입 요청 전체목록
 	@GetMapping("/userRegList")
 	public String getUserRegList(Model model) {
 		userRegList = userRegService.getAllUserRegList();
 		model.addAttribute("SectionTitle", "회원가입 요청 목록");
 		model.addAttribute("userRegList", userRegList);
-		return "user/user_register";
+		return "user/userReg_register";
 	}
 	
 	//회원가입 요청 상세정보
@@ -98,7 +153,7 @@ public class UserRegController {
 		}
 		model.addAttribute("SectionTitle", "회원가입 요청 상세");
 		model.addAttribute("userRegDetail", userRegDetail);
-		return "user/user_detail";
+		return "user/userReg_detail";
 	}
 	
 	//회원가입 요청 수정
@@ -116,7 +171,7 @@ public class UserRegController {
 		}
 		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
 		model.addAttribute("userId", userId);
-		return "user/user_modify";
+		return "user/userReg_modify";
 	}
 	
 	//회원가입 요청 수정

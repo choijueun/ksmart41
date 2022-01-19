@@ -29,7 +29,11 @@ public class UserRegService {
 	//회원 전체 목록
 	public List<User> getAllUserList() {
 		userList = userRegMapper.getAllUserList();
-
+		if(userList == null) {
+			System.out.println("검색결과 없음");
+			return null;
+		}
+		System.out.println("userList 서비스" + userList);
 		return userList;
 	}
 	
@@ -45,7 +49,7 @@ public class UserRegService {
 			userRegNum = userRegList.get(i).getUserRegCode().replace("userRegCode_", "");
 			userRegList.get(i).setUserRegCode(userRegNum);
 		}
-		System.out.println(userRegList);
+		System.out.println("userRegList 서비스" + userRegList);
 		return userRegList;
 	}
 	
@@ -65,6 +69,13 @@ public class UserRegService {
 	public int modifyUserReg(UserReg userReg) {
 		
 		return userRegMapper.modifyUserReg(userReg);
+	}
+
+	//관리자페이지에서 최근 회원목록 보여주기
+	public List<User> getLimitUserList() {
+		List<User> limitUser = userRegMapper.getLimitUserList();
+		
+		return limitUser;
 	}
 
 	

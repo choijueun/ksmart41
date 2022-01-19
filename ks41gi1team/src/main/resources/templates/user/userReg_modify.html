@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${SectionLocation}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customContents">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3 col-md-2">
+		</div>
+		<div class="col-lg-6 col-md-8">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					회원가입요청 수정
+				</div>
+				<form id="modifyUserRegForm" th:action="@{/k1UserReg/modify/{userRegCode}}" method="post" class="form-horizontal">
+					<div class="card-body">
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">회원가입 요청코드  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userRegCode}" type="text" class="form-control" id="userRegCode" name="userRegCode" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">사업장 대표코드  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.mainBusinessCode}" type="text" class="form-control" id="mainBusinessCode" name="mainBusinessCode" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">회원 아이디  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userId}" type="text" class="form-control" id="inputId" name="userId" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">회원레벨코드  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userLevelCode}" type="text" class="form-control" id="userLevelCode" name="userLevelCode" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">회원 비밀번호  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userPw}" type="password" class="form-control" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">이름  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userName}" type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">성별  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userGender}" type="text" class="form-control" id="userGender" name="userGender" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">주소  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userAddr}" type="text" class="form-control" id="userAddr" name="userAddr" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">연락처  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userMoblie}" type="text" class="form-control" id="userMoblie" name="userMoblie" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">이메일  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userEmail}" type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">직책  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userPosition}" type="text" class="form-control" id="userPosition" name="userPosition" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">요청일자  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userRegDate}" type="text" class="form-control" id="userRegDate" name="userRegDate" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">상태  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userRegStatus}" type="text" class="form-control" id="userRegStatus" name="userRegStatus" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label text-right">비고  </label>
+							<div class="col-sm-6">
+								<input th:value="${getUserReg.userRegComment}" type="text" class="form-control" id="userRegComment" name="userRegComment" placeholder="이름을 입력하세요">
+							</div>
+						</div>
+						
+					
+					
+					
+					
+					
+					</div>
+					<div class="card-footer">
+						<th:block th:if="${i} != null">
+							<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+							<a th:href="@{|/k1UserReg/userRegDetail/${i.userRegCode}|}">
+								<button type="button" class="btn btn-default">이전으로</button>
+							</a>
+						</th:block>
+						<th:block th:if="${i} == null">
+							<a th:href="@{/k1UserReg/userRegList}">
+								<button type="button" class="btn btn-default">이전으로</button>
+							</a>
+						</th:block>
+						<button type="submit" class="btn btn-primary float-right" id ="modifyUserRegBtn"> 수정완료 </button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</th:block>
+
+</html>

@@ -11,7 +11,7 @@ public class User {
 	private String userMoblie; //연락처
 	private String userEmail; //이메일
 	private String userPosition; //직책
-	private String regDate; //등록일시
+	private String joinDate; //등록일시
 	private String updateDate; //수정일시
 	
 	//사업장
@@ -100,12 +100,12 @@ public class User {
 		this.userPosition = userPosition;
 	}
 
-	public String getRegDate() {
-		return regDate;
+	public String getJoinDate() {
+		return joinDate;
 	}
 
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
 	}
 
 	public String getUpdateDate() {
@@ -155,8 +155,8 @@ public class User {
 		builder.append(userEmail);
 		builder.append(", userPosition=");
 		builder.append(userPosition);
-		builder.append(", regDate=");
-		builder.append(regDate);
+		builder.append(", joinDate=");
+		builder.append(joinDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
 		builder.append(", businessName=");
@@ -169,7 +169,6 @@ public class User {
 	
 	
 
-	
 	
 
 }
