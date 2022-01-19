@@ -9,6 +9,50 @@
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
+$(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	//Form
+	var modifyWarehouse = $('#modifyWarehouse');
+	//input객체
+	var inputs = $('input');
+	//등록 버튼 클릭
+	$(document).on('click', '.submitBtn', function(){
+		//체크용 변수
+		var chkText = 0;
+		var chkRadio1 = 0;
+		var chkRadio2 = 0;
+		//input 객체 반복
+		inputs.each(function(i, obj){
+			if($(obj).attr('name') == 'outPlace') {
+				return true;
+			}
+			if( $(obj).attr('name') == 'category1' && $(obj).is(':checked')) {
+				chkRadio1 += 1;
+			}
+			if( $(obj).attr('name') == 'category2' && $(obj).is(':checked')) {
+				chkRadio2 += 1;
+			}
+			if( $(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '' ) {
+				chkText += 1;
+			}
+		});
+		if(chkText == 0 && chkRadio1 > 0 && chkRadio2 > 0) {
+			//유효
+			modifyWarehouse.submit();
+		} else {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		}
+	});
+});
 </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
@@ -28,21 +72,21 @@
 					창고정보 수정
 				</div>
 				<div class="card-body" th:if="${w} != null">
-					<form id="addWarehouse"th:action="@{/k1WarehouseModify}" method="POST">
+					<form id="modifyWarehouse"th:action="@{/k1WarehouseModify}" method="POST">
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
 									<label for="warehouseName">창고명</label>
-									<input type="text" id="warehouseName" name="warehouseName" th:value="${w.warehouseName}" class="form-control">
+									<input type="text" name="warehouseName" th:value="${w.warehouseName}" class="form-control">
 								</div>
 								<div class="row">
 									<div class="form-group col-sm-6">
 										<label for="location">위치</label>
-											<input type="text" id="location" name="location" th:value="${w.location}" class="form-control">
+											<input type="text" name="location" th:value="${w.location}" class="form-control">
 									</div>
 									<div class="form-group col-sm-6">
 										<label for="outplace">소재지</label>
-										<input type="text" id="outPlace" name="outPlace" th:value="${w.outPlace}" class="form-control" placeholder="외부 창고일 경우">
+										<input type="text" name="outPlace" th:value="${w.outPlace}" class="form-control" placeholder="외부 창고일 경우">
 									</div>
 								</div>
 							</div>
@@ -81,15 +125,15 @@
 							</div>
 							<div class="form-group col-md-4">
 								<label for="area">면적(m²)</label>
-								<input type="number" id="area" name="area" th:value="${w.area}" class="form-control">
+								<input type="number" name="area" th:value="${w.area}" class="form-control">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="maxWeight">최대적재중량(kg)</label>
-								<input type="number" id="maxWeight" name="maxWeight" th:value="${w.maxWeight}" class="form-control">
+								<input type="number" name="maxWeight" th:value="${w.maxWeight}" class="form-control">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="status">상태</label>
-								<input type="text" id="status" name="status" th:value="${w.status}" class="form-control">
+								<input type="text" name="status" th:value="${w.status}" class="form-control">
 							</div>
 						</div>
 					</form>

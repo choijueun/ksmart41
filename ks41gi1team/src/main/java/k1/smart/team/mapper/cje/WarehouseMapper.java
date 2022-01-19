@@ -35,4 +35,10 @@ public interface WarehouseMapper {
 	 * @param wInfo
 	 */
 	public void addWarehouse(Warehouse wInfo);
+
+	/**
+	 * 창고정보 수정 프로세스
+	 * @param wInfo
+	 */
+	public void modifyWarehouse(Warehouse wInfo);
 }

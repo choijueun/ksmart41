@@ -60,12 +60,22 @@ public class WarehouseService {
 	}
 	
 	/**
-	 * 창고정보 등록
+	 * 창고정보 등록 프로세스
 	 * @param wInfo
 	 */
 	public void addWarehouse(Warehouse wInfo) {
 		if(CommonUtils.isEmpty(wInfo.getOutPlace())) wInfo.setOutPlace(null);
 		warehouseMapper.addWarehouse(wInfo);
+	}
+	
+	/**
+	 * 창고정보 수정 프로세스
+	 * @param wInfo
+	 */
+	public void modifyWarehouse(Warehouse wInfo) {
+		if(CommonUtils.isEmpty(wInfo.getOutPlace())) wInfo.setOutPlace(null);
+		System.out.println(wInfo);
+		warehouseMapper.modifyWarehouse(wInfo);
 	}
 
 }

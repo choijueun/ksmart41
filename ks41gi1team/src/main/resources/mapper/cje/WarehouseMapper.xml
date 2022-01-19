@@ -83,4 +83,8 @@
 		, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${currentWeight}, ${maxWeight}, #{status}, NOW(), NOW());
 </insert>
 
+<update id="modifyWarehouse" parameterType="Warehouse">
+	
+</update>
+
 </mapper>
