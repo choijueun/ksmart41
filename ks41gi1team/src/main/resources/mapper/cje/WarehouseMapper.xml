@@ -84,7 +84,21 @@
 </insert>
 
 <update id="modifyWarehouse" parameterType="Warehouse">
-	
+	UPDATE 
+		k1_tb_warehouse_info
+	SET
+		warehouseName=#{warehouseName},
+		category1=#{category1},
+		category2=#{category2},
+		`area`=${area},
+		location=#{location},
+		outPlace=#{outPlace},
+		maxWeight=${maxWeight},
+		`status`=#{status},
+		updateDate=NOW()
+	WHERE 
+		warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+		AND mainBusinessCode = #{mainBusinessCode};
 </update>
 
 </mapper>

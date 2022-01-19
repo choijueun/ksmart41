@@ -62,20 +62,31 @@ public class WarehouseService {
 	/**
 	 * 창고정보 등록 프로세스
 	 * @param wInfo
+	 * @return 성공시 true 실패시 false
 	 */
-	public void addWarehouse(Warehouse wInfo) {
+	public boolean addWarehouse(Warehouse wInfo) {
+		//공백 null치환
 		if(CommonUtils.isEmpty(wInfo.getOutPlace())) wInfo.setOutPlace(null);
-		warehouseMapper.addWarehouse(wInfo);
+		//등록프로세스 성공시1 실패시0
+		int result = warehouseMapper.addWarehouse(wInfo);
+		
+		if(result > 0) return true;
+		return false;
 	}
 	
 	/**
 	 * 창고정보 수정 프로세스
 	 * @param wInfo
+	 * @return 성공시 true 실패시 false
 	 */
-	public void modifyWarehouse(Warehouse wInfo) {
+	public boolean modifyWarehouse(Warehouse wInfo) {
+		//공백 null치환
 		if(CommonUtils.isEmpty(wInfo.getOutPlace())) wInfo.setOutPlace(null);
-		System.out.println(wInfo);
-		warehouseMapper.modifyWarehouse(wInfo);
+		//수정프로세스 성공시1 실패시0
+		int result = warehouseMapper.modifyWarehouse(wInfo);
+		
+		if(result > 0) return true;
+		return false;
 	}
 
 }

@@ -73,6 +73,7 @@ $(function(){
 				</div>
 				<div class="card-body" th:if="${w} != null">
 					<form id="modifyWarehouse"th:action="@{/k1WarehouseModify}" method="POST">
+						<input type="hidden" name="warehouseCode" th:value="${w.warehouseCode}">
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
@@ -143,7 +144,7 @@ $(function(){
 				</div>
 				<div class="card-footer">
 					<th:block th:if="${w} != null">
-						<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+						<button type="button" class="btn btn-info float-right submitBtn">수정하기</button>
 						<a th:href="@{|/k1Warehouse/${w.warehouseCode}|}">
 							<button type="button" class="btn btn-default">이전으로</button>
 						</a>
