@@ -51,18 +51,14 @@
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
+		,s.itemName
+		,s.itemType
 		,s.itemCount
 		,s.totalPrice
 		,s.`status`
 		,s.`comment`
 	FROM 
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		s.itemCode = i.itemCode
+		k1_view_stock AS s
 	WHERE
 		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
 	ORDER BY 
