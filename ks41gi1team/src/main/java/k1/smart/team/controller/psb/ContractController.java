@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
-import k1.smart.team.dto.csh.UserReg;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
@@ -110,7 +110,7 @@ public class ContractController {
 		  model.addAttribute("mainBusinessList", mainBusinessList);
 		  System.out.println("mainBusinessList" + mainBusinessList);
 		  
-		  List<UserReg> userList = userRegService.getAllUserRegList();
+		  List<User> userList = userRegService.getAllUserList();
 		  model.addAttribute("userList", userList);
 		  System.out.println("userList" + userList);
 		  

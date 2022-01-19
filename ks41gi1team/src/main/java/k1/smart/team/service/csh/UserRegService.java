@@ -29,8 +29,7 @@ public class UserRegService {
 	//회원 전체 목록
 	public List<User> getAllUserList() {
 		userList = userRegMapper.getAllUserList();
-		
-		System.out.println(userList);
+
 		return userList;
 	}
 	
