@@ -12,6 +12,7 @@
 			,RIGHT(etcPurchaseCode,3) AS etcPurchaseCode
 			,salesSection
 			,regDate
+			,briefs
 			,totalPrice
 		FROM 
 			k1_tb_total_accounting;
