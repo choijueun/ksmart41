@@ -33,9 +33,11 @@ public class LoginService {
 	}
 
 	//관리자페이지에서 최근내역만 보여주기
+	//로그인 내역
 	public List<Login> getLimitLoginList() {
 		List<Login> limit = loginMapper.getLimitLoginList();
 		return limit;
 	}
+	
 
 }

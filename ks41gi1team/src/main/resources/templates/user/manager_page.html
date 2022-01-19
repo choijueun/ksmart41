@@ -74,7 +74,6 @@
 			<!-- 로그인 내역 시작 -->
 			<div class="card">
 				<div class="card-head">
-					최근 로그인 기록
 				</div>
 						
 				<div class="card-body text-center">
@@ -85,8 +84,8 @@
 						<thead class="text-center">
 							<tr role="row">
 								<th>로그인코드</th>
-								<th>사업장코드</th>
 								<th>회원아이디</th>
+								<th>사업장코드</th>
 								<th>로그인날짜</th>
 								<th>로그아웃날짜</th>
 							</tr>
@@ -94,24 +93,50 @@
 						<tbody id="myTable" class="text-center">
 							<tr th:if="${not #lists.isEmpty(loginList2)}"
 								th:each="l : ${loginList2}">
-								<td><a th:href="@{|/k1Login/loginList/${l.loginCode}|}">
-										[[${l.loginCode}]] </a></td>
-								<td>[[${l.mainBusinessCode}]]</td>
+								<td>[[${l.loginCode}]]</td>
 								<td>[[${l.loginId}]]</td>
+								<td>[[${l.mainBusinessCode}]]</td>
 								<td>[[${l.loginDate}]]</td>
 								<td>[[${l.logoutDate}]]</td>
 							</tr>
 						</tbody>
 					</table>
+					<button type="button" class="btn btn-block btn-outline-info">로그인내역 목록으로 이동</button>
 				</div>
-			
 			</div>
 			<!-- /로그인 내역 마지막 -->
 			
 			<!-- 회원 목록 시작 -->
 			<div class="card">
-				회원목록
-			
+				<div class="card-head">
+				</div>
+				<div class="card-body text-center">
+					<table id="example2"
+						class="table table-bordered table-hover dataTable dtr-inline text-center"
+						role="grid" aria-describedby="example2_info"
+						style="overflow: auto;">
+						<thead class="text-center">
+							<tr role="row">
+								<th>회원아이디</th>
+								<th>이름</th>
+								<th>직책</th>
+								<th>연락처</th>
+								<th>이메일</th>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							<tr th:if="${not #lists.isEmpty(userList)}"
+								th:each="l : ${userList}">
+								<td>[[${l.userId}]]</td>
+								<td>[[${l.userName}]]</td>
+								<td>[[${l.userPosition}]]</td>
+								<td>[[${l.userMoblie}]]</td>
+								<td>[[${l.userEmail}]]</td>
+							</tr>
+						</tbody>
+					</table>
+					<button type="button" class="btn btn-block btn-outline-info">회원 목록으로 이동</button>
+				</div>
 			</div>
 			<!-- /회원 목록 마지막 -->
 			
