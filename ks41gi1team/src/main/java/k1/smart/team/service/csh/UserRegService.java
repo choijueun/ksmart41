@@ -30,8 +30,8 @@ public class UserRegService {
 	public List<User> getAllUserList() {
 		userList = userRegMapper.getAllUserList();
 		
-		
-		return null;
+		System.out.println(userList);
+		return userList;
 	}
 	
 	//회원가입 요청 목록
