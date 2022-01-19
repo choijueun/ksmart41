@@ -42,6 +42,7 @@ public class SlipService {
 		return s_slipList;
 	}
 	
+	//비용전표 상세
 	public Slip getPurchaseSlipInfo(String purchaseSlipCode) {
 		purchaseSlipInfo = slipMapper.getPurchaseSlipInfo(purchaseSlipCode);
 		if(purchaseSlipInfo == null) {
@@ -52,7 +53,7 @@ public class SlipService {
 		purchaseSlipInfo.setPurchaseSlipCode(purchaseSlipCode);
 		return purchaseSlipInfo;
 	}
-	
+	//매출전표 상세
 	public Slip getSalesSlipInfo(String salesSlipCode) {
 		salesSlipInfo = slipMapper.getSalesSlipInfo(salesSlipCode);
 		if(salesSlipInfo == null) {
@@ -79,7 +80,7 @@ public class SlipService {
 			String salesSlipCode = slipMapper.salesSlipNum(slip.getSlipDate());
 			slip.setSalesSlipCode(salesSlipCode);
 			System.out.println(salesSlipCode + "<-- salesSlipCode 220112 addSlip slipSErvice.java");			
-//========================================			
+//========================================
 			slipMapper.registerSalesSlip(slip);
 			slipMapper.addSalesSlipAc(slip);
 			
@@ -100,4 +101,29 @@ public class SlipService {
 		List<Slip> salesTransactionList = slipMapper.salesTransactionList();
 		return salesTransactionList;
 	}
+	
+	//매출전표 등록시 코드 세팅
+	public Slip getSalesSlipData(String salesSlipCode) {
+		return slipMapper.getSalesSlipData(salesSlipCode);
+	}
+	
+	//비용전표 등록시 코드 세팅
+	public Slip getPurchaseSlipData(String purchaseSlipCode) {
+		return slipMapper.getPurchaseSlipData(purchaseSlipCode);
+	}
+	
+	//매출전표 수정
+	public void salesSlipModify(Slip slip) {
+		System.out.println(slip);
+		slipMapper.salesSlipModify(slip);//전표
+		slipMapper.salesSlipModifyAc(slip);//통합회계
+	}
+	
+	//비용전표 수정
+	public void purchaseSlipModify(Slip slip) {
+		System.out.println(slip);
+		slipMapper.purchaseSlipModify(slip);//전표
+		slipMapper.purchaseSlipModifyAc(slip);//통합회계
+	}
+	
 }
