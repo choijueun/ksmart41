@@ -148,14 +148,13 @@ public class ItemController {
 	/**
 	 * 품목정보 등록 절차 수행 @PostMapping("/k1ItemAdd")
 	 * @param paramMap
-	 * @return
 	 */
 	@PostMapping("/k1ItemAdd")
 	public String addItem(Stock itemInfo) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1ItemAdd";
 		itemInfo.setMainBusinessCode(mainBusinessCode);
-		log.info("품목 INFO :: {}", itemInfo.toString());
+		log.info("품목 INFO :: {}", itemInfo);
 		
 		//등록 절차 수행: 성공 시 true
 		chk = itemService.addItem(itemInfo);
@@ -168,7 +167,6 @@ public class ItemController {
 	 * 품목정보 수정 첫 화면 @GetMapping("/k1ItemModify/{itemCode}")
 	 * @param itemCode
 	 * @param model
-	 * @return
 	 */
 	@GetMapping("/k1ItemModify/{itemCode}")
 	public String modifyItem(
@@ -249,6 +247,10 @@ public class ItemController {
 		return "redirect:/k1ItemCategory";
 	}
 	
+	/**
+	 * 카테고리 정보 수정 프로세스
+	 * @param stock
+	 */
 	@PostMapping("/k1ItemCategoryModify")
 	public String modifyItemCategory(Stock stock) {
 		//카테고리 정보 확인

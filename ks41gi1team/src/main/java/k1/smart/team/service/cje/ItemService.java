@@ -109,12 +109,20 @@ public class ItemService {
 	 * @return 등록성공 true 실패 false
 	 */
 	public boolean addItem(Stock itemInfo) {
-		//카테고리 코드 반환
-		List<String> categoryCodes = itemMapper.getCategoryCode(
-				itemInfo.getLargeCategory(),itemInfo.getMiddleCategory(), itemInfo.getSmallCategory(), itemInfo.getMicroCategory());
-		//카테고리코드 정상조회
-		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
-			itemInfo.setCategoryCode(categoryCodes.get(0));
+		//공백 null로 변경
+		if(CommonUtils.isEmpty(itemInfo.getLargeCategory())) itemInfo.setLargeCategory(null);
+		if(CommonUtils.isEmpty(itemInfo.getMiddleCategory())) itemInfo.setMiddleCategory(null);
+		if(CommonUtils.isEmpty(itemInfo.getSmallCategory())) itemInfo.setSmallCategory(null);
+		if(CommonUtils.isEmpty(itemInfo.getMicroCategory())) itemInfo.setMicroCategory(null);
+		
+		if(itemInfo.getLargeCategory() != null && itemInfo.getMiddleCategory() != null) {
+			//카테고리 코드 반환
+			List<String> categoryCodes = itemMapper.getCategoryCode(
+					itemInfo.getLargeCategory(),itemInfo.getMiddleCategory(), itemInfo.getSmallCategory(), itemInfo.getMicroCategory());
+			//카테고리코드 정상조회
+			if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
+				itemInfo.setCategoryCode(categoryCodes.get(0));
+			}
 		}
 
 		// 등록 처리

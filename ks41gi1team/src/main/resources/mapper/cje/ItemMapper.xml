@@ -178,7 +178,6 @@
 
 <!-- 아이템 등록 -->
 <insert id="addItem" parameterType="Stock">
-	<![CDATA[
 	INSERT INTO k1_tb_item_info
 		(itemCode
 		,mainBusinessCode
@@ -194,9 +193,9 @@
 	) VALUES(
 		CONCAT('itemCode_',
 			(SELECT
-			   LPAD(CAST(MAX(RIGHT(c.itemCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+			   LPAD(CAST(MAX(RIGHT(i.itemCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
 			FROM 
-			   k1_tb_item_info AS c)
+			   k1_tb_item_info AS i)
 		)
 		,#{mainBusinessCode}
 		,#{itemName}
@@ -209,7 +208,6 @@
 		,NOW()
 		,NOW()
 	);
-	]]>
 </insert>
 
 <!-- 카테고리 코드 검색 -->

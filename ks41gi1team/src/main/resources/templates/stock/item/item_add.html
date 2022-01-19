@@ -10,32 +10,47 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
-	var addItem = $('#addItem'); //전체폼
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
 	
-	var itemName = $('#itemName'); //품목명 입력box
-	var itemType = $('#itemType'); //제품분류select
+	//전체폼
+	var addItem = $('#addItem'); 
+	//품목명 입력box
+	var itemName = $('#itemName'); 
+	//품목분류select
+	var itemType = $('#itemType'); 
+	//품목정보button삽입란
+	var itemNameValid = $('#itemNameValid'); 
+	
 	//품목명 중복 검사
 	itemName.on('change', function(){
 		var request = $.ajax({
 			  url: "/k1ItemNameValid", //호출 경로
 			  method: "POST", //호출 방식
-			  data: { itemName : itemName.val() },
+			  data: { 'itemName' : itemName.val() },
 			  dataType: "json" //응답할 페이지의 컨텍스트 타입
-			  //(text, xml, json, html, javascript)
 		});
-		//정상적인 응답이 되었을 경우 실행되는 메서드
+		//정상적인 응답
 		request.done(function( data ) {
-		  if(data) {
-			  itemName.addClass('is-warning');
-			  $('#itemNameValid').html('<button type="button" class="btn btn-outline-info btn-xs">품목정보</button>');
-		  } else {
-			  itemName.removeClass('is-warning');
-			  $('#itemNameValid').html('');
-		  }
+			if(data) {
+				itemName.addClass('is-warning');
+				itemNameValid.html('<button type="button" class="btn btn-outline-info btn-xs">품목정보</button>');
+			} else {
+				itemName.removeClass('is-warning');
+				$('#itemNameValid').html('');
+			}
 		});
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-		  alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	
@@ -52,8 +67,6 @@ $(function(){
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
 		});
-		
-		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
 			var dataArr = data['middleCategory'];
 			//console.log(data['middleCategory']);
@@ -65,10 +78,11 @@ $(function(){
 				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
 		});
-		
-		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	//중분류 선택: 소분류 자동출력
@@ -78,8 +92,6 @@ $(function(){
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
 		});
-		
-		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
 			var dataArr = data['smallCategory'];
 			//console.log(data['smallCategory']);
@@ -90,10 +102,11 @@ $(function(){
 				smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
 		});
-		
-		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	//소분류 선택: 소소분류 자동출력
@@ -103,8 +116,6 @@ $(function(){
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
 		});
-		
-		//정상적인 응답이 되었을 경우 실행되는 메서드
 		request.done(function( data ) {
 			var dataArr = data['microCategory'];
 			//console.log(data['microCategory']);
@@ -114,22 +125,46 @@ $(function(){
 				microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
 		});
-		
-		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
+
+
 	
+	//입력객체
+	var inputs = $('#addItem input');
+	var selects = $('#addItem select')
 	//등록 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		if( $('input[name="itemType"]:checked').val() == '제품') {
-			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
-				alert('품목 카테고리를 선택해주세요.');
-			} else {
-				addItem.submit();
+		//유효성 검사
+		var chk = 0; 
+		//input태그
+		inputs.each(function(i, obj){
+			//상태 및 비고 생략 가능
+			if($(obj).attr('name') == 'itemStatus' || $(obj).attr('name') == 'itemComment') {
+				return true;
 			}
-		}else{
+			//필수작성요소 누락
+			if($(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '') {
+				chk += 1;
+			}
+			//제품 카테고리 
+			if($(obj).attr('name') == 'itemType' && $(obj).is(':checked') && $(obj).val() == '제품') {
+				if(largeCategory.val() == '' || middleCategory.val() == '' ) {
+					chk += 1;
+				}
+			}
+		});
+		if ( chk > 0 ) {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		} else {
 			addItem.submit();
 		}
 	});
@@ -159,11 +194,11 @@ $(function(){
 								<div class="form-group">
 									<label for="itemName">
 										품목명
-										<a id="itemNameValid" th:href="@{/k1Item}">
-											<!-- 품목정보 이동 button -->
-										</a>
+										<span id="itemNameValid">
+											<!-- 품목정보 Modal Button -->
+										</span>
 									 </label>
-									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName">
+									<input type="text" name="itemName" class="form-control" placeholder="Enter itemName">
 								</div>
 							</div>
 							<div class="col-4">
