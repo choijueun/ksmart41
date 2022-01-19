@@ -31,7 +31,7 @@ public class UserRegService {
 		userList = userRegMapper.getAllUserList();
 		
 		
-		return null;
+		return userList;
 	}
 	
 	//회원가입 요청 목록
