@@ -58,5 +58,14 @@ public class WarehouseService {
 		
 		return resultMap;
 	}
+	
+	/**
+	 * 창고정보 등록
+	 * @param wInfo
+	 */
+	public void addWarehouse(Warehouse wInfo) {
+		if(CommonUtils.isEmpty(wInfo.getOutPlace())) wInfo.setOutPlace(null);
+		warehouseMapper.addWarehouse(wInfo);
+	}
 
 }

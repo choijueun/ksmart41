@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.dto.psb.ProductOrder;
 
 @Mapper
 public interface MaterialOrderMapper {
@@ -25,6 +26,9 @@ public interface MaterialOrderMapper {
 	//발주 상세
 	public MaterialOrder getMaterialOrderInfo(String materialOrderCode);
 	
+	//수주 상세
+	public ProductOrder getProductOrderInfo(String productOrderCode);
+
 	
 	//발주 전체 조회
 	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode);

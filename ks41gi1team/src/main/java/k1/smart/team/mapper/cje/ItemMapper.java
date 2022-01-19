@@ -53,4 +53,17 @@ public interface ItemMapper {
 	 * @return 성공시 1 실패시 0
 	 */
 	public int addItem(Stock itemInfo);
+	
+	/**
+	 * 카테고리 정보 등록
+	 * @param mainBusinessCode
+	 * @param stock
+	 */
+	public void addItemCategory(Stock stock);
+
+	/**
+	 * 카테고리 정보 수정
+	 * @param stock
+	 */
+	public void modifyItemCategory(Stock stock);
 }

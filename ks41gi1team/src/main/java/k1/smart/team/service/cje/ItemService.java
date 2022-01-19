@@ -122,4 +122,21 @@ public class ItemService {
 
 		return false;
 	}
+	
+	/**
+	 * 카테고리 정보 등록 절차
+	 * @param mainBusinessCode
+	 * @param stock
+	 */
+	public void addItemCategory(Stock stock) {
+		itemMapper.addItemCategory(stock);
+	}
+
+	/**
+	 * 카테고리 정보 수정 절차
+	 * @param stock
+	 */
+	public void modifyItemCategory(Stock stock) {
+		itemMapper.modifyItemCategory(stock);
+	}
 }

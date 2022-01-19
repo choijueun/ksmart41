@@ -177,11 +177,11 @@
 			on
 			contr.clientCode = c.clientCode
 			INNER JOIN
-			k1_tb_user AS u1
+			k1_tb_user_register AS u1
 			ON
 			contr.managerId = u1.userId
 			INNER JOIN 
-			k1_tb_user AS u2
+			k1_tb_user_register AS u2
 			on
 			contr.regId = u2.userId
 			INNER JOIN

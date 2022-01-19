@@ -20,6 +20,16 @@ $(function(){
 		"autoWidth": false,
 		"responsive": true,
 	});
+	
+	//allCheck
+	var chkbox = $('input[type="checkbox"]');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
+	});
 });
 </script>
 </th:block>
@@ -101,8 +111,11 @@ $(function(){
 					</tr>
 				</tbody>
 			</table>
+			<button type="button" class="btn btn-danger">
+				삭제
+			</button>
 			<a th:href="@{/k1WarehouseAdd}">
-				<button type="button" class="btn btn-info">
+				<button type="button" class="btn btn-info float-right">
 					등록
 				</button>
 			</a>

@@ -123,19 +123,21 @@
 	</select>
 	
 	<select id="purchaseTransactionList" parameterType="String" resultType="Slip">
-	SELECT
-		pt.purchaseTsCode
-		,pt.clientCode
-		,ptd.count 
-		,ptd.unitPrice AS amount
-		,ptd.vat 
-		,pt.briefs
-	FROM
-		k1_tb_purchase_transaction AS pt
-	JOIN
-		k1_tb_purchase_transaction_detail AS ptd
-	ON
-		pt.purchaseTsCode = ptd.purchaseTsCode;
+		SELECT
+			pt.purchaseTsCode
+			,pt.clientCode
+			,SUM(ptd.COUNT) as count
+			,SUM(ptd.unitPrice) AS amount
+			,SUM(ptd.vat) as vat
+			,GROUP_CONCAT(DISTINCT pt.briefs SEPARATOR ', ') AS briefs
+		FROM
+			k1_tb_purchase_transaction AS pt
+		JOIN
+			k1_tb_purchase_transaction_detail AS ptd
+		ON
+			pt.purchaseTsCode = ptd.purchaseTsCode
+		GROUP BY
+			pt.purchaseTsCode
 	</select>
 	
 	<select id="salesSlipNum" parameterType="String" resultType="String">
@@ -206,5 +208,34 @@
 	);
 	</insert>
 	
+	<insert id="addPurchaseSlipAc" parameterType="Slip">
+		INSERT INTO k1_tb_total_accounting
+			(totalAccountCode, mainBusinessCode, purchaseSlipCode, salesSection, totalPrice, regDate)
+		VALUES( 
+			(SELECT
+				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
+			FROM 
+			   k1_tb_total_accounting AS ac),
+			'fac_ksmartSeoul_Seoul_001',
+			#{purchaseSlipCode},
+			'비용',
+			( (#{amount}+#{tax}) * #{count} ),
+			NOW())
+	</insert>
+	
+	<insert id="addSalesSlipAc" parameterType="Slip">
+		INSERT INTO k1_tb_total_accounting
+			(totalAccountCode, mainBusinessCode, salesSlipCode, salesSection, totalPrice, regDate)
+		VALUES( 
+			(SELECT
+				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
+			FROM 
+			   k1_tb_total_accounting AS ac),
+			'fac_ksmartSeoul_Seoul_001',
+			#{salesSlipCode},
+			'매출',
+			( (#{amount}+#{tax}) * #{count} ),
+			NOW())
+	</insert>
 	
 </mapper>

@@ -29,4 +29,10 @@ public interface WarehouseMapper {
 	 * @return
 	 */
 	public List<Stock> getWarehouseStock(String warehouseCode);
+
+	/**
+	 * 창고정보 등록 프로세스
+	 * @param wInfo
+	 */
+	public void addWarehouse(Warehouse wInfo);
 }

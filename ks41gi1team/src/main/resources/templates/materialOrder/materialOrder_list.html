@@ -15,6 +15,32 @@
 <th:block layout:fragment="customContents">
 <th:block layout:fragment="customJs">
 <script>
+$(document).ready(function() {
+	$("#materialOrderAllCheck").click(function() {
+		if($("#materialOrderAllCheck").is(":checked")) $("input[name=materialOrderCheck]").prop("checked", true);
+		else $("input[name=materialOrderCheck]").prop("checked", false);
+	});
+	$("input[name=materialOrderCheck]").click(function() {
+		var total = $("input[name=materialOrderCheck]").length;
+		var checked = $("input[name=materialOrderCheck]:checked").length;
+
+		if(total != checked) $("#materialOrderAllCheck").prop("checked", false);
+		else $("#materialOrderAllCheck").prop("checked", true); 
+	});
+	$("#productOrderAllCheck").click(function() {
+		if($("#productOrderAllCheck").is(":checked")) $("input[name=productOrderCheck]").prop("checked", true);
+		else $("input[name=productOrderCheck]").prop("checked", false);
+	});
+	$("input[name=productOrderCheck]").click(function() {
+		var total = $("input[name=productOrderCheck]").length;
+		var checked = $("input[name=productOrderCheck]:checked").length;
+
+		if(total != checked) $("#productOrderAllCheck").prop("checked", false);
+		else $("#productOrderAllCheck").prop("checked", true); 
+	});
+});	
+
+
 $(function(){
 	
 	//Modal
@@ -46,20 +72,27 @@ $(function(){
 
 <div class="container-fluid">
 	<div class="card card-info card-outline">
-		<div class="card-header">
-			발주 목록
+		<div class="card-header p-0 pt-1 border-bottom-0">
+			<ul class="nav nav-tabs" id="materialOrder-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="marterialOrder-home-tab" data-toggle="pill" href="#materialOrder" role="tab" aria-controls="materialOrder" aria-selected="true">발주목록</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="productOrder-home-tab" data-toggle="pill" href="#productOrder" role="tab" aria-controls="productOrder" aria-selected="false">수주목록</a>
+					</li>
+				</ul>
 		</div>
-		<div class="card">
 
-		</div>
 		<form action="/k1MaterialOrder/k1MaterialOrderList" method="post">
 		<div class="card-body">
+			<div class="card tab-content" id= "m_order">
+			<div class="tab-pane fade show active" id="materialOrder" role="materialOrder" aria-labelledby="materialOrder-home-tab">	
 		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
 			<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th>
-							<input type="checkbox" id="allCheck">
+						<th class="text-center">
+							<input type="checkbox" id="materialOrderAllCheck">
 						</th>
 						<th>No.</th>
 						<th>발주요청일자</th>
@@ -70,12 +103,11 @@ $(function(){
 						<th>금액</th>
 						<th>발주진행상태</th>
 						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					 <tr th:if="${not #lists.isEmpty(materialOrderList)}" th:each="l : ${materialOrderList}">
-						<td><input type="checkbox"></td>
+						<td><input type="checkbox" name="materialOrderCheck"></td>
 						<td>
 							<a th:href="@{|/k1MaterialOrder/materialOrder/${l.materialOrderCode}|}">
 								[[${l.materialOrderCode}]]
@@ -88,11 +120,8 @@ $(function(){
 						<td>[[${l.totalCount}]] EA</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
-						<td>
+						<td class="text-center">
 							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-pen"></i></button>
-						</td>
-						<td>
-							<button type="button" class="btn btn-danger btn-lg" id="deleteBtn"><i class="fas fa-trash"></i></button>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -100,21 +129,85 @@ $(function(){
 					</tr>
 				</tbody>
 			</table>
+				<button type="button" class="btn btn-danger float-right">삭제</button>
+ 		<a th:href="@{|/k1MaterialOrder/k1MaterialOrderReg|}"> 
+					<button type="button" class="btn btn-info float-right">등록</button>
+				</a>
 		</div>
-	</div>
+		</div>
 	
 	
+	<div class="tab-pane fade" id="productOrder" role="tabpanel" aria-labelledby="productOrder-home-tab">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="productOrderList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="productOrderAllCheck">
+						</th>
+						<th>No.</th>
+						<th>수주요청일자</th>
+						<th>거래처명</th>
+						<th>제품</th>
+						<th>예상제품출하일자</th>
+						<th>수량</th>
+						<th>금액</th>
+						<th>수주진행상태</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
+						<td><input type="checkbox" name="productOrderCheck"></td>
+						<td>
+							<a th:href="@{|/k1ProductOrder/productOrder/${k1ProductOrderInfo}|}">
+								[[${l.productOrderCode}]]
+							</a>
+						</td>
+						<td>[[${l.productOrderDate}]]</td> 
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.predictProductDate}]]</td>
+						<td>[[${#numbers.formatInteger(l.totalProductCount,0,'COMMA')}]] &#8361;</td>
+						<td>[[${#numbers.formatInteger(l.totalProductPrice,0,'COMMA')}]] &#8361;</td> 
+						<td>[[${l.status}]]</td> 
+						<td>
+							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+						</td>
+
+					</tr>
+					<tr th:if="${#lists.isEmpty(productOrderList)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+				<button type="button" class="btn btn-danger float-right">삭제</button>			
+		<a th:href="@{|/k1ProductOrder/k1ProductOrderReg|}">
+					<button type="button" class="btn btn-info float-right ">등록</button>
+				</a>
+</div>
+		</div>	
+		
 	<div class="modal fade" id="modal-xl"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog modal-xl">
 		<form action="/k1MaterialOrder/k1MaterialOrderModify" method="post">
-          <div class="modal-content" style="width:150%;">
+          <div class="modal-content" 
+          				style="position: fixed;
+						top: 50%;
+						left: 50%;
+						-webkit-transform: translate(-50%, -50%);
+						-moz-transform: translate(-50%, -50%);
+						-ms-transform: translate(-50%, -50%);
+						-o-transform: translate(-50%, -50%);
+						transform: translate(-50%, -50%);">
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body" style="width:100%;">
+            <div class="modal-body">
              <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -168,7 +261,6 @@ $(function(){
         </form>
           <!-- /.modal-dialog -->
         </div>
-</div>
 </form>
 </div>
 </div>

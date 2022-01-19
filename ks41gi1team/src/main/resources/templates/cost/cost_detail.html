@@ -20,39 +20,51 @@
 		</div>
 			<div class="col-lg-6 col-md-8 mb-3">
 				<div class="card card-info card-outline">
-					<div class="card-header">
-						비용[[${costInfo.etcPurchaseCode}]]
-					</div>
 					<div class="card-body">
-						<table id="costInfo" class="table table-bordered">
+						<p class="lead">비용[[${costInfo.etcPurchaseCode}]]</p>
+						<table id="costInfo" class="table">
 							<tr>
 								<th>비용번호</th>
 								<td>[[${costInfo.etcPurchaseCode}]]</td>
+							</tr>
+							<tr>
 								<th>계정과목</th>
 								<td>[[${costInfo.lsAccountCode}]]</td>
 							</tr>
 							<tr>
 								<th>결산시점</th>
 								<td>[[${costInfo.reportPoint}]]</td>
+							</tr>
+							<tr>
 								<th>금액</th>
 								<td>[[${#numbers.formatInteger(costInfo.amount,0,'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<th>적요</th>
-								<td colspan="3">[[${costInfo.briefs}]]</td>
+								<td>[[${costInfo.briefs}]]</td>
 							</tr>
 							<tr>
 								<th>거래일자</th>
-								<td colspan="3">[[${costInfo.dealDate}]]</td>
+								<td>[[${costInfo.dealDate}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
 								<td>[[${costInfo.regDate}]]</td>
+							</tr>
+							<tr>
 								<th>수정일시</th>
 								<td>[[${costInfo.updateDate}]]</td>
 							</tr>
 						</table>
-						<button type="button" class="btn btn-info mt-3">수정</button>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1CostList}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1CostList/modify/${costInfo.etcPurchaseCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
 					</div>
 				</div>
 			</div>

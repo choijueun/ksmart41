@@ -95,5 +95,13 @@ public class CostController {
 		return "cost/cost_modify";
 	}
 	
+	//비용 수정
+	@PostMapping("/modify")
+	public String modifyCost(Cost cost) {
+		System.out.println("비용수정 코스트"+ cost);
+		costService.costModify(cost);
+		
+		return "redirect:/k1CostList";
+	}
 	
 }

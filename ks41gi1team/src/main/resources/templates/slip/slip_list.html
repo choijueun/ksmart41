@@ -7,9 +7,44 @@
 	<title>[[${SectionTitle}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+		$(function(){
+			//DataTables
+			$('#p_slipList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+			$('#s_slipList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 6]
+			        }
+			    ]
+			});
+		});
+	</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
-
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
@@ -32,7 +67,7 @@
 			
 			
 			<div class="card-body ">
-				<div class="card tab-content" id= "p_slip">
+				<div class="tab-content" id= "p_slip">
 					<div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-home-tab">
 						<table id="p_slipList" class="table table-bordered table-hover dataTable dtr-inline" >
 							<thead>
@@ -45,7 +80,7 @@
 									<th>거래처명</th>
 									<th>금액</th>
 									<th>적요</th>
-									<th>수정</th>
+									<th class="text-center">수정</th>
 								</tr>
 							</thead>
 							

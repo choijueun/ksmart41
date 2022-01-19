@@ -19,6 +19,80 @@ $(function(){
 		"info": true,
 		"autoWidth": false,
 		"responsive": true,
+		"columnDefs": [{    
+						orderable: false,
+						targets: [0, 7]
+					}]
+	});
+	
+	//Modal 관련 객체
+	var Modal = $('#Modal');
+	var submitBtn = $('.submitBtn');
+	var categoryForm = $('#categoryForm');
+	var categoryCode = $('#categoryCode');
+	var largeCategory = $('#largeCategory');
+	var middleCategory = $('#middleCategory');
+	var smallCategory = $('#smallCategory');
+	var microCategory = $('#microCategory');
+	var comment = $('#comment');
+	//등록 Modal
+	$(document).on('click', '.addBtn', function(){
+		//input value
+		Modal.find('input').val('');
+		//버튼 text
+		submitBtn.text('등록');
+		//form action 속성
+		categoryForm.attr('action', '/k1ItemCategoryAdd');
+		//modal 띄우기
+		Modal.modal('show');
+	});
+	//수정 Modal
+	$(document).on('click', '.modifyBtn', function(){
+		//input value
+		var tds = $(this).parents('tr').children();
+		categoryCode.val(tds.eq(1).text());
+		largeCategory.val(tds.eq(2).text());
+		middleCategory.val(tds.eq(3).text());
+		smallCategory.val(tds.eq(4).text());
+		microCategory.val(tds.eq(5).text());
+		comment.val(tds.eq(6).text());
+		//버튼 text
+		submitBtn.text('수정');
+		//form action 속성
+		categoryForm.attr('action', '/k1ItemCategoryModify');
+		//modal 띄우기
+		Modal.modal('show');
+	});
+	
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	
+	//폼 제출
+	$(document).on('click', '.submitBtn', function(){
+		if(largeCategory.val() != null && largeCategory.val() != ''
+				&& middleCategory.val() != null && middleCategory.val() != '') {
+				$('#categoryForm').submit();
+		} else {
+			Toast.fire({
+				icon: 'error',
+				title: '대분류와 중분류는 필수 입력 사항입니다.'
+			});
+		}
+	});
+	
+	//allCheck
+	var chkbox = $('input[type="checkbox"]');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
 	});
 });
 </script>
@@ -45,6 +119,9 @@ $(function(){
 						<th>중분류</th>
 						<th>소분류</th>
 						<th>소소분류</th>
+						<th>비고</th>
+						<th>등록일시</th>
+						<th>수정일시</th>
 						<th class="text-center">수정</th>
 					</tr>
 				</thead>
@@ -56,6 +133,9 @@ $(function(){
 						<td>[[${c.middleCategory}]]</td>
 						<td>[[${c.smallCategory}]]</td>
 						<td>[[${c.microCategory}]]</td>
+						<td>[[${c.comment}]]</td>
+						<td>[[${c.itemRegDate}]]</td>
+						<td>[[${c.itemUpdateDate}]]</td>
 						<td class="text-center">
 							<button type="button" class="btn btn-info btn-sm modifyBtn">
 								<i class="fas fa-pen"></i>
@@ -64,10 +144,60 @@ $(function(){
 					</tr>
 				</tbody>
 			</table>
+			<a th:href="@{/k1Item}">
+				<button type="button" class="btn btn-default mt-3">품목목록</button>
+			</a>
+				<button type="button" class="btn btn-danger mt-3">삭제</button>
+			<button type="button" class="btn btn-info float-right mt-3 addBtn">등록</button>
 		</div>
 		<div class="card-body" th:if="${categories} == null">
 			카테고리 정보가 존재하지 않습니다.
 		</div>
+	</div>
+	
+	<!-- 등록 Modal -->
+	<div class="modal fade" id="Modal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">카테고리 정보</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="categoryForm" method="POST">
+						<input type="hidden" id="categoryCode" name="categoryCode">
+						<div class="form-group">
+							<label for="largeCategory">대분류</label>
+							<input class="form-control" type="text" id="largeCategory" name="largeCategory" placeholder="대분류" required>
+						</div>
+						<div class="form-group">
+							<label for="middleCategory">중분류</label>
+							<input class="form-control" type="text" id="middleCategory" name="middleCategory" placeholder="중분류" required>
+						</div>
+						<div class="form-group">
+							<label for="smallCategory">소분류</label>
+							<input class="form-control" type="text" id="smallCategory" name="smallCategory" placeholder="소분류">
+						</div>
+						<div class="form-group">
+							<label for="microCategory">소소분류</label>
+							<input class="form-control" type="text" id="microCategory" name="microCategory" placeholder="소소분류">
+						</div>
+						<div class="form-group">
+							<label for="comment">비고</label>
+							<input class="form-control" type="text" id="comment" name="comment" placeholder="비고">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-info submitBtn">등록</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
 	</div>
 </div>
 

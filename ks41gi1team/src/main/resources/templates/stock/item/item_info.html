@@ -7,7 +7,15 @@
 	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	$(document).on('click', '.remove', function(){
+		$('#removeForm').submit();
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
@@ -19,26 +27,28 @@
 	<div class="row">
 		<div class="col-lg-5">
 			<div class="card card-info card-outline">
-				<div class="card-header">
-					품목정보
-				</div>
 				<div class="card-body">
-					<table id="itemInfo" class="table table-bordered">
+					<p class="lead">품목정보</p>
+					<table id="itemInfo" class="table">
 						<tr>
 							<th>품목번호</th>
 							<td>[[${i.itemCode}]]</td>
+						</tr>
+						<tr>
 							<th>상태</th>
 							<td>[[${i.itemStatus}]]</td>
 						</tr>
 						<tr>
 							<th>품목명</th>
 							<td>[[${i.itemName}]]</td>
+						</tr>
+						<tr>
 							<th>분류</th>
 							<td>[[${i.itemType}]]</td>
 						</tr>
 						<tr>
 							<th>카테고리</th>
-							<td colspan="3">
+							<td>
 								<th:block th:if="${i.largeCategory != null and i.largeCategory != ''.toString()}">
 									[[${i.largeCategory}]]
 									<th:block th:if="${i.middleCategory != null and i.middleCategory != ''.toString()}">
@@ -56,18 +66,24 @@
 						<tr>
 							<th>총수량</th>
 							<td>[[${#numbers.formatInteger(i.itemCount,0,'COMMA')}]]</td>
+						</tr>
+						<tr>
 							<th>규격</th>
 							<td>[[${i.itemStandard}]]</td>
 						</tr>
 						<tr>
 							<th>평균단가
 							<td>[[${#numbers.formatInteger(i.avgPrice,0,'COMMA')}]] 원</td>
+						</tr>
+						<tr>
 							<th>합계금액</th>
 							<td>[[${#numbers.formatInteger(i.totalPrice,0,'COMMA')}]] 원</td>
 						</tr>
 						<tr>
 							<th>총중량</th>
 							<td>[[${#numbers.formatInteger(i.stockWeight,0,'COMMA')}]] kg</td>
+						</tr>
+						<tr>
 							<th>원산지</th>
 							<td>[[${i.itemOrigin}]]</td>
 						</tr>
@@ -78,6 +94,8 @@
 						<tr>
 							<th>등록일시</th>
 							<td>[[${i.itemRegDate}]]</td>
+						</tr>
+						<tr>
 							<th>수정일시</th>
 							<td>[[${i.itemUpdateDate}]]</td>
 						</tr>
@@ -87,9 +105,11 @@
 					<a th:href="@{/k1Item}">
 						<button type="button" class="btn btn-default">목록으로</button>
 					</a>
-					<a th:href="@{|/k1ItemRemove(itemCode=${i.itemCode})|}">
-						<button type="button" class="btn btn-danger float-right">삭제</button>
-					</a>
+					<form id="removeForm" th:action="@{/k1ItemRemove}" method="POST"> 
+						<input type="hidden" name="itemCode" th:value="${i.itemCode}">
+					</form>
+					<button type="button" class="btn btn-danger float-right removeBtn"
+							data-toggle="modal" data-target="#Modal">삭제</button>
 					<a th:href="@{|/k1ItemModify/${i.itemCode}|}">
 						<button type="button" class="btn btn-info float-right mr-2">수정</button>
 					</a>
@@ -149,6 +169,29 @@
 	</div>
 	<div class="row" th:if="${ i == null }">
 		<div class="card"> 잘못된 접근입니다.</div>
+	</div>
+	
+	<!-- Modal창 -->
+	<div class="modal fade" id="Modal" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">품목정보 삭제</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					정말 삭제하시겠습니까?
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-danger remove" style="display:hidden;">삭제</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
 	</div>
 </div>
 
