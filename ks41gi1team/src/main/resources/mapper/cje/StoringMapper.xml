@@ -308,7 +308,7 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 		LEFT JOIN
-		k1_view_purchaseTs AS p
+		k1_view_purchase_transaction_detail AS p
 		ON
 		ad.purchaseTsCode = p.purchaseTsCode
 	WHERE
@@ -341,7 +341,7 @@
 		ON
 		ad.inventoryCode = i.inventoryCode
 		LEFT JOIN
-		k1_view_purchaseTs AS p
+		k1_view_purchase_transaction_detail AS p
 		ON
 		ad.purchaseTsCode = p.purchaseTsCode
 		AND i.itemCode = p.itemCode
@@ -498,7 +498,7 @@
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
 		,RIGHT(ad.inventoryCode,3) AS inventoryCode
-		<!-- ,RIGHT(i.itemCode,3) AS itemCode -->
+		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -562,15 +562,11 @@
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
 		,sp.managerId
-		,u.userName AS managerName
+		,sp.managerName
 		,sp.regDate
 		,sp.updateDate
 	FROM 
-		k1_tb_shipment_plan AS sp
-		JOIN
-		k1_tb_user AS u
-		ON
-		sp.managerId = u.userId
+		k1_view_shipment_plan AS sp
 		LEFT JOIN
 		k1_view_contract AS c
 		ON
@@ -583,8 +579,7 @@
 	SELECT
 		 RIGHT(sd.itemCode,3) AS itemCode
 		,st.itemName
-		,RIGHT(st.productPriceCode,3) AS productPriceCode
-		,st.productPrice AS unitPrice
+		,st.unitPrice
 		,RIGHT(st.warehouseCode,3) AS warehouseCode
 		,st.warehouseName
 		,st.location
@@ -594,11 +589,7 @@
 		,sd.totalPrice
 		,sd.`comment`
 	FROM
-		k1_tb_shipment_plan_detail AS sd
-		JOIN
-		k1_tb_shipment_plan AS sp
-		ON
-		sd.shipmentPlanCode = sp.shipmentPlanCode
+		k1_view_shipment_plan AS sd
 		JOIN
 		k1_view_stock AS st
 		ON
@@ -616,14 +607,10 @@
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
-		,i.userName AS managerName
+		,r.managerName
 		,LEFT(r.updateDate,10) AS updateDate
 	FROM 
-		k1_tb_return_reg AS r
-		JOIN 
-		k1_tb_user AS i
-		ON 
-		r.managerId = i.userId
+		k1_view_return_reg AS r
 		JOIN
 		k1_tb_client AS c
 		ON
@@ -653,11 +640,11 @@
 	FROM 
 		k1_view_return_reg AS r
 		LEFT JOIN
-		k1_view_purchaseTs AS pt
+		k1_view_purchase_transaction AS pt
 		ON
 		r.purchaseTsCode = pt.purchaseTsCode
 		LEFT JOIN
-		k1_view_salesTs AS st
+		k1_view_sales_transaction AS st
 		ON
 		r.salesTsCode = st.salesTsCode
 	WHERE
@@ -666,18 +653,14 @@
 <!-- 반품요청내역 상세정보 목록 -->
 <select id="getReturnRegDetails" parameterType="String" resultType="Storing">
 	SELECT
-		 RIGHT(d.itemCode,3) AS itemCode
-		,i.itemName
-		,d.amount
-		,d.`count` AS adjCount
-		,(d.amount * d.`count`) AS totalPrice
-		,d.`comment`
+		 RIGHT(r.itemCode,3) AS itemCode
+		,r.itemName
+		,r.amount
+		,r.`count` AS adjCount
+		,r.totalPrice
+		,r.`comment`
 	FROM 
-		k1_tb_return_reg_detail AS d
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		d.itemCode = i.itemCode
+		k1_view_return_reg AS r
 	WHERE
 		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
@@ -688,20 +671,12 @@
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
 		,s.itemName
-		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
-		,t.unitPrice
-		,RIGHT(s.productPriceCode,3) AS productPriceCode
-		,s.productPrice
+		,s.unitPrice
 		,s.stockWeight
 		,s.`status`
 		,s.`comment`
 	FROM
 		k1_view_stock AS s
-		LEFT JOIN
-		k1_view_purchaseTs AS t
-		ON
-		t.purchaseTsCode = s.purchaseTsCode 
-		AND t.itemCode = s.itemCode
 	WHERE
 		s.mainBusinessCode = #{mainBusinessCode}
 		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});

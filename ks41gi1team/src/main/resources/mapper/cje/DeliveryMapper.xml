@@ -24,7 +24,7 @@
 	FROM
 		k1_tb_delivery AS d
 		LEFT JOIN
-		k1_tb_shipment_plan AS s
+		k1_view_shipment_plan AS s
 		ON
 		d.shipmentPlanCode = s.shipmentPlanCode
 		LEFT JOIN
@@ -100,8 +100,8 @@
 
 <!-- 출하계획목록 -->
 <select id="getShipPlanDetails" parameterType="String" resultType="Storing">
-	SELECT 
-		 RIGHT(p.inventoryCode,3) AS inventoryCode
+ 	SELECT 
+		 RIGHT(p.itemCode,3) AS itemCode
 		,i.itemName 
 		,p.itemCount AS adjCount
 		,p.itemWeight AS adjWeight
@@ -112,11 +112,11 @@
 		,w.outPlace AS sendWarehouseOutPlace
 		,p.`comment`
 	FROM
-		k1_tb_shipment_plan_detail AS p
+		k1_view_shipment_plan AS p
 		JOIN
 		k1_tb_stock AS s
 		ON
-		p.inventoryCode = s.inventoryCode
+		p.itemCode = s.itemCode
 		JOIN
 		k1_tb_item_info AS i
 		ON
