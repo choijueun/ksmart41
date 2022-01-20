@@ -202,7 +202,7 @@
 			contr.mainBusinessCode as mainBusinessCode,
 			mb.businessName as mbBusinessName,
 			contr.clientCode as clientCode,
-			contr.clientBusinessName,
+			contr.clientBusinessName as clientBusinessName,
 			c.businessRepresentative AS businessRepresentative,
 			contr.clientManagerId as clientManagerId,
 			contr.contractSection as contractSection,
