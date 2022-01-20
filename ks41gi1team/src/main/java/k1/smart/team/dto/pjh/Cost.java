@@ -11,8 +11,22 @@ public class Cost {
 	private String reportPoint; //결산시점
 	private String briefs;
 	private String regDate;
+	private String regId;
+	private String userName;
 	private String updateDate;
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getRegId() {
+		return regId;
+	}
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
 	public String getEtcPurchaseCode() {
 		return etcPurchaseCode;
 	}
