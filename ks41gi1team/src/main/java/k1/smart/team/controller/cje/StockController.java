@@ -85,7 +85,7 @@ public class StockController {
 		stockList = stockService.getAllStockList(typeList, wList, mainBusinessCode);
 		model.addAttribute("stockList", stockList);
 		
-		return "stock/stock_list_table.html";
+		return "stock/ajax/stock_list_table.html";
 	}
 	
 	/**
