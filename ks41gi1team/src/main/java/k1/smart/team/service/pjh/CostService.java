@@ -56,7 +56,6 @@ public class CostService {
 	//기타비용 등록
 	public void addCost(Cost cost) {
 		costMapper.addCost(cost);
-		costMapper.addCostAc(cost);
 	}
 	
 	
@@ -69,7 +68,6 @@ public class CostService {
 	//기타비용 수정
 	public void costModify(Cost cost) {
 		costMapper.costModify(cost);
-		costMapper.costModifyAc(cost);
 	}
 	
 	
