@@ -64,11 +64,11 @@ $(function(){
 	});
 	
 	//품목분류 체크박스
-	var inputType = $('#checkType .itemType input[type="checkbox"]');
+	var inputType = $('#checkAjax .itemType input[type="checkbox"]');
 	//창고목록 체크박스
-	var inputWare = $('#checkType .warehouse input[type="checkbox"]');
+	var inputWare = $('#checkAjax .warehouse input[type="checkbox"]');
 	//체크박스 Ajax
-	$(document).on('change', '#checkType', function(){
+	$(document).on('change', '#checkAjax', function(){
 		var types = [];
 		inputType.each(function(i, obj){
 			if($(obj).is(':checked')){
@@ -116,7 +116,7 @@ $(function(){
 			재고 목록
 		</div>
 		<div class="card-body">
-			<div class="card" id="checkType">
+			<div class="card" id="checkAjax">
 				<div class="card-body">
 					<div class="itemType">
 						<div class="custom-control custom-checkbox float-left ml-3">

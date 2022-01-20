@@ -55,6 +55,13 @@ public class StockController {
 		return "stock/stock_list.html";
 	}
 	
+	/**
+	 * AJAX :: 재고 전체목록 조건
+	 * @param model
+	 * @param types
+	 * @param wares
+	 * @return
+	 */
 	@PostMapping("/k1Stock")
 	public String stockMainAjax(Model model, 
 			@RequestParam(value="types[]", required = false) List<String> types,
