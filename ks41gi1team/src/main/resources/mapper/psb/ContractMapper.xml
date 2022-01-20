@@ -23,7 +23,66 @@
 		<result column="businessRepresentative" 		property="businessRepresentative"/>
 		<result column="userName" 						property="userName"/>
 	</resultMap>
+	
+	<resultMap type="Contract" id="contractCodeForMaterialOrderCodeResultMap">
+		<result column="contractCode" 					property="contractCode"/>
+	
+	</resultMap>
 
+	<update id="modifyContractInfo" parameterType="Contract">
+		UPDATE k1_tb_contract
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">			
+				 mainBusinessCode		=#{mainBusinessCode}
+			</if>
+			<if test="clientCode != null and clientCode != ''.toString()">
+				,clientCode	=#{clientCode}
+			</if>
+			<if test="clientManagerId != null and clientManagerId != ''.toString()">		
+				,clientManagerId		=#{clientManagerId}
+			</if>
+			<if test="contractSection != null and contractSection != ''.toString()">
+				,contractSection	=#{contractSection}
+			</if>
+			<if test="contractType != null and contractType != ''.toString()">
+				,contractType		=#{contractType}
+			</if>
+			<if test="startDate != null and startDate != ''.toString()">
+				,startDate		=#{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''.toString()">
+				,endDate		=#{endDate}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="regId != null and regId != ''.toString()">
+				,regId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			</trim>
+	</update>
+	
+	<select id="getContractCodeForMaterialOrderCodeList" parameterType="String" resultMap="contractCodeForMaterialOrderCodeResultMap">
+		SELECT
+ 			c.contractCode as contractCode
+		FROM 
+			k1_tb_contract AS c
+		WHERE 
+			c.contractSection="발주";			
+	</select>
+	
 	<select id="getContractInfo" resultType="String">
 		SELECT 
 			CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
@@ -139,7 +198,7 @@
 	
 	<select id="getContractHistoryList" parameterType="map" resultType="map">
 		SELECT
-			contr.contractCode as contractCode,
+			RIGHT(contr.contractCode,3) as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
 			mb.businessName as mbBusinessName,
 			contr.clientCode as clientCode,

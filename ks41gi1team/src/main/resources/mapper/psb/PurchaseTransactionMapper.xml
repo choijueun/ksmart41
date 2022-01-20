@@ -15,6 +15,33 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 
+	<select id="getPurchaseTransactionInfo" parameterType="String" resultType="PurchaseTransaction">
+SELECT 
+	pt.purchaseTsCode
+	,pt.mainBusinessCode
+	,mb.businessName as mbBusinessName
+	,pt.clientCode
+	,c.businessName as cBusinessName
+	,pt.contractCode
+	,pt.briefs
+	,pt.dealDate
+	,pt.regId
+	,pt.regDate
+	,pt.updateDate
+FROM
+	k1_tb_purchase_transaction AS pt
+INNER JOIN	
+	k1_tb_main_business as mb
+on
+	pt.mainBusinessCode = mb.mainBusinessCode	
+INNER JOIN
+	k1_tb_client as c
+on
+	pt.mainBusinessCode = c.mainBusinessCode		
+GROUP BY
+	purchaseTsCode;	
+	</select>
+
 	<select id="getPurchaseTransactionList" parameterType="String" resultType="PurchaseTransaction">
 	SELECT 
 			pt.purchaseTsCode as purchaseTsCode,

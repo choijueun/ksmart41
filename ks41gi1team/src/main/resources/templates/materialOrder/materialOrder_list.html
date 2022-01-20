@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
@@ -121,7 +121,7 @@ $(function(){
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td class="text-center">
-							<button type="button" class="btn btn-primary btn-lg" id="openModalBtn" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-pen"></i></button>
+								<a th:href="@{|/k1MaterialOrder/modify/{materialOrderCode}|}"><i class="fas fa-pen"></i></a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
@@ -160,7 +160,7 @@ $(function(){
 					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
 						<td><input type="checkbox" name="productOrderCheck"></td>
 						<td>
-							<a th:href="@{|/k1ProductOrder/productOrder/${k1ProductOrderInfo}|}">
+							<a th:href="@{|/k1ProductOrder/productOrder/${l.productOrderCode}|}">
 								[[${l.productOrderCode}]]
 							</a>
 						</td>
@@ -191,16 +191,8 @@ $(function(){
 		
 	<div class="modal fade" id="modal-xl"  style="display: none;" aria-hidden="true">
 	<div class="modal-dialog modal-xl">
-		<form action="/k1MaterialOrder/k1MaterialOrderModify" method="post">
-          <div class="modal-content" 
-          				style="position: fixed;
-						top: 50%;
-						left: 50%;
-						-webkit-transform: translate(-50%, -50%);
-						-moz-transform: translate(-50%, -50%);
-						-ms-transform: translate(-50%, -50%);
-						-o-transform: translate(-50%, -50%);
-						transform: translate(-50%, -50%);">
+		
+          <div class="modal-content" style="width:120%;   vertical-align: middle;">
             <div class="modal-header">
               <h4 class="modal-title">발주 목록 수정 화면</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -250,7 +242,7 @@ $(function(){
 				</tr>	
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-primary"><a th:href="@{/k1MaterialOrder/k1MaterialOrderList}"></a>수정</button>
+              <a th:href="@{/k1MaterialOrder/k1MaterialOrderList}"><button type="button" class="btn btn-primary">수정</button></a>
               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
             </div>
 				</tbody>
@@ -258,7 +250,7 @@ $(function(){
           </div>
           <!-- /.modal-content -->
         </div>
-        </form>
+ 
           <!-- /.modal-dialog -->
         </div>
 </form>

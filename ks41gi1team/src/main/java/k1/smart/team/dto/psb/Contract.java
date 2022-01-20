@@ -28,6 +28,7 @@ public class Contract {
 	private String businessRepresentative;
 	private String userName;
 	private String userId;
+	private String contractCodeForMaterialOrderCode;
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -142,6 +143,12 @@ public class Contract {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	public String getContractCodeForMaterialOrderCode() {
+		return contractCodeForMaterialOrderCode;
+	}
+	public void setContractCodeForMaterialOrderCode(String contractCodeForMaterialOrderCode) {
+		this.contractCodeForMaterialOrderCode = contractCodeForMaterialOrderCode;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -183,9 +190,12 @@ public class Contract {
 		builder.append(userName);
 		builder.append(", userId=");
 		builder.append(userId);
+		builder.append(", contractCodeForMaterialOrderCode=");
+		builder.append(contractCodeForMaterialOrderCode);
 		builder.append("]");
 		return builder.toString();
 	}
+
 
 	
 }

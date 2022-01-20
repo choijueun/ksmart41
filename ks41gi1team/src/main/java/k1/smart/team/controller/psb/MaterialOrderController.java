@@ -1,7 +1,6 @@
 package k1.smart.team.controller.psb;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 import k1.smart.team.dto.psb.MaterialOrder;
-import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.dto.psb.ProductOrder;
-import k1.smart.team.mapper.psb.ProductOrderMapper;
 import k1.smart.team.service.cje.ItemService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
@@ -39,7 +38,6 @@ public class MaterialOrderController {
 		
 	private static final Logger log = LoggerFactory.getLogger(MaterialOrderController.class);
 	
-		private ProductOrder productOrderInfo;
 		private MaterialOrderService materialOrderService;
 		private ClientService clientService;
 		private MainBusinessService mainBusinessService;
@@ -48,9 +46,7 @@ public class MaterialOrderController {
 		private ContractService contractService;
 		private String mainBusinessCode;
 		private ProductOrderService productOrderService;
-		private List<MaterialOrder> materialOrderInfoList;  //발주 상세정보
 		private MaterialOrder materialOrderInfo; // 발주 하나 정보
-		private Map<String,Object> resultMap;
 
 		
 		
@@ -110,7 +106,11 @@ public class MaterialOrderController {
 			  model.addAttribute("contractList", contractList);
 			  System.out.println("contractList" + contractList);
 			  
-			  List<UserReg> userList = userRegService.getAllUserRegList();
+			  List<Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
+			  model.addAttribute("contractCodeForMaterialOrderCodeList", contractCodeForMaterialOrderCodeList);
+			  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
+			  
+			  List<User> userList = userRegService.getAllUserList();
 			  model.addAttribute("userList", userList);
 			  System.out.println("userList" + userList);
 			
@@ -129,10 +129,14 @@ public class MaterialOrderController {
 			//materialOrderCode 콘솔에 출력(log4j)
 			log.info("modifyMaterialOrder materialOrderCode: {}", materialOrderCode);
 			
-			MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
-			model.addAttribute("materialOrderInfo", materialOrderInfo);
+			//발주 정보
+			if(materialOrderCode != null && !"".equals(materialOrderCode)) {
+				MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
+				model.addAttribute("materialOrderInfo", materialOrderInfo);
+			}			
 			
 			model.addAttribute("title", "발주관리: 수정");
+			
 			return "materialOrder/materialOrder_list";
 		}
 		
@@ -158,7 +162,7 @@ public class MaterialOrderController {
 			  	@PathVariable(value="materialOrderCode", required=false) String materialOrderCode
 			  	,Model model) { 
 		  	//발주관리 코드 검사 if(materialOrderCode == null
-		  		System.out.println(materialOrderCode);
+		  		System.out.println("materialOrderCode-->" + materialOrderCode);
 			  if(materialOrderCode == null || "".equals(materialOrderCode)) { 
 				  System.out.println("발주코드 ERROR"); 
 				  return "redirect:/k1MaterialOrder/k1MaterialOrderList"; 
@@ -178,9 +182,7 @@ public class MaterialOrderController {
 			  return "materialOrder/materialOrder_info";
 		  }
 	  
-	
-	
-		
+
 		//발주 전체 목록
 		@GetMapping("/k1MaterialOrderList")
 		public String materialOrderMain(Model model) {

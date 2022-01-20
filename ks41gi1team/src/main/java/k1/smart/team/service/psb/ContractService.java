@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
@@ -18,6 +19,7 @@ public class ContractService {
 	private ContractMapper contractMapper;
 	private List<Contract> contractList;
 	private List<Contract> contractHistoryList;
+	private List<Contract> contractCodeForMaterialOrderCodeList;
 	
 	//생성자메서드 주입방식	
 	public ContractService(ContractMapper contractMapper) {
@@ -78,6 +80,14 @@ public class ContractService {
 	 * return paramMap; }
 	 */
 		
+		//발주서 등록을 위한 발주 계약서 코드만 따로 불러오기
+		public List<Contract> getContractCodeForMaterialOrderCodeList() {
+			contractCodeForMaterialOrderCodeList = contractMapper.getContractCodeForMaterialOrderCodeList();
+			
+			System.out.println("contractCodeForMaterialOrderCodeList--->" + contractCodeForMaterialOrderCodeList);
+			
+			return contractCodeForMaterialOrderCodeList;
+		}
 		
 	//계약서 전체조회 이력 조회
 		public List<Contract> getContractHistoryList(String mainBusinessCode) {
@@ -110,6 +120,23 @@ public class ContractService {
 			
 			return contractMapper.getContractInfo();
 		}
+
+		//계약서 수정
+		public int modifyContract(Contract contract) {
+			return contractMapper.modifyContract(contract);
+		}
+
+	/*
+	 * public List<ContractCodeForMaterialOrderCode>
+	 * getContractCodeForMaterialOrderCode() { contractCodeForMaterialOrderCodeList
+	 * = contractMapper.getContractCodeForMaterialOrderCode();
+	 * 
+	 * System.out.println("contractCodeForMaterialOrderCodeList--->" +
+	 * contractCodeForMaterialOrderCodeList);
+	 * 
+	 * return contractCodeForMaterialOrderCodeList; }
+	 */
+
 
 	
 }

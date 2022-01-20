@@ -16,53 +16,100 @@
 <th:block layout:fragment="customContents">
 
 <!-- content -->
-<div class="modal-dialog">
-          <div class="modal-content">
-          	발주 목록 수정 화면
-            <div class="modal-header">
-              <h4 class="modal-title">발주 목록 수정 화면</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-             <table id="materialOrderModifyList" class="table table-bordered table-hover dataTable dtr-inline">
-				<thead>
-					<tr>
-						<th>
-							<input type="checkbox" id="allCheck">
-						</th>
-						<th>No.</th>
-						<th>발주요청일자</th>
-						<th>거래처명</th>
-						<th>품목</th>
-						<th>납기일자</th>
-						<th>수량</th>
-						<th>금액</th>
-						<th>발주진행상태</th>
-					</tr>
-				</thead>
-				<tbody>
-				<tr>
-						<td><input type="checkbox"></td>
-						<td>[[${l.materialOrderCode}]]</td>
-						<td>[[${l.orderDate}]]</td>
-						<td>[[${l.businessName}]]</td>
-						<td>[[${l.itemName}]]</td>
-						<td>[[${l.predictDate}]]</td>
-						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${l.totalPrice}]]</td> 
-						<td>[[${l.status}]]</td> 
-				</tr>	
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-5">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						발주관리 상세내역
+					</div>
+					<div class="card-body" th:if="${ materialOrderInfo != null }">
+						<table id="materialOrderInfo" class="table table-bordered">
+							<tr>
+								<th>No.</th>
+								<td colspan="3">[[${materialOrderInfo.materialOrderCode}]]</td>
+							</tr>
+							<tr>
+								<th>발주요청일자</th>
+								<td colspan="3">[[${materialOrderInfo.orderDate}]]</td>
+							</tr>
+							<tr>
+								<th>거래처명</th>
+								<td colspan="3">[[${materialOrderInfo.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>제품명</th>
+								<td colspan="3">[[${materialOrderInfo.itemName}]]</td>
+							</tr>
+							<tr>
+								<th>총 수량</th>
+								<td>[[${#numbers.formatInteger(materialOrderInfo.totalCount,0,'COMMA')}]] EA</td>
+								<th>총 가격</th>
+								<td>[[${#numbers.formatInteger(materialOrderInfo.totalPrice,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>담당자</th>
+							<td colspan="3">[[${materialOrderInfo.userName}]]</td>
+							</tr>
+							<tr>
+								<th>발주 진행상태</th>
+								<td colspan="3">[[${materialOrderInfo.status}]]</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td colspan="3">[[${materialOrderInfo.briefs}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td colspan="3">[[${materialOrderInfo.regDate}]]</td>
+							</tr>
+							<tr>	
+								<th>수정일시</th>
+								<td colspan="3">[[${materialOrderInfo.updateDate}]]</td>
+							</tr>
+						</table>
+						<button type="button" class="btn btn-info">수정</button>
+					</div>
+					<div class="card-body" th:if="${ materialOrderInfo == null }">
+					잘못된 접근입니다.
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						단가 상세
+					</div>
+					<div class="card-body" th:if="${ materialOrderInfoList != null }">
+						<table id="adjDetail" class="table table-bordered">
+							<thead>
+								<tr>
+									<th>품목명</th>
+									<th>매입단가</th>
+									<th>매입세액</th>
+									<th>매출단가</th>
+									<th>매출세액</th>
+									<th>수량</th>
+									<th>소계</th>
+								</tr>
+							</thead>
+							
+							<tbody th:if="${#lists.isEmpty(historyPaymentInfoList)}">
+								<tr>
+									<td colspan="12">
+									상세내역을 불러올 수 없습니다.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="card-body" th:if="${historyPaymentInfoList == null }">
+						잘못된 접근입니다.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
-
 </html>

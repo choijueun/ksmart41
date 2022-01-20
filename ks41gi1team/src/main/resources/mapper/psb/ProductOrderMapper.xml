@@ -7,7 +7,7 @@
 		DELETE
 		FROM
 			k1_tb_product_order
-		WHERE
+		
 				
 	</delete>
 	
