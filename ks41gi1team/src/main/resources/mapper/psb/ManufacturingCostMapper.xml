@@ -15,7 +15,8 @@
 
 
 	<select id="getAllManufacturingCostList" resultType="ManufacturingCost">
-		SELECT
+<!-- 검토필요!!
+ 		SELECT
 			ls.lsAccountName as lsAccountName
 			,ep.amount  as amount
 			,mo.totalPrice as totalPrice
@@ -30,7 +31,7 @@
 		on
 			mo.mainBusinessCode = ep.mainBusinessCode 
 		GROUP BY 
-			ep.etcPurchaseCode
+			ep.etcPurchaseCode -->
 	</select>
 
 </mapper>
