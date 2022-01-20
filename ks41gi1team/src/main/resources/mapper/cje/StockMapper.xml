@@ -29,7 +29,7 @@
 		,s.regDate AS stockRegDate
 		,s.updateDate AS stockUpdateDate
 	FROM
-		k1_view_stock AS s;
+		k1_view_stock AS s
 	WHERE 
 		s.mainBusinessCode = #{mainBusinessCode};
 </select>
@@ -73,10 +73,10 @@
 		,a.endDate
 		,a.briefs
 		,a.managerId
-		,u.userName AS managerName
+		,a.managerName
 		,a.updateDate
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -85,10 +85,6 @@
 		k1_tb_stock_reason AS r
 		ON
 		a.stockReasonCode = r.stockReasonCode
-		JOIN
-		k1_tb_user AS u
-		ON
-		a.managerId = u.userId
 	WHERE
 		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
 	ORDER BY a.endDate DESC

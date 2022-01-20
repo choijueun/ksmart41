@@ -126,14 +126,14 @@
 		SELECT
 			pt.purchaseTsCode
 			,pt.clientCode
-			,SUM(ptd.COUNT) as count
+			,SUM(ptd.`count`) as count
 			,SUM(ptd.unitPrice) AS amount
 			,SUM(ptd.vat) as vat
 			,GROUP_CONCAT(DISTINCT pt.briefs SEPARATOR ', ') AS briefs
 		FROM
-			k1_tb_purchase_transaction AS pt
+			k1_view_purchase_transaction AS pt
 		JOIN
-			k1_tb_purchase_transaction_detail AS ptd
+			k1_view_purchase_transaction_detail AS ptd
 		ON
 			pt.purchaseTsCode = ptd.purchaseTsCode
 		GROUP BY
