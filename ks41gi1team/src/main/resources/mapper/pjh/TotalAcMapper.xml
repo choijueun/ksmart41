@@ -5,16 +5,16 @@
 <mapper namespace="k1.smart.team.mapper.pjh.TotalAcMapper">
 	<select id="getTotalAcList" parameterType="String" resultType="TotalAc">
 		SELECT 
-			RIGHT(totalAccountCode,3) as totalAccountCode
+			RIGHT(codes,3) as totalAccountCode
 			,mainBusinessCode
-			,salesSlipCode
-			,purchaseSlipCode
-			,RIGHT(etcPurchaseCode,3) AS etcPurchaseCode
+			,accountingCode
 			,salesSection
 			,regDate
 			,briefs
 			,totalPrice
 		FROM 
-			k1_tb_total_accounting;
+			k1_view_total_accounting
+		WHERE
+			salesSection = '기타비용';
 	</select>
 </mapper>
