@@ -260,7 +260,7 @@
 		,a.regDate
 		,a.updateDate
 	FROM 
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_user AS u
 		ON
@@ -276,7 +276,7 @@
 		LEFT JOIN
 		k1_tb_warehouse_info AS w2
 		ON
-		a.receiveWarehouse = w2.warehouseCode
+		a.receiveWarehouse = w2.warehouseCodes
 	WHERE
 		a.mainBusinessCode = #{mainBusinessCode}
 		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
