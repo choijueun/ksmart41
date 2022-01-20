@@ -65,7 +65,7 @@ WHERE
 		po.mainBusinessCode as mainBusinessCode,
 		po.contractCode as contractCode,
 		po.clientCode as clientCode,
-		po.clientBusinessName,
+		po.clientBusinessName as clientBusinessName,
 		po.`status`,
 		po.itemName as itemName,
 		po.totalCount,
@@ -77,7 +77,9 @@ WHERE
 		po.managerId as managerId,
 		po.managerName,
 		po.regDate as regDate,
-		po.updateDate as updateDate
+		po.updateDate as updateDate,
+		po.totalCount AS totalCount,
+		po.totalPrice AS totalPrice
 	FROM 
 		k1_view_product_order AS po	
 </select>	

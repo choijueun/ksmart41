@@ -6,8 +6,8 @@ public class ProductOrder {
 	private String contractCode;
 	private String clientCode;
 	private String productPriceCode;
-	private int totalProductCount;
-	private int totalProductPrice;
+	private int totalCount;
+	private int totalPrice;
 	private String productOrderDate;
 	private String productDate;
 	private String predictProductDate;
@@ -18,6 +18,7 @@ public class ProductOrder {
 	private String updateDate;
 	private String itemName;
 	private String businessName;
+	private String clientBusinessName;
 	public String getProductOrderCode() {
 		return productOrderCode;
 	}
@@ -48,17 +49,17 @@ public class ProductOrder {
 	public void setProductPriceCode(String productPriceCode) {
 		this.productPriceCode = productPriceCode;
 	}
-	public int getTotalProductCount() {
-		return totalProductCount;
+	public int getTotalCount() {
+		return totalCount;
 	}
-	public void setTotalProductCount(int totalProductCount) {
-		this.totalProductCount = totalProductCount;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
-	public int getTotalProductPrice() {
-		return totalProductPrice;
+	public int getTotalPrice() {
+		return totalPrice;
 	}
-	public void setTotalProductPrice(int totalProductPrice) {
-		this.totalProductPrice = totalProductPrice;
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	public String getProductOrderDate() {
 		return productOrderDate;
@@ -120,46 +121,23 @@ public class ProductOrder {
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
+	public String getClientBusinessName() {
+		return clientBusinessName;
+	}
+	public void setClientBusinessName(String clientBusinessName) {
+		this.clientBusinessName = clientBusinessName;
+	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ProductOrder [productOrderCode=");
-		builder.append(productOrderCode);
-		builder.append(", mainBusinessCode=");
-		builder.append(mainBusinessCode);
-		builder.append(", contractCode=");
-		builder.append(contractCode);
-		builder.append(", clientCode=");
-		builder.append(clientCode);
-		builder.append(", productPriceCode=");
-		builder.append(productPriceCode);
-		builder.append(", totalProductCount=");
-		builder.append(totalProductCount);
-		builder.append(", totalProductPrice=");
-		builder.append(totalProductPrice);
-		builder.append(", productOrderDate=");
-		builder.append(productOrderDate);
-		builder.append(", productDate=");
-		builder.append(productDate);
-		builder.append(", predictProductDate=");
-		builder.append(predictProductDate);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", briefs=");
-		builder.append(briefs);
-		builder.append(", managerId=");
-		builder.append(managerId);
-		builder.append(", regDate=");
-		builder.append(regDate);
-		builder.append(", updateDate=");
-		builder.append(updateDate);
-		builder.append(", itemName=");
-		builder.append(itemName);
-		builder.append(", businessName=");
-		builder.append(businessName);
-		builder.append("]");
-		return builder.toString();
+		return "ProductOrder [productOrderCode=" + productOrderCode + ", mainBusinessCode=" + mainBusinessCode
+				+ ", contractCode=" + contractCode + ", clientCode=" + clientCode + ", productPriceCode="
+				+ productPriceCode + ", totalCount=" + totalCount + ", totalPrice="
+				+ totalPrice + ", productOrderDate=" + productOrderDate + ", productDate=" + productDate
+				+ ", predictProductDate=" + predictProductDate + ", status=" + status + ", briefs=" + briefs
+				+ ", managerId=" + managerId + ", regDate=" + regDate + ", updateDate=" + updateDate + ", itemName="
+				+ itemName + ", businessName=" + businessName + ", clientBusinessName=" + clientBusinessName + "]";
 	}
+
 
 	
 

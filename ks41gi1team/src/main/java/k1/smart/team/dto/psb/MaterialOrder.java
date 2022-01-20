@@ -17,6 +17,7 @@ public class MaterialOrder {
 	private String itemName;
 	private String businessName;
 	private String userName;
+	private String clientBusinessName;
 	public String getMaterialOrderCode() {
 		return materialOrderCode;
 	}
@@ -113,44 +114,22 @@ public class MaterialOrder {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getClientBusinessName() {
+		return clientBusinessName;
+	}
+	public void setClientBusinessName(String clientBusinessName) {
+		this.clientBusinessName = clientBusinessName;
+	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MaterialOrder [materialOrderCode=");
-		builder.append(materialOrderCode);
-		builder.append(", mainBusinessCode=");
-		builder.append(mainBusinessCode);
-		builder.append(", contractCode=");
-		builder.append(contractCode);
-		builder.append(", clientCode=");
-		builder.append(clientCode);
-		builder.append(", totalCount=");
-		builder.append(totalCount);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", orderDate=");
-		builder.append(orderDate);
-		builder.append(", predictDate=");
-		builder.append(predictDate);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", briefs=");
-		builder.append(briefs);
-		builder.append(", managerId=");
-		builder.append(managerId);
-		builder.append(", regDate=");
-		builder.append(regDate);
-		builder.append(", updateDate=");
-		builder.append(updateDate);
-		builder.append(", itemName=");
-		builder.append(itemName);
-		builder.append(", businessName=");
-		builder.append(businessName);
-		builder.append(", userName=");
-		builder.append(userName);
-		builder.append("]");
-		return builder.toString();
+		return "MaterialOrder [materialOrderCode=" + materialOrderCode + ", mainBusinessCode=" + mainBusinessCode
+				+ ", contractCode=" + contractCode + ", clientCode=" + clientCode + ", totalCount=" + totalCount
+				+ ", totalPrice=" + totalPrice + ", orderDate=" + orderDate + ", predictDate=" + predictDate
+				+ ", status=" + status + ", briefs=" + briefs + ", managerId=" + managerId + ", regDate=" + regDate
+				+ ", updateDate=" + updateDate + ", itemName=" + itemName + ", businessName=" + businessName
+				+ ", userName=" + userName + ", clientBusinessName=" + clientBusinessName + "]";
 	}
+	
 	
 	
 }

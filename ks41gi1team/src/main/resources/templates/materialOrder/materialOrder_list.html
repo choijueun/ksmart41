@@ -165,11 +165,11 @@ $(function(){
 							</a>
 						</td>
 						<td>[[${l.productOrderDate}]]</td> 
-						<td>[[${l.businessName}]]</td>
+						<td>[[${l.clientBusinessName}]]</td>
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictProductDate}]]</td>
-						<td>[[${#numbers.formatInteger(l.totalProductCount,0,'COMMA')}]] &#8361;</td>
-						<td>[[${#numbers.formatInteger(l.totalProductPrice,0,'COMMA')}]] &#8361;</td> 
+						<td>[[${#numbers.formatInteger(l.totalCount,0,'COMMA')}]]EA</td>
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
 						<td>[[${l.status}]]</td> 
 						<td>
 							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
