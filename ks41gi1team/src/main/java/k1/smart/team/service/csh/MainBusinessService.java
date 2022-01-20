@@ -53,8 +53,13 @@ public class MainBusinessService {
 	//사업장 상세
 	public MainBusiness getMainBusinessDetail(String mainBusinessCode) {
 		mainBusinessDetail = mainBusinessMapper.getMainBusinessDetail(mainBusinessCode);
-		
 		return mainBusinessDetail;
+	}
+
+	//사업장 정보 수정
+	public int modifyMainBusiness(MainBusiness mainBusiness) {
+		
+		return mainBusinessMapper.modifyMainBusiness(mainBusiness);
 	}
 
 

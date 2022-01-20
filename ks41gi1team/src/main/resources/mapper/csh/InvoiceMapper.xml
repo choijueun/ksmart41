@@ -5,28 +5,12 @@
 <mapper namespace="k1.smart.team.mapper.csh.InvoiceMapper">
 
 	<select id="getAllInvoiceList" parameterType="String" resultType="Invoice">
-		SELECT 
-			 i.invoiceCode
-			,i.invoiceType
-			,i.supplyBusinessCode
-			,i.supplyBusinessName
-			,i.supplyManagerId
-			,i.supplymangerName
-			,i.demandBusinessCode
-			,i.demandBusinessName
-			,i.demandManagerId
-			,i.demandManagerName
-			,i.invoicePrice
-			,i.invoiceTax
-			,i.totalPrice
-			,i.issueStatus
-			,i.payMethod
-			,i.invoiceConfirm
-			,i.briefs
-			,i.issueDate
-			,i.regDate
-		FROM 
-			k1_view_invoice AS i;
+		SELECT
+			*
+		FROM
+			k1_tb_invoice AS i
+			JOIN 
+			k1_tb_main_business AS b;
 	</select>
 	
 	<select id="getInvoiceDetail" parameterType="String" resultType="Invoice">
@@ -69,7 +53,5 @@
 			i.invoiceCode = d.invoiceCode
 		WHERE
 			i.invoiceCode = #{invoiceCode};
-	 
-	
 	</select>
 </mapper>

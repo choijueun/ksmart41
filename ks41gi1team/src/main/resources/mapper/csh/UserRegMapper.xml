@@ -137,9 +137,44 @@
 			u.userLevelCode = l.userLevelCode
 		ORDER BY u.userId DESC 
 		LIMIT 0,5 ;
-</select>
+	</select>
 	
+	<select id="getUserDetail" parameterType="String" resultType="User">
+		SELECT 
+			*
+		FROM 
+			k1_tb_user AS u
+			JOIN 
+			k1_tb_main_business AS b
+			ON 
+			u.mainBusinessCode = b.mainBusinessCode
+			JOIN
+			k1_tb_user_level AS l
+			ON 
+			u.userLevelCode = l.userLevelCode
+		WHERE 
+			u.userId = #{userId};
+	</select>
 	
+<!-- 	<update id="modifyUser" parameterType="User">
+		UPDATE 
+			k1_tb_user
+		SET
+			userId = #{},
+			mainBusinessCode = #{},
+			userLevelCode = #{},
+			userPw = #{},
+			userName = #{},
+			userGender = #{},
+			userAddr = #{},
+			userMoblie = #{},
+			userEmail = #{},
+			userPosition = #{},
+			joinDate = #{},
+			updateDate = #{}
+		WHERE 
+			userId = #{};
+	</update> -->
 	
 	
 

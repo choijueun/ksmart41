@@ -23,6 +23,7 @@ public class UserRegController {
 	private List<UserReg> userRegList; //요청내역 배열
 	private UserReg userRegDetail; //요청내역 상세
 	private List<User> userList; //회원전체 목록
+	private User userDetail;//회원정보 상세
 	
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
@@ -52,37 +53,52 @@ public class UserRegController {
 		
 		return "user/user_register";
 	}
-	
 	//회원정보 수정
 	@GetMapping("/modifyUser/{userId}")
-	public String modifyUser(Model model) {
-		model.addAttribute("SectionTitle", "회원정보 수정");
+	public String modifyUser(
+			@PathVariable(value = "userId", required = false) String userId
+			,Model model) {
 		
+		User getUserDetail = userRegService.getUserDetail(userId);
+		model.addAttribute("getUserDetail", getUserDetail);
+		System.out.println(userId+"받아온 userId (controller)");
+		if(userId != null && !"".equals(userId)) {
+			User getUser = userRegService.getUserDetail(userId);
+			model.addAttribute("getUser", getUser);
+		}
+		model.addAttribute("SectionTitle", "회원가입: 수정");
+		model.addAttribute("userId", userId);
 		return "user/user_modify";
 	}
+	//회원정보 수정
+	@PostMapping("/modifyUser/{userId}")
+	public String modifyUser(User user) {
+		userRegService.modifyUser(user);
+		return "redirect:/k1UserReg/userList";
+	}
+	
+	
 	//회원정보 상세
-	@GetMapping("/userDetail")
-	public String userDetail(
-			@PathVariable(value = "userRegCode", required = false) String userRegCode
+	@GetMapping("/userDetail/{userId}")
+	public String getUserDetail(
+			@PathVariable(value = "userId", required = false) String userId
 			,Model model) {
-		System.out.println(userRegCode);
+		System.out.println("userId" + userId);
 		
 		//회원가입 요청코드 검사
-		if(userRegCode == null || "".equals(userRegCode)) {
+		if(userId == null || "".equals(userId)) {
 			System.out.println("회원가입 요청 상세 error");
-			return "redirect:/userRegList";
+			return "redirect:/userList";
 		}
 		
 		//회원가입요청 상세
-		userRegDetail = userRegService.getAllUserRegDetail(userRegCode);
-		if(userRegDetail == null) {
+		userDetail = userRegService.getUserDetail(userId);
+		if(userDetail == null) {
 			System.out.println("회원가입 요청 상세 error");
-			return "redirect:/userRegList";
+			return "redirect:/userList";
 		}
 		model.addAttribute("SectionTitle", "회원가입 요청 상세");
-		model.addAttribute("userRegDetail", userRegDetail);
-		
-		
+		model.addAttribute("userDetail", userDetail);
 		
 		return "user/user_detail";
 	}

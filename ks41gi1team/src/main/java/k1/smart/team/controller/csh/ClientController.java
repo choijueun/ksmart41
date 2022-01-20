@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.dto.csh.Client;
+import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.service.csh.ClientService;
 
 @Controller
@@ -124,10 +125,26 @@ public class ClientController {
 	public String modifyClient(
 			@PathVariable(value = "clientCode", required = false) String clientCode
 			,Model model) {
-		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
+		
+		Client getAllClientDetail = clientService.getClientDetail(clientCode);
+		model.addAttribute("getAllClientDetail", getAllClientDetail);
+		System.out.println(clientCode+"받아온 clientCode (controller)");
+		if(clientCode != null && !"".equals(clientCode)) {
+			Client getClient = clientService.getClientDetail(clientCode);
+			model.addAttribute("getClient", getClient);
+		}
+		
+		model.addAttribute("SectionTitle", "거래처 상셰: 수정");
 		model.addAttribute("clientCode", clientCode);
 		return "clientBusiness/client_modify";
 	}
+	//거래처정보 수정
+	@PostMapping("/modify/{clientCode}")
+	public String modifyClient(Client client) {
+		clientService.modifyClient(client);
+		return "redirect:/k1Client/clientList";
+	}
+	
 	
 	
 	

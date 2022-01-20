@@ -74,4 +74,26 @@
 			clientCode = #{clientCode};
 	</select>
 	
+	<update id="modifyClient" parameterType="Client">
+		UPDATE 
+			k1_tb_client
+		SET
+			clientCode = #{clientCode},
+			mainBusinessCode = #{mainBusinessCode},
+			businessCategory = #{businessCategory},
+			userId = #{userId},
+			businessName = #{businessName},
+			businessRepresentative = #{businessRepresentative},
+			businessType1 = #{businessType1},
+			businessType2 = #{businessType2},
+			businessNum = #{businessNum},
+			businessCount = #{businessCount},
+			businessMobile = #{businessMobile},
+			businessPlace = #{businessPlace},
+			businessEmail = #{businessEmail},
+			regDate = #{regDate}
+		WHERE 
+			clientCode = #{clientCode};
+	</update>
+	
 </mapper>

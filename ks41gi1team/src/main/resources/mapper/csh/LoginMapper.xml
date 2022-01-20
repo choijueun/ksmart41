@@ -12,13 +12,13 @@
 	
 	<select id="getAllLoginList" parameterType="String" resultType="Login">
 		SELECT 
-			 loginCode
-			,mainBusinessCode
-			,loginId
-			,loginDate
-			,logoutDate
+			 *
 		FROM 
-			k1_tb_login
+			k1_tb_login AS l
+			JOIN 
+			k1_tb_main_business AS b
+			ON 
+			l.mainBusinessCode = b.mainBusinessCode;
 	</select>
  	
  	<select id="getLimitLoginList" resultType="Login">

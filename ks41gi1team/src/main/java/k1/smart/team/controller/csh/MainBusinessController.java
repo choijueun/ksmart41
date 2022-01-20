@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.ClientService;
@@ -94,9 +95,25 @@ public class MainBusinessController {
 	public String modifyMainBusiness(
 			@PathVariable(value = "mainBusinessCode", required = false) String mainBusinessCode
 			,Model model) {
+		
+		MainBusiness getAllMainBusinessDetail = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
+		model.addAttribute("getAllMainBusinessDetail", getAllMainBusinessDetail);
+		System.out.println(mainBusinessCode + "받아온 mainBusinessCode (controller)");
+		if(mainBusinessCode != null && !"".equals(mainBusinessCode)) {
+			MainBusiness getMainBusiness = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
+			model.addAttribute("getMainBusiness", getMainBusiness);
+		}
+		
 		model.addAttribute("SectionTitle", "사업장 상세: 수정");
-		model.addAttribute("mainBusinessDetail", mainBusinessDetail);
+		model.addAttribute("mainBusinessCode", mainBusinessCode);
 		return "mainBusiness/business_modify";
+	}
+	//사업장 정보 수정
+	@PostMapping("/modify/{mainBusinessCode}")
+	public String modifyMainBusiness(MainBusiness mainBusiness) {
+		mainBusinessService.modifyMainBusiness(mainBusiness);
+		
+		 return "redirect:/k1Business/businessList";
 	}
 	
 	

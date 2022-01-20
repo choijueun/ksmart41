@@ -1,6 +1,8 @@
 package k1.smart.team.dto.csh;
 
 public class Invoice {
+	
+	//사업장 이름
 	private String businessName; //사업장 이름
 	
 	private String invoiceCode; //전자(세금)계산서 코드

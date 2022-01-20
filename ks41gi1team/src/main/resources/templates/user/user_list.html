@@ -58,16 +58,10 @@
 									<tr role="row">
 										<th><input type="checkbox" id="userAllCheck"></th>
 										<th>회원아이디</th>
-										<!-- <th>사업장</th> -->
-										<!-- <th>회원등급</th> -->
 										<th>이름</th>
 										<th>직책</th>
-										<!-- <th>성별</th> -->
-										<!-- <th>주소</th> -->
 										<th>연락처</th>
 										<th>이메일</th>
-										<!-- <th>등록일시</th> -->
-										<!-- <th>수정일시</th> -->
 										<th>수정</th>
 									</tr>
 								</thead>
@@ -75,21 +69,17 @@
 									<tr th:if="${not #lists.isEmpty(userList)}"
 										th:each="l : ${userList}">
 										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/k1UserReg/userList/${l.userId}|}">
+										<td><a th:href="@{|/k1UserReg/userDetail/${l.userId}|}">
 												[[${l.userId}]] </a></td>
-										<!-- <td>[[${l.businessName}]]</td> -->
-										<!-- <td>[[${l.userLevelName}]]</td> -->
 										<td>[[${l.userName}]]</td>
 										<td>[[${l.userPosition}]]</td>
-										<!-- <td>[[${l.userGender}]]</td>
-										<td>[[${l.userAddr}]]</td> -->
 										<td>[[${l.userMoblie}]]</td>
 										<td>[[${l.userEmail}]]</td>
-										<!-- <td>[[${l.joinDate}]]</td>
-										<td>[[${l.updateDate}]]</td> -->
 										<td>
 											<a href="#">
-												<i class="fas fa-pen"></i>
+												<button type="button" class="btn btn-info btn-sm">
+													<i class="fas fa-pen"></i>
+												</button>
 											</a>
 										</td>
 									</tr>
@@ -100,6 +90,9 @@
 							</table>
 							<a href="#">
 								<button type="button" class="btn btn-info">등록</button>
+							</a>
+							<a th:href="@{/k1Client/clientRegister}">
+								<button type="button" class="btn btn-danger float-right">삭제</button>
 							</a>
 						</div>
 					</div>

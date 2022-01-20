@@ -64,4 +64,27 @@
 		WHERE
 			b.mainBusinessCode = #{mainBusinessCode};
 	</select>
+	
+	<update id="modifyMainBusiness" parameterType="MainBusiness">
+		UPDATE 
+			k1_tb_main_business
+		SET
+			mainBusinessCode = #{mainBusinessCode},
+			businessCategory = #{businessCategory},
+			businessLevel = #{businessLevel},
+			businessName = #{businessName},
+			businessRepresentative = #{businessRepresentative},
+			businessType1 = #{businessType1},
+			businessType2 = #{businessType2},
+			businessNum = #{businessNum},
+			businessCount = #{businessCount},
+			businessMobile = #{businessMobile},
+			businessPlace = #{businessPlace},
+			businessEmail = #{businessEmail},
+			openDate = #{openDate},
+			regDate = #{regDate}
+		WHERE 
+			mainBusinessCode = #{mainBusinessCode};
+	</update>
+	
 </mapper>
