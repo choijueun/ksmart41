@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title></title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs">
+
+</th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						매출전표 수정
+					</div>
+					<form id="addSlipForm" th:action="@{|/k1SlipList/salesModify|}" method="post" class="form-horizontal">
+						<div class="card-body">
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="salesSlipCode">전표일자</label>
+									<input type="text" class="form-control" name="salesSlipCode" id="salesSlipCode" readonly="readonly" th:value="${salesSlipData.salesSlipCode}">
+								</div>
+								<div class="form-group col-md-6">
+									<label for="psType">구분</label>
+									<input type="text" class="form-control" name="psType" id="psType" readonly="readonly" th:value="매출">
+								</div>
+							</div>
+								<div class="form-group">
+									<label for="purchaseTsCode">명세서코드</label>
+									<input type="text" class="form-control" id="purchaseTsCode" name="purchaseTsCode" placeholder="명세서코드" th:value="${salesSlipData.salesTsCode}">
+								</div>
+								<div class="form-group">
+									<label for="clientCode">거래처명</label>
+									<input type="text" class="form-control" name="clientCode" id="clientCode" placeholder="거래처코드" th:value="${salesSlipData.clientCode}">
+								</div>
+								<div class="row">
+									<div class="form-group col-md-4">
+										<label for="amount">공급가액</label>
+										<input type="number" class="form-control" name="amount" id="amount" placeholder="공급가액" th:value="${salesSlipData.amount}">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="vat">부가세</label>
+										<input type="number" class="form-control" name="vat" id="vat" placeholder="부가세" th:value="${salesSlipData.vat}">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="count">수량</label>
+										<input type="number" class="form-control" name="count" id="count" placeholder="수량" th:value="${salesSlipData.count}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="briefs">적요</label>
+									<input type="text" class="form-control" name="briefs" id="briefs" placeholder="적요" th:value="${salesSlipData.briefs}">
+								</div>
+								<div class="form-group">
+									<label for="regId">담당자</label>
+									<input type="text" class="form-control" name="regId" placeholder="담당자" th:value="${salesSlipData.regId}">
+								</div>
+							</div>
+						<div class="card-footer">
+							<a th:href="@{/k1SlipList}">
+								<button type="button" class="btn btn-default">이전으로</button>
+							</a>
+							<button type="submit" class="btn btn-info float-right">등록하기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="modal fade" id="TsModal" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header text-center">
+						<h5 class="modal-title">명세서 조회</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					
+						INSERT HTML
+					
+					</div>
+					<div class="modal-footer justify-content-between">
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal" id="saveModalData">저장</button>
+					</div>
+				</div>
+				/.modal-content
+			</div>
+			/.modal-dialog
+		</div> -->
+		
+	</div>
+</th:block>
+
+</html>

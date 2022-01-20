@@ -25,6 +25,6 @@ public interface CostMapper {
 	//기타비용 수정
 	public int costModify(Cost cost);
 	
-	//기타비용 수정
+	//기타비용 수정시 통합회계 반영
 	public int costModifyAc(Cost cost);
 }

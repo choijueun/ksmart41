@@ -42,4 +42,18 @@ public interface SlipMapper {
 	public List<Slip> salesTransactionList();
 	//모달 비용명세서리스트
 	public List<Slip> purchaseTransactionList();
+	
+	//매출전표 수정시 값 가져오기 
+	public Slip getSalesSlipData(String salesSlipCode);
+	//매출전표 수정
+	public int salesSlipModify(Slip slip);
+	//매출전표 수정시 통합회계 반영
+	public int salesSlipModifyAc(Slip slip);
+	
+	//비용전표 수정시 값 가져오기 
+	public Slip getPurchaseSlipData(String purchaseSlipCode);
+	//비용전표 수정
+	public int purchaseSlipModify(Slip slip);
+	//비용전표 수정시 통합회계 반영
+	public int purchaseSlipModifyAc(Slip slip);
 }

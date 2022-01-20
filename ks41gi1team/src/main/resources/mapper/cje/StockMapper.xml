@@ -9,57 +9,27 @@
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,s.mainBusinessCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
-		,RIGHT(i.categoryCode,3) AS categoryCode
-		,i.largeCategory
-		,i.middleCategory
-		,i.smallCategory
-		,i.itemStandard
-		,i.itemOrigin
-		,RIGHT(s.productPriceCode,3) AS productPriceCode
-		,p.productPrice
+		,s.itemName
+		,s.itemType
+		,s.largeCategory
+		,s.middleCategory
+		,s.smallCategory
+		,s.itemStandard
+		,s.itemOrigin
+		,s.unitPrice AS productPrice
 		,s.itemCount
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-		,w.location
-		,w.outPlace
+		,s.warehouseName
+		,s.location
+		,s.outPlace
 		,s.stockWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate AS stockRegDate
 		,s.updateDate AS stockUpdateDate
 	FROM
-		k1_tb_stock AS s
-		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
-		ON
-		i.itemCode = s.itemCode
-		JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
+		k1_view_stock AS s;
 	WHERE 
 		s.mainBusinessCode = #{mainBusinessCode};
 </select>
@@ -68,57 +38,27 @@
 	SELECT
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
-		,RIGHT(i.categoryCode,3) AS categoryCode
-		,i.largeCategory
-		,i.middleCategory
-		,i.smallCategory
-		,i.itemStandard
-		,i.itemOrigin
-		,RIGHT(s.productPriceCode,3) AS productPriceCode
-		,p.productPrice
+		,s.itemName
+		,s.itemType
+		,s.largeCategory
+		,s.middleCategory
+		,s.smallCategory
+		,s.itemStandard
+		,s.itemOrigin
+		,s.unitPrice AS productPrice
 		,s.itemCount
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-		,w.location
-		,w.outPlace
+		,s.warehouseName
+		,s.location
+		,s.outPlace
 		,s.stockWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate
 		,s.updateDate
 	FROM
-		k1_tb_stock AS s
-		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
-		ON
-		i.itemCode = s.itemCode
-		JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
+		k1_view_stock AS s
 	WHERE
 		s.mainBusinessCode = #{mainBusinessCode}
 		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
@@ -161,7 +101,7 @@
 		 s.itemCount
 		,s.stockWeight
 	FROM 
-		k1_tb_stock AS s
+		k1_view_stock AS s
 	WHERE
 		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
 		AND mainBusinessCode = #{mainBusinessCode};

@@ -238,4 +238,83 @@
 			NOW())
 	</insert>
 	
+	<select id="getSalesSlipData" parameterType="String" resultType="Slip">
+		SELECT 
+			salesSlipCode
+			,salesTsCode
+			,clientCode
+			,amount
+			,tax as vat
+			,COUNT
+			,briefs
+			,regId
+		FROM
+			k1_tb_sales_slip
+		WHERE
+			salesSlipCode = #{salesSlipCode};
+	</select>
+	
+	<select id="getPurchaseSlipData" parameterType="String" resultType="Slip">
+		SELECT 
+			purchaseSlipCode
+			,purchaseTsCode
+			,clientCode
+			,amount
+			,tax as vat
+			,COUNT
+			,briefs
+			,regId
+		FROM 
+			k1_tb_purchase_slip
+		WHERE
+			purchaseSlipCode = #{purchaseSlipCode};
+	</select>
+	
+	<update id="salesSlipModify" parameterType="Slip">
+		UPDATE k1_tb_sales_slip
+		SET
+			salesTsCode		= #{purchaseTsCode},
+			clientCode		= #{clientCode},
+			amount			= #{amount},
+			tax				= #{vat},
+			`count`			= #{count},
+			briefs			= #{briefs},
+			regId			= #{regId},
+			updateDate		= NOW()
+		WHERE 
+			salesSlipCode = #{salesSlipCode}
+	</update>
+	
+	<update id="salesSlipModifyAc" parameterType="Slip">
+		UPDATE k1_tb_total_accounting
+		SET
+			totalPrice = ((#{amount}+#{vat})*#{count})
+		WHERE 
+			salesSlipCode = #{salesSlipCode};
+	</update>
+	
+	<update id="purchaseSlipModify" parameterType="Slip">
+		UPDATE 
+			k1_tb_purchase_slip
+		SET
+			purchaseTsCode		= #{purchaseTsCode},
+			clientCode			= #{clientCode},
+			amount				= #{amount},
+			tax					= #{vat},
+			`count`				= #{count},
+			briefs				= #{briefs},
+			regId				= #{regId},
+			updateDate			= NOW()
+		WHERE 
+			purchaseSlipCode = #{purchaseSlipCode}
+	</update>
+	
+	<update id="purchaseSlipModifyAc" parameterType="Slip">
+		UPDATE k1_tb_total_accounting
+		SET
+			totalPrice = ((#{amount}+#{vat})*#{count})
+		WHERE 
+			purchaseSlipCode = #{purchaseSlipCode};
+	</update>
+	
 </mapper>

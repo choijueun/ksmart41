@@ -43,6 +43,7 @@
 						<th>비용전표</th>
 						<th>기타비용</th>
 						<th>구분</th>
+						<th>적요</th>
 						<th>금액</th>
 						<th>등록일자</th>
 					</tr>
@@ -66,6 +67,7 @@
 							</a>
 						</td>
 						<td th:style="${l.salesSection eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.salesSection}"></td>
+						<td>[[${l.briefs}]]</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]원</td>
 						<td>[[${l.regDate}]]</td>
 					</tr>
