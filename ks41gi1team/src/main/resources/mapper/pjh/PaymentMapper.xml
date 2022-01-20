@@ -155,6 +155,6 @@
 		ON
 			pd.itemCode = i.itemCode
 		WHERE
-			p.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
+			pd.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
 	</select>
 </mapper>

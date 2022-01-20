@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="@{layout/default-sw}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <th:block layout:fragment="customJs">
+      <script th:inline="javascript">
+
+$(function() {
+            //--------------
+            //- AREA CHART -
+            //--------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+            //data 값 가져오기
+            var sales = $('#sales2021').text();
+            var expense = $('#expense2021').text();
+            var accounting = sales - expense ;
+            $('#accounting2021').text(accounting);
+            //console.log(sales, expense, accounting);
+
+            var areaChartData = {
+               labels : ['매출','비용'],
+               datasets : [ {
+                  label : '손익',
+                  backgroundColor : ['#e15759', '#4e79a7'],
+                  borderColor : '#698c68',
+                  pointRadius : false,
+                  pointColor : '#698c68',
+                  pointStrokeColor : '#698c68',
+                  pointHighlightFill : '#fff',
+                  pointHighlightStroke : '#698c68',
+                  data : [sales, expense]
+               } ]
+            }
+
+            var areaChartOptions = {
+               
+               maintainAspectRatio : false,
+               responsive : true,
+               legend : {
+                  display : true
+               },
+               
+               scales : {
+                  xAxes : [ {
+                     gridLines : {
+                        display : true,
+                     }
+                  } ],
+                  yAxes: [{
+                       stacked: false, //쌓임
+                       display: true, //y 축 show
+                       ticks: {
+                           stepSize: 0, //증가 범위
+                           max: 99999999, //최대 범위
+                           min: 0, //최소 범위
+                           beginAtZero: true, //0부터 시작
+                           fontFamily: "noto-fonts", //폰트 family
+                           fontColor: '#a5a5a5', //폰트 컬러
+                           padding: 10, //오른쪽 간격
+                           callback: function(label, index, labels) {
+                               return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //천단위 콤마
+                           },
+                       },
+                       gridLines: {
+                           display: false, //show
+                           drawBorder: false, //세로선 유무
+                       },
+                   }]
+               }
+            }
+
+            // This will get the first returned node in the jQuery collection.
+            var areaChart = new Chart(areaChartCanvas, {
+               type : 'doughnut',
+               data : areaChartData,
+               options : areaChartOptions
+            })
+            
+            
+            
+         })
+//분기별 그래프         
+$(function() {
+            //--------------
+            //- AREA CHART -
+            //--------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var areaChartCanvas = $('#areaChart2').get(0).getContext('2d')
+            //data 값 가져오기
+            //매출
+            var sales1 = $('#sales1Q').text();
+            var sales2 = $('#sales2Q').text();
+            var sales3 = $('#sales3Q').text();
+            var sales4 = $('#sales4Q').text();
+            //console.log(sales4);
+            //매입
+            var expense1 = $('#expense1Q').text();
+            var expense2 = $('#expense2Q').text();
+            var expense3 = $('#expense3Q').text();
+            var expense4 = $('#expense4Q').text();
+            //손익
+            var a1 = Number(sales1-expense1);
+            var a2 = a1+Number(sales2-expense2);
+            var a3 = a2+Number(sales3-expense3);
+            var a4 = a3+Number(sales4-expense4);
+            //console.log("a1"+a1);
+            //console.log(a2);
+            //console.log(a3);
+            //console.log(a4);
+
+
+         
+
+            var areaChartData = {
+               labels : ['2021 1Q','2021 2Q','2021 3Q','2021 4Q',],
+               datasets : [ {
+                  label : '매출',
+                  backgroundColor : ['#e15759'],
+                  borderColor : '#e15759',
+                  pointRadius : false,
+                  pointColor : '#e15759',
+                  fill: false,
+                  pointStrokeColor : '#CFE2CE',
+                  pointHighlightFill : '#CFE2CE',
+                  pointHighlightStroke : '#e15759',
+                  data : [sales1,sales2,sales3,sales4]
+               }, {
+                       label: '매입',
+                       type : 'line',         // 'line' type
+                       fill : false,         // 채우기 없음
+                       lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+                       pointRadius : 0,    // 각 지점에 포인트 주지 않음
+                       backgroundColor: 'rgb(255, 153, 0)',
+                       borderColor: '#4e79a7',
+                       data: [expense1, expense2, expense3, expense4]
+                   },
+                    {
+                   label: '누적손익',
+                    type : 'bar',         // 'line' type
+                    fill : false,         // 채우기 없음
+                    lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+                    pointRadius : 0,    // 각 지점에 포인트 주지 않음
+                    backgroundColor: 'rgb(255, 153, 0)',
+                    borderColor: '#4e79a7',
+                    data: [a1, a2, a3, a4]
+                }]
+            }
+
+            var areaChartOptions = {
+               
+               maintainAspectRatio : false,
+               responsive : true,
+               legend : {
+                  display : true
+               },
+               
+               scales : {
+                  xAxes : [ {
+                     gridLines : {
+                        display : true,
+                     }
+                  } ],
+                  yAxes: [{
+                       stacked: false, //쌓임
+                       display: true, //y 축 show
+                      
+                       gridLines: {
+                           display: true, //show
+                           drawBorder: true, //세로선 유무
+                       },
+                   }]
+               }
+            }
+
+            // This will get the first returned node in the jQuery collection.
+            var areaChart = new Chart(areaChartCanvas, {
+               type : 'line',
+               data : areaChartData,
+               options : areaChartOptions
+            })
+            
+            
+            
+         })         
+      </script>
+   </th:block>
+
+<th:block layout:fragment="customContents">
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>개발사 통합회계 조회</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/shop/index-sw">Home</a></li>
+              <li class="breadcrumb-item active">재무관리</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">2021년 손익</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="height: 250px;">    
+                <table class="table table-bordered" id="table2021">
+                  <thead>
+                    <tr>
+                        <th>매출</th>
+                  <th>비용</th>
+                      <th>손익</th>                      
+                    </tr>
+                  </thead>
+               <tbody id="myTable">
+                   <tr th:if="${not #lists.isEmpty(swAccounting)}" th:each="s: ${swAccounting}">
+                     <td th:text="${s.sales2021}" id="sales2021" th:value="${s.sales2021}"></td>
+                     <td th:text="${s.expense2021}" id="expense2021" th:value="${s.expense2021}"></td>
+                     <td id="accounting2021"></td>
+                     </tr>
+                  <tr th:unless="${not #lists.isEmpty(swAccounting)}">
+                     <td>내역이 없습니다.</td>
+                  </tr>
+               </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">2021년 손익</h3>    
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                 <div class="chart">
+               <canvas id="areaChart" style="height: 250px; min-height: 250px"></canvas>
+            </div>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+            <!-- 손익 차트 2-->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">2021년 분기별 매출, 비용</h3>    
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                 <div class="chart">
+               <canvas id="areaChart2" style="height: 250px; min-height: 250px"></canvas>
+            </div>
+              </div>
+              <div style="display: none">
+                 <!-- 매출 -->
+                 <span th:each="s : ${sw2021Sales}" th:text="${s.sales1Q}" id="sales1Q"></span>
+                 <span th:each="s : ${sw2021Sales}" th:text="${s.sales2Q}" id="sales2Q"></span>
+                 <span th:each="s : ${sw2021Sales}" th:text="${s.sales3Q}" id="sales3Q"></span>
+                 <span th:each="s : ${sw2021Sales}" th:text="${s.sales4Q}" id="sales4Q"></span>
+                 <!-- 비용 -->
+                 <span th:each="e : ${sw2021Expense}" th:text="${e.expense1Q}" id="expense1Q"></span>
+                 <span th:each="e : ${sw2021Expense}" th:text="${e.expense2Q}" id="expense2Q"></span>
+                 <span th:each="e : ${sw2021Expense}" th:text="${e.expense3Q}" id="expense3Q"></span>
+                 <span th:each="e : ${sw2021Expense}" th:text="${e.expense4Q}" id="expense4Q"></span>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- 손익 차트 -->
+          <!-- /.col -->
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</html>
