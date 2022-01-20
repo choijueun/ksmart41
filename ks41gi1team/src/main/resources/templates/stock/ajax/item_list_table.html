@@ -3,59 +3,61 @@
 	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
 <body>
 
-<thead>
-	<tr>
-		<th class="text-center">
-			<input type="checkbox" id="allCheck">
-		</th>
-		<th>No.</th>
-		<th>품목명</th>
-		<th>분류</th>
-		<th>대</th>
-		<th>중</th>
-		<th>소</th>
-		<th>소소</th>
-		<th>원산지</th>
-		<th>비고</th>
-		<th>상태</th>
-		<th class="text-center">수정</th>
-	</tr>
-</thead>
-<tbody>
-	<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
-		<td class="text-center"><input type="checkbox"></td>
-		<td>
-			<a th:href="@{|/k1Item/${l.itemCode}|}">
-				[[${l.itemCode}]]
-			</a>
-		</td>
-		<td>
-			<a th:href="@{|/k1Item/${l.itemCode}|}">
-				[[${l.itemName}]]
-			</a>
-		</td>
-		<td>[[${l.itemType}]]</td>
-		<td>[[${l.largeCategory}]]</td>
-		<td>[[${l.middleCategory}]]</td>
-		<td>[[${l.smallCategory}]]</td>
-		<td>[[${l.microCategory}]]</td>
-		<td>[[${l.itemOrigin}]]</td>
-		<td>[[${l.itemStatus}]]</td>
-		<td>[[${l.itemComment}]]</td>
-		<td class="text-center">
-			<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
-				<button type="button" class="btn btn-info btn-sm">
-					<i class="fas fa-pen"></i>
-				</button>
-			</a>
-		</td>
-	</tr>
-	<tr th:if="${#lists.isEmpty(itemList)}">
-		<td colspan="12">
-			품목 정보가 없습니다.
-		</td>
-	</tr>
-</tbody>
+<table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
+	<thead>
+		<tr>
+			<th class="text-center">
+				<input type="checkbox" id="allCheck">
+			</th>
+			<th>No.</th>
+			<th>품목명</th>
+			<th>분류</th>
+			<th>대</th>
+			<th>중</th>
+			<th>소</th>
+			<th>소소</th>
+			<th>원산지</th>
+			<th>비고</th>
+			<th>상태</th>
+			<th class="text-center">수정</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
+			<td class="text-center"><input type="checkbox"></td>
+			<td>
+				<a th:href="@{|/k1Item/${l.itemCode}|}">
+					[[${l.itemCode}]]
+				</a>
+			</td>
+			<td>
+				<a th:href="@{|/k1Item/${l.itemCode}|}">
+					[[${l.itemName}]]
+				</a>
+			</td>
+			<td>[[${l.itemType}]]</td>
+			<td>[[${l.largeCategory}]]</td>
+			<td>[[${l.middleCategory}]]</td>
+			<td>[[${l.smallCategory}]]</td>
+			<td>[[${l.microCategory}]]</td>
+			<td>[[${l.itemOrigin}]]</td>
+			<td>[[${l.itemStatus}]]</td>
+			<td>[[${l.itemComment}]]</td>
+			<td class="text-center">
+				<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
+					<button type="button" class="btn btn-info btn-sm">
+						<i class="fas fa-pen"></i>
+					</button>
+				</a>
+			</td>
+		</tr>
+		<tr th:if="${#lists.isEmpty(itemList)}">
+			<td colspan="12">
+				품목 정보가 없습니다.
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 </body>
 </html>

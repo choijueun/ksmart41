@@ -18,10 +18,8 @@ $(function(){
 		timer: 3000
 	});
 	
-	//Table
-	var stockList = $('#stockList');
 	//DataTables
-    stockList.DataTable({
+    $('#stockList').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -29,7 +27,7 @@ $(function(){
         "info": true,
         "autoWidth": false,
         "responsive": true,
-      });
+	});
 	
 	//allCheck
 	var chkbox = $('input[type="checkbox"]');
@@ -67,6 +65,8 @@ $(function(){
 	var inputType = $('#checkAjax .itemType input[type="checkbox"]');
 	//창고목록 체크박스
 	var inputWare = $('#checkAjax .warehouse input[type="checkbox"]');
+	//테이블 넣을 공간
+	var ajaxTable = $('#ajaxTable');
 	//체크박스 Ajax
 	$(document).on('change', '#checkAjax', function(){
 		var types = [];
@@ -89,7 +89,16 @@ $(function(){
 			dataType: "html"
 		});
 		request.done(function(data){
-			stockList.html(data);
+			ajaxTable.html(data);
+		    $('#stockList').DataTable({
+		        "paging": true,
+		        "lengthChange": false,
+		        "searching": true,
+		        "ordering": true,
+		        "info": true,
+		        "autoWidth": false,
+		        "responsive": true,
+			});
 		});
 		request.fail(function(jqXHR, textStatus) {
 			Toast.fire({
@@ -145,52 +154,54 @@ $(function(){
 					</div>
 				</div>
 			</div>
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
-				<thead>
-					<tr>
-						<th>No.</th>
-						<th>품목명</th>
-						<th>분류</th>
-						<th>창고</th>
-						<th>수량</th>
-						<th>중량</th>
-						<th>비고</th>
-						<th>상태</th>
-						<th class="text-center">수정</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-						<td>
-							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-								[[${l.inventoryCode}]]
-							</a>
-						</td>
-						<td>
-							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-								[[${l.itemName}]]
-							</a>
-						</td>
-						<td>[[${l.itemType}]]</td>
-						<td>[[${l.warehouseName}]]</td>
-						<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
-						<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]]</td>
-						<td>[[${l.comment}]]</td>
-						<td>[[${l.status}]]</td>
-						<td class="text-center">
-							<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
-									th:data-inventoryCode="${l.inventoryCode}">
-								<i class="fas fa-pen"></i>
-							</button>
-						</td>
-					</tr>
-					<tr th:if="${#lists.isEmpty(stockList)}">
-						<td colspan="9">
-							재고 정보가 없습니다.
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="ajaxTable">
+				<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>품목명</th>
+							<th>분류</th>
+							<th>창고</th>
+							<th>수량</th>
+							<th>중량</th>
+							<th>비고</th>
+							<th>상태</th>
+							<th class="text-center">수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.inventoryCode}]]
+								</a>
+							</td>
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.itemName}]]
+								</a>
+							</td>
+							<td>[[${l.itemType}]]</td>
+							<td>[[${l.warehouseName}]]</td>
+							<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
+							<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]]</td>
+							<td>[[${l.comment}]]</td>
+							<td>[[${l.status}]]</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
+										th:data-inventoryCode="${l.inventoryCode}">
+									<i class="fas fa-pen"></i>
+								</button>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(stockList)}">
+							<td colspan="9">
+								재고 정보가 없습니다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	
