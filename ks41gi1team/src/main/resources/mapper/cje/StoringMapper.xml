@@ -11,7 +11,7 @@
 		,a.stockReasonCode
 		,r.reason AS stockReason
 		,a.clientCode
-		,c.businessName
+		,a.businessName
 		,GROUP_CONCAT(DISTINCT ad.itemName SEPARATOR ', ') AS itemList
 		,a.totalPrice
 		,a.briefs
@@ -19,19 +19,15 @@
 		,a.adjDate
 		,a.endDate
 		,a.managerId
-		,u.userName AS managerName
+		,a.managerName
 		,a.regDate
 		,LEFT(a.updateDate,10) AS updateDate
 	FROM 
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_reason AS r
 		ON
 		a.stockReasonCode = r.stockReasonCode
-		JOIN
-		k1_tb_user AS u
-		ON
-		a.managerId = u.userId
 		JOIN
 		(SELECT
 			 ad.stockAdjDetailCode
@@ -47,10 +43,6 @@
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
-		LEFT JOIN
-		k1_tb_client AS c
-		ON
-		a.clientCode= c.clientCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
 			a.mainBusinessCode = #{mainBusinessCode}
@@ -233,7 +225,7 @@
 		,RIGHT(a.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(a.returnRegCode,3) AS returnRegCode
 		,a.clientCode
-		,c.businessName
+		,a.businessName
 		,RIGHT(a.contractCode,3) AS contractCode
 		,RIGHT(a.sendWarehouse,3) AS sendWarehouse
 		,w1.warehouseName AS sendWarehouseName
@@ -251,7 +243,7 @@
 		,RIGHT(a.deliveryCode,3) AS deliveryCode
 		,a.briefs
 		,a.managerId
-		,u.userName AS managerName
+		,a.managerName
 		,a.sendPlanDate
 		,a.receivePlanDate
 		,a.requestDate
@@ -261,14 +253,6 @@
 		,a.updateDate
 	FROM 
 		k1_view_stock_adjustment AS a
-		JOIN
-		k1_tb_user AS u
-		ON
-		a.managerId = u.userId
-		LEFT JOIN
-		k1_tb_client AS c
-		ON
-		a.clientCode = c.clientCode
 		LEFT JOIN
 		k1_tb_warehouse_info AS w1
 		ON
@@ -276,7 +260,7 @@
 		LEFT JOIN
 		k1_tb_warehouse_info AS w2
 		ON
-		a.receiveWarehouse = w2.warehouseCodes
+		a.receiveWarehouse = w2.warehouseCode
 	WHERE
 		a.mainBusinessCode = #{mainBusinessCode}
 		AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
@@ -295,10 +279,10 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -331,7 +315,7 @@
 		,ad.status
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -360,10 +344,10 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -387,10 +371,10 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -415,10 +399,10 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -445,10 +429,10 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -474,12 +458,12 @@
 		,ad.stockWeight
 		,RIGHT(ad.purchaseTsCode,3 ) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
-		,ad.status
+		,ad.`status`
 		,ad.defectType
 		,ad.defectHandlingType
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -504,12 +488,12 @@
 		,ad.afterCount
 		,ad.adjWeight
 		,ad.stockWeight
-		,ad.status
+		,ad.`status`
 		,ad.defectType
 		,ad.defectHandlingType
 		,ad.`comment`
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -528,24 +512,16 @@
 	SELECT 
 		 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(sp.contractCode,3) AS contractCode
-		,c.clientCode
-		,c.clientBusinessName AS businessName
+		,sp.clientCode
+		,sp.clientBusinessName AS businessName
 		,sp.receiveAddr
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
 		,sp.managerId
-		,u.userName AS managerName
+		,sp.managerName
 		,LEFT(sp.updateDate,10) AS updateDate
 	FROM 
-		k1_tb_shipment_plan AS sp
-		JOIN
-		k1_tb_user AS u
-		ON
-		sp.managerId = u.userId
-		LEFT JOIN
-		k1_view_contract AS c
-		ON
-		sp.contractCode = c.contractCode
+		k1_view_shipment_plan AS sp
 	WHERE
 		sp.mainBusinessCode = #{mainBusinessCode};
 </select>
@@ -556,8 +532,8 @@
 		 RIGHT(sp.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(sp.contractCode,3) AS contractCode
 		,RIGHT(sp.productOrderCode,3) AS productOrderCode
-		,c.clientCode
-		,c.clientBusinessName AS businessName
+		,sp.clientCode
+		,sp.clientBusinessName AS businessName
 		,sp.receiveAddr
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
@@ -567,10 +543,6 @@
 		,sp.updateDate
 	FROM 
 		k1_view_shipment_plan AS sp
-		LEFT JOIN
-		k1_view_contract AS c
-		ON
-		sp.contractCode = c.contractCode
 	WHERE
 		sp.mainBusinessCode = #{mainBusinessCode}
 		AND sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
@@ -589,7 +561,7 @@
 		,sd.totalPrice
 		,sd.`comment`
 	FROM
-		k1_view_shipment_plan AS sd
+		k1_view_shipment_plan_detail AS sd
 		JOIN
 		k1_view_stock AS st
 		ON

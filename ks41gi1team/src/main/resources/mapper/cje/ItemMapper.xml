@@ -76,7 +76,7 @@
 	FROM
 		k1_view_stock AS s
 	WHERE
-		i.itemCode = CONCAT('itemCode_',#{itemCode})
+		s.itemCode = CONCAT('itemCode_',#{itemCode})
 	ORDER BY
 		s.inventoryCode ASC
 	LIMIT 10;
