@@ -33,9 +33,9 @@ public class ItemService {
 	 * @param mainBusinessCode
 	 * @return 품목 여러개 정보
 	 */
-	public List<Stock> getAllItemList(String mainBusinessCode) {
+	public List<Stock> getAllItemList(Map<String, Object> paramMap) {
 		// 전체목록
-		itemList = itemMapper.getAllItemList(mainBusinessCode);
+		itemList = itemMapper.getAllItemList(paramMap);
 
 		return itemList;
 	}

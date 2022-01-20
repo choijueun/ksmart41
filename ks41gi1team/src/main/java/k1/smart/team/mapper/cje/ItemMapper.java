@@ -1,6 +1,7 @@
 package k1.smart.team.mapper.cje;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,7 @@ public interface ItemMapper {
 	 * @param mainBusinessCode
 	 * @return 품목 여러개 정보
 	 */
-	public List<Stock> getAllItemList(String mainBusinessCode);
+	public List<Stock> getAllItemList(Map<String, Object> paramMap);
 	
 	/**
 	 * 품목정보 상세조회

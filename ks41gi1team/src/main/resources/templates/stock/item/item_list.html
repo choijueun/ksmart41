@@ -10,6 +10,8 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	//표
+	var itemList = $('#itemList');
 	//DataTables
 	$('#itemList').DataTable({
 		"paging": true,
@@ -30,6 +32,123 @@ $(function(){
 			chkbox.prop("checked", false);
 		}
 	});
+	
+	var itemCategory = $('#itemCategory');
+	var largeCategory = $('#largeCategory');
+	var middleCategory = $('#middleCategory');
+	var smallCategory = $('#smallCategory');
+	var microCategory = $('#microCategory');
+	
+	//대분류 선택: 중분류 자동출력
+	largeCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
+		});
+		request.done(function( data ) {
+			var dataArr = data['middleCategory'];
+			//console.log(data['middleCategory']);
+ 			var categoryOption = middleCategory.children(":first");
+			categoryOption.siblings().remove(); //중분류 청소
+			smallCategory.children(':first').siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+			}
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	//중분류 선택: 소분류 자동출력
+	middleCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
+		});
+		request.done(function( data ) {
+			var dataArr = data['smallCategory'];
+			//console.log(data['smallCategory']);
+ 			var categoryOption = smallCategory.children(":first");
+			categoryOption.siblings().remove(); //소분류 청소
+			microCategory.children(':first').siblings().remove(); //소소분류 청소
+			for(var i=0; i<dataArr.length; i++) {
+				if(dataArr[i] != null && dataArr[i] != '') {
+					smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+				}
+			}
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	//소분류 선택: 소소분류 자동출력
+	smallCategory.on('change', function(){
+		var request = $.ajax({
+			  url: "/getLowCategory", //호출 경로
+			  type: "POST", //호출 방식
+			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
+		});
+		request.done(function( data ) {
+			var dataArr = data['microCategory'];
+			//console.log(data['microCategory']);
+ 			var categoryOption = microCategory.children(":first");
+			categoryOption.siblings().remove();
+			for(var i=0; i<dataArr.length; i++) {
+				if(dataArr[i] != null && dataArr[i] != '') {
+					microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+				}
+			}
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	
+	//품목분류 체크박스
+	var inputType = $('.itemType input[type="checkbox"]');
+	
+	//체크박스 Ajax
+	$(document).on('change', '#checkAjax', function(){
+		var types = [];
+		inputType.each(function(i, obj){
+			if($(obj).is(':checked')){
+				types.push($(obj).val());
+			}
+		});
+		var request = $.ajax({
+			url: "/k1Item",
+			data: {
+					'types' : types, 
+					'largeCategory' : largeCategory.val(), 
+					'middleCategory' : middleCategory.val(),
+					'smallCategory' : smallCategory.val(),
+					'microCategory' : microCategory.val()
+				  },
+			method: "POST",
+			dataType: "html"
+		});
+		request.done(function(data){
+			itemList.html(data);
+		});
+		request.fail(function(jqXHR, textStatus) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
 });
 </script>
 </th:block>
@@ -47,57 +166,47 @@ $(function(){
 			품목전체목록
 		</div>
 		<div class="card-body">
-			<div class="card">
+			<div class="card" id="checkAjax">
 				<div class="card-body">
 					<div class="row">
-						<div class="col-md-4">
-							<div class="custom-control custom-checkbox">
+						<div class="col-md-4 itemType">
+							<div class="custom-control custom-checkbox float-left ml-3">
 								<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-									type="checkbox" id="rawMaterial">
+									type="checkbox" id="rawMaterial" value="원자재">
 								<label for="rawMaterial" class="custom-control-label">원자재</label>
 							</div>
-							<div class="custom-control custom-checkbox">
+							<div class="custom-control custom-checkbox float-left ml-3">
 								<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-									type="checkbox" id="subsidiary">
+									type="checkbox" id="subsidiary" value="부자재">
 								<label for="subsidiary" class="custom-control-label">부자재</label>
 							</div>
-							<div class="custom-control custom-checkbox">
+							<div class="custom-control custom-checkbox float-left ml-3">
 								<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-									type="checkbox" id="product">
+									type="checkbox" id="product" value="제품">
 								<label for="product" class="custom-control-label">제품</label>
 							</div>
 						</div>
-						<div class="form-group col-md-2">
-							<label>
-								사용불가 포함
-							</label>
-							<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-off" 
-								style="width: 86px;">
-								<div class="bootstrap-switch-container" style="width: 126px; margin-left: 0px;">
-									<span class="bootstrap-switch-handle-on bootstrap-switch-info" style="width: 42px;">ON</span>
-									<span class="bootstrap-switch-label" style="width: 42px;">&nbsp;</span>
-									<span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 42px;">OFF</span>
-									<input type="checkbox" name="status" data-bootstrap-switch="">
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 row" id="itemCategory">
+						<div id="itemCategory" class="col-md-6 row">
 							<select name="largeCategory" id="largeCategory" class="form-control col-md-3">
 								<option value="">:: 대분류 ::</option>
+								<option th:each="l : ${largeCategory}">[[${l}]]</option>
 							</select>
 							<select name="middleCategory" id="middleCategory" class="form-control col-md-3">
 								<option value="">:: 중분류 ::</option>
 							</select>
-							<select name="smallCategory" id="smallCategory" class="form-control col-md-4">
+							<select name="smallCategory" id="smallCategory" class="form-control col-md-3">
 								<option value="">:: 소분류 ::</option>
 							</select>
-							<div class="col-md-2">
-								<a th:href="@{/k1ItemCategory}">
-									<button type="button" class="btn btn-outline-info">
-										편집
-									</button>
-								</a>
-							</div>
+							<select name="microCategory" id="microCategory" class="form-control col-md-3">
+								<option value="">:: 소소분류 ::</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<a th:href="@{/k1ItemCategory}">
+								<button type="button" class="btn btn-outline-info">
+									카테고리 편집
+								</button>
+							</a>
 						</div>
 					</div>
 				</div>
