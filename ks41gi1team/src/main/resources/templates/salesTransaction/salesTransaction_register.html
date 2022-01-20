@@ -15,59 +15,24 @@
 <th:block layout:fragment="customContents">
 
 <!-- content -->
-<div class="content-wrapper" style="min-height: 844.062px;">
 			<!-- Content 영역 상단(location) -->
-	<div class="row">
-	<div class="col-lg-3 col-md-2">
-	</div>
-	<div class="col-lg-6 col-md-8 mb-3">
-		<div class="card card-info card-outline">
-	<div class="content-header">
-	<div class="container-fluid">
-		<div class="row mb-2">
-			<div class="col-sm-6">
-				<h1 class="m-0">
-					매출 거래 명세서 등록
-				</h1>
-			</div>
-			<div class="col-sm-6">
-				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item">
-						매출 거래 명세서 등록
-					</li>
-					<li class="breadcrumb-item">
-						
-					</li>
-				</ol>
-			</div>
-		</div>
-	</div>
-</div>
-		<!-- Content 영역 본문 -->
-<section class="content" style="margin: auto;">
-			
 <div class="container-fluid">
+	<div class="row">
+	<div class="col-lg-3 col-md-2"></div>
+	<div class="col-lg-6 col-md-8 mb-3">
+	<div class="card card-info card-outline">
+	<div class="card-header">
+		계약서 등록
+			</div>
 	<form id="salesTransactionRegisterForm" action="/k1SalesTransaction/salesTransactionRegister" method="post">
-		<section class="content">
-	      <div class="row">
-	        <div >
-	          <div class="card card-info">
-	            <div class="card-header">
-	              <h3 class="card-title">매출 거래 명세서 등록</h3>
-	
-	              <div class="card-tools">
-	                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-	                  <i class="fas fa-minus"></i>
-	                </button>
-	              </div>
-	            </div>
-<div class="card-body">
-                  <div class="form-group">
+		<div class="card-body">
+			<div class="row">
+                  <div class="form-group col-md-6">
                     <label for="salesTsCode">매출 거래 명세서 코드</label>                   
                     	<input type="text" name="salesTsCode" class="form-control" id="salesTsCode" th:value="${salesTransactionInfo}">	                  
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="mainBusinessCode">사업장별 대표코드</label>
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
@@ -82,7 +47,7 @@
                     	</th:block>	
                     </select>
                    </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="clientCode">거래처 대표코드</label>
                      <select name="clientCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
@@ -96,7 +61,7 @@
                     	</th:block>
                     </select>		
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="lsAccountCode">계정과목코드</label>
                      <select name="lsAccountCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(lsList)}"
@@ -110,7 +75,7 @@
                     	</th:block>
                     </select>		
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="contractCode">계약 코드</label>
                     <select name="contractCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(contractList)}"
@@ -124,35 +89,35 @@
                     	</th:block>	
                     </select>
                    </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="vatType">부가세 유형</label>
                     <input type="text" name="vatType" class="form-control" id="vatType" placeholder="1000" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="amount">공금 가액</label>
                     <input type="text" name="amount" class="form-control" id="amount" placeholder="6000000" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="VAT">부가세</label>
                     <input type="text" name="VAT" class="form-control" id="VAT" placeholder="600000" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="count">총 수량</label>
                     <input type="text" name="count" class="form-control" id="count" placeholder="1" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="totalPrice">총 가격</label>
                     <input type="text" name="totalPrice" class="form-control" id="totalPrice" placeholder="6600000" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="dealDate">거래 일자</label>
                     <input type="date" name="dealDate" class="form-control" id="dealDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="briefs">적요</label>
                     <input type="text" name="briefs" class="form-control" id="briefs" placeholder="콩 1톤 5000000원 구입" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="regId">등록자</label>
                     <select name="regId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(userList)}"
@@ -166,11 +131,11 @@
                     	</th:block>
                     </select>
                  </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="regDate">등록일시</label>
                     <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="updateDate">수정일시</label>
                     <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
@@ -185,12 +150,12 @@
 	          </div>
 	          <!-- /.card -->
 	        </div>
-	      </div>
 	      <div class="row">
 	        <div class="col-12">
 	          <a href="#" class="btn btn-secondary">취소</a>
 	          <input type="submit" value="등록" class="btn btn-info">
 	        </div>
+	      </div>
 	      </div>
 	    </section>
 	</form>
