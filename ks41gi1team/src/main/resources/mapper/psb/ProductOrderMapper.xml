@@ -12,79 +12,51 @@
 	</delete>
 	
 <select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
-	SELECT 
-pod.productOrderOngoingCode
-,RIGHT(pod.productOrderCode,3) AS productOrderCode
-,ii.itemName
-,pod.productCount
-,pod.productPrice
-,pod.productShipmentDate
-,pod.`COMMENT`
+SELECT 
+	pod.productOrderOngoingCode
+	,pod.itemName
+	,pod.productCount
+	,pod.productPrice
+	,pod.productShipmentDate
+	,pod.`COMMENT`
 FROM
-	k1_tb_product_order_detail AS pod
-	INNER JOIN 
-	k1_tb_product_order AS po 
-	on
-	pod.productOrderCode=po.productOrderCode
-	INNER JOIN 
-	k1_tb_item_info AS ii
-	on
-	po.mainBusinessCode=ii.mainBusinessCode
+	k1_view_product_order_detail AS pod
 WHERE 
 	pod.productOrderCode = CONCAT('product_orderCode_', #{productOrderCode})
-GROUP BY 
-	pod.productOrderCode	
 </select>	
 	
  <select id="getProductOrderInfo" parameterType="String" resultType="ProductOrder">
 SELECT 
-		RIGHT(po.productOrderCode,3) as productOrderCode,
-		po.mainBusinessCode as mainBusinessCode,
-		po.contractCode as contractCode,
-		po.clientCode as clientCode,
-		po.productPriceCode as productPriceCode,
-		po.totalProductCount as totalProductCount,
-		po.totalProductPrice as totalProductPrice,
-		po.productOrderDate as productOrderDate,
-		po.productDate as productDate,
-		po.predictProductDate as predictProductDate,
-		po.status as status,
-		po.briefs as briefs,
-		po.managerId as managerId,
-		po.regDate as regDate,
-		po.updateDate as updateDate,
-		ii.itemName as itemName,
-		c.businessName as businessName
-	FROM 
-		k1_tb_product_order AS po
-		INNER JOIN 
-		k1_tb_client AS c
-		on
-		po.mainBusinessCode =c.mainBusinessCode
-		INNER JOIN 
-		k1_tb_user AS u
-		ON 
-		c.userId = u.userId
-		INNER JOIN 
-		k1_tb_contract AS contr
-		on
-		contr.mainBusinessCode = u.mainBusinessCode
-		INNER JOIN 
-		k1_tb_main_business AS mb
-		on
-		mb.mainBusinessCode = contr.mainBusinessCode
-		INNER JOIN 
-		k1_tb_product_price AS pp
-		on
-		pp.mainBusinessCode = mb.mainBusinessCode
-		INNER JOIN 
-		k1_tb_item_info AS ii
-		on
-		ii.itemCode = pp.itemCode
-	WHERE
-		po.productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})	
-	GROUP BY 
-		po.productOrderCode	
+	RIGHT(po.productOrderCode,3) as productOrderCode,
+	po.mainBusinessCode,
+	mb.businessName,
+	po.contractCode,
+	po.clientCode,
+	c.businessName AS clientBusinessName,
+	po.`status`,
+	po.itemName,
+	po.totalCount,
+	po.totalPrice,
+	po.briefs as briefs,
+	po.productOrderDate as productOrderDate,
+	po.productDate as productDate,
+	po.predictProductDate as predictProductDate,
+	po.managerId as managerId,
+	po.managerName,
+	po.regDate as regDate,
+	po.updateDate as updateDate
+FROM 
+	k1_view_product_order AS po
+	INNER JOIN 
+	k1_tb_main_business AS mb
+	on
+	mb.mainBusinessCode = po.mainBusinessCode
+	JOIN
+	k1_tb_client AS c
+	on
+	c.clientCode = po.clientCode
+WHERE
+	po.productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})	
 </select>	 
 	
 <select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
@@ -93,93 +65,43 @@ SELECT
 		po.mainBusinessCode as mainBusinessCode,
 		po.contractCode as contractCode,
 		po.clientCode as clientCode,
-		po.productPriceCode as productPriceCode,
-		po.totalProductCount as totalProductCount,
-		po.totalProductPrice as totalProductPrice,
+		po.clientBusinessName,
+		po.`status`,
+		po.itemName as itemName,
+		po.totalCount,
+		po.totalPrice,
+		po.briefs as briefs,
 		po.productOrderDate as productOrderDate,
 		po.productDate as productDate,
 		po.predictProductDate as predictProductDate,
-		po.status as status,
-		po.briefs as briefs,
 		po.managerId as managerId,
+		po.managerName,
 		po.regDate as regDate,
-		po.updateDate as updateDate,
-		ii.itemName as itemName,
-		c.businessName as businessName
+		po.updateDate as updateDate
 	FROM 
-		k1_tb_product_order AS po
-		INNER JOIN 
-		k1_tb_client AS c
-		on
-		po.mainBusinessCode =c.mainBusinessCode
-		INNER JOIN 
-		k1_tb_user AS u
-		ON 
-		c.userId = u.userId
-		INNER JOIN 
-		k1_tb_contract AS contr
-		on
-		contr.mainBusinessCode = u.mainBusinessCode
-		INNER JOIN 
-		k1_tb_main_business AS mb
-		on
-		mb.mainBusinessCode = contr.mainBusinessCode
-		INNER JOIN 
-		k1_tb_product_price AS pp
-		on
-		pp.mainBusinessCode = mb.mainBusinessCode
-		INNER JOIN 
-		k1_tb_item_info AS ii
-		on
-		ii.itemCode = pp.itemCode
-		GROUP BY po.productOrderCode;	
+		k1_view_product_order AS po	
 </select>	
 <select id="getAllProductOrderList" parameterType="String" resultType="ProductOrder">
 	SELECT 
 		RIGHT(po.productOrderCode,3) as productOrderCode,
-		po.mainBusinessCode as mainBusinessCode,
-		po.contractCode as contractCode,
-		po.clientCode as clientCode,
-		po.productPriceCode as productPriceCode,
-		po.totalProductCount as totalProductCount,
-		po.totalProductPrice as totalProductPrice,
-		po.productOrderDate as productOrderDate,
-		po.productDate as productDate,
-		po.predictProductDate as predictProductDate,
-		po.status as status,
-		po.briefs as briefs,
-		po.managerId as managerId,
-		po.regDate as regDate,
-		po.updateDate as updateDate,
-		ii.itemName as itemName,
-		c.businessName as businessName
+		po.mainBusinessCode,
+		po.contractCode,
+		po.clientCode,
+		po.clientBusinessName,
+		po.`status`,
+		po.itemName,
+		po.totalCount,
+		po.totalPrice,
+		po.briefs,
+		po.productOrderDate,
+		po.productDate,
+		po.predictProductDate,
+		po.managerId,
+		po.managerName,
+		po.regDate,
+		po.updateDate
 	FROM 
-		k1_tb_product_order AS po
-		INNER JOIN 
-		k1_tb_client AS c
-		on
-		po.mainBusinessCode =c.mainBusinessCode
-		INNER JOIN 
-		k1_tb_user AS u
-		ON 
-		c.userId = u.userId
-		INNER JOIN 
-		k1_tb_contract AS contr
-		on
-		contr.mainBusinessCode = u.mainBusinessCode
-		INNER JOIN 
-		k1_tb_main_business AS mb
-		on
-		mb.mainBusinessCode = contr.mainBusinessCode
-		INNER JOIN 
-		k1_tb_product_price AS pp
-		on
-		pp.mainBusinessCode = mb.mainBusinessCode
-		INNER JOIN 
-		k1_tb_item_info AS ii
-		on
-		ii.itemCode = pp.itemCode
-		GROUP BY po.productOrderCode;	
+		k1_view_product_order AS po
 </select>	
 	
 </mapper>	
