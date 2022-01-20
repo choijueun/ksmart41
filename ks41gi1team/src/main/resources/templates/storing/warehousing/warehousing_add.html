@@ -10,6 +10,14 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	
 	//날짜입력칸에 현재날짜 default
 	var dateObj = new Date();
 	var dateToday = dateObj.getFullYear()+'-';
@@ -103,7 +111,10 @@ $(function(){
 		});
 		 
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	
@@ -237,7 +248,7 @@ $(function(){
 					<a th:href="@{/k1Warehousing}">
 						<button type="button" class="btn btn-default">목록으로</button>
 					</a>
-					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+					<button type="button" id="submitBtn" class="btn btn-info float-right mr-2">등록하기</button>
 				</div>
 			</div>
 		</div>

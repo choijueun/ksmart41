@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -41,7 +42,7 @@ public class WarehousingController {
 	public String warehousingMain(Model model) {
 		//입고내역 전체목록 List<Storing>
 		warehousingList = storingService.getAllWarehousingList(mainBusinessCode);
-		log.info("자재입고내역 LIST :: {}", warehousingList);
+		//log.info("자재입고내역 LIST :: {}", warehousingList);
 		model.addAttribute("warehousingList", warehousingList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -69,7 +70,7 @@ public class WarehousingController {
 		
 		//자재입고내역 한줄정보 Storing
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
-		log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
+		//log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
 		model.addAttribute("s", warehousingInfo);
 		//자재입고내역 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("warehousingDetails"));
@@ -92,7 +93,7 @@ public class WarehousingController {
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
 			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
-			log.info("특정재고정보 INFO :: {}", stockInfo);
+			//log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
 		
@@ -100,6 +101,14 @@ public class WarehousingController {
 		model.addAttribute("SectionLocation", "자재입고내역 등록");
 		
 		return "storing/warehousing/warehousing_add";
+	}
+	
+	@PostMapping("/k1WarehousingAdd")
+	public String addWarehousing(Storing storingInfo) {
+		
+		System.out.println(storingInfo);
+		
+		return "redirect:/k1Warehousing";
 	}
 	
 	/**
