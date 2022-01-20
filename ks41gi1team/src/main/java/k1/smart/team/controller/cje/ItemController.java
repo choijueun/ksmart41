@@ -222,10 +222,13 @@ public class ItemController {
 	@PostMapping("/k1ItemModify")
 	public String modifyItem(Stock itemInfo) {
 		//품목 검사
-		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
+		if(CommonUtils.isEmpty(itemInfo) || CommonUtils.isEmpty(itemInfo.getItemCode())) return "redirect:/k1Item";
 		log.info("수정할 품목 INFO :: {}", itemInfo);
 		
-		return "redirect:/k1Item";
+		boolean chk = itemService.modifyItem(itemInfo);
+		
+		if(chk) return "redirect:/k1Item";
+		return "redirect:/k1ItemModify/"+itemInfo.getItemCode();
 	}
 	
 	@PostMapping("/k1ItemRemove")
