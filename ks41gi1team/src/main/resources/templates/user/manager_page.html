@@ -101,7 +101,9 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-block btn-outline-info">로그인내역 목록으로 이동</button>
+					<a th:href="@{/k1Login/loginList}">
+						<button type="button" class="btn btn-block btn-outline-info">로그인내역 목록으로 이동</button>
+					</a>
 				</div>
 			</div>
 			<!-- /로그인 내역 마지막 -->
@@ -135,7 +137,9 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" class="btn btn-block btn-outline-info">회원 목록으로 이동</button>
+					<a th:href="@{/k1UserReg/userList}">
+						<button type="button" class="btn btn-block btn-outline-info">회원 목록으로 이동</button>
+					</a>
 				</div>
 			</div>
 			<!-- /회원 목록 마지막 -->

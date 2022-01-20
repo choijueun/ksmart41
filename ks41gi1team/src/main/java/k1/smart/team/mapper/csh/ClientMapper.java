@@ -17,4 +17,7 @@ public interface ClientMapper {
 	//거래처 상세
 	public Client getClientDetail(String clientCode);
 
+	//거래처 정보 수정
+	public int modifyClient(Client client);
+
 }

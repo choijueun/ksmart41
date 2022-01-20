@@ -46,12 +46,10 @@
 									<tr role="row">
 										<th><input type="checkbox" id="loginAllCheck"></th>
 										<th>로그인코드</th>
-										<th>사업장코드</th>
+										<th>사업장</th>
 										<th>회원아이디</th>
 										<th>로그인날짜</th>
 										<th>로그아웃날짜</th>
-										<th>수정</th>
-										<th>삭제</th>
 									</tr>
 								</thead>
 								<tbody id="myTable" class="text-center">
@@ -60,26 +58,19 @@
 										<td><input type="checkbox"></td>
 										<td><a th:href="@{|/k1Login/loginList/${l.loginCode}|}">
 												[[${l.loginCode}]] </a></td>
-										<td>[[${l.mainBusinessCode}]]</td>
+										<td>[[${l.businessName}]]</td>
 										<td>[[${l.loginId}]]</td>
 										<td>[[${l.loginDate}]]</td>
 										<td>[[${l.logoutDate}]]</td>
-										<td>
-											<a th:href="@{/k1Login/loginList/${l.loginCode}|}">
-												<i class="fas fa-pen"></i>
-											</a>
-										</td>
-										<td>
-											<a th:href="@{/k1Login/loginList/${l.loginCode}|}">
-												<i class="fas fa-pen"></i>
-											</a>
-										</td>
 									</tr>
 									<tr th:if="${#lists.isEmpty(loginList)}">
 										<td colspan="10">거래처 정보가 없습니다.</td>
 									</tr>
 								</tbody>
 							</table>
+							<a th:href="@{/k1Client/clientRegister}">
+								<button type="button" class="btn btn-danger float-right">삭제</button>
+							</a>
 						</div>
 					</div>
 					</div>

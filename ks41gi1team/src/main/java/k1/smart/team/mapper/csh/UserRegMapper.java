@@ -36,6 +36,12 @@ public interface UserRegMapper {
 	//관리자페이지 회원 목록 보여주기
 	public List<User> getLimitUserList();
 
+	//회원정보 상세
+	public User getUserDetail(String userId);
+
+	//회원정보 수정
+	public int modifyUser(User user);
+
 	
 
 }

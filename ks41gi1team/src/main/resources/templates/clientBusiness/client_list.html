@@ -95,10 +95,13 @@
 										<td>[[${l.businessPlace}]]</td>
 										<td>[[${l.businessEmail}]]</td>
 										<td>
-											<a th:href="@{/k1Client/modify/${l.clientCode}|}">
-												<i class="fas fa-pen"></i>
+											<a th:href="@{|/k1Client/modify/${l.clientCode}|}">
+												<button type="button" class="btn btn-info btn-sm">
+													<i class="fas fa-pen"></i>
+												</button>
 											</a>
 										</td>
+										
 									</tr>
 									<tr th:if="${#lists.isEmpty(clientList)}">
 										<td colspan="10">거래처 정보가 없습니다.</td>

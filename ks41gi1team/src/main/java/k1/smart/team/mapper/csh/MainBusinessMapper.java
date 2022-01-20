@@ -20,5 +20,8 @@ public interface MainBusinessMapper {
 	//사업장정보 상세
 	public MainBusiness getMainBusinessDetail(String mainBusinessCode);
 
+	//사업장 정보 수정
+	public int modifyMainBusiness(MainBusiness mainBusiness);
+
 
 }

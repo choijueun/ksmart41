@@ -6,15 +6,95 @@
 <th:block layout:fragment="customTitle">
 	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- DataTables -->
+	<link rel="stylesheet"
+		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs"></th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+	<div class="container-fluid">
+		<div class="row" th:unless="${userDetail == null}">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						회원 정보 상세[[${userDetail.userId}]]
+					</div>
+					<div class="card-body">
+						<table id="userDetail" class="table">
+							<tr>
+								<th>회원가입요청코드</th>
+								<td colspan="3">[[${userDetail.userId}]]</td>
+							</tr>
+							<tr>
+								<th>사업장</th>
+								<td colspan="3">[[${userDetail.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>사업장코드</th>
+								<td colspan="3">[[${userDetail.mainBusinessCode}]]</td>
+							</tr>
+							<tr>
+								<th>회원등급</th>
+								<td colspan="3">[[${userDetail.userLevelName}]]</td>
+							</tr>
+							<tr>
+								<th>이름 </th>
+								<td colspan="3">[[${userDetail.userName}]]</td>
+							</tr>
+							<tr>
+								<th>성별 </th>
+								<td colspan="3">[[${userDetail.userGender}]]</td>
+							</tr>
+							<tr>
+								<th>주소 </th>
+								<td colspan="3">[[${userDetail.userAddr}]]</td>
+							</tr>
+							<tr>
+								<th>연락처 </th>
+								<td colspan="3">[[${userDetail.userMoblie}]]</td>
+							</tr>
+							<tr>
+								<th>이메일 </th>
+								<td colspan="3">[[${userDetail.userEmail}]]</td>
+							</tr>
+							<tr>
+								<th>직책 </th>
+								<td colspan="3">[[${userDetail.userPosition}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시 </th>
+								<td colspan="3">[[${userDetail.joinDate}]]</td>
+							</tr>
+						</table>
+						<div>
+							<a th:href="@{/k1UserReg/userList}">
+								<button type="button" class="btn btn-default">목록으로</button>
+							</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+							<a th:href="@{|/k1UserReg/modify/${userDetail.userId}|}">
+								<button type="button" class="btn btn-info float-right mr-2">수정</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ userDetail == null }">
+			잘못된 접근입니다.
+		</div>
+	</div>
 </th:block>
 
 </html>

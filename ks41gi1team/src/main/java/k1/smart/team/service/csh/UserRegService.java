@@ -17,6 +17,8 @@ public class UserRegService {
 	private List<UserReg> userRegList;
 	private UserReg userRegDetail; //요청내역 상세
 	private List<User> userList; //회원전체 목록
+	private User userDetail;//화원정보 상세
+	
 	
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
@@ -76,6 +78,22 @@ public class UserRegService {
 		List<User> limitUser = userRegMapper.getLimitUserList();
 		
 		return limitUser;
+	}
+
+	//회원정보 상세
+	public User getUserDetail(String userId) {
+		userDetail = userRegMapper.getUserDetail(userId);
+		if(userDetail == null) {
+			System.out.println("조회 결과 없음");
+			return null;
+		}
+		userDetail.setUserId(userId);
+		return userDetail;
+	}
+
+	//회원정보 수정
+	public int modifyUser(User user) {
+		return userRegMapper.modifyUser(user);
 	}
 
 	

@@ -52,7 +52,12 @@ public class ClientService {
 		clientDetail.setClientCode(clientCode);
 		return clientDetail;
 	}
+
+	//거래처 정보 수정
+	public int modifyClient(Client client) {
+		
+		return clientMapper.modifyClient(client);
+	}
 	
-	//거래처 등급 수정
 
 }
