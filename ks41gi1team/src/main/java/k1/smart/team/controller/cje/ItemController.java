@@ -215,6 +215,10 @@ public class ItemController {
 		return "stock/item/item_modify";
 	}
 	
+	/**
+	 * 품목정보 수정 프로세스
+	 * @param itemInfo
+	 */
 	@PostMapping("/k1ItemModify")
 	public String modifyItem(Stock itemInfo) {
 		//품목 검사

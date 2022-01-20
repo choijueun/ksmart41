@@ -185,13 +185,13 @@ $(function(){
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
 										<option value="">:: 소분류 ::</option>
-										<option th:each="s : ${smallCategory}" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
+										<option th:each="s : ${smallCategory}" th:unless="${i.smallCategory} == null" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
 										<option value="">:: 소소분류 ::</option>
-										<option th:each="xs : ${microCategory}" th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
+										<option th:each="xs : ${microCategory}" th:unless="${i.microCategory} == null"  th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
 									</select>
 								</div>
 							</div>
