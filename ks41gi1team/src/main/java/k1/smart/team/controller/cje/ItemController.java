@@ -223,7 +223,7 @@ public class ItemController {
 	public String modifyItem(Stock itemInfo) {
 		//품목 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
-		log.info("품목 INFO :: {}", itemInfo);
+		log.info("수정할 품목 INFO :: {}", itemInfo);
 		
 		return "redirect:/k1Item";
 	}

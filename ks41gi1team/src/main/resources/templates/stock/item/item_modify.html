@@ -92,14 +92,57 @@ $(function(){
 		});
 	});
 	
+	//카테고리 코드 반환
+	$(document).on('change', '#itemCategory select', function(){
+		var categories = [ largeCategory.val(), middleCategory.val(), smallCategory.val(), microCategory.val() ];
+		var request = $.ajax({
+			url: "/getItemCategoryCode", //호출 경로
+			type: "POST", //호출 방식
+			data: { 'categories' : categories },
+			dataType: "text"
+		});
+		request.done(function( data ) {
+			//console.log('return :: ',data);
+			itemCategory.find('input[name="categoryCode"]').val(data);
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	
+	//입력객체
+	var inputs = $('#modifyItem input');
+	var selects = $('#modifyItem select')
+	//수정 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		if( $('input[name="itemType"]:checked').val() == '제품') {
-			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
-				alert('품목 카테고리를 선택해주세요.');
-			} else {
-				modifyItem.submit();
+		//유효성 검사
+		var chk = 0; 
+		//input태그
+		inputs.each(function(i, obj){
+			//상태, 비고, 카테고리코드 생략 가능
+			if($(obj).attr('name') == 'itemStatus' || $(obj).attr('name') == 'itemComment' || $(obj).attr('name') == 'categoryCode' ) {
+				return true;
 			}
-		}else{
+			//필수작성요소 누락
+			if($(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '') {
+				chk += 1;
+			}
+			//제품 카테고리 
+			if($(obj).attr('name') == 'itemType' && $(obj).is(':checked') && $(obj).val() == '제품') {
+				if(largeCategory.val() == '' || middleCategory.val() == '' ) {
+					chk += 1;
+				}
+			}
+		});
+		if ( chk > 0 ) {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		} else {
 			modifyItem.submit();
 		}
 	});
