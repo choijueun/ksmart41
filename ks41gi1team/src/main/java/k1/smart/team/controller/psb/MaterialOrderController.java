@@ -1,6 +1,8 @@
 package k1.smart.team.controller.psb;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +19,7 @@ import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.dto.csh.User;
-import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.dto.psb.Contract;
-import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.cje.ItemService;
@@ -196,7 +196,9 @@ public class MaterialOrderController {
 			model.addAttribute("clientList", clientList);
 			System.out.println("clientList-->" + clientList);
 			
-			List<Stock> itemList = itemService.getAllItemList(mainBusinessCode);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("mainBusinessCode", mainBusinessCode);
+			List<Stock> itemList = itemService.getAllItemList(paramMap);
 			model.addAttribute("itemList", itemList);
 			System.out.println("itemList-->" + itemList);
 			

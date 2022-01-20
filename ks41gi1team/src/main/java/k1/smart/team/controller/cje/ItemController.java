@@ -1,7 +1,9 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,15 +45,66 @@ public class ItemController {
 	 */
 	@GetMapping("/k1Item")
 	public String itemMain(Model model) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		
 		//품목 전체목록 List<Stock>
-		itemList = itemService.getAllItemList(mainBusinessCode);
-		//log.info("품목 LIST :: {}", itemList);
+		itemList = itemService.getAllItemList(paramMap);
 		model.addAttribute("itemList", itemList);
+		
+		//대분류
+		resultMap = itemService.getItemCategory(null, null, null);
+		model.addAttribute("largeCategory", resultMap.get("largeCategory"));
 		
 		model.addAttribute("SectionTitle", "품목관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		
 		return "stock/item/item_list";
+	}
+	
+	/**
+	 * AJAX :: 품목 전체목록 조건
+	 * @param model
+	 * @param types
+	 * @param largeCategory
+	 * @param middleCategory
+	 * @param smallCategory
+	 * @param microCategory
+	 */
+	@PostMapping("/k1Item")
+	public String itemMainAjax(Model model,
+			@RequestParam(value="types[]", required = false) List<String> types,
+			String largeCategory, String middleCategory, String smallCategory, String microCategory) {
+		/*
+		log.info("types :: {}",types);
+		log.info("largeCategory :: {}",largeCategory);
+		log.info("middleCategory :: {}",middleCategory);
+		log.info("smallCategory :: {}",smallCategory);
+		log.info("microCategory :: {}",microCategory);
+		 */
+		String typeList = null;
+		//분류 배열이 null이 아닐 때
+		if(!CommonUtils.isEmpty(types)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : types) {
+				str.add(i);
+			}
+			typeList = str.toString();
+		}
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("typeList", typeList);
+		paramMap.put("largeCategory", largeCategory);
+		paramMap.put("middleCategory", middleCategory);
+		paramMap.put("smallCategory", smallCategory);
+		paramMap.put("microCategory", microCategory);
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		
+		//품목 전체목록 List<Stock>
+		itemList = itemService.getAllItemList(paramMap);
+		model.addAttribute("itemList", itemList);
+		
+		return "stock/ajax/item_list_table.html";
 	}
 	
 	/**
@@ -215,13 +268,20 @@ public class ItemController {
 		return "stock/item/item_modify";
 	}
 	
+	/**
+	 * 품목정보 수정 프로세스
+	 * @param itemInfo
+	 */
 	@PostMapping("/k1ItemModify")
 	public String modifyItem(Stock itemInfo) {
 		//품목 검사
-		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1Item";
-		log.info("품목 INFO :: {}", itemInfo);
+		if(CommonUtils.isEmpty(itemInfo) || CommonUtils.isEmpty(itemInfo.getItemCode())) return "redirect:/k1Item";
+		log.info("수정할 품목 INFO :: {}", itemInfo);
 		
-		return "redirect:/k1Item";
+		boolean chk = itemService.modifyItem(itemInfo);
+		
+		if(chk) return "redirect:/k1Item";
+		return "redirect:/k1ItemModify/"+itemInfo.getItemCode();
 	}
 	
 	@PostMapping("/k1ItemRemove")

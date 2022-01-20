@@ -10,6 +10,14 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	
 	var modifyItem = $('#modifyItem'); //수정폼
 	var itemType = $('#itemType'); //품목분류
 	var submitBtn = $('#submitBtn'); //수정버튼
@@ -92,14 +100,57 @@ $(function(){
 		});
 	});
 	
+	//카테고리 코드 반환
+	$(document).on('change', '#itemCategory select', function(){
+		var categories = [ largeCategory.val(), middleCategory.val(), smallCategory.val(), microCategory.val() ];
+		var request = $.ajax({
+			url: "/getItemCategoryCode", //호출 경로
+			type: "POST", //호출 방식
+			data: { 'categories' : categories },
+			dataType: "text"
+		});
+		request.done(function( data ) {
+			//console.log('return :: ',data);
+			itemCategory.find('input[name="categoryCode"]').val(data);
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	
+	//입력객체
+	var inputs = $('#modifyItem input');
+	var selects = $('#modifyItem select')
+	//수정 폼 제출
 	$(document).on('click', '#submitBtn', function(){
-		if( $('input[name="itemType"]:checked').val() == '제품') {
-			if(largeCategory.val() == "" || middleCategory.val() == "" || smallCategory.val() == "") {
-				alert('품목 카테고리를 선택해주세요.');
-			} else {
-				modifyItem.submit();
+		//유효성 검사
+		var chk = 0; 
+		//input태그
+		inputs.each(function(i, obj){
+			//상태, 비고, 카테고리코드 생략 가능
+			if($(obj).attr('name') == 'itemStatus' || $(obj).attr('name') == 'itemComment' || $(obj).attr('name') == 'categoryCode' ) {
+				return true;
 			}
-		}else{
+			//필수작성요소 누락
+			if($(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '') {
+				chk += 1;
+			}
+			//제품 카테고리 
+			if($(obj).attr('name') == 'itemType' && $(obj).is(':checked') && $(obj).val() == '제품') {
+				if(largeCategory.val() == '' || middleCategory.val() == '' ) {
+					chk += 1;
+				}
+			}
+		});
+		if ( chk > 0 ) {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		} else {
 			modifyItem.submit();
 		}
 	});
@@ -127,6 +178,7 @@ $(function(){
 						<div class="row">
 							<div class="col-8">
 								<div class="form-group">
+									<input type="hidden" name="itemCode" th:value="${i.itemCode}">
 									<label for="itemName">
 										품목명
 										<a id="itemNameValid" th:href="@{/k1Item}">
@@ -185,13 +237,13 @@ $(function(){
 								<div class="col-3">
 									<select id="smallCategory" name="smallCategory" class="form-control">
 										<option value="">:: 소분류 ::</option>
-										<option th:each="s : ${smallCategory}" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
+										<option th:each="s : ${smallCategory}" th:unless="${i.smallCategory} == null" th:selected="${s} == ${i.smallCategory}">[[${s}]]</option>
 									</select>
 								</div>
 								<div class="col-3">
 									<select id="microCategory" name="microCategory" class="form-control">
 										<option value="">:: 소소분류 ::</option>
-										<option th:each="xs : ${microCategory}" th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
+										<option th:each="xs : ${microCategory}" th:unless="${i.microCategory} == null"  th:selected="${xs} == ${i.microCategory}">[[${xs}]]</option>
 									</select>
 								</div>
 							</div>

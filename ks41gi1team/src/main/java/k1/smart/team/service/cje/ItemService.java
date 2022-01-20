@@ -33,9 +33,9 @@ public class ItemService {
 	 * @param mainBusinessCode
 	 * @return 품목 여러개 정보
 	 */
-	public List<Stock> getAllItemList(String mainBusinessCode) {
+	public List<Stock> getAllItemList(Map<String, Object> paramMap) {
 		// 전체목록
-		itemList = itemMapper.getAllItemList(mainBusinessCode);
+		itemList = itemMapper.getAllItemList(paramMap);
 
 		return itemList;
 	}
@@ -129,31 +129,58 @@ public class ItemService {
 	public boolean addItem(Stock itemInfo) {
 		//System.out.println("1. 제품인데 카테고리 코드가 없다.");
 		if("제품".equals(itemInfo.getItemType()) && CommonUtils.isEmpty(itemInfo.getCategoryCode())) {
-			//공백 NULL 치환
-			if(CommonUtils.isEmpty(itemInfo.getSmallCategory())) itemInfo.setSmallCategory(null);
-			if(CommonUtils.isEmpty(itemInfo.getMicroCategory())) itemInfo.setMicroCategory(null);
-			//System.out.println("2. 카테고리 정보를 등록했다.");
-			if(itemMapper.addItemCategory(itemInfo) > 0) {
-				//System.out.println("3. 등록한 카테고리 코드를 조회한다.");
-				List<String> categories = new ArrayList<String>();
-				categories.add(itemInfo.getLargeCategory());
-				categories.add(itemInfo.getMiddleCategory());
-				categories.add(itemInfo.getSmallCategory());
-				categories.add(itemInfo.getMicroCategory());
-				categories.add(itemInfo.getMainBusinessCode());
-				
-				String categoryCode = this.getItemCategoryCode(categories);
-				
-				//System.out.println("4. 카테고리 코드를 품목정보에 추가한다.");
-				itemInfo.setCategoryCode(categoryCode);
-			}
+			itemInfo.setCategoryCode(this.productCategoryCode(itemInfo));
 			if( CommonUtils.isEmpty(itemInfo.getCategoryCode()) ) return false;
 		}
-
+		//NULL치환
+		if(CommonUtils.isEmpty(itemInfo.getCategoryCode())) itemInfo.setCategoryCode(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemStatus())) itemInfo.setItemStatus(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemComment())) itemInfo.setItemComment(null);
 		// 등록 처리
 		if (itemMapper.addItem(itemInfo) == 1) return true;
 
 		return false;
+	}
+	
+	public boolean modifyItem(Stock itemInfo) {
+		//System.out.println("1. 제품인데 카테고리 코드가 없다.");
+		if("제품".equals(itemInfo.getItemType()) && CommonUtils.isEmpty(itemInfo.getCategoryCode())) {
+			itemInfo.setCategoryCode(this.productCategoryCode(itemInfo));
+			if( CommonUtils.isEmpty(itemInfo.getCategoryCode()) ) return false;
+		}
+		//NULL치환
+		if(CommonUtils.isEmpty(itemInfo.getCategoryCode())) itemInfo.setCategoryCode(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemStatus())) itemInfo.setItemStatus(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemComment())) itemInfo.setItemComment(null);
+		//수정 처리
+		if (itemMapper.modifyItem(itemInfo) == 1) return true;
+		
+		return false;
+	}
+	
+	public String productCategoryCode(Stock itemInfo) {
+		//공백 NULL 치환
+		if(CommonUtils.isEmpty(itemInfo.getSmallCategory())) itemInfo.setSmallCategory(null);
+		if(CommonUtils.isEmpty(itemInfo.getMicroCategory())) itemInfo.setMicroCategory(null);
+		
+		//System.out.println("2. 카테고리 정보를 등록했다.");
+		if(itemMapper.addItemCategory(itemInfo) > 0) {
+			//System.out.println("3. 등록한 카테고리 코드를 조회한다.");
+			List<String> categories = new ArrayList<String>();
+			categories.add(itemInfo.getLargeCategory());
+			categories.add(itemInfo.getMiddleCategory());
+			categories.add(itemInfo.getSmallCategory());
+			categories.add(itemInfo.getMicroCategory());
+			categories.add(itemInfo.getMainBusinessCode());
+			
+			String categoryCode = this.getItemCategoryCode(categories);
+			
+			//System.out.println("4. 카테고리 코드를 반환한다.");
+			return categoryCode;
+		}
+		
+		
+		return null;
 	}
 	
 	/**

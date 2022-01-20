@@ -2,6 +2,7 @@ package k1.smart.team.controller.cje;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
@@ -42,13 +44,55 @@ public class StockController {
 	@GetMapping("/k1Stock")
 	public String stockMain(Model model) {
 		//재고 전체목록 List<Stock>
-		stockList = stockService.getAllStockList(mainBusinessCode);
+		stockList = stockService.getAllStockList(null, null, mainBusinessCode);
 		log.info("재고 LIST :: {}", stockList);
 		model.addAttribute("stockList", stockList);
+		
+		model.addAttribute("wList", stockService.getAllWarehouseList(mainBusinessCode));
 		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		return "stock/stock_list.html";
+	}
+	
+	/**
+	 * AJAX :: 재고 전체목록 조건
+	 * @param model
+	 * @param types
+	 * @param wares
+	 * @return
+	 */
+	@PostMapping("/k1Stock")
+	public String stockMainAjax(Model model, 
+			@RequestParam(value="types[]", required = false) List<String> types,
+			@RequestParam(value="wares[]", required = false) List<String> wares) {
+		String typeList = null;
+		//분류 배열이 null이 아닐 때
+		if(!CommonUtils.isEmpty(types)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : types) {
+				str.add(i);
+			}
+			typeList = str.toString();
+		}
+		String wList = null;
+		//창고 배열이 null이 아닐 때
+		if(!CommonUtils.isEmpty(wares)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : wares) {
+				str.add(i);
+			}
+			wList = str.toString();
+		}
+		/*
+		 * log.info("선택한 분류 목록 :: {}",typeList);
+		 * log.info("선택한 창고 목록 :: {}",wList);
+		 */
+		//재고 전체목록 List<Stock>
+		stockList = stockService.getAllStockList(typeList, wList, mainBusinessCode);
+		model.addAttribute("stockList", stockList);
+		
+		return "stock/ajax/stock_list_table.html";
 	}
 	
 	/**

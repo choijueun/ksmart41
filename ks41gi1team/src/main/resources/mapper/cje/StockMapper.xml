@@ -31,7 +31,23 @@
 	FROM
 		k1_view_stock AS s
 	WHERE 
-		s.mainBusinessCode = #{mainBusinessCode};
+		s.mainBusinessCode = #{mainBusinessCode}
+		<if test="types != null and types != ''.toString()">
+		AND s.itemType REGEXP #{types}
+		</if>
+		<if test="wList != null and wList != ''.toString()">
+		AND s.warehouseCode REGEXP #{wList};
+		</if>
+</select>
+
+<select id="getAllWarehouseList" parameterType="String" resultType="map">
+	SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+	FROM
+		k1_view_warehouse_info w
+	WHERE
+		w.mainBusinessCode = #{mainBusinessCode};
 </select>
 
 <select id="getStockInfo" parameterType="String" resultType="Stock">
