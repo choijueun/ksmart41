@@ -23,49 +23,86 @@
 					<div class="card-header">
 						회원정보 수정
 					</div>
-					<form id="modifyUserForm" th:action="@{/k1UserReg/modify/{userId}}" method="post" class="form-horizontal">
+					<form id="modifyUserForm" th:action="@{/k1UserReg/modifyUser/{userId}}" method="post" class="form-horizontal">
 						<!-- card-body -->
 						<div class="card-body">
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right">회원가입 요청코드  </label>
+								<label class="col-sm-3 col-form-label text-right">회원아이디  </label>
 								<div class="col-sm-6">
-									<input th:value="${getUserReg.userRegCode}" type="text" class="form-control" id="userRegCode" name="userRegCode" readonly="readonly">
+									<input th:value="${getUser.userId}" type="text" class="form-control" id="userId" name="userId" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right">사업장 대표코드  </label>
+								<label class="col-sm-3 col-form-label text-right">사업장 코드  </label>
 								<div class="col-sm-6">
-									<input th:value="${getUserReg.mainBusinessCode}" type="text" class="form-control" id="mainBusinessCode" name="mainBusinessCode" readonly="readonly">
+									<input th:value="${getUser.mainBusinessCode}" type="text" class="form-control" id="mainBusinessCode" name=mainBusinessCode readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right">회원 아이디  </label>
+								<label class="col-sm-3 col-form-label text-right">회원 등급 코드  </label>
 								<div class="col-sm-6">
-									<input th:value="${getUserReg.userId}" type="text" class="form-control" id="inputId" name="userId" readonly="readonly">
+									<input th:value="${getUser.userLevelCode}" type="text" class="form-control" id="userLevelCode" name="userLevelCode" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right">회원레벨코드  </label>
+								<label class="col-sm-3 col-form-label text-right">이름  </label>
 								<div class="col-sm-6">
-									<input th:value="${getUserReg.userLevelCode}" type="text" class="form-control" id="userLevelCode" name="userLevelCode" readonly="readonly">
+									<input th:value="${getUser.userName}" type="text" class="form-control" id="userName" name="userName" >
 								</div>
 							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">성별  </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.userGender}" type="text" class="form-control" id="userGender" name="userGender" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">주소  </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.userAddr}" type="text" class="form-control" id="userAddr" name="userAddr" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">연락처  </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.userMoblie}" type="text" class="form-control" id="userMoblie" name="userMoblie" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">이메일  </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.userEmail}" type="text" class="form-control" id="userEmail" name="userEmail" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">직책 </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.userPosition}" type="text" class="form-control" id="userPosition" name="userPosition" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">등록일시  </label>
+								<div class="col-sm-6">
+									<input th:value="${getUser.joinDate}" type="text" class="form-control" id="joinDate" name="joinDate" readonly="readonly">
+								</div>
+							</div>
+							
 						</div>
 						<!-- /card-body -->
 						<!-- card-footer -->
 						<div class="card-footer">
 							<th:block th:if="${i} != null">
 								<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
-								<a th:href="@{|/k1UserReg/userRegDetail/${i.userRegCode}|}">
+								<a th:href="@{|/k1UserReg/userDetail/${i.userId}|}">
 									<button type="button" class="btn btn-default">이전으로</button>
 								</a>
 							</th:block>
 							<th:block th:if="${i} == null">
-								<a th:href="@{/k1UserReg/userRegList}">
+								<a th:href="@{/k1UserReg/userList}">
 									<button type="button" class="btn btn-default">이전으로</button>
 								</a>
 							</th:block>
-							<button type="submit" class="btn btn-primary float-right" id ="modifyUserRegBtn"> 수정완료 </button>
+							<button type="submit" class="btn btn-primary float-right" id ="modifyUserBtn"> 수정완료 </button>
 						</div>
 						<!-- /card-footer -->
 					</form>

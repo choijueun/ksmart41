@@ -14,12 +14,12 @@ import k1.smart.team.dto.csh.Login;
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.service.csh.LoginService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 
 @Controller
 @RequestMapping(value="/k1UserReg")
 public class UserController {
-	private UserRegService userRegService;
+	private UserService userRegService;
 	private List<UserReg> userRegList; //요청내역 배열
 	private UserReg userRegDetail; //요청내역 상세
 	private List<User> userList; //회원전체 목록
@@ -28,7 +28,7 @@ public class UserController {
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
 	
-	public UserController( UserRegService userRegService) {
+	public UserController( UserService userRegService) {
 		this.userRegService = userRegService;
 	}
 	

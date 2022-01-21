@@ -21,7 +21,7 @@ import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.cje.ItemService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
 import k1.smart.team.service.psb.MaterialOrderService;
 import k1.smart.team.service.psb.ProductOrderService;
@@ -35,7 +35,7 @@ public class ProductOrderController {
 	
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
-	private UserRegService userRegService;
+	private UserService userRegService;
 	private ItemService itemService;
 	private ContractService contractService;
 	private MaterialOrder materialOrderInfo; // 발주 하나 정보
@@ -45,7 +45,7 @@ public class ProductOrderController {
 	private ProductOrder productOrderInfo;
 
 	// 생성자 주입
-	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserRegService userRegService, ContractService contractService) {
+	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userRegService, ContractService contractService) {
 		this.productOrderService = productOrderService;
 		this.materialOrderService = materialOrderService;
 		this.clientService = clientService;
