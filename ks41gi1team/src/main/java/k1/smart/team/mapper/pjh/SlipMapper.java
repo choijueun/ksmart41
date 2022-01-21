@@ -56,4 +56,7 @@ public interface SlipMapper {
 	public int purchaseSlipModify(Slip slip);
 	//비용전표 수정시 통합회계 반영
 	public int purchaseSlipModifyAc(Slip slip);
+	
+	//최주은-특정품목(거래처, 계약코드)의 비용 거래명세서 조회
+	public List<Slip> getPSlipByItem(String itemCode, String clientCode, String contractCode);
 }
