@@ -18,6 +18,7 @@ public class MaterialOrder {
 	private String businessName;
 	private String userName;
 	private String clientBusinessName;
+	private String managerName;
 	public String getMaterialOrderCode() {
 		return materialOrderCode;
 	}
@@ -120,15 +121,55 @@ public class MaterialOrder {
 	public void setClientBusinessName(String clientBusinessName) {
 		this.clientBusinessName = clientBusinessName;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
 	@Override
 	public String toString() {
-		return "MaterialOrder [materialOrderCode=" + materialOrderCode + ", mainBusinessCode=" + mainBusinessCode
-				+ ", contractCode=" + contractCode + ", clientCode=" + clientCode + ", totalCount=" + totalCount
-				+ ", totalPrice=" + totalPrice + ", orderDate=" + orderDate + ", predictDate=" + predictDate
-				+ ", status=" + status + ", briefs=" + briefs + ", managerId=" + managerId + ", regDate=" + regDate
-				+ ", updateDate=" + updateDate + ", itemName=" + itemName + ", businessName=" + businessName
-				+ ", userName=" + userName + ", clientBusinessName=" + clientBusinessName + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("MaterialOrder [materialOrderCode=");
+		builder.append(materialOrderCode);
+		builder.append(", mainBusinessCode=");
+		builder.append(mainBusinessCode);
+		builder.append(", contractCode=");
+		builder.append(contractCode);
+		builder.append(", clientCode=");
+		builder.append(clientCode);
+		builder.append(", totalCount=");
+		builder.append(totalCount);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
+		builder.append(", orderDate=");
+		builder.append(orderDate);
+		builder.append(", predictDate=");
+		builder.append(predictDate);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", briefs=");
+		builder.append(briefs);
+		builder.append(", managerId=");
+		builder.append(managerId);
+		builder.append(", regDate=");
+		builder.append(regDate);
+		builder.append(", updateDate=");
+		builder.append(updateDate);
+		builder.append(", itemName=");
+		builder.append(itemName);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", clientBusinessName=");
+		builder.append(clientBusinessName);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append("]");
+		return builder.toString();
 	}
+	
 	
 	
 	

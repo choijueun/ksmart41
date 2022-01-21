@@ -19,7 +19,7 @@ import k1.smart.team.service.csh.UserService;
 @Controller
 @RequestMapping(value="/k1UserReg")
 public class UserController {
-	private UserService userRegService;
+	private UserService userService;
 	private List<UserReg> userRegList; //요청내역 배열
 	private UserReg userRegDetail; //요청내역 상세
 	private List<User> userList; //회원전체 목록
@@ -28,8 +28,8 @@ public class UserController {
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
 	
-	public UserController( UserService userRegService) {
-		this.userRegService = userRegService;
+	public UserController( UserService userService) {
+		this.userService = userService;
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class UserController {
 	//회원 전체 목록
 	@GetMapping("/userList")
 	public String userList(Model model) {
-		userList = userRegService.getAllUserList();
+		userList = userService.getAllUserList();
 		
 		model.addAttribute("SectionTitle", "회원 전체 목록");
 		model.addAttribute("userList", userList);
@@ -58,11 +58,11 @@ public class UserController {
 			@PathVariable(value = "userId", required = false) String userId
 			,Model model) {
 		
-		User getUserDetail = userRegService.getUserDetail(userId);
+		User getUserDetail = userService.getUserDetail(userId);
 		model.addAttribute("getUserDetail", getUserDetail);
 		System.out.println(userId+"받아온 userId (controller)");
 		if(userId != null && !"".equals(userId)) {
-			User getUser = userRegService.getUserDetail(userId);
+			User getUser = userService.getUserDetail(userId);
 			model.addAttribute("getUser", getUser);
 		}
 		model.addAttribute("SectionTitle", "회원가입: 수정");
@@ -72,7 +72,7 @@ public class UserController {
 	//회원정보 수정
 	@PostMapping("/modifyUser/{userId}")
 	public String modifyUser(User user) {
-		userRegService.modifyUser(user);
+		userService.modifyUser(user);
 		return "redirect:/k1UserReg/userList";
 	}
 	
@@ -91,7 +91,7 @@ public class UserController {
 		}
 		
 		//회원가입요청 상세
-		userDetail = userRegService.getUserDetail(userId);
+		userDetail = userService.getUserDetail(userId);
 		if(userDetail == null) {
 			System.out.println("회원가입 요청 상세 error");
 			return "redirect:/userList";
@@ -112,7 +112,7 @@ public class UserController {
 		//List<Login> loginList = loginService.getAllLoginList();
 		
 		List<Login> loginList2 = loginService.getLimitLoginList();
-		userList = userRegService.getLimitUserList();
+		userList = userService.getLimitUserList();
 		
 		model.addAttribute("SectionTitle", "관리자 페이지");
 		System.out.println(loginList2);
@@ -141,7 +141,7 @@ public class UserController {
 	//회원가입 요청 전체목록
 	@GetMapping("/userRegList")
 	public String getUserRegList(Model model) {
-		userRegList = userRegService.getAllUserRegList();
+		userRegList = userService.getAllUserRegList();
 		model.addAttribute("SectionTitle", "회원가입 요청 목록");
 		model.addAttribute("userRegList", userRegList);
 		return "user/userReg_register";
@@ -161,7 +161,7 @@ public class UserController {
 		}
 		
 		//회원가입요청 상세
-		userRegDetail = userRegService.getAllUserRegDetail(userRegCode);
+		userRegDetail = userService.getAllUserRegDetail(userRegCode);
 		if(userRegDetail == null) {
 			System.out.println("회원가입 요청 상세 error");
 			return "redirect:/userRegList";
@@ -177,11 +177,11 @@ public class UserController {
 			@PathVariable(value = "userRegCode", required = false) String userId
 			,Model model) {
 		
-		UserReg getAllUserRegDetail = userRegService.getAllUserRegDetail(userId);
+		UserReg getAllUserRegDetail = userService.getAllUserRegDetail(userId);
 		model.addAttribute("getAllUserRegDetail", getAllUserRegDetail);
 		System.out.println(userId+"받아온 userId (controller)");
 		if(userId != null && !"".equals(userId)) {
-			UserReg getUserReg = userRegService.getAllUserRegDetail(userId);
+			UserReg getUserReg = userService.getAllUserRegDetail(userId);
 			model.addAttribute("getUserReg", getUserReg);
 		}
 		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
@@ -192,7 +192,7 @@ public class UserController {
 	//회원가입 요청 수정
 	@PostMapping("/modifyUserReg/{userRegCode}")
 	public String modifyUserReg(UserReg userReg) {
-		userRegService.modifyUserReg(userReg);
+		userService.modifyUserReg(userReg);
 		return "redirect:/k1UserReg/userRegList";
 	}
 			

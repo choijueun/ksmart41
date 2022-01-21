@@ -1,6 +1,5 @@
 package k1.smart.team.controller.csh;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.dto.csh.Client;
-import k1.smart.team.dto.csh.UserReg;
 import k1.smart.team.service.csh.ClientService;
 
 @Controller

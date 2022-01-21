@@ -106,7 +106,9 @@ public class WarehousingController {
 	@PostMapping("/k1WarehousingAdd")
 	public String addWarehousing(Storing storingInfo) {
 		
-		System.out.println(storingInfo);
+		for(Stock stockInfo : storingInfo.getS()) {
+			log.info("Stock객체!! :: {}",stockInfo);
+		}
 		
 		return "redirect:/k1Warehousing";
 	}

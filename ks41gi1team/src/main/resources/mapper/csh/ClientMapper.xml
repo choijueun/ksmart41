@@ -9,6 +9,7 @@
 			 cli.clientCode
 			,cli.mainBusinessCode
 			,cli.businessCategory
+			,cc.businessCategoryName
 			,cli.userId
 			,cli.businessName
 			,cli.businessRepresentative
@@ -22,7 +23,16 @@
 			,cli.regDate
 			,cli.updateDate
 		FROM 
-			k1_tb_client AS cli;
+			k1_tb_client AS cli
+			JOIN
+			k0_common_business AS cc
+			ON
+			cli.businessCategory = cc.businessCategory
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+				cli.mainBusinessCode = #{mainBusinessCode}
+			</if>
+		</trim>
 	</select>
 	
 	<select id="getClientListBySearchKey" parameterType="String" resultType="Client">

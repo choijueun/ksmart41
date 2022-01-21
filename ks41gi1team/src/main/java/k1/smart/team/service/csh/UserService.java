@@ -30,7 +30,7 @@ public class UserService {
 	
 	//회원 전체 목록
 	public List<User> getAllUserList() {
-		userList = userRegMapper.getAllUserList();
+		userList = userRegMapper.getAllUserList(null);
 		if(userList == null) {
 			System.out.println("검색결과 없음");
 			return null;

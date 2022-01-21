@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StockMapper">
 
+<!-- 재고 전체목록 조회 -->
 <select id="getAllStockList" parameterType="String" resultType="Stock">
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
@@ -80,6 +81,7 @@
 		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </select>
 
+<!-- 특정 재고의 물류이동 내역 최근 10건 조회 -->
 <select id="getStockStorings" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -103,7 +105,8 @@
 		a.stockReasonCode = r.stockReasonCode
 	WHERE
 		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
-	ORDER BY a.endDate DESC
+	ORDER BY 
+		a.endDate DESC
 	LIMIT 10;
 </select>
 

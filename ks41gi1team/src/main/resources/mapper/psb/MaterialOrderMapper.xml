@@ -118,7 +118,7 @@ FROM
 	ON 
 	mo.contractCode = contr.contractCode
 WHERE 
-	materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+	mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
 GROUP BY 
 	mo.materialOrderCode;
 </select>
@@ -194,8 +194,7 @@ GROUP BY
 <select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
 		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
-		mo.mainBusinessCode as mainBusinessCode,
-		mo.contractCode as contractCode,
+		RIGHT(mo.contractCode,3) as contractCode,
 		mo.clientCode as clientCode,
 		c.businessName as businessName,
 		GROUP_CONCAT(DISTINCT ii.itemName SEPARATOR ', ') AS itemName,
@@ -222,9 +221,10 @@ GROUP BY
 		k1_tb_item_info AS ii
 		on
 		ii.itemCode = mord.itemCode
+	WHERE
+		mo.mainBusinessCode = #{mainBusinessC0ode}
 	GROUP BY 
 		mo.materialOrderCode
-		
 </select>	
 	
 </mapper>	

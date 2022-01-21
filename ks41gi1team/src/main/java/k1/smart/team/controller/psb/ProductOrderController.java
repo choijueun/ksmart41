@@ -35,7 +35,7 @@ public class ProductOrderController {
 	
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
-	private UserService userRegService;
+	private UserService userService;
 	private ItemService itemService;
 	private ContractService contractService;
 	private MaterialOrder materialOrderInfo; // 발주 하나 정보
@@ -45,13 +45,13 @@ public class ProductOrderController {
 	private ProductOrder productOrderInfo;
 
 	// 생성자 주입
-	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userRegService, ContractService contractService) {
+	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService, ContractService contractService) {
 		this.productOrderService = productOrderService;
 		this.materialOrderService = materialOrderService;
 		this.clientService = clientService;
 		this.itemService = itemService;
 		this.mainBusinessService = mainBusinessService;
-		this.userRegService = userRegService;
+		this.userService = userService;
 		this.contractService = contractService;
 	}
 
