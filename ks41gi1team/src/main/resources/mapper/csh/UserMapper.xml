@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="k1.smart.team.mapper.csh.UserRegMapper">	
+<mapper namespace="k1.smart.team.mapper.csh.UserMapper">	
+	
 	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
 		SELECT 
 			 r.userRegCode
@@ -141,40 +142,39 @@
 	
 	<select id="getUserDetail" parameterType="String" resultType="User">
 		SELECT 
-			*
+			 userId
+			,mainBusinessCode
+			,userLevelCode
+			,userName
+			,userGender
+			,userAddr
+			,userMoblie
+			,userEmail
+			,userPosition
+			,joinDate
 		FROM 
-			k1_tb_user AS u
-			JOIN 
-			k1_tb_main_business AS b
-			ON 
-			u.mainBusinessCode = b.mainBusinessCode
-			JOIN
-			k1_tb_user_level AS l
-			ON 
-			u.userLevelCode = l.userLevelCode
+			k1_tb_user
 		WHERE 
-			u.userId = #{userId};
+			userId = #{userId};
 	</select>
 	
-<!-- 	<update id="modifyUser" parameterType="User">
+	<update id="modifyUser" parameterType="User">
 		UPDATE 
 			k1_tb_user
 		SET
-			userId = #{},
-			mainBusinessCode = #{},
-			userLevelCode = #{},
-			userPw = #{},
-			userName = #{},
-			userGender = #{},
-			userAddr = #{},
-			userMoblie = #{},
-			userEmail = #{},
-			userPosition = #{},
-			joinDate = #{},
-			updateDate = #{}
+			 userId = #{userId}
+			,mainBusinessCode = #{mainBusinessCode}
+			,userLevelCode = #{userLevelCode}
+			,userName = #{userName}
+			,userGender = #{userGender}
+			,userAddr = #{userAddr}
+			,userMoblie = #{userMoblie}
+			,userEmail = #{userEmail}
+			,userPosition = #{userPosition}
+			,joinDate = #{joinDate}
 		WHERE 
-			userId = #{};
-	</update> -->
+			userId = #{userId};
+	</update>
 	
 	
 

@@ -10,7 +10,7 @@ import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 
 @Mapper
-public interface UserRegMapper {
+public interface UserMapper {
 	
 	//회원 전체 목록
 	public List<User> getAllUserList();
