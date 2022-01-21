@@ -2,35 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
 <body>
-
-<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
-	<thead>
-		<tr role="row">
-			<th class="sorting sorting_asc" tabindex="0" aria-controls="materialOrderList" aria-sort="ascending" aria-label="자재발주코드">materialOrderCode</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">contractCode</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">clientCode</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">totalCount</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">totalPrice</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">orderDate</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">status</th>
-			<th>briefs</th>
-			<th class="sorting" tabindex="0" aria-controls="materialOrderList">managerId</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr th:each="l : ${dataList}">
-			<td>[[${l.materialOrderCode}]]</td>
-			<td>[[${l.contractCode}]]</td>
-			<td>[[${l.clientCode}]]</td>
-			<td>[[${l.totalCount}]]</td>
-			<td>[[${l.totalPrice}]]</td>
-			<td>[[${l.orderDate}]]</td>
-			<td>[[${l.status}]]</td>
-			<td>[[${l.briefs}]]</td>
-			<td>[[${l.managerId}]]</td>
-		</tr>
-	</tbody>
-</table>
-
+	<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
+		<thead>
+			<tr>
+				<th class="text-center">No.</th>
+				<td style="display: none;">계약코드</td>
+				<td style="display: none;">거래처코드</td>
+				<th>거래처명</th>
+				<th>품목</th>
+				<th>전체수량</th>
+				<th>합계금액</th>
+				<th>적요</th>
+				<th>상태</th>
+				<th>주문일자</th>
+				<th class="text-center">선택</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="l : ${materialOrderList}">
+				<td class="text-center">[[${l.materialOrderCode}]]</td>
+				<td style="display: none;">[[${l.contractCode}]]</td>
+				<td style="display: none;">[[${l.clientCode}]]</td>
+				<td>[[${l.businessName}]]</td>
+				<td>[[${l.itemName}]]</td>
+				<td>[[${l.totalCount}]]</td>
+				<td>[[${l.totalPrice}]]</td>
+				<td>[[${l.status}]]</td>
+				<td>[[${l.briefs}]]</td>
+				<td>[[${l.orderDate}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr th:if="${#lists.isEmpty(materialOrderList)}">
+				<td colspan="9">자재발주내역을 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

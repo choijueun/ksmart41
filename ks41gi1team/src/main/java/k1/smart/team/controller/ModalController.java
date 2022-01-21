@@ -15,6 +15,9 @@ public class ModalController {
 	private ModalService modalService;
 	private List<Slip> salesTransactionList;
 	private List<Slip> purchaseTransactionList;
+	
+	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	
 	/**
 	 * 생성자 메서드
 	 * @param modalService
@@ -30,23 +33,43 @@ public class ModalController {
 	 */
 	@GetMapping(value="/stockModifyModal", produces="application/json")
 	public String stockModifyModal(String inventoryCode, Model model) {
-		//System.out.println("INVENTORYCODE :: "+inventoryCode);
+		//재고코드 검사
 		if(CommonUtils.isEmpty(inventoryCode)) return null;
-		
+		//재고코드 삽입
 		model.addAttribute("inventoryCode", inventoryCode);
-		
+		//modal body
 		return "modal/stock";
 	}
 	
 	/**
 	 * AJAX :: 자재발주내역 전체목록 조회
 	 */
-	@GetMapping(value="/materialOrder", produces="application/json")
+	@GetMapping(value="/materialOrderModal", produces="application/json")
 	public String materialOrderModal(Model model) {
-		
-		model.addAttribute("dataList", modalService.getMaterialOrderList());
-		
+		//자재발주내역 전체목록
+		model.addAttribute("materialOrderList", modalService.getMaterialOrderList(mainBusinessCode));
+		//modal body
 		return "modal/material_order";
+	}
+	/**
+	 * AJAX :: 창고정보 전체목록 조회
+	 */
+	@GetMapping(value="/warehouseListModal", produces="application/json")
+	public String warehouseListModal(Model model) {
+		//창고정보 전체목록
+		model.addAttribute("warehouseList", modalService.getWarehouseList(mainBusinessCode));
+		//modal body
+		return "modal/warehouse";
+	}
+	/**
+	 * AJAX :: 회원 전체목록 조회
+	 */
+	@GetMapping(value="/userListModal", produces="application/json")
+	public String userListModal(Model model) {
+		//회원정보 전체목록
+		model.addAttribute("userList", modalService.getUserList(mainBusinessCode));
+		//modal body
+		return "modal/user_list";
 	}
 	
 	@GetMapping(value="/transaction", produces="application/json")
