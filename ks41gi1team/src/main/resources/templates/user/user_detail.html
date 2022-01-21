@@ -34,20 +34,12 @@
 					<div class="card-body">
 						<table id="userDetail" class="table">
 							<tr>
-								<th>회원가입요청코드</th>
+								<th>회원 아이디</th>
 								<td colspan="3">[[${userDetail.userId}]]</td>
-							</tr>
-							<tr>
-								<th>사업장</th>
-								<td colspan="3">[[${userDetail.businessName}]]</td>
 							</tr>
 							<tr>
 								<th>사업장코드</th>
 								<td colspan="3">[[${userDetail.mainBusinessCode}]]</td>
-							</tr>
-							<tr>
-								<th>회원등급</th>
-								<td colspan="3">[[${userDetail.userLevelName}]]</td>
 							</tr>
 							<tr>
 								<th>이름 </th>
@@ -83,7 +75,7 @@
 								<button type="button" class="btn btn-default">목록으로</button>
 							</a>
 							<button type="button" class="btn btn-danger float-right">삭제</button>
-							<a th:href="@{|/k1UserReg/modify/${userDetail.userId}|}">
+							<a th:href="@{|/k1UserReg/modifyUser/${userDetail.userId}|}">
 								<button type="button" class="btn btn-info float-right mr-2">수정</button>
 							</a>
 						</div>
