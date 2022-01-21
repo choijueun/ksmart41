@@ -58,7 +58,7 @@
 		SELECT
 			RIGHT(h.payHistoryCode,3) as payHistoryCode
 			,RIGHT(h.payPlanCode,3) as payPlanCode
-			,h.clientBusinessName
+			,h.clientBusinessName as businessName
 			,h.payCost
 			,h.totalPlanCost
 			,h.issueDate
@@ -88,11 +88,12 @@
 			,hd.itemName
 			,hd.unitPrice
 			,hd.`count`
+			,hd.tax
 			,hd.totalPrice
 		FROM
 			k1_view_pay_history_detail AS hd
 		WHERE
-			h.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
+			hd.payHistoryCode = CONCAT('payHistoryCode_', #{payHistoryCode});
 		
 	</select>
 	<select id="getCancelPaymentInfo" parameterType="String" resultType="CancelPayment">
@@ -147,7 +148,7 @@
 			,pd.unitPrice
 			,pd.tax
 			,pd.count
-			,pd.totalPrice
+			,((pd.unitPrice + pd.tax)*pd.count) as totalPrice
 		FROM
 			k1_view_pay_plan_detail AS pd
 		JOIN
@@ -157,4 +158,27 @@
 		WHERE
 			pd.payPlanCode = CONCAT('payPlanCode_', #{payPlanCode});
 	</select>
+	
+	<select id="addPayCancelCode" resultType="String">
+		SELECT 
+			CONCAT(SUBSTRING(c.payCancelCode,1,16),MAX(SUBSTRING(c.payCancelCode,17))+1)
+		FROM 
+			k1_tb_pay_cancel AS c
+	</select>
+	
+	<insert id="addPayCancel" parameterType="CancelPayment">
+		INSERT INTO k1_tb_pay_cancel
+			(payCancelCode, mainBusinessCode, payHistoryCode, cancelCost, issueDate, approvalDate, reason, regId, regDate, updateDate)
+		VALUES(
+		#{payCancelCode}
+		,'fac_ksmartSeoul_Seoul_001'
+		,#{payHistoryCode}
+		,#{cancelCost}
+		,#{issueDate}
+		,#{approvalDate}
+		,#{reason}
+		,#{regId}
+		,NOW()
+		,NOW())
+	</insert>
 </mapper>

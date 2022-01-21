@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import k1.smart.team.dto.pjh.HistoryPayment;
@@ -113,11 +114,26 @@ public class PaymentController {
 		return "payment/cancelPayment_detail";
 	}
 	
-	//결제취소관리 추가
+	//결제취소내역 추가페이지
 	@GetMapping("/cancel/add")
 	public String addCancelPayment(Model model) {
+		
+		String addPayCancelCode = pService.addPayCancelCode();
+		
+		model.addAttribute("addPayCancelCode", addPayCancelCode);
 		model.addAttribute("title", "결제취소관리: 등록");
 		return "payment/cancelPayment_register";
+	}
+	
+	//결제취소 등록
+	@PostMapping("/cancel/add")
+	public String addPayCancel(CancelPayment cancelPayment) {
+		System.out.println("payController 회원등록 화면에서 입력받은 값: " + cancelPayment);
+		String cancelCode = cancelPayment.getPayCancelCode();
+		if(cancelCode != null && !"".equals(cancelCode)) {
+			pService.addPayCancel(cancelPayment);
+		}
+		return "redirect:/k1PaymentList";
 	}
 	
 	//결제취소관리 수정
@@ -173,5 +189,6 @@ public class PaymentController {
 		model.addAttribute("payPlanCode", payPlanCode);
 		return "payment/planPayment_modify";
 	}
+	
 	
 }

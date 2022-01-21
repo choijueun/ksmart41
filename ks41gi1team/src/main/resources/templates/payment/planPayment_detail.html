@@ -27,7 +27,7 @@
 							</tr>
 							<tr>
 								<th>구분</th>
-								<td>[[${planPaymentInfo.type}]]</td>
+								<td th:style="${planPaymentInfo.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${planPaymentInfo.type}"></td>
 							</tr>
 							<tr>
 								<th>거래처명</th>
@@ -80,17 +80,15 @@
 			<div class="col-lg-7">
 				<div class="card card-info card-outline">
 					<div class="card-header">
-						결제금액 상세내역
+						결제예정금액 상세내역
 					</div>
 					<div class="card-body" th:if="${ planPaymentInfoList != null }">
 						<table id="adjDetail" class="table table-bordered">
 							<thead>
 								<tr>
 									<th>품목명</th>
-									<th>매입단가</th>
-									<th>매입세액</th>
-									<th>매출단가</th>
-									<th>매출세액</th>
+									<th>단가</th>
+									<th>세액</th>
 									<th>수량</th>
 									<th>소계</th>
 								</tr>
@@ -102,12 +100,10 @@
 											[[${l.itemName}]]
 										</a>
 									</td>
-									<td>[[${#numbers.formatInteger(l.materialCost,0,'COMMA')}]]원</td>
+									<td>[[${#numbers.formatInteger(l.unitPrice,0,'COMMA')}]]원</td>
 									<td>[[${#numbers.formatInteger(l.tax,0,'COMMA')}]]원</td>
-									<td>[[${#numbers.formatInteger(l.productPrice,0,'COMMA')}]]원</td>
-									<td>[[${#numbers.formatInteger(l.vat,0,'COMMA')}]]원</td>
 									<td>[[${l.count}]]</td>
-									<td>[[${#numbers.formatInteger(l.sum,0,'COMMA')}]]원</td>
+									<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]원</td>
 								</tr>
 							</tbody>
 							<tbody th:if="${#lists.isEmpty(planPaymentInfoList)}">
