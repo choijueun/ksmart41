@@ -20,20 +20,12 @@ public class HistoryPayment {
 	private String managerName;
 	private String payHistoryDetailCode;
 	private String itemName;
-	private int materialCost;
+	private int unitPrice;
 	private int tax;
-	private int productPrice;
-	private int vat;
 	private int count;
-	private int sum;
+	private int totalPrice;
 	private String itemCode;
-	
-	public String getItemCode() {
-		return itemCode;
-	}
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
+	private String clientBusinessName;
 	public String getPayHistoryCode() {
 		return payHistoryCode;
 	}
@@ -148,11 +140,11 @@ public class HistoryPayment {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public int getMaterialCost() {
-		return materialCost;
+	public int getUnitPrice() {
+		return unitPrice;
 	}
-	public void setMaterialCost(int materialCost) {
-		this.materialCost = materialCost;
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 	public int getTax() {
 		return tax;
@@ -160,29 +152,29 @@ public class HistoryPayment {
 	public void setTax(int tax) {
 		this.tax = tax;
 	}
-	public int getProductPrice() {
-		return productPrice;
-	}
-	public void setProductPrice(int productPrice) {
-		this.productPrice = productPrice;
-	}
-	public int getVat() {
-		return vat;
-	}
-	public void setVat(int vat) {
-		this.vat = vat;
-	}
 	public int getCount() {
 		return count;
 	}
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public int getSum() {
-		return sum;
+	public int getTotalPrice() {
+		return totalPrice;
 	}
-	public void setSum(int sum) {
-		this.sum = sum;
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+	public String getClientBusinessName() {
+		return clientBusinessName;
+	}
+	public void setClientBusinessName(String clientBusinessName) {
+		this.clientBusinessName = clientBusinessName;
 	}
 	@Override
 	public String toString() {
@@ -225,20 +217,18 @@ public class HistoryPayment {
 		builder.append(payHistoryDetailCode);
 		builder.append(", itemName=");
 		builder.append(itemName);
-		builder.append(", materialCost=");
-		builder.append(materialCost);
+		builder.append(", unitPrice=");
+		builder.append(unitPrice);
 		builder.append(", tax=");
 		builder.append(tax);
-		builder.append(", productPrice=");
-		builder.append(productPrice);
-		builder.append(", vat=");
-		builder.append(vat);
 		builder.append(", count=");
 		builder.append(count);
-		builder.append(", sum=");
-		builder.append(sum);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
 		builder.append(", itemCode=");
 		builder.append(itemCode);
+		builder.append(", clientBusinessName=");
+		builder.append(clientBusinessName);
 		builder.append("]");
 		return builder.toString();
 	}

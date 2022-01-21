@@ -107,7 +107,7 @@
 											[[${h.payHistoryCode}]]
 										</a>
 									</td>
-									<td>[[${h.businessName}]]</td>
+									<td>[[${h.clientBusinessName}]]</td>
 									<td th:style="${h.type eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${h.type}"></td>
 									<td>[[${#numbers.formatInteger(h.payCost,0,'COMMA')}]]원</td>
 									<td>[[${h.briefs}]]</td>
