@@ -114,7 +114,12 @@
 			INNER JOIN 
 			k1_tb_user_level AS l
 			ON 
-			u.userLevelCode = l.userLevelCode;
+			u.userLevelCode = l.userLevelCode
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+				u.mainBusinessCode = #{mainBusinessCode}
+			</if>
+		</trim>
 	</select>
 	
 	<select id="getLimitUserList" resultType="User">

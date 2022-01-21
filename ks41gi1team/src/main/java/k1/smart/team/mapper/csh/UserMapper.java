@@ -13,7 +13,7 @@ import k1.smart.team.dto.csh.UserReg;
 public interface UserMapper {
 	
 	//회원 전체 목록
-	public List<User> getAllUserList();
+	public List<User> getAllUserList(String mainBusinessCode);
 	
 	//회원가입 요청 전체조회
 	public List<UserReg> getAllUserRegList();
