@@ -63,7 +63,7 @@ $(function(){
 	
 	//합계중량 구하기
 	var totalWeight = $('#totalWeight');
-	$(document).on('keyup', 'input[name="stockWeight"]', function(){
+	$(document).on('change', 'input[name="stockWeight"]', function(){
 		var sum=0;
 		$('input[name="stockWeight"]').each(function(){
 			sum += Number($(this).val());
@@ -72,14 +72,14 @@ $(function(){
 	});
 	//합계금액 구하기
 	var totalPrice = $('#totalPrice');
-	$(document).on('keyup', 'input[name="itemCount"]', function(){
+	$(document).on('change', 'input[name="itemCount"]', function(){
 		var sum=0;
 		$('input[name="itemCount"]').each(function(){
 			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input.unitPriceForm').val() );
 		});
 		totalPrice.val(sum);
 	});
-	$(document).on('keyup', 'input.unitPriceForm', function(){
+	$(document).on('change', 'input.unitPriceForm', function(){
 		var sum=0;
 		$('input.unitPriceForm').each(function(){
 			sum += Number( $(this).val() ) * Number( $(this).parents('#details .row').find('input[name="itemCount"]').val() );
@@ -104,17 +104,34 @@ $(function(){
 	//자재발주내역 Modal
 	var materialOrderCode = $('#materialOrderCode');
 	$(document).on('click', '#materialOrderCode', function(){
-		materialOrderCode.val(null).text(null);
-		var request = $.ajax({
-			url: "/materialOrder",
+		//초기화
+		materialOrderCode.val(null);
+		contractCode.val(null);
+		clientCode.val(null);
+		businessName.val(null);
+		//ajax
+		$.ajax({
+			url: "/materialOrderModal",
 			method: "GET",
 			dataType: "html"
-		});
-		 
-		request.done(function( data ) {
-		});
-		 
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.done(function( data ) {
+			modalTitle.text('자재발주내역');
+			//modal body 삽입
+			modalBody.html(data);
+			//DataTable plugin 적용
+			$('#materialOrderList').DataTable({
+		        "paging": true,
+		        "lengthChange": false,
+		        "searching": true,
+		        "ordering": true,
+		        "info": true,
+		        "autoWidth": false,
+		        "responsive": true,
+			});
+			modalObj.modal('show');
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
 				icon: 'warning',
 				title: "Request failed: " + textStatus
@@ -123,21 +140,122 @@ $(function(){
 	});
 	
 	//창고목록 Modal
+	var receiveWarehouse = $('#receiveWarehouse'); 
+	var receiveWarehouseName = $('#receiveWarehouseName'); 
+	var receiveWarehouseLocation = $('#receiveWarehouseLocation'); 
+	$(document).on('click', '#receiveWarehouseName', function(){
+		//초기화
+		receiveWarehouse.val(null);
+		receiveWarehouseName.val(null);
+		receiveWarehouseLocation.val(null);
+		//ajax
+		$.ajax({
+			url: "/warehouseListModal",
+			method: "GET",
+			dataType: "html"
+		})
+		.done(function( data ) {
+			modalTitle.text('창고정보');
+			//modal body 삽입
+			modalBody.html(data);
+			//DataTable plugin 적용
+			$('#warehouseList').DataTable({
+		        "paging": true,
+		        "lengthChange": false,
+		        "searching": true,
+		        "ordering": true,
+		        "info": true,
+		        "autoWidth": false,
+		        "responsive": true,
+			});
+			modalObj.modal('show');
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
 	
 	//회원정보 Modal
+	
+	//재고정보 Modal
+	var managerId = $('#managerId');
+	var managerName = $('#managerName');
+	$(document).on('click', '#managerName', function(){
+		//초기화
+		managerId.val(null);
+		managerName.val(null);
+		//ajax
+		$.ajax({
+			url: "/userListModal",
+			method: "GET",
+			dataType: "html"
+		})
+		.done(function( data ) {
+			modalTitle.text('회원정보');
+			//modal body 삽입
+			modalBody.html(data);
+			//DataTable plugin 적용
+			$('#userList').DataTable({
+		        "paging": true,
+		        "lengthChange": false,
+		        "searching": true,
+		        "ordering": true,
+		        "info": true,
+		        "autoWidth": false,
+		        "responsive": true,
+			});
+			modalObj.modal('show');
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
+	
+	
+	/****************************
+				자동입력
+	****************************/
+	//자재발주내역
+	$(document).on('click', '#materialOrderList .selectBtn', function(){
+		materialOrderCode.val($(this).parents('tr').children().eq(0).text()); //자재발주코드
+		contractCode.val($(this).parents('tr').children().eq(1).text()); //계약코드
+		clientCode.val($(this).parents('tr').children().eq(2).text()); //거래처코드
+		businessName.val($(this).parents('tr').children().eq(3).text()); //거래처명
+		briefs.val($(this).parents('tr').children().eq(7).text()); //적요
+		requestDate.val($(this).parents('tr').children().eq(9).text()); //주문일자
+		modalObj.modal('hide');
+	});
+	//창고목록
+	$(document).on('click', '#warehouseList .selectBtn', function(){
+		receiveWarehouse.val($(this).parents('tr').children().eq(0).text()); //창고코드
+		receiveWarehouseName.val($(this).parents('tr').children().eq(1).text()); //창고명
+		console.log($(this).parents('tr').children().eq(5).text());
+		receiveWarehouseLocation.val($(this).parents('tr').children().eq(5).text()); //위치(소재지)
+		modalObj.modal('hide');
+	});
 	
 	
 	/****************************
 				FORM
 	****************************/
 	var addWarehousing = $('#addWarehousing');
-	//필수작성요소
-	var clientCode = $('#clientCode');
-	var materialOrderCode = $('#materialOrderCode');
-	var receiveWarehouse = $('#receiveWarehouse');
-	var managerId = $('#managerId');
-	var totalWeight = $('#totalWeight');
-	var totalPrice = $('#totalPrice');
+	//input
+	var materialOrderCode = $('#materialOrderCode'); //자재발주코드
+	var contractCode = $('#contractCode'); //계약코드
+	var clientCode = $('#clientCode'); //거래처코드
+	var businessName = $('#businessName'); //거래처명
+	var receiveWarehouse = $('#receiveWarehouse'); //받는창고
+	var managerId = $('#managerId'); //담당자ID
+	var totalWeight = $('#totalWeight'); //합계중량
+	var totalPrice = $('#totalPrice'); //합계금액
+	var briefs = $('#briefs'); //적요
+	var requestDate= $('input[name="requestDate"]'); //요청일자
 	//데이터 전송
 	$(document).on('click', '#submitBtn', function(){
 		//유효성 검사

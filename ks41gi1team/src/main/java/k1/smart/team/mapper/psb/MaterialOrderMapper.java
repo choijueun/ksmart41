@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
-import k1.smart.team.dto.psb.MaterialOrderInfo;
-import k1.smart.team.dto.psb.ProductOrder;
 
 @Mapper
 public interface MaterialOrderMapper {
