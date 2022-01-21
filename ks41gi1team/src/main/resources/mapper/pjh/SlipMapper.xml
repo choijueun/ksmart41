@@ -22,6 +22,7 @@
 			p.mainBusinessCode = #{mainBusinessCode};
 
 	</select>
+	
 	<select id="getAll_S_SlipList" parameterType="String" resultType="Slip">
 		SELECT
 			s.salesSlipCode
@@ -66,6 +67,37 @@
 		WHERE
 			purchaseSlipCode = #{purchaseSlipCode};
 	</select>
+	
+	<!-- 특정 품목의 비용거래명세서 조회 -->
+	<select id="getPSlipByItem" parameterType="String" resultType="Slip">
+		SELECT
+			 RIGHT(p.purchaseTsCode,3) AS purchaseTsCode
+			,p.clientCode
+			,p.clientBusinessName
+			,RIGHT(p.contractCode,3) AS contractCode
+			,p.briefs
+			,p.totalPrice
+			,p.dealDate
+		FROM
+			k1_view_purchase_transaction p
+			JOIN
+			k1_view_purchase_transaction_detail d
+			ON
+			p.purchaseTsCode = d.purchaseTsCode
+			JOIN
+			k1_view_item_info i
+			ON
+			d.itemCode = i.itemCode
+		WHERE
+			i.itemCode = #{itemCode}
+			<if test="clientCode != null and clientCode != ''.toString()">
+				AND p.clientCode = #{clientCode}
+			</if>
+			<if test="contractCode != null and contractCode != ''.toString()">
+				AND p.contractCode = CONCAT('contractCode_',#{contractCode})
+			</if>
+	</select>
+	
 	<select id="getSalesSlipInfo" parameterType="String" resultType="Slip">
 		SELECT
 			s.salesSlipCode

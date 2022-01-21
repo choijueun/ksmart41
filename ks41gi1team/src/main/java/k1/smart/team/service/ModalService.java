@@ -1,15 +1,21 @@
 package k1.smart.team.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
+import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.MaterialOrder;
+import k1.smart.team.mapper.cje.ItemMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
+import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.csh.UserMapper;
 import k1.smart.team.mapper.pjh.SlipMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
@@ -20,14 +26,36 @@ public class ModalService {
 	private MaterialOrderMapper materialOrderMapper;
 	
 	@Autowired
-	private WarehouseMapper warehouseMapper;
+	private ClientMapper clientMapper;
 	
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private WarehouseMapper warehouseMapper;
+	
+	@Autowired
+	private ItemMapper itemMapper;
+	
 	public ModalService(SlipMapper slipMapper, MaterialOrderMapper materialOrderMapper) {
 		this.slipMapper = slipMapper;
 		this.materialOrderMapper = materialOrderMapper;
+	}
+	
+	/**
+	 * 회원정보 전체목록
+	 * @param mainBusinessCode
+	 */
+	public List<User> getUserList(String mainBusinessCode) {
+		return userMapper.getAllUserList(mainBusinessCode);
+	}
+	
+	/**
+	 * 거래처정보 목록
+	 * @param mainBusinessCode
+	 */
+	public List<Client> getClientList(String mainBusinessCode){
+		return clientMapper.getAllClientList(mainBusinessCode);
 	}
 	
 	/**
@@ -39,6 +67,15 @@ public class ModalService {
 	}
 	
 	/**
+	 * 품목정보 전체목록 조회
+	 */
+	public List<Stock> getItemList(String mainBusinessCode) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		return itemMapper.getAllItemList(paramMap);
+	}
+	
+	/**
 	 * 창고정보 전체목록
 	 * @param mainBusinessCode
 	 */
@@ -46,8 +83,14 @@ public class ModalService {
 		return warehouseMapper.getWarehouseList(mainBusinessCode);
 	}
 	
-	public List<User> getUserList(String mainBusinessCode) {
-		return userMapper.getAllUserList(mainBusinessCode);
+	/**
+	 * 특정품목(거래처, 계약코드)의 비용 거래명세서 조회
+	 * @param itemCode
+	 * @param clientCode
+	 * @param contractCode
+	 */
+	public List<Slip> getPSlipByItem(String itemCode, String clientCode, String contractCode){
+		return slipMapper.getPSlipByItem(itemCode, clientCode, contractCode);
 	}
 	
 	public List<Slip> salesTransactionList() {

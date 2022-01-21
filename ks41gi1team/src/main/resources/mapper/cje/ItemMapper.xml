@@ -5,7 +5,7 @@
 <mapper namespace="k1.smart.team.mapper.cje.ItemMapper">
 
 <!-- 품목정보 전체목록 -->
-<select id="getAllItemList" parameterType="String" resultType="Stock">
+<select id="getAllItemList" parameterType="map" resultType="Stock">
 	SELECT
 		 RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
