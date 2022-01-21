@@ -101,6 +101,8 @@ $(function(){
 		
 	});
 	
+	//계약내역 Modal
+	
 	//자재발주내역 Modal
 	var materialOrderCode = $('#materialOrderCode');
 	$(document).on('click', '#materialOrderCode', function(){
@@ -179,8 +181,6 @@ $(function(){
 	});
 	
 	//회원정보 Modal
-	
-	//재고정보 Modal
 	var managerId = $('#managerId');
 	var managerName = $('#managerName');
 	$(document).on('click', '#managerName', function(){
@@ -217,6 +217,8 @@ $(function(){
 		});
 	});
 	
+	//재고정보 Modal
+	
 	
 	/****************************
 				자동입력
@@ -237,6 +239,11 @@ $(function(){
 		receiveWarehouseName.val($(this).parents('tr').children().eq(1).text()); //창고명
 		console.log($(this).parents('tr').children().eq(5).text());
 		receiveWarehouseLocation.val($(this).parents('tr').children().eq(5).text()); //위치(소재지)
+		modalObj.modal('hide');
+	});
+	$(document).on('click', '#userList .selectBtn', function(){
+		managerId.val($(this).parents('tr').children().eq(0).text());
+		managerName.val($(this).parents('tr').children().eq(1).text());
 		modalObj.modal('hide');
 	});
 	
@@ -356,13 +363,13 @@ $(function(){
 								<label for="itemList">
 									자재 목록
 								</label>
-								<input type="text" id="itemList" class="form-control" placeholder="itemList" readonly>
+								<input type="text" id="itemList" class="form-control" readonly>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="totalPrice">
 									합계금액
 								</label>
-								<input type="text" id="totalPrice" class="form-control" placeholder="totalPrice" readonly>
+								<input type="text" id="totalPrice" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="row">

@@ -2,6 +2,7 @@ package k1.smart.team.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.cje.Warehouse;
@@ -9,6 +10,7 @@ import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.mapper.cje.WarehouseMapper;
+import k1.smart.team.mapper.csh.UserMapper;
 import k1.smart.team.mapper.pjh.SlipMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
 
@@ -16,13 +18,16 @@ import k1.smart.team.mapper.psb.MaterialOrderMapper;
 public class ModalService {
 	private SlipMapper slipMapper;
 	private MaterialOrderMapper materialOrderMapper;
-	private WarehouseMapper warehouseMapper;
-	//private UserMapper userMapper;
 	
-	public ModalService(SlipMapper slipMapper, MaterialOrderMapper materialOrderMapper, WarehouseMapper warehouseMapper) {
+	@Autowired
+	private WarehouseMapper warehouseMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
+	
+	public ModalService(SlipMapper slipMapper, MaterialOrderMapper materialOrderMapper) {
 		this.slipMapper = slipMapper;
 		this.materialOrderMapper = materialOrderMapper;
-		this.warehouseMapper = warehouseMapper;
 	}
 	
 	/**
@@ -42,7 +47,7 @@ public class ModalService {
 	}
 	
 	public List<User> getUserList(String mainBusinessCode) {
-		
+		return userMapper.getAllUserList(mainBusinessCode);
 	}
 	
 	public List<Slip> salesTransactionList() {
