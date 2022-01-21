@@ -25,7 +25,7 @@ import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.cje.ItemService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
 import k1.smart.team.service.psb.MaterialOrderService;
 import k1.smart.team.service.psb.ProductOrderService;
@@ -41,7 +41,7 @@ public class MaterialOrderController {
 		private MaterialOrderService materialOrderService;
 		private ClientService clientService;
 		private MainBusinessService mainBusinessService;
-		private UserRegService userRegService;
+		private UserService userService;
 		private ItemService itemService;
 		private ContractService contractService;
 		private String mainBusinessCode;
@@ -51,12 +51,12 @@ public class MaterialOrderController {
 		
 		
 		//생성자 메서드
-		public MaterialOrderController(MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserRegService userRegService, ContractService contractService, ProductOrderService productOrderService) {
+		public MaterialOrderController(MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService, ContractService contractService, ProductOrderService productOrderService) {
 			this.materialOrderService = materialOrderService;
 			this.clientService = clientService;
 			this.itemService = itemService;
 			this.mainBusinessService = mainBusinessService;
-			this.userRegService = userRegService;
+			this.userService = userService;
 			this.contractService = contractService;
 			this.productOrderService = productOrderService;
 			
@@ -110,7 +110,7 @@ public class MaterialOrderController {
 			  model.addAttribute("contractCodeForMaterialOrderCodeList", contractCodeForMaterialOrderCodeList);
 			  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
 			  
-			  List<User> userList = userRegService.getAllUserList();
+			  List<User> userList = userService.getAllUserList();
 			  model.addAttribute("userList", userList);
 			  System.out.println("userList" + userList);
 			

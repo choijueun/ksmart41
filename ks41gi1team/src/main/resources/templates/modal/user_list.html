@@ -3,7 +3,32 @@
 	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
 <body>
 	<table id="userList" class="table table-bordered table-hover dataTable dtr-inline">
-	
+		<thead>
+			<tr>
+				<td style="display: none;">아이디</td>
+				<td>이름</td>
+				<td>등급</td>
+				<td>직책</td>
+				<td>성별</td>
+				<td>이메일</td>
+				<td class="text-center">선택</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="l : ${userList}">
+				<td style="display: none;">[[${l.userId}]]</td>
+				<td>[[${l.userName}]]</td>
+				<td>[[${l.userLevelName}]]</td>
+				<td>[[${l.userPosition}]]</td>
+				<td>[[${l.userGender}]]</td>
+				<td>[[${l.userEmail}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr th:if="${userList} == null">
+				<td style="display: none;"></td>
+				<td colspan="6">회원목록을 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
 	</table>
 </body>
 </html>

@@ -21,7 +21,7 @@ import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
 
 
@@ -38,13 +38,13 @@ public class ContractController {
 	private String mainBusinessCode;
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
-	private UserRegService userRegService;
+	private UserService userService;
 	
-	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserRegService userRegService) {
+	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserService userService) {
 		this.contractService = contractService;
 		this.clientService = clientService;
 		this.mainBusinessService = mainBusinessService;
-		this.userRegService = userRegService;
+		this.userService = userService;
 	}
 	
 	//계약서 수정
@@ -122,7 +122,7 @@ public class ContractController {
 		  model.addAttribute("mainBusinessList", mainBusinessList);
 		  System.out.println("mainBusinessList" + mainBusinessList);
 		  
-		  List<User> userList = userRegService.getAllUserList();
+		  List<User> userList = userService.getAllUserList();
 		  model.addAttribute("userList", userList);
 		  System.out.println("userList" + userList);
 		  

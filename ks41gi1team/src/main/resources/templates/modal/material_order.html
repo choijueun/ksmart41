@@ -33,6 +33,7 @@
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>
 			<tr th:if="${#lists.isEmpty(materialOrderList)}">
+				<td colspan="2" style="display: none;"></td>
 				<td colspan="9">자재발주내역을 찾을 수 없습니다.</td>
 			</tr>
 		</tbody>
