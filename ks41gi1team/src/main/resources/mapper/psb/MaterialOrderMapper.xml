@@ -118,7 +118,7 @@ FROM
 	ON 
 	mo.contractCode = contr.contractCode
 WHERE 
-	materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+	mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
 GROUP BY 
 	mo.materialOrderCode;
 </select>
