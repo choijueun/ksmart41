@@ -18,7 +18,7 @@ import k1.smart.team.service.csh.UserRegService;
 
 @Controller
 @RequestMapping(value="/k1UserReg")
-public class UserRegController {
+public class UserController {
 	private UserRegService userRegService;
 	private List<UserReg> userRegList; //요청내역 배열
 	private UserReg userRegDetail; //요청내역 상세
@@ -28,7 +28,7 @@ public class UserRegController {
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
 	
-	public UserRegController( UserRegService userRegService) {
+	public UserController( UserRegService userRegService) {
 		this.userRegService = userRegService;
 	}
 	
@@ -49,7 +49,6 @@ public class UserRegController {
 	@GetMapping("/addUser")
 	public String addUser(Model model) {
 		model.addAttribute("SectionTitle", "회원정보 등록");
-		
 		
 		return "user/user_register";
 	}
@@ -173,7 +172,7 @@ public class UserRegController {
 	}
 	
 	//회원가입 요청 수정
-	@GetMapping("/modify/{userRegCode}")
+	@GetMapping("/modifyUserReg/{userRegCode}")
 	public String modifyUserReg(
 			@PathVariable(value = "userRegCode", required = false) String userId
 			,Model model) {
@@ -191,14 +190,19 @@ public class UserRegController {
 	}
 	
 	//회원가입 요청 수정
-	@PostMapping("/modify/{userRegCode}")
+	@PostMapping("/modifyUserReg/{userRegCode}")
 	public String modifyUserReg(UserReg userReg) {
 		userRegService.modifyUserReg(userReg);
 		return "redirect:/k1UserReg/userRegList";
 	}
 			
 	
-	
+	//관리자페이지 calrendar 이동
+	@GetMapping("/calrendar")
+	public String calrendar() {
+		
+		return "user/calrendar";
+	}
 	
 	
 	

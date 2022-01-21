@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
-import k1.smart.team.mapper.csh.UserRegMapper;
+import k1.smart.team.mapper.csh.UserMapper;
 
 @Service
 @Transactional
 public class UserRegService {
-	private UserRegMapper userRegMapper;
+	private UserMapper userRegMapper;
 	private List<UserReg> userRegList;
 	private UserReg userRegDetail; //요청내역 상세
 	private List<User> userList; //회원전체 목록
@@ -24,7 +24,7 @@ public class UserRegService {
 	private LoginService loginService; //로그인 최근내역
 	
 	//생성자 메서드
-	public UserRegService(UserRegMapper userRegMapper) {
+	public UserRegService(UserMapper userRegMapper) {
 		this.userRegMapper = userRegMapper;
 	}
 	
