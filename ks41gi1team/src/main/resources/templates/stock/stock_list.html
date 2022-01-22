@@ -90,15 +90,18 @@ $(function(){
 		});
 		request.done(function(data){
 			ajaxTable.html(data);
-		    $('#stockList').DataTable({
-		        "paging": true,
-		        "lengthChange": false,
-		        "searching": true,
-		        "ordering": true,
-		        "info": true,
-		        "autoWidth": false,
-		        "responsive": true,
-			});
+			if ($('#stockList tr.empty').length == 0) {
+				//body에 정보를 불러온 경우
+			    $('#stockList').DataTable({
+			        "paging": true,
+			        "lengthChange": false,
+			        "searching": true,
+			        "ordering": true,
+			        "info": true,
+			        "autoWidth": false,
+			        "responsive": true,
+				});
+			}
 		});
 		request.fail(function(jqXHR, textStatus) {
 			Toast.fire({

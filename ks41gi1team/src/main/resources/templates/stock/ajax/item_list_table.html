@@ -6,9 +6,7 @@
 <table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
 	<thead>
 		<tr>
-			<th class="text-center">
-				<input type="checkbox" id="allCheck">
-			</th>
+			<th class="text-center"><input type="checkbox" id="allCheck"></th>
 			<th>No.</th>
 			<th>품목명</th>
 			<th>분류</th>
@@ -51,7 +49,7 @@
 				</a>
 			</td>
 		</tr>
-		<tr th:if="${#lists.isEmpty(itemList)}">
+		<tr th:if="${#lists.isEmpty(itemList)}" class="empty">
 			<td colspan="12">
 				품목 정보가 없습니다.
 			</td>

@@ -117,10 +117,10 @@ public class WarehousingController {
 		storingInfo.setMainBusinessCode(mainBusinessCode);
 		//물류이동사유Setting
 		storingInfo.setStockReasonCode(1);
-		//log
-		log.info("물류이동한줄내역 :: {}",storingInfo);
+		//log.info("물류이동한줄내역 :: {}",storingInfo);
 		
 		//품목정보의 각 key & value 출력
+		/*
 		for(Stock itemInfo : storingInfo.getS()) {
 		    try{
 		    	System.out.println("========= 품목정보 =========");
@@ -133,6 +133,7 @@ public class WarehousingController {
 		        e.printStackTrace();
 		    }
 		}
+		 */
 		
 		//등록 process
 		if(storingService.addStoringInfo(storingInfo)) {
