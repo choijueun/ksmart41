@@ -13,6 +13,7 @@ import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.MaterialOrder;
+import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.mapper.cje.ItemMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 import k1.smart.team.mapper.csh.ClientMapper;
@@ -66,6 +67,14 @@ public class ModalService {
 		return materialOrderMapper.getMaterialOrderList(mainBusinessCode);
 	}
 	
+	/**
+	 * 자주발주내역 상세(품목 목록) 조회
+	 * @param mainBusinessCode
+	 * @param materialOrderCode
+	 */
+	public List<MaterialOrderInfo> getMaterialOrderDetailList(String mainBusinessCode, String materialOrderCode) {
+		return materialOrderMapper.getMaterialOrderInfoList(mainBusinessCode, materialOrderCode);
+	}
 	/**
 	 * 품목정보 전체목록 조회
 	 */

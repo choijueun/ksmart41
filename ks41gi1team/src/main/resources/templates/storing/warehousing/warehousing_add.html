@@ -91,6 +91,22 @@ $(function(){
 			itemNames.push($(obj).val());
 		});
 		itemListInput.val(itemNames.join(', '));
+	});
+	
+	//품목 목록 join string
+	var getItemList = function(){
+		var itemNames = [];
+		$('#details input.itemNameForm').each(function(i, obj){
+			if($(obj).val() == '') {
+				return true;
+			}
+			itemNames.push($(obj).val());
+		});
+		itemListInput.val(itemNames.join(', '));
+	}
+	
+	//합계중량&합계금액 자동계산 함수 선언
+	var getTotals = function(){
 		//합계중량
 		var sum=0;
 		$('input[name="stockWeight"]').each(function(i, obj){
@@ -103,35 +119,14 @@ $(function(){
 			sum += Number( $(obj).val() ) * Number( $(obj).parents('#details .row').find('input[name="itemCount"]').val() );
 		});
 		totalPrice.val(sum);
+	}
+	//중량변동
+	$(document).on('keyup', 'input[name="stockWeight"]', function(){
+		getTotals();
 	});
-	
-	//품목 목록 join string
-	$(document).on('change', '#details input.itemNameForm', function(){
-		var itemNames = [];
-		$('#details input.itemNameForm').each(function(i, obj){
-			if($(obj).val() == '') {
-				return true;
-			}
-			itemNames.push($(obj).val());
-		});
-		itemListInput.val(itemNames.join(', '));
-	});
-	
-	//합계중량 구하기
-	$(document).on('change', 'input[name="stockWeight"]', function(){
-		var sum=0;
-		$('input[name="stockWeight"]').each(function(i, obj){
-			sum += Number($(obj).val());
-		});
-		totalWeight.val(sum);
-	});
-	//합계금액 구하기
-	$(document).on('change', 'input[name="itemCount"], input.unitPriceForm', function(){
-		var sum=0;
-		$('input.unitPriceForm').each(function(i, obj){
-			sum += Number( $(obj).val() ) * Number( $(obj).parents('#details .row').find('input[name="itemCount"]').val() );
-		});
-		totalPrice.val(sum);
+	//금액변동
+	$(document).on('keyup', 'input[name="itemCount"], input.unitPriceForm', function(){
+		getTotals();
 	});
 	
 	
@@ -295,14 +290,17 @@ $(function(){
 	
 	//품목정보 Modal
 	$(document).on('click', '#details .itemNameForm', function(){
+		var row = $(this).parents('#details .row');
 		//초기화
-		$('#details .itemNameForm').removeClass('pickIForm'); //pick표시 해제
-		$(this).parents('.row').find('input[name="itemCode"]').val(null); //품목코드
+		$('#details .row').removeClass('pickIForm'); //pick표시 해제
+		row.find('input[name="itemCode"]').val(null); //품목코드
 		$(this).val(null); //품목명
-		$(this).parents('.row').find('input[name="purchaseTsCode"]').val(null); //비용 거래명세서 코드
-		$(this).parents('.row').find('input.unitPriceForm').val(null); //자재단가
+		row.find('input[name="purchaseTsCode"]').val(null); //비용 거래명세서 코드
+		row.find('input.unitPriceForm').val(null); //자재단가
+		row.find('input[name="status"]').val(null); //상태
+		row.find('input[name="comment"]').val(null); //비고
 		//pick표시
-		$(this).addClass('pickIForm');
+		row.addClass('pickIForm');
 		//ajax
 		$.ajax({
 			url: "/itemListModal",
@@ -354,6 +352,44 @@ $(function(){
 		briefs.val($(this).parents('tr').children().eq(7).text()); //적요
 		requestDate.val($(this).parents('tr').children().eq(9).text()); //주문일자
 		modalObj.modal('hide');
+		
+		//품목 목록 자동입력
+		//ajax
+		$.ajax({
+			url: "/materialOrderDetailListModal",
+			method: "GET",
+			data: { 'materialOrderCode' : $(this).parents('tr').children().eq(0).text() },
+			dataType: "json"
+		})
+		.done(function( data ) {
+			//console.log(data[0]);
+			//상세내역 폼 삭제
+			$('#details .row').remove();
+			//List<MaterialOrderInfo> 반복문
+			$(data).each(function(i, obj){
+				//상세내역 폼 추가
+				var clone = detailrow.clone();
+				clone.find('input').val(null);
+				clone.find('input[name="itemCode"]').val(data[i]['itemCode']); //품목코드
+				clone.find('input.itemNameForm').val(data[i]['itemName']); //품목명
+				clone.find('input.unitPriceForm').val(data[i]['itemPrice']); //비용
+				clone.find('input[name="itemCount"]').val(data[i]['itemCount']); //수량
+				clone.find('input[name="status"]').val(data[i]['reserveStatus']); //상태
+				clone.find('input[name="comment"]').val(data[i]['comment']); //비고
+				details.append(clone);
+			});
+			//품목 목록
+			getItemList();
+			//중량 및 금액 계산
+			getTotals();
+			
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
 	});
 	//창고목록
 	$(document).on('click', '#warehouseList .selectBtn', function(){
@@ -365,11 +401,23 @@ $(function(){
 	});
 	//회원정보
 	$(document).on('click', '#userList .selectBtn', function(){
-		managerId.val($(this).parents('tr').children().eq(0).text());
-		managerName.val($(this).parents('tr').children().eq(1).text());
+		managerId.val($(this).parents('tr').children().eq(0).text()); //ID
+		managerName.val($(this).parents('tr').children().eq(1).text()); //이름
 		modalObj.modal('hide');
 	});
 	//품목정보
+	$(document).on('click', '#itemList .selectBtn', function(){
+		var row = $('#details .row.pickIForm'); //표시한 row
+		row.children().find('input[name="itemCode"]').val($(this).parents('tr').children().eq(0).text()); //품목코드
+		row.children().find('input.itemNameForm').val($(this).parents('tr').children().eq(2).text()); //품목명
+		row.children().find('input[name="status"]').val($(this).parents('tr').children().eq(6).text()); //상태
+		row.children().find('input[name="comment"]').val($(this).parents('tr').children().eq(7).text()); //비고
+		modalObj.modal('hide');
+		//품목 목록
+		getItemList();
+		//중량 및 금액 계산
+		getTotals();
+	});
 	
 	//비용 거래명세서
 	
@@ -422,8 +470,11 @@ $(function(){
 <form id="addWarehousing"th:action="@{/k1WarehousingAdd}" method="POST">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-4">
-				<div class="card card-info card-outline">
+			<div class="col-lg-3">
+			</div>
+			<div class="col-lg-6">
+				<!-- 자재입고내역 간략(공통)정보 입력칸 -->
+				<div class="card card-info card-outline mb-4">
 					<div class="card-header">
 						<h3 class="card-title">자재입고내역  등록</h3>
 					</div>
@@ -464,8 +515,13 @@ $(function(){
 								<label for="receiveWarehouse">
 									위치(소재지)
 								</label>
-								<input type="text" id="receiveWarehouseLocation" 
-										th:value="${s == null} ? null : ${s.location}+' ('+${s.outPlace}+')'" class="form-control" readonly>
+								<th:block th:if="${s == null}">
+									<input type="text" id="receiveWarehouseLocation" class="form-control" readonly>
+								</th:block>
+								<th:block th:if="${s != null}">
+									<input type="text" id="receiveWarehouseLocation" 
+											th:value="${s.outPlace == null} ? ${s.location} : ${s.location}+' ('+${s.outPlace}+')'" class="form-control" readonly>
+								</th:block>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="totalWeight">
@@ -541,13 +597,19 @@ $(function(){
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-8">
-				<div class="card card-info card-outline">
+		</div>
+		<div class="row">
+			<div class="col-lg-1">
+			</div>
+			<div class="col-lg-10">
+				<!-- 자재입고내역 상세(품목)정보 입력칸 -->
+				<div class="card card-info card-outline mb-3">
 					<div class="card-header">
 						<h3 class="card-title">자재입고 상세내역  등록</h3>
 					</div>
 					<div id="details" class="card-body">
 						<div class="row">
+							<!-- 1 row = 1 item -->
 							<div class="form-group float-left ml-2">
 								<label>품목명</label>
 								<input type="hidden" name="itemCode"
@@ -570,22 +632,24 @@ $(function(){
 								<input type="number" name="stockWeight" class="form-control" data-details="stockWeight">
 							</div>
 							<div class="form-group float-left ml-2">
-								<label>비고</label>
-								<input type="text" name="comment" class="form-control" placeholder="비고"
-										th:value="${s == null} ? null : ${s.comment}" data-details="comment">
-							</div>
-							<div class="form-group float-left ml-2">
 								<label>상태</label>
 								<input type="text" name="status" class="form-control" placeholder="상태"
 										th:value="${s == null} ? null : ${s.status}" data-details="status">
 							</div>
-							<div class="form-group float-right mr-2">
-								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
+							<div class="form-group float-left ml-2">
+								<label>비고</label>
+								<input type="text" name="comment" class="form-control" placeholder="비고"
+										th:value="${s == null} ? null : ${s.comment}" data-details="comment">
+							</div>
+							<!-- 해당 row 삭제 버튼 -->
+							<div class="form-group ml-2">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:2.5em;">
 									<i class="fas fa-trash-alt"></i>
 								</button>
 							</div>
 						</div>
 					</div>
+					<!-- 1 row 추가 버튼 -->
 					<div class="card-footer">
 						<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
 							<i class="far fa-plus-square"></i>
@@ -595,6 +659,7 @@ $(function(){
 			</div>
 		</div>
 		
+		<!-- Modal -->
 		<div class="modal fade" id="modalObj" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-xl">
 				<div class="modal-content">

@@ -615,7 +615,7 @@
 <select id="getStockForStoring" parameterType="String" resultType="Stock">
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
-		,s.itemCode
+		,RIGHT(s.itemCode,3) AS itemCode
 		,s.itemName
 		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
 		,RIGHT(s.productPriceCode,3) AS productPriceCode

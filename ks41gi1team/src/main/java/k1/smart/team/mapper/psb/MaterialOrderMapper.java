@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import k1.smart.team.dto.psb.MaterialOrder;
+import k1.smart.team.dto.psb.MaterialOrderInfo;
 
 @Mapper
 public interface MaterialOrderMapper {
@@ -18,7 +19,7 @@ public interface MaterialOrderMapper {
 	 */
 	
 	//발주내역 상세조회(여러개 일경우)
-	public List<MaterialOrder> getMaterialOrderInfoList(String materialOrderCode);
+	public List<MaterialOrderInfo> getMaterialOrderInfoList(String mainBusinessCode, String materialOrderCode);
 	
 	//발주 상세
 	public MaterialOrder getMaterialOrderInfo(String materialOrderCode);
@@ -47,11 +48,6 @@ public interface MaterialOrderMapper {
 
 	//발주 중복 체크
 	public int getMaterialOrderByMaterialOrderCode(String materialOrderCode);
-	
-
-
-
-	
 
 
 }

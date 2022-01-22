@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.pjh.Slip;
+import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.service.ModalService;
 
 @Controller
@@ -64,6 +66,18 @@ public class ModalController {
 		model.addAttribute("materialOrderList", modalService.getMaterialOrderList(mainBusinessCode));
 		return "modal/material_order_list";
 	}
+	
+	/**
+	 * AJAX :: 자주발주내역 상세(품목 목록) 조회
+	 * @param materialOrderCode
+	 * @param model
+	 */
+	@GetMapping(value="/materialOrderDetailListModal", produces="application/json")
+	@ResponseBody
+	public List<MaterialOrderInfo> materialOrderDetailListModal(String materialOrderCode, Model model) {
+		return modalService.getMaterialOrderDetailList(mainBusinessCode, materialOrderCode);
+	}
+	
 	
 	/**
 	 * AJAX :: 품목정보 전체목록 조회

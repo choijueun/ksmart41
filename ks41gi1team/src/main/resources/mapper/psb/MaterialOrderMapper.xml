@@ -52,15 +52,16 @@
 			);
 	</insert>
 	
-<select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrderInfo">
 	SELECT 
-		mord.materialOrderOngoingCode
+		RIGHT(mord.materialOrderOngoingCode, 3) AS materialOrderOngoingCode
+		,RIGHT(ii.itemCode,3) as itemCode
 		,ii.itemName
 		,mord.itemCount
 		,mord.itemPrice
 		,(mord.itemCount*mord.itemPrice) AS totalPrice
 		,mord.realReceiveDate
-		,mord.reserveStatus
+		,mord.reserveStatus AS status
 		,mord.`comment`
 	FROM 
 		k1_tb_material_order_detail AS mord
@@ -74,6 +75,9 @@
 		mord.itemCode =ii.itemCode
 	WHERE 
 		mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+		<if test=" mainBusinessCode != null and mainBusinessCode != ''.toString() ">
+		AND mo.mainBusinessCode = #{mainBusinessCode}
+		</if>
 </select>	
 	
 <select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
