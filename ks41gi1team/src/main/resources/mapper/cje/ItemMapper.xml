@@ -208,11 +208,17 @@
 	SET
 		itemName=#{itemName},
 		itemType=#{itemType},
-		categoryCode=#{categoryCode},
+		<if test="categoryCode!= null and categoryCode!= ''.toString()">
+			categoryCode=#{categoryCode},
+		</if>
 		itemStandard=#{itemStandard},
 		itemOrigin=#{itemOrigin},
-		itemStatus=#{itemStatus},
-		itemComment=#{itemComment},
+		<if test="itemStatus!= null and itemStatus!= ''.toString()">
+			itemStatus=#{itemStatus},
+		</if>
+		<if test="itemComment!= null and itemComment!= ''.toString()">
+			itemComment=#{itemComment},
+		</if>
 		updateDate=NOW()
 	WHERE 
 		itemCode = CONCAT('itemCode_',#{itemCode});
