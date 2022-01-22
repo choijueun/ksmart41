@@ -8,8 +8,7 @@
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
-		,a.stockReasonCode
-		,r.reason AS stockReason
+		,a.reason AS stockReason
 		,a.clientCode
 		,a.businessName
 		,GROUP_CONCAT(DISTINCT ad.itemName SEPARATOR ', ') AS itemList
@@ -23,23 +22,18 @@
 		,a.regDate
 		,LEFT(a.updateDate,10) AS updateDate
 	FROM 
-		k1_view_stock_adjustment AS a
-		JOIN
-		k1_tb_stock_reason AS r
-		ON
-		a.stockReasonCode = r.stockReasonCode
+		k1_view_stock_adjustment a
 		JOIN
 		(SELECT
 			 ad.stockAdjDetailCode
 			,ad.stockAdjCode
-			,s.inventoryCode
-			,s.itemName
+			,i.itemName
 		FROM
-			k1_tb_stock_adjustment_detail AS ad
+			k1_tb_stock_adjustment_detail ad
 			JOIN
-			k1_view_stock AS s
+			k1_view_item_info i
 			ON
-			ad.inventoryCode = s.inventoryCode
+			ad.itemCode = i.itemCode
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
@@ -271,7 +265,7 @@
 <select id="getWarehousingDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,p.unitPrice
@@ -288,9 +282,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 		LEFT JOIN
 		k1_view_purchase_transaction_detail AS p
 		ON
@@ -304,7 +298,7 @@
 <select id="getMaterialUseDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,p.unitPrice
 		,i.itemName
@@ -321,9 +315,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 		LEFT JOIN
 		k1_view_purchase_transaction_detail AS p
 		ON
@@ -338,7 +332,7 @@
 <select id="getProductionDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -353,9 +347,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 3;
@@ -365,7 +359,7 @@
 <select id="getMovingDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -380,9 +374,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 4;
@@ -392,7 +386,7 @@
 <select id="getShipmentDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.adjCount
@@ -408,9 +402,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 5;
@@ -420,8 +414,7 @@
 <select id="getAdjDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
-		,RIGHT(i.itemCode,3) AS itemCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode,3) AS salesTsCode
@@ -438,9 +431,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 6;
@@ -450,7 +443,7 @@
 <select id="getReturnDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
@@ -469,9 +462,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 7;
@@ -481,7 +474,7 @@
 <select id="getDefectDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
@@ -499,9 +492,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 8;
@@ -549,25 +542,17 @@
 </select>
 <select id="getShipmentPlanDetails" parameterType="String" resultType="Storing">
 	SELECT
-		 RIGHT(sd.itemCode,3) AS itemCode
-		,st.itemName
-		,st.unitPrice
-		,RIGHT(st.warehouseCode,3) AS warehouseCode
-		,st.warehouseName
-		,st.location
-		,st.outPlace
-		,sd.itemCount AS adjCount
-		,sd.itemWeight AS adjWeight
-		,sd.totalPrice
-		,sd.`comment`
+		 RIGHT(p.itemCode,3) AS itemCode
+		,p.itemName
+		,p.unitPrice
+		,p.itemCount AS adjCount
+		,p.itemWeight AS adjWeight
+		,p.totalPrice
+		,p.`comment`
 	FROM
-		k1_view_shipment_plan_detail AS sd
-		JOIN
-		k1_view_stock AS st
-		ON
-		sd.itemCode = st.itemCode
+		k1_view_shipment_plan_detail p
 	WHERE
-		sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+		p.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
 </select>
 
 <!-- 반품요청내역 전체목록 -->
@@ -575,7 +560,7 @@
 	SELECT 
 		 RIGHT(r.returnRegCode,3) AS returnRegCode
 		,r.clientCode
-		,c.businessName
+		,r.clientBusinessName AS businessName
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
@@ -583,10 +568,6 @@
 		,LEFT(r.updateDate,10) AS updateDate
 	FROM 
 		k1_view_return_reg AS r
-		JOIN
-		k1_tb_client AS c
-		ON
-		r.clientCode = c.clientCode
 	WHERE
 		r.mainBusinessCode = #{mainBusinessCode};
 </select>
@@ -599,10 +580,9 @@
 		,r.clientBusinessName AS businessName
 		,RIGHT(r.purchaseTsCode,3) AS purchaseTsCode
 		,RIGHT(r.salesTsCode,3) AS salesTsCode
-		,CASE
-			WHEN r.purchaseTsCode IS NULL THEN st.contractCode
-			WHEN r.salesTsCode IS NULL THEN pt.contractCode
-		END AS contractCode
+		,r.contractCode
+		,r.itemList
+		,r.totalCount
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
@@ -611,47 +591,25 @@
 		,r.updateDate
 	FROM 
 		k1_view_return_reg AS r
-		LEFT JOIN
-		k1_view_purchase_transaction AS pt
-		ON
-		r.purchaseTsCode = pt.purchaseTsCode
-		LEFT JOIN
-		k1_view_sales_transaction AS st
-		ON
-		r.salesTsCode = st.salesTsCode
 	WHERE
 		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 <!-- 반품요청내역 상세정보 목록 -->
 <select id="getReturnRegDetails" parameterType="String" resultType="Storing">
-	SELECT
-		 RIGHT(r.itemCode,3) AS itemCode
+	SELECT 
+		 RIGHT(r.returnRegDetailCode,3) AS returnRegDetailCode
+		,RIGHT(r.itemCode,3) AS itemCode
 		,r.itemName
-		,r.amount
-		,r.`count` AS adjCount
+		,r.categoryCode
+		,r.unitPrice
+		,r.`count`
 		,r.totalPrice
 		,r.`comment`
 	FROM 
-		k1_view_return_reg AS r
+		k1_view_return_reg_detail r
 	WHERE
-		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 
-<!-- 물류이동 등록페이지에서 특정 재고 정보 불러오기 -->
-<select id="getStockForStoring" parameterType="String" resultType="Stock">
-	SELECT
-		 RIGHT(s.inventoryCode,3) AS inventoryCode
-		,RIGHT(s.itemCode,3) AS itemCode
-		,s.itemName
-		,s.unitPrice
-		,s.stockWeight
-		,s.`status`
-		,s.`comment`
-	FROM
-		k1_view_stock AS s
-	WHERE
-		s.mainBusinessCode = #{mainBusinessCode}
-		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
-</select>
 
 </mapper>
