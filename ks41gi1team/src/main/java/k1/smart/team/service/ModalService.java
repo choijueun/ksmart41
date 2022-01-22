@@ -12,12 +12,15 @@ import k1.smart.team.dto.cje.Warehouse;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.pjh.Slip;
+import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
+import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.mapper.cje.ItemMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.csh.UserMapper;
 import k1.smart.team.mapper.pjh.SlipMapper;
+import k1.smart.team.mapper.psb.ContractMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
 
 @Service
@@ -27,6 +30,9 @@ public class ModalService {
 	
 	@Autowired
 	private ClientMapper clientMapper;
+	
+	@Autowired
+	private ContractMapper contractMapper;
 	
 	@Autowired
 	private UserMapper userMapper;
@@ -59,11 +65,29 @@ public class ModalService {
 	}
 	
 	/**
+	 * 계약내역 전체목록
+	 * @param mainBusinessCode
+	 * @return
+	 */
+	public List<Contract> getContractList(String mainBusinessCode) {
+		return contractMapper.getAllContractList(mainBusinessCode);
+	}
+	
+	/**
 	 * 자재발주내역 전체목록
 	 * @param mainBusinessCode
 	 */
 	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode) {
 		return materialOrderMapper.getMaterialOrderList(mainBusinessCode);
+	}
+	
+	/**
+	 * 자주발주내역 상세(품목 목록) 조회
+	 * @param mainBusinessCode
+	 * @param materialOrderCode
+	 */
+	public List<MaterialOrderInfo> getMaterialOrderDetailList(String mainBusinessCode, String materialOrderCode) {
+		return materialOrderMapper.getMaterialOrderInfoList(mainBusinessCode, materialOrderCode);
 	}
 	
 	/**
@@ -84,13 +108,11 @@ public class ModalService {
 	}
 	
 	/**
-	 * 특정품목(거래처, 계약코드)의 비용 거래명세서 조회
+	 * 특정품목의 비용 거래명세서 조회
 	 * @param itemCode
-	 * @param clientCode
-	 * @param contractCode
 	 */
-	public List<Slip> getPSlipByItem(String itemCode, String clientCode, String contractCode){
-		return slipMapper.getPSlipByItem(itemCode, clientCode, contractCode);
+	public List<Slip> getPSlipByItem(String itemCode, String mainBusinessCode){
+		return slipMapper.getPSlipByItem(itemCode, mainBusinessCode);
 	}
 	
 	public List<Slip> salesTransactionList() {
@@ -102,6 +124,7 @@ public class ModalService {
 		List<Slip> purchaseTransactionList = slipMapper.purchaseTransactionList();
 		return purchaseTransactionList;
 	}
+
 
 
 }

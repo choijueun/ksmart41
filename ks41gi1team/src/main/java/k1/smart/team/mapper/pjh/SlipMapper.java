@@ -58,5 +58,5 @@ public interface SlipMapper {
 	public int purchaseSlipModifyAc(Slip slip);
 	
 	//최주은-특정품목(거래처, 계약코드)의 비용 거래명세서 조회
-	public List<Slip> getPSlipByItem(String itemCode, String clientCode, String contractCode);
+	public List<Slip> getPSlipByItem(String itemCode, String mainBusinessCode);
 }

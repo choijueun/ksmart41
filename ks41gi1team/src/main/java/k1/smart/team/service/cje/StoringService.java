@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
@@ -18,6 +20,9 @@ public class StoringService {
 	private StoringMapper storingMapper;
 	private Storing storingInfo; //물류
 	private List<Storing> storingList; //물류 배열
+	
+	@Autowired
+	private CodeMapper codeMapper; //코드번호 자동생성
 	
 	/**
 	 * 생성자 메서드
@@ -359,5 +364,68 @@ public class StoringService {
 		resultMap.put("defectDetail", storingList);
 		
 		return resultMap;
+	}
+	
+	/**
+	 * 입고내역 등록 프로세스
+	 * @param storingInfo
+	 * @return 성공시 true, 실패시 false
+	 */
+	public boolean addStoringInfo(Storing storingInfo) {
+		//물류이동코드 생성
+		String stockAdjCode = codeMapper.getNewCodeNum("k1_tb_stock_adjustment", "stockAdjCode");
+		//물류이동코드 SET
+		storingInfo.setStockAdjCode(stockAdjCode);
+		
+		//물류이동내역 등록
+		if(storingMapper.addStoringInfo(storingInfo) == 0) {
+			//실패시 return false
+			return false;
+		}
+		
+		String stockAdjDetailCode = null;
+		//상세정보 반복문
+		for(Stock itemInfo : storingInfo.getS()) {
+			//itemCode, itemCount, unitPrice 없을 시 continue;
+			if(			CommonUtils.isEmpty(itemInfo.getItemCode())
+					||  CommonUtils.isEmpty(itemInfo.getItemCode())
+					||  CommonUtils.isEmpty(itemInfo.getItemCode())) {
+				continue;
+			}
+			//물류이동코드 SET
+			itemInfo.setStockAdjCode(stockAdjCode);
+			//물류이동상세코드 GET&SET
+			stockAdjDetailCode = codeMapper.getNewCodeNum("k1_tb_stock_adjustment_detail", "stockAdjDetailCode");
+			itemInfo.setStockAdjDetailCode(stockAdjDetailCode);
+			//purchaseTsCode 또는  salesTsCode 존재시 unitPrice 초기화
+			if(!CommonUtils.isEmpty(itemInfo.getPurchaseTsCode()) || !CommonUtils.isEmpty(itemInfo.getSalesTsCode())) {
+				itemInfo.setUnitPrice(0);
+			}
+			//물류이동상세내역 등록
+			if(storingMapper.addStoringDetails(itemInfo) == 0) {
+				//실패시 물류이동상세내역(stockAdjDetailCode) 삭제
+				storingMapper.removeStoringDetails(stockAdjCode, null);
+				//실패시 물류이동내역(stockAdjCode) 삭제
+				storingMapper.removeStoringInfo(stockAdjCode, storingInfo.getMainBusinessCode());
+				return false;
+			}
+		}
+		//재고정보 검색
+		//1.일치하는게 없다
+		//	1) INSERT
+		//	2) adjCount=afterCount, adjWeight=totalWeight
+		//	3) 실패 시
+		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
+		//		return false;
+		
+		//2.일치하는게 있다
+		//	1) UPDATE
+		//	2) afterCount, totalWeight 입력
+		//	3) 실패 시
+		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
+		//		return false;
+		
+		//모든 정보 등록 완료
+		return true;
 	}
 }

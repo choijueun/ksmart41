@@ -2,13 +2,12 @@ package k1.smart.team.dto.psb;
 
 import javax.validation.constraints.NotBlank;
 
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
-
 public class Contract {
 	
 	private String contractCode;
 	private String mainBusinessCode;
 	private String clientCode;
+	private String clientBusinessName;
 	private String clientManagerId;
 	private String contractSection;
 	private String contractType;
@@ -29,6 +28,7 @@ public class Contract {
 	private String userName;
 	private String userId;
 	private String contractCodeForMaterialOrderCode;
+	
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -46,6 +46,12 @@ public class Contract {
 	}
 	public void setClientCode(String clientCode) {
 		this.clientCode = clientCode;
+	}
+	public String getClientBusinessName() {
+		return clientBusinessName;
+	}
+	public void setClientBusinessName(String clientBusinessName) {
+		this.clientBusinessName = clientBusinessName;
 	}
 	public String getClientManagerId() {
 		return clientManagerId;
@@ -158,6 +164,8 @@ public class Contract {
 		builder.append(mainBusinessCode);
 		builder.append(", clientCode=");
 		builder.append(clientCode);
+		builder.append(", clientBusinessName=");
+		builder.append(clientBusinessName);
 		builder.append(", clientManagerId=");
 		builder.append(clientManagerId);
 		builder.append(", contractSection=");
@@ -192,10 +200,55 @@ public class Contract {
 		builder.append(userId);
 		builder.append(", contractCodeForMaterialOrderCode=");
 		builder.append(contractCodeForMaterialOrderCode);
+		builder.append(", getContractCode()=");
+		builder.append(getContractCode());
+		builder.append(", getMainBusinessCode()=");
+		builder.append(getMainBusinessCode());
+		builder.append(", getClientCode()=");
+		builder.append(getClientCode());
+		builder.append(", getClientBusinessName()=");
+		builder.append(getClientBusinessName());
+		builder.append(", getClientManagerId()=");
+		builder.append(getClientManagerId());
+		builder.append(", getContractSection()=");
+		builder.append(getContractSection());
+		builder.append(", getContractType()=");
+		builder.append(getContractType());
+		builder.append(", getStartDate()=");
+		builder.append(getStartDate());
+		builder.append(", getEndDate()=");
+		builder.append(getEndDate());
+		builder.append(", getManagerId()=");
+		builder.append(getManagerId());
+		builder.append(", getRegId()=");
+		builder.append(getRegId());
+		builder.append(", getApprovalId()=");
+		builder.append(getApprovalId());
+		builder.append(", getContractDate()=");
+		builder.append(getContractDate());
+		builder.append(", getContractStatus()=");
+		builder.append(getContractStatus());
+		builder.append(", getBriefs()=");
+		builder.append(getBriefs());
+		builder.append(", getRegDate()=");
+		builder.append(getRegDate());
+		builder.append(", getUpdateDate()=");
+		builder.append(getUpdateDate());
+		builder.append(", getBusinessRepresentative()=");
+		builder.append(getBusinessRepresentative());
+		builder.append(", getUserName()=");
+		builder.append(getUserName());
+		builder.append(", getUserId()=");
+		builder.append(getUserId());
+		builder.append(", getContractCodeForMaterialOrderCode()=");
+		builder.append(getContractCodeForMaterialOrderCode());
+		builder.append(", getClass()=");
+		builder.append(getClass());
+		builder.append(", hashCode()=");
+		builder.append(hashCode());
+		builder.append(", toString()=");
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
-
-
-	
 }

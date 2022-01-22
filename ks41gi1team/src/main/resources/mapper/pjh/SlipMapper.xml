@@ -68,36 +68,6 @@
 			purchaseSlipCode = #{purchaseSlipCode};
 	</select>
 	
-	<!-- 특정 품목의 비용거래명세서 조회 -->
-	<select id="getPSlipByItem" parameterType="String" resultType="Slip">
-		SELECT
-			 RIGHT(p.purchaseTsCode,3) AS purchaseTsCode
-			,p.clientCode
-			,p.clientBusinessName
-			,RIGHT(p.contractCode,3) AS contractCode
-			,p.briefs
-			,p.totalPrice
-			,p.dealDate
-		FROM
-			k1_view_purchase_transaction p
-			JOIN
-			k1_view_purchase_transaction_detail d
-			ON
-			p.purchaseTsCode = d.purchaseTsCode
-			JOIN
-			k1_view_item_info i
-			ON
-			d.itemCode = i.itemCode
-		WHERE
-			i.itemCode = #{itemCode}
-			<if test="clientCode != null and clientCode != ''.toString()">
-				AND p.clientCode = #{clientCode}
-			</if>
-			<if test="contractCode != null and contractCode != ''.toString()">
-				AND p.contractCode = CONCAT('contractCode_',#{contractCode})
-			</if>
-	</select>
-	
 	<select id="getSalesSlipInfo" parameterType="String" resultType="Slip">
 		SELECT
 			s.salesSlipCode
@@ -348,5 +318,33 @@
 		WHERE 
 			purchaseSlipCode = #{purchaseSlipCode};
 	</update>
+	
+	<!-- 최주은-특정품목(거래처, 계약코드)의 비용 거래명세서 조회 -->
+	<select id="getPSlipByItem" parameterType="String" resultType="Slip">
+		SELECT
+			 RIGHT(p.purchaseTsCode,3) as purchaseTsCode
+			,p.clientCode
+			,p.clientBusinessName AS businessName
+			,GROUP_CONCAT(DISTINCT d.itemName SEPARATOR ', ') AS itemName
+			,p.briefs
+			,p.totalPrice
+			,d2.`count`
+			,d2.unitPrice AS amount
+			,p.dealDate
+		FROM
+			k1_view_purchase_transaction p
+			JOIN
+			k1_view_purchase_transaction_detail d
+			ON
+			p.purchaseTsCode = d.purchaseTsCode
+			JOIN
+			k1_view_purchase_transaction_detail d2
+			ON
+			p.purchaseTsCode = d2.purchaseTsCode AND d2.itemCode = CONCAT('itemCode_',#{itemCode})
+		WHERE
+			p.mainBusinessCode = #{mainBusinessCode}
+		GROUP BY
+			p.purchaseTsCode
+	</select>
 	
 </mapper>

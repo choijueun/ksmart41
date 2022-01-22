@@ -46,7 +46,6 @@ public class Storing {
 	private int adjCount; //조정수량
 	private int afterCount; //최종수량
 	private int adjWeight; //조정중량
-	private int stockWeight; //최종중량
 	private int totalWeight; //합계중량
 	private int amount;
 	
@@ -280,12 +279,6 @@ public class Storing {
 	public void setAdjWeight(int adjWeight) {
 		this.adjWeight = adjWeight;
 	}
-	public int getStockWeight() {
-		return stockWeight;
-	}
-	public void setStockWeight(int stockWeight) {
-		this.stockWeight = stockWeight;
-	}
 	public int getTotalWeight() {
 		return totalWeight;
 	}
@@ -477,8 +470,6 @@ public class Storing {
 		builder.append(afterCount);
 		builder.append(", adjWeight=");
 		builder.append(adjWeight);
-		builder.append(", stockWeight=");
-		builder.append(stockWeight);
 		builder.append(", totalWeight=");
 		builder.append(totalWeight);
 		builder.append(", amount=");

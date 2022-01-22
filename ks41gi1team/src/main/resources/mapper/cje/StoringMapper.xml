@@ -9,7 +9,7 @@
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
-		,r.reason AS stockReason
+		,a.reason AS stockReason
 		,a.clientCode
 		,a.businessName
 		,GROUP_CONCAT(DISTINCT ad.itemName SEPARATOR ', ') AS itemList
@@ -23,23 +23,18 @@
 		,a.regDate
 		,LEFT(a.updateDate,10) AS updateDate
 	FROM 
-		k1_view_stock_adjustment AS a
-		JOIN
-		k1_tb_stock_reason AS r
-		ON
-		a.stockReasonCode = r.stockReasonCode
+		k1_view_stock_adjustment a
 		JOIN
 		(SELECT
 			 ad.stockAdjDetailCode
 			,ad.stockAdjCode
-			,s.inventoryCode
-			,s.itemName
+			,i.itemName
 		FROM
-			k1_tb_stock_adjustment_detail AS ad
+			k1_tb_stock_adjustment_detail ad
 			JOIN
-			k1_view_stock AS s
+			k1_view_item_info i
 			ON
-			ad.inventoryCode = s.inventoryCode
+			ad.itemCode = i.itemCode
 		) AS ad
 		ON
 		a.stockAdjCode = ad.stockAdjCode
@@ -271,14 +266,14 @@
 <select id="getWarehousingDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,p.unitPrice
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -288,9 +283,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 		LEFT JOIN
 		k1_view_purchase_transaction_detail AS p
 		ON
@@ -304,14 +299,14 @@
 <select id="getMaterialUseDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,p.unitPrice
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.status
 		,ad.`comment`
 	FROM
@@ -321,9 +316,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 		LEFT JOIN
 		k1_view_purchase_transaction_detail AS p
 		ON
@@ -338,12 +333,12 @@
 <select id="getProductionDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -353,9 +348,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 3;
@@ -365,12 +360,12 @@
 <select id="getMovingDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -380,9 +375,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 4;
@@ -392,13 +387,13 @@
 <select id="getShipmentDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -408,9 +403,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 5;
@@ -420,15 +415,14 @@
 <select id="getAdjDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
-		,RIGHT(i.itemCode,3) AS itemCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,RIGHT(ad.purchaseTsCode,3) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode,3) AS salesTsCode
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -438,9 +432,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 6;
@@ -450,12 +444,12 @@
 <select id="getReturnDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,RIGHT(ad.purchaseTsCode,3 ) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.`status`
@@ -469,9 +463,9 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_', #{stockAdjCode})
 		AND a.stockReasonCode = 7;
@@ -481,13 +475,13 @@
 <select id="getDefectDetails" parameterType="String" resultType="Storing">
 	SELECT
 		 RIGHT(ad.stockAdjDetailCode,3) AS stockAdjDetailCode
-		,RIGHT(ad.inventoryCode,3) AS inventoryCode
+		,RIGHT(ad.itemCode,3) AS itemCode
 		,RIGHT(i.itemCode,3) AS itemCode
 		,i.itemName
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.defectType
 		,ad.defectHandlingType
@@ -499,13 +493,117 @@
 		ON
 		a.stockAdjCode = ad.stockAdjCode
 		JOIN
-		k1_view_stock AS i
+		k1_view_item_info AS i
 		ON
-		ad.inventoryCode = i.inventoryCode
+		ad.itemCode = i.itemCode
 	WHERE
 		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 8;
 </select>
+
+<!-- 물류이동내역 등록(한줄) -->
+<insert id="addStoringInfo" parameterType="Storing">
+	INSERT INTO k1_tb_stock_adjustment
+		(stockAdjCode, mainBusinessCode, stockReasonCode
+		<if test="clientCode != null and clientCode != ''.toString()">, clientCode</if>
+		<if test="contractCode != null and contractCode != ''.toString()">, contractCode</if>
+		<if test="materialOrderCode != null and materialOrderCode != ''.toString()">, materialOrderCode</if>
+		<if test="productOrderCode != null and productOrderCode != ''.toString()">, productOrderCode</if>
+		<if test="deliveryCode != null and deliveryCode != ''.toString()">, deliveryCode</if>
+		<if test="shipmentPlanCode != null and shipmentPlanCode != ''.toString()">, shipmentPlanCode</if>
+		<if test="returnRegCode != null and returnRegCode != ''.toString()">, returnRegCode</if>
+		<if test="sendWarehouse != null and sendWarehouse != ''.toString()">, sendWarehouse</if>
+		<if test="receiveWarehouse != null and receiveWarehouse != ''.toString()">, receiveWarehouse</if>
+		<if test="deliveryCost != null and deliveryCost != 0">, deliveryCost</if>
+		<if test="sendPlanDate != null and sendPlanDate != ''.toString()">, sendPlanDate</if>
+		<if test="receivePlanDate != null and receivePlanDate != ''.toString()">, receivePlanDate</if>
+		, requestDate, adjDate
+		<if test="endDate != null and endDate != ''.toString()">, endDate</if>
+		<if test="briefs != null and briefs != ''.toString()">, briefs</if>
+		, managerId, regDate, updateDate
+	)VALUES (
+		CONCAT('stockAdjCode_',#{stockAdjCode})
+		, #{mainBusinessCode}
+		, ${stockReasonCode}
+		<if test="clientCode != null and clientCode != ''.toString()">, #{clientCode}</if>
+		<if test="contractCode != null and contractCode != ''.toString()">, CONCAT('contractCode_', #{contractCode})</if>
+		<if test="materialOrderCode != null and materialOrderCode != ''.toString()">, CONCAT('materialOrderCode_',#{materialOrderCode})</if>
+		<if test="productOrderCode != null and productOrderCode != ''.toString()">, CONCAT('productOrderCode_',#{productOrderCode})</if>
+		<if test="deliveryCode != null and deliveryCode != ''.toString()">, CONCAT('deliveryCode_',#{deliveryCode})</if>
+		<if test="shipmentPlanCode != null and shipmentPlanCode != ''.toString()">, CONCAT('shipmentPlanCode_',#{shipmentPlanCode})</if>
+		<if test="returnRegCode != null and returnRegCode != ''.toString()">, #{returnRegCode}</if>
+		<if test="sendWarehouse != null and sendWarehouse != ''.toString()">, CONCAT('warehouseCode_',#{sendWarehouse})</if>
+		<if test="receiveWarehouse != null and receiveWarehouse != ''.toString()">, CONCAT('warehouseCode_',#{receiveWarehouse})</if>
+		<if test="deliveryCost != null and deliveryCost != 0">, ${deliveryCost}</if>
+		<if test="sendPlanDate != null and sendPlanDate != ''.toString()">, #{sendPlanDate}</if>
+		<if test="receivePlanDate != null and receivePlanDate != ''.toString()">, #{receivePlanDate}</if>
+		, #{requestDate}
+		, #{adjDate}
+		<if test="endDate != null and endDate != ''.toString()">, #{endDate}</if>
+		<if test="briefs != null and briefs != ''.toString()">, #{briefs}</if>
+		, #{managerId}
+		, NOW()
+		, NOW()
+	);
+</insert>
+
+<!-- 물류이동내역 등록(상세) -->
+<insert id="addStoringDetails" parameterType="Stock">
+	INSERT INTO k1_tb_stock_adjustment_detail
+		(stockAdjDetailCode, stockAdjCode, itemCode
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">, purchaseTsCode</if>
+		<if test="salesTsCode != null and salesTsCode != ''.toString()">, salesTsCode</if>
+		<if test="unitPrice != null and unitPrice != 0">, unitPrice</if>
+		, adjCount
+		<if test="totalCount != null and totalCount != 0">, afterCount</if>
+		, adjWeight
+		<if test="totalWeight != null and totalWeight != 0">, totalWeight</if>
+		<if test="status != null and status != ''.toString()">, `status`</if>
+		<if test="defectType != null and defectType != ''.toString()">, defectType</if>
+		<if test="defectHandlingType != null and defectHandlingType != ''.toString()">, defectHandlingType</if>
+		<if test="comment != null and comment != ''.toString()">, `comment`</if>
+	)VALUES (
+		CONCAT('stockAdjDetailCode_', #{stockAdjDetailCode})
+		, CONCAT('stockAdjCode_', #{stockAdjCode})
+		, CONCAT('itemCode_',#{itemCode})
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">, CONCAT('purchase_ts_stCode_',#{purchaseTsCode})</if>
+		<if test="salesTsCode != null and salesTsCode != ''.toString()">, CONCAT('salesTsCode_',#{salesTsCode})</if>
+		<if test="unitPrice != null and unitPrice != 0">, #{unitPrice}</if>
+		, #{itemCount}
+		<if test="totalCount != null and totalCount != 0">, #{totalCount}</if>
+		, #{itemWeight}
+		<if test="totalWeight != null and totalWeight != 0">, #{totalWeight}</if>
+		<if test="status != null and status != ''.toString()">, #{status}</if>
+		<if test="defectType != null and defectType != ''.toString()">, #{defectType}</if>
+		<if test="defectHandlingType != null and defectHandlingType != ''.toString()">, #{defectHandlingType}</if>
+		<if test="comment != null and comment != ''.toString()">, #{comment}</if>
+	);
+</insert>
+
+<!-- 물류이동내역 한줄테이블 삭제 -->
+<delete id="removeStoringInfo" parameterType="String">
+	DELETE 
+	FROM 
+		k1_tb_stock_adjustment a
+	WHERE 
+		a.stockAdjCode = #{stockAdjCode}
+		AND a.mainBusinessCode = #{mainBusinessCode};
+</delete>
+
+<!-- 물류이동내역 상세테이블 삭제 -->
+<delete id="removeStoringDetails" parameterType="String">
+	DELETE 
+	FROM 
+		k1_tb_stock_adjustment_detail d
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="stockAdjDetailCode != null and stockAdjDetailCode != ''.toString()">
+			d.stockAdjDetailCode = #{stockAdjDetailCode}
+		</if>
+		<if test="stockAdjCode != null and stockAdjCode != ''.toString()">
+			AND d.stockAdjCode = #{stockAdjCode};
+		</if>
+	</trim>
+</delete>
 
 <!-- 출하계획 전체조회 -->
 <select id="getShipmentPlanList" parameterType="String" resultType="Storing">
@@ -549,25 +647,17 @@
 </select>
 <select id="getShipmentPlanDetails" parameterType="String" resultType="Storing">
 	SELECT
-		 RIGHT(sd.itemCode,3) AS itemCode
-		,st.itemName
-		,st.unitPrice
-		,RIGHT(st.warehouseCode,3) AS warehouseCode
-		,st.warehouseName
-		,st.location
-		,st.outPlace
-		,sd.itemCount AS adjCount
-		,sd.itemWeight AS adjWeight
-		,sd.totalPrice
-		,sd.`comment`
+		 RIGHT(p.itemCode,3) AS itemCode
+		,p.itemName
+		,p.unitPrice
+		,p.itemCount AS adjCount
+		,p.itemWeight AS adjWeight
+		,p.totalPrice
+		,p.`comment`
 	FROM
-		k1_view_shipment_plan_detail AS sd
-		JOIN
-		k1_view_stock AS st
-		ON
-		sd.itemCode = st.itemCode
+		k1_view_shipment_plan_detail p
 	WHERE
-		sp.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+		p.shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
 </select>
 
 <!-- 반품요청내역 전체목록 -->
@@ -575,7 +665,7 @@
 	SELECT 
 		 RIGHT(r.returnRegCode,3) AS returnRegCode
 		,r.clientCode
-		,c.businessName
+		,r.clientBusinessName AS businessName
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
@@ -583,10 +673,6 @@
 		,LEFT(r.updateDate,10) AS updateDate
 	FROM 
 		k1_view_return_reg AS r
-		JOIN
-		k1_tb_client AS c
-		ON
-		r.clientCode = c.clientCode
 	WHERE
 		r.mainBusinessCode = #{mainBusinessCode};
 </select>
@@ -599,10 +685,9 @@
 		,r.clientBusinessName AS businessName
 		,RIGHT(r.purchaseTsCode,3) AS purchaseTsCode
 		,RIGHT(r.salesTsCode,3) AS salesTsCode
-		,CASE
-			WHEN r.purchaseTsCode IS NULL THEN st.contractCode
-			WHEN r.salesTsCode IS NULL THEN pt.contractCode
-		END AS contractCode
+		,r.contractCode
+		,r.itemList
+		,r.totalCount
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
@@ -611,47 +696,48 @@
 		,r.updateDate
 	FROM 
 		k1_view_return_reg AS r
-		LEFT JOIN
-		k1_view_purchase_transaction AS pt
-		ON
-		r.purchaseTsCode = pt.purchaseTsCode
-		LEFT JOIN
-		k1_view_sales_transaction AS st
-		ON
-		r.salesTsCode = st.salesTsCode
 	WHERE
 		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 <!-- 반품요청내역 상세정보 목록 -->
 <select id="getReturnRegDetails" parameterType="String" resultType="Storing">
-	SELECT
-		 RIGHT(r.itemCode,3) AS itemCode
+	SELECT 
+		 RIGHT(r.returnRegDetailCode,3) AS returnRegDetailCode
+		,RIGHT(r.itemCode,3) AS itemCode
 		,r.itemName
-		,r.amount
-		,r.`count` AS adjCount
+		,r.categoryCode
+		,r.unitPrice
+		,r.`count`
 		,r.totalPrice
 		,r.`comment`
 	FROM 
-		k1_view_return_reg AS r
+		k1_view_return_reg_detail r
 	WHERE
-		d.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 
-<!-- 물류이동 등록페이지에서 특정 재고 정보 불러오기 -->
+<!-- 재고정보수정→등록페이지 전달할 재고정보 하나 -->
 <select id="getStockForStoring" parameterType="String" resultType="Stock">
-	SELECT
+	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
 		,s.itemName
+		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
 		,s.unitPrice
-		,s.stockWeight
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,s.warehouseName
+		,s.location
+		,s.outPlace
 		,s.`status`
 		,s.`comment`
-	FROM
-		k1_view_stock AS s
+	FROM 
+		k1_view_stock s
 	WHERE
+		s.inventoryCode = CONCAT('inventoryCode_', #{inventoryCode})
+		AND
 		s.mainBusinessCode = #{mainBusinessCode}
-		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </select>
+
 
 </mapper>

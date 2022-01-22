@@ -59,7 +59,7 @@
 		,i.itemOrigin
 		,ROUND(AVG(s.unitPrice),0) AS avgPrice
 		,SUM(s.totalPrice) AS totalPrice
-		,SUM(s.stockWeight) AS stockWeight
+		,SUM(s.totalWeight) AS totalWeight
 		,i.itemStandard
 		,i.itemStatus
 		,i.itemComment
@@ -73,7 +73,8 @@
 		i.itemCode = s.itemCode
 	WHERE
 		i.itemCode = CONCAT('itemCode_',#{itemCode})
-	GROUP BY i.itemCode;
+	GROUP BY 
+		i.itemCode;
 </select>
 
 <!-- 특정품목 재고현황 -->
@@ -84,7 +85,7 @@
 		,s.warehouseName
 		,s.location
 		,s.outPlace
-		,s.stockWeight
+		,s.totalWeight
 		,s.itemCount
 		,s.unitPrice AS productPrice
 		,s.totalPrice
@@ -202,7 +203,7 @@
 </insert>
 
 <update id="modifyItem" parameterType="Stock">
-	UPDATE 
+	UPDATE IGNORE
 		k1_tb_item_info
 	SET
 		itemName=#{itemName},
@@ -250,7 +251,7 @@
 	SELECT
 		COUNT(1)
 	FROM
-		k1_tb_item_info
+		k1_view_item_info
 	WHERE
 		mainBusinessCode = #{mainBusinessCode}
 		AND itemName = #{itemName};
@@ -272,7 +273,7 @@
 
 <!-- 카테고리 정보 수정 -->
 <update id="modifyItemCategory" parameterType="Stock">
-	UPDATE 
+	UPDATE IGNORE
 		k1_tb_item_category
 	SET
 		largeCategory=#{largeCategory},

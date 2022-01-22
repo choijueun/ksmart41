@@ -31,7 +31,7 @@ public class Stock {
 	
 	private int itemCount; //품목수량
 	private int totalCount; //총수량
-	private int stockWeight; //중량(kg)
+	private int itemWeight; //중량(kg)
 	private int totalWeight; //총중량(kg)
 	
 	private String defectType; //불량유형
@@ -51,6 +51,7 @@ public class Stock {
 	private String stockUpdateDate; //재고수정일시
 	
 	private String stockAdjCode; //물류이동내역코드
+	private String stockAdjDetailCode; //물류이동상세내역코드
 	private int stockReasonCode; //사유코드
 	private String stockReason; //사유
 	private String stockReasonEng; //사유
@@ -87,9 +88,6 @@ public class Stock {
 	}
 	public String getItemType() {
 		return itemType;
-	}
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
 	}
 	public String getCategoryCode() {
 		return categoryCode;
@@ -199,11 +197,11 @@ public class Stock {
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-	public int getStockWeight() {
-		return stockWeight;
+	public int getItemWeight() {
+		return itemWeight;
 	}
-	public void setStockWeight(int stockWeight) {
-		this.stockWeight = stockWeight;
+	public void setItemWeight(int itemWeight) {
+		this.itemWeight = itemWeight;
 	}
 	public int getTotalWeight() {
 		return totalWeight;
@@ -289,6 +287,12 @@ public class Stock {
 	public void setStockAdjCode(String stockAdjCode) {
 		this.stockAdjCode = stockAdjCode;
 	}
+	public String getStockAdjDetailCode() {
+		return stockAdjDetailCode;
+	}
+	public void setStockAdjDetailCode(String stockAdjDetailCode) {
+		this.stockAdjDetailCode = stockAdjDetailCode;
+	}
 	public int getStockReasonCode() {
 		return stockReasonCode;
 	}
@@ -336,6 +340,9 @@ public class Stock {
 	}
 	public void setStoringUpdateDate(String storingUpdateDate) {
 		this.storingUpdateDate = storingUpdateDate;
+	}
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
 	}
 	@Override
 	public String toString() {
@@ -386,8 +393,8 @@ public class Stock {
 		builder.append(itemCount);
 		builder.append(", totalCount=");
 		builder.append(totalCount);
-		builder.append(", stockWeight=");
-		builder.append(stockWeight);
+		builder.append(", itemWeight=");
+		builder.append(itemWeight);
 		builder.append(", totalWeight=");
 		builder.append(totalWeight);
 		builder.append(", defectType=");
@@ -416,6 +423,8 @@ public class Stock {
 		builder.append(stockUpdateDate);
 		builder.append(", stockAdjCode=");
 		builder.append(stockAdjCode);
+		builder.append(", stockAdjDetailCode=");
+		builder.append(stockAdjDetailCode);
 		builder.append(", stockReasonCode=");
 		builder.append(stockReasonCode);
 		builder.append(", stockReason=");
