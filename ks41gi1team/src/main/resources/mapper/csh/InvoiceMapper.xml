@@ -8,9 +8,7 @@
 		SELECT
 			*
 		FROM
-			k1_tb_invoice AS i
-			JOIN 
-			k1_tb_main_business AS b;
+			k1_view_invoice;
 	</select>
 	
 	<select id="getInvoiceDetail" parameterType="String" resultType="Invoice">

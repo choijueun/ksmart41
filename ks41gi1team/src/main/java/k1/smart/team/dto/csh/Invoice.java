@@ -3,17 +3,18 @@ package k1.smart.team.dto.csh;
 public class Invoice {
 	
 	//사업장 이름
-	private String businessName; //사업장 이름
 	
 	private String invoiceCode; //전자(세금)계산서 코드
 	private String mainBusinessCode; //사업장별 대표코드
 	private String invoiceType; //세금계산서 종류
 	private String supplyBusinessCode; //공급자 사업장 대표코드
+	private String supplyBusinessName; //공급자 사업장 이름
 	private String supplyManagerId; //공급담당자
 	private String demandBusinessCode; //수급자 사업장 대표코드
 	private String demandManagerId; //수급담당자
 	private int invoicePrice; //전체공급가액
 	private int invoiceTax; //전체세액
+	private int totalCount; //전체수량
 	private int totalPrice; //전체금액
 	private String issueStatus; //발행상태
 	private String payMethod; //지불방식
@@ -33,13 +34,6 @@ public class Invoice {
 	private int supplyPrice; //공급가액
 	private int tax; //세액
 	private String comment; //비고
-	
-	public String getBusinessName() {
-		return businessName;
-	}
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
 	public String getInvoiceCode() {
 		return invoiceCode;
 	}
@@ -63,6 +57,12 @@ public class Invoice {
 	}
 	public void setSupplyBusinessCode(String supplyBusinessCode) {
 		this.supplyBusinessCode = supplyBusinessCode;
+	}
+	public String getSupplyBusinessName() {
+		return supplyBusinessName;
+	}
+	public void setSupplyBusinessName(String supplyBusinessName) {
+		this.supplyBusinessName = supplyBusinessName;
 	}
 	public String getSupplyManagerId() {
 		return supplyManagerId;
@@ -93,6 +93,12 @@ public class Invoice {
 	}
 	public void setInvoiceTax(int invoiceTax) {
 		this.invoiceTax = invoiceTax;
+	}
+	public int getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 	public int getTotalPrice() {
 		return totalPrice;
@@ -199,9 +205,7 @@ public class Invoice {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Invoice [businessName=");
-		builder.append(businessName);
-		builder.append(", invoiceCode=");
+		builder.append("Invoice [invoiceCode=");
 		builder.append(invoiceCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
@@ -209,6 +213,8 @@ public class Invoice {
 		builder.append(invoiceType);
 		builder.append(", supplyBusinessCode=");
 		builder.append(supplyBusinessCode);
+		builder.append(", supplyBusinessName=");
+		builder.append(supplyBusinessName);
 		builder.append(", supplyManagerId=");
 		builder.append(supplyManagerId);
 		builder.append(", demandBusinessCode=");
@@ -219,6 +225,8 @@ public class Invoice {
 		builder.append(invoicePrice);
 		builder.append(", invoiceTax=");
 		builder.append(invoiceTax);
+		builder.append(", totalCount=");
+		builder.append(totalCount);
 		builder.append(", totalPrice=");
 		builder.append(totalPrice);
 		builder.append(", issueStatus=");
