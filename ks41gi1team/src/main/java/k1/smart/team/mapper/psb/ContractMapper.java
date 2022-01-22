@@ -1,13 +1,10 @@
 package k1.smart.team.mapper.psb;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
-import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 
 @Mapper
 public interface ContractMapper {
@@ -25,7 +22,7 @@ public interface ContractMapper {
 	public List<Contract> getContractListBySearchKey(String searchKey, String searchValue);
 	
 	//계약서 전체 조회
-		public List<Contract> getAllContractList();
+		public List<Contract> getAllContractList(String mainBusinessCode);
 
 	//계약서 전체 이력 조회	
 		public List<Contract> getContractHistoryList(String mainBusinessCode);
