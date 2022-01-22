@@ -112,20 +112,18 @@ $(function(){
 		$('input[name="itemWeight"]').each(function(i, obj){
 			sum += Number($(obj).val());
 		});
+		//입력
 		totalWeight.val(sum);
 		//합계금액
 		sum=0;
 		$('input[name="unitPrice"]').each(function(i, obj){
 			sum += Number( $(obj).val() ) * Number( $(obj).parents('#details .row').find('input[name="itemCount"]').val() );
 		});
+		//입력
 		totalPrice.val(sum);
 	}
-	//중량변동
-	$(document).on('keyup', 'input[name="itemWeight"]', function(){
-		getTotals();
-	});
-	//금액변동
-	$(document).on('keyup', 'input[name="itemCount"], input[name="unitPrice"]', function(){
+	//중량·금액변동
+	$(document).on('keyup', 'input[name="itemWeight"], input[name="itemCount"], input[name="unitPrice"]', function(){
 		getTotals();
 	});
 	
@@ -467,7 +465,6 @@ $(function(){
 			getItemList();
 			//중량 및 금액 계산
 			getTotals();
-			
 		})
 		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
