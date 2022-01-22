@@ -57,6 +57,14 @@ public class ModalController {
 		model.addAttribute("clientList", modalService.getClientList(mainBusinessCode));
 		return "modal/client_list";
 	}
+	/**
+	 * AJAX :: 계약내역 전체목록 조회
+	 */
+	@GetMapping(value="/contractListModal", produces="application/json")
+	public String contractListModal(Model model) {
+		model.addAttribute("contractList", modalService.getContractList(mainBusinessCode));
+		return "modal/contract_list";
+	}
 	
 	/**
 	 * AJAX :: 자재발주내역 전체목록 조회
@@ -70,7 +78,6 @@ public class ModalController {
 	/**
 	 * AJAX :: 자주발주내역 상세(품목 목록) 조회
 	 * @param materialOrderCode
-	 * @param model
 	 */
 	@GetMapping(value="/materialOrderDetailListModal", produces="application/json")
 	@ResponseBody
@@ -98,10 +105,15 @@ public class ModalController {
 		return "modal/warehouse_list";
 	}
 	
-	public String pSlipByItem(
-			String itemCode, String clientCode, String contractCode, Model model) {
-		model.addAttribute("", modalService.getPSlipByItem(itemCode, clientCode, contractCode));
-		return "modal/purchase_ts_byItem";
+	/**
+	 * AJAX :: 특정 품목이 포함된 비용 거래명세서 목록 조회
+	 * @param itemCode
+	 * @param model
+	 */
+	@GetMapping(value="/pSlipListByItemModal", produces="application/json")
+	public String pSlipByItem(String itemCode, Model model) {
+		model.addAttribute("pSlipListByItem", modalService.getPSlipByItem(itemCode, mainBusinessCode));
+		return "modal/p_slip_list_by_item";
 	}
 	
 	@GetMapping(value="/transaction", produces="application/json")

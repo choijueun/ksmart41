@@ -15,7 +15,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="l : ${userList}">
+			<tr th:unless="${#lists.isEmpty(userList)}" th:each="l : ${userList}">
 				<td style="display: none;">[[${l.userId}]]</td>
 				<td>[[${l.userName}]]</td>
 				<td>[[${l.userLevelName}]]</td>
@@ -24,7 +24,7 @@
 				<td>[[${l.userEmail}]]</td>
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>
-			<tr th:if="${userList} == null">
+			<tr th:if="${#lists.isEmpty(userList)}" class="empty">
 				<td style="display: none;"></td>
 				<td colspan="6">회원목록을 찾을 수 없습니다.</td>
 			</tr>

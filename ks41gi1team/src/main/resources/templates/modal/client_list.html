@@ -17,7 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="l : ${clientList}">
+			<tr th:unless="${#lists.isEmpty(clientList)}" th:each="l : ${clientList}">
 				<td style="display: none;">[[${l.clientCode}]]</td>
 				<td>[[${l.businessCategoryName}]]</td>
 				<td>[[${l.businessName}]]</td>
@@ -28,7 +28,7 @@
 				<td>[[${l.businessPlace}]]</td>
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>
-			<tr th:if="${#lists.isEmpty(clientList)}">
+			<tr th:if="${#lists.isEmpty(clientList)}" class="empty">
 				<td colspan="1" style="display: none;"></td>
 				<td colspan="8">자재발주내역을 찾을 수 없습니다.</td>
 			</tr>
