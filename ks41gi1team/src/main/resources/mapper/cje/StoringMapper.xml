@@ -611,5 +611,28 @@
 		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
 
+<!-- 재고정보수정→등록페이지 전달할 재고정보 하나 -->
+<select id="getStockForStoring" parameterType="String" resultType="Stock">
+	SELECT 
+		 RIGHT(s.inventoryCode,3) AS inventoryCode
+		,s.itemCode
+		,s.itemName
+		,RIGHT(s.purchaseTsCode,3) AS purchaseTsCode
+		,RIGHT(s.productPriceCode,3) AS productPriceCode
+		,s.unitPrice
+		,RIGHT(s.warehouseCode,3) AS warehouseCode
+		,s.warehouseName
+		,s.location
+		,s.outPlace
+		,s.`status`
+		,s.`comment`
+	FROM 
+		k1_view_stock s
+	WHERE
+		s.inventoryCode = CONCAT('inventoryCode_', #{inventoryCode})
+		AND
+		s.mainBusinessCode = #{mainBusinessCode}
+</select>
+
 
 </mapper>

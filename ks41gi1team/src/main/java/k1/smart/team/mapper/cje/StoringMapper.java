@@ -82,5 +82,12 @@ public interface StoringMapper {
 	 */
 	public Storing getReturnRegInfo(String returnRegCode);
 	public List<Storing> getReturnRegDetails(String returnRegCode);
+
+	/**
+	 * 등록화면에 넣을 재고정보 하나
+	 * @param mainBusinessCode
+	 * @param inventoryCode
+	 */
+	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode);
 	
 }

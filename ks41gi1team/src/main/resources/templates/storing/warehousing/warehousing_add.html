@@ -455,14 +455,17 @@ $(function(){
 								<label for="receiveWarehouse">
 									입고창고
 								</label>
-								<input type="hidden" id="receiveWarehouse" name="receiveWarehouse" class="form-control">
-								<input type="text" id="receiveWarehouseName" class="form-control" placeholder="창고명">
+								<input type="hidden" id="receiveWarehouse" 
+										th:value="${s == null} ? null : ${s.warehouseCode}" name="receiveWarehouse" class="form-control">
+								<input type="text" id="receiveWarehouseName" 
+										th:value="${s == null} ? null : ${s.warehouseName}" class="form-control" placeholder="창고명">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="receiveWarehouse">
 									위치(소재지)
 								</label>
-								<input type="text" id="receiveWarehouseLocation" class="form-control" readonly>
+								<input type="text" id="receiveWarehouseLocation" 
+										th:value="${s == null} ? null : ${s.location}+' ('+${s.outPlace}+')'" class="form-control" readonly>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="totalWeight">
@@ -554,9 +557,9 @@ $(function(){
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>비용</label>
-								<input type="hidden" name="purchaseTsCode"
+								<input type="hidden" name="purchaseTsCode" 
 										th:value="${s == null} ? null : ${s.purchaseTsCode}" data-details="purchaseTsCode">
-								<input type="number" class="form-control unitPriceForm">
+								<input type="number" th:value="${s == null} ? null : ${s.unitPrice}" class="form-control unitPriceForm">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>입고수량</label>
