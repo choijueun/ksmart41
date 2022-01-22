@@ -43,6 +43,17 @@ public class MainBusinessController {
 		
 		return "mainBusiness/business_register";
 	}
+	//사업장등록
+	@PostMapping("/businessRegister")
+	public String addMainBusiness(MainBusiness mainBusiness) {
+		System.out.println("MainBusinessController 등록 입력받은 값 :" + mainBusiness);
+		String mainBusinessCode = mainBusiness.getMainBusinessCode();
+		if(mainBusinessCode != null && !"".equals(mainBusinessCode)) {
+			System.out.println(mainBusinessCode);
+			mainBusinessService.addMainBusiness(mainBusiness);
+		}
+		return "redirect:/mainBusiness/business_register";
+	}
 	
 	//사업장대표코드 중복검사
 	@PostMapping("/mainBusinessCodeCheckBtn")
