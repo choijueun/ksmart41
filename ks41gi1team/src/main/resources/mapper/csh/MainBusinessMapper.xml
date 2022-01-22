@@ -3,27 +3,69 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.MainBusinessMapper">
+
+	<!-- 사업장 전체 목록 -->
 	<select id="getAllMainBusinessList" parameterType="String" resultType="MainBusiness">
 		SELECT 
-			 b.mainBusinessCode
-			,b.businessCategory
-			,b.businessLevel
-			,b.businessName
-			,b.businessRepresentative
-			,b.businessType1
-			,b.businessType2
-			,b.businessNum
-			,b.businessCount
-			,b.businessMobile
-			,b.businessPlace
-			,b.businessEmail
-			,b.openDate
-			,b.regDate
-			,b.updateDate
+			 mainBusinessCode
+			,businessCategory
+			,businessLevel
+			,businessName
+			,businessRepresentative
+			,businessType1
+			,businessType2
+			,businessNum
+			,businessCount
+			,businessMobile
+			,businessPlace
+			,businessEmail
+			,openDate
+			,regDate
+			,updateDate
 		FROM 
-			k1_tb_main_business AS b;
+			k1_tb_main_business;
 	</select>
 	
+	<!-- 사업장 등록 -->
+	<insert id="addMainBusiness" parameterType="MainBusiness">
+		INSERT INTO 
+			k1_tb_main_business (
+				 mainBusinessCode
+				,businessCategory
+				,businessLevel
+				,businessName
+				,businessRepresentative
+				,businessType1
+				,businessType2
+				,businessNum
+				,businessCount
+				,businessMobile
+				,businessPlace
+				,businessEmail
+				,openDate
+				,regDate
+				,updateDate
+				)
+			VALUES (
+				 #{mainBusinessCode}
+				,#{businessCategory}
+				,#{businessLevel}
+				,#{businessName}
+				,#{businessRepresentative}
+				,#{businessType1}
+				,#{businessType2}
+				,#{businessNum}
+				,#{businessCount}
+				,#{businessMobile}
+				,#{businessPlace}
+				,#{businessEmail}
+				,#{openDate}
+				,#{regDate}
+				,NOW()
+				);
+	</insert>
+	
+	<!-- 사업장코드 중복검사 -->
 	<select id="getBusinessByCode" resultType="int" parameterType="String">
 		SELECT
 			COUNT(1)
@@ -33,6 +75,7 @@
 			b.mainBusinessCode = #{mainBusinessCode};
 	</select>
 	
+	<!-- 사업장번호 중복검사 -->
 	<select id="getBusinessByNum" resultType="int" parameterType="String">
 		SELECT
 			COUNT(1)
@@ -42,6 +85,7 @@
 			b.businessNum = #{businessNum};
 	</select>
 	
+	<!-- 사업장 정보 상세 -->
 	<select id="getMainBusinessDetail" parameterType="String" resultType="MainBusiness">
 		SELECT 
 			 b.mainBusinessCode
@@ -65,6 +109,7 @@
 			b.mainBusinessCode = #{mainBusinessCode};
 	</select>
 	
+	<!-- 사업장 정보 수정 -->
 	<update id="modifyMainBusiness" parameterType="MainBusiness">
 		UPDATE 
 			k1_tb_main_business

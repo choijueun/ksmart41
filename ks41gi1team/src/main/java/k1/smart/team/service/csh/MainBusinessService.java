@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
@@ -35,6 +38,12 @@ public class MainBusinessService {
 		return mainBusinessList;
 	}
 	
+	//사업장 등록
+	public int addMainBusiness(MainBusiness mainBusiness) {
+		int addMainBusiness = mainBusinessMapper.addMainBusiness(mainBusiness);
+		return addMainBusiness;
+	}
+	
 	//사업자번호 중복확인
 	public int getBusinessByCode(String mainBusinessCode) {
 		int mainBusinessCodeCheck = 0;
@@ -61,6 +70,8 @@ public class MainBusinessService {
 		
 		return mainBusinessMapper.modifyMainBusiness(mainBusiness);
 	}
+
+	
 
 
 	
