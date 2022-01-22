@@ -411,9 +411,19 @@ public class StoringService {
 			}
 		}
 		//재고정보 검색
-		//일치하는게 없다: INSERT
-		//일치하는게 있다: UPDATE
-		//실패: 물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
+		//1.일치하는게 없다
+		//	1) INSERT
+		//	2) adjCount=afterCount, adjWeight=totalWeight
+		//	3) 실패 시
+		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
+		//		return false;
+		
+		//2.일치하는게 있다
+		//	1) UPDATE
+		//	2) afterCount, totalWeight 입력
+		//	3) 실패 시
+		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
+		//		return false;
 		
 		//모든 정보 등록 완료
 		return true;
