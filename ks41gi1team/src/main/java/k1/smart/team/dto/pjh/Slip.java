@@ -12,20 +12,24 @@ public class Slip {
 	private String salesTsCode; //매출 거래명세서 코드
 	private String clientCode; //거래처코드
 	private String businessName; //거래처상호
+	private String itemName;
 	private int amount; //단가
 	private int tax;  //개당 세금
 	private int vat;  //개당 세금
 	private int count;  //수량
 	private int amt;  //((단가+세금)*수량) = amt
+	private int totalPrice;
 	private String briefs;
 	private String regId;
 	private String userName; //담당자이름
 	private String comment;
+	private String dealDate;
 	private String regDate;
 	private String updateDate;
 	
 	private String slipDate; //전표일자
 	private String TsCode; //명세서
+	
 	public String getPurchaseSlipCode() {
 		return purchaseSlipCode;
 	}
@@ -74,6 +78,12 @@ public class Slip {
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 	public int getAmount() {
 		return amount;
 	}
@@ -104,6 +114,12 @@ public class Slip {
 	public void setAmt(int amt) {
 		this.amt = amt;
 	}
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public String getBriefs() {
 		return briefs;
 	}
@@ -127,6 +143,12 @@ public class Slip {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	public String getDealDate() {
+		return dealDate;
+	}
+	public void setDealDate(String dealDate) {
+		this.dealDate = dealDate;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -171,6 +193,8 @@ public class Slip {
 		builder.append(clientCode);
 		builder.append(", businessName=");
 		builder.append(businessName);
+		builder.append(", itemName=");
+		builder.append(itemName);
 		builder.append(", amount=");
 		builder.append(amount);
 		builder.append(", tax=");
@@ -181,6 +205,8 @@ public class Slip {
 		builder.append(count);
 		builder.append(", amt=");
 		builder.append(amt);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
 		builder.append(", briefs=");
 		builder.append(briefs);
 		builder.append(", regId=");
@@ -189,6 +215,8 @@ public class Slip {
 		builder.append(userName);
 		builder.append(", comment=");
 		builder.append(comment);
+		builder.append(", dealDate=");
+		builder.append(dealDate);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", updateDate=");
@@ -200,10 +228,4 @@ public class Slip {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 }
-	
-
-	
-

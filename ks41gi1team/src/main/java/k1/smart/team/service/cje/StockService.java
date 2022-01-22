@@ -102,7 +102,6 @@ public class StockService {
 	}
 	
 	public void removeStock(String mainBusinessCode, String inventoryCode) {
-		stockMapper.removeAdjDetailByStock(mainBusinessCode, inventoryCode);
 		stockMapper.removeStock(mainBusinessCode, inventoryCode);
 	}
 

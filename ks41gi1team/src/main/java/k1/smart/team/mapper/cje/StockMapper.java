@@ -40,7 +40,5 @@ public interface StockMapper {
 	 * @param inventoryCode
 	 */
 	public void removeStock(String mainBusinessCode, String inventoryCode);
-	//재고조정상세내역 삭제
-	public void removeAdjDetailByStock(String mainBusinessCode, String inventoryCode);
 
 }

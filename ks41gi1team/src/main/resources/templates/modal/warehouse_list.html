@@ -18,7 +18,7 @@
 		</tr>
 	</thead>
 		<tbody>
-			<tr th:each="l : ${warehouseList}">
+			<tr th:unless="${#lists.isEmpty(warehouseList)}" th:each="l : ${warehouseList}">
 				<td class="text-center">[[${l.warehouseCode}]]</td>
 				<td>[[${l.warehouseName}]]</td>
 				<td>[[${l.category1}]]</td>
@@ -34,7 +34,7 @@
 				<td>[[${l.status}]]</td>
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>
-			<tr th:if="${#lists.isEmpty(warehouseList)}">
+			<tr th:if="${#lists.isEmpty(warehouseList)}" class="empty">
 				<td colspan="9">창고정보를 찾을 수 없습니다.</td>
 			</tr>
 		</tbody>

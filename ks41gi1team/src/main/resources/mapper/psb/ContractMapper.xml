@@ -236,42 +236,37 @@
 		</if>	
 	</select>
 	
-	<!-- <select id="getAllContractList" parameterType="String" resultType="Contract">
+	<select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
-			contr.contractCode as contractCode,
-			contr.mainBusinessCode as mainBusinessCode,
-			contr.clientCode as clientCode,
-			contr.clientManagerId as clientManagerId,
-			contr.contractSection as contractSection,
-			contr.contractType as contractType,
-			contr.startDate as startDate,
-			contr.endDate as endDate,
-			contr.managerId as managerId,
-			contr.regId as regId,
-			contr.approvalId as approvalId,
-			contr.contractDate as contractDate,
-			contr.contractStatus as contractStatus,
-			contr.briefs as briefs,
-			contr.regDate as regDate,
-			contr.updateDate as updateDate,
-			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName
-		FROM 
-			k1_tb_contract AS contr
-			INNER JOIN 
-			k1_tb_client AS c
-			on
-			contr.mainBusinessCode = c.mainBusinessCode
-			INNER JOIN 
-			k1_tb_user AS u
-			on
-			c.mainBusinessCode = u.mainBusinessCode
-			INNER JOIN
-			k1_tb_main_business as mb
-			on
-			u.mainBusinessCode = mb.mainBusinessCode;
+			 c.contractCode
+			,c.clientCode
+			,c.clientBusinessName
+			,c.clientManagerId
+			,c.clientManagerName
+			,c.contractSection
+			,c.contractType
+			,c.startDate
+			,c.endDate
+			,c.managerId
+			,c.managerName
+			,c.regId
+			,c.regName
+			,c.approvalId
+			,c.approvalName
+			,c.contractDate
+			,c.contractStatus
+			,c.briefs
+			,c.regDate
+			,c.updateDate
+		FROM
+			k1_view_contract c
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+				c.mainBusinessCode = #{mainBusinessCode}
+			</if>
+		</trim>
 	
 
-	</select> -->
+	</select>
 
 </mapper>

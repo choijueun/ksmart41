@@ -1,16 +1,11 @@
 package k1.smart.team.service.psb;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
-import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
-import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
@@ -98,7 +93,7 @@ public class ContractService {
 		
 	//전체 계약 검색
 		public List<Contract> getAllContractList(){
-			contractList = contractMapper.getAllContractList();
+			contractList = contractMapper.getAllContractList(null);
 			
 			String contractNum;
 			for(int i=0; i<contractList.size(); i++) {

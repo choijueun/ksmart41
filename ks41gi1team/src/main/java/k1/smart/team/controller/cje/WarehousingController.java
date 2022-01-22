@@ -1,5 +1,6 @@
 package k1.smart.team.controller.cje;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class WarehousingController {
 		model.addAttribute("details", resultMap.get("warehousingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "자재입고 상세정보");
+		model.addAttribute("SectionLocation", "자재입고");
 		
 		return "storing/warehousing/warehousing_info";
 	}
@@ -103,14 +104,42 @@ public class WarehousingController {
 		return "storing/warehousing/warehousing_add";
 	}
 	
+	/**
+	 * 입고내역 등록 프로세스
+	 * @param storingInfo
+	 */
 	@PostMapping("/k1WarehousingAdd")
 	public String addWarehousing(Storing storingInfo) {
+		//상세정보(품목) 존재하지 않을 경우
+		if(CommonUtils.isEmpty(storingInfo.getS())) return "redirect:/k1WarehousingAdd";
 		
-		for(Stock stockInfo : storingInfo.getS()) {
-			log.info("Stock객체!! :: {}",stockInfo);
+		//사업장코드Setting
+		storingInfo.setMainBusinessCode(mainBusinessCode);
+		//물류이동사유Setting
+		storingInfo.setStockReasonCode(1);
+		//log
+		log.info("물류이동한줄내역 :: {}",storingInfo);
+		
+		//품목정보의 각 key & value 출력
+		for(Stock itemInfo : storingInfo.getS()) {
+		    try{
+		    	System.out.println("========= 품목정보 =========");
+		        for (Field field : itemInfo.getClass().getDeclaredFields()){
+		            field.setAccessible(true);
+		            Object value=field.get(itemInfo);
+		            System.out.println(field.getName()+": "+value);
+		        }
+		    }catch (Exception e){
+		        e.printStackTrace();
+		    }
 		}
 		
-		return "redirect:/k1Warehousing";
+		//등록 process
+		if(storingService.addStoringInfo(storingInfo)) {
+			return "redirect:/k1Warehousing";
+		}else {
+			return "redirect:/k1WarehousingAdd";
+		}
 	}
 	
 	/**
