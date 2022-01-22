@@ -8,6 +8,7 @@
 <select id="getAllStoringList" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
+		,a.stockReasonCode
 		,a.reason AS stockReason
 		,a.clientCode
 		,a.businessName
@@ -272,7 +273,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -305,7 +306,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.status
 		,ad.`comment`
 	FROM
@@ -337,7 +338,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -364,7 +365,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -392,7 +393,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -421,7 +422,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.`comment`
 	FROM
@@ -448,7 +449,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,RIGHT(ad.purchaseTsCode,3 ) AS purchaseTsCode
 		,RIGHT(ad.salesTsCode, 3) AS salesTsCode
 		,ad.`status`
@@ -480,7 +481,7 @@
 		,ad.adjCount
 		,ad.afterCount
 		,ad.adjWeight
-		,ad.stockWeight
+		,ad.totalWeight
 		,ad.`status`
 		,ad.defectType
 		,ad.defectHandlingType
@@ -499,6 +500,110 @@
 		a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		AND a.stockReasonCode = 8;
 </select>
+
+<!-- 물류이동내역 등록(한줄) -->
+<insert id="addStoringInfo" parameterType="Storing">
+	INSERT INTO k1_tb_stock_adjustment
+		(stockAdjCode, mainBusinessCode, stockReasonCode
+		<if test="clientCode != null and clientCode != ''.toString()">, clientCode</if>
+		<if test="contractCode != null and contractCode != ''.toString()">, contractCode</if>
+		<if test="materialOrderCode != null and materialOrderCode != ''.toString()">, materialOrderCode</if>
+		<if test="productOrderCode != null and productOrderCode != ''.toString()">, productOrderCode</if>
+		<if test="deliveryCode != null and deliveryCode != ''.toString()">, deliveryCode</if>
+		<if test="shipmentPlanCode != null and shipmentPlanCode != ''.toString()">, shipmentPlanCode</if>
+		<if test="returnRegCode != null and returnRegCode != ''.toString()">, returnRegCode</if>
+		<if test="sendWarehouse != null and sendWarehouse != ''.toString()">, sendWarehouse</if>
+		<if test="receiveWarehouse != null and receiveWarehouse != ''.toString()">, receiveWarehouse</if>
+		<if test="deliveryCost != null and deliveryCost != 0">, deliveryCost</if>
+		<if test="sendPlanDate != null and sendPlanDate != ''.toString()">, sendPlanDate</if>
+		<if test="receivePlanDate != null and receivePlanDate != ''.toString()">, receivePlanDate</if>
+		, requestDate, adjDate
+		<if test="endDate != null and endDate != ''.toString()">, endDate</if>
+		<if test="briefs != null and briefs != ''.toString()">, briefs</if>
+		, managerId, regDate, updateDate
+	)VALUES (
+		CONCAT('stockAdjCode_',#{stockAdjCode})
+		, #{mainBusinessCode}
+		, ${stockReasonCode}
+		<if test="clientCode != null and clientCode != ''.toString()">, #{clientCode}</if>
+		<if test="contractCode != null and contractCode != ''.toString()">, CONCAT('contractCode_', #{contractCode})</if>
+		<if test="materialOrderCode != null and materialOrderCode != ''.toString()">, CONCAT('materialOrderCode_',#{materialOrderCode})</if>
+		<if test="productOrderCode != null and productOrderCode != ''.toString()">, CONCAT('productOrderCode_',#{productOrderCode})</if>
+		<if test="deliveryCode != null and deliveryCode != ''.toString()">, CONCAT('deliveryCode_',#{deliveryCode})</if>
+		<if test="shipmentPlanCode != null and shipmentPlanCode != ''.toString()">, CONCAT('shipmentPlanCode_',#{shipmentPlanCode})</if>
+		<if test="returnRegCode != null and returnRegCode != ''.toString()">, #{returnRegCode}</if>
+		<if test="sendWarehouse != null and sendWarehouse != ''.toString()">, CONCAT('warehouseCode_',#{sendWarehouse})</if>
+		<if test="receiveWarehouse != null and receiveWarehouse != ''.toString()">, CONCAT('warehouseCode_',#{receiveWarehouse})</if>
+		<if test="deliveryCost != null and deliveryCost != 0">, ${deliveryCost}</if>
+		<if test="sendPlanDate != null and sendPlanDate != ''.toString()">, #{sendPlanDate}</if>
+		<if test="receivePlanDate != null and receivePlanDate != ''.toString()">, #{receivePlanDate}</if>
+		, #{requestDate}
+		, #{adjDate}
+		<if test="endDate != null and endDate != ''.toString()">, #{endDate}</if>
+		<if test="briefs != null and briefs != ''.toString()">, #{briefs}</if>
+		, #{managerId}
+		, NOW()
+		, NOW()
+	);
+</insert>
+
+<!-- 물류이동내역 등록(상세) -->
+<insert id="addStoringDetails" parameterType="Stock">
+	INSERT INTO k1_tb_stock_adjustment_detail
+		(stockAdjDetailCode, stockAdjCode, itemCode
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">, purchaseTsCode</if>
+		<if test="salesTsCode != null and salesTsCode != ''.toString()">, salesTsCode</if>
+		<if test="unitPrice != null and unitPrice != 0">, unitPrice</if>
+		, adjCount
+		<if test="totalCount != null and totalCount != 0">, afterCount</if>
+		, adjWeight
+		<if test="totalWeight != null and totalWeight != 0">, totalWeight</if>
+		<if test="status != null and status != ''.toString()">, `status`</if>
+		<if test="defectType != null and defectType != ''.toString()">, defectType</if>
+		<if test="defectHandlingType != null and defectHandlingType != ''.toString()">, defectHandlingType</if>
+		<if test="comment != null and comment != ''.toString()">, `comment`</if>
+	)VALUES (
+		CONCAT('stockAdjDetailCode_', #{stockAdjDetailCode})
+		, CONCAT('stockAdjCode_', #{stockAdjCode})
+		, CONCAT('itemCode_',#{itemCode})
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">, CONCAT('purchase_ts_stCode_',#{purchaseTsCode})</if>
+		<if test="salesTsCode != null and salesTsCode != ''.toString()">, CONCAT('salesTsCode_',#{salesTsCode})</if>
+		<if test="unitPrice != null and unitPrice != 0">, #{unitPrice}</if>
+		, #{itemCount}
+		<if test="totalCount != null and totalCount != 0">, #{totalCount}</if>
+		, #{itemWeight}
+		<if test="totalWeight != null and totalWeight != 0">, #{totalWeight}</if>
+		<if test="status != null and status != ''.toString()">, #{status}</if>
+		<if test="defectType != null and defectType != ''.toString()">, #{defectType}</if>
+		<if test="defectHandlingType != null and defectHandlingType != ''.toString()">, #{defectHandlingType}</if>
+		<if test="comment != null and comment != ''.toString()">, #{comment}</if>
+	);
+</insert>
+
+<!-- 물류이동내역 한줄테이블 삭제 -->
+<delete id="removeStoringInfo" parameterType="String">
+	DELETE 
+	FROM 
+		k1_tb_stock_adjustment a
+	WHERE 
+		a.stockAdjCode = #{stockAdjCode}
+		AND a.mainBusinessCode = #{mainBusinessCode};
+</delete>
+
+<!-- 물류이동내역 상세테이블 삭제 -->
+<delete id="removeStoringDetails" parameterType="String">
+	DELETE 
+	FROM 
+		k1_tb_stock_adjustment_detail d
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="stockAdjDetailCode != null and stockAdjDetailCode != ''.toString()">
+			d.stockAdjDetailCode = #{stockAdjDetailCode}
+		</if>
+		<if test="stockAdjCode != null and stockAdjCode != ''.toString()">
+			AND d.stockAdjCode = #{stockAdjCode};
+		</if>
+	</trim>
+</delete>
 
 <!-- 출하계획 전체조회 -->
 <select id="getShipmentPlanList" parameterType="String" resultType="Storing">

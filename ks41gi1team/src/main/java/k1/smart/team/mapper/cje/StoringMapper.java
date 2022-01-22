@@ -55,6 +55,27 @@ public interface StoringMapper {
 	public List<Storing> getDefectDetails(String stockAdjCode);
 	
 	/**
+	 * 등록화면에 넣을 재고정보 하나
+	 * @param mainBusinessCode
+	 * @param inventoryCode
+	 */
+	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode);
+	
+	/**
+	 * 물류이동내역 등록
+	 * @param storingInfo
+	 */
+	public int addStoringInfo(Storing storingInfo); //한줄테이블
+	public int addStoringDetails(Stock stockInfo); //상세테이블
+	
+	/**
+	 * 물류이동내역 삭제
+	 * @param stockAdjCode
+	 */
+	public void removeStoringInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
+	public void removeStoringDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
+	
+	/**
 	 * 출하계획 전체조회
 	 * @param mainBusinessCode
 	 * @return
@@ -83,11 +104,6 @@ public interface StoringMapper {
 	public Storing getReturnRegInfo(String returnRegCode);
 	public List<Storing> getReturnRegDetails(String returnRegCode);
 
-	/**
-	 * 등록화면에 넣을 재고정보 하나
-	 * @param mainBusinessCode
-	 * @param inventoryCode
-	 */
-	public Stock getStockForStoring(String mainBusinessCode, String inventoryCode);
+
 	
 }

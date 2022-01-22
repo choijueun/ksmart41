@@ -24,7 +24,7 @@
 		,s.warehouseName
 		,s.location
 		,s.outPlace
-		,s.stockWeight
+		,s.totalWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate AS stockRegDate
@@ -41,6 +41,7 @@
 		</if>
 </select>
 
+<!-- 창고코드&이름 전체조회 -->
 <select id="getAllWarehouseList" parameterType="String" resultType="map">
 	SELECT 
 		 RIGHT(w.warehouseCode,3) AS warehouseCode
@@ -51,6 +52,7 @@
 		w.mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 재고상세정보 -->
 <select id="getStockInfo" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
@@ -69,7 +71,7 @@
 		,s.warehouseName
 		,s.location
 		,s.outPlace
-		,s.stockWeight
+		,s.totalWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate
@@ -104,7 +106,9 @@
 		ON
 		a.stockReasonCode = r.stockReasonCode
 	WHERE
-		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+		ad.itemCode = CONCAT('itemCode_',#{itemCode})
+	GROUP BY
+		a.stockAdjCode
 	ORDER BY 
 		a.endDate DESC
 	LIMIT 10;
@@ -114,31 +118,13 @@
 <select id="stockRemoveValid" parameterType="String" resultType="map">
 	SELECT 
 		 s.itemCount
-		,s.stockWeight
+		,s.totalWeight
 	FROM 
 		k1_view_stock AS s
 	WHERE
 		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
 		AND mainBusinessCode = #{mainBusinessCode};
 </select>
-
-<delete id="removeAdjDetailByStock" parameterType="String">
-	DELETE 
-		ad
-	FROM
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_stock_adjustment_detail AS ad
-		ON
-		ad.inventoryCode = s.inventoryCode
-		JOIN
-		k1_tb_stock_adjustment AS a
-		ON
-		s.mainBusinessCode = a.mainBusinessCode
-	WHERE
-		s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
-		AND s.mainBusinessCode = #{mainBusinessCode};
-</delete>
 
 <delete id="removeStock">
 	DELETE 

@@ -75,7 +75,7 @@ $(function(){
 	//품목 목록 join string
 	var getItemList = function(){
 		var itemNames = [];
-		$('#details input.itemNameForm').each(function(i, obj){
+		$('#details input[name="itemName"]').each(function(i, obj){
 			if($(obj).val() == '') {
 				return true;
 			}
@@ -109,23 +109,23 @@ $(function(){
 	var getTotals = function(){
 		//합계중량
 		var sum=0;
-		$('input[name="stockWeight"]').each(function(i, obj){
+		$('input[name="itemWeight"]').each(function(i, obj){
 			sum += Number($(obj).val());
 		});
 		totalWeight.val(sum);
 		//합계금액
 		sum=0;
-		$('input.unitPriceForm').each(function(i, obj){
+		$('input[name="unitPrice"]').each(function(i, obj){
 			sum += Number( $(obj).val() ) * Number( $(obj).parents('#details .row').find('input[name="itemCount"]').val() );
 		});
 		totalPrice.val(sum);
 	}
 	//중량변동
-	$(document).on('keyup', 'input[name="stockWeight"]', function(){
+	$(document).on('keyup', 'input[name="itemWeight"]', function(){
 		getTotals();
 	});
 	//금액변동
-	$(document).on('keyup', 'input[name="itemCount"], input.unitPriceForm', function(){
+	$(document).on('keyup', 'input[name="itemCount"], input[name="unitPrice"]', function(){
 		getTotals();
 	});
 	
@@ -331,14 +331,14 @@ $(function(){
 	});
 	
 	//품목정보 Modal
-	$(document).on('click', '#details .itemNameForm', function(){
+	$(document).on('click', '#details input[name="itemName"]', function(){
 		var row = $(this).parents('#details .row');
 		//초기화
 		$('#details .row').removeClass('pickIForm'); //pick표시 해제
 		row.find('input[name="itemCode"]').val(null); //품목코드
 		$(this).val(null); //품목명
 		row.find('input[name="purchaseTsCode"]').val(null); //비용 거래명세서 코드
-		row.find('input.unitPriceForm').val(null); //자재단가
+		row.find('input[name="unitPrice"]').val(null); //자재단가
 		row.find('input[name="status"]').val(null); //상태
 		row.find('input[name="comment"]').val(null); //비고
 		//pick표시
@@ -377,12 +377,12 @@ $(function(){
 	});
 	
 	//비용 거래명세서 Modal
-	$(document).on('click', '#details .unitPriceForm', function(){
+	$(document).on('click', '#details input[name="unitPrice"]', function(){
 		var row = $(this).parents('#details .row');
 		//초기화
 		$('#details .row').removeClass('pickIForm'); //pick표시 해제
 		row.find('input[name="purchaseTsCode"]').val(null); //비용 거래명세서 코드
-		row.find('input.unitPriceForm').val(null); //자재단가
+		row.find('input[name="unitPrice"]').val(null); //자재단가
 		//pick표시
 		row.addClass('pickIForm');
 		//ajax
@@ -456,8 +456,8 @@ $(function(){
 				var clone = detailrow.clone();
 				clone.find('input').val(null);
 				clone.find('input[name="itemCode"]').val(data[i]['itemCode']); //품목코드
-				clone.find('input.itemNameForm').val(data[i]['itemName']); //품목명
-				clone.find('input.unitPriceForm').val(data[i]['itemPrice']); //비용
+				clone.find('input[name="itemName"]').val(data[i]['itemName']); //품목명
+				clone.find('input[name="unitPrice"]').val(data[i]['itemPrice']); //비용
 				clone.find('input[name="itemCount"]').val(data[i]['itemCount']); //수량
 				clone.find('input[name="status"]').val(data[i]['reserveStatus']); //상태
 				clone.find('input[name="comment"]').val(data[i]['comment']); //비고
@@ -501,7 +501,7 @@ $(function(){
 	$(document).on('click', '#itemList .selectBtn', function(){
 		var row = $('#details .row.pickIForm'); //표시한 row
 		row.children().find('input[name="itemCode"]').val($(this).parents('tr').children().eq(0).text()); //품목코드
-		row.children().find('input.itemNameForm').val($(this).parents('tr').children().eq(2).text()); //품목명
+		row.children().find('input[name="itemName"]').val($(this).parents('tr').children().eq(2).text()); //품목명
 		row.children().find('input[name="status"]').val($(this).parents('tr').children().eq(6).text()); //상태
 		row.children().find('input[name="comment"]').val($(this).parents('tr').children().eq(7).text()); //비고
 		modalObj.modal('hide');
@@ -515,7 +515,7 @@ $(function(){
 		var row = $('#details .row.pickIForm'); //표시한 row
 		row.children().find('input[name="purchaseTsCode"]').val($(this).parents('tr').children().eq(0).text())
 		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(5).text())
-		row.children().find('input.unitPriceForm').val($(this).parents('tr').children().eq(6).text())
+		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(6).text())
 		modalObj.modal('hide');
 		//중량 및 금액 계산
 		getTotals();
@@ -529,8 +529,6 @@ $(function(){
 		//유효성 검사
 		var chk = 0;
 		if( clientCode.val() == null || clientCode.val() == '' ) {
-			chk += 1;
-		}else if( materialOrderCode.val() == null || materialOrderCode.val() == '' ) {
 			chk += 1;
 		}else if( receiveWarehouse.val() == null || receiveWarehouse.val() == '' ) {
 			chk += 1;
@@ -553,7 +551,8 @@ $(function(){
 			    	$(obj).attr('name', 's['+i+'].'+$(obj).attr('data-details')).attr('name');
 			    });
 			});
-			//addWarehousing.submit();
+			//데이터 전송
+			addWarehousing.submit();
 		}
 	});
 	
@@ -714,14 +713,15 @@ $(function(){
 								<label>품목명</label>
 								<input type="hidden" name="itemCode"
 										th:value="${s == null} ? null : ${s.itemCode}" data-details="itemCode">
-								<input type="text" class="form-control itemNameForm" placeholder="품목명"
+								<input type="text" name="itemName" class="form-control" placeholder="품목명"
 										th:value="${s == null} ? null : ${s.itemName}">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>비용</label>
 								<input type="hidden" name="purchaseTsCode" 
 										th:value="${s == null} ? null : ${s.purchaseTsCode}" data-details="purchaseTsCode">
-								<input type="number" th:value="${s == null} ? null : ${s.unitPrice}" class="form-control unitPriceForm">
+								<input type="number" name="unitPrice" class="form-control"
+								th:value="${s == null} ? null : ${s.unitPrice}" data-details="unitPrice">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>입고수량</label>
@@ -729,7 +729,7 @@ $(function(){
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>입고중량</label>
-								<input type="number" name="stockWeight" class="form-control" data-details="stockWeight">
+								<input type="number" name="itemWeight" class="form-control" data-details="itemWeight">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>상태</label>
