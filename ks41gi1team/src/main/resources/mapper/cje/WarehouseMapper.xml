@@ -22,7 +22,9 @@
 	FROM 
 		k1_view_warehouse_info AS w
 	WHERE
-		mainBusinessCode = #{mainBusinessCode};
+		w.mainBusinessCode = #{mainBusinessCode}
+	ORDER BY
+		w.warehouseCode DESC;
 </select>
 
 <select id="getWarehouseInfo" parameterType="String" resultType="Warehouse">
@@ -69,14 +71,14 @@
 <!-- 창고정보 등록 -->
 <insert id="addWarehouse" parameterType="Warehouse">
 	INSERT INTO k1_tb_warehouse_info
-		(warehouseCode, mainBusinessCode, warehouseName, category1, category2, area, location, outPlace, currentWeight, maxWeight, `status`, regDate, updateDate)
+		(warehouseCode, mainBusinessCode, warehouseName, category1, category2, area, location, outPlace, maxWeight, `status`, regDate, updateDate)
 		VALUES (
 			CONCAT('warehouseCode_',(SELECT
 										LPAD(CAST(MAX(RIGHT(w.warehouseCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
 									FROM 
 										k1_tb_warehouse_info AS w)
 		)
-		, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${currentWeight}, ${maxWeight}, #{status}, NOW(), NOW());
+		, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${maxWeight}, #{status}, NOW(), NOW());
 </insert>
 
 <update id="modifyWarehouse" parameterType="Warehouse">
