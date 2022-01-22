@@ -59,7 +59,7 @@
 		,i.itemOrigin
 		,ROUND(AVG(s.unitPrice),0) AS avgPrice
 		,SUM(s.totalPrice) AS totalPrice
-		,SUM(s.stockWeight) AS stockWeight
+		,SUM(s.totalWeight) AS totalWeight
 		,i.itemStandard
 		,i.itemStatus
 		,i.itemComment
@@ -85,7 +85,7 @@
 		,s.warehouseName
 		,s.location
 		,s.outPlace
-		,s.stockWeight
+		,s.totalWeight
 		,s.itemCount
 		,s.unitPrice AS productPrice
 		,s.totalPrice
