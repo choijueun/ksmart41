@@ -95,11 +95,12 @@ public class ItemController {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("typeList", typeList);
 		paramMap.put("largeCategory", largeCategory);
-		paramMap.put("middleCategory", middleCategory);
-		paramMap.put("smallCategory", smallCategory);
-		paramMap.put("microCategory", microCategory);
+		if(!CommonUtils.isEmpty(largeCategory)) paramMap.put("middleCategory", middleCategory);
+		if(!CommonUtils.isEmpty(middleCategory)) paramMap.put("smallCategory", smallCategory);
+		if(!CommonUtils.isEmpty(smallCategory)) paramMap.put("microCategory", microCategory);
 		paramMap.put("mainBusinessCode", mainBusinessCode);
 		
+		log.info("PARAMETER :: {}", paramMap);
 		//품목 전체목록 List<Stock>
 		itemList = itemService.getAllItemList(paramMap);
 		model.addAttribute("itemList", itemList);
@@ -237,7 +238,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보 수정 첫 화면 @GetMapping("/k1ItemModify/{itemCode}")
+	 * 품목정보 수정 첫 화면 
 	 * @param itemCode
 	 * @param model
 	 */
@@ -277,6 +278,8 @@ public class ItemController {
 		//품목 검사
 		if(CommonUtils.isEmpty(itemInfo) || CommonUtils.isEmpty(itemInfo.getItemCode())) return "redirect:/k1Item";
 		log.info("수정할 품목 INFO :: {}", itemInfo);
+		//카테고리 생성시 필요한 사업장대표코드
+		itemInfo.setMainBusinessCode(mainBusinessCode);
 		
 		boolean chk = itemService.modifyItem(itemInfo);
 		
