@@ -21,6 +21,11 @@ public interface PaymentMapper {
 	public List<CancelPayment> getCancelPaymentList(String mainBusinessCode);
 	//결제취소내역 상세조회
 	public CancelPayment getCancelPaymentInfo(String mainBusinessCode);
+	//결제취소내역 등록시 코드세팅
+	public String addPayCancelCode();
+	//결제취소내역 등록
+	public int addPayCancel(CancelPayment cancelPayment);
+	
 	
 	//결제예정 전체조회
 	public List<PlanPayment> getPlanPaymentList(String mainBusinessCode);
@@ -28,4 +33,6 @@ public interface PaymentMapper {
 	public PlanPayment getPlanPaymentInfo(String payPlanCode);
 	//결제예정 상세조회(거래한 물건 여럿일때)
 	public List<PlanPayment> getPlanPaymentInfoList(String payPlanCode);
+	
+	
 }

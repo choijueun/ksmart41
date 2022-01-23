@@ -29,7 +29,7 @@
 <th:block layout:fragment="SectionLocation">조회</th:block>
 
 <th:block layout:fragment="customContents">
-	<div class="container-fluid">
+<div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header">
 			통합회계 전체목록
@@ -38,36 +38,36 @@
 			<table id="totalAcList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th>NO.</th>
-						<th>매출전표</th>
-						<th>비용전표</th>
-						<th>기타비용</th>
+						<th>회계반영일</th>
+						<th>통합회계코드</th>
 						<th>구분</th>
+						<th>적요</th>
 						<th>금액</th>
-						<th>등록일자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty(totalAcList)}" th:each="l : ${totalAcList}">
-						<td>[[${l.totalAccountCode}]]</td>
+						<td>[[${l.regDate}]]</td>
 						<td>
-							<a th:href="@{|/k1SlipList/sales/${l.salesSlipCode}|}">
-								[[${l.salesSlipCode}]]
-							</a>
-						</td>
-						<td>
-							<a th:href="@{|/k1SlipList/purchase/${l.purchaseSlipCode}|}">
-								[[${l.purchaseSlipCode}]]
-							</a>
-						</td>
-						<td>
-							<a th:href="@{|/k1CostList/costInfo/${l.etcPurchaseCode}|}">
-								[[${l.etcPurchaseCode}]]
-							</a>
+							<th:block th:if="${l.salesSection} == '매출'">
+								<a th:href="@{|/k1SlipList/sales/${l.codes}|}">
+									[[${l.codes}]]
+								</a>
+							</th:block>
+							<th:block th:if="${l.salesSection} == '비용'">
+								<a th:href="@{|/k1SlipList/purchase/${l.codes}|}">
+									[[${l.codes}]]
+								</a>
+							</th:block>
+							<th:block th:if="${l.salesSection} == '기타비용'">
+								<a th:href="@{|/k1CostList/costInfo/${l.codes}|}">
+									[[${l.codes}]]
+								</a>
+							</th:block>
 						</td>
 						<td th:style="${l.salesSection eq '매출' ? 'color:red;' : 'color:blue;' }" th:text="${l.salesSection}"></td>
+						<td>[[${l.briefs}]]</td>
 						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]원</td>
-						<td>[[${l.regDate}]]</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(totalAcList)}">
 						<td colspan="8">정보가 없습니다.</td>
@@ -78,5 +78,4 @@
 	</div>
 </div>
 </th:block>
-
 </html>

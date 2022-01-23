@@ -1,5 +1,6 @@
 package k1.smart.team.controller.cje;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -41,7 +43,7 @@ public class WarehousingController {
 	public String warehousingMain(Model model) {
 		//입고내역 전체목록 List<Storing>
 		warehousingList = storingService.getAllWarehousingList(mainBusinessCode);
-		log.info("자재입고내역 LIST :: {}", warehousingList);
+		//log.info("자재입고내역 LIST :: {}", warehousingList);
 		model.addAttribute("warehousingList", warehousingList);
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -69,13 +71,13 @@ public class WarehousingController {
 		
 		//자재입고내역 한줄정보 Storing
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
-		log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
+		//log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
 		model.addAttribute("s", warehousingInfo);
 		//자재입고내역 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("warehousingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "자재입고 상세정보");
+		model.addAttribute("SectionLocation", "자재입고");
 		
 		return "storing/warehousing/warehousing_info";
 	}
@@ -92,7 +94,7 @@ public class WarehousingController {
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
 			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
-			log.info("특정재고정보 INFO :: {}", stockInfo);
+			//log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
 		
@@ -100,6 +102,45 @@ public class WarehousingController {
 		model.addAttribute("SectionLocation", "자재입고내역 등록");
 		
 		return "storing/warehousing/warehousing_add";
+	}
+	
+	/**
+	 * 입고내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1WarehousingAdd")
+	public String addWarehousing(Storing storingInfo) {
+		//상세정보(품목) 존재하지 않을 경우
+		if(CommonUtils.isEmpty(storingInfo.getS())) return "redirect:/k1WarehousingAdd";
+		
+		//사업장코드Setting
+		storingInfo.setMainBusinessCode(mainBusinessCode);
+		//물류이동사유Setting
+		storingInfo.setStockReasonCode(1);
+		//log.info("물류이동한줄내역 :: {}",storingInfo);
+		
+		//품목정보의 각 key & value 출력
+		/*
+		for(Stock itemInfo : storingInfo.getS()) {
+		    try{
+		    	System.out.println("========= 품목정보 =========");
+		        for (Field field : itemInfo.getClass().getDeclaredFields()){
+		            field.setAccessible(true);
+		            Object value=field.get(itemInfo);
+		            System.out.println(field.getName()+": "+value);
+		        }
+		    }catch (Exception e){
+		        e.printStackTrace();
+		    }
+		}
+		 */
+		
+		//등록 process
+		if(storingService.addStoringInfo(storingInfo)) {
+			return "redirect:/k1Warehousing";
+		}else {
+			return "redirect:/k1WarehousingAdd";
+		}
 	}
 	
 	/**

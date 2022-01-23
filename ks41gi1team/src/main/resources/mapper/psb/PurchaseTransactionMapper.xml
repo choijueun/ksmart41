@@ -15,11 +15,39 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 
+	<select id="getPurchaseTransactionInfo" parameterType="String" resultType="PurchaseTransaction">
+SELECT 
+	pt.purchaseTsCode
+	,pt.mainBusinessCode
+	,mb.businessName as mbBusinessName
+	,pt.clientCode
+	,c.businessName as cBusinessName
+	,pt.contractCode
+	,pt.briefs
+	,pt.dealDate
+	,pt.regId
+	,pt.regDate
+	,pt.updateDate
+FROM
+	k1_tb_purchase_transaction AS pt
+INNER JOIN	
+	k1_tb_main_business as mb
+on
+	pt.mainBusinessCode = mb.mainBusinessCode	
+INNER JOIN
+	k1_tb_client as c
+on
+	pt.mainBusinessCode = c.mainBusinessCode		
+GROUP BY
+	purchaseTsCode;	
+	</select>
+
 	<select id="getPurchaseTransactionList" parameterType="String" resultType="PurchaseTransaction">
 	SELECT 
 			pt.purchaseTsCode as purchaseTsCode,
 			pt.mainBusinessCode as mainBusinessCode,
 			pt.clientCode as clientCode,
+			pt.clientBusinessName,
 			pt.contractCode as contractCode,
 			pt.briefs as briefs,
 			pt.dealDate as dealDate,
@@ -27,38 +55,29 @@
 			pt.regDate as regDate,
 			pt.updateDate as updateDate
 		FROM 
-			k1_tb_purchase_transaction AS pt;
+			k1_view_purchase_transaction AS pt;
 	</select>
 	
 	<select id="getPurchaseTransactionHistoryList" parameterType="map" resultType="map">
 		SELECT 
 			pt.purchaseTsCode,
 			pt.mainBusinessCode,
+			m.businessName,
 			pt.clientCode,
+			pt.clientBusinessName,
 			pt.contractCode,
 			pt.briefs,
 			pt.dealDate,
-			u.userName,
+			pt.regId,
+			pt.regName,
 			pt.regDate,
-			pt.updateDate,
-			mb.businessName,
-			c.businessName
+			pt.updateDate
 		FROM 
-			k1_tb_purchase_transaction AS pt
-		INNER JOIN
-			k1_tb_user as u
-		on
-			u.mainBusinessCode = pt.mainBusinessCode	
-		INNER JOIN
-			k1_tb_main_business	as mb
-		ON
-			mb.mainBusinessCode = pt.mainBusinessCode
-		INNER JOIN
-			k1_tb_client as c
-		ON
-			c.clientCode = pt.clientCode			
-		GROUP BY
-			pt.purchaseTsCode;	
+			k1_view_purchase_transaction AS pt
+			join
+			k1_tb_main_business AS m
+			on
+			pt.mainBusinessCode = m.mainBusinessCode
 	<if test="strartNum != null">
 			LIMIT #{startNum}, #{rowPerPage};
 		</if>	

@@ -8,14 +8,14 @@
 		SELECT 
 			CONCAT(SUBSTRING(mo.materialOrderCode,1,19),MAX(SUBSTRING(mo.materialOrderCode,20))+1)
 		FROM 
-			k1_tb_material_order AS mo
+			k1_view_material_order AS mo
 	</select>
 
  <select id="getMaterialOrderByMaterialOrderCode" parameterType="String" resultType="int">
 		SELECT 
 			COUNT(1)
 		FROM	
-			k1_tb_material_order
+			k1_view_material_order
 		WHERE  
 			materialOrderCode = #{materialOrderCode};
 	</select>
@@ -52,96 +52,82 @@
 			);
 	</insert>
 	
-<select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderInfoList" parameterType="String" resultType="MaterialOrderInfo">
 	SELECT 
-		mord.materialOrderOngoingCode
-		,mo.mainBusinessCode
-		,mo.contractCode
-		,mo.clientCode
-		,mo.totalCount
-		,mo.totalPrice
-		,mo.orderDate
-		,mo.predictDate
-		,mo.`status`
-		,mo.briefs
-		,mo.managerId
-		,mo.regDate
-		,mo.updateDate
-		,RIGHT(mo.materialOrderCode,3) AS materialOrderCode
-		,c.businessName
+		RIGHT(mord.materialOrderOngoingCode, 3) AS materialOrderOngoingCode
+		,RIGHT(ii.itemCode,3) as itemCode
 		,ii.itemName
-		,u.userName
 		,mord.itemCount
 		,mord.itemPrice
+		,(mord.itemCount*mord.itemPrice) AS totalPrice
 		,mord.realReceiveDate
-		,mord.reserveStatus
+		,mord.reserveStatus AS status
 		,mord.`comment`
 	FROM 
 		k1_tb_material_order_detail AS mord
-	INNER JOIN 
-		k1_tb_material_order AS mo
-	on
-		mo.materialOrderCode = mord.materialOrderCode
+	INNER JOIN
+		k1_view_material_order AS mo
+	ON
+		mord.materialOrderCode = mo.materialOrderCode
 	INNER JOIN 
 		k1_tb_item_info AS ii
 	on
-		mo.mainBusinessCode =ii.mainBusinessCode
-	INNER JOIN
-		k1_tb_client AS c
-		on
-		c.mainBusinessCode = mo.mainBusinessCode
-	INNER JOIN
-		k1_tb_user AS u
-		on
-		u.mainBusinessCode = mo.mainBusinessCode 	
+		mord.itemCode =ii.itemCode
 	WHERE 
 		mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+		<if test=" mainBusinessCode != null and mainBusinessCode != ''.toString() ">
+		AND mo.mainBusinessCode = #{mainBusinessCode}
+		</if>
 </select>	
 	
 <select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
 SELECT 
 	RIGHT(mo.materialOrderCode,3) AS materialOrderCode
 	,mo.mainBusinessCode
+	,mb.businessName
 	,mo.contractCode
 	,mo.clientCode
-	,mo.orderDate
-	,c.businessName
+	,c.businessName AS clientBusinessName
 	,mo.managerId
-	,ii.itemName
+	,mo.managerName
+	,mo.orderDate
 	,mo.predictDate
+	,GROUP_CONCAT(DISTINCT i.itemName SEPARATOR ', ') AS itemName
 	,mo.totalCount
 	,mo.totalPrice
 	,mo.`status`
-	,u.userName
 	,mo.regDate
 	,mo.updateDate
 	,mo.briefs
 FROM 
-	k1_tb_material_order AS mo
+	k1_view_material_order AS mo
+	INNER JOIN
+	k1_tb_material_order_detail AS mord
+	ON
+	mo.materialOrderCode = mord.materialOrderCode
+	INNER JOIN
+	k1_view_item_info AS i
+	on
+	mord.itemCode = i.itemCode
 	INNER JOIN 
 	k1_tb_main_business AS mb
 	on
 	mo.mainBusinessCode = mb.mainBusinessCode
 	INNER JOIN
-	k1_tb_contract AS contr
-	ON 
-	mb.mainBusinessCode = contr.mainBusinessCode
-	INNER JOIN
 	k1_tb_client AS c
 	on
-	contr.mainBusinessCode =c.mainBusinessCode
-	INNER JOIN 
-	k1_tb_user AS u
+	mo.clientCode =c.clientCode
+	LEFT JOIN
+	k1_tb_contract AS contr
 	ON 
-	mo.mainBusinessCode = u.mainBusinessCode
-	INNER JOIN 
-	k1_tb_item_info AS ii
-	ON 
-	u.mainBusinessCode = ii.mainBusinessCode
-	WHERE 
-		mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
-	GROUP BY mo.materialOrderCode
+	mo.contractCode = contr.contractCode
+WHERE 
+	mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
+GROUP BY 
+	mo.materialOrderCode;
 </select>
+
+
 
 <update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
 	update k1_tb_material_order
@@ -205,16 +191,17 @@ FROM
 			mo.regDate as regDate,
 			mo.updateDate as updateDate
 		FROM 
-			k1_tb_material_order AS mo;
+			k1_view_material_order AS mo;
 		
 	</select>	
 		
 <select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
-			SELECT 
-		mo.materialOrderCode as materialOrderCode,
-		mo.mainBusinessCode as mainBusinessCode,
-		mo.contractCode as contractCode,
+	SELECT 
+		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
+		RIGHT(mo.contractCode,3) as contractCode,
 		mo.clientCode as clientCode,
+		c.businessName as businessName,
+		GROUP_CONCAT(DISTINCT ii.itemName SEPARATOR ', ') AS itemName,
 		mo.totalCount as totalCount,
 		mo.totalPrice as totalPrice,
 		mo.orderDate as orderDate,
@@ -223,25 +210,25 @@ FROM
 		mo.briefs as briefs,
 		mo.managerId as managerId,
 		mo.regDate as regDate,
-		mo.updateDate as updateDate,
-		c.businessName as businessName,
-		ii.itemName AS itemName,
-		c.businessName AS businessName
+		mo.updateDate as updateDate
 	FROM	
-		k1_tb_material_order AS mo
-				INNER join
+		k1_view_material_order AS mo
+		INNER JOIN
+		k1_tb_material_order_detail AS mord
+		ON
+		mo.materialOrderCode = mord.materialOrderCode
+		INNER join
 		k1_tb_client AS c
 		on
-		mo.mainBusinessCode = c.mainBusinessCode
+		mo.clientCode = c.clientCode
 		INNER JOIN 
 		k1_tb_item_info AS ii
 		on
-		ii.mainBusinessCode = c.mainBusinessCode
+		ii.itemCode = mord.itemCode
 	WHERE
-		mo.mainBusinessCode IS NOT NULL	
+		mo.mainBusinessCode = #{mainBusinessC0ode}
 	GROUP BY 
 		mo.materialOrderCode
-		
 </select>	
 	
 </mapper>	

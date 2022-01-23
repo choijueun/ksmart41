@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,32 @@ public class PurchaseTransactionController {
 		this.purchaseTransactionService = purchaseTransactionService;
 	}
 	
+	//비용상세
+	/*  @GetMapping("purchaseTransaction/{purchaseTsCode}") 
+	  public String purchaseTransactionInfo(
+			  	@PathVariable(value="purchaseTsCode", required=false) String purchaseTsCode
+			  	,Model model) { 
+		  	//비용거래서 코드 검사 if(purchaseTransactionCode == null
+		  		System.out.println("purchaseTransactionCode-->" + purchaseTsCode);
+			  if(purchaseTsCode == null || "".equals(purchaseTsCode)) { 
+				  System.out.println("비용거래서코드 ERROR"); 
+				  return "redirect:/k1PurchaseTransaction/k1PurchaseTransactionHistory"; 
+				  } 
+			  
+			  //비용거래서 상세정보 
+			  purchaseTransactionInfo = purchaseTransactionService.getPurchaseTransactionInfo(purchaseTsCode);
+			  if(purchaseTransactionInfo == null) {
+				  System.out.println("비용거래서코드 ERROR"); 
+				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 
+			  }
+			    
+			  model.addAttribute("title", "비용관리명세서 상세");
+			  model.addAttribute("SectionTitle", "비용거래명세서 관리");
+			  model.addAttribute("SectionLocation", "상세정보");
+			  model.addAttribute("purchaseTransactionInfo", purchaseTransactionInfo);
+			  return "purchaseTransaction/purchaseTransaction_info";
+		  }
+		*/
 	//비용 거래명세서 등록
 		@PostMapping("/k1PurchaseTransactionReg")
 		public String addPurchaseTransaction(PurchaseTransaction purchaseTransaction) {

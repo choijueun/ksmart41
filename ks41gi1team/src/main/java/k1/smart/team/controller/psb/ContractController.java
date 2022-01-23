@@ -3,6 +3,8 @@ package k1.smart.team.controller.psb;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
-import k1.smart.team.dto.csh.UserReg;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
 
 
@@ -28,22 +31,31 @@ import k1.smart.team.service.psb.ContractService;
 
 public class ContractController {
 
-	
+
+	private static final Logger log = LoggerFactory.getLogger(ContractController.class);
+
 	private ContractService contractService;
 	private String mainBusinessCode;
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
-	private UserRegService userRegService;
+	private UserService userService;
 	
-	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserRegService userRegService) {
+	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserService userService) {
 		this.contractService = contractService;
 		this.clientService = clientService;
 		this.mainBusinessService = mainBusinessService;
-		this.userRegService = userRegService;
+		this.userService = userService;
 	}
 	
+	//계약서 수정
+	@PostMapping("/modifyContract")
+	public String modifyContract(Contract contract) {
+		log.info("계약서 수정 화면에서 입력 받은 계약서정보 : {}" , contract);
 	
-	
+		contractService.modifyContract(contract);
+		
+		return "redirect:/contract/contract_history";
+	}
 	
 
 	@GetMapping("/k1ContractDetail")
@@ -110,14 +122,28 @@ public class ContractController {
 		  model.addAttribute("mainBusinessList", mainBusinessList);
 		  System.out.println("mainBusinessList" + mainBusinessList);
 		  
-		  List<UserReg> userList = userRegService.getAllUserRegList();
+		  List<User> userList = userService.getAllUserList();
 		  model.addAttribute("userList", userList);
 		  System.out.println("userList" + userList);
 		  
 		  String contractInfo = contractService.getContractInfo();
 		  model.addAttribute("contractInfo", contractInfo);
 		  
+		  //발주서 등록을 위한 발주용 계약서 코드불러오기
+		/*
+		 * List<Contract> contractCodeForMaterialOrderCodeList =
+		 * contractService.getContractCodeForMaterialOrderCodeList();
+		 * model.addAttribute("contractCodeForMaterialOrderCodeList",
+		 * contractCodeForMaterialOrderCodeList);
+		 * System.out.println("contractCodeForMaterialOrderCodeList: " +
+		 * contractCodeForMaterialOrderCodeList);
+		 */
 		  
+		
+		  List <Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
+		  model.addAttribute("contractCodeForMaterialOrderCodeList",contractCodeForMaterialOrderCodeList);
+		  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
+
 		  return "contract/contract_register"; 
 	  
 	  }
@@ -225,4 +251,3 @@ public class ContractController {
 	
 	
 }
-

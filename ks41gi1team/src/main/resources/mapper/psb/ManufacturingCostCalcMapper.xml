@@ -16,8 +16,8 @@
 
 	<select id="getManufacturingCostCalcList"  resultType="ManufacturingCostCalc">
 		SELECT
-			ls.lsAccountName as lsAccountName
-			,ep.amount as amount
+			 ls.lsAccountName as lsAccountName
+			,ep.amount
 			,mo.totalPrice as totalPrice
 			,ii.itemName as itemName
 		FROM 
@@ -27,11 +27,11 @@
 			on
 			ls.lsAccountCode = ep.lsAccountCode
 			INNER JOIN 
-			k1_tb_material_order AS mo
+			k1_view_material_order AS mo
 			on
 			mo.mainBusinessCode = ep.mainBusinessCode
 			INNER JOIN 
-			k1_tb_item_info as ii
+			k1_view_item_info as ii
 			on
 			ii.mainBusinessCode = ep.mainBusinessCode
 			INNER JOIN 

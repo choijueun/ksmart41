@@ -23,12 +23,71 @@
 		<result column="businessRepresentative" 		property="businessRepresentative"/>
 		<result column="userName" 						property="userName"/>
 	</resultMap>
+	
+	<resultMap type="Contract" id="contractCodeForMaterialOrderCodeResultMap">
+		<result column="contractCode" 					property="contractCode"/>
+	
+	</resultMap>
 
+	<update id="modifyContractInfo" parameterType="Contract">
+		UPDATE k1_tb_contract
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">			
+				 mainBusinessCode		=#{mainBusinessCode}
+			</if>
+			<if test="clientCode != null and clientCode != ''.toString()">
+				,clientCode	=#{clientCode}
+			</if>
+			<if test="clientManagerId != null and clientManagerId != ''.toString()">		
+				,clientManagerId		=#{clientManagerId}
+			</if>
+			<if test="contractSection != null and contractSection != ''.toString()">
+				,contractSection	=#{contractSection}
+			</if>
+			<if test="contractType != null and contractType != ''.toString()">
+				,contractType		=#{contractType}
+			</if>
+			<if test="startDate != null and startDate != ''.toString()">
+				,startDate		=#{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''.toString()">
+				,endDate		=#{endDate}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="regId != null and regId != ''.toString()">
+				,regId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			<if test="managerId != null and managerId != ''.toString()">
+				,managerId		=#{contractType}
+			</if>
+			</trim>
+	</update>
+	
+	<select id="getContractCodeForMaterialOrderCodeList" parameterType="String" resultMap="contractCodeForMaterialOrderCodeResultMap">
+		SELECT
+ 			c.contractCode as contractCode
+		FROM 
+			k1_tb_contract AS c
+		WHERE 
+			c.contractSection="발주";			
+	</select>
+	
 	<select id="getContractInfo" resultType="String">
 		SELECT 
 			CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
 		FROM 
-			k1_tb_contract AS c
+			k1_view_contract AS c
 	
 	</select>
 
@@ -36,7 +95,7 @@
 		SELECT 
 			COUNT(1)
 		FROM	
-			k1_tb_contract
+			k1_view_contract
 		WHERE  
 			contractCode = #{contractCode};
 	</select>
@@ -62,7 +121,7 @@
 			c.regDate,
 			c.updateDate
 		FROM 
-			k1_tb_contract AS c
+			k1_view_contract AS c
 		WHERE 
 			c.mainBusinessCode IS NOT NULL;	
 	</select>
@@ -128,62 +187,44 @@
 			contr.regDate as regDate,
 			contr.updateDate as updateDate,
 			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName,
-			c.businessName as businessName,
-			mb.businessCode as businessCode
+			c.businessName as businessName
 		FROM 
-			k1_tb_contract AS contr
+			k1_view_contract AS contr
 			INNER JOIN 
 			k1_tb_client AS c
 			on
-			contr.mainBusinessCode = c.mainBusinessCode
-			INNER JOIN 
-			k1_tb_user AS u
-			on
-			c.mainBusinessCode = u.mainBusinessCode
-			INNER JOIN
-			k1_tb_main_business as mb
-			on
-			mb.mainBusinessCode = u.mainBusinessCode;
+			contr.clientCode = c.clientCode;
 	</select>
 	
 	<select id="getContractHistoryList" parameterType="map" resultType="map">
 		SELECT
-			contr.contractCode as contractCode,
+			RIGHT(contr.contractCode,3) as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
+			mb.businessName as mbBusinessName,
 			contr.clientCode as clientCode,
+			contr.clientBusinessName as clientBusinessName,
+			c.businessRepresentative AS businessRepresentative,
 			contr.clientManagerId as clientManagerId,
 			contr.contractSection as contractSection,
 			contr.contractType as contractType,
 			contr.startDate as startDate,
 			contr.endDate as endDate,
 			contr.managerId as managerId,
-			u1.userName as managerName,
+			contr.managerName,
 			contr.regId as regId,
-			u2.userName as regName,
+			contr.regName,
 			contr.contractDate as contractDate,
 			contr.contractStatus as contractStatus,
 			contr.briefs as briefs,
 			contr.regDate as regDate,
 			contr.updateDate as updateDate,
-			c.businessRepresentative AS businessRepresentative,
-			c.businessName as businessName,
-			contr.mainBusinessCode,
-			mb.businessName as mbBusinessName
+			contr.mainBusinessCode
 		FROM 
-			k1_tb_contract AS contr
+			k1_view_contract AS contr
 			INNER JOIN 
 			k1_tb_client AS c
 			on
 			contr.clientCode = c.clientCode
-			INNER JOIN
-			k1_tb_user AS u1
-			ON
-			contr.managerId = u1.userId
-			INNER JOIN 
-			k1_tb_user AS u2
-			on
-			contr.regId = u2.userId
 			INNER JOIN
 			k1_tb_main_business as mb
 			ON
@@ -195,42 +236,37 @@
 		</if>	
 	</select>
 	
-	<!-- <select id="getAllContractList" parameterType="String" resultType="Contract">
+	<select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
-			contr.contractCode as contractCode,
-			contr.mainBusinessCode as mainBusinessCode,
-			contr.clientCode as clientCode,
-			contr.clientManagerId as clientManagerId,
-			contr.contractSection as contractSection,
-			contr.contractType as contractType,
-			contr.startDate as startDate,
-			contr.endDate as endDate,
-			contr.managerId as managerId,
-			contr.regId as regId,
-			contr.approvalId as approvalId,
-			contr.contractDate as contractDate,
-			contr.contractStatus as contractStatus,
-			contr.briefs as briefs,
-			contr.regDate as regDate,
-			contr.updateDate as updateDate,
-			c.businessRepresentative AS businessRepresentative,
-			u.userName AS userName
-		FROM 
-			k1_tb_contract AS contr
-			INNER JOIN 
-			k1_tb_client AS c
-			on
-			contr.mainBusinessCode = c.mainBusinessCode
-			INNER JOIN 
-			k1_tb_user AS u
-			on
-			c.mainBusinessCode = u.mainBusinessCode
-			INNER JOIN
-			k1_tb_main_business as mb
-			on
-			u.mainBusinessCode = mb.mainBusinessCode;
+			 c.contractCode
+			,c.clientCode
+			,c.clientBusinessName
+			,c.clientManagerId
+			,c.clientManagerName
+			,c.contractSection
+			,c.contractType
+			,c.startDate
+			,c.endDate
+			,c.managerId
+			,c.managerName
+			,c.regId
+			,c.regName
+			,c.approvalId
+			,c.approvalName
+			,c.contractDate
+			,c.contractStatus
+			,c.briefs
+			,c.regDate
+			,c.updateDate
+		FROM
+			k1_view_contract c
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+				c.mainBusinessCode = #{mainBusinessCode}
+			</if>
+		</trim>
 	
 
-	</select> -->
+	</select>
 
 </mapper>

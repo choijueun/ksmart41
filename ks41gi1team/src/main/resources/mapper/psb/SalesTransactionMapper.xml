@@ -61,17 +61,13 @@
 		st.totalPrice as totalPrice,
 		st.dealDate as dealDate,
 		st.briefs as briefs,
-		u.userName as userName,
+		st.userName as userName,
 		st.regDate as regDate,
 		st.updateDate as updateDate
 	FROM 
-		k1_tb_sales_transaction AS st
-	INNER JOIN
-		k1_tb_user as u
-	on
-		st.mainBusinessCode = u.mainBusinessCode
+		k1_view_sales_transaction AS st
 	GROUP BY 
-		st.salesTsCode;	
+		st.salesTsCode;
 	</select>
 	
 	<select id="getSalesTransactionHistoryList" parameterType="map" resultType="map">
@@ -79,6 +75,7 @@
 			st.salesTsCode,
 			st.mainBusinessCode,
 			st.clientCode,
+			st.businessName,
 			st.lsAccountCode,
 			st.contractCode,
 			st.vatType,
@@ -87,23 +84,14 @@
 			st.totalPrice,
 			st.dealDate,
 			st.briefs,
-			u.userName,
+			st.userName,
 			st.regDate,
 			st.updateDate,
-			c.businessName,
 			mb.businessName as mbBusinessName,
 			ls.lsAccountName as lsAccountName,
 			contr.contractStatus as contractStatus
 		FROM 
-			k1_tb_sales_transaction AS st
-		INNER JOIN
-			k1_tb_user as u
-		on
-			st.mainBusinessCode = u.mainBusinessCode
-		INNER JOIN
-			k1_tb_client as c
-		on	
-			c.mainBusinessCode = st.mainbusinessCode
+			k1_view_sales_transaction AS st
 		INNER JOIN
 			k1_tb_main_business as mb
 		ON
@@ -113,9 +101,9 @@
 		ON
 			ls.lsAccountCode = st.lsAccountCode	
 		INNER JOIN
-			k1_tb_contract as contr
+			k1_view_contract as contr
 		ON
-			contr.mainBusinessCode = st.mainBusinessCode			
+			st.contractCode = contr.contractCode	
 		GROUP BY 
 			st.salesTsCode;	
 	</select>

@@ -11,6 +11,9 @@ public interface MainBusinessMapper {
 	//사업장 전체목록 조회
 	public List<MainBusiness> getAllMainBusinessList();
 	
+	//사업장 등록
+	public int addMainBusiness(MainBusiness mainBusiness);
+	
 	//사업자 대표번호 중복검사
 	public int getBusinessByCode(String mainBusinessCode);
 
@@ -19,6 +22,11 @@ public interface MainBusinessMapper {
 	
 	//사업장정보 상세
 	public MainBusiness getMainBusinessDetail(String mainBusinessCode);
+
+	//사업장 정보 수정
+	public int modifyMainBusiness(MainBusiness mainBusiness);
+
+	
 
 
 }

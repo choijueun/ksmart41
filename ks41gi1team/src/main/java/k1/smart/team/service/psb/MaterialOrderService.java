@@ -1,14 +1,14 @@
 package k1.smart.team.service.psb;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.dto.psb.Contract;
+
 import k1.smart.team.dto.psb.MaterialOrder;
-import k1.smart.team.dto.psb.MaterialOrderInfo;
+
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
 
 
@@ -16,9 +16,8 @@ import k1.smart.team.mapper.psb.MaterialOrderMapper;
 public class MaterialOrderService {
 	private MaterialOrderMapper materialOrderMapper;
 	private List<MaterialOrder> materialOrderList;
-	private Map<String,Object> resultMap = new HashMap<String,Object>();
 	private MaterialOrder materialOrderInfo;
-	private List<MaterialOrder> materialOrderInfoList;
+
 	
 	//생성자메서드 주입방식
 	public MaterialOrderService(MaterialOrderMapper materialOrderMapper) {
@@ -35,18 +34,7 @@ public class MaterialOrderService {
 		return materialOrderMapper.modifyMaterialOrderInfo(materialOrder);
 	}
 	
-	/*
-	 * //상세조회 발주 public Map<String, Object> getMaterialOrderInfo(String
-	 * mainBusinessCode, String materialOrderCode) { materialOrderInfo =
-	 * materialOrderMapper.getMaterialOrderInfo(mainBusinessCode,
-	 * materialOrderCode); if(materialOrderInfo == null) {
-	 * System.out.println("발주정보 조회결과 없음"); return null; } materialOrderInfoList =
-	 * materialOrderMapper.getMaterialOrderInfoList(materialOrderCode);
-	 * 
-	 * resultMap.clear(); resultMap.put("materialOrderInfo", materialOrderInfo);
-	 * resultMap.put("materialOrderInfoList", materialOrderInfoList); return
-	 * resultMap; }
-	 */
+	
 	
 	//발주 등록 
 	public int addMaterialOrder(MaterialOrder materialOrder) {
@@ -72,20 +60,19 @@ public class MaterialOrderService {
 	}
 	
 	//발주 상세
-	public Map<String, Object> getMaterialOrderInfo(String materialOrderCode) {
+	public MaterialOrder getMaterialOrderInfo(String materialOrderCode) {
 		materialOrderInfo = materialOrderMapper.getMaterialOrderInfo(materialOrderCode);
 
+		System.out.println("materialOrderInfo 세팅전-->:" + materialOrderInfo);
 		if(materialOrderInfo == null) {
 			System.out.println("발주정보 조회결과 없음");
 			return null;
 		}
-		materialOrderInfoList = materialOrderMapper.getMaterialOrderInfoList(materialOrderCode);
 
-		resultMap.clear();
-		resultMap.put("materialOrderInfo", materialOrderInfo);
-		resultMap.put("materialOrderInfoList", materialOrderInfoList);	
-		return resultMap;
+		materialOrderInfo.setMaterialOrderCode(materialOrderCode);
+		return materialOrderInfo;
 	}
+	
 
 	// 발주서 코드 새로 자동으로 표시
 	public String getMaterialOrderCode() {

@@ -4,17 +4,139 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	거래처정보 수정
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						거래처 정보 수정
+					</div>
+					<!-- form  -->
+					<form id="modifyClientForm" th:action="@{/k1Client/modify/{clientCode}}" method="post" class="form-horizontal">
+						<!-- card-body -->
+						<div class="card-body">
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">거래처 코드 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.clientCode}" type="text" class="form-control" id="clientCode" name="clientCode" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">사업장 코드 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.mainBusinessCode}" type="text" class="form-control" id="mainBusinessCode" name="mainBusinessCode" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">거래처 구분 코드 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessCategory}" type="text" class="form-control" id="businessCategory" name="businessCategory" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">거래처 아이디 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.userId}" type="text" class="form-control" id="userId" name="userId" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">상호 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessName}" type="text" class="form-control" id="businessName" name="businessName" >
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">대표자명</label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessRepresentative}" type="text" class="form-control" id="businessRepresentative" name="businessRepresentative">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">업종 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessType1}" type="text" class="form-control" id="businessType1" name="businessType1">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">업태 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessType2}" type="text" class="form-control" id="businessType2" name="businessType2">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">사업자번호 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessNum}" type="text" class="form-control" id="businessNum" name="businessNum">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">종사업장번호 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessCount}" type="text" class="form-control" id="businessCount" name="businessCount">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">연락처 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessMobile}" type="text" class="form-control" id="businessMobile" name="businessMobile">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">소재지 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessPlace}" type="text" class="form-control" id="businessPlace" name="businessPlace">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">이메일 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.businessEmail}" type="text" class="form-control" id="businessEmail" name="businessEmail">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right">등록일시 </label>
+								<div class="col-sm-6">
+									<input th:value="${getClient.regDate}" type="text" class="form-control" id="regDate" name="regDate" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<!-- /card-body -->
+						<!-- card-footer -->
+						<div class="card-footer">
+							<th:block th:if="${i} != null">
+								<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+								<a th:href="@{|/k1Client/clientDetail/${i.clientCode}|}">
+									<button type="button" class="btn btn-default">이전으로</button>
+								</a>
+							</th:block>
+							<th:block th:if="${i} == null">
+								<a th:href="@{/k1Client/clientList}">
+									<button type="button" class="btn btn-default">이전으로</button>
+								</a>
+							</th:block>
+							<button type="submit" class="btn btn-primary float-right" id ="modifyClientBtn"> 수정완료 </button>
+						</div>
+						<!-- /card-footer -->
+					</form>
+					<!-- /form  -->
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>

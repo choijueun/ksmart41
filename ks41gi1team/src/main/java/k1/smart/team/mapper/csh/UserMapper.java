@@ -10,10 +10,10 @@ import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.csh.UserReg;
 
 @Mapper
-public interface UserRegMapper {
+public interface UserMapper {
 	
 	//회원 전체 목록
-	public List<User> getAllUserList();
+	public List<User> getAllUserList(String mainBusinessCode);
 	
 	//회원가입 요청 전체조회
 	public List<UserReg> getAllUserRegList();
@@ -32,6 +32,15 @@ public interface UserRegMapper {
 
 	//회원가입 요청 수정
 	public int modifyUserReg(UserReg userReg);
+
+	//관리자페이지 회원 목록 보여주기
+	public List<User> getLimitUserList();
+
+	//회원정보 상세
+	public User getUserDetail(String userId);
+
+	//회원정보 수정
+	public int modifyUser(User user);
 
 	
 

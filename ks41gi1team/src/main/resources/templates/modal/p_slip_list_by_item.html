@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+	<table id="pSlipListByItem" class="table table-bordered table-hover dataTable dtr-inline">
+		<thead>
+			<tr>
+				<th class="txt-center">No.</th>
+				<th>거래처</th>
+				<th>품목 목록</th>
+				<th>적요</th>
+				<th>합계금액</th>
+				<th style="display: none;">수량</th>
+				<th style="display: none;">단가</th>
+				<th>거래일자</th>
+				<th class="text-center">선택</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:unless="${#lists.isEmpty(pSlipListByItem)}" th:each="l : ${pSlipListByItem}">
+				<td class="txt-center">[[${l.purchaseTsCode}]]</td>
+				<td>[[${l.businessName}]]</td>
+				<td>[[${l.itemName}]]</td>
+				<td>[[${l.briefs}]]</td>
+				<td>[[${l.totalPrice}]]</td>
+				<td style="display: none;">[[${l.count}]]</td>
+				<td style="display: none;">[[${l.amount}]]</td>
+				<td>[[${l.dealDate}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr class="empty" th:if="${#lists.isEmpty(pSlipListByItem)}">
+				<td colspan="2" style="display: none;">단가</td>
+				<td colspan="7">비용 거래명세서 정보를 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

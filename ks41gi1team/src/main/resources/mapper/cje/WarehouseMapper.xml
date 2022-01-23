@@ -15,14 +15,16 @@
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight
-		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.weightPer
 		,w.`status`
 		,w.regDate
 		,w.updateDate
 	FROM 
-		k1_tb_warehouse_info AS w
+		k1_view_warehouse_info AS w
 	WHERE
-		mainBusinessCode = #{mainBusinessCode};
+		w.mainBusinessCode = #{mainBusinessCode}
+	ORDER BY
+		w.warehouseCode DESC;
 </select>
 
 <select id="getWarehouseInfo" parameterType="String" resultType="Warehouse">
@@ -36,37 +38,61 @@
 		,w.outPlace
 		,w.currentWeight
 		,w.maxWeight
-		,IF(maxWeight>0, ROUND(100*w.currentWeight/w.maxWeight), -1) AS weightPer
+		,w.weightPer
 		,w.`status`
 		,w.regDate
 		,w.updateDate
 	FROM 
-		k1_tb_warehouse_info AS w
+		k1_view_warehouse_info AS w
 	WHERE
 		w.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode});
 </select>
 
+<!-- 특정 창고의 적재품 조회 -->
 <select id="getWarehouseStock" parameterType="String" resultType="Stock">
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
+		,s.itemName
+		,s.itemType
 		,s.itemCount
 		,s.totalPrice
 		,s.`status`
 		,s.`comment`
 	FROM 
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		s.itemCode = i.itemCode
+		k1_view_stock AS s
 	WHERE
 		s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
 	ORDER BY 
 		s.inventoryCode ASC
 	LIMIT 10;
 </select>
+
+<!-- 창고정보 등록 -->
+<insert id="addWarehouse" parameterType="Warehouse">
+	INSERT INTO k1_tb_warehouse_info
+		(warehouseCode, mainBusinessCode, warehouseName, category1, category2, area, location, outPlace, maxWeight, `status`, regDate, updateDate)
+	VALUES (
+		#{warehouseCode}, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${maxWeight}, #{status}, NOW(), NOW()
+	);
+</insert>
+
+<update id="modifyWarehouse" parameterType="Warehouse">
+	UPDATE 
+		k1_tb_warehouse_info
+	SET
+		warehouseName=#{warehouseName},
+		category1=#{category1},
+		category2=#{category2},
+		`area`=${area},
+		location=#{location},
+		outPlace=#{outPlace},
+		maxWeight=${maxWeight},
+		`status`=#{status},
+		updateDate=NOW()
+	WHERE 
+		warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+		AND mainBusinessCode = #{mainBusinessCode};
+</update>
 
 </mapper>

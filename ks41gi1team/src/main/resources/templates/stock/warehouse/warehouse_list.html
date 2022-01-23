@@ -19,6 +19,20 @@ $(function(){
 		"info": true,
 		"autoWidth": false,
 		"responsive": true,
+		"columnDefs": [{    
+						orderable: false,
+						targets: [0, 6, 10]
+					}]
+	});
+	
+	//allCheck
+	var chkbox = $('input[type="checkbox"]');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
 	});
 });
 </script>
@@ -36,9 +50,41 @@ $(function(){
 			창고전체목록
 		</div>
 		<div class="card-body">
+			<!-- CheckBox -->
 			<div class="card">
-				체크박스 공간
+				<div class="card-body">
+					<div class="category1 pl-5">
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="normal" value="일반">
+							<label for="normal" class="custom-control-label">일반</label>
+						</div>
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="cold" value="냉장">
+							<label for="cold" class="custom-control-label">냉장</label>
+						</div>
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="freeze" value="냉동">
+							<label for="freeze" class="custom-control-label">냉동</label>
+						</div>
+					</div>
+					<div class="category2 pl-5">
+						<div class="custom-control custom-checkbox float-left ml-5">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="in" value="재고">
+							<label for="in" class="custom-control-label">재고</label>
+						</div>
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="out" value="출고">
+							<label for="out" class="custom-control-label">출고</label>
+						</div>
+					</div>
+				</div>
 			</div>
+			<!-- Begin Table -->
 			<table id="warehouseList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -101,10 +147,10 @@ $(function(){
 					</tr>
 				</tbody>
 			</table>
+			<!-- Buttons -->
+			<button type="button" class="btn btn-danger">삭제</button>
 			<a th:href="@{/k1WarehouseAdd}">
-				<button type="button" class="btn btn-info">
-					등록
-				</button>
+				<button type="button" class="btn btn-info float-right">등록</button>
 			</a>
 		</div>
 	</div>

@@ -3,17 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.pjh.TotalAcMapper">
-	<select id="getTotalAcList" parameterType="String" resultType="TotalAc">
-		SELECT 
-			RIGHT(totalAccountCode,3) as totalAccountCode
+   <select id="getTotalAcList" parameterType="String" resultType="TotalAc">
+     SELECT 
+			codes
 			,mainBusinessCode
-			,salesSlipCode
-			,purchaseSlipCode
-			,RIGHT(etcPurchaseCode,3) AS etcPurchaseCode
-			,salesSection
-			,regDate
+			,accountingCode
 			,totalPrice
-		FROM 
-			k1_tb_total_accounting;
-	</select>
+			,salesSection
+			,briefs
+			,regDate
+			,updateDate
+		FROM
+			k1_view_total_accounting
+		ORDER BY regDate DESC
+   </select>
 </mapper>

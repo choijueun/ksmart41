@@ -183,7 +183,7 @@ $(function(){
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							수·발주 관리 - 박수빈
@@ -192,28 +192,11 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1MaterialOrder/k1MaterialOrderReg}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>발주서 등록 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
 							<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>발주 요청 조회 - #</p>
+								<p>수.발주 관리 - #</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1ProductOrder/k1ProductOrderReg}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>수주서 등록 - #</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a th:href="@{/k1ProductOrder/k1ProductOrderList}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>수주 요청 조회  - #</p>
-							</a>
 					</ul>
 				</li>
 				<li class="nav-item">
@@ -234,7 +217,7 @@ $(function(){
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionHistory}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							거래 명세서 관리 - 박수빈
@@ -243,17 +226,9 @@ $(function(){
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1SalesTransaction/k1SalesTransactionHistory}" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p> 매출 거래 명세서 조회 - #</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
 							<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionHistory}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p> 비용 거래 명세서 조회- #</p>
+								<p> 거래 명세서 관리- #</p>
 							</a>
 						</li>
 					</ul>

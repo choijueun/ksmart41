@@ -26,7 +26,7 @@ public class ClientService {
 	
 	//거래처 전체 목록 조회
 	public List<Client> getAllClientList() {
-		clientList = clientMapper.getAllClientList();
+		clientList = clientMapper.getAllClientList(null);
 		String clientNum;
 		for(int i=0; i<clientList.size(); i++) {
 			clientNum = clientList.get(i).getClientCode().replace("clientCode_","");
@@ -52,7 +52,12 @@ public class ClientService {
 		clientDetail.setClientCode(clientCode);
 		return clientDetail;
 	}
+
+	//거래처 정보 수정
+	public int modifyClient(Client client) {
+		
+		return clientMapper.modifyClient(client);
+	}
 	
-	//거래처 등급 수정
 
 }

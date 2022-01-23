@@ -1,23 +1,20 @@
 package k1.smart.team.service.psb;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.psb.Contract;
-import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ContractService {
 	private ContractMapper contractMapper;
 	private List<Contract> contractList;
 	private List<Contract> contractHistoryList;
+	private List<Contract> contractCodeForMaterialOrderCodeList;
 	
 	//생성자메서드 주입방식	
 	public ContractService(ContractMapper contractMapper) {
@@ -78,6 +75,14 @@ public class ContractService {
 	 * return paramMap; }
 	 */
 		
+		//발주서 등록을 위한 발주 계약서 코드만 따로 불러오기
+		public List<Contract> getContractCodeForMaterialOrderCodeList() {
+			contractCodeForMaterialOrderCodeList = contractMapper.getContractCodeForMaterialOrderCodeList();
+			
+			System.out.println("contractCodeForMaterialOrderCodeList--->" + contractCodeForMaterialOrderCodeList);
+			
+			return contractCodeForMaterialOrderCodeList;
+		}
 		
 	//계약서 전체조회 이력 조회
 		public List<Contract> getContractHistoryList(String mainBusinessCode) {
@@ -88,7 +93,7 @@ public class ContractService {
 		
 	//전체 계약 검색
 		public List<Contract> getAllContractList(){
-			contractList = contractMapper.getAllContractList();
+			contractList = contractMapper.getAllContractList(null);
 			
 			String contractNum;
 			for(int i=0; i<contractList.size(); i++) {
@@ -110,6 +115,23 @@ public class ContractService {
 			
 			return contractMapper.getContractInfo();
 		}
+
+		//계약서 수정
+		public int modifyContract(Contract contract) {
+			return contractMapper.modifyContract(contract);
+		}
+
+	/*
+	 * public List<ContractCodeForMaterialOrderCode>
+	 * getContractCodeForMaterialOrderCode() { contractCodeForMaterialOrderCodeList
+	 * = contractMapper.getContractCodeForMaterialOrderCode();
+	 * 
+	 * System.out.println("contractCodeForMaterialOrderCodeList--->" +
+	 * contractCodeForMaterialOrderCodeList);
+	 * 
+	 * return contractCodeForMaterialOrderCodeList; }
+	 */
+
 
 	
 }

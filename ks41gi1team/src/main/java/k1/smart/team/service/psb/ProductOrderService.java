@@ -1,12 +1,11 @@
 package k1.smart.team.service.psb;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.stereotype.Service;
 
-import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.mapper.psb.ProductOrderMapper;
 
@@ -15,8 +14,7 @@ public class ProductOrderService {
 	private ProductOrderMapper productOrderMapper;
 	private List<ProductOrder> productOrderList;
 	private ProductOrder productOrderInfo;
-	private List<ProductOrder> productOrderInfoList;
-	private Map<String,Object> resultMap = new HashMap<String,Object>();
+
 
 	
 	//생성자 메서드 주입
@@ -63,19 +61,20 @@ public class ProductOrderService {
 	}
 
 	//수주 상세
-	public Map<String, Object> getProductOrderInfo(String productOrderCode) {
-		productOrderInfo = productOrderMapper.getProductOrderInfo(productOrderCode); //결제예정 품목 하나 상세
+	public ProductOrder getProductOrderInfo(String productOrderCode) {
+		productOrderInfo = productOrderMapper.getProductOrderInfo(productOrderCode);
+
+		System.out.println("서비스 productOrderCode-->" + productOrderCode);
+		System.out.println("productOrderInfo 값세팅전-->:" + productOrderInfo);
 		if(productOrderInfo == null) {
 			System.out.println("수주정보 조회결과 없음");
 			return null;
 		}
-		productOrderInfoList = productOrderMapper.getProductOrderInfoList(productOrderCode);
-		
-		resultMap.clear();
-		resultMap.put("productOrderInfo",productOrderInfo);
-		resultMap.put("productOrderInfoList",productOrderInfoList);
-		
-		return resultMap;
+
+		productOrderInfo.setProductOrderCode(productOrderCode);
+		System.out.println("서비스 productOrderCode-->" + productOrderCode);
+		System.out.println("productOrderInfo 갑세팅후-->:" + productOrderInfo);
+		return productOrderInfo;
 	}
 
 

@@ -19,16 +19,23 @@ public class Stock {
 	private String itemStatus; //품목상태
 	private String itemComment; //품목비고
 	
+	private String purchaseTsCode; //비용거래명세서코드
+	private String salesTsCode; //매출거래명세서코드
+	
 	private String productPriceCode; //제품단가코드
 	private int productPrice; //제품단가
-	private String purchaseTsCode; //비용거래명세서코드
 	private int unitPrice; //자재단가
 	private int avgPrice; //평균단가
+	
+	private int totalPrice; //합계금액
+	
 	private int itemCount; //품목수량
 	private int totalCount; //총수량
-	private int totalPrice; //합계금액
-	private int stockWeight; //중량(kg)
+	private int itemWeight; //중량(kg)
 	private int totalWeight; //총중량(kg)
+	
+	private String defectType; //불량유형
+	private String defectHandlingType; //불량처리방법
 	
 	private String warehouseCode; //창고 코드
 	private String warehouseName; //창고명
@@ -44,9 +51,11 @@ public class Stock {
 	private String stockUpdateDate; //재고수정일시
 	
 	private String stockAdjCode; //물류이동내역코드
+	private String stockAdjDetailCode; //물류이동상세내역코드
 	private int stockReasonCode; //사유코드
 	private String stockReason; //사유
 	private String stockReasonEng; //사유
+	
 	private String endDate; //완료일자
 	private String briefs; //적요
 	private String managerId; //담당자ID
@@ -55,18 +64,6 @@ public class Stock {
 	
 	public String getInventoryCode() {
 		return inventoryCode;
-	}
-	public String getPurchaseTsCode() {
-		return purchaseTsCode;
-	}
-	public void setPurchaseTsCode(String purchaseTsCode) {
-		this.purchaseTsCode = purchaseTsCode;
-	}
-	public int getUnitPrice() {
-		return unitPrice;
-	}
-	public void setUnitPrice(int unitPrice) {
-		this.unitPrice = unitPrice;
 	}
 	public void setInventoryCode(String inventoryCode) {
 		this.inventoryCode = inventoryCode;
@@ -91,9 +88,6 @@ public class Stock {
 	}
 	public String getItemType() {
 		return itemType;
-	}
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
 	}
 	public String getCategoryCode() {
 		return categoryCode;
@@ -149,6 +143,18 @@ public class Stock {
 	public void setItemComment(String itemComment) {
 		this.itemComment = itemComment;
 	}
+	public String getPurchaseTsCode() {
+		return purchaseTsCode;
+	}
+	public void setPurchaseTsCode(String purchaseTsCode) {
+		this.purchaseTsCode = purchaseTsCode;
+	}
+	public String getSalesTsCode() {
+		return salesTsCode;
+	}
+	public void setSalesTsCode(String salesTsCode) {
+		this.salesTsCode = salesTsCode;
+	}
 	public String getProductPriceCode() {
 		return productPriceCode;
 	}
@@ -161,11 +167,23 @@ public class Stock {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
+	public int getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
+	}
 	public int getAvgPrice() {
 		return avgPrice;
 	}
 	public void setAvgPrice(int avgPrice) {
 		this.avgPrice = avgPrice;
+	}
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	public int getItemCount() {
 		return itemCount;
@@ -179,23 +197,29 @@ public class Stock {
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-	public int getTotalPrice() {
-		return totalPrice;
+	public int getItemWeight() {
+		return itemWeight;
 	}
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public int getStockWeight() {
-		return stockWeight;
-	}
-	public void setStockWeight(int stockWeight) {
-		this.stockWeight = stockWeight;
+	public void setItemWeight(int itemWeight) {
+		this.itemWeight = itemWeight;
 	}
 	public int getTotalWeight() {
 		return totalWeight;
 	}
 	public void setTotalWeight(int totalWeight) {
 		this.totalWeight = totalWeight;
+	}
+	public String getDefectType() {
+		return defectType;
+	}
+	public void setDefectType(String defectType) {
+		this.defectType = defectType;
+	}
+	public String getDefectHandlingType() {
+		return defectHandlingType;
+	}
+	public void setDefectHandlingType(String defectHandlingType) {
+		this.defectHandlingType = defectHandlingType;
 	}
 	public String getWarehouseCode() {
 		return warehouseCode;
@@ -263,6 +287,12 @@ public class Stock {
 	public void setStockAdjCode(String stockAdjCode) {
 		this.stockAdjCode = stockAdjCode;
 	}
+	public String getStockAdjDetailCode() {
+		return stockAdjDetailCode;
+	}
+	public void setStockAdjDetailCode(String stockAdjDetailCode) {
+		this.stockAdjDetailCode = stockAdjDetailCode;
+	}
 	public int getStockReasonCode() {
 		return stockReasonCode;
 	}
@@ -311,6 +341,9 @@ public class Stock {
 	public void setStoringUpdateDate(String storingUpdateDate) {
 		this.storingUpdateDate = storingUpdateDate;
 	}
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -342,26 +375,32 @@ public class Stock {
 		builder.append(itemStatus);
 		builder.append(", itemComment=");
 		builder.append(itemComment);
+		builder.append(", purchaseTsCode=");
+		builder.append(purchaseTsCode);
+		builder.append(", salesTsCode=");
+		builder.append(salesTsCode);
 		builder.append(", productPriceCode=");
 		builder.append(productPriceCode);
 		builder.append(", productPrice=");
 		builder.append(productPrice);
-		builder.append(", purchaseTsCode=");
-		builder.append(purchaseTsCode);
 		builder.append(", unitPrice=");
 		builder.append(unitPrice);
 		builder.append(", avgPrice=");
 		builder.append(avgPrice);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
 		builder.append(", itemCount=");
 		builder.append(itemCount);
 		builder.append(", totalCount=");
 		builder.append(totalCount);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", stockWeight=");
-		builder.append(stockWeight);
+		builder.append(", itemWeight=");
+		builder.append(itemWeight);
 		builder.append(", totalWeight=");
 		builder.append(totalWeight);
+		builder.append(", defectType=");
+		builder.append(defectType);
+		builder.append(", defectHandlingType=");
+		builder.append(defectHandlingType);
 		builder.append(", warehouseCode=");
 		builder.append(warehouseCode);
 		builder.append(", warehouseName=");
@@ -384,6 +423,8 @@ public class Stock {
 		builder.append(stockUpdateDate);
 		builder.append(", stockAdjCode=");
 		builder.append(stockAdjCode);
+		builder.append(", stockAdjDetailCode=");
+		builder.append(stockAdjDetailCode);
 		builder.append(", stockReasonCode=");
 		builder.append(stockReasonCode);
 		builder.append(", stockReason=");

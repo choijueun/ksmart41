@@ -10,6 +10,39 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	
+	//DataTables
+    $('#stockList').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+		"columnDefs": [{    
+			orderable: false,
+			targets: [0, 8]
+		}]
+	});
+	
+	//allCheck
+	var chkbox = $('input[type="checkbox"]');
+	$(document).on('click', '#allCheck', function(){
+		if($(this).is(":checked")){
+			chkbox.prop("checked", true);
+		} else {
+			chkbox.prop("checked", false);
+		}
+	});
+	
 	//Modal
 	var stockModifyModal = $('#stockModifyModal');
 	//Modal SHOW
@@ -25,29 +58,65 @@ $(function(){
 		});
 		 
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	
-	//DataTables
-    $('#stockList').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-	
-	//allCheck
-	var chkbox = $('.chkbox');
-	$(document).on('click', '#allCheck', function(){
-		if($(this).is(":checked")){
-			chkbox.prop("checked", true);
-		} else {
-			chkbox.prop("checked", false);
-		}
+	//품목분류 체크박스
+	var inputType = $('#checkAjax .itemType input[type="checkbox"]');
+	//창고목록 체크박스
+	var inputWare = $('#checkAjax .warehouse input[type="checkbox"]');
+	//테이블 넣을 공간
+	var ajaxTable = $('#ajaxTable');
+	//체크박스 Ajax
+	$(document).on('change', '#checkAjax', function(){
+		var types = [];
+		inputType.each(function(i, obj){
+			if($(obj).is(':checked')){
+				types.push($(obj).val());
+			}
+		});
+		var wares = [];
+		inputWare.each(function(i,obj){
+			if($(obj).is(':checked')){
+				wares.push($(obj).val());
+			}
+		});
+		//console.log(types, wares);
+		var request = $.ajax({
+			url: "/k1Stock",
+			data: {'types':types, 'wares':wares},
+			method: "POST",
+			dataType: "html"
+		});
+		request.done(function(data){
+			ajaxTable.html(data);
+			if ($('#stockList tr.empty').length == 0) {
+				//body에 정보를 불러온 경우
+			    $('#stockList').DataTable({
+			        "paging": true,
+			        "lengthChange": false,
+			        "searching": true,
+			        "ordering": true,
+			        "info": true,
+			        "autoWidth": false,
+			        "responsive": true,
+					"columnDefs": [{    
+						orderable: false,
+						targets: [0, 8]
+					}]
+				});
+			}
+		});
+		request.fail(function(jqXHR, textStatus) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
 	});
 });
 </script>
@@ -67,75 +136,83 @@ $(function(){
 			재고 목록
 		</div>
 		<div class="card-body">
-			<div class="card">
+			<div class="card" id="checkAjax">
 				<div class="card-body">
-					<div class="custom-control custom-checkbox">
-						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-							type="checkbox" id="rawMaterial">
-						<label for="rawMaterial" class="custom-control-label">원자재</label>
+					<div class="itemType pl-5">
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="rawMaterial" value="원자재">
+							<label for="rawMaterial" class="custom-control-label">원자재</label>
+						</div>
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="subsidiary" value="부자재">
+							<label for="subsidiary" class="custom-control-label">부자재</label>
+						</div>
+						<div class="custom-control custom-checkbox float-left ml-3">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" id="product" value="제품">
+							<label for="product" class="custom-control-label">제품</label>
+						</div>
 					</div>
-					<div class="custom-control custom-checkbox">
-						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-							type="checkbox" id="subsidiary">
-						<label for="subsidiary" class="custom-control-label">부자재</label>
-					</div>
-					<div class="custom-control custom-checkbox">
-						<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
-							type="checkbox" id="product">
-						<label for="product" class="custom-control-label">제품</label>
+					<hr style="border-top: 1px solid transparent;">
+					<div class="warehouse pl-5" th:unless="${#lists.isEmpty(wList)}">
+						<div class="custom-control custom-checkbox float-left ml-3" th:each="w : ${wList}">
+							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
+								type="checkbox" name="warehouseCode" th:id="${w.warehouseCode}" th:value="${w.warehouseCode}">
+							<label th:for="${w.warehouseCode}" class="custom-control-label">[[${w.warehouseName}]]</label>
+						</div>
 					</div>
 				</div>
 			</div>
-			<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
-				<thead>
-					<tr>
-						<th class="text-center">
-							<input type="checkbox" id="allCheck">
-						</th>
-						<th>No.</th>
-						<th>품목명</th>
-						<th>분류</th>
-						<th>창고</th>
-						<th>수량</th>
-						<th>중량</th>
-						<th>비고</th>
-						<th>상태</th>
-						<th class="text-center">수정</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
-						<td class="text-center"><input type="checkbox" class="chkbox"></td>
-						<td>
-							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-								[[${l.inventoryCode}]]
-							</a>
-						</td>
-						<td>
-							<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-								[[${l.itemName}]]
-							</a>
-						</td>
-						<td>[[${l.itemType}]]</td>
-						<td>[[${l.warehouseName}]]</td>
-						<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
-						<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]]</td>
-						<td>[[${l.comment}]]</td>
-						<td>[[${l.status}]]</td>
-						<td class="text-center">
-							<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
-									th:data-inventoryCode="${l.inventoryCode}">
-								<i class="fas fa-pen"></i>
-							</button>
-						</td>
-					</tr>
-					<tr th:if="${#lists.isEmpty(stockList)}">
-						<td colspan="9">
-							재고 정보가 없습니다.
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="ajaxTable">
+				<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>품목명</th>
+							<th>분류</th>
+							<th>창고</th>
+							<th>수량</th>
+							<th>중량</th>
+							<th>비고</th>
+							<th>상태</th>
+							<th class="text-center">수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.inventoryCode}]]
+								</a>
+							</td>
+							<td>
+								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									[[${l.itemName}]]
+								</a>
+							</td>
+							<td>[[${l.itemType}]]</td>
+							<td>[[${l.warehouseName}]]</td>
+							<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
+							<td>[[${#numbers.formatInteger(l.itemWeight,0,'COMMA')}]]</td>
+							<td>[[${l.comment}]]</td>
+							<td>[[${l.status}]]</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
+										th:data-inventoryCode="${l.inventoryCode}">
+									<i class="fas fa-pen"></i>
+								</button>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(stockList)}">
+							<td colspan="9">
+								재고 정보가 없습니다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	

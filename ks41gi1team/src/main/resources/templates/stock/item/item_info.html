@@ -81,7 +81,7 @@ $(function(){
 						</tr>
 						<tr>
 							<th>총중량</th>
-							<td>[[${#numbers.formatInteger(i.stockWeight,0,'COMMA')}]] kg</td>
+							<td>[[${#numbers.formatInteger(i.totalWeight,0,'COMMA')}]] kg</td>
 						</tr>
 						<tr>
 							<th>원산지</th>
@@ -148,7 +148,7 @@ $(function(){
 								</td>
 								<td th:if="${l.outPlace} == null">[[${l.location}]]</td>
 								<td th:if="${l.outPlace} != null">[[${l.location}]] ([[${l.outPlace}]])</td>
-								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.totalWeight,0,'COMMA')}]] kg</td>
 								<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.productPrice,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td>

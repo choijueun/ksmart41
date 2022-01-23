@@ -88,6 +88,15 @@ public class PaymentService {
 		return resultMap;
 	}
 	
+	//취소내역 등록시 코드세팅
+	public String addPayCancelCode() {
+		return paymentMapper.addPayCancelCode();
+	}
+	
+	//취소내역 등록
+	public void addPayCancel(CancelPayment cancelPayment) {
+		paymentMapper.addPayCancel(cancelPayment);
+	}
 	
 }
 

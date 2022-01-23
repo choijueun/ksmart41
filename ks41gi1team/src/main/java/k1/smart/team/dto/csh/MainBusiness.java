@@ -14,7 +14,7 @@ public class MainBusiness {
 	private String businessPlace; //소재지
 	private String businessEmail; //이메일
 	private String openDate; //개업년월일
-	private String joinDate; //플랫폼 가입일시
+	private String regDate; //플랫폼 가입일시
 	private String updateDate; //수정일시
 	public String getMainBusinessCode() {
 		return mainBusinessCode;
@@ -94,11 +94,11 @@ public class MainBusiness {
 	public void setOpenDate(String openDate) {
 		this.openDate = openDate;
 	}
-	public String getJoinDate() {
-		return joinDate;
+	public String getRegDate() {
+		return regDate;
 	}
-	public void setJoinDate(String joinDate) {
-		this.joinDate = joinDate;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 	public String getUpdateDate() {
 		return updateDate;
@@ -109,7 +109,7 @@ public class MainBusiness {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Business [mainBusinessCode=");
+		builder.append("MainBusiness [mainBusinessCode=");
 		builder.append(mainBusinessCode);
 		builder.append(", businessCategory=");
 		builder.append(businessCategory);
@@ -135,8 +135,8 @@ public class MainBusiness {
 		builder.append(businessEmail);
 		builder.append(", openDate=");
 		builder.append(openDate);
-		builder.append(", joinDate=");
-		builder.append(joinDate);
+		builder.append(", regDate=");
+		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
 		builder.append("]");

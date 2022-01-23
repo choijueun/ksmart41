@@ -1,6 +1,10 @@
 package k1.smart.team.dto.cje;
 
+import java.util.List;
+
 public class Storing {
+	private List<Stock> s; //상세내역
+	
 	private String stockAdjCode; //재고조정내역코드
 	private String stockAdjDetailCode; //재고조정내역코드
 	private String mainBusinessCode; //사업장별 대표코드
@@ -42,7 +46,6 @@ public class Storing {
 	private int adjCount; //조정수량
 	private int afterCount; //최종수량
 	private int adjWeight; //조정중량
-	private int stockWeight; //최종중량
 	private int totalWeight; //합계중량
 	private int amount;
 	
@@ -71,6 +74,13 @@ public class Storing {
 	
 	private String regDate; //등록일시
 	private String updateDate; //수정일시
+	
+	public List<Stock> getS() {
+		return s;
+	}
+	public void setS(List<Stock> s) {
+		this.s = s;
+	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}
@@ -269,12 +279,6 @@ public class Storing {
 	public void setAdjWeight(int adjWeight) {
 		this.adjWeight = adjWeight;
 	}
-	public int getStockWeight() {
-		return stockWeight;
-	}
-	public void setStockWeight(int stockWeight) {
-		this.stockWeight = stockWeight;
-	}
 	public int getTotalWeight() {
 		return totalWeight;
 	}
@@ -398,7 +402,9 @@ public class Storing {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Storing [stockAdjCode=");
+		builder.append("Storing [s=");
+		builder.append(s);
+		builder.append(", stockAdjCode=");
 		builder.append(stockAdjCode);
 		builder.append(", stockAdjDetailCode=");
 		builder.append(stockAdjDetailCode);
@@ -464,8 +470,6 @@ public class Storing {
 		builder.append(afterCount);
 		builder.append(", adjWeight=");
 		builder.append(adjWeight);
-		builder.append(", stockWeight=");
-		builder.append(stockWeight);
 		builder.append(", totalWeight=");
 		builder.append(totalWeight);
 		builder.append(", amount=");
@@ -509,316 +513,4 @@ public class Storing {
 		builder.append("]");
 		return builder.toString();
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + adjCount;
-		result = prime * result + ((adjDate == null) ? 0 : adjDate.hashCode());
-		result = prime * result + adjWeight;
-		result = prime * result + afterCount;
-		result = prime * result + amount;
-		result = prime * result + ((briefs == null) ? 0 : briefs.hashCode());
-		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result + ((clientCode == null) ? 0 : clientCode.hashCode());
-		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
-		result = prime * result + ((contractCode == null) ? 0 : contractCode.hashCode());
-		result = prime * result + ((contractSection == null) ? 0 : contractSection.hashCode());
-		result = prime * result + ((defectHandlingType == null) ? 0 : defectHandlingType.hashCode());
-		result = prime * result + ((defectType == null) ? 0 : defectType.hashCode());
-		result = prime * result + ((deliveryCode == null) ? 0 : deliveryCode.hashCode());
-		result = prime * result + deliveryCost;
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + ((inventoryCode == null) ? 0 : inventoryCode.hashCode());
-		result = prime * result + ((itemCode == null) ? 0 : itemCode.hashCode());
-		result = prime * result + ((itemList == null) ? 0 : itemList.hashCode());
-		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
-		result = prime * result + ((mainBusinessCode == null) ? 0 : mainBusinessCode.hashCode());
-		result = prime * result + ((managerId == null) ? 0 : managerId.hashCode());
-		result = prime * result + ((managerName == null) ? 0 : managerName.hashCode());
-		result = prime * result + ((materialOrderCode == null) ? 0 : materialOrderCode.hashCode());
-		result = prime * result + ((productOrderCode == null) ? 0 : productOrderCode.hashCode());
-		result = prime * result + ((purchaseTsCode == null) ? 0 : purchaseTsCode.hashCode());
-		result = prime * result + ((receiveAddr == null) ? 0 : receiveAddr.hashCode());
-		result = prime * result + ((receivePlanDate == null) ? 0 : receivePlanDate.hashCode());
-		result = prime * result + ((receiveWarehouse == null) ? 0 : receiveWarehouse.hashCode());
-		result = prime * result + ((receiveWarehouseLocation == null) ? 0 : receiveWarehouseLocation.hashCode());
-		result = prime * result + ((receiveWarehouseName == null) ? 0 : receiveWarehouseName.hashCode());
-		result = prime * result + ((receiveWarehouseOutPlace == null) ? 0 : receiveWarehouseOutPlace.hashCode());
-		result = prime * result + ((regDate == null) ? 0 : regDate.hashCode());
-		result = prime * result + ((requestDate == null) ? 0 : requestDate.hashCode());
-		result = prime * result + ((returnRegCode == null) ? 0 : returnRegCode.hashCode());
-		result = prime * result + ((salesTsCode == null) ? 0 : salesTsCode.hashCode());
-		result = prime * result + ((sendPlanDate == null) ? 0 : sendPlanDate.hashCode());
-		result = prime * result + ((sendWarehouse == null) ? 0 : sendWarehouse.hashCode());
-		result = prime * result + ((sendWarehouseLocation == null) ? 0 : sendWarehouseLocation.hashCode());
-		result = prime * result + ((sendWarehouseName == null) ? 0 : sendWarehouseName.hashCode());
-		result = prime * result + ((sendWarehouseOutPlace == null) ? 0 : sendWarehouseOutPlace.hashCode());
-		result = prime * result + ((shipPlanDetailCode == null) ? 0 : shipPlanDetailCode.hashCode());
-		result = prime * result + ((shipmentPlanCode == null) ? 0 : shipmentPlanCode.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((stockAdjCode == null) ? 0 : stockAdjCode.hashCode());
-		result = prime * result + ((stockAdjDetailCode == null) ? 0 : stockAdjDetailCode.hashCode());
-		result = prime * result + ((stockReason == null) ? 0 : stockReason.hashCode());
-		result = prime * result + stockReasonCode;
-		result = prime * result + ((stockReasonEng == null) ? 0 : stockReasonEng.hashCode());
-		result = prime * result + stockWeight;
-		result = prime * result + totalPrice;
-		result = prime * result + totalWeight;
-		result = prime * result + unitPrice;
-		result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Storing other = (Storing) obj;
-		if (adjCount != other.adjCount)
-			return false;
-		if (adjDate == null) {
-			if (other.adjDate != null)
-				return false;
-		} else if (!adjDate.equals(other.adjDate))
-			return false;
-		if (adjWeight != other.adjWeight)
-			return false;
-		if (afterCount != other.afterCount)
-			return false;
-		if (amount != other.amount)
-			return false;
-		if (briefs == null) {
-			if (other.briefs != null)
-				return false;
-		} else if (!briefs.equals(other.briefs))
-			return false;
-		if (businessName == null) {
-			if (other.businessName != null)
-				return false;
-		} else if (!businessName.equals(other.businessName))
-			return false;
-		if (clientCode == null) {
-			if (other.clientCode != null)
-				return false;
-		} else if (!clientCode.equals(other.clientCode))
-			return false;
-		if (comment == null) {
-			if (other.comment != null)
-				return false;
-		} else if (!comment.equals(other.comment))
-			return false;
-		if (contractCode == null) {
-			if (other.contractCode != null)
-				return false;
-		} else if (!contractCode.equals(other.contractCode))
-			return false;
-		if (contractSection == null) {
-			if (other.contractSection != null)
-				return false;
-		} else if (!contractSection.equals(other.contractSection))
-			return false;
-		if (defectHandlingType == null) {
-			if (other.defectHandlingType != null)
-				return false;
-		} else if (!defectHandlingType.equals(other.defectHandlingType))
-			return false;
-		if (defectType == null) {
-			if (other.defectType != null)
-				return false;
-		} else if (!defectType.equals(other.defectType))
-			return false;
-		if (deliveryCode == null) {
-			if (other.deliveryCode != null)
-				return false;
-		} else if (!deliveryCode.equals(other.deliveryCode))
-			return false;
-		if (deliveryCost != other.deliveryCost)
-			return false;
-		if (endDate == null) {
-			if (other.endDate != null)
-				return false;
-		} else if (!endDate.equals(other.endDate))
-			return false;
-		if (inventoryCode == null) {
-			if (other.inventoryCode != null)
-				return false;
-		} else if (!inventoryCode.equals(other.inventoryCode))
-			return false;
-		if (itemCode == null) {
-			if (other.itemCode != null)
-				return false;
-		} else if (!itemCode.equals(other.itemCode))
-			return false;
-		if (itemList == null) {
-			if (other.itemList != null)
-				return false;
-		} else if (!itemList.equals(other.itemList))
-			return false;
-		if (itemName == null) {
-			if (other.itemName != null)
-				return false;
-		} else if (!itemName.equals(other.itemName))
-			return false;
-		if (mainBusinessCode == null) {
-			if (other.mainBusinessCode != null)
-				return false;
-		} else if (!mainBusinessCode.equals(other.mainBusinessCode))
-			return false;
-		if (managerId == null) {
-			if (other.managerId != null)
-				return false;
-		} else if (!managerId.equals(other.managerId))
-			return false;
-		if (managerName == null) {
-			if (other.managerName != null)
-				return false;
-		} else if (!managerName.equals(other.managerName))
-			return false;
-		if (materialOrderCode == null) {
-			if (other.materialOrderCode != null)
-				return false;
-		} else if (!materialOrderCode.equals(other.materialOrderCode))
-			return false;
-		if (productOrderCode == null) {
-			if (other.productOrderCode != null)
-				return false;
-		} else if (!productOrderCode.equals(other.productOrderCode))
-			return false;
-		if (purchaseTsCode == null) {
-			if (other.purchaseTsCode != null)
-				return false;
-		} else if (!purchaseTsCode.equals(other.purchaseTsCode))
-			return false;
-		if (receiveAddr == null) {
-			if (other.receiveAddr != null)
-				return false;
-		} else if (!receiveAddr.equals(other.receiveAddr))
-			return false;
-		if (receivePlanDate == null) {
-			if (other.receivePlanDate != null)
-				return false;
-		} else if (!receivePlanDate.equals(other.receivePlanDate))
-			return false;
-		if (receiveWarehouse == null) {
-			if (other.receiveWarehouse != null)
-				return false;
-		} else if (!receiveWarehouse.equals(other.receiveWarehouse))
-			return false;
-		if (receiveWarehouseLocation == null) {
-			if (other.receiveWarehouseLocation != null)
-				return false;
-		} else if (!receiveWarehouseLocation.equals(other.receiveWarehouseLocation))
-			return false;
-		if (receiveWarehouseName == null) {
-			if (other.receiveWarehouseName != null)
-				return false;
-		} else if (!receiveWarehouseName.equals(other.receiveWarehouseName))
-			return false;
-		if (receiveWarehouseOutPlace == null) {
-			if (other.receiveWarehouseOutPlace != null)
-				return false;
-		} else if (!receiveWarehouseOutPlace.equals(other.receiveWarehouseOutPlace))
-			return false;
-		if (regDate == null) {
-			if (other.regDate != null)
-				return false;
-		} else if (!regDate.equals(other.regDate))
-			return false;
-		if (requestDate == null) {
-			if (other.requestDate != null)
-				return false;
-		} else if (!requestDate.equals(other.requestDate))
-			return false;
-		if (returnRegCode == null) {
-			if (other.returnRegCode != null)
-				return false;
-		} else if (!returnRegCode.equals(other.returnRegCode))
-			return false;
-		if (salesTsCode == null) {
-			if (other.salesTsCode != null)
-				return false;
-		} else if (!salesTsCode.equals(other.salesTsCode))
-			return false;
-		if (sendPlanDate == null) {
-			if (other.sendPlanDate != null)
-				return false;
-		} else if (!sendPlanDate.equals(other.sendPlanDate))
-			return false;
-		if (sendWarehouse == null) {
-			if (other.sendWarehouse != null)
-				return false;
-		} else if (!sendWarehouse.equals(other.sendWarehouse))
-			return false;
-		if (sendWarehouseLocation == null) {
-			if (other.sendWarehouseLocation != null)
-				return false;
-		} else if (!sendWarehouseLocation.equals(other.sendWarehouseLocation))
-			return false;
-		if (sendWarehouseName == null) {
-			if (other.sendWarehouseName != null)
-				return false;
-		} else if (!sendWarehouseName.equals(other.sendWarehouseName))
-			return false;
-		if (sendWarehouseOutPlace == null) {
-			if (other.sendWarehouseOutPlace != null)
-				return false;
-		} else if (!sendWarehouseOutPlace.equals(other.sendWarehouseOutPlace))
-			return false;
-		if (shipPlanDetailCode == null) {
-			if (other.shipPlanDetailCode != null)
-				return false;
-		} else if (!shipPlanDetailCode.equals(other.shipPlanDetailCode))
-			return false;
-		if (shipmentPlanCode == null) {
-			if (other.shipmentPlanCode != null)
-				return false;
-		} else if (!shipmentPlanCode.equals(other.shipmentPlanCode))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
-		if (stockAdjCode == null) {
-			if (other.stockAdjCode != null)
-				return false;
-		} else if (!stockAdjCode.equals(other.stockAdjCode))
-			return false;
-		if (stockAdjDetailCode == null) {
-			if (other.stockAdjDetailCode != null)
-				return false;
-		} else if (!stockAdjDetailCode.equals(other.stockAdjDetailCode))
-			return false;
-		if (stockReason == null) {
-			if (other.stockReason != null)
-				return false;
-		} else if (!stockReason.equals(other.stockReason))
-			return false;
-		if (stockReasonCode != other.stockReasonCode)
-			return false;
-		if (stockReasonEng == null) {
-			if (other.stockReasonEng != null)
-				return false;
-		} else if (!stockReasonEng.equals(other.stockReasonEng))
-			return false;
-		if (stockWeight != other.stockWeight)
-			return false;
-		if (totalPrice != other.totalPrice)
-			return false;
-		if (totalWeight != other.totalWeight)
-			return false;
-		if (unitPrice != other.unitPrice)
-			return false;
-		if (updateDate == null) {
-			if (other.updateDate != null)
-				return false;
-		} else if (!updateDate.equals(other.updateDate))
-			return false;
-		return true;
-	}
-	
 }

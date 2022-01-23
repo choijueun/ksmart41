@@ -1,5 +1,6 @@
 package k1.smart.team.controller.psb;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,16 +18,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
-import k1.smart.team.dto.csh.UserReg;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
-import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.cje.ItemService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.UserRegService;
+import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
 import k1.smart.team.service.psb.MaterialOrderService;
+import k1.smart.team.service.psb.ProductOrderService;
 
 
 
@@ -39,26 +41,27 @@ public class MaterialOrderController {
 		private MaterialOrderService materialOrderService;
 		private ClientService clientService;
 		private MainBusinessService mainBusinessService;
-		private UserRegService userRegService;
+		private UserService userService;
 		private ItemService itemService;
 		private ContractService contractService;
 		private String mainBusinessCode;
-		private List<MaterialOrder> materialOrderInfoList;  //발주 상세정보
+		private ProductOrderService productOrderService;
 		private MaterialOrder materialOrderInfo; // 발주 하나 정보
-		private Map<String,Object> resultMap;
-		
+
 		
 		
 		//생성자 메서드
-		public MaterialOrderController(MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserRegService userRegService, ContractService contractService) {
+		public MaterialOrderController(MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService, ContractService contractService, ProductOrderService productOrderService) {
 			this.materialOrderService = materialOrderService;
 			this.clientService = clientService;
 			this.itemService = itemService;
 			this.mainBusinessService = mainBusinessService;
-			this.userRegService = userRegService;
+			this.userService = userService;
 			this.contractService = contractService;
+			this.productOrderService = productOrderService;
 			
 		}
+		
 		
 	
 		
@@ -103,7 +106,11 @@ public class MaterialOrderController {
 			  model.addAttribute("contractList", contractList);
 			  System.out.println("contractList" + contractList);
 			  
-			  List<UserReg> userList = userRegService.getAllUserRegList();
+			  List<Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
+			  model.addAttribute("contractCodeForMaterialOrderCodeList", contractCodeForMaterialOrderCodeList);
+			  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
+			  
+			  List<User> userList = userService.getAllUserList();
 			  model.addAttribute("userList", userList);
 			  System.out.println("userList" + userList);
 			
@@ -122,10 +129,14 @@ public class MaterialOrderController {
 			//materialOrderCode 콘솔에 출력(log4j)
 			log.info("modifyMaterialOrder materialOrderCode: {}", materialOrderCode);
 			
-			MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
-			model.addAttribute("materialOrderInfo", materialOrderInfo);
+			//발주 정보
+			if(materialOrderCode != null && !"".equals(materialOrderCode)) {
+				MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
+				model.addAttribute("materialOrderInfo", materialOrderInfo);
+			}			
 			
 			model.addAttribute("title", "발주관리: 수정");
+			
 			return "materialOrder/materialOrder_list";
 		}
 		
@@ -146,48 +157,38 @@ public class MaterialOrderController {
 		}
 	
 	  //발주관리 상세
-	  @SuppressWarnings("unchecked")  
 	  @GetMapping("materialOrder/{materialOrderCode}") 
 	  public String materialOrderInfo(
 			  	@PathVariable(value="materialOrderCode", required=false) String materialOrderCode
 			  	,Model model) { 
 		  	//발주관리 코드 검사 if(materialOrderCode == null
-		  		System.out.println(materialOrderCode);
+		  		System.out.println("materialOrderCode-->" + materialOrderCode);
 			  if(materialOrderCode == null || "".equals(materialOrderCode)) { 
 				  System.out.println("발주코드 ERROR"); 
-				  return "redirect:/k1MaterialOrder/materialOrder"; 
+				  return "redirect:/k1MaterialOrder/k1MaterialOrderList"; 
 				  } 
 			  
 			  //발주관리 상세정보 
-			  System.out.println("resultMap" + resultMap);
-			  resultMap = materialOrderService.getMaterialOrderInfo(materialOrderCode);
-			  if(resultMap == null) {
+			  materialOrderInfo = materialOrderService.getMaterialOrderInfo(materialOrderCode);
+			  if(materialOrderInfo == null) {
 				  System.out.println("발주관리코드 ERROR"); 
-				  return"redirect:/k1MaterialOrder/materialOrder"; 
+				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 
 			  }
-			  
-			  materialOrderInfo = (MaterialOrder) resultMap.get("materialOrderInfo");
-	
-			  materialOrderInfoList = (List<MaterialOrder>) resultMap.get("materialOrderInfoList");
-
-			  
+			    
 			  model.addAttribute("title", "발주관리 상세");
 			  model.addAttribute("SectionTitle", "발주관리");
 			  model.addAttribute("SectionLocation", "상세정보");
 			  model.addAttribute("materialOrderInfo", materialOrderInfo);
-			  model.addAttribute("materialOrderInfoList", materialOrderInfoList); 
 			  return "materialOrder/materialOrder_info";
 		  }
-	 
-		
-	
-		
+	  
+
 		//발주 전체 목록
 		@GetMapping("/k1MaterialOrderList")
 		public String materialOrderMain(Model model) {
 			
 			List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList(mainBusinessCode);
-			model.addAttribute("title", "발주목록");
+			model.addAttribute("title", "수.발주 목록");
 			model.addAttribute("materialOrderList", materialOrderList);
 			System.out.println("materialOrderList-->" + materialOrderList);
 			
@@ -195,9 +196,15 @@ public class MaterialOrderController {
 			model.addAttribute("clientList", clientList);
 			System.out.println("clientList-->" + clientList);
 			
-			List<Stock> itemList = itemService.getAllItemList(mainBusinessCode);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("mainBusinessCode", mainBusinessCode);
+			List<Stock> itemList = itemService.getAllItemList(paramMap);
 			model.addAttribute("itemList", itemList);
 			System.out.println("itemList-->" + itemList);
+			
+			List<ProductOrder> productOrderList = productOrderService.getProductOrderList();
+			model.addAttribute("productOrderList", productOrderList);
+			System.out.println("productOrderList-->" + productOrderList);
 			
 			return "materialOrder/materialOrder_list";
 		}

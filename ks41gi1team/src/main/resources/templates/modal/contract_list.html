@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+	<table id="contractList" class="table table-bordered table-hover dataTable dtr-inline">
+		<thead>
+			<tr>
+				<th class="text-center">No.</th>
+				<th>분류</th>
+				<th>유형</th>
+				<th style="display: none;">거래처코드</th>
+				<th>거래처명</th>
+				<th>적요</th>
+				<th>기간</th>
+				<th>계약상태</th>
+				<th class="text-center">선택</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:unless="${#lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+				<td class="text-center">[[${l.contractCode}]]</td>
+				<td>[[${l.contractSection}]]</td>
+				<td>[[${l.contractType}]]</td>
+				<td style="display: none;">[[${l.clientCode}]]</td>
+				<td>[[${l.clientBusinessName}]]</td>
+				<td>[[${l.briefs}]]</td>
+				<td>[[${l.contractStatus}]]</td>
+				<td>[[${l.startDate}]] ~ [[${l.endDate}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr th:if="${#lists.isEmpty(contractList)}" class="empty">
+				<td colspan="1" style="display: none;"></td>
+				<td colspan="8">자재발주내역을 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

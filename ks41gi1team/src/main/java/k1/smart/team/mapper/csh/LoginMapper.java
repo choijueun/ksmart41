@@ -9,6 +9,9 @@ import k1.smart.team.dto.csh.Login;
 
 @Mapper
 public interface LoginMapper {
+	
+	//관리자페이지에서 최근 로그인내역만 보여주기
+	public List<Login> getLimitLoginList();
 
 	// 로그인 이력 테이블 튜플의 총 갯수
 	public int getLoginHistoryCount();
@@ -19,5 +22,5 @@ public interface LoginMapper {
 	// 로그인 내역 전체 목록
 	public List<Login> getAllLoginList();
 
-	public List<Login> getLimitLoginList();
+	
 }

@@ -5,43 +5,27 @@
 <mapper namespace="k1.smart.team.mapper.csh.InvoiceMapper">
 
 	<select id="getAllInvoiceList" parameterType="String" resultType="Invoice">
-		SELECT 
-			 b.businessName
-			,i.invoiceCode
-			,i.mainBusinessCode
-			,i.invoiceType
-			,i.supplyBusinessCode
-			,i.supplyManagerId
-			,i.demandBusinessCode
-			,i.demandManagerId
-			,i.invoicePrice
-			,i.invoiceTax
-			,i.totalPrice
-			,i.issueStatus
-			,i.payMethod
-			,i.invoiceConfirm
-			,i.briefs
-			,i.issueDate
-			,i.regDate
-		FROM 
-			k1_tb_invoice AS i
-			INNER JOIN
-			k1_tb_main_business AS b
-			ON 
-			i.mainBusinessCode = b.mainBusinessCode;
+		SELECT
+			*
+		FROM
+			k1_view_invoice;
 	</select>
 	
 	<select id="getInvoiceDetail" parameterType="String" resultType="Invoice">
 		SELECT 
 			 i.invoiceCode
-			,i.mainBusinessCode
 			,i.invoiceType
 			,i.supplyBusinessCode
+			,i.supplyBusinessName
 			,i.supplyManagerId
+			,i.supplymangerName
 			,i.demandBusinessCode
+			,i.demandBusinessName
 			,i.demandManagerId
+			,i.demandManagerName
 			,i.invoicePrice
 			,i.invoiceTax
+			,i.totalCount
 			,i.totalPrice
 			,i.issueStatus
 			,i.payMethod
@@ -54,20 +38,18 @@
 			,d.totalAccountCode
 			,d.salesTsCode
 			,d.itemCode
-			,d.amount
+			,d.`count`
 			,d.unitPrice
 			,d.supplyPrice
 			,d.tax
 			,d.`comment`
 		FROM 
-			k1_tb_invoice AS i
+			k1_view_invoice AS i
 			INNER JOIN
-			k1_tb_invoice_detail AS d
+			k1_view_invoice_detail AS d
 			ON 
 			i.invoiceCode = d.invoiceCode
 		WHERE
 			i.invoiceCode = #{invoiceCode};
-	 
-	
 	</select>
 </mapper>

@@ -166,7 +166,7 @@
 								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.afterCount,0,'COMMA')}]]</td>
 								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
-								<td>[[${#numbers.formatInteger(l.stockWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.totalWeight,0,'COMMA')}]] kg</td>
 								<td th:if="${l.purchaseTsCode != null and l.salesTsCode == null}">
 									비용 [[${l.purchaseTsCode}]]
 								</td>

@@ -19,11 +19,6 @@ public class TotalAcService {
 	public List<TotalAc> getTotalAcList(String mainBusinessCode){
 		totalAcList = totalAcMapper.getTotalAcList(mainBusinessCode);
 		
-		String totalAcNum;
-		for(int i=0; i<totalAcList.size(); i++) { totalAcNum =
-		totalAcList.get(i).getTotalAccountCode().replace("TotalAccountCode_", "");
-		totalAcList.get(i).setTotalAccountCode(totalAcNum); }
-		
 		return totalAcList;
 	}
 }

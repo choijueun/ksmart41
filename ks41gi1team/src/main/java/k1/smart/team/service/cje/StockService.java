@@ -34,9 +34,17 @@ public class StockService {
 	 * @param mainBusinessCode
 	 * @return 재고 여러개 정보
 	 */
-	public List<Stock> getAllStockList(String mainBusinessCode){
-		stockList = stockMapper.getAllStockList(mainBusinessCode);
+	public List<Stock> getAllStockList(String types, String wList, String mainBusinessCode){
+		stockList = stockMapper.getAllStockList(types, wList, mainBusinessCode);
 		return stockList;
+	}
+	
+	/**
+	 * 창고정보 목록
+	 * @param mainBusinessCode
+	 */
+	public List<Map<String, Object>> getAllWarehouseList(String mainBusinessCode) {
+		return stockMapper.getAllWarehouseList(mainBusinessCode);
 	}
 	
 	/**
@@ -94,7 +102,7 @@ public class StockService {
 	}
 	
 	public void removeStock(String mainBusinessCode, String inventoryCode) {
-		stockMapper.removeAdjDetailByStock(mainBusinessCode, inventoryCode);
 		stockMapper.removeStock(mainBusinessCode, inventoryCode);
 	}
+
 }

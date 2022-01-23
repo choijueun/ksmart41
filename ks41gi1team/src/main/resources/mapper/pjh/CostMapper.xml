@@ -5,33 +5,41 @@
 <mapper namespace="k1.smart.team.mapper.pjh.CostMapper">
 	<select id="getAllCostList" parameterType="String" resultType="Cost">
 		SELECT
-			etcPurchaseCode
-			,mainBusinessCode
-			,lsAccountCode
-			,amount
-			,dealDate
-			,reportPoint
-			,briefs
-			,regDate
-			,updateDate
+			c.etcPurchaseCode
+			,c.mainBusinessCode
+			,c.lsAccountCode
+			,c.amount
+			,c.dealDate
+			,c.reportPoint
+			,c.briefs
+			,c.regDate
+			,c.updateDate
+			,u.userName
 		FROM
- 			k1_tb_etc_purchase
-		WHERE
-			mainBusinessCode = #{mainBusinessCode};
+			k1_tb_etc_purchase AS c
+		JOIN
+			k1_tb_user u
+		ON
+			c.regId = u.userId
 	</select>
 	<select id="getCostInfoByCode" parameterType="String" resultType="Cost">
 		SELECT
-			etcPurchaseCode
-			,mainBusinessCode
-			,lsAccountCode
-			,amount
-			,dealDate
-			,reportPoint
-			,briefs
-			,regDate
-			,updateDate
+			c.etcPurchaseCode
+			,c.mainBusinessCode
+			,c.lsAccountCode
+			,c.amount
+			,c.dealDate
+			,c.reportPoint
+			,c.briefs
+			,c.regDate
+			,c.updateDate
+			,u.userName
 		FROM
- 			k1_tb_etc_purchase
+			k1_tb_etc_purchase AS c
+		JOIN
+			k1_tb_user u
+		ON
+			c.regId = u.userId
 		WHERE
 			etcPurchaseCode = #{etcPurchaseCode};
 	</select>
@@ -46,24 +54,11 @@
 			,#{dealDate}
 			,#{reportPoint}
 			,#{briefs}
+			,#{regId}
 			,NOW()
 			,NOW());
 	</insert>
 	
-	<insert id="addCostAc" parameterType="Cost">
-		INSERT INTO k1_tb_total_accounting
-			(totalAccountCode, mainBusinessCode, etcPurchaseCode, salesSection, totalPrice, regDate)
-		VALUES( 
-			(SELECT
-				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
-			FROM 
-			   k1_tb_total_accounting AS ac),
-			'fac_ksmartSeoul_Seoul_001',
-			#{etcPurchaseCode},
-			'비용',
-			#{amount},
-			NOW())
-	</insert>
 	
 	<select id="getAddCostCode" resultType="String">
 		SELECT 
@@ -85,6 +80,9 @@
 			<if test="dealDate !=null and dealDate != ''.toString()">
 			dealDate = #{dealDate},
 			</if>
+			<if test="regId !=null and regId != ''.toString()">
+			regId = #{regId},
+			</if>
 			reportPoint = #{reportPoint},
 			briefs = #{briefs},
 			updateDate = NOW()
@@ -92,11 +90,5 @@
 			etcPurchaseCode = CONCAT('etcPurchaseCode_',#{etcPurchaseCode});
 	</update>
 	
-	<update id="costModifyAc"  parameterType="Cost">
-		UPDATE k1_tb_total_accounting
-			SET
-				totalPrice = #{amount}
-			WHERE 
-				etcPurchaseCode = CONCAT('etcPurchaseCode_',#{etcPurchaseCode});
-	</update>
+	
 </mapper>

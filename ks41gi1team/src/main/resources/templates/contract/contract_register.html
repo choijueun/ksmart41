@@ -89,16 +89,25 @@
 </th:block>
 <!-- Main content -->
 <th:block layout:fragment="customContents">
+<div class="container-fluid">
+	<div class="row">
+	<div class="col-lg-3 col-md-2"></div>
+	<div class="col-lg-6 col-md-8 mb-3">
+	<div class="card card-info card-outline">
+	<div class="card-header">
+		계약서 등록
+			</div>
 	<form id="addContractForm" th:action="@{/k1Contract/k1ContractReg}" method="post">
 		<div class="card-body">
-                  <div class="form-group">
+			<div class="row">
+                  <div class="form-group col-md-6">
                     <label for="contractCode">계약코드</label>
                    
                     	<input type="text" name="contractCode" class="form-control" id="contractCode" th:value="${contractInfo}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="mainBusinessCode">사업장별 대표코드</label>
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
@@ -113,7 +122,7 @@
                     	</th:block>	
                     </select>
                    </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="clientCode">거래처 대표코드</label>
                      <select name="clientCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
@@ -127,7 +136,7 @@
                     	</th:block>
                     </select>		
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="clientManagerId">거래처 담당자</label>
                       <select name="clientManagerId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
@@ -141,26 +150,26 @@
                     	</th:block>
                     </select>	
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="contractSection">계약 주문유형</label>
                     	<select name="contractSection" disabled="disabled" class="form-control">
                     		<option>발주</option>
                     		<option>수주</option>
                     	</select>
                     </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="contractType">계약유형</label>
                     <input type="text" name="contractType" class="form-control" id="contractType" placeholder="1년계약" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="startDate">계약시작날짜</label>
                     <input type="date" name="startDate" class="form-control" id="startDate" placeholder="2021-11-01" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="endDate">계약종료날짜</label>
                     <input type="date" name="endDate" class="form-control" id="endDate" placeholder="2021-11-02" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="managerId">담당자</label>
                     <select name="managerId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(userList)}"
@@ -174,7 +183,7 @@
                     	</th:block>
                     </select>
                  </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="regId">등록자</label> 
                     <select name="regId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(userList)}"
@@ -188,7 +197,7 @@
                     	</th:block>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="approvalId">승인자</label>
                     <select name="approvalId" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(userList)}"
@@ -202,36 +211,40 @@
                     	</th:block>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="contractDate">계약일자</label>
                     <input type="date" name="contractDate" class="form-control" id="contractDate" placeholder="2021-10-30" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="contractStatus">계약상태</label>
                     <input type="text" name="contractStatus" class="form-control" id="contractStatus" placeholder="계약중" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="briefs">적요</label>
                     <input type="text" name="briefs" class="form-control" id="briefs" placeholder="제품매출 6,600,000원" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="regDate">등록일시</label>
                     <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="updateDate">수정일시</label>
                     <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
                   </div>
                   <div class="form-group mb-0">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" disabled="disabled">
-                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                      
                     </div>
                   </div>
+                </div>
                 </div>
                 <div class="card-footer">
                   <button type="submit" id="addContractBtn" class="btn btn-info" disabled="disabled" >등록</button>
                 </div>
              </form>
+</div>
+</div>
+</div>
 </th:block>
 </html>

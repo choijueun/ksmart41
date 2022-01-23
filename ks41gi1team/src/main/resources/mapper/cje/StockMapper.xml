@@ -4,126 +4,86 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.StockMapper">
 
+<!-- 재고 전체목록 조회 -->
 <select id="getAllStockList" parameterType="String" resultType="Stock">
 	SELECT 
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,s.mainBusinessCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
-		,RIGHT(i.categoryCode,3) AS categoryCode
-		,i.largeCategory
-		,i.middleCategory
-		,i.smallCategory
-		,i.itemStandard
-		,i.itemOrigin
-		,RIGHT(s.productPriceCode,3) AS productPriceCode
-		,p.productPrice
+		,s.itemName
+		,s.itemType
+		,s.largeCategory
+		,s.middleCategory
+		,s.smallCategory
+		,s.itemStandard
+		,s.itemOrigin
+		,s.unitPrice AS productPrice
 		,s.itemCount
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-		,w.location
-		,w.outPlace
-		,s.stockWeight
+		,s.warehouseName
+		,s.location
+		,s.outPlace
+		,s.totalWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate AS stockRegDate
 		,s.updateDate AS stockUpdateDate
 	FROM
-		k1_tb_stock AS s
-		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
-		ON
-		i.itemCode = s.itemCode
-		JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
+		k1_view_stock AS s
 	WHERE 
-		s.mainBusinessCode = #{mainBusinessCode};
+		s.mainBusinessCode = #{mainBusinessCode}
+		<if test="types != null and types != ''.toString()">
+		AND s.itemType REGEXP #{types}
+		</if>
+		<if test="wList != null and wList != ''.toString()">
+		AND s.warehouseCode REGEXP #{wList};
+		</if>
 </select>
 
+<!-- 창고코드&이름 전체조회 -->
+<select id="getAllWarehouseList" parameterType="String" resultType="map">
+	SELECT 
+		 RIGHT(w.warehouseCode,3) AS warehouseCode
+		,w.warehouseName
+	FROM
+		k1_view_warehouse_info w
+	WHERE
+		w.mainBusinessCode = #{mainBusinessCode};
+</select>
+
+<!-- 재고상세정보 -->
 <select id="getStockInfo" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(s.inventoryCode,3) AS inventoryCode
 		,RIGHT(s.itemCode,3) AS itemCode
-		,i.itemName
-		,i.itemType
-		,RIGHT(i.categoryCode,3) AS categoryCode
-		,i.largeCategory
-		,i.middleCategory
-		,i.smallCategory
-		,i.itemStandard
-		,i.itemOrigin
-		,RIGHT(s.productPriceCode,3) AS productPriceCode
-		,p.productPrice
+		,s.itemName
+		,s.itemType
+		,s.largeCategory
+		,s.middleCategory
+		,s.smallCategory
+		,s.itemStandard
+		,s.itemOrigin
+		,s.unitPrice AS productPrice
 		,s.itemCount
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-		,w.location
-		,w.outPlace
-		,s.stockWeight
+		,s.warehouseName
+		,s.location
+		,s.outPlace
+		,s.totalWeight
 		,s.`status`
 		,s.`comment`
 		,s.regDate
 		,s.updateDate
 	FROM
-		k1_tb_stock AS s
-		JOIN
-		(SELECT
-			 i.itemCode
-			,i.itemName
-			,i.itemType
-			,i.categoryCode
-			,c.largeCategory
-			,c.middleCategory
-			,c.smallCategory
-			,i.itemStandard
-			,i.itemOrigin
-		FROM
-			k1_tb_item_info AS i
-			LEFT JOIN
-			k1_tb_item_category AS c
-			ON
-			i.categoryCode = c.categoryCode
-		) AS i
-		ON
-		i.itemCode = s.itemCode
-		JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
-		LEFT JOIN
-		k1_tb_product_price AS p
-		ON
-		s.productPriceCode = p.productPriceCode
+		k1_view_stock AS s
 	WHERE
 		s.mainBusinessCode = #{mainBusinessCode}
 		AND s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </select>
 
+<!-- 특정 재고의 물류이동 내역 최근 10건 조회 -->
 <select id="getStockStorings" parameterType="String" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
@@ -133,10 +93,10 @@
 		,a.endDate
 		,a.briefs
 		,a.managerId
-		,u.userName AS managerName
+		,a.managerName
 		,a.updateDate
 	FROM
-		k1_tb_stock_adjustment AS a
+		k1_view_stock_adjustment AS a
 		JOIN
 		k1_tb_stock_adjustment_detail AS ad
 		ON
@@ -145,13 +105,12 @@
 		k1_tb_stock_reason AS r
 		ON
 		a.stockReasonCode = r.stockReasonCode
-		JOIN
-		k1_tb_user AS u
-		ON
-		a.managerId = u.userId
 	WHERE
-		ad.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
-	ORDER BY a.endDate DESC
+		ad.itemCode = CONCAT('itemCode_',#{itemCode})
+	GROUP BY
+		a.stockAdjCode
+	ORDER BY 
+		a.endDate DESC
 	LIMIT 10;
 </select>
 
@@ -159,31 +118,13 @@
 <select id="stockRemoveValid" parameterType="String" resultType="map">
 	SELECT 
 		 s.itemCount
-		,s.stockWeight
+		,s.totalWeight
 	FROM 
-		k1_tb_stock AS s
+		k1_view_stock AS s
 	WHERE
 		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
 		AND mainBusinessCode = #{mainBusinessCode};
 </select>
-
-<delete id="removeAdjDetailByStock" parameterType="String">
-	DELETE 
-		ad
-	FROM
-		k1_tb_stock AS s
-		JOIN
-		k1_tb_stock_adjustment_detail AS ad
-		ON
-		ad.inventoryCode = s.inventoryCode
-		JOIN
-		k1_tb_stock_adjustment AS a
-		ON
-		s.mainBusinessCode = a.mainBusinessCode
-	WHERE
-		s.inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
-		AND s.mainBusinessCode = #{mainBusinessCode};
-</delete>
 
 <delete id="removeStock">
 	DELETE 

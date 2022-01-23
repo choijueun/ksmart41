@@ -1,5 +1,6 @@
 package k1.smart.team.service.cje;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +33,9 @@ public class ItemService {
 	 * @param mainBusinessCode
 	 * @return 품목 여러개 정보
 	 */
-	public List<Stock> getAllItemList(String mainBusinessCode) {
+	public List<Stock> getAllItemList(Map<String, Object> paramMap) {
 		// 전체목록
-		itemList = itemMapper.getAllItemList(mainBusinessCode);
+		itemList = itemMapper.getAllItemList(paramMap);
 
 		return itemList;
 	}
@@ -64,7 +65,7 @@ public class ItemService {
 	}
 
 	/**
-	 * 특정 카테고리 조회
+	 * 특정 카테고리 목록 조회
 	 * @param largeCategory
 	 * @param middleCategory
 	 * @param smallCategory
@@ -102,6 +103,23 @@ public class ItemService {
 		}
 		return false;
 	}
+	
+	/**
+	 * 카테고리 코드 반환
+	 * @param categories
+	 */
+	public String getItemCategoryCode(List<String> categories) {
+		//공백 null로 변경
+		if(CommonUtils.isEmpty(categories.get(2))) categories.set(2, null);
+		if(CommonUtils.isEmpty(categories.get(3))) categories.set(3, null);
+		//카테고리 코드 검색
+		List<String> categoryCodes = itemMapper.getCategoryCode(categories.get(0), categories.get(1), categories.get(2), categories.get(3), categories.get(4));
+		//NULL체크 & 개수 검사
+		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
+			return categoryCodes.get(0);
+		}
+		return null;
+	}
 
 	/**
 	 * 품목정보 등록 process
@@ -109,18 +127,60 @@ public class ItemService {
 	 * @return 등록성공 true 실패 false
 	 */
 	public boolean addItem(Stock itemInfo) {
-		//카테고리 코드 반환
-		List<String> categoryCodes = itemMapper.getCategoryCode(
-				itemInfo.getLargeCategory(),itemInfo.getMiddleCategory(), itemInfo.getSmallCategory(), itemInfo.getMicroCategory());
-		//카테고리코드 정상조회
-		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
-			itemInfo.setCategoryCode(categoryCodes.get(0));
+		//System.out.println("1. 제품인데 카테고리 코드가 없다.");
+		if("제품".equals(itemInfo.getItemType()) && CommonUtils.isEmpty(itemInfo.getCategoryCode())) {
+			itemInfo.setCategoryCode(this.productCategoryCode(itemInfo));
+			if( CommonUtils.isEmpty(itemInfo.getCategoryCode()) ) return false;
 		}
-
+		//NULL치환
+		if(CommonUtils.isEmpty(itemInfo.getCategoryCode())) itemInfo.setCategoryCode(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemStatus())) itemInfo.setItemStatus(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemComment())) itemInfo.setItemComment(null);
 		// 등록 처리
 		if (itemMapper.addItem(itemInfo) == 1) return true;
 
 		return false;
+	}
+	
+	public boolean modifyItem(Stock itemInfo) {
+		//System.out.println("1. 제품인데 카테고리 코드가 없다.");
+		if("제품".equals(itemInfo.getItemType()) && CommonUtils.isEmpty(itemInfo.getCategoryCode())) {
+			itemInfo.setCategoryCode(this.productCategoryCode(itemInfo));
+			if( CommonUtils.isEmpty(itemInfo.getCategoryCode()) ) return false;
+		}
+		//NULL치환
+		if(CommonUtils.isEmpty(itemInfo.getCategoryCode())) itemInfo.setCategoryCode(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemStatus())) itemInfo.setItemStatus(null);
+		if(CommonUtils.isEmpty(itemInfo.getItemComment())) itemInfo.setItemComment(null);
+		//수정 처리
+		if (itemMapper.modifyItem(itemInfo) == 1) return true;
+		
+		return false;
+	}
+	
+	public String productCategoryCode(Stock itemInfo) {
+		//공백 NULL 치환
+		if(CommonUtils.isEmpty(itemInfo.getSmallCategory())) itemInfo.setSmallCategory(null);
+		if(CommonUtils.isEmpty(itemInfo.getMicroCategory())) itemInfo.setMicroCategory(null);
+		
+		//System.out.println("2. 카테고리 정보를 등록했다.");
+		if(itemMapper.addItemCategory(itemInfo) > 0) {
+			//System.out.println("3. 등록한 카테고리 코드를 조회한다.");
+			List<String> categories = new ArrayList<String>();
+			categories.add(itemInfo.getLargeCategory());
+			categories.add(itemInfo.getMiddleCategory());
+			categories.add(itemInfo.getSmallCategory());
+			categories.add(itemInfo.getMicroCategory());
+			categories.add(itemInfo.getMainBusinessCode());
+			
+			String categoryCode = this.getItemCategoryCode(categories);
+			
+			//System.out.println("4. 카테고리 코드를 반환한다.");
+			return categoryCode;
+		}
+		
+		
+		return null;
 	}
 	
 	/**
@@ -130,5 +190,13 @@ public class ItemService {
 	 */
 	public void addItemCategory(Stock stock) {
 		itemMapper.addItemCategory(stock);
+	}
+
+	/**
+	 * 카테고리 정보 수정 절차
+	 * @param stock
+	 */
+	public void modifyItemCategory(Stock stock) {
+		itemMapper.modifyItemCategory(stock);
 	}
 }
