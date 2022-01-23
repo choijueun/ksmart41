@@ -24,7 +24,7 @@ public class Stock {
 	
 	private String productPriceCode; //제품단가코드
 	private int productPrice; //제품단가
-	private int unitPrice; //자재단가
+	private int unitPrice; //단가
 	private int avgPrice; //평균단가
 	
 	private int totalPrice; //합계금액
@@ -49,6 +49,9 @@ public class Stock {
 	private String itemUpdateDate; //품목수정일시
 	private String stockRegDate; //재고등록일시
 	private String stockUpdateDate; //재고수정일시
+	
+	private String shipmentPlanCode; //출하계획코드
+	private String returnRegCode; //반품요청코드
 	
 	private String stockAdjCode; //물류이동내역코드
 	private String stockAdjDetailCode; //물류이동상세내역코드
@@ -88,6 +91,9 @@ public class Stock {
 	}
 	public String getItemType() {
 		return itemType;
+	}
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
 	}
 	public String getCategoryCode() {
 		return categoryCode;
@@ -281,6 +287,18 @@ public class Stock {
 	public void setStockUpdateDate(String stockUpdateDate) {
 		this.stockUpdateDate = stockUpdateDate;
 	}
+	public String getShipmentPlanCode() {
+		return shipmentPlanCode;
+	}
+	public void setShipmentPlanCode(String shipmentPlanCode) {
+		this.shipmentPlanCode = shipmentPlanCode;
+	}
+	public String getReturnRegCode() {
+		return returnRegCode;
+	}
+	public void setReturnRegCode(String returnRegCode) {
+		this.returnRegCode = returnRegCode;
+	}
 	public String getStockAdjCode() {
 		return stockAdjCode;
 	}
@@ -340,9 +358,6 @@ public class Stock {
 	}
 	public void setStoringUpdateDate(String storingUpdateDate) {
 		this.storingUpdateDate = storingUpdateDate;
-	}
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
 	}
 	@Override
 	public String toString() {
@@ -421,6 +436,10 @@ public class Stock {
 		builder.append(stockRegDate);
 		builder.append(", stockUpdateDate=");
 		builder.append(stockUpdateDate);
+		builder.append(", shipmentPlanCode=");
+		builder.append(shipmentPlanCode);
+		builder.append(", returnRegCode=");
+		builder.append(returnRegCode);
 		builder.append(", stockAdjCode=");
 		builder.append(stockAdjCode);
 		builder.append(", stockAdjDetailCode=");

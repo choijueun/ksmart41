@@ -193,12 +193,12 @@ $(function(){
 					<a th:href="@{/k1Stock}">
 						<button type="button" class="btn btn-default">목록으로</button>
 					</a>
-					<form id="removeForm" th:action="@{/k1StockRemove}" method="POST"> 
-						<input type="hidden" name="inventoryCode" th:value="${s.inventoryCode}">
-					</form>
 					<button type="button" class="btn btn-danger float-right removeBtn">삭제</button>
 					<button type="button" class="btn btn-info float-right mr-2 modifyBtn">수정</button>
 				</div>
+				<form id="removeForm" th:action="@{/k1StockRemove}" method="POST"> 
+					<input type="hidden" name="inventoryCode" th:value="${s.inventoryCode}">
+				</form>
 			</div>
 		</div>
 		<div class="col-lg-7">
