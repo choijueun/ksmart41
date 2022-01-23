@@ -1,5 +1,6 @@
 package k1.smart.team.service.cje;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.mapper.CodeMapper;
+import k1.smart.team.mapper.cje.StockMapper;
 import k1.smart.team.mapper.cje.StoringMapper;
 
 @Service
@@ -23,6 +25,8 @@ public class StoringService {
 	
 	@Autowired
 	private CodeMapper codeMapper; //코드번호 자동생성
+	@Autowired
+	private StockService stockService; //재고검색
 	
 	/**
 	 * 생성자 메서드
@@ -367,6 +371,86 @@ public class StoringService {
 	}
 	
 	/**
+	 * 재고추가
+	 * @param stockInfo
+	 * @return 성공시 true 실패시 false
+	 */
+	public List<Stock> plusStockStoring(Storing storingInfo, List<Stock> itemList) {
+		//return할 품목정보 목록
+		List<Stock> returnList = new ArrayList<Stock>();
+		Stock returnItem = new Stock();
+		
+		//사업장대표코드 및 창고코드 일치하는 재고 검색
+		String mainBusinessCode = storingInfo.getMainBusinessCode();
+		String warehouseCode = null;
+		if(CommonUtils.isEmpty(storingInfo.getReceiveWarehouse())) {
+			warehouseCode = storingInfo.getSendWarehouse();
+		}else if(CommonUtils.isEmpty(storingInfo.getSendWarehouse())) {
+			warehouseCode = storingInfo.getReceiveWarehouse();
+		}
+		List<Stock> stockList = stockService.getAllStockList(null, warehouseCode, mainBusinessCode);
+		
+		//1. 사업장대표코드 및 창고코드 일치하는 재고정보 없음
+		if(CommonUtils.isEmpty(stockList)) {
+			//전부 INSERT
+			for (Stock itemInfo : itemList) {
+				//사업장대표코드 및 창고코드
+				itemInfo.setMainBusinessCode(mainBusinessCode);
+				itemInfo.setWarehouseCode(warehouseCode);
+				//재고정보 등록 프로세스
+				returnItem = stockService.addStock(itemInfo);
+				if(CommonUtils.isEmpty(itemInfo)) {
+					//실패
+					return null;
+				} else {
+					//성공
+					returnList.add(itemInfo);
+				}
+			}
+			return returnList;
+		}
+		//2. 사업장대표코드 및창고코드 일치하는재고정보 있음
+		String itemCode = null;
+		for(Stock stockInfo : stockList) {
+			//품목코드 일치 확인
+			itemCode = stockInfo.getItemCode();
+			//상세정보 반복문
+			for(Stock itemInfo : itemList) {
+				//2-1. 일치하는 정보  있다 - UPDATE
+				if(itemCode.equals(itemInfo.getItemCode())) {
+					//수량 및 중량
+					itemInfo.setTotalCount(itemInfo.getItemCount() + stockInfo.getItemCount());
+					itemInfo.setTotalWeight(itemInfo.getItemWeight() + stockInfo.getTotalWeight());
+					//재고정보 수정
+					if(stockService.plusStock(itemInfo)) {
+						//성공시 반환할 목록에 추가
+						returnList.add(itemInfo);
+					}
+					//실패 시 return null
+					return null;
+				}
+				//2-2. 일치하는 정보 없다 - INSERT
+				else {
+					//사업장대표코드 및 창고코드
+					itemInfo.setMainBusinessCode(mainBusinessCode);
+					itemInfo.setWarehouseCode(warehouseCode);
+					//재고정보 등록
+					returnItem = stockService.addStock(itemInfo);
+					if(CommonUtils.isEmpty(returnItem)) {
+						//실패
+						return null;
+					} else {
+						//성공
+						returnList.add(returnItem);
+					}
+				}
+			}
+		}
+		
+		return returnList;
+	}
+	
+	/**
 	 * 입고내역 등록 프로세스
 	 * @param storingInfo
 	 * @return 성공시 true, 실패시 false
@@ -382,6 +466,11 @@ public class StoringService {
 			//실패시 return false
 			return false;
 		}
+		//afterCount, totalWeight 입력된 itemList 생성
+		List<Stock> itemList = storingInfo.getS();
+		itemList = plusStockStoring(storingInfo, itemList);
+		//실패 시 null 반환 → return false;
+		if(CommonUtils.isEmpty(itemList)) return false;
 		
 		String stockAdjDetailCode = null;
 		//상세정보 반복문
@@ -401,29 +490,15 @@ public class StoringService {
 			if(!CommonUtils.isEmpty(itemInfo.getPurchaseTsCode()) || !CommonUtils.isEmpty(itemInfo.getSalesTsCode())) {
 				itemInfo.setUnitPrice(0);
 			}
-			//물류이동상세내역 등록
 			if(storingMapper.addStoringDetails(itemInfo) == 0) {
-				//실패시 물류이동상세내역(stockAdjDetailCode) 삭제
+				//물류이동상세내역 등록 실패시 물류이동상세내역(stockAdjDetailCode) 삭제
 				storingMapper.removeStoringDetails(stockAdjCode, null);
-				//실패시 물류이동내역(stockAdjCode) 삭제
+				//물류이동상세내역 등록 실패시 물류이동내역(stockAdjCode) 삭제
 				storingMapper.removeStoringInfo(stockAdjCode, storingInfo.getMainBusinessCode());
 				return false;
 			}
 		}
-		//재고정보 검색
-		//1.일치하는게 없다
-		//	1) INSERT
-		//	2) adjCount=afterCount, adjWeight=totalWeight
-		//	3) 실패 시
-		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
-		//		return false;
-		
-		//2.일치하는게 있다
-		//	1) UPDATE
-		//	2) afterCount, totalWeight 입력
-		//	3) 실패 시
-		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
-		//		return false;
+
 		
 		//모든 정보 등록 완료
 		return true;

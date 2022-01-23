@@ -126,6 +126,31 @@
 		AND mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 재고정보 추가 -->
+<insert id="addStock" parameterType="Stock">
+	INSERT INTO k1_tb_stock
+		(inventoryCode, mainBusinessCode, itemCode, purchaseTsCode, productPriceCode, warehouseCode, itemCount, totalWeight, `status`, `comment`, regDate, updateDate)
+	VALUES (
+		CONCAT('inventoryCode_',#{inventoryCode})
+		, #{mainBusinessCode}
+		, CONCAT('itemCode_', #{itemCode})
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">
+		, CONCAT('purchase_ts_stCode_', #{purchaseTsCode})
+		</if>
+		<if test="productPriceCode != null and productPriceCode != ''.toString()">
+		, CONCAT('productPriceCode_', #{productPriceCode})
+		</if>
+		, CONCAT('warehouseCode_', #{warehouseCode})
+		, ${totalCount}
+		, ${totalWeight}
+		, #{status}
+		<if test="comment != null and comment != ''.toString()">
+		, #{comment}
+		</if>
+		, NOW(), NOW()
+	);
+</insert>
+
 <delete id="removeStock">
 	DELETE 
 	FROM 
