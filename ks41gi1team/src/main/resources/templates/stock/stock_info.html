@@ -102,7 +102,7 @@ $(function(){
 							<tr>
 								<th>품목명</th>
 								<td>
-									<a th:href="@{|/k1Item/${s.inventoryCode}|}">[[${s.itemName}]]</a>
+									<a th:href="@{|/k1Item/${s.itemCode}|}">[[${s.itemName}]]</a>
 								</td>
 							</tr>
 							<tr>
@@ -132,7 +132,7 @@ $(function(){
 							</tr>
 							<tr>
 								<th>수량</th>
-								<td>[[${#numbers.formatInteger(s.itemCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(s.totalCount,0,'COMMA')}]]</td>
 							</tr>
 							<tr>
 								<th>규격</th>
@@ -140,7 +140,7 @@ $(function(){
 							</tr>
 							<tr>
 								<th>중량</th>
-								<td>[[${#numbers.formatInteger(s.itemWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(s.totalWeight,0,'COMMA')}]] kg</td>
 							</tr>
 							<tr>
 								<th>단가 </th>

@@ -238,7 +238,7 @@
 	
 	<select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
-			 c.contractCode
+			 RIGHT(c.contractCode,3) AS contractCode
 			,c.clientCode
 			,c.clientBusinessName
 			,c.clientManagerId
