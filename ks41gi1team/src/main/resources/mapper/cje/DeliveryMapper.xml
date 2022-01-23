@@ -50,47 +50,24 @@
 		,RIGHT(d.shipmentPlanCode,3) AS shipmentPlanCode
 		,RIGHT(d.returnRegCode,3) AS returnRegCode
 		,d.deliveryBusinessCode
-		,c.businessName AS deliveryBusinessName
-		,RIGHT(s.contractCode,3) AS contractCode
-		,s.clientCode
-		,s.clientBusinessName
+		,d.deliveryBusinessName
+		,RIGHT(d.contractCode,3) AS contractCode
+		,d.clientCode
+		,d.clientBusinessName
 		,d.receiveAddr
 		,RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
-		,a.stockReason
+		,a.`reason` AS stockReason
 		,d.deliveryCost
 		,d.briefs
 		,d.managerId
-		,u.userName AS managerName
+		,d.managerName
 		,d.regDate
 		,d.updateDate
-	FROM 
-		k1_tb_delivery AS d
-		JOIN
-		k1_tb_user AS u
-		ON
-		d.managerId = u.userId
-		LEFT JOIN
-		k1_view_shipment_plan AS s
-		ON
-		d.shipmentPlanCode = s.shipmentPlanCode
-		JOIN
-		k1_tb_client AS c
-		ON
-		d.deliveryBusinessCode = c.clientCode
-		LEFT JOIN
-		(SELECT
-			 a.deliveryCode
-			,stockAdjCode
-			,a.stockReasonCode
-			,r.reason AS stockReason
-		FROM
-			k1_tb_stock_adjustment AS a
-			JOIN
-			k1_tb_stock_reason AS r
-			ON
-			a.stockReasonCode = r.stockReasonCode
-		) AS a
+	FROM
+		k1_view_delivery d
+		LEFT  JOIN
+		k1_view_stock_adjustment a
 		ON
 		d.deliveryCode = a.deliveryCode
 	WHERE
@@ -99,54 +76,42 @@
 </select>
 
 <!-- 출하계획목록 -->
-<select id="getShipPlanDetails" parameterType="String" resultType="Storing">
+<select id="getShipPlanDetails" parameterType="String" resultType="Stock">
  	SELECT 
-		 RIGHT(p.itemCode,3) AS itemCode
-		,i.itemName 
-		,p.itemCount AS adjCount
-		,p.itemWeight AS adjWeight
+ 		 RIGHT(p.shipmentPlanCode,3) AS shipmentPlanCode
+		,RIGHT(p.itemCode,3) AS itemCode
+		,p.salesTsCode
+		,p.itemName
+		,p.itemWeight
+		,p.itemCount
+		,p.unitPrice
 		,p.totalPrice
-		,RIGHT(s.warehouseCode,3) AS sendWarehouse
-		,w.warehouseName AS sendWarehouseName
-		,w.location AS sendWarehouseLocation
-		,w.outPlace AS sendWarehouseOutPlace
 		,p.`comment`
 	FROM
-		k1_view_shipment_plan AS p
-		JOIN
-		k1_tb_stock AS s
-		ON
-		p.itemCode = s.itemCode
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		s.itemCode = i.itemCode
-		LEFT JOIN
-		k1_tb_warehouse_info AS w
-		ON
-		s.warehouseCode = w.warehouseCode
+		k1_view_shipment_plan_detail AS p
 	WHERE
-		shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode});
+		shipmentPlanCode = CONCAT('shipmentPlanCode_',#{shipmentPlanCode})
+	GROUP BY
+		p.shipmentPlanCode;
 </select>
 
 <!-- 반품요청목록 -->
-<select id="getReturnRegDetails" parameterType="String" resultType="Storing">
+<select id="getReturnRegDetails" parameterType="String" resultType="Stock">
 	SELECT
 		 RIGHT(r.returnRegCode,3) AS returnRegCode
 		,RIGHT(r.itemCode,3) AS itemCode
-		,i.itemName
-		,r.amount
-		,r.`count` as adjCount
-		,(r.amount * r.`count`) AS totalPrice
+		,r.itemName
+		,r.categoryCode
+		,r.unitPrice
+		,r.`count` AS itemCount
+		,r.totalPrice
 		,r.`comment`
 	FROM
-		k1_tb_return_reg_detail AS r
-		JOIN
-		k1_tb_item_info AS i
-		ON
-		r.itemCode = i.itemCode
+		k1_view_return_reg_detail AS r
 	WHERE
-		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
+		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode})
+	GROUP BY
+		r.returnRegCode;
 </select> 
 
 </mapper>
