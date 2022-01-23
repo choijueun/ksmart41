@@ -142,6 +142,11 @@ public class ItemService {
 		return false;
 	}
 	
+	/**
+	 * 품목정보 수정 process
+	 * @param itemInfo
+	 * @return 등록성공 true 실패 false
+	 */
 	public boolean modifyItem(Stock itemInfo) {
 		//System.out.println("1. 제품인데 카테고리 코드가 없다.");
 		if("제품".equals(itemInfo.getItemType()) && CommonUtils.isEmpty(itemInfo.getCategoryCode())) {
@@ -158,6 +163,10 @@ public class ItemService {
 		return false;
 	}
 	
+	/**
+	 * 카테고리 코드 반환 (없을시 새로 생성)
+	 * @param itemInfo
+	 */
 	public String productCategoryCode(Stock itemInfo) {
 		//공백 NULL 치환
 		if(CommonUtils.isEmpty(itemInfo.getSmallCategory())) itemInfo.setSmallCategory(null);
@@ -178,8 +187,6 @@ public class ItemService {
 			//System.out.println("4. 카테고리 코드를 반환한다.");
 			return categoryCode;
 		}
-		
-		
 		return null;
 	}
 	

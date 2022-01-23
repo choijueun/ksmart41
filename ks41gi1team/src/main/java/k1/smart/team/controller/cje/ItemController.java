@@ -92,12 +92,13 @@ public class ItemController {
 			}
 			typeList = str.toString();
 		}
+		//분류 및 카테고리 세팅
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("typeList", typeList);
 		paramMap.put("largeCategory", largeCategory);
-		if(!CommonUtils.isEmpty(largeCategory)) paramMap.put("middleCategory", middleCategory);
-		if(!CommonUtils.isEmpty(middleCategory)) paramMap.put("smallCategory", smallCategory);
-		if(!CommonUtils.isEmpty(smallCategory)) paramMap.put("microCategory", microCategory);
+		paramMap.put("middleCategory", middleCategory);
+		paramMap.put("smallCategory", smallCategory);
+		paramMap.put("microCategory", microCategory);
 		paramMap.put("mainBusinessCode", mainBusinessCode);
 		
 		log.info("PARAMETER :: {}", paramMap);
