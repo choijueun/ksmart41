@@ -137,7 +137,7 @@ public class StockController {
 	
 	@PostMapping("/k1StockRemove")
 	public String removeStock(String inventoryCode) {
-		stockService.removeStock(mainBusinessCode, inventoryCode);
+		stockService.removeStock(inventoryCode);
 		
 		return "redirect:/k1Stock";
 	}

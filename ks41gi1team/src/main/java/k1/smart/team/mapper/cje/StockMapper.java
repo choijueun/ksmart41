@@ -35,12 +35,22 @@ public interface StockMapper {
 	//재고의 수량·중량이 0인지 검사
 	public Map<String, Object> stockRemoveValid(String mainBusinessCode, String inventoryCode);
 	
+	/**
+	 * 재고정보 등록
+	 * @param itemInfo
+	 */
 	public int addStock(Stock itemInfo);
+	
+	/**
+	 * 재고정보 수정
+	 * @param itemInfo
+	 */
+	public int modifyStock(Stock itemInfo);
 	
 	/**
 	 * 재고정보 삭제
 	 * @param inventoryCode
 	 */
-	public void removeStock(String mainBusinessCode, String inventoryCode);
+	public int removeStock(String inventoryCode);
 
 }
