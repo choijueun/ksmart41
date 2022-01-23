@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.cje.WarehouseMapper">
 
-<select id="getWarehouseList" parameterType="String" resultType="Warehouse">
+<select id="getWarehouseList" parameterType="map" resultType="Warehouse">
 	SELECT 
 		 RIGHT(w.warehouseCode,3) AS warehouseCode
 		,w.warehouseName
@@ -21,8 +21,17 @@
 		,w.updateDate
 	FROM 
 		k1_view_warehouse_info AS w
-	WHERE
-		w.mainBusinessCode = #{mainBusinessCode}
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+			w.mainBusinessCode = #{mainBusinessCode}
+		</if>
+		<if test="category1List != null and category1List != ''.toString()">
+			AND w.category1 REGEXP #{category1List}
+		</if>
+		<if test="category2List != null and category2List != ''.toString()">
+			AND w.category2 REGEXP #{category2List}
+		</if>
+	</trim>
 	ORDER BY
 		w.warehouseCode DESC;
 </select>

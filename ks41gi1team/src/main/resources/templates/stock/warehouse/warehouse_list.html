@@ -10,6 +10,9 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	/****************************
+				플러그인
+	****************************/
 	//DataTables
 	$('#warehouseList').DataTable({
 		"paging": true,
@@ -25,14 +28,82 @@ $(function(){
 					}]
 	});
 	
+	
+	/****************************
+				객체정의
+	****************************/
+	//분류 체크박스
+	var chkCategory1 = $('.category1 input[type="checkbox"]');
+	//유형 체크박스
+	var chkCategory2 = $('.category2 input[type="checkbox"]');
+	//테이블 넣을 공간
+	var ajaxTable = $('#ajaxTable');
+	
+	
+	/****************************
+				 자동화
+	****************************/
 	//allCheck
-	var chkbox = $('input[type="checkbox"]');
 	$(document).on('click', '#allCheck', function(){
 		if($(this).is(":checked")){
-			chkbox.prop("checked", true);
+			$('#warehouseList input[type="checkbox"]').prop("checked", true);
 		} else {
-			chkbox.prop("checked", false);
+			$('#warehouseList input[type="checkbox"]').prop("checked", false);
 		}
+	});
+	
+	
+	/****************************
+				 자동화
+	****************************/
+	$(document).on('change', '#checkAjax', function(){
+		//체크한 분류 배열
+		var category1 = [];
+		chkCategory1.each(function(i, obj){
+			if($(obj).is(':checked')){
+				category1.push($(obj).val());
+			}
+		});
+		var category2 = [];
+		//체크한 유형 배열
+		chkCategory2.each(function(i, obj){
+			if($(obj).is(':checked')){
+				category2.push($(obj).val());
+			}
+		});
+		//Ajax
+		$.ajax({
+			url: "/k1Warehouse",
+			data: { 'category1' : category1, 'category2' : category2 },
+			method: "POST",
+			dataType: "html"
+		})
+		.done(function(data){
+			//표 그리기
+			ajaxTable.html(data);
+			if ($('#warehouseList tr.empty').length == 0) {
+				//body에 정보를 불러온 경우
+				$('#warehouseList').DataTable({
+					"paging": true,
+					"lengthChange": false,
+					"searching": true,
+					"ordering": true,
+					"info": true,
+					"autoWidth": false,
+					"responsive": true,
+					"columnDefs": [{    
+			            orderable: false,
+			            targets: [0, 6, 10]
+			             }]
+				});
+			}
+		})
+		.fail(function(jqXHR, textStatus) {
+			Toast.fire({
+				icon: 'error',
+				title: "Request failed: " + textStatus
+			});
+		});
 	});
 });
 </script>
@@ -51,7 +122,7 @@ $(function(){
 		</div>
 		<div class="card-body">
 			<!-- CheckBox -->
-			<div class="card">
+			<div class="card" id="checkAjax">
 				<div class="card-body">
 					<div class="category1 pl-5">
 						<div class="custom-control custom-checkbox float-left ml-3">
@@ -84,69 +155,69 @@ $(function(){
 					</div>
 				</div>
 			</div>
-			<!-- Begin Table -->
-			<table id="warehouseList" class="table table-bordered table-hover dataTable dtr-inline">
-				<thead>
-					<tr>
-						<th class="text-center">
-							<input type="checkbox" id="allCheck">
-						</th>
-						<th>No.</th>
-						<th>창고명</th>
-						<th>분류</th>
-						<th>유형</th>
-						<th>면적(m²)</th>
-						<th>적재현황</th>
-						<th>%</th>
-						<th>위치(외부소재지)</th>
-						<th>상태</th>
-						<th class="text-center">수정</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:if="${not #lists.isEmpty(warehouseList)}" th:each="l : ${warehouseList}">
-						<td class="text-center"><input type="checkbox"></td>
-						<td>
-							<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
-								[[${l.warehouseCode}]]
-							</a>
-						</td>
-						<td>
-							<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
-								[[${l.warehouseName}]]
-							</a>
-						</td>
-						<td>[[${l.category1}]]</td>
-						<td>[[${l.category2}]]</td>
-						<td>[[${#numbers.formatInteger(l.area,0,'COMMA')}]]</td>
-						<td>
-							<div class="progress progress-xs mt-2">
-								<div class="progress-bar bg-info" th:style="'width: '+${l.weightPer}+'%;'"></div>
-	                        </div>
-						</td>
-						<td>
-							<span class="badge bg-info">[[${l.weightPer}]]%</span>
-						</td>
-						<td th:if="${l.outPlace} == null">
-							[[${l.location}]]
-						</td>
-						<td th:unless="${l.outPlace} == null">
-							[[${l.location}]] ([[${l.outPlace}]])
-						</td>
-						<td>[[${l.status}]]</td>
-						<td class="text-center">
-							<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
-								<button type="button" class="btn btn-info btn-sm">
-									<i class="fas fa-pen"></i>
-								</button>
-							</a>
-						</td>
-					</tr>
-					<tr th:if="${#lists.isEmpty(warehouseList)}">
-						<td colspan="11">창고 정보가 없습니다.</td>
-					</tr>
-				</tbody>
-			</table>
+			<!-- Ajax로 교체할 부분 -->
+			<div id="ajaxTable">
+				<!-- Begin Table -->
+				<table id="warehouseList" class="table table-bordered table-hover dataTable dtr-inline">
+					<thead>
+						<tr>
+							<th class="text-center">
+								<input type="checkbox" id="allCheck">
+							</th>
+							<th>No.</th>
+							<th>창고명</th>
+							<th>분류</th>
+							<th>유형</th>
+							<th>면적(m²)</th>
+							<th>적재현황</th>
+							<th>%</th>
+							<th>위치(외부소재지)</th>
+							<th>상태</th>
+							<th class="text-center">수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${not #lists.isEmpty(warehouseList)}" th:each="l : ${warehouseList}">
+							<td class="text-center"><input type="checkbox"></td>
+							<td>
+								<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
+									[[${l.warehouseCode}]]
+								</a>
+							</td>
+							<td>
+								<a th:href="@{|/k1Warehouse/${l.warehouseCode}|}">
+									[[${l.warehouseName}]]
+								</a>
+							</td>
+							<td>[[${l.category1}]]</td>
+							<td>[[${l.category2}]]</td>
+							<td>[[${#numbers.formatInteger(l.area,0,'COMMA')}]]</td>
+							<td>
+								<div class="progress progress-xs mt-2">
+									<div class="progress-bar bg-info" th:style="'width: '+${l.weightPer}+'%;'"></div>
+		                        </div>
+							</td>
+							<td>
+								<span class="badge bg-info">[[${l.weightPer}]]%</span>
+							</td>
+							<td>
+								[[${l.location}]]<th:block th:unless="${l.outPlace} == null"> ([[${l.outPlace}]])</th:block>
+							</td>
+							<td>[[${l.status}]]</td>
+							<td class="text-center">
+								<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
+									<button type="button" class="btn btn-info btn-sm">
+										<i class="fas fa-pen"></i>
+									</button>
+								</a>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(warehouseList)}">
+							<td colspan="11">창고 정보가 없습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<!-- Buttons -->
 			<button type="button" class="btn btn-danger">삭제</button>
 			<a th:href="@{/k1WarehouseAdd}">
