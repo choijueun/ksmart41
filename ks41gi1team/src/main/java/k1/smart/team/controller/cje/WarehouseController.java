@@ -55,7 +55,12 @@ public class WarehouseController {
 		return "stock/warehouse/warehouse_list";
 	}
 	
-	//AJAX :: 창고 전체목록 조건
+	/**
+	 * AJAX :: 특정 조건하에 창고 전체목록 조회
+	 * @param category1
+	 * @param category2
+	 * @param model
+	 */
 	@PostMapping("/k1Warehouse")
 	public String warehouseMainAjax(Model model,
 			@RequestParam(value="category1[]", required = false) List<String> category1,
@@ -126,7 +131,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 등록 페이지 첫 화면
+	 * 창고정보 등록화면
 	 * @param model
 	 * @return
 	 */
@@ -140,7 +145,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 신규등록 절차 수행
+	 * 창고정보 등록 프로세스
 	 * @param wInfo
 	 */
 	@PostMapping("/k1WarehouseAdd")
@@ -157,7 +162,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 수정화면 첫페이지
+	 * 창고정보 수정화면
 	 * @param warehouseCode
 	 * @param model
 	 */
@@ -200,5 +205,13 @@ public class WarehouseController {
 		return "redirect:/k1WarehouseModify/"+wInfo.getWarehouseCode();
 	}
 	
-	
+	/**
+	 * 창고정보 삭제 프로세스
+	 * @param wInfo
+	 */
+	@PostMapping("/k1WarehouseRemove")
+	public String removeWarehouse(Warehouse wInfo) {
+		
+		return "redirect:/k1Warehouse";
+	}
 }
