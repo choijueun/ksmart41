@@ -126,37 +126,31 @@ GROUP BY
 
 
 <update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
-	update k1_tb_material_order
+	update k1_view_material_order
 	<trim prefix="SET" prefixOverrides=",">
-		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
-			mainBusinessCode =#{mainBusinessCode}
+		<if test="orderDate != null and orderDate != ''.toString()">
+			orderDate =#{orderDate}
 		</if>
 		<if test="contractCode != null and contractCode != ''.toString()">
-			contractCode =#{contractCode}
+			contractCode =#{clientBusinessName}
 		</if>
 		<if test="clientCode != null and clientCode != ''.toString()">
-			clientCode =#{clientCode}
+			clientCode =#{itemName}
 		</if>
 		<if test="totalCount != null and totalCount != ''.toString()">
 			totalCount =#{totalCount}
 		</if>
 		<if test="totalPrice != null and totalPrice != ''.toString()">
-			totalPrice =#{mainBusinessCode}
+			totalPrice =#{totalPrice}
 		</if>
-		<if test="orderDate != null and orderDate != ''.toString()">
-			orderDate =#{orderDate}
-		</if>
-		<if test="predictDate != null and predictDate != ''.toString()">
-			predictDate =#{predictDate}
+		<if test="managerName != null and managerName != ''.toString()">
+			managerName =#{managerName}
 		</if>
 		<if test="status != null and status != ''.toString()">
 			status =#{status}
 		</if>
 		<if test="briefs != null and briefs != ''.toString()">
 			briefs =#{briefs}
-		</if>
-		<if test="managerId != null and managerId != ''.toString()">
-			managerId =#{managerId}
 		</if>
 		<if test="regDate != null and regDate != ''.toString()">
 			regDate =#{regDate}
