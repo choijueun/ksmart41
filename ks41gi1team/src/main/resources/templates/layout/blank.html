@@ -2,14 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
 
+<!-- head 프래그먼트 -->
 <head th:replace="fragments/head :: headFragment"></head>
+<!-- head 프래그먼트 끝 -->
 
 <body class="hold-transition sidebar-mini layout-fixed">
 	<!-- body 내부 -->
 	<th:block layout:fragment="blankContents"></th:block>
+	<!-- 본문 영역 끝 -->
 
-	<!--  자바스크립트 -->
+	<!-- 공통 자바스크립트 영역 -->
 	<th:block th:replace="fragments/script :: scriptFragment"></th:block>
-
+	<!-- 공통 자바스크립트 영역 끝 -->
 </body>
 </html>
