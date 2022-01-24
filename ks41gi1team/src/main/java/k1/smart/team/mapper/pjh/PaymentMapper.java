@@ -20,11 +20,13 @@ public interface PaymentMapper {
 	//결제취소내역 전체조회
 	public List<CancelPayment> getCancelPaymentList(String mainBusinessCode);
 	//결제취소내역 상세조회
-	public CancelPayment getCancelPaymentInfo(String mainBusinessCode);
+	public CancelPayment getCancelPaymentInfo(String payCancelCode);
 	//결제취소내역 등록시 코드세팅
 	public String addPayCancelCode();
 	//결제취소내역 등록
 	public int addPayCancel(CancelPayment cancelPayment);
+	//결제취소내역 수정
+	public int cancelModify(CancelPayment CancelPayment);
 	
 	
 	//결제예정 전체조회

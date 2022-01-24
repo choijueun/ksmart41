@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.pjh.CancelPayment;
+import k1.smart.team.dto.pjh.Cost;
 import k1.smart.team.dto.pjh.HistoryPayment;
 import k1.smart.team.dto.pjh.PlanPayment;
 import k1.smart.team.mapper.pjh.PaymentMapper;
@@ -96,6 +97,17 @@ public class PaymentService {
 	//취소내역 등록
 	public void addPayCancel(CancelPayment cancelPayment) {
 		paymentMapper.addPayCancel(cancelPayment);
+	}
+	
+	//취소내역 수정시 값 세팅
+	public CancelPayment getCancelInfo(String payCancelCode) {
+		CancelPayment getCancelInfo = paymentMapper.getCancelPaymentInfo(payCancelCode);
+		return getCancelInfo;
+	}
+	
+	//취소내역 수정
+	public void cancelModify(CancelPayment cancelPayment) {
+		paymentMapper.cancelModify(cancelPayment);
 	}
 	
 }
