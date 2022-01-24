@@ -7,13 +7,61 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
-<th:block layout:fragment="customContents">
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+$(function(){
+	//Toast
+	var Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000
+	});
+	//Form
+	var modifyMaterialOrder = $('#modifyMaterialOrder');
+	//input객체
+	var inputs = $('input');
+	//등록 버튼 클릭
+	$(document).on('click', '.submitBtn', function(){
+		//체크용 변수
+		modifyMaterialOrder.submit();
+		var chkText = 0;
+		var chkRadio1 = 0;
+		var chkRadio2 = 0;
+		//input 객체 반복
+		/* inputs.each(function(i, obj){
+			if($(obj).attr('name') == 'outPlace') {
+				return true;
+			}
+			if( $(obj).attr('name') == 'category1' && $(obj).is(':checked')) {
+				chkRadio1 += 1;
+			}
+			if( $(obj).attr('name') == 'category2' && $(obj).is(':checked')) {
+				chkRadio2 += 1;
+			}
+			if( $(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '' ) {
+				chkText += 1;
+			}
+		});
+		if(chkText == 0 && chkRadio1 > 0 && chkRadio2 > 0) {
+			//유효
+			modifyWarehouse.submit();
+		} else {
+			Toast.fire({
+				icon: 'error',
+				title: '필수 작성 요소를 기입해주세요.'
+			});
+		} */
+	});
+});
+</script>
+</th:block>
 
 <!-- content -->
 <th:block layout:fragment="customContents">
@@ -24,89 +72,73 @@
 					<div class="card-header">
 						발주관리 상세내역
 					</div>
-					<div class="card-body" th:if="${ materialOrderInfo != null }">
-						<table id="materialOrderInfo" class="table table-bordered">
-							<tr>
-								<th>No.</th>
-								<td colspan="3">[[${materialOrderInfo.materialOrderCode}]]</td>
-							</tr>
-							<tr>
-								<th>발주요청일자</th>
-								<td colspan="3">[[${materialOrderInfo.orderDate}]]</td>
-							</tr>
-							<tr>
-								<th>거래처명</th>
-								<td colspan="3">[[${materialOrderInfo.businessName}]]</td>
-							</tr>
-							<tr>
-								<th>제품명</th>
-								<td colspan="3">[[${materialOrderInfo.itemName}]]</td>
-							</tr>
-							<tr>
-								<th>총 수량</th>
-								<td>[[${#numbers.formatInteger(materialOrderInfo.totalCount,0,'COMMA')}]] EA</td>
-								<th>총 가격</th>
-								<td>[[${#numbers.formatInteger(materialOrderInfo.totalPrice,0,'COMMA')}]] 원</td>
-							</tr>
-							<tr>
-								<th>담당자</th>
-							<td colspan="3">[[${materialOrderInfo.userName}]]</td>
-							</tr>
-							<tr>
-								<th>발주 진행상태</th>
-								<td colspan="3">[[${materialOrderInfo.status}]]</td>
-							</tr>
-							<tr>
-								<th>적요</th>
-								<td colspan="3">[[${materialOrderInfo.briefs}]]</td>
-							</tr>
-							<tr>
-								<th>등록일시</th>
-								<td colspan="3">[[${materialOrderInfo.regDate}]]</td>
-							</tr>
-							<tr>	
-								<th>수정일시</th>
-								<td colspan="3">[[${materialOrderInfo.updateDate}]]</td>
-							</tr>
-						</table>
-						<button type="button" class="btn btn-info">수정</button>
-					</div>
-					<div class="card-body" th:if="${ materialOrderInfo == null }">
-					잘못된 접근입니다.
-					</div>
+					<div class="card-body" th:if="${l} != null">
+					<form id="modifyMaterialOrder"th:action="@{/k1MaterialOrderModify}" method="POST">
+						<input type="hidden" name="materialOrderCode" th:value="${w.materialOrderCode}">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label for="orderDate">발주 일자</label>
+									<input type="date" name="orderDate" th:value="${l.orderDate}" class="form-control">
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label for="clientBusinessName">거래처명</label>
+											<input type="text" name="clientBusinessName" th:value="${l.clientBusinessName}" class="form-control">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="itemName">제품명</label>
+										<input type="text" name="itemName" th:value="${l.itemName}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="totalCount">총 수량</label>
+										<input type="text" name="totalCount" th:value="${l.totalCount}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="toalProce">총 금액</label>
+										<input type="text" name="toalProce" th:value="${l.toalProce}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="managerName">담당자</label>
+										<input type="text" name="managerName" th:value="${l.managerName}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="status">결제 상태</label>
+										<input type="text" name="status" th:value="${l.status}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="briefs">적요</label>
+										<input type="text" name="briefs" th:value="${l.briefs}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="regDate">등록일자</label>
+										<input type="date" name="regDate" th:value="${l.regDate}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="updateDate">수정일자</label>
+										<input type="date" name="updateDate" th:value="${l.updateDate}" class="form-control" placeholder="외부 창고일 경우">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
 				</div>
-			</div>
-			<div class="col-lg-7">
-				<div class="card card-info card-outline">
-					<div class="card-header">
-						단가 상세
-					</div>
-					<div class="card-body" th:if="${ materialOrderInfoList != null }">
-						<table id="adjDetail" class="table table-bordered">
-							<thead>
-								<tr>
-									<th>품목명</th>
-									<th>매입단가</th>
-									<th>매입세액</th>
-									<th>매출단가</th>
-									<th>매출세액</th>
-									<th>수량</th>
-									<th>소계</th>
-								</tr>
-							</thead>
-							
-							<tbody th:if="${#lists.isEmpty(historyPaymentInfoList)}">
-								<tr>
-									<td colspan="12">
-									상세내역을 불러올 수 없습니다.
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="card-body" th:if="${historyPaymentInfoList == null }">
+					<div class="card-body" th:if="${l} == null">
 						잘못된 접근입니다.
 					</div>
+			<div class="card-footer">
+					<th:block th:if="${l} != null">
+						<button type="button" class="btn btn-info float-right submitBtn">수정하기</button>
+						<a th:href="@{|/k1MaterialOrder/${l.materialOrderCode}|}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
+					<th:block th:if="${l} == null">
+						<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
+							<button type="button" class="btn btn-default">이전으로</button>
+						</a>
+					</th:block>
+				</div>
 				</div>
 			</div>
 		</div>

@@ -7,21 +7,36 @@
 	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs">
+<script th:inline="javascript">
+
+$(document).ready(function() {
+$("#modifyBtn").click(function(){       
+    $.ajax({      
+        type:"POST",  
+        url:"/k1MaterialOrder/materialOrder/{materialOrderCode}",          
+        success:function(args){   
+            $("#result").html(args);      
+        }
+    });  
+  }); 
+}); 
+</script>
+</th:block>
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row"  th:unless="${ w == null }">
 			<div class="col-lg-5">
 				<div class="card card-info card-outline">
 					<div class="card-header">
 						발주관리 상세내역
 					</div>
-					<div class="card-body" th:if="${ materialOrderInfo != null }">
+					<div class="card-body">
 						<table id="materialOrderInfo" class="table table-bordered">
 							<tr>
 								<th>No.</th>
@@ -66,8 +81,18 @@
 								<td colspan="3">[[${materialOrderInfo.updateDate}]]</td>
 							</tr>
 						</table>
-						<button type="button" class="btn btn-info" th:href="@{/k1MaterialOrder/k1MaterialOrderModify}">수정</button>
 					</div>
+					<div class="card-footer">
+					<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<a>
+						<button type="button" class="btn btn-danger float-right">삭제</button>
+					</a>
+					<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}">
+						<button type="button" class="btn btn-info float-right mr-2">수정</button>
+					</a>
+				</div>
 					<div class="card-body" th:if="${ materialOrderInfo == null }">
 					잘못된 접근입니다.
 					</div>
@@ -108,6 +133,6 @@
 			</div>
 		</div>
 	</div>
-</th:block>
+
 
 </html>

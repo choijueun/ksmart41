@@ -3,21 +3,21 @@ package k1.smart.team.dto.psb;
 public class ProductPrice {
 	private String productPriceCode;
 	private String mainBusinessCode;
-	private String lsAccountCode;
-	private String itemCode;
-	private int amount;
+	private String businessName;
+	private String itemName;
 	private String manufacCostCode;
+	private int count;
 	private int manufacCost;
+	private int unitCost;
 	private int totalEtcCost;
-	private int totalMaterialCost;
-	private int totalManufacCost;
-	private int profitPercentage;
 	private int totalPrice;
 	private int productPrice;
+	private String comment;
+	private float profitPercentage;
 	private String regId;
+	private String regName;
 	private String regDate;
 	private String updateDate;
-	private String comment;
 	public String getProductPriceCode() {
 		return productPriceCode;
 	}
@@ -30,23 +30,17 @@ public class ProductPrice {
 	public void setMainBusinessCode(String mainBusinessCode) {
 		this.mainBusinessCode = mainBusinessCode;
 	}
-	public String getLsAccountCode() {
-		return lsAccountCode;
+	public String getBusinessName() {
+		return businessName;
 	}
-	public void setLsAccountCode(String lsAccountCode) {
-		this.lsAccountCode = lsAccountCode;
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
-	public String getItemCode() {
-		return itemCode;
+	public String getItemName() {
+		return itemName;
 	}
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-	public int getAmount() {
-		return amount;
-	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	public String getManufacCostCode() {
 		return manufacCostCode;
@@ -54,35 +48,29 @@ public class ProductPrice {
 	public void setManufacCostCode(String manufacCostCode) {
 		this.manufacCostCode = manufacCostCode;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getManufacCost() {
 		return manufacCost;
 	}
 	public void setManufacCost(int manufacCost) {
 		this.manufacCost = manufacCost;
 	}
+	public int getUnitCost() {
+		return unitCost;
+	}
+	public void setUnitCost(int unitCost) {
+		this.unitCost = unitCost;
+	}
 	public int getTotalEtcCost() {
 		return totalEtcCost;
 	}
 	public void setTotalEtcCost(int totalEtcCost) {
 		this.totalEtcCost = totalEtcCost;
-	}
-	public int getTotalMaterialCost() {
-		return totalMaterialCost;
-	}
-	public void setTotalMaterialCost(int totalMaterialCost) {
-		this.totalMaterialCost = totalMaterialCost;
-	}
-	public int getTotalManufacCost() {
-		return totalManufacCost;
-	}
-	public void setTotalManufacCost(int totalManufacCost) {
-		this.totalManufacCost = totalManufacCost;
-	}
-	public int getProfitPercentage() {
-		return profitPercentage;
-	}
-	public void setProfitPercentage(int profitPercentage) {
-		this.profitPercentage = profitPercentage;
 	}
 	public int getTotalPrice() {
 		return totalPrice;
@@ -96,11 +84,29 @@ public class ProductPrice {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public float getProfitPercentage() {
+		return profitPercentage;
+	}
+	public void setProfitPercentage(float profitPercentage) {
+		this.profitPercentage = profitPercentage;
+	}
 	public String getRegId() {
 		return regId;
 	}
 	public void setRegId(String regId) {
 		this.regId = regId;
+	}
+	public String getRegName() {
+		return regName;
+	}
+	public void setRegName(String regName) {
+		this.regName = regName;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -114,12 +120,6 @@ public class ProductPrice {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -127,78 +127,41 @@ public class ProductPrice {
 		builder.append(productPriceCode);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
-		builder.append(", lsAccountCode=");
-		builder.append(lsAccountCode);
-		builder.append(", itemCode=");
-		builder.append(itemCode);
-		builder.append(", amount=");
-		builder.append(amount);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", itemName=");
+		builder.append(itemName);
 		builder.append(", manufacCostCode=");
 		builder.append(manufacCostCode);
+		builder.append(", count=");
+		builder.append(count);
 		builder.append(", manufacCost=");
 		builder.append(manufacCost);
+		builder.append(", unitCost=");
+		builder.append(unitCost);
 		builder.append(", totalEtcCost=");
 		builder.append(totalEtcCost);
-		builder.append(", totalMaterialCost=");
-		builder.append(totalMaterialCost);
-		builder.append(", totalManufacCost=");
-		builder.append(totalManufacCost);
-		builder.append(", profitPercentage=");
-		builder.append(profitPercentage);
 		builder.append(", totalPrice=");
 		builder.append(totalPrice);
 		builder.append(", productPrice=");
 		builder.append(productPrice);
+		builder.append(", comment=");
+		builder.append(comment);
+		builder.append(", profitPercentage=");
+		builder.append(profitPercentage);
 		builder.append(", regId=");
 		builder.append(regId);
+		builder.append(", regName=");
+		builder.append(regName);
 		builder.append(", regDate=");
 		builder.append(regDate);
 		builder.append(", updateDate=");
 		builder.append(updateDate);
-		builder.append(", comment=");
-		builder.append(comment);
-		builder.append(", getProductPriceCode()=");
-		builder.append(getProductPriceCode());
-		builder.append(", getMainBusinessCode()=");
-		builder.append(getMainBusinessCode());
-		builder.append(", getLsAccountCode()=");
-		builder.append(getLsAccountCode());
-		builder.append(", getItemCode()=");
-		builder.append(getItemCode());
-		builder.append(", getAmount()=");
-		builder.append(getAmount());
-		builder.append(", getManufacCostCode()=");
-		builder.append(getManufacCostCode());
-		builder.append(", getManufacCost()=");
-		builder.append(getManufacCost());
-		builder.append(", getTotalEtcCost()=");
-		builder.append(getTotalEtcCost());
-		builder.append(", getTotalMaterialCost()=");
-		builder.append(getTotalMaterialCost());
-		builder.append(", getTotalManufacCost()=");
-		builder.append(getTotalManufacCost());
-		builder.append(", getProfitPercentage()=");
-		builder.append(getProfitPercentage());
-		builder.append(", getTotalPrice()=");
-		builder.append(getTotalPrice());
-		builder.append(", getProductPrice()=");
-		builder.append(getProductPrice());
-		builder.append(", getRegId()=");
-		builder.append(getRegId());
-		builder.append(", getRegDate()=");
-		builder.append(getRegDate());
-		builder.append(", getUpdateDate()=");
-		builder.append(getUpdateDate());
-		builder.append(", getComment()=");
-		builder.append(getComment());
-		builder.append(", getClass()=");
-		builder.append(getClass());
-		builder.append(", hashCode()=");
-		builder.append(hashCode());
-		builder.append(", toString()=");
-		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
+
+
 }

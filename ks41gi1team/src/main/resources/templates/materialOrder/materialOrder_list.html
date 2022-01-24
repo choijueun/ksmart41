@@ -15,6 +15,8 @@
 <th:block layout:fragment="customContents">
 <th:block layout:fragment="customJs">
 <script>
+
+
 $(document).ready(function() {
 	$("#materialOrderAllCheck").click(function() {
 		if($("#materialOrderAllCheck").is(":checked")) $("input[name=materialOrderCheck]").prop("checked", true);
@@ -43,6 +45,26 @@ $(document).ready(function() {
 
 $(function(){
 	
+		//DataTables
+		$('#materialOrderList').DataTable({
+			"paging": true,
+			"lengthChange": false,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": false,
+			"responsive": true,
+		});
+		$('#productOrderList').DataTable({
+			"paging": true,
+			"lengthChange": false,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": false,
+			"responsive": true,
+		});
+
 	//Modal
 	var materialOrderModifyModal = $('#materialOrderModifyModal');
 	//Modal SHOW
@@ -67,9 +89,6 @@ $(function(){
 </th:block>
 
 <!-- content -->
-
-
-
 <div class="container-fluid">
 	<div class="card card-info card-outline">
 		<div class="card-header p-0 pt-1 border-bottom-0">
