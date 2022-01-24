@@ -67,19 +67,10 @@ public class InvoiceController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//매출전자세금계산서 등록
 	@GetMapping("/salesIvRegister")
 	public String getSalesIvRegister(Model model) {
-		
+		model.addAttribute("SectionTitle", "전자세금계산서 등록");
 		return "invoice/sales_iv_register";
 	}
 

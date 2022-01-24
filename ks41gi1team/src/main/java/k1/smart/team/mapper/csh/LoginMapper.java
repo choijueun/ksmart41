@@ -22,5 +22,8 @@ public interface LoginMapper {
 	// 로그인 내역 전체 목록
 	public List<Login> getAllLoginList();
 
+	//로그인내역 상세
+	public Login getLoginDetail(String loginCode);
+
 	
 }

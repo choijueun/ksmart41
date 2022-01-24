@@ -15,6 +15,7 @@ import k1.smart.team.mapper.csh.LoginMapper;
 public class LoginService {
 	private final LoginMapper loginMapper;
 	private List<Login> loginList; //로그인 내역 목록
+	private Login loginDetail; //로그인 상세
 	
 	//
 	public LoginService(LoginMapper loginMapper) {
@@ -37,6 +38,18 @@ public class LoginService {
 	public List<Login> getLimitLoginList() {
 		List<Login> limit = loginMapper.getLimitLoginList();
 		return limit;
+	}
+
+	//로그인내역 상세
+	public Login getLoginDetail(String loginCode) {
+		//로그인내역 상세
+		loginDetail = loginMapper.getLoginDetail(loginCode);
+		if(loginDetail == null) {
+			System.out.println("조회 결과 없음");
+			return null;
+		}
+		loginDetail.setLoginCode(loginCode);
+		return loginDetail;
 	}
 	
 

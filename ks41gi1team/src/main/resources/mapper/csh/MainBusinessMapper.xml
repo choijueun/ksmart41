@@ -7,21 +7,7 @@
 	<!-- 사업장 전체 목록 -->
 	<select id="getAllMainBusinessList" parameterType="String" resultType="MainBusiness">
 		SELECT 
-			 mainBusinessCode
-			,businessCategory
-			,businessLevel
-			,businessName
-			,businessRepresentative
-			,businessType1
-			,businessType2
-			,businessNum
-			,businessCount
-			,businessMobile
-			,businessPlace
-			,businessEmail
-			,openDate
-			,regDate
-			,updateDate
+			*
 		FROM 
 			k1_tb_main_business;
 	</select>
@@ -32,7 +18,7 @@
 			k1_tb_main_business (
 				 mainBusinessCode
 				,businessCategory
-				,businessLevel
+				<!-- ,businessLevel -->
 				,businessName
 				,businessRepresentative
 				,businessType1
@@ -49,7 +35,7 @@
 			VALUES (
 				 #{mainBusinessCode}
 				,#{businessCategory}
-				,#{businessLevel}
+				<!-- ,#{businessLevel} -->
 				,#{businessName}
 				,#{businessRepresentative}
 				,#{businessType1}
@@ -90,7 +76,7 @@
 		SELECT 
 			 b.mainBusinessCode
 			,b.businessCategory
-			,b.businessLevel
+			<!-- ,b.businessLevel -->
 			,b.businessName
 			,b.businessRepresentative
 			,b.businessType1
@@ -116,7 +102,7 @@
 		SET
 			mainBusinessCode = #{mainBusinessCode},
 			businessCategory = #{businessCategory},
-			businessLevel = #{businessLevel},
+			<!-- businessLevel = #{businessLevel}, -->
 			businessName = #{businessName},
 			businessRepresentative = #{businessRepresentative},
 			businessType1 = #{businessType1},
