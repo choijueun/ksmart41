@@ -71,12 +71,10 @@
 			        columns: [
 			        		 { "data": "" },
 			        		 { "data": "purchaseTsCode" },
-				            { "data": "businessName" },
 				            { "data": "clientBusinessName" },
 				            { "data": "contractCode"},
 				            { "data": "briefs" },
 				            { "data": 'dealDate' },
-				            { "data": 'regName' },
 				            { "data": 'regDate' },
 				            { "data": 'updateDate' },
 				            { "data": '수정' }
@@ -91,7 +89,7 @@
 				        					}
 				        		},
 				        		{
-				        			'targets' : [10],
+				        			'targets' : [08],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -119,7 +117,6 @@
 			        columns: [
 			        	 	{ "data": "" },
 			        		{ "data": "salesTsCode" },
-				            { "data": "mbBusinessName" },
 				            { "data": "businessName" },
 				            { "data": "lsAccountName" },
 				            { "data": "contractStatus" },
@@ -143,7 +140,7 @@
 				        					}
 				        		},
 				        		{
-				        			'targets' : [13],
+				        			'targets' : [12],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -152,23 +149,23 @@
 				        					}
 				        		},
 				        		{
-				        			'targets' : [07],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        			'targets' : [06],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 ,'&#8361;', ''   )
 				        					
 				        		},
 				        		{
-				        			'targets' : [08],
+				        			'targets' : [07],
 				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , 'EA' )
 				        					
 				        		},
 				        		{
-				        			'targets' : [09],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        			'targets' : [08],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '&#8361;', ''  )
 				        					
 				        		},
 				        		{
-				        			'targets' : [10],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        			'targets' : [09],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 ,'&#8361;', ''   )
 				        					
 				        		}
 				        	]
@@ -202,12 +199,10 @@
 					<tr>					
 						<th><input type="checkBox" id="purchaseTsAllCheck"></th>
 						<th>비용 거래명세서 코드</th>
-						<th style="width:10%;">사업장명</th>
 						<th>거래처명</th>
 						<th>계약코드</th>
 						<th>적요</th>
 						<th>거래일자</th>
-						<th>등록자</th>
 						<th>등록일시</th>
 						<th>수정일시</th>
 						<th>수정</th>
@@ -228,7 +223,6 @@
 					<tr>
 						<th><input type="checkBox" id="salesTsAllCheck"></th>
 						<th>매출 거래명세서 코드</th>
-						<th>사업장명</th>
 						<th>거래처명</th>
 						<th style="width:9%;">계정과목</th>
 						<th>계약상태</th>

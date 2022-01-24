@@ -44,6 +44,8 @@ public class ProductOrderController {
 	private String mainBusinessCode;
 	private ProductOrder productOrderInfo;
 
+	private String materialOrderCode;
+
 	// 생성자 주입
 	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService, ContractService contractService) {
 		this.productOrderService = productOrderService;
@@ -63,7 +65,7 @@ public class ProductOrderController {
 	}
 
 	// 수주관리 상세
-	@GetMapping("productOrder/{productOrderCode}")
+	@GetMapping("/productOrder/{productOrderCode}")
 	public String productOrderInfo(@PathVariable(value = "productOrderCode", required = false) String productOrderCode,
 			Model model) {
 		// 슈주관리 코드 검사 if(productOrderCode == null
@@ -72,7 +74,7 @@ public class ProductOrderController {
 			System.out.println("수주코드 ERROR");
 			return "redirect:/k1MaterialOrder/k1MaterialOrderList";
 		}
-
+		
 		// 수주관리 상세정보
 		productOrderInfo = productOrderService.getProductOrderInfo(productOrderCode);
 		if (productOrderInfo == null) {
@@ -80,6 +82,9 @@ public class ProductOrderController {
 			return "redirect:/k1MaterialOrder/k1MaterialOrderList";
 		}
 
+		List<MaterialOrder> materialOrderInfo = (List<MaterialOrder>) materialOrderService.getMaterialOrderInfo(materialOrderCode);
+		model.addAttribute("materialOrderInfo", materialOrderInfo);
+		
 		model.addAttribute("title", "수주관리 상세");
 		model.addAttribute("SectionTitle", "수주관리");
 		model.addAttribute("SectionLocation", "상세정보");

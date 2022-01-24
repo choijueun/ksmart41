@@ -15,87 +15,24 @@
 <th:block layout:fragment="customJs">
 
 		<script type="text/javascript">
-		$(document).ready(function() {
-			$("#contractAllCheck").click(function() {
-				if($("#contractAllCheck").is(":checked")) $("input[name=contractCheck]").prop("checked", true);
-				else $("input[name=contractCheck]").prop("checked", false);
+		$(function(){
+			//DataTables
+			$('#contractList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true,
+				"columnDefs": [
+			        { 	
+			        	orderable: false,
+			        	targets: [0, 8]
+			        }
+			    ]
 			});
-			$("input[name=contractCheck]").click(function() {
-				var total = $("input[name=contractCheck]").length;
-				var checked = $("input[name=contractCheck]:checked").length;
-
-				if(total != checked) $("#contractAllCheck").prop("checked", false);
-				else $("#contractAllCheck").prop("checked", true); 
-			});
-		});	
-		
-			$(function(){
-				$(document).on('click', '.modifyBtn', function(){
-					var contractCode = $(this).attr('data-contractCode');
-					alert(contractCode);
-				});
-				
-				$(document).on('click', '.removeBtn', function(){
-					 
-				});
-				
-				
-					var aLengthMenuArray = [];
-					aLengthMenuArray.push([5,10,15,20,25,-1]);
-					aLengthMenuArray.push([5,10,15,20,25,'ALL']);
-					
-				$('#contractList').DataTable( {
-			        destroy : true,
-					pageLength: 5,
-					aLengthMenu : aLengthMenuArray,
-					ajax: {
-			        	url: '/k1Contract/k1ContractHistory',
-			        	type: 'POST',
-			        	dataSrc: function(data){
-			        				console.log(JSON.stringify(data));
-			        				return data;
-			        			} 
-			        },
-			        columns: [
-			            { "data": "" },
-			            { "data": "contractCode" },
-			            { "data": "mbBusinessName" },
-			            { "data": "clientBusinessName" },
-			            { "data": "businessRepresentative" },
-			            { "data": 'contractSection' },
-			            { "data": 'contractType' },
-			            { "data": 'startDate' },
-			            { "data": 'endDate' },
-			            { "data": 'managerName' },
-			            { "data": 'contractStatus' },
-			            { "data": 'briefs' },
-			            { "data": '수정' }
-			        	],
-			        	columnDefs:[
-
-			        		{
-			        			'targets' : [12],
-			        			'orderable' : false,
-			        			'searchable' : false,
-			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-toggle="modal" data-target="#modal-xl" data-contractCode="' + row.contractCode +'"><i class="fas fa-pen"></i></button>';
-			        						return htmlbtn;
-			        					}
-			        		},
-			        		{
-			        			'targets' : [00],
-			        			'orderable' : false,
-			        			'searchable' : false,
-			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-			        						var htmlbtn = '<input type="checkBox" name="contractCheck"></input>';
-			        						return htmlbtn;
-			        					}
-			        		}
-
-			        	]
-					});
-			   
-			});
+		});
 		
 		</script>
 </th:block>
@@ -110,19 +47,40 @@
 					<tr>
 						<th><input type="checkBox" id="contractAllCheck"></input></th>
 						<th>계약코드</th>
-						<th>사업장명</th>
 						<th>거래처명</th>
-						<th>거래처담당자</th>
 						<th>주문유형</th>
 						<th>계약유형</th>
-						<th>시작일</th>
-						<th>종료일</th>
-						<th>담당자</th>
-						<th>상태</th>
-						<th style="width:1%;">적요</th>
+						<th>계약 시작일</th>
+						<th>계약 종료일</th>
+						<th>계약 상태</th>
+						<th>적요</th>
 						<th>수정</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(contractList)}" th:each="l : ${contractList}">
+						<td class="text-center"><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1Contract/contract/${l.contractCode}|}">
+								[[${l.contractCode}]]
+							</a>
+						</td>
+						<td>[[${l.clientBusinessName}]]</td>
+						<td>[[${l.contractSection}]]</td>
+						<td>[[${l.contractType}]]</td>
+						<td>[[${l.startDate}]]</td>
+						<td>[[${l.endDate}]]</td>
+						<td>[[${l.contractStatus}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td class="text-center">
+							<a th:href="@{|/k1Contract/modify/${l.contractCode}|}">
+								<button type="button" class="btn btn-info btn-sm">
+									<i class="fas fa-pen"></i>
+								</button>
+							</a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 			</div>
 				<a th:href="@{|/k1Contract/k1ContractReg|}">

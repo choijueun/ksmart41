@@ -50,7 +50,6 @@ public class CostController {
 			System.out.println("비용코드 ERROR");
 			return "redirect:/k1CostList";
 		}
-		
 		model.addAttribute("title", "기타비용: 상세정보");
 		model.addAttribute("costInfo", costInfo);
 		return "cost/cost_detail";

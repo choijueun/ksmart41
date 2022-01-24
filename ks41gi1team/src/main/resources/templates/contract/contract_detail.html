@@ -1,510 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>계약서 상세현황</title>
-</head>
-<body>
-	계약서 상세현황
-</body>
-<div class="wrapper-frame-body">
-        <div style="display: block;">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${etcPurchaseCode}]]</th:block>
+
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+	<div class="row" th:unless="${ contractInfo == null }">
+		<div class="col-lg-3 col-md-2">
+		</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-body">
+						<p class="lead">계약 상세코드[[${contractInfo.contractNum}]]</p>
+						<table id="contractInfo" class="table">
+							<tr>
+								<th>계약 코드</th>
+								<td>[[${contractInfo.contractCode}]]</td>
+							</tr>
+							<tr>
+								<th>사업장명</th>
+								<td>[[${contractInfo.mbBusinessName}]]</td>
+							</tr>
+							<tr>
+								<th>거래처명</th>
+								<td>[[${contractInfo.clientBusinessName}]]</td>
+							</tr>
+							<tr>
+								<th>거래처담당자</th>
+								<td>[[${contractInfo.clientManagerName}]]</td>
+							</tr>
+							<tr>
+								<th>주문유형</th>
+								<td>[[${contractInfo.contractSection}]]</td>
+							</tr>
+							<tr>
+								<th>계약기간</th>
+								<td>[[${contractInfo.contractType}]]</td>
+							</tr>
+							<tr>
+								<th>계약시작일</th>
+								<td>[[${contractInfo.startDate}]]</td>
+							</tr>
+							<tr>
+								<th>계약종료일</th>
+								<td>[[${contractInfo.endDate}]]</td>
+							</tr>
+							<tr>
+								<th>담당자</th>
+								<td>[[${contractInfo.managerName}]]</td>
+							</tr>
+							<tr>
+								<th>승인자</th>
+								<td>[[${contractInfo.approvalName}]]</td>
+							</tr>
+							<tr>
+								<th>계약상태</th>
+								<td>[[${contractInfo.contractStatus}]]</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td>[[${contractInfo.briefs}]]</td>
+							</tr>						
+							<tr>
+								<th>등록일시</th>
+								<td>[[${contractInfo.regDate}]]</td>
+							</tr>
+							<tr>
+								<th>수정일시</th>
+								<td>[[${contractInfo.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Contract/k1ContractHistory}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1Contract/modify/${contractInfo.contractCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div th:if="${ contractInfo == null }">
+				잘못된 접근입니다.
+			</div>
+		</div>
+	</div>
+</th:block>
 
- <span class="wrapper-title-notification"><span id="progressMarkF" class="label label-primary title-notification-heading"></span><span id="progressMarkS" class="label label-primary title-notification-contents" style="display:none"></span></span></div><div class="pull-right"><div class="control-set  hidden  "><div class="control wrapper-title-simple-search  " data-ecpath="EBP012R_8∫header∫∫∫∫__headerQuick∫">
-
-<input type="text" class="form-control title-simple-search flexible form-control " data-index="0" data-cid="__headerQuick" data-ecpath="EBP012R_8∫header∫∫∫∫__headerQuick∫" placeholder="입력 후 [Enter]" value=""><button type="button" class="btn btn-default btn-fn dropdown-toggle fn btn-sm hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="__headerQuick"></button>
-</div></div><div class="control-set     hidden"><div class="control   " data-ecpath="EBP012R_8∫header∫∫∫∫tgHeaderSearch∫">
-
-<button id="tgHeaderSearch" class="btn btn-primary btn-title-search  " data-index="0" data-cid="tgHeaderSearch" data-ecpath="EBP012R_8∫header∫∫∫∫tgHeaderSearch∫" data-role="{{ecRole}}">Search(F3)</button>
-</div></div><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫∫∫∫tgHeaderOption∫">
-
-<button id="tgHeaderOption" class="btn btn-default btn-title-option dropdown-toggle  " data-index="0" data-cid="tgHeaderOption" data-ecpath="EBP012R_8∫header∫∫∫∫tgHeaderOption∫" data-role="{{ecRole}}" data-service="layer.dropdown" data-service-attr="layer.fixed">Option</button>
-</div></div></div></div></div>
-            <div class="wrapper-header-search" style="display: block; max-width: 755px;"><ul class="nav nav-tabs" style=""><li id="basic" class="active" data-tabid="basic" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="tab" data-function-id="tabitem"><a href="javascript:;" class="cursor-pointer" id="basic" data-tabid="basic" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="tab" data-function-id="tabitem"><span class="tab-text" id="basic">기본</span></a></li><li id="all" class="" data-tabid="all" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="tab" data-function-id="tabitem"><a href="javascript:;" class="cursor-pointer" id="all" data-tabid="all" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="tab" data-function-id="tabitem"><span class="tab-text" id="all">전체</span></a></li><li id="__ecAddNewTab" class="preset tab-add" data-presetid="__ecAddNewTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"><a href="javascript:;" id="__ecAddNewTab" data-presetid="__ecAddNewTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"></a><a href="#" class="btn btn-primary btn-fn hide" id="__ecAddNewTab_fn" data-service="layer.dropdown" data-service-attr="layer.fixed" data-presetid="__ecAddNewTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"></a></li><li id="__ecExpandTab" class="pull-right preset preset-more hidden" data-presetid="__ecExpandTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"><a href="javascript:;" id="__ecExpandTab" data-presetid="__ecExpandTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"></a><a href="#" class="btn btn-primary btn-fn hide" id="__ecExpandTab_fn" data-service="layer.dropdown" data-service-attr="layer.fixed" data-presetid="__ecExpandTab" data-ecpath="EBP012R_8∫header∫∫tab∬fh002ysl∫∫∫" data-function="preset" data-function-id="presetitem"></a></li><li class="tab-text text-danger hidden">검색기본값을 설정 후 저장 바랍니다.</li></ul><div class="tab-content" style=""><div class="tab-pane" style="display: block;" data-container-id="EBP012R_8∫basic"><ul class="wrapper-form wrapper-form-state-1" data-ecpath="EBP012R_8∫header∫basic∫form∬wlceel2d∫∫∫"><li data-listid="ddlSYear" class=""><div class="title" data-listid="ddlSYear">계약일자</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlSYear_DATE∫ddlSYear">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlSYear_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">12</button><input type="text" data-service="" data-cid="ddlSYear_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlSYear_DATE" value="01" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlSYear_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">12</button><input type="text" data-service="" data-cid="ddlSYear_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlSYear_DATE" value="29" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlSYear_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlSYear_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlSYear_CALC∫ddlSYear">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlSYear_CALC" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlSYear_CALC∫ddlSYear" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlSYear_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlSYear_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlSYear_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlSYear_CALC"></button>
-</div></div></div></li><li data-listid="ddlCStartDate" class=""><div class="title" data-listid="ddlCStartDate">청구시작일</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCStartDate_DATE∫ddlCStartDate">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCStartDate_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCStartDate_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlCStartDate_DATE" value="" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCStartDate_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCStartDate_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlCStartDate_DATE" value="" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlCStartDate_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCStartDate_CALC∫ddlCStartDate">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlCStartDate_CALC" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCStartDate_CALC∫ddlCStartDate" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlCStartDate_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlCStartDate_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlCStartDate_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_CALC"></button>
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCStartDate_NOFIELD∫ddlCStartDate">
-
-<input type="text" class="form-control form-control " data-index="0" data-cid="ddlCStartDate_NOFIELD" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCStartDate_NOFIELD∫ddlCStartDate" placeholder="청구시작일" value="" disabled=""><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  " data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_NOFIELD"></button>
-</div></div></div></li><li data-listid="ddlCEndDate" class=""><div class="title" data-listid="ddlCEndDate">청구종료일</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCEndDate_DATE∫ddlCEndDate">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCEndDate_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCEndDate_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlCEndDate_DATE" value="" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCEndDate_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCEndDate_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlCEndDate_DATE" value="" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlCEndDate_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCEndDate_CALC∫ddlCEndDate">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlCEndDate_CALC" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCEndDate_CALC∫ddlCEndDate" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlCEndDate_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlCEndDate_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlCEndDate_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_CALC"></button>
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCEndDate_NOFIELD∫ddlCEndDate">
-
-<input type="text" class="form-control form-control " data-index="0" data-cid="ddlCEndDate_NOFIELD" data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCEndDate_NOFIELD∫ddlCEndDate" placeholder="청구종료일" value="" disabled=""><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  " data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_NOFIELD"></button>
-</div></div></div></li><li data-listid="ddlCheckMonth" class=""><div class="title" data-listid="ddlCheckMonth">청구예정월</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlCheckMonth∫">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlCheckMonth" class="btn btn-default btn-selectbox btn-group-select-inline hidden ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCheckMonth" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="hidden">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlCheckMonth" class="btn btn-default btn-selectbox btn-group-select-inline hidden ">12</button><input type="text" data-service="" data-cid="ddlCheckMonth" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="hidden">/&nbsp;</span><input type="text" class="form-control hidden" data-index="2" data-role-index="2" data-cid="ddlCheckMonth" value="01" style="{{css.style}}">
-<span data-role="delimiter" class="hidden"> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlCheckMonth" class="btn btn-default btn-selectbox btn-group-select-inline hidden ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCheckMonth" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="hidden">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlCheckMonth" class="btn btn-default btn-selectbox btn-group-select-inline hidden ">12</button><input type="text" data-service="" data-cid="ddlCheckMonth" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="hidden">/&nbsp;</span><input type="text" class="form-control hidden" data-index="5" data-role-index="5" data-cid="ddlCheckMonth" value="29" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlCheckMonth" class="btn-datepicker-toggle hidden" data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-
-&nbsp;<span class="form-checkbox" data-cid="ddlCheckMonth"><input type="checkbox" value="{{value}}" data-cid="ddlCheckMonth" data-role="date.hide" name="ddlCheckMonth" data-index="6" id="control-basic--EBP012R_8-ddlCheckMonth" class=""><label data-role="widget-focus" for="control-basic--EBP012R_8-ddlCheckMonth" data-cid="ddlCheckMonth" class="">사용</label></span>
-
-
-</div></div></div></li><li data-listid="txtSCustCd" class="form-collapse collapsed"><div class="title" data-listid="txtSCustCd" data-ecpath="EBP012R_8∫header∫basic∫form∬wlceel2d∫∫∫" data-function="group">거래처</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtSCustCd∫" data-cid="txtSCustCd"><a href="javascript:;" data-cid="txtSCustCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtSCustCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtSCustCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtSCustCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtSCustCd" data-index="0" placeholder="거래처" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtSCustCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtSCustCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtCustGroup1" class="hidden"><div class="title" data-listid="txtCustGroup1">거래처그룹1</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtCustGroup1∫" data-cid="txtCustGroup1"><a href="javascript:;" data-cid="txtCustGroup1" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtCustGroup1" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtCustGroup1">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtCustGroup1">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtCustGroup1" data-index="0" placeholder="거래처그룹1" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtCustGroup1" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtCustGroup1" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtCustGroup2" class="hidden"><div class="title" data-listid="txtCustGroup2">거래처그룹2</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtCustGroup2∫" data-cid="txtCustGroup2"><a href="javascript:;" data-cid="txtCustGroup2" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtCustGroup2" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtCustGroup2">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtCustGroup2">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtCustGroup2" data-index="0" placeholder="거래처그룹2" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtCustGroup2" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtCustGroup2" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtTreeCustCd" class="hidden"><div class="title" data-listid="txtTreeCustCd">거래처계층그룹</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtTreeCustCd∫" data-cid="txtTreeCustCd"><a href="javascript:;" data-cid="txtTreeCustCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtTreeCustCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtTreeCustCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtTreeCustCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtTreeCustCd" data-index="0" placeholder="거래처계층그룹" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtTreeCustCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtTreeCustCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-<span class="control-inline"><span class="form-checkbox"><span>&nbsp;</span><input type="checkbox" data-index="1" data-role="code.sidelabel" data-cid="txtTreeCustCd" tabindex="0" id="control-basic--EBP012R_8-txtTreeCustCd-tabUnsent"><label data-role="code.sidelabel" for="control-basic--EBP012R_8-txtTreeCustCd-tabUnsent">하위그룹포함검색</label></span></span></div></div></div></li><li data-listid="txtContract" class=""><div class="title" data-listid="txtContract">계약</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtContract∫" data-cid="txtContract"><a href="javascript:;" data-cid="txtContract" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtContract" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtContract">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtContract">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtContract" data-index="0" placeholder="계약" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtContract" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtContract" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtContractItem" class=""><div class="title" data-listid="txtContractItem">계약항목</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtContractItem∫" data-cid="txtContractItem"><a href="javascript:;" data-cid="txtContractItem" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtContractItem" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtContractItem">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtContractItem">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtContractItem" data-index="0" placeholder="계약항목" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtContractItem" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtContractItem" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtContractUnit" class=""><div class="title" data-listid="txtContractUnit">청구단위</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtContractUnit∫" data-cid="txtContractUnit"><a href="javascript:;" data-cid="txtContractUnit" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtContractUnit" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtContractUnit">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtContractUnit">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtContractUnit" data-index="0" placeholder="청구단위" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtContractUnit" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtContractUnit" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtEmpCd" class=""><div class="title" data-listid="txtEmpCd">담당자</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtEmpCd∫" data-cid="txtEmpCd"><a href="javascript:;" data-cid="txtEmpCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtEmpCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtEmpCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtEmpCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtEmpCd" data-index="0" placeholder="담당자" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtEmpCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtEmpCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtPjtCd" class="form-collapse collapsed"><div class="title" data-listid="txtPjtCd" data-ecpath="EBP012R_8∫header∫basic∫form∬wlceel2d∫∫∫" data-function="group">프로젝트</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtPjtCd∫" data-cid="txtPjtCd"><a href="javascript:;" data-cid="txtPjtCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtPjtCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtPjtCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtPjtCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtPjtCd" data-index="0" placeholder="프로젝트" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtPjtCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtPjtCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtPjtGroup1" class="hidden"><div class="title" data-listid="txtPjtGroup1">프로젝트그룹1</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtPjtGroup1∫" data-cid="txtPjtGroup1"><a href="javascript:;" data-cid="txtPjtGroup1" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtPjtGroup1" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtPjtGroup1">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtPjtGroup1">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtPjtGroup1" data-index="0" placeholder="프로젝트그룹1" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtPjtGroup1" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtPjtGroup1" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtPjtGroup2" class="hidden"><div class="title" data-listid="txtPjtGroup2">프로젝트그룹2</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtPjtGroup2∫" data-cid="txtPjtGroup2"><a href="javascript:;" data-cid="txtPjtGroup2" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtPjtGroup2" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtPjtGroup2">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtPjtGroup2">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtPjtGroup2" data-index="0" placeholder="프로젝트그룹2" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtPjtGroup2" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtPjtGroup2" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtSiteCd" class="form-collapse collapsed"><div class="title" data-listid="txtSiteCd" data-ecpath="EBP012R_8∫header∫basic∫form∬wlceel2d∫∫∫" data-function="group">부서</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtSiteCd∫" data-cid="txtSiteCd"><a href="javascript:;" data-cid="txtSiteCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtSiteCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtSiteCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtSiteCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtSiteCd" data-index="0" placeholder="부서" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtSiteCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtSiteCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="txtTreeSiteCd" class="hidden"><div class="title" data-listid="txtTreeSiteCd">부서계층그룹</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫txtTreeSiteCd∫" data-cid="txtTreeSiteCd"><a href="javascript:;" data-cid="txtTreeSiteCd" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="txtTreeSiteCd" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="txtTreeSiteCd">
-<div class="input-height-fixed" data-role="height.decider" data-cid="txtTreeSiteCd">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="txtTreeSiteCd" data-index="0" placeholder="부서계층그룹" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="txtTreeSiteCd" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="txtTreeSiteCd" data-function="button" data-function-id="code.removeall"></button>
-
-
-<span class="control-inline"><span class="form-checkbox"><span>&nbsp;</span><input type="checkbox" data-index="1" data-role="code.sidelabel" data-cid="txtTreeSiteCd" tabindex="0" id="control-basic--EBP012R_8-txtTreeSiteCd-tabUnsent"><label data-role="code.sidelabel" for="control-basic--EBP012R_8-txtTreeSiteCd-tabUnsent">하위그룹포함검색</label></span></span></div></div></div></li><li data-listid="ddlSioType" class=""><div class="title" data-listid="ddlSioType">부가세유형</div><div class="form"><div class="control-set    "><div class="control  {{style.css}} " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlSioType∫" data-cid="ddlSioType"><a href="javascript:;" data-cid="ddlSioType" class="hidden" data-service="layer.dropdown" data-service-attr="layer.fixed" data-function="link">선택</a>
-<div class="hidden" data-role="code.wrapper">
-
-</div>
-<button class="btn btn-default btn-code-search btn-vertical-top" data-cid="ddlSioType" data-function="button" data-function-id="code.openpopup"></button>
-<div class="tags-input" data-cid="ddlSioType">
-<div class="input-height-fixed" data-role="height.decider" data-cid="ddlSioType">
-<div>
-<div class="tags-input-typeahead">
-<div data-role="code.container"><div class="tags-input-typeahead" data-role="code.autocomplete"><input type="text" class="form-control form-control-code noneEvent " data-cid="ddlSioType" data-index="0" placeholder="부가세유형" value=""></div> </div>
-</div>
-</div>
-</div>
-</div>
-<button class="btn btn-default btn-ellipsis btn-vertical-top hidden" data-cid="ddlSioType" data-function="button" data-function-id="code.more"></button>
-<button class="btn btn-default btn-remove btn-vertical-top hidden" data-cid="ddlSioType" data-function="button" data-function-id="code.removeall"></button>
-
-
-</div></div></div></li><li data-listid="rbStateChk" class=""><div class="title" data-listid="rbStateChk">진행상태</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫rbStateChk∫">
-
-<span class="form-radio  " data-cid="rbStateChk"><input type="radio" value="A" data-cid="rbStateChk" name="rbStateChk_EBP012R_8_basic" data-index="0" id="control-basic--EBP012R_8-rbStateChk-0"><label data-role="widget-focus" for="control-basic--EBP012R_8-rbStateChk-0" data-cid="rbStateChk">전체</label></span><span class="form-radio  " data-cid="rbStateChk"><input type="radio" value="0" data-cid="rbStateChk" name="rbStateChk_EBP012R_8_basic" data-index="1" id="control-basic--EBP012R_8-rbStateChk-1" checked=""><label data-role="widget-focus" for="control-basic--EBP012R_8-rbStateChk-1" data-cid="rbStateChk">진행중</label></span><span class="form-radio  " data-cid="rbStateChk"><input type="radio" value="9" data-cid="rbStateChk" name="rbStateChk_EBP012R_8_basic" data-index="2" id="control-basic--EBP012R_8-rbStateChk-2"><label data-role="widget-focus" for="control-basic--EBP012R_8-rbStateChk-2" data-cid="rbStateChk">완료</label></span>
-</div></div></div></li><li data-listid="ddlForeignFlag" class=""><div class="title" data-listid="ddlForeignFlag">내.외자구분</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫ddlForeignFlag∫">
-
-<span class="form-radio  " data-cid="ddlForeignFlag"><input type="radio" value="9999" data-cid="ddlForeignFlag" name="ddlForeignFlag_EBP012R_8_basic" data-index="0" id="control-basic--EBP012R_8-ddlForeignFlag-0" checked=""><label data-role="widget-focus" for="control-basic--EBP012R_8-ddlForeignFlag-0" data-cid="ddlForeignFlag">전체</label></span><span class="form-radio  " data-cid="ddlForeignFlag"><input type="radio" value="0" data-cid="ddlForeignFlag" name="ddlForeignFlag_EBP012R_8_basic" data-index="1" id="control-basic--EBP012R_8-ddlForeignFlag-1"><label data-role="widget-focus" for="control-basic--EBP012R_8-ddlForeignFlag-1" data-cid="ddlForeignFlag">내자</label></span><span class="form-radio  " data-cid="ddlForeignFlag"><input type="radio" value="1" data-cid="ddlForeignFlag" name="ddlForeignFlag_EBP012R_8_basic" data-index="2" id="control-basic--EBP012R_8-ddlForeignFlag-2"><label data-role="widget-focus" for="control-basic--EBP012R_8-ddlForeignFlag-2" data-cid="ddlForeignFlag">외자</label></span>
-</div></div></div></li><li class="wrapper-form-divider" data-form-group-id="template"><div class="title">양식</div></li><li data-listid="formList" class=""><div class="title" data-listid="formList">적용양식</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫formList∫">
-
-<button data-service="layer.selectbox" data-index="0" data-role="select.selectbox" data-role-index="0" data-cid="formList" class="btn btn-default btn-selectbox  ">현황</button><input type="text" data-service="layer.autocomplete" data-cid="formList" data-index="0" data-role="select.selectbox" data-role-index="0" class="hidden form-control select-direct-input">
-</div></div></div></li><li data-listid="formClass" class=""><div class="title" data-listid="formClass">양식구분</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫cbRptConfirm∫formClass">
-
-<span class="form-checkbox" data-cid="cbRptConfirm"><input type="checkbox" value="1" data-cid="cbRptConfirm" data-role="{{ecRole}}" name="cbRptConfirm" data-index="0" id="control-basic--EBP012R_8-cbRptConfirm-0" class=""><label data-role="widget-focus" for="control-basic--EBP012R_8-cbRptConfirm-0" data-cid="cbRptConfirm" class="">결재방표시</label></span>
-</div></div></div></li><li data-listid="linkSortTotal" class=""><div class="title" data-listid="linkSortTotal">정렬/소계기준</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫basic∫∫∫linkSortTotal∫">
-
-<a href="javascript:;" data-index="0" id="linkSortTotal" data-cid="linkSortTotal" class="   " style="  " data-role="" data-role-index="" data-toggle="{{data-toggle}}">설정</a>
-</div></div></div></li></ul></div><div class="tab-pane" style="display: none;" data-container-id="EBP012R_8∫all"><ul class="wrapper-form wrapper-form-state-1" data-ecpath="EBP012R_8∫header∫all∫form∬zrt7qn3j∫∫∫"><li data-listid="ddlSYear" class=""><div class="title" data-listid="ddlSYear">계약일자</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫all∫∫∫ddlSYear_DATE∫ddlSYear">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlSYear_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">12</button><input type="text" data-service="" data-cid="ddlSYear_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlSYear_DATE" value="01" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">2021</button><input type="text" data-service="layer.autocomplete" data-cid="ddlSYear_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlSYear_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">12</button><input type="text" data-service="" data-cid="ddlSYear_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlSYear_DATE" value="29" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlSYear_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlSYear_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlSYear_CALC∫ddlSYear">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlSYear_CALC" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlSYear_CALC∫ddlSYear" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlSYear_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlSYear_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlSYear_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlSYear_CALC"></button>
-</div></div></div></li><li data-listid="ddlCStartDate" class=""><div class="title" data-listid="ddlCStartDate">청구시작일</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCStartDate_DATE∫ddlCStartDate">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCStartDate_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCStartDate_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlCStartDate_DATE" value="" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCStartDate_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlCStartDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCStartDate_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlCStartDate_DATE" value="" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlCStartDate_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCStartDate_CALC∫ddlCStartDate">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlCStartDate_CALC" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCStartDate_CALC∫ddlCStartDate" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlCStartDate_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlCStartDate_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlCStartDate_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_CALC"></button>
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCStartDate_NOFIELD∫ddlCStartDate">
-
-<input type="text" class="form-control form-control " data-index="0" data-cid="ddlCStartDate_NOFIELD" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCStartDate_NOFIELD∫ddlCStartDate" placeholder="청구시작일" value="" disabled=""><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  " data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCStartDate_NOFIELD"></button>
-</div></div></div></li><li data-listid="ddlCEndDate" class=""><div class="title" data-listid="ddlCEndDate">청구종료일</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCEndDate_DATE∫ddlCEndDate">
-
-<div data-cid="{{cid}}" data-pcid="{{pcid}}" data-role="dateWrapper" class="wrapper-datepicker enable-toggle-ecitem datepicker-range {{style.contextCss}}">
-<button data-service="layer.selectbox" data-index="0" data-role="date.selectbox" data-role-index="0" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCEndDate_DATE" data-index="0" data-role="date.selectbox" data-role-index="0" class="hidden form-control select-direct-input"><span data-for="0" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="1" data-role="date.selectbox" data-role-index="1" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCEndDate_DATE" data-index="1" data-role="date.selectbox" data-role-index="1" class="hidden form-control select-direct-input">
-<span data-for="2" class="">/&nbsp;</span><input type="text" class="form-control " data-index="2" data-role-index="2" data-cid="ddlCEndDate_DATE" value="" style="{{css.style}}">
-<span data-role="delimiter" class=""> ~ </span>
-<button data-service="layer.selectbox" data-index="3" data-role="date.selectbox" data-role-index="3" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">====</button><input type="text" data-service="layer.autocomplete" data-cid="ddlCEndDate_DATE" data-index="3" data-role="date.selectbox" data-role-index="3" class="hidden form-control select-direct-input"><span data-for="3" class="">&nbsp;/</span>
-<button data-service="layer.selectbox" data-index="4" data-role="date.selectbox" data-role-index="4" data-cid="ddlCEndDate_DATE" class="btn btn-default btn-selectbox btn-group-select-inline  ">==</button><input type="text" data-service="" data-cid="ddlCEndDate_DATE" data-index="4" data-role="date.selectbox" data-role-index="4" class="hidden form-control select-direct-input">
-<span data-for="5" class="">/&nbsp;</span><input type="text" class="form-control " data-index="5" data-role-index="5" data-cid="ddlCEndDate_DATE" value="" style="{{css.style}}">
-<div id="btn-datepicker-toggle" data-cid="ddlCEndDate_DATE" class="btn-datepicker-toggle " data-calendar="0" tabindex="-1" data-service="layer.datepicker" data-function="button" data-function-id="date.picker"></div>
-</div>
-<button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_DATE"></button>
-
-
-
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCEndDate_CALC∫ddlCEndDate">
-
-<div class="tags-input"><div class="input-height-fixed"><div data-role="code.container"><div class="tags-input-typeahead" data-role="input.container"><input type="text" class="form-control form-control-bordered " data-index="0" data-cid="ddlCEndDate_CALC" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCEndDate_CALC∫ddlCEndDate" data-service="layer.autocomplete" placeholder="" value=""></div><button class="btn btn-default btn-remove hidden" data-cid="ddlCEndDate_CALC_input" data-function="button" data-function-id="input.remove"></button></div></div></div><button class="btn btn-default btn-ellipsis hidden" data-cid="ddlCEndDate_CALC_more" data-function="button" data-function-id="button.more"></button><button class="btn btn-default btn-remove hidden" data-cid="ddlCEndDate_CALC" data-function="button" data-function-id="code.removeall"></button><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  hidden" data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_CALC"></button>
-</div></div><div class="control-set  hidden"><div class="control   hidden" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCEndDate_NOFIELD∫ddlCEndDate">
-
-<input type="text" class="form-control form-control " data-index="0" data-cid="ddlCEndDate_NOFIELD" data-ecpath="EBP012R_8∫header∫all∫∫∫ddlCEndDate_NOFIELD∫ddlCEndDate" placeholder="청구종료일" value="" disabled=""><button type="button" class="btn btn-default btn-fn dropdown-toggle fn  " data-function="fn" data-service="layer.fn" data-service-attr="layer.fixed" data-cid="ddlCEndDate_NOFIELD"></button>
-</div></div></div></li><li data-listid="ddlCheckMonth" class=""><div class="title" data-listid="ddlCheckMonth">청구예정월</div><div class="form"></div></li><li data-listid="txtSCustCd" class="form-collapse collapsed"><div class="title" data-listid="txtSCustCd" data-ecpath="EBP012R_8∫header∫all∫form∬zrt7qn3j∫∫∫" data-function="group">거래처</div><div class="form"></div></li><li data-listid="txtCustGroup1" class="hidden"><div class="title" data-listid="txtCustGroup1">거래처그룹1</div><div class="form"></div></li><li data-listid="txtCustGroup2" class="hidden"><div class="title" data-listid="txtCustGroup2">거래처그룹2</div><div class="form"></div></li><li data-listid="txtTreeCustCd" class="hidden"><div class="title" data-listid="txtTreeCustCd">거래처계층그룹</div><div class="form"></div></li><li data-listid="txtContract" class=""><div class="title" data-listid="txtContract">계약</div><div class="form"></div></li><li data-listid="txtContractItem" class=""><div class="title" data-listid="txtContractItem">계약항목</div><div class="form"></div></li><li data-listid="txtContractUnit" class=""><div class="title" data-listid="txtContractUnit">청구단위</div><div class="form"></div></li><li data-listid="txtEmpCd" class=""><div class="title" data-listid="txtEmpCd">담당자</div><div class="form"></div></li><li data-listid="txtPjtCd" class="form-collapse collapsed"><div class="title" data-listid="txtPjtCd" data-ecpath="EBP012R_8∫header∫all∫form∬zrt7qn3j∫∫∫" data-function="group">프로젝트</div><div class="form"></div></li><li data-listid="txtPjtGroup1" class="hidden"><div class="title" data-listid="txtPjtGroup1">프로젝트그룹1</div><div class="form"></div></li><li data-listid="txtPjtGroup2" class="hidden"><div class="title" data-listid="txtPjtGroup2">프로젝트그룹2</div><div class="form"></div></li><li data-listid="txtSiteCd" class="form-collapse collapsed"><div class="title" data-listid="txtSiteCd" data-ecpath="EBP012R_8∫header∫all∫form∬zrt7qn3j∫∫∫" data-function="group">부서</div><div class="form"></div></li><li data-listid="txtTreeSiteCd" class="hidden"><div class="title" data-listid="txtTreeSiteCd">부서계층그룹</div><div class="form"></div></li><li data-listid="ddlSioType" class=""><div class="title" data-listid="ddlSioType">부가세유형</div><div class="form"></div></li><li data-listid="rbStateChk" class=""><div class="title" data-listid="rbStateChk">진행상태</div><div class="form"></div></li><li data-listid="txtSWord" class=""><div class="title" data-listid="txtSWord">적요</div><div class="form"></div></li><li data-listid="ddlForeignFlag" class=""><div class="title" data-listid="ddlForeignFlag">내.외자구분</div><div class="form"></div></li><li data-listid="txtFirstWriteID" class=""><div class="title" data-listid="txtFirstWriteID">최초작성자</div><div class="form"></div></li><li data-listid="txtLastEditID" class=""><div class="title" data-listid="txtLastEditID">최종수정자</div><div class="form"></div></li><li class="wrapper-form-divider" data-form-group-id="template"><div class="title">양식</div></li><li data-listid="formList" class=""><div class="title" data-listid="formList">적용양식</div><div class="form"></div></li><li data-listid="formClass" class=""><div class="title" data-listid="formClass">양식구분</div><div class="form"><div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫all∫∫∫cbRptConfirm∫formClass">
-
-<span class="form-checkbox" data-cid="cbRptConfirm"><input type="checkbox" value="1" data-cid="cbRptConfirm" data-role="{{ecRole}}" name="cbRptConfirm" data-index="0" id="control-all--EBP012R_8-cbRptConfirm-0" class=""><label data-role="widget-focus" for="control-all--EBP012R_8-cbRptConfirm-0" data-cid="cbRptConfirm" class="">결재방표시</label></span>
-</div></div></div></li><li data-listid="linkSortTotal" class=""><div class="title" data-listid="linkSortTotal">정렬/소계기준</div><div class="form"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫header∫all∫∫∫linkSortTotal∫">
-
-<a href="javascript:;" data-index="0" id="linkSortTotal" data-cid="linkSortTotal" class="   " style="  " data-role="" data-role-index="" data-toggle="{{data-toggle}}">설정</a>
-</div></div></div></li></ul></div></div><div class="wrapper-toolbar header-search-btn-group">
-<div class="pull-left">
-<div class="control-set"><div class="control   " data-ecpath="EBP012R_8∫header∫∫∫∫searchGroup∫">
-
-<button id="searchGroup" class="btn btn-sm btn-primary  " data-index="0" data-cid="searchGroup" data-ecpath="EBP012R_8∫header∫∫∫∫searchGroup∫" data-role="{{ecRole}}" data-service="layer.dropdown" data-service-trigger="mouseover">검색(F8)</button><button class="btn-arrow btn btn-arrow-up btn-primary btn-sm  hidden" data-cid="searchGroup" data-service="layer.dropdown" data-service-attr="layer.fixed" data-role="group"></button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="0" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="today">금일</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="1" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="yesterday">전일</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="2" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="week">금주(~오늘)</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="3" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="lastWeek">전주</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="4" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="month">금월(~오늘)</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="5" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="lastMonth">전월</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="6" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="endDay">종료일</button>
-</div><div class="control  hidden" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫">
-<button id="simpleSearch" class="btn btn-default btn-sm  " data-index="7" data-cid="simpleSearch" data-ecpath="EBP012R_8∫header∫∫∫∫simpleSearch∫" data-role="settingButton">설정</button>
-</div><div class="control   " data-ecpath="EBP012R_8∫header∫∫∫∫rewrite∫">
-
-<button id="rewrite" class="btn btn-default btn-sm  " data-index="0" data-cid="rewrite" data-ecpath="EBP012R_8∫header∫∫∫∫rewrite∫" data-role="{{ecRole}}">다시 작성</button>
-</div></div>
-</div>
-<div class="pull-right"><button class="btn btn-sm btn-default btn-header-search-btn-more"></button></div>
-</div></div></div>
-        <div class="contents" style="margin-top: 100px; top: 100px; bottom: 66px;">
-                <div id="titleContents" tabindex="-1" style="outline: none;"></div>
-        <div id="gridForm" data-gid="gridForm" class="__ecGridContainer  wrapper-grid" data-layouttype="grid" style=""></div></div>
-        <div class="footer" style="display: block;">
-            
-        <div class="wrapper-toolbar toolbar-collapse  "><div class="pull-left"><div class="control-set    "><div class="control   " data-ecpath="EBP012R_8∫footer∫∫∫∫group1printHtml∫">
-
-<button id="group1printHtml" class="btn btn-primary  " data-index="0" data-cid="group1printHtml" data-ecpath="EBP012R_8∫footer∫∫∫∫group1printHtml∫" data-role="{{ecRole}}" data-service="layer.dropdown" data-service-trigger="mouseover">인쇄</button><button class="btn-arrow btn btn-arrow-up btn-primary " data-cid="group1printHtml" data-service="layer.dropdown" data-service-attr="layer.fixed" data-role="group"></button>
-</div></div><div class="control-set     hidden"><div class="control   " data-ecpath="EBP012R_8∫footer∫∫∫∫outputExcel∫">
-
-<button id="outputExcel" class="btn btn-default  " data-index="0" data-cid="outputExcel" data-ecpath="EBP012R_8∫footer∫∫∫∫outputExcel∫" data-role="{{ecRole}}">Excel</button>
-</div></div><div class="control-set  hidden  "><div class="control   " data-ecpath="EBP012R_8∫footer∫∫∫∫moreData∫">
-
-<button id="moreData" class="btn btn-default  " data-index="0" data-cid="moreData" data-ecpath="EBP012R_8∫footer∫∫∫∫moreData∫" data-role="{{ecRole}}">3천건이상조회</button>
-</div></div></div><div class="pull-right"><button class="btn btn-default btn-toolbar-more {{smallButton}}"></button></div></div></div>
-
-        
-    <div class="section"></div></div>
-
-
-
-        <script src="/s3/ecerp/contents/js/require/require.lib.6556681738149978960.19.js"></script>
-        <script src="/s3/ecerp/contents/js/require/require.widget.2006042300092050921.19.js"></script>
-        <script src="/s3/ecerp/contents/js/require/require.ecmodule.212158600171993949.19.js"></script>
-                <script data-version="new" src="/s3/ecerp/contents/js/require/require.pagebase.-1598186749630719115.19.js"></script>
-
-    <script type="text/javascript" language="javascript" charset="utf-8">
-    require.config({
-        define: {}
-
-        });
-
-    
-    var favoritesInfo = {"isUseFavorites":true,"isFavoritesAddition":false,"menuSeq":1725,"programSeq":0,"favoritesSeq":0,"favoritesSortSeq":0,"programID":"E060912","permissionID":"E060912"};ecount.system.IsEnableNoL4 = false;
-        window["viewBag" + "EBP012R_8"] = $.xextend({"CacheInfo":{"CalendarHash":"360557788","form":[{"formType":"AO555","hash":-439026642}],"defaultForm":["Z_AO555_1"],"formCalcData":{"formType":"AO555","hash":495542648},"formCalcDataList":[{"formType":"AO555","hash":495542648}],"formSearchData":[{"formType":"AM555","hash":885530750}],"cacheKey":{"ComInfo":"31","ComCode":"G1080","UserId":"GUEST","DomainFlag":"E","EcountFlag":"0","LanType":"ko-KR"}},"_x_":"36724d155755584758431c55585c505e5518545d5b4753584e100c4c1075787f69747d7272100c155507070a06151e1473777568737b63100c071e14767f626871777b71140d1064151e146173626871777b71140d1064151e146261736876736766140d106f151e1462617368627c63100c156b141b107b6e6277707775787f66767c6f6876776377140d49146e7777656d7f796263636d7078607b7666140d106f6e6b6f151e147a7d78637a697e7c66626669717d647a73621508147a7f141b1072766b697e7c66626669717d647a73621508147376141b1072766673687b78676762687d647377641508146e7f72151e146e7777656d7f796263636d70657d78636d757f7364150814151e147a7d78637a697e7c66626669716079796669747a7765100c15101a1576776e6d7f796263636d70657d78636d757f736415081418101a156b737660697e7c666266697573757c6d757f736415081418101a157f7979667e687b78676762687077747969747a7765100c15101a1576776e6d7f796263636d7476717d68717e7660140d10141b106f727364687b78676762687464787c6268707a767c7d150850565e45521e147a7d78637a697e7c66626669716079796669757e777979140d54575b41531b1072766b697e7c66626669716079796669757e777979140d54575b41531b106f727364687b78676762687077747969757e777979140d54575b41531b107b787c627f6d7f796263636d7476717d68707a767c7d150850565e45521e1473736f687b78676762687077747969757e777979140d54575b41531b106f727364687d63636263636d7078607b7666140d106f6e6b6f151e147a7d78637a69786762676762687479657f7763100c157f7b151e1473736f687d63636263636d7078607b7666140d107273101a157677637769786762676762687d647377641508146e7f72151e146e7777656d70657d78636d757f7364150814151e147a7d78637a69716079796669747a7765100c15101a1576776e6d70657d78636d757f736415081418101a156b737660697573757c6d757f736415081418101a157f7979667e687077747969747a7765100c15101a1576776e6d7476717d68717e7660140d10141b106f727364687464787c6268707a767c7d150850565e45521e147a7d78637a69716079796669757e777979140d54575b41531b1072766b69716079796669757e777979140d54575b41531b106f727364687077747969757e777979140d54575b41531b107b787c627f6d7476717d68707a767c7d150850565e45521e1473736f687077747969757e777979140d54575b41531b107e646d626e62731508071b107e786764687b78676762687479657f7763100c155a141b107b7e7c697e7c66626669717d647a73621508145a5f141b10627e7f73687b78636263636d7965767365100c155a5b151e147f7d63656d7f796263636d70657d78636d757f7364150814151e147a7b78687b78676762687464787c6268717e7660140d100c151e147f7d63656d7f796263636d7476717d68717e7660140d10141b107b7e7c697e7c666266697573757c6d757f7364150814151e147f7d63656d7f796263636d70657d78636d747b73787c100c51535a44571a157f7f796d7f796263636d70657d78636d747b73787c100c51535a44571a157a796260697e7c666266697573757c6d747b73787c100c51535a44571a157f7f796d7f796263636d7476717d68707a767c7d150850565e45521e147f7d63656d79626666626669717d647a73621508145f101a157f7f796d79626666626669717d647a73621508145a5f141b1065727169786762676762687479657f7763100c154145151e14637b7b726d796266666266697860727260140d105e5a41141b107e786764687464787c6268717e7660140d10141b107b7e7c69716079796669747a7765100c1508141b1065727169716079796669747a7765100c1508141b107e786764687077747969747a7765100c15101a157f7f796d7476717d68717e7660140d10141b10657271697573757c6d757f7364150814151e147f7d63656d70657d78636d747b73787c100c51535a44571a157f7f796d70657d78636d747b73787c100c51535a44571a156173746d70657d78636d747b73787c100c51535a44571a157a796260697573757c6d747b73787c100c51535a44571a157f7f796d7476717d68707a767c7d150850565e45521e14647775687077747969757e777979140d54575b41531b1077607669717e7770100c434043521e14737362726d70657d78636d757f7364150814151e146077737c76776e6d70657d78636d757f73641508141f101a15667f7a7769716079796669747a7765100c15101a1576776377697573757c6d757f7364150814151e146077737c76776e6d7476717d68717e7660140d101f151e14637b7b726d7476717d68717e7660140d10141b1072766673687464787c6268707a767c7d150850565e45521e146077737c76776e6d70657d78636d747b73787c100c51535a44571a15667f7a7769716079796669757e777979140d464442571a1576776377697573757c6d747b73787c100c434043521e146077737c76776e6d7476717d68707a767c7d150850565e45521e14637b7b726d7476717d68707a767c7d150850565e45521e1473736272667f7a77697860727260140d10524046141b1073737b627860697e76140d1073747d637966141b1073737b62687662150814050207011f06021f070e66060f0805070806061c010001141b1071657d63676d75736d7f79626363100c59475a5b1e14706079626269747669786762676762150858425e5a1b107d524b140d4914747d7b6871797377140d106c76020606104b4a1e14726077687e7f6466140d5c435b5e1a157479796607150814535d42425f141b1070787c6205100c1553445e535a151e14717d786301140d10141b1070787c6268617f6d77140d03041b1070787c6268617f6d77696466647e7c71150814151e14717d78636d65766473686b78150850565e45521e146d7764786d757f79696e7c140d464442571a156873657d69737b65677e776e6d6f79100c51535a44571a15667e786769647766766077637d6468666f6777140d1075151e14737775686173677364766679656d626e627315081467101a15667e786769647766766077637d641508141b101a157673746d657262776573627860140d1018151e14747a77636d6f79100c156b141b1066656669647d64636d7573100c59475a5b1e14767175686164747a6963607b68666f6777697476140d1006040206151e1465626268717979747f657f140d1078151e1462617368617a7e6269747d78717b647a100c157c144a1e14525159425c4219515959545f501c55585f46565c4f715d445a100c4c107b627e627e71797b6d657266627e7c7164100c6c4914747d7b6871797377140d107106020e07101a1571797b6d626e62731508071b107a7670737b6d617e76627f100c0607031b107f796263636d617e76627f100c0102061b10707e7e7a68717e7c6d6f79100c1502141b107b796d7a7670737b6d617e76627f100c0007061b107b796d707e7e7a68717e7c6d6f79100c1502141b107f796263636d78627f74726069607b72637a140d021a15747f7b7e6979677b75776468717e7c6d6f79100c1503141b1061656664687b72150814727179627c62151e146060626876627a100c15000605031b070b1b06066205000c07030c0207141b107b787664687b72150814727179627c62151e147a7d726876627a100c15000605031b070b1b06066205000c07030c0207141b1063677677637772687a77647a140d100702050300070202104b1b4914747d7b6871797377140d107106020e07101a1571797b6d626e62731508041b107a7670737b6d617e76627f100c0600061b107f796263636d617e76627f100c0507031b10707e7e7a68717e7c6d6f79100c1502141b107b796d7a7670737b6d617e76627f100c0007061b107b796d707e7e7a68717e7c6d6f79100c1502141b107f796263636d78627f74726069607b72637a140d021a15747f7b7e6979677b75776468717e7c6d6f79100c1503141b1061656664687b72150814727179627c62151e146060626876627a100c15000605031b070b1b06066205000c07030c0207141b107b787664687b72150814727179627c62151e147a7d726876627a100c15000605031b070b1b06066205000c07030c0207141b1063677677637772687a77647a140d100702050300070202104b1b4914747d7b6871797377140d107106020e07101a1571797b6d626e62731508051b107a7670737b6d617e76627f100c0600061b107f796263636d617e76627f100c0504061b10707e7e7a68717e7c6d6f79100c1502141b107b796d7a7670737b6d617e76627f100c0007061b107b796d707e7e7a68717e7c6d6f79100c1502141b107f796263636d78627f74726069607b72637a140d021a15747f7b7e6979677b75776468717e7c6d6f79100c1503141b1061656664687b72150814727179627c62151e146060626876627a100c15000605031b070b1b06066205000c07030c0207141b107b787664687b72150814727179627c62151e147a7d726876627a100c15000605031b070b1b06066205000c07030c0207141b1063677677637772687a77647a140d100702050300070202104b1b4914747d7b6871797377140d107106020e07101a1571797b6d626e62731508021b107a7670737b6d617e76627f100c0600061b107f796263636d617e76627f100c0504061b10707e7e7a68717e7c6d6f79100c1502141b107b796d7a7670737b6d617e76627f100c0007061b107b796d707e7e7a68717e7c6d6f79100c1502141b107f796263636d78627f74726069607b72637a140d021a15747f7b7e6979677b75776468717e7c6d6f79100c1503141b1061656664687b72150814727179627c62151e146060626876627a100c15000605031b070b1b06066205000c07030c0207141b107b787664687b72150814727179627c62151e147a7d726876627a100c15000605031b070b1b06066205000c07030c0207141b1063677677637772687a77647a140d100702050300070202104b6a1e147e7c75787f736866776f6d657266627e7c7164100c6c491464737a68666f6777697476140d1072151e147e7c757a6d62766a69636b667476140d1072151e14606062656d7f73100c15777578677863101a156564636d72637f140d10040700071a020f1a03026300040d02070d0703151e147a7d72656d7f73100c15777578677863101a157f79736d72637f140d10040700071a020f1a03026300040d02070d0703154f1a4c1065767e69636b66726d7573100c1562141b107f79717b6866776f6d626e627573100c157f141b1061656664687b72150814727179627c62151e146060626876627a100c15000605031b070b1b06066205000c07030c0207141b107b787664687b72150814727179627c62151e147a7d726876627a100c15000605031b070b1b06066205000c07030c0207144a6f4b1b1053545d43594618545d58515b511947455240140d49147e76140d105142574543101a157b7867676268766f79737b7e7169607b72637a696e7c140d1078151e147e6169647e7f676d7f79626363666f6777697a7d6072100c51535a44571a15607364627979617f6177696e7c140d1078151e14657765677d78647b60726d7767627a6e6d626e62731508147b101a15677f686879787f140d5c435b5e1a15737a7b6d71657d63676d66657d7215081407101a15737a7b6d71657d63676d7562616215081407101a15737a7b6d71657d63676d617f100c1502141b10777b7e69706079626269647b6272100c1502141b1065746073727c69637a737a77697476140d1074151e1462617368776e74777a6871797964736566140d464442571a15677f6874797966140d10525846435a104b1b1053545d43594618545d58515b51195b58415758435d444e100c4c10796266697377756863140d021a157673746d6366100c071e14786762687673746d661508061b107f796d7272716966100c071e147e7c6973777568676715081407101a157b78687673746d661508061b107272716966100c051e14726675687673746d6366100c071e147377756862140d021a157673716d66657b75726d607666697377757e7f777b6d667b737572100c071e147377756860776377140d021a157673746d72727477627e621508041b10636477697e7c60727c6278606f687077647b756876776377140d54575b41531b107f796473796679656b697573657e716973736272100c15101a15627c636d707b73711508146e101a156765726d78627f140d106e151e146263626e6d707b737115081406101a156767636b69737765150814db84a2dd82b6dbbaaedcadbf151e146261736870777b73787477697573657e61140d464442574b1b1053545d43594618545d58515b51195355545d435946140d4914767e7a786569647b62726d7573100c15101a15737a7b7d6168617f637769737765150814151e1462617368617a7e6273737b6268717979747f657f140d54575b41534a1e14525159425c4219515959545f501c51455d434745574557140d494b1b1053545d43594618545d58515b51195c57435b5959100c4c4f1a155755584758431c55585c505e55185b5b5b5e4653531c5b525c4315084d4a1e14525159425c4219515959545f501c5a5e5f5f4357521954535646434557140d494b1b1053545d43594618545d5b4753584e100c4c10657266627e7c716876776377140d100407030607030606101a1571797a6d727261140d101edb918a1ed886b7dea892d991b9deab83dea587d9bca3776467104b1b1053545d4359461842415345100c4c107f73100c155543524142151e147a7c7168747a7675140d54575b41531b107f796d667660621508140702141b1066726069636b6672100c1506141b10777b7e69706079626269647b6272100c1502141b10617e76140d107162776563101a15737a7b6d71657d63676d7562616215081407101a15706568617f6377697476140d10141b1074646d667d66697476140d10141b1064726166787c657e6473686b78150858425e5a4a1e14525159425c421948595957745641537353425641140d49145e5c585240705e5e53644659455351527a594446140d1053514177195755584758431c55585f141b105942465345745f5b5765435d445655537f5d4543100c155759514118525159425c425240461951595a101a15415345445f5457705e5e53644659455351527a594446140d10141b10665354655240405e51536d5d585277585342595e5c421508145f464247410c181d46535418525159425c425240461951595a080e030605186053475d4443615345445f5457141b10705e5e53644659455351527a594446140d10535454455c401844011856421b595d44435a535641421a0018565f574d5d585645451951595a101a1571434446595a5744745758435744715b5a52614258405750577e5841421508145251504459441941051953461a5c5945465e525345431f0419535b564859595341441c55585f141b1075424142585f53457153594653457e5f554057454b705e5e53644659455351527a594446140d10535454455c401844011856421b595d44435a535641421a0018565f574d5d585645451951595a101a15775b565b5a7a534e715b5a52614258405750577e5841421508145251504459441a5f575e5e1844011856421b595d44435a535641421a0018565f574d5d585645451951595a101a1571595a7b58515d6c585c537a534615084d1503140d1077151e1405100c1570141b100515081474101a1507140d1073151e140503140d1070151e140403140d107776101a1501041508147670141b100504100c157375151e140203140d107f76101a150a071508147473141b100e05100c157174151e140f01140d107574101a150a021508147476141b100006100c157077151e140100140d107475101a1504051508147571144a1e145a5745445758505744675d4443100c150a06151e145a57454457585057446462594546140d10020301141b105b524145525c51524075585c58525142735d5b565b58150814525c45767307195755584758435744471c55585f141b105b524145525c515240655241455e5d587c574f15081474405c4f427f7f7672064a457675625d6a746243604d7e6443744073607c550a0265040e617c5f7b547a5f7f7a6142074e465e504759765d510119615905771c035202644f4e017c6d78506474464f780362580e5247624d404e46545c665361017f7465045c625e06731d0262437c6605521863436402406f5d4e010a7e455d467519594d4b677a7746677d7d534150017a5a0461770a0f144a1e146757445a5b45445b5959100c4c1065525e5015084d1564575b475315081460101a15717765100c434043521e147460140d464442571a1571721508424547531b107560100c434043521e147467140d464442571a1571771508424547531b107578100c51535a44571a1571636271140d464442571a15716374100c434043521e1474766374100c434043521e147476751508424547531b10757267140d54575b41531b10756767140d464442571a15717571100c51535a44571a1571751508424547531b10757277140d464442571a1571661508424547531b10756776701508424547531b107564100c434043521e14747e140d54575b41531b107574617571100c434043521e1474677f67100c51535a44571a15716371100c51535a44571a1571637271140d54575b41531b1075737b66150850565e45521e14747670150850565e45521e1474767374100c51535a44571a15717467100c434043521e1474767167100c51535a44571a15716665100c51535a44571a15616415081476101a15676415081476101a15766415081476101a1567757a100c51535a44571a15676673100c434043521e146262787361140d5c435b5e1a156073646a140d107a757e0705020006101a15627f73100c15770601020f0600144a1e1464575a517b58474742150858425e5a1b10455246425e5c5115084d1564575b47531508146f101a15717765100c51535a44571a157164150850565e45521e147476140d54575b41531b107560100c51535a44571a157163150850565e45521e147473140d464442571a157179150850565e45521e1474676374100c51535a44571a15716374100c51535a44571a1571726271140d54575b41531b10757371140d54575b41531b10757267140d54575b41531b10756767140d464442571a15717571100c434043521e147471140d54575b41531b10757277140d464442571a157166150850565e45521e1474627271100c51535a44571a157165150850565e45521e14747e140d54575b41531b107574617571100c434043521e1474677f67100c51535a44571a15716371100c51535a44571a1571637271140d54575b41531b1075737b66150850565e45521e14747670150850565e45521e1474767374100c51535a44571a15717467100c51535a44571a1571727062140d54575b41531b10756760140d54575b41531b106565100c59475a5b1e146260140d5c435b5e1a157664150858425e5a1b1063747f140d54575b41531b10636776140d464442571a1567667976651508424547531b106472616e1508147b707a0e02070103141b10667e76140d1073070206060207154f1a156253455f5f43100c4c1060565e4352100c1565141b10757660140d464442571a1571641508424547531b107573100c434043521e147465140d464442571a1571631508424547531b107576100c434043521e14747d140d54575b41531b10756267751508424547531b10756271140d464442571a1571726271140d464442571a15717274100c434043521e14747763150850565e45521e147462631508424547531b10757474140d54575b41531b107574100c434043521e147477731508424547531b107567100c434043521e1474627271100c434043521e147461140d464442571a15717a150850565e45521e147471657474140d464442571a1571637e62140d54575b41531b10756274140d54575b41531b1075627775150850565e45521e1474767f67100c51535a44571a15717271100c51535a44571a1571727271140d54575b41531b10757562140d464442571a1571727062140d54575b41531b10756760140d54575b41531b106565100c1573141b106365100c1573141b107265100c1573141b1063747f140d54575b41531b10636776140d464442571a156766797665150858425e5a1b106472616e1508147b707a0600060103141b10667e76140d10730704060e0304154f4b1b1066455d5145535b7e5c5058100c4c1066657d7165737b687b72150814720200070b0705101a156269676071687b72150814151e1467607168717763777178606f1508140402141b10666575697060796262140d100707101a1560737b7362727669607d647c100c150106151e147a677a637b697a737862737a687b721508147270666877746702070560141b1065746d66657d7165737b68617366100c030005071e1462617368716472767f63100c51535a44571a156765726d73737f65150850565e45521e14626173687d64737764687f717a66140d54575b41531b10636477696466797479140d54575b41531b1063647769747d78717b647a100c59475a5b1e14626173686273657f7f636d727266777e7e140d464442571a157e7f7a7b626876776377140d10040703041a02071a02076302060d02060d0206151e147671697b7b7b7e666973736272100c15000606001b07031b07036207020c07020c0702141b107e656d7a7e7f7f636d72766673150814050204061f07051f040e66060e08040e0804041c000507030105041c020f0d0206154f1a155755584758431c5556515e527b58515d140d491474535a525c5256407e56415e150814040406020701000a0e151e14515d445a100c6c4914515d445a664f4757140d107778070302101a155a57445a140d1f02040b0605040003004b6a1e1453575056475a437459455f140d69146d6d77780703026d07156f1a155459455f75565e5573534256100c4c105058405b634b4652100c157379020703151e145f53455f100c030b0302060401060e4a1e14515d445a71575b51725646577b5b4543100c6c4914515d445a664f4757140d107778070302101a155a57445a140d060f0207020504020f4f6b1b105058405b64575745515e73534256100c6c4914515d445a664f4757140d10777a070302101a155a57445a140d0a0e020705070503074f6b1b105556515e5279534e100c4c1075585f7f5954591508140403141b1075585f755856531508147003060f02141b10634457447e56140d107162776563101a1576595a535f59745a5655140d1073151e14725159425c42715e5750100c1502141b107a565c624e42531508145c5d1b7c60144a4f4b","LocalTime":"2021-12-29T09:29:23.6724573","Language":"ko-KR","FormInfos":{"IncludeFormInfo":null,"IncludeFormType":[]},"InitDatas":{"ViewData":null,"SearchParam":null},"WidgetDatas":{"widget.select.ioType":{"result":[{"IO_TYPE":"1","IO_CODE":"11","IO_DES":"부가세율 적용","VAT_CODE":"11","VAT_YN":"Y","USER_YN":"Y","VATRATE_FLAG":"Y","VAT_RATE":"0.00000"},{"IO_TYPE":"1","IO_CODE":"12","IO_DES":"부가세율 미적용","VAT_CODE":"13","VAT_YN":"N","USER_YN":"Y","VATRATE_FLAG":"N","VAT_RATE":"0.00000"}],"config":null},"widget.dualDate":{"result":{"STARTWEEK":null,"MAXYEAR":null,"MINYEAR":null,"WEEK":{"WEEKDAY1":null,"WEEKDAY2":null,"WEEKDAY3":null,"WEEKDAY4":null,"WEEKDAY5":null,"WEEKDAY6":null,"WEEKDAY7":null},"HOLIDAYLIST":[]},"config":{"Year":"2021","StartMonth":"7","EndMonth":"12","beginDate":"20211201","endDate":"20211229","beginYear":null,"endYear":null,"beginTime":null,"endTime":null,"localTime":null,"isSlipDate":null,"defaultValue":null}},"widget.multiDate":{"result":{"STARTWEEK":null,"MAXYEAR":null,"MINYEAR":null,"WEEK":{"WEEKDAY1":null,"WEEKDAY2":null,"WEEKDAY3":null,"WEEKDAY4":null,"WEEKDAY5":null,"WEEKDAY6":null,"WEEKDAY7":null},"HOLIDAYLIST":[]},"config":{"Year":"2021","StartMonth":"7","EndMonth":"12","beginDate":"20211201","endDate":"20211229","beginYear":null,"endYear":null,"beginTime":null,"endTime":null,"localTime":null,"isSlipDate":null,"defaultValue":null}},"widget.button.simpleSearch":{"result":null,"config":{"AccountCurrentPeriodFromDate":"202101","AccountCurrentPeriodToDate":"202112","AccountPreviousPeriodFromDate":"202001","AccountPreviousPeriodToDate":"202012","CofmDateShortCutMenuMappingButtons":[{"FROM_DATE":"20211229","TO_DATE":"20211229","IS_DEFAULT":false,"USER_TITLE":"금일","SHORTCUT_NM":"today","U_SHORTCUT_NM":"today"},{"FROM_DATE":"20211228","TO_DATE":"20211228","IS_DEFAULT":false,"USER_TITLE":"전일","SHORTCUT_NM":"yesterday","U_SHORTCUT_NM":"yesterday"},{"FROM_DATE":"20211226","TO_DATE":"20211229","IS_DEFAULT":false,"USER_TITLE":"금주(~오늘)","SHORTCUT_NM":"week","U_SHORTCUT_NM":"week"},{"FROM_DATE":"20211219","TO_DATE":"20211225","IS_DEFAULT":false,"USER_TITLE":"전주","SHORTCUT_NM":"lastWeek","U_SHORTCUT_NM":"lastWeek"},{"FROM_DATE":"20211201","TO_DATE":"20211229","IS_DEFAULT":true,"USER_TITLE":"금월(~오늘)","SHORTCUT_NM":"month","U_SHORTCUT_NM":"month"},{"FROM_DATE":"20211101","TO_DATE":"20211130","IS_DEFAULT":false,"USER_TITLE":"전월","SHORTCUT_NM":"lastMonth","U_SHORTCUT_NM":"lastMonth"},{"FROM_DATE":"20211228","TO_DATE":"20211230","IS_DEFAULT":false,"USER_TITLE":"종료일","SHORTCUT_NM":"endDay","U_SHORTCUT_NM":"endDay"}],"MENU_SEQ":null,"PRG_ID":"E060912","Is_ScMode":true,"IsSettingButton":true,"PopupCd":121,"WeekdayStart":0,"IsGroupware":false,"IsSlipbarcode":false}}},"Resource":{},"CookieKey":"65636f756e746d61696e5f47313038305f4755455354","DefaultOption":{"PROGRAM_ID":"E060912","FromProgramId":null,"EditMode":"01","UIOption":{"IsShowConfirmButton":null,"IsShowConfirmCancelButton":null,"IsShowNextSlipButton":null,"IsShowSaveButton":null,"IsShowSaveNewButton":null,"IsShowSaveReviewButton":null,"IsShowSavePrintButton":null,"IsShowSlipPrintButton":null,"IsShowSlipBillButton":null,"IsShowSaveprintJournalButton":null,"IsViewDateFunctionCopy":null,"IsShowChangeTransactionTypeButton":null,"IsShowInvoiceType":null,"IsShowETaxInvoiceButton":null,"IsShowDeleteButton":null,"IsShowDeleteCancelButton":null,"IsShowRewriteButton":null,"IsShowListButton":null,"IsShowPreButton":null,"IsShowCloseButton":null,"IsShowWebUploaderButton":null,"IsShowHistoryButton":null,"IsShowSavePrintIssuedCheckButton":null,"IsSetFocus":null,"Width":0,"Height":0,"FocusTabId":null,"FocusControlId":null,"FocusRowNumber":null},"width":0,"height":0,"UserId":"GUEST","PrevUrl":"/ECERP/SVC/EBP/EBP012R","IsFromOldFramework":false,"isInclude":null,"isPopup":"False","IsRefNew":false,"isUseHelperButton":true,"HasError":false,"FromSlipBalRelList":[{"TOP_CATEGORY_MERGESET":1,"TOP_CATEGORY_SEQ":null,"TOP_CATEGORY":"","TOP_CATEGORY_RESX":null,"MENU_CATEGORY_MERGESET":1,"MENU_CATEGORY_SEQ":null,"MENU_CATEGORY":"","MENU_CATEGORY_RESX":null,"MENU_NM":"","MENU_NM_RESX":null,"MENU_NM_SEQ":null,"SLIP_CD":null,"INPUT_MENU_SEQ":null,"LIST_MENU_SEQ":null,"STATUS_MENU_SEQ":null,"UNSOLD_MENU_SEQ":null,"INPUT_PRG_ID":null,"LIST_PRG_ID":null,"STATUS_PRG_ID":null,"UNSOLD_PRG_ID":null,"PRINT_PRG_ID":null,"INPUT_URL":"","PRINT_FORMTYPE":null,"PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2021-02-26T06:47:56","MODR_ID":"ECOUNT","MOD_DTM":"2021-02-26T06:47:56","Key":{"FROM_PRG_ID":"E040411","TO_PRG_ID":"E040430","COM_CODE":"g1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":3,"MENU_CATEGORY_SEQ":2,"MENU_CATEGORY":"영업관리","MENU_CATEGORY_RESX":"LBL93308","MENU_NM":"주문서","MENU_NM_RESX":"LBL02586","MENU_NM_SEQ":2,"SLIP_CD":"4120","INPUT_MENU_SEQ":488,"LIST_MENU_SEQ":489,"STATUS_MENU_SEQ":496,"UNSOLD_MENU_SEQ":498,"INPUT_PRG_ID":"E040203","LIST_PRG_ID":"E040204","STATUS_PRG_ID":"E040209","UNSOLD_PRG_ID":"E040211","PRINT_PRG_ID":"E040242","INPUT_URL":"","PRINT_FORMTYPE":"SF020","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040201","TO_PRG_ID":"E040203","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":3,"MENU_CATEGORY_SEQ":2,"MENU_CATEGORY":"영업관리","MENU_CATEGORY_RESX":"LBL93308","MENU_NM":"판매","MENU_NM_RESX":"LBL15145","MENU_NM_SEQ":4,"SLIP_CD":"4130","INPUT_MENU_SEQ":490,"LIST_MENU_SEQ":492,"STATUS_MENU_SEQ":494,"UNSOLD_MENU_SEQ":499,"INPUT_PRG_ID":"E040205","LIST_PRG_ID":"E040206","STATUS_PRG_ID":"E040207","UNSOLD_PRG_ID":"E040212","PRINT_PRG_ID":"E040241","INPUT_URL":"","PRINT_FORMTYPE":"SF030","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040203","TO_PRG_ID":"E040205","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":3,"MENU_CATEGORY_SEQ":2,"MENU_CATEGORY":"영업관리","MENU_CATEGORY_RESX":"LBL93308","MENU_NM":"출하","MENU_NM_RESX":"LBL03935","MENU_NM_SEQ":6,"SLIP_CD":"4150","INPUT_MENU_SEQ":775,"LIST_MENU_SEQ":776,"STATUS_MENU_SEQ":777,"UNSOLD_MENU_SEQ":779,"INPUT_PRG_ID":"E040225","LIST_PRG_ID":"E040226","STATUS_PRG_ID":"E040227","UNSOLD_PRG_ID":"E040228","PRINT_PRG_ID":"C000920","INPUT_URL":"","PRINT_FORMTYPE":"SF780","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040220","TO_PRG_ID":"E040225","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":1,"MENU_CATEGORY_SEQ":3,"MENU_CATEGORY":"구매관리","MENU_CATEGORY_RESX":"LBL93319","MENU_NM":"구매","MENU_NM_RESX":"LBL09351","MENU_NM_SEQ":5,"SLIP_CD":"4230","INPUT_MENU_SEQ":510,"LIST_MENU_SEQ":511,"STATUS_MENU_SEQ":513,"UNSOLD_MENU_SEQ":516,"INPUT_PRG_ID":"E040303","LIST_PRG_ID":"E040304","STATUS_PRG_ID":"E040305","UNSOLD_PRG_ID":"E040307","PRINT_PRG_ID":"C001110","INPUT_URL":"","PRINT_FORMTYPE":"SF210","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040301","TO_PRG_ID":"E040303","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":2,"MENU_CATEGORY_SEQ":4,"MENU_CATEGORY":"생산/외주","MENU_CATEGORY_RESX":"LBL93333","MENU_NM":"생산불출","MENU_NM_RESX":"LBL01550","MENU_NM_SEQ":2,"SLIP_CD":"4010","INPUT_MENU_SEQ":524,"LIST_MENU_SEQ":525,"STATUS_MENU_SEQ":533,"UNSOLD_MENU_SEQ":2727,"INPUT_PRG_ID":"E040404","LIST_PRG_ID":"E040405","STATUS_PRG_ID":"E040409","UNSOLD_PRG_ID":"E040433","PRINT_PRG_ID":"C001111","INPUT_URL":"","PRINT_FORMTYPE":"SF410","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040411","TO_PRG_ID":"E040404","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":6,"TOP_CATEGORY_SEQ":1,"TOP_CATEGORY":"재고 I","TOP_CATEGORY_RESX":"LBL93726","MENU_CATEGORY_MERGESET":2,"MENU_CATEGORY_SEQ":4,"MENU_CATEGORY":"생산/외주","MENU_CATEGORY_RESX":"LBL93333","MENU_NM":"생산입고","MENU_NM_RESX":"LBL01563","MENU_NM_SEQ":3,"SLIP_CD":"4020","INPUT_MENU_SEQ":526,"LIST_MENU_SEQ":529,"STATUS_MENU_SEQ":1372,"UNSOLD_MENU_SEQ":2728,"INPUT_PRG_ID":"E040406","LIST_PRG_ID":"E040408","STATUS_PRG_ID":"E040410","UNSOLD_PRG_ID":"E040434","PRINT_PRG_ID":"C000927","INPUT_URL":"","PRINT_FORMTYPE":"SF420","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040411","TO_PRG_ID":"E040406","COM_CODE":"G1080"}},{"TOP_CATEGORY_MERGESET":1,"TOP_CATEGORY_SEQ":2,"TOP_CATEGORY":"재고 II","TOP_CATEGORY_RESX":"LBL93727","MENU_CATEGORY_MERGESET":1,"MENU_CATEGORY_SEQ":8,"MENU_CATEGORY":"품질관리","MENU_CATEGORY_RESX":"LBL93584","MENU_NM":"품질검사","MENU_NM_RESX":"LBL10939","MENU_NM_SEQ":2,"SLIP_CD":"4137","INPUT_MENU_SEQ":738,"LIST_MENU_SEQ":739,"STATUS_MENU_SEQ":741,"UNSOLD_MENU_SEQ":742,"INPUT_PRG_ID":"E040621","LIST_PRG_ID":"E040622","STATUS_PRG_ID":"E040623","UNSOLD_PRG_ID":"E040631","PRINT_PRG_ID":"C001126","INPUT_URL":"","PRINT_FORMTYPE":"SF744","PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2020-11-13T10:35:00","MODR_ID":"ECOUNT","MOD_DTM":"2020-11-13T10:35:00","Key":{"FROM_PRG_ID":"E040628","TO_PRG_ID":"E040621","COM_CODE":"G1080"}}],"ToSlipBalRelList":{"TOP_CATEGORY_MERGESET":1,"TOP_CATEGORY_SEQ":null,"TOP_CATEGORY":"","TOP_CATEGORY_RESX":null,"MENU_CATEGORY_MERGESET":1,"MENU_CATEGORY_SEQ":null,"MENU_CATEGORY":"","MENU_CATEGORY_RESX":null,"MENU_NM":"","MENU_NM_RESX":null,"MENU_NM_SEQ":null,"SLIP_CD":null,"INPUT_MENU_SEQ":null,"LIST_MENU_SEQ":null,"STATUS_MENU_SEQ":null,"UNSOLD_MENU_SEQ":null,"INPUT_PRG_ID":null,"LIST_PRG_ID":null,"STATUS_PRG_ID":null,"UNSOLD_PRG_ID":null,"PRINT_PRG_ID":null,"INPUT_URL":"","PRINT_FORMTYPE":null,"PRINT_URL":"","FROM_SLIP_NAME":null,"LIST_URL":"","CALO_DV_CD":"V","UN_CNFM_SUMR_TF":"1","UN_APRV_SUMR_TF":"1","WRTR_ID":"ECOUNT","WRT_DTM":"2021-02-26T06:47:56","MODR_ID":"ECOUNT","MOD_DTM":"2021-02-26T06:47:56","Key":{"FROM_PRG_ID":"E040411","TO_PRG_ID":"E040430","COM_CODE":"g1080"}},"FinishSlipName":"LBL08578","TransferVersion":"2","__ecParam__":null,"startWeek":0,"outputFormType":"AO555","searchFormType":"AM555","k_state":null,"isLoaded":false,"uiReloadData":null,"StringifiedSearchParam":null,"mainUserTabWidgets":null,"mainUserTabResultParams":null,"mainUserTabOriginParams":null,"isRestorePreset":true,"tabCd":null,"formSeqInfo":{"AO555":1},"CompanyTypeInfo":{"AO555":"Z"},"basicFormSeq":1,"companyType":"Z","listTabs":null,"isFormCache":true,"isCloseSearchForm":false,"isAggregateUse":true,"aggregateList":[],"MENU_SEQ":"490","GET_TYPE":null,"FROM_TYPE":null,"TO_TYPE":null,"LOAD_TYPE":null,"fromPage":null,"MAPPING_INFO":{"FROM_PRG_ID":null,"TO_PRG_ID":null,"FROM_FORM_TYPE":"SI770","TO_FORM_TYPE":"SI770","MAPPING_COLS":[]},"isCeoMail":"0","isStatusMail":"0","ROOM_SEQ":null,"isChangeDateFormat":true,"WriteDateColNm":null,"EditDateColNm":null,"RowSeqColNm":null,"isDefaultViewSubPage":false,"isFromCS":false,"isFromApproval":false,"FromAccCase":null,"TO_PRG_ID":null,"isLimitSearchUse":false,"isBoxTitle":"1","isInputButtonGroupUse":false,"canCheckCount":100,"inputButtonList":null,"UseDefaultSearchParam":false,"UserTabs":null,"BASE_DATE_FROM":"20211201","BASE_DATE_TO":"20211229","activeTab":null,"isAutoSearch":false,"isFromApply":false,"isFromRelation":false,"isFromLink":false,"isFromRef":false,"isFromBatchDelete":false,"isFromBatchBackup":false,"BackupObj":null,"isFromApprovalOutputApply":false,"isFromAutomation":false,"WidgetValue":null,"isFromChangedListType":false,"isUseSearchFormApply":false,"simpleSearch":[{"AccountCurrentPeriodFromDate":"202101","AccountCurrentPeriodToDate":"202112","AccountPreviousPeriodFromDate":"202001","AccountPreviousPeriodToDate":"202012","CofmDateShortCutMenuMappingButtons":[{"FROM_DATE":"20211229","TO_DATE":"20211229","IS_DEFAULT":false,"USER_TITLE":"금일","SHORTCUT_NM":"today","U_SHORTCUT_NM":"today"},{"FROM_DATE":"20211228","TO_DATE":"20211228","IS_DEFAULT":false,"USER_TITLE":"전일","SHORTCUT_NM":"yesterday","U_SHORTCUT_NM":"yesterday"},{"FROM_DATE":"20211226","TO_DATE":"20211229","IS_DEFAULT":false,"USER_TITLE":"금주(~오늘)","SHORTCUT_NM":"week","U_SHORTCUT_NM":"week"},{"FROM_DATE":"20211219","TO_DATE":"20211225","IS_DEFAULT":false,"USER_TITLE":"전주","SHORTCUT_NM":"lastWeek","U_SHORTCUT_NM":"lastWeek"},{"FROM_DATE":"20211201","TO_DATE":"20211229","IS_DEFAULT":true,"USER_TITLE":"금월(~오늘)","SHORTCUT_NM":"month","U_SHORTCUT_NM":"month"},{"FROM_DATE":"20211101","TO_DATE":"20211130","IS_DEFAULT":false,"USER_TITLE":"전월","SHORTCUT_NM":"lastMonth","U_SHORTCUT_NM":"lastMonth"},{"FROM_DATE":"20211228","TO_DATE":"20211230","IS_DEFAULT":false,"USER_TITLE":"종료일","SHORTCUT_NM":"endDay","U_SHORTCUT_NM":"endDay"}],"MENU_SEQ":null,"PRG_ID":"E060912","COL_CD":"ddlSYear","IsDefaultDate":true,"Is_ScMode":true,"IsSettingButton":true,"PopupCd":121,"WeekdayStart":0,"IsGroupware":false,"IsSlipbarcode":false}],"deleteCode":{},"isNewListTabUse":false,"ButtonModel":[{"Buttons":[{"BUTN_DESC_CTT":"apply","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"B","BUTN_ID":"BUTN_0001","PRTS_BUTN_ID":"","BUTN_MARK_NM":"","BUTN_SORT_SEQ":1,"COLOR_TF":true,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"printHtml","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"B","BUTN_ID":"BUTN_0002","PRTS_BUTN_ID":"","BUTN_MARK_NM":"","BUTN_SORT_SEQ":2,"COLOR_TF":true,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"pdf","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"L","BUTN_ID":"BUTN_0003","PRTS_BUTN_ID":"BUTN_0002","BUTN_MARK_NM":"","BUTN_SORT_SEQ":3,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"graph","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"L","BUTN_ID":"BUTN_0004","PRTS_BUTN_ID":"BUTN_0002","BUTN_MARK_NM":"","BUTN_SORT_SEQ":4,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"preview","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"L","BUTN_ID":"BUTN_0005","PRTS_BUTN_ID":"BUTN_0002","BUTN_MARK_NM":"","BUTN_SORT_SEQ":5,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"optimization","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"L","BUTN_ID":"BUTN_0006","PRTS_BUTN_ID":"BUTN_0002","BUTN_MARK_NM":"","BUTN_SORT_SEQ":6,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"outputExcel","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"B","BUTN_ID":"BUTN_0007","PRTS_BUTN_ID":"","BUTN_MARK_NM":"Excel","BUTN_SORT_SEQ":7,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"moreData","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"B","BUTN_ID":"BUTN_0008","PRTS_BUTN_ID":"","BUTN_MARK_NM":"3천건이상조회","BUTN_SORT_SEQ":8,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]},{"BUTN_DESC_CTT":"outputClose","BUTN_DESC_CID":"","BUTN_SUB_TYPE":"","BUTN_LOC_TYPCD":"B","BUTN_ID":"BUTN_0009","PRTS_BUTN_ID":"","BUTN_MARK_NM":"","BUTN_SORT_SEQ":9,"COLOR_TF":false,"IS_NO_SETUP":false,"IsNoFunction":false,"NOACTION":[]}],"BUTN_LOC_TYPCD":"B","BASC_TAB_CD":"","DTLS_TAB_CD":""}],"IsUseNoti":false,"CUST":null,"CUST_DES":null,"PJT_CD":null,"PJT_DES":null,"EMP_CD":null,"EMP_DES":null,"prodCdAllInOne":null,"prodDesAllInOne":null,"custCdAllInOne":null,"custDesAllInOne":null,"IsAllInOnProductCust":false,"STETIsFromOrderMng":false,"STETOrderMode":null,"STETOrderProcNo":null,"STETOrderProcStep":null,"STETOrderProgress":null,"STETLinkType":null,"docNo":null,"deleteRange":null,"ACCCASE":null,"ACCCASE_DES":null,"FROM_MENU":"","SIO_TYPE":"","SIO_TYPE_DES":"","BillingUnits":null,"PRG_ID":"E060912","__ecPageID":null,"alreadyIncludedLayout":true,"parentPageID":null,"popupID":null,"popupLevel":null,"__ecOpenPopup":null,"responseID":null,"ecRepositoryID":null,"rowKey":null,"gridID":null},"RefreshTimestamp":"0","IsEnableNoL4":false,"ECZoneNum":"AA2"});
-        window.__EC_PAGE_ID = "EBP012R_8";
-        window.__EC_POPUP_LEVEL = "";
-    </script>
-    
-    <script src="/s3/ecerp/contents/pages/view.account/ebp/views/xebp012r.7157376379210921750.19.js" type="text/javascript"></script>
-
-</div>
-        <iframe id="mainbody" name="mainbody" src="" frameborder="0" style="display:none;position: absolute;height: 100%;width: 100%;border: none;"></iframe>
-    </div>
 </html>
