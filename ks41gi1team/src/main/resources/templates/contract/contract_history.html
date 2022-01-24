@@ -67,7 +67,6 @@
 			            { "data": 'startDate' },
 			            { "data": 'endDate' },
 			            { "data": 'managerName' },
-			            { "data": 'contractDate' },
 			            { "data": 'contractStatus' },
 			            { "data": 'briefs' },
 			            { "data": '수정' }
@@ -75,7 +74,7 @@
 			        	columnDefs:[
 
 			        		{
-			        			'targets' : [13],
+			        			'targets' : [12],
 			        			'orderable' : false,
 			        			'searchable' : false,
 			        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -101,27 +100,26 @@
 		</script>
 </th:block>
 	<th:block layout:fragment="customContents">
-		<div class="card card-info card-outline">
+		<div class="card card-info card-outline" style="width:100%;">
 			<div class="card-header">
 			</div>
 			<div class="card-body">
 			<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-			<table id="contractList" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;" >
+			<table id="contractList" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="width:100%; text-align: center;" >
 				<thead>
 					<tr>
 						<th><input type="checkBox" id="contractAllCheck"></input></th>
 						<th>계약코드</th>
-						<th>사업장 상호명</th>
-						<th>거래처 상호명</th>
-						<th>거래처 담당자</th>
+						<th>사업장명</th>
+						<th>거래처명</th>
+						<th>거래처담당자</th>
 						<th>주문유형</th>
 						<th>계약유형</th>
-						<th>계약시작</th>
-						<th>계약종료</th>
+						<th>시작일</th>
+						<th>종료일</th>
 						<th>담당자</th>
-						<th>계약일자</th>
-						<th>계약상태</th>
-						<th>적요</th>
+						<th>상태</th>
+						<th style="width:1%;">적요</th>
 						<th>수정</th>
 					</tr>
 				</thead>
