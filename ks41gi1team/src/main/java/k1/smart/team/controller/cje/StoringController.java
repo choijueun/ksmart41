@@ -30,7 +30,7 @@ public class StoringController {
 	}
 	
 	/**
-	 * 물류 전체목록 조회
+	 * ﻿물류이동내역 전체목록 조회
 	 * @param model 
 	 */
 	@SuppressWarnings("unchecked")

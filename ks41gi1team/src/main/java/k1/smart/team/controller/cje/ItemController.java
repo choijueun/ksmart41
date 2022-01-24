@@ -39,7 +39,7 @@ public class ItemController {
 	}
 
 	/**
-	 * 품목관리 전체목록 조회 @GetMapping("/k1Item")
+	 * 품목관리 전체목록 조회
 	 * @param model
 	 * @return item_list
 	 */
@@ -64,7 +64,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * AJAX :: 품목 전체목록 조건
+	 * AJAX :: 특정 조건하에  품목 전체목록 조회
 	 * @param model
 	 * @param types
 	 * @param largeCategory
@@ -110,7 +110,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보 상세조회
+	 * 품목 상세정보 조회
 	 * @param itemCode
 	 * @param model
 	 * @return
@@ -140,7 +140,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보등록 첫 화면 @GetMapping("/k1ItemAdd")
+	 * 품목정보등록 화면
 	 * @param model
 	 * @return
 	 */
@@ -158,7 +158,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * AJAX: 품목명 중복 검사 @PostMapping("/k1ItemNameValid")
+	 * AJAX: 품목명 중복 검사
 	 * @param itemName
 	 * @return boolean
 	 */
@@ -220,7 +220,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보 등록 절차 수행 @PostMapping("/k1ItemAdd")
+	 * 품목정보 등록 프로세스
 	 * @param paramMap
 	 */
 	@PostMapping("/k1ItemAdd")
@@ -239,7 +239,7 @@ public class ItemController {
 	}
 	
 	/**
-	 * 품목정보 수정 첫 화면 
+	 * 품목정보 수정화면 
 	 * @param itemCode
 	 * @param model
 	 */
@@ -288,6 +288,10 @@ public class ItemController {
 		return "redirect:/k1ItemModify/"+itemInfo.getItemCode();
 	}
 	
+	/**
+	 * 품목정보 삭제
+	 * @param itemCode
+	 */
 	@PostMapping("/k1ItemRemove")
 	public String removeItem(String itemCode) {
 		//삭제진행
@@ -348,6 +352,12 @@ public class ItemController {
 		stock.setMainBusinessCode(mainBusinessCode);
 		itemService.modifyItemCategory(stock);
 		
+		return "redirect:/k1ItemCategory";
+	}
+	
+	@PostMapping("/k1ItemCategoryRemove")
+	public String removeItemCategory(Stock stock) {
+		//삭제
 		return "redirect:/k1ItemCategory";
 	}
 }
