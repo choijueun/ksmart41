@@ -16,11 +16,10 @@
 	</resultMap>
 
 <select id="getPurchaseTransactionCode" resultType="String">
-		SELECT 
-			CONCAT(SUBSTRING(p.purchaseTsCode,1,21),MAX(SUBSTRING(p.purchaseTsCode,21))+1)
-		FROM 
-			k1_tb_purchase_transaction AS p
-	
+	SELECT
+	   LPAD(CAST(MAX(RIGHT(purchaseTsCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_purchase_transaction;	
 	</select>
 
 

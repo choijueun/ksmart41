@@ -135,10 +135,6 @@ public class ProductOrderController {
 		  model.addAttribute("title", "수주목록"); 
 		  model.addAttribute("productOrderList", productOrderList);
 	  
-		  List<MaterialOrder> materialOrderList = materialOrderService.getAllMaterialOrderList();
-			model.addAttribute("title", "수.발주 목록");
-			model.addAttribute("materialOrderList", materialOrderList);
-			System.out.println("materialOrderList-->" + materialOrderList);
 		  
 	  return "productOrder/productOrder_list"; }
 	 

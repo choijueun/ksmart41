@@ -21,10 +21,10 @@
 	</resultMap>
 	
 	<select id="getSalesTransactionCode" resultType="String">
-	SELECT 
-			CONCAT(SUBSTRING(s.salesTsCode,1,14),MAX(SUBSTRING(s.salesTsCode,14))+1)
-		FROM 
-			k1_tb_sales_transaction AS s
+	SELECT
+	   LPAD(CAST(MAX(RIGHT(salesTsCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_sales_transaction;	
 	</select>
 	<insert id="addSalesTransaction" parameterType="SalesTransaction">
 		INSERT INTO k1_tb_contract

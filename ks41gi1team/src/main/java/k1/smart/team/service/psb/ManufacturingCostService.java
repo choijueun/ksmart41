@@ -2,17 +2,21 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.psb.ManufacturingCost;
-
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.ManufacturingCostMapper;
 
 @Service
 public class ManufacturingCostService {
 	private ManufacturingCostMapper manufacturingCostMapper;
 	private List<ManufacturingCost> manufacturingCostList;
+	
+	@Autowired
+	private CodeMapper codeMapper;
 	
 	public ManufacturingCostService(ManufacturingCostMapper manufacturingCostMapper) {
 		this.manufacturingCostMapper = manufacturingCostMapper;

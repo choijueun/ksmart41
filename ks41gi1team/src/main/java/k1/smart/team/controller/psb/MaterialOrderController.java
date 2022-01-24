@@ -89,7 +89,7 @@ public class MaterialOrderController {
 		
 			  
 			  //DB 계약코드 LIST List<Contract> contractList =
-			  List<MaterialOrder> materialOrderList =  materialOrderService.getAllMaterialOrderList();
+			  List<MaterialOrder> materialOrderList =  materialOrderService.getMaterialOrderList(mainBusinessCode);
 			  model.addAttribute("materialOrderList", materialOrderList);
 			  System.out.println("materialOrderList: " + materialOrderList);
 			 
@@ -191,10 +191,10 @@ public class MaterialOrderController {
 		@GetMapping("/k1MaterialOrderList")
 		public String materialOrderMain(Model model) {
 			
-			List<MaterialOrder> materialOrderList = materialOrderService.getAllMaterialOrderList();
+			List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList(mainBusinessCode);
 			model.addAttribute("title", "수.발주 목록");
 			model.addAttribute("materialOrderList", materialOrderList);
-			System.out.println("컨트롤러단 materialOrderList-->" + materialOrderList);
+			System.out.println("materialOrderList-->" + materialOrderList);
 			
 			List<Client> clientList = clientService.getAllClientList();
 			model.addAttribute("clientList", clientList);
@@ -217,7 +217,7 @@ public class MaterialOrderController {
 		  @ResponseBody
 		  public  List<MaterialOrder> contractMain(){
 			  
-			  List<MaterialOrder> materialOrderList = materialOrderService.getAllMaterialOrderList();
+			  List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList();
 			  System.out.println("controller materialOrderList--> " + materialOrderList);
 			  return materialOrderList;
 		  }

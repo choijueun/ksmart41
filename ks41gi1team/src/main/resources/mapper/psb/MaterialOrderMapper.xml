@@ -5,10 +5,10 @@
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
 
 <select id="getMaterialOrderCode" resultType="String">
-		SELECT 
-			CONCAT(SUBSTRING(mo.materialOrderCode,1,19),MAX(SUBSTRING(mo.materialOrderCode,20))+1)
-		FROM 
-			k1_view_material_order AS mo
+		SELECT
+	   LPAD(CAST(MAX(RIGHT(materialOrderCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_material_order;	
 	</select>
 
  <select id="getMaterialOrderByMaterialOrderCode" parameterType="String" resultType="int">
@@ -219,8 +219,7 @@ GROUP BY
 		k1_tb_item_info AS ii
 		on
 		ii.itemCode = mord.itemCode
-	WHERE
-		mo.mainBusinessCode = #{mainBusinessC0ode}
+
 	GROUP BY 
 		mo.materialOrderCode
 </select>	

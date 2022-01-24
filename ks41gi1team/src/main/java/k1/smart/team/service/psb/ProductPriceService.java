@@ -2,12 +2,14 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.controller.psb.ProductPriceController;
 import k1.smart.team.dto.psb.ManufacturingCost;
 import k1.smart.team.dto.psb.ProductPrice;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.ProductPriceMapper;
 
 @Service
@@ -16,7 +18,8 @@ public class ProductPriceService {
 	private List<ProductPrice> prodcutPriceList;
 	
 
-	
+	@Autowired
+	private CodeMapper codeMapper;
 	
 	public ProductPriceService(ProductPriceMapper productPriceMapper) {
 		this.productPriceMapper = productPriceMapper;
