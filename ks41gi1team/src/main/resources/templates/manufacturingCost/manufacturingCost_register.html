@@ -14,7 +14,114 @@
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	제조원가계산 작성 폼
+			<!-- Content 영역 상단(location) -->
+<div class="container-fluid">
+	<div class="row">
+	<div class="col-lg-3 col-md-2"></div>
+	<div class="col-lg-6 col-md-8 mb-3">
+	<div class="card card-info card-outline">
+	<div class="card-header">
+		제조원가 등록
+			</div>
+	<form id="manufacturingCostRegisterForm" action="/k1ManufacturingCost/k1ManufacturingCostRegister" method="post">
+		<div class="card-body">
+			<div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="purchaseTsCode">제조원가 코드</label>
+                   
+                    	<input type="text" name="purchaseTsCode" class="form-control" id="manufacturingCostCode" th:value="${manufacturingCostDetail}">	  
+                
+                    <button type="button" id="btn" class="btn btn-default">중복확인</button>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="mainBusinessCode">사업장별 대표코드</label>
+                    <select name="mainBusinessCode" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
+                    			  th:each="l : ${mainBusinessList}">
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessName}">	  
+                    			[[${l.mainBusinessName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    		<option>사업장 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="itemName">제품명</label>
+                     <select name="itemName" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+                    			  th:each="l : ${itemList}">
+                    		<option th:value="${l.itemCode}" th:text="${l.itemName}">	  
+                    			[[${l.itemName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+                    		<option>품목 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>		
+                  </div>
+                   <div class="form-group col-md-6">
+                    <label for="manufacturingCost">제조원가 </label>
+                    	<input type="text" name="manufacturingCost" class="form-control" id="manufacturingCost" th:value="${unitCost}">	  
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="briefs">적요</label>
+                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="콩 1톤 5000000원 구입" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="dealDate">거래일자</label>
+                    <input type="date" name="dealDate" class="form-control" id="dealDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="regId">등록자</label>
+                    <select name="regId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                 </div>
+                  <div class="form-group col-md-6">
+                    <label for="regDate">등록일시</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="updateDate">수정일시</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" disabled="disabled">
+                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                    </div>
+                  </div>
+                </div>
+	            <!-- /.card-body -->
+	          </div>
+	          <!-- /.card -->
+	        </div>
+	      <div class="row">
+	        <div class="col-12">
+	          <a href="#" class="btn btn-secondary">취소</a>
+	          <input type="submit" value="등록" class="btn btn-info">
+	        </div>
+	      </div>
+	      </div>
+	    </section>
+	</form>
+	</div>
+</section>
+</div>
+</div>
+</div>
+</div>
+
 </th:block>
 
 </html>

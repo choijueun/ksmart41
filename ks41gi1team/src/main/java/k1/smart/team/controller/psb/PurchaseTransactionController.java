@@ -77,6 +77,9 @@ public class PurchaseTransactionController {
 			List<PurchaseTransaction> purchaseTransactionList = purchaseTransactionService.getPurchaseTransactionList();
 			model.addAttribute("purchaseTransactionList", purchaseTransactionList);
 		
+			String purchaseTransactionCode = purchaseTransactionService.getPurchaseTransactionCode();
+			  model.addAttribute("purchaseTransactionCode", purchaseTransactionCode);
+			
 			return "purchaseTransaction/purchaseTransaction_register";
 		}
 		

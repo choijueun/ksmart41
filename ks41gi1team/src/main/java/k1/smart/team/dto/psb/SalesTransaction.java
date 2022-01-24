@@ -8,8 +8,9 @@ public class SalesTransaction {
 	private String contractCode;
 	private String vatType;
 	private int amount;
-	private int VAT;
+	private int vat;
 	private int totalPrice;
+	private int unitPrice;
 	private String dealDate;
 	private String briefs;
 	private String regId;
@@ -51,24 +52,29 @@ public class SalesTransaction {
 	public void setVatType(String vatType) {
 		this.vatType = vatType;
 	}
-
 	public int getAmount() {
 		return amount;
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getVAT() {
-		return VAT;
+	public int getVat() {
+		return vat;
 	}
-	public void setVAT(int vAT) {
-		VAT = vAT;
+	public void setVat(int vat) {
+		this.vat = vat;
 	}
 	public int getTotalPrice() {
 		return totalPrice;
 	}
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	public int getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 	public String getDealDate() {
 		return dealDate;
@@ -117,10 +123,12 @@ public class SalesTransaction {
 		builder.append(vatType);
 		builder.append(", amount=");
 		builder.append(amount);
-		builder.append(", VAT=");
-		builder.append(VAT);
+		builder.append(", vat=");
+		builder.append(vat);
 		builder.append(", totalPrice=");
 		builder.append(totalPrice);
+		builder.append(", unitPrice=");
+		builder.append(unitPrice);
 		builder.append(", dealDate=");
 		builder.append(dealDate);
 		builder.append(", briefs=");

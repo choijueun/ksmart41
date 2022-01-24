@@ -30,4 +30,7 @@ public interface ProductOrderMapper {
 	//수주내역 상세조회(여러개)
 	public List<ProductOrder> getProductOrderInfoList(String productOrderCode);
 
+	//등록할때마다 하나의 새로운 수주코드 추가
+	public String getProductOrderCode();
+	
 }
