@@ -3,10 +3,11 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.psb.ProductOrder;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.ProductOrderMapper;
 
 @Service
@@ -15,6 +16,8 @@ public class ProductOrderService {
 	private List<ProductOrder> productOrderList;
 	private ProductOrder productOrderInfo;
 
+	@Autowired
+	private CodeMapper codeMapper;
 
 	
 	//생성자 메서드 주입
