@@ -12,24 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.psb.PurchaseTransaction;
+import k1.smart.team.dto.psb.SalesTransaction;
 import k1.smart.team.service.psb.PurchaseTransactionService;
+import k1.smart.team.service.psb.SalesTransactionService;
 
 @Controller
 @RequestMapping(value="/k1PurchaseTransaction")
 public class PurchaseTransactionController {
 
 	private PurchaseTransactionService purchaseTransactionService;
+	private SalesTransactionService salesTransactionService;
 	private String mainBusinessCode;
 	private PurchaseTransaction purchaseTransactionInfo;
 	private List<PurchaseTransaction> purchaseTransactionInfoList;
 	private Map<String, Object> resultMap;
 	
-	public PurchaseTransactionController(PurchaseTransactionService purchaseTransactionService) {
+	public PurchaseTransactionController(PurchaseTransactionService purchaseTransactionService, SalesTransactionService salesTransactionService) {
 		this.purchaseTransactionService = purchaseTransactionService;
+		this.salesTransactionService = salesTransactionService;
 	}
 	
 	//비용상세
-	/*  @GetMapping("purchaseTransaction/{purchaseTsCode}") 
+	  @GetMapping("purchaseTransaction/{purchaseTsCode}") 
 	  public String purchaseTransactionInfo(
 			  	@PathVariable(value="purchaseTsCode", required=false) String purchaseTsCode
 			  	,Model model) { 
@@ -41,7 +45,7 @@ public class PurchaseTransactionController {
 				  } 
 			  
 			  //비용거래서 상세정보 
-			  purchaseTransactionInfo = purchaseTransactionService.getPurchaseTransactionInfo(purchaseTsCode);
+			  purchaseTransactionInfo = purchaseTransactionService.getPurchaseTransactionInfoByCode(purchaseTsCode);
 			  if(purchaseTransactionInfo == null) {
 				  System.out.println("비용거래서코드 ERROR"); 
 				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 
@@ -53,7 +57,7 @@ public class PurchaseTransactionController {
 			  model.addAttribute("purchaseTransactionInfo", purchaseTransactionInfo);
 			  return "purchaseTransaction/purchaseTransaction_info";
 		  }
-		*/
+		
 	//비용 거래명세서 등록
 		@PostMapping("/k1PurchaseTransactionReg")
 		public String addPurchaseTransaction(PurchaseTransaction purchaseTransaction) {
@@ -88,8 +92,14 @@ public class PurchaseTransactionController {
 	 @GetMapping("/k1PurchaseTransactionHistory") 
 	  public String k1PurchaseTransactionHistory(Model model) {
 
-		  model.addAttribute("title", "비용 거래명세서 목록");
-
+		 List<PurchaseTransaction> purchaseTransactionList = purchaseTransactionService.getAllPurchaseTransactionList(mainBusinessCode);
+		 
+		  model.addAttribute("title", "비용/매출 거래명세서 목록");
+		  model.addAttribute("purchaseTransactionList", purchaseTransactionList);
+		  
+		  List<SalesTransaction> salesTransactionList = salesTransactionService.getAllSalesTransactionList(mainBusinessCode);
+		  model.addAttribute("salesTransactionList", salesTransactionList);
+		  System.out.println("salesTransactionList" + salesTransactionList);
 		  
 		  return "purchaseTransaction/purchaseTransaction_history";
 	  }

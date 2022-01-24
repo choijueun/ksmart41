@@ -23,6 +23,12 @@ public interface PurchaseTransactionMapper {
     public List<PurchaseTransaction> getPurchaseTransactionList();
 
     //코드 추가할때마다 자동 생성되는
-	public String getPurchaseTransactionCode();	
+	public String getPurchaseTransactionCode();
+
+	//전체 조회
+	List<PurchaseTransaction> getAllPurchaseTransactionList(String mainBusinessCode);
+
+	//상세 조회
+	public PurchaseTransaction getPurchaseTransactionInfoByCode(String purchaseTsCode);	
 	
 }

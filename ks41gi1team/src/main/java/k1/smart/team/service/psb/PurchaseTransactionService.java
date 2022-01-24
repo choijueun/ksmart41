@@ -62,6 +62,36 @@ public class PurchaseTransactionService {
 				return null;
 			}
 
+			public List<PurchaseTransaction> getAllPurchaseTransactionList(String mainBusinessCode) {
+				purchaseTransactionList = purchaseTransactionMapper.getAllPurchaseTransactionList(mainBusinessCode);
+				if(purchaseTransactionList == null) {
+					System.out.println("비용거래명세서 조회결과 없음");
+					return null;
+				}
+				
+				
+				String purchaseTransactionNum; 
+				for(int i=0; i<purchaseTransactionList.size(); i++) { 
+				purchaseTransactionInfo = purchaseTransactionList.get(i);
+				purchaseTransactionNum = purchaseTransactionInfo.getPurchaseTsCode();
+				purchaseTransactionNum = purchaseTransactionNum.substring(purchaseTransactionNum.length()-3, purchaseTransactionNum.length());
+				purchaseTransactionList.get(i).setPurchaseTsCode(purchaseTransactionNum); }
+				
+				
+				return purchaseTransactionList;
+			}
+
+			public PurchaseTransaction getPurchaseTransactionInfoByCode(String purchaseTsCode) {
+				purchaseTransactionInfo = purchaseTransactionMapper.getPurchaseTransactionInfoByCode("purchase_ts_stCode_"+purchaseTsCode);
+				
+				if(purchaseTransactionInfo == null) {
+					System.out.println("비용거래명세서 조회결과 없음");
+					return null;
+				}
+				purchaseTransactionInfo.setPurchaseTsCode(purchaseTsCode);
+				return purchaseTransactionInfo;
+			}
+
 		
 			
 			

@@ -54,6 +54,79 @@
 		);
 	</insert>
 	
+	<select id="getSalesTransactionInfoByCode" parameterType="String" resultType="SalesTransaction">
+		SELECT 
+			st.salesTsCode,
+			st.mainBusinessCode,
+			st.clientCode,
+			st.businessName,
+			l.lsAccountName,
+			st.lsAccountCode,
+			st.contractCode,
+			c.contractStatus,
+			st.itemCode,
+			st.itemName,
+			st.vatType,
+			st.amount,
+			st.COUNT,
+			st.unitPrice,
+			st.totalPrice,
+			st.dealDate,
+			st.briefs,
+			st.regId,
+			st.userName,
+			st.regDate,
+			st.updateDate
+		FROM 
+			k1_view_sales_transaction AS st
+		INNER JOIN 
+			k0_tb_ls AS l
+		ON
+			l.lsAccountCode = st.lsAccountCode
+		INNER JOIN 
+			k1_view_contract AS c
+		ON
+			c.contractCode=st.contractCode
+		WHERE
+			st.salesTsCode = #{salesTsCode};	
+	</select>
+	
+	<select id="getAllSalesTransactionList" parameterType="String" resultType="SalesTransaction">
+		SELECT 
+			st.salesTsCode,
+			st.mainBusinessCode,
+			st.clientCode,
+			st.businessName,
+			l.lsAccountName,
+			st.lsAccountCode,
+			st.contractCode,
+			c.contractStatus,
+			st.itemCode,
+			st.vatType,
+			st.amount,
+			st.COUNT,
+			st.unitPrice,
+			st.totalPrice,
+			st.dealDate,
+			st.briefs,
+			st.regId,
+			st.userName,
+			st.regDate,
+			st.updateDate
+		FROM 
+			k1_view_sales_transaction AS st
+		INNER JOIN 
+			k0_tb_ls AS l
+		ON
+			l.lsAccountCode = st.lsAccountCode
+		INNER JOIN 
+			k1_view_contract AS c
+		ON
+			c.contractCode=st.contractCode
+		 
+ 
+ 
+	</select>
 	<select id="getSalesTransactionList" parameterType="String" resultType="SalesTransaction" >
 	SELECT	
 		st.salesTsCode as salesTsCode,

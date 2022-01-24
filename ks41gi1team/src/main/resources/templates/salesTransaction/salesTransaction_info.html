@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${etcPurchaseCode}]]</th:block>
+
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+	<div class="row" th:unless="${ salesTransactionInfo == null }">
+		<div class="col-lg-3 col-md-2">
+		</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-body">
+						<p class="lead">매출거래명세서상세코드[[${salesTransactionInfo.salesTsCode}]]</p>
+						<table id="costInfo" class="table">
+							<tr>
+								<th>매출거래명세서코드</th>
+								<td>[[${salesTransactionInfo.salesTsCode}]]</td>
+							</tr>
+							<tr>
+								<th>거래처명</th>
+								<td>[[${salesTransactionInfo.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>계정과목</th>
+								<td>[[${salesTransactionInfo.lsAccountName}]]</td>
+							</tr>
+							<tr>
+								<th>계약상태</th>
+								<td>[[${salesTransactionInfo.contractStatus}]]</td>
+							</tr>
+							<tr>
+								<th>제품명</th>
+								<td>[[${salesTransactionInfo.itemName}]]</td>
+							</tr>
+							<tr>
+								<th>계약상태</th>
+								<td>[[${salesTransactionInfo.contractStatus}]]</td>
+							</tr>
+							<tr>
+								<th>부가세유형</th>
+								<td>[[${salesTransactionInfo.vatType}]]</td>
+							</tr>
+							<tr>
+								<th>공급가액</th>
+								<td>[[${#numbers.formatInteger(salesTransactionInfo.amount,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>수량</th>
+								<td>[[${#numbers.formatInteger(salesTransactionInfo.count,0,'COMMA')}]] EA</td>
+							</tr>
+							<tr>
+								<th>제품단가</th>
+								<td>[[${#numbers.formatInteger(salesTransactionInfo.unitPrice,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>총 제품가격</th>
+								<td>[[${#numbers.formatInteger(salesTransactionInfo.totalPrice,0,'COMMA')}]] 원</td>
+							</tr>
+													<tr>
+								<th>적요</th>
+								<td>[[${salesTransactionInfo.briefs}]]</td>
+							</tr>
+							<tr>
+								<th>적요</th>
+								<td>[[${salesTransactionInfo.userName}]]</td>
+							</tr>
+							<tr>
+								<th>거래일자</th>
+								<td>[[${salesTransactionInfo.dealDate}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${salesTransactionInfo.regDate}]]</td>
+							</tr>
+							<tr>
+								<th>수정일시</th>
+								<td>[[${salesTransactionInfo.updateDate}]]</td>
+							</tr>
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionHistory}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1SalesTransaction/modify/${salesTransactionInfo.salesTsCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div th:if="${ salesTransactionInfo == null }">
+				잘못된 접근입니다.
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>

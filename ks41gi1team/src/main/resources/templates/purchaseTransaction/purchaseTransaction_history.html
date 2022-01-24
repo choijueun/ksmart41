@@ -13,7 +13,8 @@
 <th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 <th:block layout:fragment="customJs">
-		<script type="text/javascript">
+<script>
+		
 		$(document).ready(function() {
 			$("#purchaseTsAllCheck").click(function() {
 				if($("#purchaseTsAllCheck").is(":checked")) $("input[name=purchaseTsCheck]").prop("checked", true);
@@ -41,142 +42,50 @@
 		});
 		
 			$(function(){
-				$(document).on('click', '.modifyBtn', function(){
-					var purchaseTsCode = $(this).attr('data-contractCode');
-					alert(purchaseTsCode);
-				});
-				
-				$(document).on('click', '.modifyBtn', function(){
-					var salesTsCode = $(this).attr('data-contractCode');
-					alert(salesTsCode);
-				});
-				
-				
-					var aLengthMenuArray = [];
-					aLengthMenuArray.push([5,10,15,20,25,-1]);
-					aLengthMenuArray.push([5,10,15,20,25,'ALL']);
-					
-				$('#purchaseTs').DataTable( {
-			        destroy : true,
-					pageLength: 5,
-					aLengthMenu : aLengthMenuArray,
-					ajax: {
-			        	url: '/k1PurchaseTransaction/k1PurchaseTransactionHistory',
-			        	type: 'POST',
-			        	dataSrc: function(data){
-			        				console.log(JSON.stringify(data));
-			        				return data;
-			        			} 
-			        },
-			        columns: [
-			        		 { "data": "" },
-			        		 { "data": "purchaseTsCode" },
-				            { "data": "clientBusinessName" },
-				            { "data": "contractCode"},
-				            { "data": "briefs" },
-				            { "data": 'dealDate' },
-				            { "data": 'regDate' },
-				            { "data": 'updateDate' },
-				            { "data": '수정' }
-				        	],
-				        	columnDefs:[
-				        		{
-				        			'targets' : [00],
-				        			'searchable' : false,
-				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<input type="checkBox" name="purchaseTsCheck"></input>';
-				        						return htmlbtn;
-				        					}
-				        		},
-				        		{
-				        			'targets' : [08],
-				        			'orderable' : false,
-				        			'searchable' : false,
-				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-purchaseTsCode="' + row.purchaseTsCode +'"><i class="fas fa-pen"></i></button>';
-				        						return htmlbtn;
-				        					}
-				        		}
-				        		
-				        	]
-					});
-			   
-			
-				$('#salesTs').DataTable( {
-			        destroy : true,
-					pageLength: 5,
-					aLengthMenu : aLengthMenuArray,
-					ajax: {
-			        	url: '/k1SalesTransaction/k1SalesTransactionHistory',
-			        	type: 'POST',
-			        	dataSrc: function(data){
-			        				console.log(JSON.stringify(data));
-			        				return data;
-			        			} 
-			        },
-			        columns: [
-			        	 	{ "data": "" },
-			        		{ "data": "salesTsCode" },
-				            { "data": "businessName" },
-				            { "data": "lsAccountName" },
-				            { "data": "contractStatus" },
-				            { "data": "vatType" },
-				            { "data": "amount" },
-				            { "data": "count" },
-				            { "data": "unitPrice" },
-				            { "data": "totalPrice" },
-				            { "data": "dealDate" },
-				            { "data": "briefs" },
-				            { "data": "수정" }
-				        	],
-				        	columnDefs:[
-				        		{
-				        			'targets' : [00],
-				        			'orderable' : false,
-				        			'searchable' : false,
-				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<input type="checkBox" name="salesTsCheck"></input>';
-				        						return htmlbtn;
-				        					}
-				        		},
-				        		{
-				        			'targets' : [12],
-				        			'orderable' : false,
-				        			'searchable' : false,
-				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
-				        						var htmlbtn = '<button id="modifyBtn" class="btn btn-info float-right mr-2" data-salesTsCode="' + row.salesTsCode +'"><i class="fas fa-pen"></i></button>';		      
-				        						return htmlbtn;
-				        					}
-				        		},
-				        		{
-				        			'targets' : [06],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 ,'&#8361;', ''   )
-				        					
-				        		},
-				        		{
-				        			'targets' : [07],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , 'EA' )
-				        					
-				        		},
-				        		{
-				        			'targets' : [08],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '&#8361;', ''  )
-				        					
-				        		},
-				        		{
-				        			'targets' : [09],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 ,'&#8361;', ''   )
-				        					
-				        		}
-				        	]
-					});
-			   
-			});
+			//DataTables
+			$('#purchaseTransactionList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true		
+		});
+			$('#salesTransactionList').DataTable({
+				"paging": true,
+				"lengthChange": false,
+				"searching": true,
+				"ordering": true,
+				"info": true,
+				"autoWidth": false,
+				"responsive": true		
+		});
 		
-	
+			//Modal
+	var purchaseTransactionModifyModal = $('#purchaseTransactionModifyModal');
+	//Modal SHOW
+	$(document).on('click', '.modalBtn', function(){
+		var request = $.ajax({
+			url: '/purchaseTransactionModifyModal',
+			method: "GET",
+			dataType: "html"
+		});
+		 
+		request.done(function( data ) {
+			stockModifyModal.find('.modal-body').html(data);
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+
+});
 		
-		</script>
+</script>
 </th:block>
+
 <section class="content">
 	<th:block layout:fragment="customContents">
 	<div class="card card-info card-outline">
@@ -194,7 +103,7 @@
 		<div class="card tab-content" id= "p_slip">
 		<div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-home-tab">
 		<div class="dataTables_wrapper dt-bootstrap4">
-			<table id="purchaseTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
+			<table id="purchaseTransactionList" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center;">
 				<thead>
 					<tr>					
 						<th><input type="checkBox" id="purchaseTsAllCheck"></th>
@@ -208,6 +117,29 @@
 						<th>수정</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(purchaseTransactionList)}" th:each="l : ${purchaseTransactionList}">
+						<td class="text-center"><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1PurchaseTransaction/purchaseTransaction/${l.purchaseTsCode}|}">
+								[[${l.purchaseTsCode}]]
+							</a>
+						</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.clientCode}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td>[[${l.dealDate}]]</td>
+						<td>[[${l.regDate}]]</td>
+						<td>[[${l.updateDate}]]</td>
+						<td class="text-center">
+							<a th:href="@{|/k1PurchsaeTransaction/modify/${l.purchaseTsCode}|}">
+								<button type="button" class="btn btn-info btn-sm">
+									<i class="fas fa-pen"></i>
+								</button>
+							</a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 			</div>
 				<a th:href="@{|/k1PurchaseTransaction/k1PurchaseTransactionReg|}">
@@ -218,15 +150,13 @@
 			
 			<div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-home-tab">
 			<div id="sales" class="dataTables_wrapper dt-bootstrap4">
-			<table id="salesTs" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center; width: 100%;">
+			<table id="salesTransactionList" class="table table-bordered table-hover dataTable dtr-inline" border="1" style="text-align: center; width: 100%;">
 				<thead>
 					<tr>
 						<th><input type="checkBox" id="salesTsAllCheck"></th>
 						<th>매출 거래명세서 코드</th>
 						<th>거래처명</th>
 						<th style="width:9%;">계정과목</th>
-						<th>계약상태</th>
-						<th style="width:10%;">부가세 유형</th>
 						<th style="width:9%;">공급가액</th>
 						<th style="width:9%;">수량</th>
 						<th style="width:9%;">제품가격</th>
@@ -236,6 +166,31 @@
 						<th>수정</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(salesTransactionList)}" th:each="l : ${salesTransactionList}">
+						<td class="text-center"><input type="checkbox"></td>
+						<td>
+							<a th:href="@{|/k1SalesTransaction/salesTransaction/${l.salesTsCode}|}">
+								[[${l.salesTsCode}]]
+							</a>
+						</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.lsAccountName}]]</td>
+						<td>[[${#numbers.formatInteger(l.amount,0,'COMMA')}]] 원</td>
+						<td>[[${l.count}]]  EA</td>
+						<td>[[${#numbers.formatInteger(l.unitPrice,0,'COMMA')}]] 원</td>
+						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] 원</td>
+						<td>[[${l.dealDate}]]</td>
+						<td>[[${l.briefs}]]</td>
+						<td class="text-center">
+							<a th:href="@{|/k1SalesTransaction/modify/${l.salesTsCode}|}">
+								<button type="button" class="btn btn-info btn-sm">
+									<i class="fas fa-pen"></i>
+								</button>
+							</a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 			</div>
 			<a th:href="@{|/k1SalesTransaction/k1SalesTransactionReg|}">
