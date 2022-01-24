@@ -4,17 +4,121 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 
 <th:block layout:fragment="customContents">
-	수정
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<form id="modifyInvoiceForm" th:action="@{/k1Invoice/modify/{invoiceCode}}" method="post" class="form-horizontal">
+						<!-- card-body -->
+						<div class="card-body">
+							
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">수정 전자(세금)계산서 코드 </label>
+										<input value="amended_invoiceCode_001" type="text" class="form-control" id="clientCode" name="clientCode" readonly="readonly">
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">전자(세금)계산서 코드 </label>
+										<input value="invoiceCode_001" type="text" class="form-control" id="clientCode" name="clientCode" readonly="readonly">
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">수정 사유 </label>
+										<input value="착오에 의한 이중발급" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">세금계산서 종류 </label>
+										<input value="일반" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">공급자 사업장 이름 </label>
+										<input value="두부 공장" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">공급담당자 </label>
+										<input value="이순신" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">수급담당자 </label>
+										<input value="id002" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">전체공급가액(천원) </label>
+										<input value="6000" type="text" class="form-control" id="clientCode" name="clientCode">
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">전체세액(천원) </label>
+										<input value="600" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">전체수량 </label>
+										<input value="4" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">전체금액(천원) </label>
+										<input value="29040" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">발행상태 </label>
+										<input value="1)정상_발행완료" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">지불방식 </label>
+										<input value="어음" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">영수/청구 </label>
+										<input value="청구" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								<div class="form-group col-md-6">
+									<label class="col-form-label text-right">발행일자 </label>
+										<input value="2021-09-11" type="text" class="form-control" id="clientCode" name="clientCode" >
+								</div>
+								
+								
+							</div>
+							
+						</div>
+						<!-- /card-body -->
+						<!-- card-footer -->
+						<div class="card-footer">
+							<th:block th:if="${i} != null">
+								<button type="button" id="submitBtn" class="btn btn-info float-right">수정하기</button>
+								<a th:href="@{|/k1Client/clientDetail/${i.clientCode}|}">
+									<button type="button" class="btn btn-default">이전으로</button>
+								</a>
+							</th:block>
+							<th:block th:if="${i} == null">
+								<a th:href="@{/k1Client/clientList}">
+									<button type="button" class="btn btn-default">이전으로</button>
+								</a>
+							</th:block>
+							<button type="submit" class="btn btn-primary float-right" id ="modifyClientBtn"> 수정완료 </button>
+						</div>
+						<!-- /card-footer -->
+					</form>
+					<!-- /form  -->
+					</div>
+					<!-- form  -->
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		
+			
 </th:block>
 
 </html>
