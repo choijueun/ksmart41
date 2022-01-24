@@ -156,7 +156,7 @@ $(function(){
 						</div>
 					</div>
 					<hr style="border-top: 1px solid transparent;">
-					<div class="warehouse pl-5" th:unless="${#lists.isEmpty(wList)}">
+					<div class="warehouse pl-3 pr-3" th:unless="${#lists.isEmpty(wList)}">
 						<div class="custom-control custom-checkbox float-left ml-3" th:each="w : ${wList}">
 							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
 								type="checkbox" name="warehouseCode" th:id="${w.warehouseCode}" th:value="${w.warehouseCode}">
