@@ -136,16 +136,29 @@ public class PaymentController {
 		return "redirect:/k1PaymentList";
 	}
 	
-	//결제취소관리 수정
+	//결제취소관리 수정페이지
 	@GetMapping("/cancel/modify/{payCancelCode}")
 	public String modifyCancelPayment(
-			@PathVariable(value="planPayment", required=false) String payCancelCode
+			@PathVariable(value="payCancelCode", required=false) String payCancelCode
 			,Model model) {
+		
+		if(payCancelCode != null && !"".equals(payCancelCode)) {
+			CancelPayment getCancelPaymentInfo = pService.getCancelPaymentInfo(payCancelCode);
+			model.addAttribute("getCancelPaymentInfo", getCancelPaymentInfo);
+		}
+		
 		model.addAttribute("title", "결제취소관리: 수정");
 		model.addAttribute("planPayment", payCancelCode);
 		return "payment/cancelPayment_modify";
 	}
-	
+	//결제취소 수정
+	@PostMapping("/cancel/modify")
+	public String cancelModify(CancelPayment cancelPayment) {
+		System.out.println("결제취소수정"+ cancelPayment);
+		pService.cancelModify(cancelPayment);
+			
+		return "redirect:/k1PaymentList";
+	}
 	
 	//결제예정 상세
 	@SuppressWarnings("unchecked")

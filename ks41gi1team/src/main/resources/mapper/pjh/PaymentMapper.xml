@@ -38,7 +38,6 @@
 			,p.mainBusinessCode
 			,p.clientCode
 			,p.businessName
-			,p.totalAccountCode
 			,p.contractCode
 			,p.totalPrice AS totalPlanCost
 			,p.briefs
@@ -116,7 +115,7 @@
 		ON
 			c.regId = u.userId
 		WHERE
-			c.payCancelCode = CONCAT('payCancelCode_' #{payCancelCode});
+			c.payCancelCode = CONCAT('payCancelCode_', #{payCancelCode});
 		
 	</select>
 	<select id="getPlanPaymentInfo" parameterType="String" resultType="PlanPayment">
@@ -125,7 +124,7 @@
 			,p.`type`
 			,p.businessName
 			,RIGHT(p.contractCode,3) AS contractCode
-			,p.totalPrice AS totalPlanCost
+			,p.totalPrice AS totalPlanCost	
 			,p.briefs
 			,p.managerName
 			,p.regName
@@ -181,4 +180,24 @@
 		,NOW()
 		,NOW())
 	</insert>
+	
+	<update id="cancelModify" parameterType="CancelPayment">
+		UPDATE k1_tb_pay_cancel
+		SET
+			<if test="payHistoryCode !=null and payHistoryCode != ''.toString()">
+			payHistoryCode		= CONCAT('payHistoryCode_', #{payHistoryCode}),
+			</if>
+			<if test="cancelCost !=null and cancelCost != ''.toString()">
+			cancelCost			= #{cancelCost},
+			</if>
+			issueDate			= #{issueDate},
+			approvalDate		= #{approvalDate},
+			reason				= #{reason},
+			<if test="regId !=null and regId != ''.toString()">
+			regId				= #{regId},
+			</if>
+			updateDate			= NOW()
+		WHERE 
+			payCancelCode = CONCAT('payCancelCode_',#{payCancelCode});
+	</update>
 </mapper>
