@@ -48,8 +48,8 @@ public class ProductOrderService {
 	}
 
 	//전체 수주 검색
-	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode){
-		productOrderList = productOrderMapper.getAllProductOrderList(mainBusinessCode);
+	public List<ProductOrder> getAllProductOrderList(){
+		productOrderList = productOrderMapper.getAllProductOrderList();
 	
 		String productOrderNum;
 		for(int i=0; i<productOrderList.size(); i++) {
