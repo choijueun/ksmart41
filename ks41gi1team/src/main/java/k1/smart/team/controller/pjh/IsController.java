@@ -14,22 +14,29 @@ import k1.smart.team.service.pjh.IsService;
 @RequestMapping(value = "/k1InvoiceList")
 public class IsController {
 	private IsService invoiceService;
+	private Is totalPrice;
+	private Is totalSales;
 	
 	public IsController(IsService invoiceService) {
 		this.invoiceService = invoiceService;
 	}
 	
-	//계정과목 전체 목록
+	//통합회계 결산
 	@GetMapping("")
 	public String InvoiceMain(Model model) {
 		List<Is> invoiceList = invoiceService.getInvoiceList();
+		Is getTotalSales = invoiceService.getTotalSales(totalSales);
+		Is getTotalPrice = invoiceService.getTotalPrice(totalPrice);
 		
-		System.out.println(invoiceList);
+		model.addAttribute("getTotalSales", getTotalSales);
+		model.addAttribute("getTotalPrice", getTotalPrice);
+		
+		model.addAttribute("SectionLocation", "결산");
+		model.addAttribute("SectionTitle", "재무관리");
 		model.addAttribute("title", "계정과목 조회");
 		model.addAttribute("invoiceList", invoiceList);
 		
-		return "invoice/invoice_list";
+		return "totalAc/Is";
 	}
-	
 	
 }

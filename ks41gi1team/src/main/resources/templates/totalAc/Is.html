@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${SectionLocation}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs">
+<script th:inline="javascript">
+$(function() {
+		//--------------
+		//- AREA CHART -
+		//--------------
+		// Get context with jQuery - using jQuery's .get() method.
+		var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+		//data 값 가져오기
+		var sales = $('#sales22').text();
+		var price = $('#price22').text();
+		var total = $('#total22').text();
+		
+		$('#total22').text(total);
+		console.log(sales, price, total);
+		
+		var areaChartData = {
+			labels : ['매출','비용'],
+			datasets : [ {
+				label : '손익',
+				backgroundColor : ['#e15759', '#4e79a7'],
+				borderColor : '#698c68',
+				pointRadius : false,
+				pointColor : '#698c68',
+				pointStrokeColor : '#698c68',
+				pointHighlightFill : '#fff',
+				pointHighlightStroke : '#698c68',
+				data : [sales, total]
+			}]
+		}
+		
+		var areaChartOptions = {
+			maintainAspectRatio : false,
+			responsive : true,
+			legend : {
+				display : true
+			},
+			
+			scales : {
+				xAxes : [ {
+					gridLines : {
+						display : true,
+					}
+				}],
+				yAxes: [{
+					stacked: false, //쌓임
+					display: true, //y 축 show
+					ticks: {
+						stepSize: 0, //증가 범위
+						max: 99999999, //최대 범위
+						min: 0, //최소 범위
+						beginAtZero: true, //0부터 시작
+						fontFamily: "noto-fonts", //폰트 family
+						fontColor: '#a5a5a5', //폰트 컬러
+						padding: 10, //오른쪽 간격
+						callback: function(label, index, labels) {
+							return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //천단위 콤마
+						},
+					},
+					gridLines: {
+						display: false, //show
+						drawBorder: false, //세로선 유무
+					},
+				}]
+			}
+		}
+		var areaChart = new Chart(areaChartCanvas, {
+			type : 'doughnut',
+			data : areaChartData,
+			options : areaChartOptions
+		})
+	 
+});
+</script>
+</th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+
+<th:block layout:fragment="customContents">
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<h3 class="card-title">2022년 손익</h3>
+					</div>
+					<div class="card-body" style="height: 250px;">
+						<table class="table table-bordered" id="table2022">
+							<thead>
+								<tr>
+									<th>매출</th>
+									<th>비용</th>
+									<th>손익</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td id="sales22">[[${#numbers.formatInteger(getTotalSales.totalSales,0,'COMMA')}]]원</td>
+									<td id="price22">[[${#numbers.formatInteger(getTotalPrice.totalPrice,0,'COMMA')}]]원</td>
+									<td id="total22">[[${#numbers.formatInteger(getTotalSales.totalSales-getTotalPrice.totalPrice,0,'COMMA')}]]원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<h3 class="card-title">2022년 손익</h3>
+					</div>
+					<div class="card-body p-0">
+						 <div class="chart">
+						 	<canvas id="areaChart" style="height: 250px; min-height: 250px"></canvas>
+						 </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</th:block>
+
+</html>
