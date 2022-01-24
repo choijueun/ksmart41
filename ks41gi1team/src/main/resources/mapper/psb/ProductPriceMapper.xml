@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.ProductPriceMapper">
+	
+	<select id="getProductPriceList"  resultType="ProductPrice">
+		SELECT 
+			RIGHT(pp.productPriceCode,3) AS productPriceCode,
+			mb.businessName,
+			ii.itemName,
+			pp.COUNT,
+			pp.unitCost,
+			pp.totalEtcCost,
+			pp.manufacCost,
+			pp.profitPercentage,
+			pp.totalPrice,
+			pp.productPrice,
+			pp.regName
+		FROM
+			k1_view_product_price AS pp
+		INNER JOIN 
+			k1_tb_main_business AS mb
+		on
+			pp.mainBusinessCode = mb.mainBusinessCode
+		INNER JOIN 
+			k1_tb_item_info AS ii
+		on
+			ii.itemCode = pp.productCode
+	</select>
+</mapper>

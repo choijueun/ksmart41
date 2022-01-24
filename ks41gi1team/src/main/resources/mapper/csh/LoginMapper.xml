@@ -34,6 +34,19 @@
 		LIMIT 0,5 ;
 	</select>
 	
+	<select id="getLoginDetail" parameterType="String" resultType="Login">
+		SELECT 
+			 loginCode
+			,mainBusinessCode
+			,loginId
+			,loginDate
+			,logoutDate
+		FROM 
+			k1_tb_login
+		WHERE
+			loginCode = #{loginCode};
+	</select>
+	
  
  
  </mapper>

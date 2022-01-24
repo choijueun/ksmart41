@@ -203,15 +203,23 @@ $(function(){
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
-							제품단가 및 제조원가계산 관리 - 박수빈
+							제품단가 및 제조원가 관리 - 박수빈
 							<i class="right fas fa-angle-left"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/k1ManufacturingCostCalc/k1ManufacturingCostCalcList}" class="nav-link">
+							<a th:href="@{/k1ManufacturingCost/k1ManufacturingCostList}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p> 제조원가계산 및 제품단가 계산- #</p>
+								<p> 제조원가  - #</p>
+							</a>
+						</li>
+					</ul>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1ProductPrice/k1ProductPriceList}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p> 제품단가  - #</p>
 							</a>
 						</li>
 					</ul>
