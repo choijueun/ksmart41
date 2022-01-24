@@ -517,6 +517,14 @@ $(function(){
 		//중량 및 금액 계산
 		getTotals();
 	});
+	//단가 임의입력
+	$(document).on('click', 'button.setUnitPrice', function(){
+		var row = $('#details .row.pickIForm'); //표시한 row
+		row.children().find('input[name="unitPrice"]').val($('#setUnitPrice').val());
+		modalObj.modal('hide');
+		//중량 및 금액 계산
+		getTotals();
+	});
 	
 	/****************************
 				FORM
