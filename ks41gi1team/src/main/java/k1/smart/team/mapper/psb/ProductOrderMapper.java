@@ -19,7 +19,7 @@ public interface ProductOrderMapper {
 	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue);
 	
 	//전체 수주 검색
-	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode);
+	public List<ProductOrder> getAllProductOrderList();
 
 	//수주 삭제
 	public String k1ProductOrderRemove();
@@ -30,4 +30,7 @@ public interface ProductOrderMapper {
 	//수주내역 상세조회(여러개)
 	public List<ProductOrder> getProductOrderInfoList(String productOrderCode);
 
+	//등록할때마다 하나의 새로운 수주코드 추가
+	public String getProductOrderCode();
+	
 }

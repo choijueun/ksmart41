@@ -35,6 +35,11 @@ public class ProductOrderService {
 			
 			return productOrderList;
 		}
+		
+	//수주 등록할때마다 새로운 수주코드 생성
+		public String getProductOrderCode() {
+			return productOrderMapper.getProductOrderCode();
+		}
 	
 	//하나의 수주 검색
 	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue) {
@@ -43,8 +48,8 @@ public class ProductOrderService {
 	}
 
 	//전체 수주 검색
-	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode){
-		productOrderList = productOrderMapper.getAllProductOrderList(mainBusinessCode);
+	public List<ProductOrder> getAllProductOrderList(){
+		productOrderList = productOrderMapper.getAllProductOrderList();
 	
 		String productOrderNum;
 		for(int i=0; i<productOrderList.size(); i++) {
@@ -77,5 +82,7 @@ public class ProductOrderService {
 		return productOrderInfo;
 	}
 
+	
+	
 
 }

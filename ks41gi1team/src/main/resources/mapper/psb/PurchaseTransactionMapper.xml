@@ -15,6 +15,15 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 
+<select id="getPurchaseTransactionCode" resultType="String">
+		SELECT 
+			CONCAT(SUBSTRING(p.purchaseTsCode,1,21),MAX(SUBSTRING(p.purchaseTsCode,21))+1)
+		FROM 
+			k1_tb_purchase_transaction AS p
+	
+	</select>
+
+
 	<select id="getPurchaseTransactionInfo" parameterType="String" resultType="PurchaseTransaction">
 SELECT 
 	pt.purchaseTsCode

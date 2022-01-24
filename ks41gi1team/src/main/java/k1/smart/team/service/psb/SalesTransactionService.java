@@ -38,7 +38,11 @@ public class SalesTransactionService {
 				
 				return salesTransactionMapper.getSalesTransactionHistoryList(null);
 			} 
-	
+			
+			//하나의 등록할때마다 매출거래 코드 새추가
+			public String getSalesTransactionCode() {
+				return salesTransactionMapper.getSalesTransactionCode();
+			}
 	
 }
 

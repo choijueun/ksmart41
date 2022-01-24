@@ -20,6 +20,9 @@ public interface PurchaseTransactionMapper {
 	//비용거래명세서 등록
     public int addPurchaseTransaction(PurchaseTransaction purchaseTransaction);
 
-    public List<PurchaseTransaction> getPurchaseTransactionList();	
+    public List<PurchaseTransaction> getPurchaseTransactionList();
+
+    //코드 추가할때마다 자동 생성되는
+	public String getPurchaseTransactionCode();	
 	
 }

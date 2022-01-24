@@ -45,11 +45,19 @@ public class PurchaseTransactionService {
 				int result = purchaseTransactionMapper.addPurchaseTransaction(purchaseTransaction);
 				return result;
 			}
+			
+			public String getPurchaseTransactionCode() {
+				
+				return purchaseTransactionMapper.getPurchaseTransactionCode();
+			}
+			
 
 			public List<PurchaseTransaction> getPurchaseTransactionList() {
 				List<PurchaseTransaction> purchaseTransactionList = purchaseTransactionMapper.getPurchaseTransactionList();
 				return null;
-			} 
+			}
+
+		
 			
 			
 }

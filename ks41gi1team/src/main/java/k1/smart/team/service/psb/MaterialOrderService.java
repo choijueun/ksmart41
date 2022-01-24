@@ -44,18 +44,13 @@ public class MaterialOrderService {
 		return result;
 	}
 	
-	//발주 전체조회 이력 조회
-	public List<MaterialOrder> getMaterialOrderList(){
-		List<MaterialOrder> materialOrderList = materialOrderMapper.getMaterialOrderList();
-		
-		return materialOrderList;
-	}
+
 	
 	
 	//전체 발주 검색
-	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode){
-		materialOrderList = materialOrderMapper.getMaterialOrderList(mainBusinessCode);
-		
+	public List<MaterialOrder> getAllMaterialOrderList(){
+		materialOrderList = materialOrderMapper.getAllMaterialOrderList();
+		System.out.println("서비스단 materialOrderList-->" + materialOrderList);
 		return materialOrderList;
 	}
 	

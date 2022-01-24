@@ -11,6 +11,13 @@
 				
 	</delete>
 	
+<select id="getProductOrderCode" resultType="String">
+	SELECT 
+			CONCAT(SUBSTRING(po.productOrderCode,1,20),MAX(SUBSTRING(po.productOrderCode,20))+1)
+		FROM 
+			k1_tb_product_order AS po
+</select>	
+	
 <select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
 SELECT 
 	pod.productOrderOngoingCode

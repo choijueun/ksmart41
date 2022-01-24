@@ -20,7 +20,7 @@
 	<div class="col-lg-6 col-md-8 mb-3">
 	<div class="card card-info card-outline">
 	<div class="card-header">
-		계약서 등록
+		비용 거래 명세서 등록
 			</div>
 	<form id="purchaseTransactionRegisterForm" action="/k1PurchaseTransaction/purchaseTransactionRegister" method="post">
 		<div class="card-body">
@@ -28,7 +28,7 @@
                   <div class="form-group col-md-6">
                     <label for="purchaseTsCode">비용 거래 명세서 코드</label>
                    
-                    	<input type="text" name="purchaseTsCode" class="form-control" id="purchaseTsCode" th:value="${purchaseTransactionInfo}">	  
+                    	<input type="text" name="purchaseTsCode" class="form-control" id="purchaseTsCode" th:value="${purchaseTransactionCode}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>

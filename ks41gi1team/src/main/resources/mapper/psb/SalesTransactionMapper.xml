@@ -20,6 +20,12 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 	
+	<select id="getSalesTransactionCode" resultType="String">
+	SELECT 
+			CONCAT(SUBSTRING(s.salesTsCode,1,14),MAX(SUBSTRING(s.salesTsCode,14))+1)
+		FROM 
+			k1_tb_sales_transaction AS s
+	</select>
 	<insert id="addSalesTransaction" parameterType="SalesTransaction">
 		INSERT INTO k1_tb_contract
 		(
@@ -30,7 +36,7 @@
 			contractCode,
 			vatType,
 			amount,
-			VAT,
+			vat,
 			totalPrice,
 			dealDate,
 			briefs
@@ -41,7 +47,7 @@
 			#{lsAccountCode},
 			#{contractCode},
 			#{amount},
-			#{VAT},
+			#{vat},
 			#{totalPrice},
 			#{dealDate},
 			#{briefs}
@@ -57,7 +63,6 @@
 		st.contractCode as contractCode,
 		st.vatType as vatType,
 		st.amount as amount,
-		st.VAT as VAT,
 		st.totalPrice as totalPrice,
 		st.dealDate as dealDate,
 		st.briefs as briefs,
@@ -80,7 +85,8 @@
 			st.contractCode,
 			st.vatType,
 			st.amount,
-			st.VAT,
+			st.count,
+			st.unitPrice,
 			st.totalPrice,
 			st.dealDate,
 			st.briefs,
@@ -104,8 +110,6 @@
 			k1_view_contract as contr
 		ON
 			st.contractCode = contr.contractCode	
-		GROUP BY 
-			st.salesTsCode;	
 	</select>
 
 </mapper>

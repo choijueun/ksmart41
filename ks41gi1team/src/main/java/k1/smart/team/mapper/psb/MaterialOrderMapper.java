@@ -29,7 +29,7 @@ public interface MaterialOrderMapper {
 
 	
 	//발주 전체 조회
-	public List<MaterialOrder> getMaterialOrderList(String mainBusinessCode);
+	public List<MaterialOrder> getAllMaterialOrderList();
 
 	//발주 수정 조회
 	public int modifyMaterilOrderInfo(MaterialOrder materialOrder);

@@ -20,4 +20,7 @@ public interface SalesTransactionMapper {
 	
 	//매출거래명세서 전체 조회	
 	public List<Map<String, Object>> getSalesTransactionHistoryList(Map<String, Object> paramMap);
+	
+	//하나 매출거래코드 등록할때마다 추가
+	public String getSalesTransactionCode();
 }
