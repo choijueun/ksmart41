@@ -602,7 +602,7 @@ $(function(){
 								<label for="receiveWarehouse">
 									입고창고
 								</label>
-								<input type="hidden" id="receiveWarehouse" 
+								<input type="hidden" id="receiveWarehouseName" 
 										th:value="${s == null} ? null : ${s.warehouseCode}" name="receiveWarehouse" class="form-control">
 								<input type="text" id="receiveWarehouseName" 
 										th:value="${s == null} ? null : ${s.warehouseName}" class="form-control" placeholder="창고명">
