@@ -71,14 +71,17 @@ $(function(){
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-4">
-			<div class="card card-info card-outline">
-				<div class="card-header">
-					<h3 class="card-title">자재입고내역  등록</h3>
-				</div>
-				<div class="card-body">
-					<form id="modifyWarehousing"th:action="@{/k1WarehousingModify}" method="POST">
+	<form id="modifyWarehousing"th:action="@{/k1WarehousingModify}" method="POST">
+		<div class="row">
+			<div class="col-lg-3">
+			</div>
+			<div class="col-lg-6">
+				<!-- 자재입고내역 간략(공통)정보 입력칸 -->
+				<div class="card card-info card-outline mb-4">
+					<div class="card-header">
+						<h3 class="card-title">자재입고내역  등록</h3>
+					</div>
+					<div class="card-body">
 						<div class="row">
 							<div class="form-group col-lg-6">
 								<label for="businessName">
@@ -179,84 +182,113 @@ $(function(){
 								</div>
 							</div>
 						</div>
-					</form>
-				</div>
-				<div class="card-footer">
-					<a th:href="@{/k1Warehousing}">
-						<button type="button" class="btn btn-default">목록으로</button>
-					</a>
-					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1Warehousing}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-8">
-			<div class="card card-info card-outline">
-				<div class="card-header">
-					<h3 class="card-title">자재입고 상세내역  등록</h3>
-				</div>
-				<div class="card-body" id="details">
-					<div class="row" th:each="d : ${details}">
-						<div class="form-group col-lg-2 col-sm-6">
-							<input type="hidden" name="inventoryCode" th:value="${d.inventoryCode}" class="form-control">
-							<input type="text" name="itemName" class="form-control" th:value="${d.itemName}" placeholder="품목명">
+		<div class="row">
+			<div class="col-lg-1">
+			</div>
+			<div class="col-lg-10">
+				<!-- 자재입고내역 상세(품목)정보 입력칸 -->
+				<div class="card card-info card-outline mb-3">
+					<div class="card-header">
+						<h3 class="card-title">자재입고 상세내역  등록</h3>
+					</div>
+					<div class="card-body" id="details">
+						<div class="row" th:each="d : ${details}">
+							<div class="form-group col-lg-2 col-sm-6">
+								<input type="hidden" name="inventoryCode" th:value="${d.inventoryCode}" class="form-control">
+								<input type="text" name="itemName" class="form-control" th:value="${d.itemName}" placeholder="품목명">
+							</div>
+							<div class="form-group col-lg-1 col-sm-6">
+								<input type="text" name="unitPrice" class="form-control" th:value="${d.unitPrice}" placeholder="비용">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="number" name="adjCount" class="form-control" th:value="${d.adjCount}" placeholder="입고수량">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="number" name="adjWeight" class="form-control" th:value="${d.adjWeight}" placeholder="입고중량">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="text" name="status" class="form-control" th:value="${d.status}" placeholder="조정상태">
+							</div>
+							<div class="form-group col-lg-2 col-sm-8">
+								<input type="text" name="comment" class="form-control" th:value="${d.comment}" placeholder="비고">
+							</div>
+							<div class="form-group col-lg-1 col-sm-4">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</div>
 						</div>
-						<div class="form-group col-lg-1 col-sm-6">
-							<input type="text" name="unitPrice" class="form-control" th:value="${d.unitPrice}" placeholder="비용">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="number" name="adjCount" class="form-control" th:value="${d.adjCount}" placeholder="입고수량">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="number" name="adjWeight" class="form-control" th:value="${d.adjWeight}" placeholder="입고중량">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="text" name="status" class="form-control" th:value="${d.status}" placeholder="조정상태">
-						</div>
-						<div class="form-group col-lg-2 col-sm-8">
-							<input type="text" name="comment" class="form-control" th:value="${d.comment}" placeholder="비고">
-						</div>
-						<div class="form-group col-lg-1 col-sm-4">
-							<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
-								<i class="fas fa-trash-alt"></i>
-							</button>
+						<div class="row">
+							<div class="form-group col-lg-2 col-sm-6">
+								<input type="hidden" id="inventoryCode" name="inventoryCode" class="form-control">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명">
+							</div>
+							<div class="form-group col-lg-1 col-sm-6">
+								<input type="number" name="unitPrice" class="form-control" placeholder="비용">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="number" name="adjCount" class="form-control" placeholder="입고수량">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="number" name="adjWeight" class="form-control" placeholder="입고중량">
+							</div>
+							<div class="form-group col-lg-2 col-sm-4 col-xs-4">
+								<input type="text" name="status" class="form-control" placeholder="상태">
+							</div>
+							<div class="form-group col-lg-2 col-sm-8">
+								<input type="text" name="comment" class="form-control" placeholder="비고">
+							</div>
+							<div class="form-group col-lg-1 col-sm-4">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="form-group col-lg-2 col-sm-6">
-							<input type="hidden" id="inventoryCode" name="inventoryCode" class="form-control">
-							<input type="text" name="itemName" class="form-control" placeholder="품목명">
-						</div>
-						<div class="form-group col-lg-1 col-sm-6">
-							<input type="number" name="unitPrice" class="form-control" placeholder="비용">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="number" name="adjCount" class="form-control" placeholder="입고수량">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="number" name="adjWeight" class="form-control" placeholder="입고중량">
-						</div>
-						<div class="form-group col-lg-2 col-sm-4 col-xs-4">
-							<input type="text" name="status" class="form-control" placeholder="상태">
-						</div>
-						<div class="form-group col-lg-2 col-sm-8">
-							<input type="text" name="comment" class="form-control" placeholder="비고">
-						</div>
-						<div class="form-group col-lg-1 col-sm-4">
-							<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:3px;">
-								<i class="fas fa-trash-alt"></i>
-							</button>
-						</div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+							<i class="far fa-plus-square"></i>
+						</button>
 					</div>
 				</div>
-				<div class="card-footer">
-					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
-						<i class="far fa-plus-square"></i>
+			</div>
+		</div>
+	</form>
+	<!-- Modal -->
+	<div class="modal fade" id="modalObj" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
 					</button>
 				</div>
+				<div class="modal-body">
+				
+					<!-- INSERT HTML -->
+				
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
 			</div>
+			<!-- /.modal-content -->
 		</div>
+		<!-- /.modal-dialog -->
 	</div>
 </div>
+
 </th:block>
 
 </html>

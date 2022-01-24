@@ -21,14 +21,12 @@ $(function(){
 	//전체폼
 	var addItem = $('#addItem'); 
 	//품목명 입력box
-	var itemName = $('#itemName'); 
-	//품목분류select
-	var itemType = $('#itemType'); 
+	var itemName = $('input[name="itemName"]'); 
 	//품목정보button삽입란
 	var itemNameValid = $('#itemNameValid'); 
 	
 	//품목명 중복 검사
-	itemName.on('change', function(){
+	$(document).on('change', 'input[name="itemName"]', function(){
 		var request = $.ajax({
 			  url: "/itemNameValid", //호출 경로
 			  method: "POST", //호출 방식
@@ -39,10 +37,10 @@ $(function(){
 		request.done(function( data ) {
 			if(data) {
 				itemName.addClass('is-warning');
-				itemNameValid.html('<button type="button" class="btn btn-outline-info btn-xs">품목정보</button>');
+				itemNameValid.html('<button type="button" class="btn btn-outline-info btn-xs">중복</button>');
 			} else {
 				itemName.removeClass('is-warning');
-				$('#itemNameValid').html('');
+				itemNameValid.html('');
 			}
 		});
 		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
@@ -213,7 +211,7 @@ $(function(){
 				<div class="card-body">
 					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
 						<div class="row">
-							<div class="col-8">
+							<div class="col-6">
 								<div class="form-group">
 									<label for="itemName">
 										품목명
@@ -224,7 +222,7 @@ $(function(){
 									<input type="text" name="itemName" class="form-control" placeholder="Enter itemName">
 								</div>
 							</div>
-							<div class="col-4">
+							<div class="col-6">
 								<label>분류</label>
 								<div class="form-group">
 									<div class="btn-group btn-group-toggle" data-toggle="buttons">

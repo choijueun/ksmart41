@@ -36,9 +36,9 @@ public class WarehouseService {
 	 * @param mainBusinessCode
 	 * @return 창고 여러개 정보
 	 */
-	public List<Warehouse> getAllWarehouseList(String mainBusinessCode){
+	public List<Warehouse> getAllWarehouseList(Map<String, Object> paramMap){
 		//전체목록
-		warehouseList = warehouseMapper.getWarehouseList(mainBusinessCode);
+		warehouseList = warehouseMapper.getWarehouseList(paramMap);
 		//System.out.println("WarehouseService :: "+warehouseList);
 		return warehouseList;
 	}

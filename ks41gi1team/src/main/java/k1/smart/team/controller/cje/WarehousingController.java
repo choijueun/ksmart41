@@ -1,6 +1,5 @@
 package k1.smart.team.controller.cje;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +26,7 @@ public class WarehousingController {
 	private List<Storing> warehousingList; //자재입고내역 배열
 	private Map<String, Object> resultMap;
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
+	
 	/**
 	 * 생성자 메서드
 	 * @param warehousingService
@@ -117,7 +117,7 @@ public class WarehousingController {
 		storingInfo.setMainBusinessCode(mainBusinessCode);
 		//물류이동사유Setting
 		storingInfo.setStockReasonCode(1);
-		//log.info("물류이동한줄내역 :: {}",storingInfo);
+		log.info("물류이동한줄내역  등록 :: {}",storingInfo);
 		
 		//품목정보의 각 key & value 출력
 		/*
@@ -161,7 +161,7 @@ public class WarehousingController {
 		
 		//자재입고내역 한줄정보 Storing
 		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
-		log.info("자재입고내역 수정화면 INFO :: {}", warehousingInfo);
+		//log.info("자재입고내역 수정화면 INFO :: {}", warehousingInfo);
 		model.addAttribute("s", warehousingInfo);
 		//자재입고내역 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("warehousingDetails"));

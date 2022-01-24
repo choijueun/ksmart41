@@ -19,36 +19,47 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			제조원가 계산
+			제품단가 
 		</div>
 		<div class="card">
 
 		</div>
 		<div class="card-body">
-			<table id="manufacturingCostCalcList" class="table table-bordered table-hover dataTable dtr-inline">
+			<table id="productPriceList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
 						<th>No.</th>
-						<th>비용목록</th>
-						<th>각 비용 총금액</th>
-						<th>원자재 발주목록</th>
-						<th>원자재 발주 총금액</th>
-						<th>제조원가</th>
+						<th>사업장</th>
+						<th>제품명</th>
+						<th>제품 수량</th>
+						<th>제조 원가</th>
+						<th>기타비용</th>
+						<th>총제조비용</th>
+						<th>이익률</th>
+						<th>총제품가격</th>
+						<th>제품단가</th>
+						<th>담당자</th>
+						<th>수정</th>
 					</tr>
 				</thead>
 				<tbody>
-					 <tr th:if="${not #lists.isEmpty(manufacturingCostCalcList)}" th:each="l : ${manufacturingCostCalcList}">
-						<td>no.</td>
-						<td>[[${l.lsAccountName}]]</td>
-						<td>[[${l.amount}]]</td>
+					 <tr th:if="${not #lists.isEmpty(productPriceList)}" th:each="l : ${productPriceList}">
+						<td>[[${l.productPriceCode}]]</td>
+						<td>[[${l.businessName}]]</td>
 						<td>[[${l.itemName}]]</td>
-						<td>[[${l.totalPrice}]]</td>
-							<td><a></a></td>
+						<td>[[${l.count}]] EA </td>
+						<td>[[${l.unitCost}]]원</td>
+						<td>[[${l.totalEtcCost}]]원</td>
+						<td>[[${l.manufacCost}]]원</td>
+						<td>[[${l.profitPercentage}]] %</td>
+						<td>[[${l.totalPrice}]]원</td>
+						<td>[[${l.productPrice}]]원</td>
+						<td>[[${l.regName}]]</td>
 						<td>
 							<i class="fas fa-pen"></i>
 						</td>
 					</tr>
-					<tr th:if="${#lists.isEmpty(manufacturingCostCalcList)}">
+					<tr th:if="${#lists.isEmpty(productPriceList)}">
 						<td colspan="9">정보가 없습니다.</td>
 					</tr>
 				</tbody>

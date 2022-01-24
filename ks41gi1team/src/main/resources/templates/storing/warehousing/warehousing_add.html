@@ -563,8 +563,8 @@ $(function(){
 
 <th:block layout:fragment="customContents">
 
-<form id="addWarehousing"th:action="@{/k1WarehousingAdd}" method="POST">
-	<div class="container-fluid">
+<div class="container-fluid">
+	<form id="addWarehousing"th:action="@{/k1WarehousingAdd}" method="POST">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>
@@ -755,32 +755,31 @@ $(function(){
 				</div>
 			</div>
 		</div>
-		
-		<!-- Modal -->
-		<div class="modal fade" id="modalObj" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header text-center">
-						<h5 class="modal-title"></h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-					
-						<!-- INSERT HTML -->
-					
-					</div>
-					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
+	</form>
+	<!-- Modal -->
+	<div class="modal fade" id="modalObj" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
 				</div>
-				<!-- /.modal-content -->
+				<div class="modal-body">
+				
+					<!-- INSERT HTML -->
+				
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
 			</div>
-			<!-- /.modal-dialog -->
+			<!-- /.modal-content -->
 		</div>
+		<!-- /.modal-dialog -->
 	</div>
-</form>
+</div>
 </th:block>
 
 </html>

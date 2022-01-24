@@ -29,7 +29,7 @@ $(function(){
         "responsive": true,
 		"columnDefs": [{    
 			orderable: false,
-			targets: [0, 8]
+			targets: [0, 9]
 		}]
 	});
 	
@@ -138,7 +138,7 @@ $(function(){
 		<div class="card-body">
 			<div class="card" id="checkAjax">
 				<div class="card-body">
-					<div class="itemType pl-5">
+					<div class="itemType pl-3 pr-3">
 						<div class="custom-control custom-checkbox float-left ml-3">
 							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
 								type="checkbox" id="rawMaterial" value="원자재">
@@ -156,7 +156,7 @@ $(function(){
 						</div>
 					</div>
 					<hr style="border-top: 1px solid transparent;">
-					<div class="warehouse pl-5" th:unless="${#lists.isEmpty(wList)}">
+					<div class="warehouse pl-3 pr-3" th:unless="${#lists.isEmpty(wList)}">
 						<div class="custom-control custom-checkbox float-left ml-3" th:each="w : ${wList}">
 							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
 								type="checkbox" name="warehouseCode" th:id="${w.warehouseCode}" th:value="${w.warehouseCode}">
@@ -169,6 +169,7 @@ $(function(){
 				<table id="stockList" class="table table-bordered table-hover dataTable dtr-inline">
 					<thead>
 						<tr>
+							<th style="display: none;"></th>
 							<th>No.</th>
 							<th>품목명</th>
 							<th>분류</th>
@@ -182,6 +183,7 @@ $(function(){
 					</thead>
 					<tbody>
 						<tr th:if="${not #lists.isEmpty(stockList)}" th:each="l : ${stockList}">
+							<td style="display: none;"></td>
 							<td>
 								<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 									[[${l.inventoryCode}]]
@@ -194,8 +196,8 @@ $(function(){
 							</td>
 							<td>[[${l.itemType}]]</td>
 							<td>[[${l.warehouseName}]]</td>
-							<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
-							<td>[[${#numbers.formatInteger(l.itemWeight,0,'COMMA')}]]</td>
+							<td>[[${#numbers.formatInteger(l.totalCount,0,'COMMA')}]]</td>
+							<td>[[${#numbers.formatInteger(l.totalWeight,0,'COMMA')}]] kg</td>
 							<td>[[${l.comment}]]</td>
 							<td>[[${l.status}]]</td>
 							<td class="text-center">

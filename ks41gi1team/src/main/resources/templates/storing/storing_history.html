@@ -10,10 +10,12 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript" th:inline="javascript">
 $(function(){
-	//-------------
-	//- DONUT CHART -
-	//-------------
+	/****************************
+			  DONUT CHART
+	****************************/
+	// !Chart 그리기
 	var donutChartCanvas = $('#recentStoring').get(0).getContext('2d')
+	// !Data
 	var donutData        = {
 		labels: [
 				'입고',
@@ -54,9 +56,9 @@ $(function(){
 	});
 	
 	
-	//-------------
-	//- BAR CHART -
-	//-------------
+	/****************************
+			   BAR CHART
+	****************************/
 	// !Chart 그리기
 	var barChartCanvas = $('#recentProShip').get(0).getContext('2d');
 	// ! DATA
@@ -112,7 +114,9 @@ $(function(){
 		options: barChartOptions
 	});
 	
-	// 표 플러그인 적용
+	/****************************
+			   DataTable
+	****************************/
 	$('#storingList').DataTable({
 		"paging": true,
 		"lengthChange": false,
@@ -121,6 +125,10 @@ $(function(){
 		"info": true,
 		"autoWidth": false,
 		"responsive": true,
+		"columnDefs": [{    
+			orderable: false,
+			targets: [6]
+		}]
 	});
 });
 </script>

@@ -133,8 +133,11 @@ public class MaterialOrderController {
 			if(materialOrderCode != null && !"".equals(materialOrderCode)) {
 				MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
 				model.addAttribute("materialOrderInfo", materialOrderInfo);
+				System.out.println("materialOrderInfo-->" + materialOrderInfo);
 			}			
 			
+			System.out.println("materialOrderInfo-->" + materialOrderInfo);
+			System.out.println("materialOrderCode-->" + materialOrderCode);
 			model.addAttribute("title", "발주관리: 수정");
 			
 			return "materialOrder/materialOrder_list";
@@ -170,6 +173,7 @@ public class MaterialOrderController {
 			  
 			  //발주관리 상세정보 
 			  materialOrderInfo = materialOrderService.getMaterialOrderInfo(materialOrderCode);
+			  System.out.println("materialOrderInfo: ---->" + materialOrderInfo);
 			  if(materialOrderInfo == null) {
 				  System.out.println("발주관리코드 ERROR"); 
 				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 

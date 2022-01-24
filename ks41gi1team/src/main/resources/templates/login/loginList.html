@@ -56,7 +56,7 @@
 									<tr th:if="${not #lists.isEmpty(loginList)}"
 										th:each="l : ${loginList}">
 										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/k1Login/loginList/${l.loginCode}|}">
+										<td><a th:href="@{|/k1Login/loginDetail/${l.loginCode}|}">
 												[[${l.loginCode}]] </a></td>
 										<td>[[${l.businessName}]]</td>
 										<td>[[${l.loginId}]]</td>
@@ -68,7 +68,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<a th:href="@{/k1Client/clientRegister}">
+							<a th:href="@{/k1Login/loginList}">
 								<button type="button" class="btn btn-danger float-right">삭제</button>
 							</a>
 						</div>

@@ -11,6 +11,13 @@
 				
 	</delete>
 	
+<select id="getProductOrderCode" resultType="String">	
+	SELECT
+	   LPAD(CAST(MAX(RIGHT(productOrderCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_product_order;		
+</select>	
+	
 <select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
 SELECT 
 	pod.productOrderOngoingCode

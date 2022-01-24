@@ -2,10 +2,12 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.psb.Contract;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 
 @Service
@@ -15,6 +17,9 @@ public class ContractService {
 	private List<Contract> contractList;
 	private List<Contract> contractHistoryList;
 	private List<Contract> contractCodeForMaterialOrderCodeList;
+	
+	@Autowired
+	private CodeMapper codeMapper;
 	
 	//생성자메서드 주입방식	
 	public ContractService(ContractMapper contractMapper) {

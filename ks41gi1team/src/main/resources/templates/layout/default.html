@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
-
+	
+<!-- head 프래그먼트 -->
 <head th:replace="fragments/head :: headFragment"></head>
+<!-- head 프래그먼트 끝 -->
 
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div id="wrapper">
-		<!-- Begin Header -->
+		<!-- header 프래그먼트 -->
 		<div th:replace="fragments/header :: headerFragment"></div>
+		<!-- header 프래그먼트 끝 -->
 		
-		<!-- Begin SideBar -->
+		<!-- sidebar(좌측메뉴) 프래그먼트 -->
 		<div th:replace="fragments/sidebar :: sidebarFragment"></div>
+		<!-- sidebar(좌측메뉴) 끝 -->
 		
-		<!-- Begin Content -->
+		<!-- 컨텐츠 영역 -->
 		<div class="content-wrapper">
 			<!-- Content 영역 상단(location) -->
 			<section class="content-header">
 				<div th:replace="fragments/location :: locationFragment"></div>
 			</section>
+			<!-- location 프래그먼트 끝 -->
 			<!-- Content 영역 본문 -->
 			<section class="content">
 				<th:block layout:fragment="customContents"></th:block>
 			</section>
+			<!-- 본문 영역 끝 -->
 		</div>
-
-		<!-- Begin Footer -->
+		<!-- 컨텐츠 영역 끝 -->
+		
+		<!-- footer 프래그먼트 -->
 		<div th:replace="fragments/footer :: footerFragment"></div>
+		<!-- footer 프래그먼트 끝 -->
 	</div>
 
-	<!--  자바스크립트 -->
+	<!-- 공통 자바스크립트 영역 -->
 	<th:block th:replace="fragments/script :: scriptFragment"></th:block>
-
+	<!-- 공통 자바스크립트 영역 끝 -->
 </body>
 </html>

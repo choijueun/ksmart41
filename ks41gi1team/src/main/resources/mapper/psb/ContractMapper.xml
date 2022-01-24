@@ -84,10 +84,10 @@
 	</select>
 	
 	<select id="getContractInfo" resultType="String">
-		SELECT 
-			CONCAT(SUBSTRING(c.contractCode,1,14),MAX(SUBSTRING(c.contractCode,15))+1)
-		FROM 
-			k1_view_contract AS c
+		SELECT
+	   LPAD(CAST(MAX(RIGHT(contractCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_contract;	
 	
 	</select>
 
@@ -238,7 +238,7 @@
 	
 	<select id="getAllContractList" parameterType="String" resultType="Contract">
 		SELECT
-			 c.contractCode
+			 RIGHT(c.contractCode,3) AS contractCode
 			,c.clientCode
 			,c.clientBusinessName
 			,c.clientManagerId

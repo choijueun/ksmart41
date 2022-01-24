@@ -3,12 +3,12 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import k1.smart.team.dto.psb.MaterialOrder;
-
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
 
 
@@ -18,6 +18,8 @@ public class MaterialOrderService {
 	private List<MaterialOrder> materialOrderList;
 	private MaterialOrder materialOrderInfo;
 
+	@Autowired
+	private CodeMapper codeMapper;
 	
 	//생성자메서드 주입방식
 	public MaterialOrderService(MaterialOrderMapper materialOrderMapper) {

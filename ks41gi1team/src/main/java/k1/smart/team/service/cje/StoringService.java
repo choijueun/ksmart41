@@ -1,9 +1,12 @@
 package k1.smart.team.service.cje;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,10 @@ public class StoringService {
 	
 	@Autowired
 	private CodeMapper codeMapper; //코드번호 자동생성
+	@Autowired
+	private StockService stockService; //재고검색
+	
+	private static final Logger log = LoggerFactory.getLogger(StoringService.class);
 	
 	/**
 	 * 생성자 메서드
@@ -367,31 +374,50 @@ public class StoringService {
 	}
 	
 	/**
-	 * 입고내역 등록 프로세스
+	 * 물류이동내역 등록 프로세스
 	 * @param storingInfo
 	 * @return 성공시 true, 실패시 false
 	 */
 	public boolean addStoringInfo(Storing storingInfo) {
+		//사업장대표코드
+		String mainBusinessCode = storingInfo.getMainBusinessCode();
+		//창고코드
+		String warehouseCode = this.getWCodeForStock(storingInfo);
+		
 		//물류이동코드 생성
 		String stockAdjCode = codeMapper.getNewCodeNum("k1_tb_stock_adjustment", "stockAdjCode");
 		//물류이동코드 SET
 		storingInfo.setStockAdjCode(stockAdjCode);
-		
-		//물류이동내역 등록
+		log.info("1. 물류이동내역 등록 :: storingInfo = {}",storingInfo);
 		if(storingMapper.addStoringInfo(storingInfo) == 0) {
 			//실패시 return false
 			return false;
 		}
 		
-		String stockAdjDetailCode = null;
-		//상세정보 반복문
+		List<Stock> itemList = new ArrayList<Stock>();
+		//itemCode, itemCount, itemWeight 없는 정보 제외
 		for(Stock itemInfo : storingInfo.getS()) {
-			//itemCode, itemCount, unitPrice 없을 시 continue;
-			if(			CommonUtils.isEmpty(itemInfo.getItemCode())
-					||  CommonUtils.isEmpty(itemInfo.getItemCode())
-					||  CommonUtils.isEmpty(itemInfo.getItemCode())) {
+			if(CommonUtils.isEmpty(itemInfo.getItemCode())
+				|| CommonUtils.isEmpty(itemInfo.getItemCount())
+				|| CommonUtils.isEmpty(itemInfo.getItemWeight())) {
 				continue;
 			}
+			itemList.add(itemInfo);
+		}
+		
+		//totalCount, totalWeight 계산
+		itemList = this.plusStockStoring(mainBusinessCode, warehouseCode, itemList);
+		log.info("2. 재고정보 완성 :: itemList = {}",itemList);
+		if(CommonUtils.isEmpty(itemList)) {
+			//실패
+			//물류이동내역(stockAdjCode) 삭제
+			storingMapper.removeStoringInfo(stockAdjCode, mainBusinessCode);
+			return false;
+		}
+		
+		String stockAdjDetailCode = null;
+		//상세정보 반복문
+		for(Stock itemInfo : itemList) {
 			//물류이동코드 SET
 			itemInfo.setStockAdjCode(stockAdjCode);
 			//물류이동상세코드 GET&SET
@@ -401,31 +427,120 @@ public class StoringService {
 			if(!CommonUtils.isEmpty(itemInfo.getPurchaseTsCode()) || !CommonUtils.isEmpty(itemInfo.getSalesTsCode())) {
 				itemInfo.setUnitPrice(0);
 			}
-			//물류이동상세내역 등록
+			//3. 물류이동 상세내역 등록 프로세스
+			log.info("3. 물류이동 상세내역 등록 :: itemInfo = {}",itemInfo);
 			if(storingMapper.addStoringDetails(itemInfo) == 0) {
-				//실패시 물류이동상세내역(stockAdjDetailCode) 삭제
+				//실패
+				//물류이동상세내역(stockAdjDetailCode) 삭제
 				storingMapper.removeStoringDetails(stockAdjCode, null);
-				//실패시 물류이동내역(stockAdjCode) 삭제
-				storingMapper.removeStoringInfo(stockAdjCode, storingInfo.getMainBusinessCode());
+				//물류이동내역(stockAdjCode) 삭제
+				storingMapper.removeStoringInfo(stockAdjCode, mainBusinessCode);
 				return false;
 			}
 		}
-		//재고정보 검색
-		//1.일치하는게 없다
-		//	1) INSERT
-		//	2) adjCount=afterCount, adjWeight=totalWeight
-		//	3) 실패 시
-		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
-		//		return false;
-		
-		//2.일치하는게 있다
-		//	1) UPDATE
-		//	2) afterCount, totalWeight 입력
-		//	3) 실패 시
-		//		물류이동상세내역(stockAdjDetailCode)&물류이동내역(stockAdjCode) 삭제
-		//		return false;
+		log.info("4. 재고정보 갱신 :: itemList = {}",itemList);
+		boolean chk = false;
+		for(Stock itemInfo : itemList) {
+			if(CommonUtils.isEmpty(itemInfo.getInventoryCode())) {
+				//재고코드 없으면 INSERT 
+				chk = stockService.addStock(itemInfo);
+			}else {
+				//재고코드 있으면 UPDATE
+				chk = stockService.modifyStock(itemInfo);
+			}
+			if(!chk) return false;
+		}
 		
 		//모든 정보 등록 완료
 		return true;
 	}
+	
+	/**
+	 * 재고에 set할 창고코드
+	 * @param storingInfo
+	 */
+	public String getWCodeForStock(Storing storingInfo) {
+		//물류이동 사유
+		int stockReasonCode = storingInfo.getStockReasonCode();
+		//창고코드
+		String warehouseCode = null;
+		if( stockReasonCode == 1 || stockReasonCode == 2 || stockReasonCode == 3 
+				|| stockReasonCode == 5 || stockReasonCode == 8 ) {
+			//1. 입고&자재사용&생산제품출하&불량(일방향)
+			if(CommonUtils.isEmpty(storingInfo.getReceiveWarehouse())) {
+				warehouseCode = storingInfo.getSendWarehouse();
+			}else if(CommonUtils.isEmpty(storingInfo.getSendWarehouse())) {
+				warehouseCode = storingInfo.getReceiveWarehouse();
+			}
+		}else if ( stockReasonCode == 4 || stockReasonCode == 6 || stockReasonCode == 7 ) {
+			//2. 창고이동&재고차이&반품
+			//생각좀더하고…
+		}
+		
+		return warehouseCode;
+	}
+	
+	/**
+	 * 추가할 재고 목록 - 기존 재고에 수량중량 합함
+	 * @param mainBusinessCode & warehouseCode : 재고검색 조건
+	 * @param itemList : 추가할 품목
+	 * @return 성공시 true 실패시 false
+	 */
+	public List<Stock> plusStockStoring(String mainBusinessCode,String warehouseCode, List<Stock> itemList) {
+		//return할 품목정보 목록
+		List<Stock> returnList = new ArrayList<Stock>();
+		
+		//사업장대표코드 및 창고코드 일치하는 재고 검색
+		List<Stock> stockList = stockService.getAllStockList(null, warehouseCode, mainBusinessCode);
+		
+		if(CommonUtils.isEmpty(stockList)) {
+			log.info("1) 사업장대표코드 및 창고코드 일치하는 재고정보 없다");
+			for (Stock itemInfo : itemList) {
+				//사업장대표코드 및 창고코드
+				itemInfo.setMainBusinessCode(mainBusinessCode);
+				itemInfo.setWarehouseCode(warehouseCode);
+				//수량 및 중량
+				itemInfo.setTotalCount(itemInfo.getItemCount());
+				itemInfo.setTotalWeight(itemInfo.getItemWeight());
+				//반환List에 추가
+				returnList.add(itemInfo);
+			}
+			return returnList;
+		}
+		
+		log.info("2) 사업장대표코드 및 창고코드 일치하는 재고정보 있다");
+		String itemCode = null;
+		String inventoryCode = null;
+		boolean chk = true;
+		for(Stock itemInfo : itemList) {
+			//사업장대표코드 및 창고코드
+			itemInfo.setMainBusinessCode(mainBusinessCode);
+			itemInfo.setWarehouseCode(warehouseCode);
+			//품목코드 일치 확인
+			itemCode = itemInfo.getItemCode();
+			//재고정보 반복문
+			for(Stock stockInfo : stockList) {
+				inventoryCode = stockInfo.getInventoryCode();
+				if(itemCode.equals(stockInfo.getItemCode())) {
+					log.info("2-1) 일치하는 품목  있다 :: inventoryCode = {}",inventoryCode);
+					//재고코드
+					itemInfo.setInventoryCode(inventoryCode);
+					//수량 및 중량
+					itemInfo.setTotalCount(itemInfo.getItemCount() + stockInfo.getTotalCount());
+					itemInfo.setTotalWeight(itemInfo.getItemWeight() + stockInfo.getTotalWeight());
+					chk = false;
+					break;
+				}
+			}
+			//기존 재고가 있다면 아래 코드는 실행하지 않는다.
+			if(chk) {
+				log.info("2-2) 일치하는 품목  없다");
+				//수량 및 중량
+				itemInfo.setTotalCount(itemInfo.getItemCount());
+				itemInfo.setTotalWeight(itemInfo.getItemWeight());
+			}
+		}
+		return itemList;
+	}
+	
 }

@@ -104,7 +104,9 @@ public class ModalService {
 	 * @param mainBusinessCode
 	 */
 	public List<Warehouse> getWarehouseList(String mainBusinessCode) {
-		return warehouseMapper.getWarehouseList(mainBusinessCode);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		return warehouseMapper.getWarehouseList(paramMap);
 	}
 	
 	/**

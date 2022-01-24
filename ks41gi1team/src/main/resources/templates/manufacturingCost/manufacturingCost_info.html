@@ -30,29 +30,41 @@ $("#modifyBtn").click(function(){
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-		<div class="row"  th:unless="${ w == null }">
+		<div class="row"  th:unless="${ m == null }">
 			<div class="col-lg-5">
 				<div class="card card-info card-outline">
 					<div class="card-header">
-						발주관리 상세내역
+						제조원가 상세
 					</div>
 					<div class="card-body">
-						<table id="materialOrderInfo" class="table table-bordered">
+						<table id="manufacturingCostInfo" class="table table-bordered">
 							<tr>
 								<th>No.</th>
-								<td colspan="3">[[${materialOrderInfo.materialOrderCode}]]</td>
+								<td colspan="3">[[${manufacturingCostInfo.manufacturingCostCalCode}]]</td>
 							</tr>
 							<tr>
-								<th>발주요청일자</th>
-								<td colspan="3">[[${materialOrderInfo.orderDate}]]</td>
+								<th>제품에 들어가는 품목</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterial1}]]</td>
 							</tr>
 							<tr>
-								<th>거래처명</th>
-								<td colspan="3">[[${materialOrderInfo.businessName}]]</td>
+								<th>제품에 들어가는 품목 가격</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterialPrice1}]]</td>
 							</tr>
 							<tr>
-								<th>제품명</th>
-								<td colspan="3">[[${materialOrderInfo.itemName}]]</td>
+								<th>제품에 들어가는 품목</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterial2}]]</td>
+							</tr>
+							<tr>
+								<th>제품에 들어가는 품목 가격</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterialPrice2}]]</td>
+							</tr>
+							<tr>
+								<th>제품에 들어가는 품목</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterial3}]]</td>
+							</tr>
+							<tr>
+								<th>제품에 들어가는 품목 가격</th>
+								<td colspan="3">[[${manufacturingCostInfo.subMaterialPrice3}]]</td>
 							</tr>
 							<tr>
 								<th>총 수량</th>

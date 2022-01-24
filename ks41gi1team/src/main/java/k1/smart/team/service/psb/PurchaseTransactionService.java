@@ -3,9 +3,11 @@ package k1.smart.team.service.psb;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.psb.PurchaseTransaction;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.PurchaseTransactionMapper;
 
 @Service
@@ -14,6 +16,9 @@ public class PurchaseTransactionService {
 		private PurchaseTransactionMapper purchaseTransactionMapper;
 		private List<PurchaseTransaction> purchaseTransactionList;
 		private PurchaseTransaction purchaseTransactionInfo;
+		
+		@Autowired
+		private CodeMapper codeMapper;
 		
 		public PurchaseTransactionService(PurchaseTransactionMapper purchaseTransactionMapper) {
 			this.purchaseTransactionMapper = purchaseTransactionMapper;
@@ -45,11 +50,19 @@ public class PurchaseTransactionService {
 				int result = purchaseTransactionMapper.addPurchaseTransaction(purchaseTransaction);
 				return result;
 			}
+			
+			public String getPurchaseTransactionCode() {
+				
+				return purchaseTransactionMapper.getPurchaseTransactionCode();
+			}
+			
 
 			public List<PurchaseTransaction> getPurchaseTransactionList() {
 				List<PurchaseTransaction> purchaseTransactionList = purchaseTransactionMapper.getPurchaseTransactionList();
 				return null;
-			} 
+			}
+
+		
 			
 			
 }

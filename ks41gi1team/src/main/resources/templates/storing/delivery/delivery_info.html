@@ -118,15 +118,14 @@
 								<th>수량</th>
 								<th>중량</th>
 								<th>합계금액</th>
-								<th colspan="2">창고</th>
 								<th>비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="l : ${shipPlanDetails}">
 								<td>
-									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
-										[[${l.inventoryCode}]]
+									<a th:href="@{|/k1Item/${l.inventoryCode}|}">
+										[[${l.itemCode}]]
 									</a>
 								</td>
 								<td>
@@ -134,24 +133,16 @@
 										[[${l.itemName}]]
 									</a>
 								</td>
-								<td>[[${#numbers.formatInteger(l.adjCount,0,'COMMA')}]]</td>
-								<td>[[${#numbers.formatInteger(l.adjWeight,0,'COMMA')}]] kg</td>
+								<td>[[${#numbers.formatInteger(l.itemCount,0,'COMMA')}]]</td>
+								<td>[[${#numbers.formatInteger(l.itemWeight,0,'COMMA')}]] kg</td>
 								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] kg</td>
-								<td>
-									<a th:href="@{|/k1Warehouse/${l.sendWarehouse}|}">
-										[[${l.sendWarehouseName}]]
-									</a>
-								</td>
-								<td>
-									[[${l.sendWarehouseLocation}]]
-									<th:block th:if="${l.sendWarehouseOutPlace} != null">
-										([[${l.sendWarehouseOutPlace}]])
-									</th:block>
-								</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
 						</tbody>
 					</table>
+					<a th:href="@{|/k1ShipmentPlan/${shipPlanDetails[0].shipmentPlanCode}|}">
+						<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -183,10 +174,10 @@
 									</a>
 								</td>
 								<td>
-									[[${l.amount}]]
+									[[${l.unitPrice}]]
 								</td>
 								<td>
-									[[${l.adjCount}]]
+									[[${l.itemCount}]]
 								</td>
 								<td>
 									[[${l.totalPrice}]]
@@ -197,6 +188,9 @@
 							</tr>
 						</tbody>
 					</table>
+					<a th:href="@{|/k1ReturnReg/${returnRegDetails[0].returnRegCode}|}">
+						<button type="button" class="btn btn-sm btn-outline-info btn-block mt-2">더보기</button>
+					</a>
 				</div>
 			</div>
 		</div>

@@ -55,6 +55,10 @@ public class SalesTransactionController {
 			  model.addAttribute("salesTransactionList", salesTransactionList);
 			  System.out.println("salesTransactionList: " + salesTransactionList);
 			 
+			  String salesTransactionCode = salesTransactionService.getSalesTransactionCode();
+			  model.addAttribute("salesTransactionCode", salesTransactionCode);
+			  System.out.println("salesTransactionCode" + salesTransactionCode);
+			  
 			  
 			  return "salesTransaction/salesTransaction_register"; 
 		  

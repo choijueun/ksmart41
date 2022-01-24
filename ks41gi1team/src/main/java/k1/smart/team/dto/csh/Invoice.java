@@ -12,10 +12,10 @@ public class Invoice {
 	private String supplyManagerId; //공급담당자
 	private String demandBusinessCode; //수급자 사업장 대표코드
 	private String demandManagerId; //수급담당자
-	private int invoicePrice; //전체공급가액
-	private int invoiceTax; //전체세액
+	private int invoicePrice; //전체공급가액(천원)
+	private int invoiceTax; //전체세액(천원)
 	private int totalCount; //전체수량
-	private int totalPrice; //전체금액
+	private int totalPrice; //전체금액(천원)
 	private String issueStatus; //발행상태
 	private String payMethod; //지불방식
 	private String invoiceConfirm; //영수/청구
@@ -34,6 +34,11 @@ public class Invoice {
 	private int supplyPrice; //공급가액
 	private int tax; //세액
 	private String comment; //비고
+	
+	
+	
+	
+	
 	public String getInvoiceCode() {
 		return invoiceCode;
 	}

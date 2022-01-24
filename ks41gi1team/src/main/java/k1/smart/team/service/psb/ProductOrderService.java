@@ -3,10 +3,11 @@ package k1.smart.team.service.psb;
 
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.psb.ProductOrder;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.psb.ProductOrderMapper;
 
 @Service
@@ -15,6 +16,8 @@ public class ProductOrderService {
 	private List<ProductOrder> productOrderList;
 	private ProductOrder productOrderInfo;
 
+	@Autowired
+	private CodeMapper codeMapper;
 
 	
 	//생성자 메서드 주입
@@ -35,6 +38,11 @@ public class ProductOrderService {
 			
 			return productOrderList;
 		}
+		
+	//수주 등록할때마다 새로운 수주코드 생성
+		public String getProductOrderCode() {
+			return productOrderMapper.getProductOrderCode();
+		}
 	
 	//하나의 수주 검색
 	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue) {
@@ -43,8 +51,8 @@ public class ProductOrderService {
 	}
 
 	//전체 수주 검색
-	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode){
-		productOrderList = productOrderMapper.getAllProductOrderList(mainBusinessCode);
+	public List<ProductOrder> getAllProductOrderList(){
+		productOrderList = productOrderMapper.getAllProductOrderList();
 	
 		String productOrderNum;
 		for(int i=0; i<productOrderList.size(); i++) {
@@ -77,5 +85,7 @@ public class ProductOrderService {
 		return productOrderInfo;
 	}
 
+	
+	
 
 }

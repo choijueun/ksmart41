@@ -18,7 +18,7 @@
 		,s.itemStandard
 		,s.itemOrigin
 		,s.unitPrice AS productPrice
-		,s.itemCount
+		,s.itemCount AS totalCount
 		,s.totalPrice
 		,RIGHT(s.warehouseCode,3) AS warehouseCode
 		,s.warehouseName
@@ -37,8 +37,10 @@
 		AND s.itemType REGEXP #{types}
 		</if>
 		<if test="wList != null and wList != ''.toString()">
-		AND s.warehouseCode REGEXP #{wList};
+		AND s.warehouseCode REGEXP #{wList}
 		</if>
+	ORDER BY
+		s.inventoryCode DESC;
 </select>
 
 <!-- 창고코드&이름 전체조회 -->
@@ -126,13 +128,77 @@
 		AND mainBusinessCode = #{mainBusinessCode};
 </select>
 
+<!-- 재고정보 추가 -->
+<insert id="addStock" parameterType="Stock">
+	INSERT INTO k1_tb_stock
+		(inventoryCode, mainBusinessCode, itemCode
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">
+			, purchaseTsCode
+		</if>
+		<if test="productPriceCode != null and productPriceCode != ''.toString()">
+			, productPriceCode
+		</if>
+		, warehouseCode
+		, itemCount
+		, totalWeight
+		, `status`
+		<if test="comment != null and comment != ''.toString()">
+			, `comment`
+		</if>
+		, regDate
+		, updateDate)
+	VALUES (
+		CONCAT('inventoryCode_',#{inventoryCode})
+		, #{mainBusinessCode}
+		, CONCAT('itemCode_', #{itemCode})
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">
+			, CONCAT('purchase_ts_stCode_', #{purchaseTsCode})
+		</if>
+		<if test="productPriceCode != null and productPriceCode != ''.toString()">
+			, CONCAT('productPriceCode_', #{productPriceCode})
+		</if>
+		, CONCAT('warehouseCode_', #{warehouseCode})
+		, ${totalCount}
+		, ${totalWeight}
+		, #{status}
+		<if test="comment != null and comment != ''.toString()">
+			, #{comment}
+		</if>
+		, NOW(), NOW()
+	);
+</insert>
+
+<!-- 재고정보 수정 프로세스 -->
+<update id="modifyStock" parameterType="Stock">
+	UPDATE 
+		k1_tb_stock AS s
+	SET
+		 s.itemCode = CONCAT('itemCode_',#{itemCode})
+		<if test="purchaseTsCode != null and purchaseTsCode != ''.toString()">
+			,s.purchaseTsCode = CONCAT('purchase_ts_stCode_',#{purchaseTsCode})
+		</if>
+		<if test="productPriceCode != null and productPriceCode != ''.toString()">
+			,s.productPriceCode = CONCAT('productPriceCode_',#{productPriceCode})
+		</if>
+		,s.warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+		,s.itemCount = ${totalCount}
+		,s.totalWeight = ${totalWeight}
+		,s.`status` = #{status}
+		<if test="comment != null and comment != ''.toString()">
+			,s.`comment` = #{comment}
+		</if>
+		,s.updateDate = NOW()
+	WHERE 
+		s.inventoryCode  =  CONCAT('inventoryCode_', #{inventoryCode})
+</update>
+
+<!-- 재고정보 삭제 -->
 <delete id="removeStock">
 	DELETE 
 	FROM 
 		k1_tb_stock
 	WHERE 
-		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
-		AND mainBusinessCode = #{mainBusinessCode};
+		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
 </delete>
 
 </mapper>

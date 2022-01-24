@@ -2,14 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
+
 <th:block layout:fragment="customTitle">
-	<title>[[${title}]]</title>
+	<title></title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
 <th:block layout:fragment="customJs"></th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
@@ -20,15 +21,15 @@
 	<div class="col-lg-6 col-md-8 mb-3">
 	<div class="card card-info card-outline">
 	<div class="card-header">
-		비용 거래 명세서 등록
+		제조원가 등록
 			</div>
-	<form id="purchaseTransactionRegisterForm" action="/k1PurchaseTransaction/purchaseTransactionRegister" method="post">
+	<form id="manufacturingCostRegisterForm" action="/k1ManufacturingCost/k1ManufacturingCostRegister" method="post">
 		<div class="card-body">
 			<div class="row">
                   <div class="form-group col-md-6">
-                    <label for="purchaseTsCode">비용 거래 명세서 코드</label>
+                    <label for="purchaseTsCode">제조원가 코드</label>
                    
-                    	<input type="text" name="purchaseTsCode" class="form-control" id="purchaseTsCode" th:value="${purchaseTransactionCode}">	  
+                    	<input type="text" name="purchaseTsCode" class="form-control" id="manufacturingCostCode" th:value="${manufacturingCostDetail}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
@@ -37,9 +38,8 @@
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
                     			  th:each="l : ${mainBusinessList}">
-                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
-                    			[[${l.mainBusinessCode}]]
-                    			console.log(mainBusinessList);
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessName}">	  
+                    			[[${l.mainBusinessName}]]
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
@@ -48,33 +48,23 @@
                     </select>
                    </div>
                   <div class="form-group col-md-6">
-                    <label for="clientCode">거래처 대표코드</label>
-                     <select name="clientCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${not #lists.isEmpty(clientList)}"
-                    			  th:each="l : ${clientList}">
-                    		<option th:value="${l.clientCode}" th:text="${l.businessName}">	  
-                    			[[${l.businessName}]]
+                    <label for="itemName">제품명</label>
+                     <select name="itemName" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+                    			  th:each="l : ${itemList}">
+                    		<option th:value="${l.itemCode}" th:text="${l.itemName}">	  
+                    			[[${l.itemName}]]
                     		</option>
                     	</th:block>	
-                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
-                    		<option>거래처 먼저 등록 해주세요. </option> 
+                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+                    		<option>품목 먼저 등록 해주세요. </option> 
                     	</th:block>
                     </select>		
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="contractCode">계약 코드</label>
-                    <select name="contractCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${not #lists.isEmpty(contractList)}"
-                    			  th:each="l : ${contractList}">
-                    		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
-                    			[[${l.contractCode}]]
-                    		</option>
-                    	</th:block>	
-                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
-                    		<option>계약서 먼저 등록 해주세요. </option> 
-                    	</th:block>	
-                    </select>
-                   </div>
+                   <div class="form-group col-md-6">
+                    <label for="manufacturingCost">제조원가 </label>
+                    	<input type="text" name="manufacturingCost" class="form-control" id="manufacturingCost" th:value="${unitCost}">	  
+                  </div>
                   <div class="form-group col-md-6">
                     <label for="briefs">적요</label>
                     <input type="text" name="briefs" class="form-control" id="briefs" placeholder="콩 1톤 5000000원 구입" disabled="disabled">

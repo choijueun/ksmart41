@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Storing;
+import k1.smart.team.mapper.CodeMapper;
 import k1.smart.team.mapper.cje.StockMapper;
 
 @Service
@@ -20,6 +22,9 @@ public class StockService {
 	private Stock stockInfo; //재고 하나 정보
 	private Storing storingInfo; //재고조정내역 상세정보
 	private List<Storing> storingList; //재고조정내역 상세정보
+	
+	@Autowired
+	private CodeMapper codeMapper; //코드자동생성
 	
 	/**
 	 * 생성자 메서드
@@ -101,8 +106,44 @@ public class StockService {
 		return 'N';
 	}
 	
-	public void removeStock(String mainBusinessCode, String inventoryCode) {
-		stockMapper.removeStock(mainBusinessCode, inventoryCode);
+	/**
+	 * 재고정보 추가 프로세스
+	 * @param itemInfo 품목정보
+	 * @param mainBusinessCode
+	 * @param warehouseCode
+	 * @return 성공시 true 실패시 false
+	 */
+	public boolean addStock( Stock itemInfo ) {
+		//재고번호
+		itemInfo.setInventoryCode(codeMapper.getNewCodeNum("k1_tb_stock", "inventoryCode"));
+		
+		//재고정보 등록
+		if(stockMapper.addStock(itemInfo) == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 재고정보 수정 프로세스
+	 * @param itemInfo 추가품목
+	 * @return 성공시 true, 실패시 false
+	 */
+	public boolean modifyStock( Stock itemInfo ) {
+		//재고코드 검사
+		if(CommonUtils.isEmpty(itemInfo.getInventoryCode())) return false;
+		
+		//수정 프로세스
+		if(stockMapper.modifyStock(itemInfo) == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void removeStock(String inventoryCode) {
+		stockMapper.removeStock(inventoryCode);
 	}
 
 }

@@ -29,16 +29,16 @@
 		AND i.itemType REGEXP #{typeList}
 		</if>
 		<if test="largeCategory != null and largeCategory != ''.toString()">
-		AND i.largeCategory = #{largeCategory}
-		</if>
-		<if test="middleCategory != null and middleCategory != ''.toString()">
-		AND i.middleCategory = #{middleCategory}
-		</if>
-		<if test="smallCategory != null and smallCategory != ''.toString()">
-		AND i.smallCategory = #{smallCategory}
-		</if>
-		<if test="microCategory != null and microCategory != ''.toString()">
-		AND i.microCategory = #{microCategory}
+			AND i.largeCategory = #{largeCategory}
+			<if test="middleCategory != null and middleCategory != ''.toString()">
+				AND i.middleCategory = #{middleCategory}
+				<if test="smallCategory != null and smallCategory != ''.toString()">
+					AND i.smallCategory = #{smallCategory}
+					<if test="microCategory != null and microCategory != ''.toString()">
+						AND i.microCategory = #{microCategory}
+					</if>
+				</if>
+			</if>
 		</if>
 	ORDER BY
 		i.itemCode DESC;

@@ -56,7 +56,7 @@ public class StockController {
 	}
 	
 	/**
-	 * AJAX :: 재고 전체목록 조건
+	 * AJAX :: 특정 조건하에 재고 전체목록 조회 
 	 * @param model
 	 * @param types
 	 * @param wares
@@ -125,7 +125,7 @@ public class StockController {
 	}
 	
 	/**
-	 * Ajax :: 재고 수량/중량 검사
+	 * Ajax :: 재고 수량·중량 검사
 	 * @param inventoryCode
 	 */
 	@GetMapping("/k1stockRemove")
@@ -135,9 +135,13 @@ public class StockController {
 		return result;
 	}
 	
+	/**
+	 * 재고정보 삭제
+	 * @param inventoryCode
+	 */
 	@PostMapping("/k1StockRemove")
 	public String removeStock(String inventoryCode) {
-		stockService.removeStock(mainBusinessCode, inventoryCode);
+		stockService.removeStock(inventoryCode);
 		
 		return "redirect:/k1Stock";
 	}

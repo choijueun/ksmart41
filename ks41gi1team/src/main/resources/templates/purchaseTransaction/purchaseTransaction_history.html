@@ -125,7 +125,8 @@
 				            { "data": "contractStatus" },
 				            { "data": "vatType" },
 				            { "data": "amount" },
-				            { "data": "VAT" },
+				            { "data": "count" },
+				            { "data": "unitPrice" },
 				            { "data": "totalPrice" },
 				            { "data": "dealDate" },
 				            { "data": "briefs" },
@@ -142,7 +143,7 @@
 				        					}
 				        		},
 				        		{
-				        			'targets' : [12],
+				        			'targets' : [13],
 				        			'orderable' : false,
 				        			'searchable' : false,
 				        			'render' : function(data, type, row){	           //ajax data 3번째 매개변수 row
@@ -157,11 +158,16 @@
 				        		},
 				        		{
 				        			'targets' : [08],
-				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , 'EA' )
 				        					
 				        		},
 				        		{
 				        			'targets' : [09],
+				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
+				        					
+				        		},
+				        		{
+				        			'targets' : [10],
 				        			'render' : $.fn.dataTable.render.number( ',' , '.' , 0 , '' , '&#8361;' )
 				        					
 				        		}
@@ -228,7 +234,8 @@
 						<th>계약상태</th>
 						<th style="width:10%;">부가세 유형</th>
 						<th style="width:9%;">공급가액</th>
-						<th style="width:9%;">부가세</th>
+						<th style="width:9%;">수량</th>
+						<th style="width:9%;">제품가격</th>
 						<th>총 가격</th>
 						<th>거래일자</th>
 						<th>적요</th>

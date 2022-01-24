@@ -1,7 +1,9 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Warehouse;
@@ -38,8 +41,11 @@ public class WarehouseController {
 	 */
 	@GetMapping("/k1Warehouse")
 	public String warehouseMain(Model model) {
+		//사업장대표코드
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		//창고 전체목록
-		warehouseList = warehouseService.getAllWarehouseList(mainBusinessCode);
+		warehouseList = warehouseService.getAllWarehouseList(paramMap);
 		log.info("창고 LIST :: {}", warehouseList);
 		
 		model.addAttribute("SectionTitle", "창고관리");
@@ -47,6 +53,52 @@ public class WarehouseController {
 		model.addAttribute("warehouseList", warehouseList);
 		
 		return "stock/warehouse/warehouse_list";
+	}
+	
+	/**
+	 * AJAX :: 특정 조건하에 창고 전체목록 조회
+	 * @param category1
+	 * @param category2
+	 * @param model
+	 */
+	@PostMapping("/k1Warehouse")
+	public String warehouseMainAjax(Model model,
+			@RequestParam(value="category1[]", required = false) List<String> category1,
+			@RequestParam(value="category2[]", required = false) List<String> category2) {
+		//매개변수 확인
+		log.info("category1 :: {}",category1);
+		log.info("category2 :: {}",category2);
+		//객체 생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		//분류 배열이 null이 아닐 때
+		String category1List = null;
+		if(!CommonUtils.isEmpty(category1)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : category1) {
+				str.add(i);
+			}
+			category1List = str.toString();
+		}
+		paramMap.put("category1List", category1List);
+		//유형 배열이 null이 아닐 때
+		String category2List = null;
+		if(!CommonUtils.isEmpty(category2)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : category2) {
+				str.add(i);
+			}
+			category2List = str.toString();
+		}
+		paramMap.put("category2List", category2List);
+		//사업장대표코드
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		
+		log.info("PARAMETER :: {}", paramMap);
+		//창고 전체목록 List<Warehouse>
+		warehouseList = warehouseService.getAllWarehouseList(paramMap);
+		model.addAttribute("warehouseList", warehouseList);
+		
+		return "stock/ajax/warehouse_list_table.html";
 	}
 	
 	/**
@@ -79,7 +131,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 등록 페이지 첫 화면
+	 * 창고정보 등록화면
 	 * @param model
 	 * @return
 	 */
@@ -93,7 +145,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 신규등록 절차 수행
+	 * 창고정보 등록 프로세스
 	 * @param wInfo
 	 */
 	@PostMapping("/k1WarehouseAdd")
@@ -110,7 +162,7 @@ public class WarehouseController {
 	}
 	
 	/**
-	 * 창고정보 수정화면 첫페이지
+	 * 창고정보 수정화면
 	 * @param warehouseCode
 	 * @param model
 	 */
@@ -153,5 +205,13 @@ public class WarehouseController {
 		return "redirect:/k1WarehouseModify/"+wInfo.getWarehouseCode();
 	}
 	
-	
+	/**
+	 * 창고정보 삭제 프로세스
+	 * @param wInfo
+	 */
+	@PostMapping("/k1WarehouseRemove")
+	public String removeWarehouse(Warehouse wInfo) {
+		
+		return "redirect:/k1Warehouse";
+	}
 }

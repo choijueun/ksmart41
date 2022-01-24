@@ -15,6 +15,14 @@
 		<result column="updateDate" 						property="updateDate"/>
 	</resultMap>
 
+<select id="getPurchaseTransactionCode" resultType="String">
+	SELECT
+	   LPAD(CAST(MAX(RIGHT(purchaseTsCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_purchase_transaction;	
+	</select>
+
+
 	<select id="getPurchaseTransactionInfo" parameterType="String" resultType="PurchaseTransaction">
 SELECT 
 	pt.purchaseTsCode

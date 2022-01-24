@@ -176,7 +176,7 @@ $(function(){
 				<div class="card-body" th:if="${i} != null">
 					<form id="modifyItem"th:action="@{/k1ItemModify}" method="POST">
 						<div class="row">
-							<div class="col-8">
+							<div class="col-6">
 								<div class="form-group">
 									<input type="hidden" name="itemCode" th:value="${i.itemCode}">
 									<label for="itemName">
@@ -188,7 +188,7 @@ $(function(){
 									<input type="text" id="itemName" name="itemName" class="form-control" placeholder="Enter itemName" th:value="${i.itemName}">
 								</div>
 							</div>
-							<div class="col-4">
+							<div class="col-6">
 								<label>분류</label>
 								<div class="form-group">
 									<div class="btn-group btn-group-toggle" data-toggle="buttons">
