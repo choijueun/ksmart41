@@ -4,17 +4,173 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${SectionLocation}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customCss">
+	<!-- DataTables -->
+	<link rel="stylesheet"
+		href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet"
+		href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
-<th:block layout:fragment="SectionLocation"></th:block>
+<th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
+<th:block layout:fragment="customJs"></th:block>
 
 <th:block layout:fragment="customContents">
-	매출전자세금계산서 상세
+	<div class="container-fluid">
+		<div class="row" th:unless="${invoiceDetail == null}">
+			<div class="col-lg-3 col-md-2">
+			</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						전자(세금)계산서 상세[[${invoiceDetail.invoiceCode}]]
+					</div>
+					<div class="card-body">
+						<table id="invoiceDetail" class="table table-bordered">
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>전자(세금)계산서 상세코드 </label><br>
+										[[${invoiceDetail.invoiceDetailCode}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>계정과목코드 </label><br>
+										[[${invoiceDetail.lsAccountCode}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>통합회계관리코드 </label><br>
+										[[${invoiceDetail.totalAccountCode}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>매출 거래명세서 코드 </label><br>
+										[[${invoiceDetail.salesTsCode}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>품목코드 </label><br>
+										[[${invoiceDetail.itemCode}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>공급가액(원) </label><br>
+										[[${invoiceDetail.supplyPrice}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>단가(원) </label><br>
+										[[${invoiceDetail.unitPrice}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>세액(원) </label><br>
+										[[${invoiceDetail.tax}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>전체공급가액(천원) </label><br>
+										[[${invoiceDetail.invoicePrice}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>전체세액(천원) </label><br>
+										[[${invoiceDetail.invoiceTax}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>전체수량 </label><br>
+										[[${invoiceDetail.totalCount}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>전체금액(천원) </label><br>
+										[[${invoiceDetail.totalPrice}]]
+									</td>
+								</div>
+							</tr>
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>발행일자 </label><br>
+										[[${invoiceDetail.issueDate}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>등록일시 </label><br>
+										[[${invoiceDetail.regDate}]]
+									</td>
+								</div>
+							</tr>
+							
+							<tr>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>적요 </label><br>
+										[[${invoiceDetail.briefs}]]
+									</td>
+								</div>
+								<div class="form-group col-md-6">
+									<td colspan="3">
+									<label>비고 </label><br>
+										[[${invoiceDetail.comment}]]
+									</td>
+								</div>
+							</tr>
+							
+							
+							
+							
+							
+							
+						</table>
+						<div>
+							<a th:href="@{/k1Invoice/invoiceList}">
+								<button type="button" class="btn btn-default">목록으로</button>
+							</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+							<a th:href="@{|/k1Invoice/modify/${invoiceDetail.invoiceCode}|}">
+								<button type="button" class="btn btn-info float-right mr-2">수정</button>
+							</a>
+						</div>
+						
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${ invoiceDetail == null }">
+			잘못된 접근입니다.
+		</div>
 </th:block>
 
 </html>
