@@ -7,14 +7,157 @@
 	<title></title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script>
+	//상세내역 폼 추가
+$(function(){
+	//form 객체
+	var addPlanPayment = $('#addPlanPayment');
+	//상세내역
+	var details = $('#details');
+	var detailrow = $('#details .row:first-of-type');
+	
+	var addLineFn = function(){
+		var clone = detailrow.clone();
+		clone.find('input').val(null);
+		details.append(clone);
+	};
+	//추가버튼클릭!
+	$(document).on('click', '#addLine', function(){
+		addLineFn();
+	});
+	//상세내역 폼 삭제
+	var romoveLineFn = function(btn){
+		$(btn).parents('#details .row').remove();
+		//품목목록 join
+		getItemList();
+	};
+	//삭제버튼클릭!
+	$(document).on('click', '.removeLine', function(){
+		romoveLineFn(this);
+	});
+});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
-
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	결제예정 등록~!
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3">
+		</div>
+		<div class="col-lg-6">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					<h3 class="card-title">결제예정 등록</h3>
+				</div>
+				<div class="card-body">
+					<form id="addPlanPayment"th:action="@{|/k1PaymentList/plan/add|}" method="POST">
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="payPlanCode">
+									NO.
+								</label>
+								<input type="text" id="payPlanCode" name="payPlanCode" class="form-control" placeholder="NO.">
+							</div>
+							<div class="form-group col-md-4">
+								<label>구분</label>
+								<select class="form-control" id="type" name="type">
+									<option value="비용">비용</option>
+									<option value="매출">매출</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12">
+								<label for="contractCode">
+									계약번호
+								</label>
+								<input type="text" id="contractCode" name="contractCode" class="form-control" placeholder="계약번호">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="clientName">
+									거래처명
+								</label>
+								<input type="hidden" id="clientCode" name="clientCode" class="form-control">
+								<input type="text" id="clientName" name="clientName" class="form-control" placeholder="거래처명">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="totalPlanCost">
+									예정합계금액
+								</label>
+								<input type="text" id="totalPlanCost" name="totalPlanCost" class="form-control" placeholder="예정합계금액">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="briefs">
+									적요
+								</label>
+								<input type="text" id="briefs" name="briefs" class="form-control" placeholder="적요">
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="managerId">
+									담당자
+								</label>
+								<input type="hidden" id="managerId" name="managerId" class="form-control">
+								<input type="text" id="managerName" name="managerName" class="form-control" placeholder="담당자">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<a th:href="@{/k1PaymentList}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+				</div>
+			</div>
+		</div>
+		</div>
+	<div class="row">
+		<div class="col-lg-1">
+		</div>
+		<div class="col-lg-10">
+			<!-- 결제예정 상세정보 입력칸 -->
+			<div class="card card-info card-outline mb-3">
+				<div class="card-header">
+					<h3 class="card-title">결제예정 상세내역  등록</h3>
+				</div>
+				<div id="details" class="card-body">
+					<div class="row" th:if="${s == null}">
+						<div class="form-group col-lg-3 float-left">
+							<input type="hidden" name="inventoryCode" class="form-control">
+							<input type="text" name="itemName" class="form-control" placeholder="품목명">
+						</div>
+						<div class="form-group col-lg-2 float-left">
+							<input type="number" name="unitPrice" class="form-control" placeholder="단가">
+						</div>
+						<div class="form-group col-lg-2 float-left">
+							<input type="number" name="tax" class="form-control" placeholder="세액">
+						</div>
+						<div class="form-group col-lg-2 float-left">
+							<input type="number" name="count" class="form-control" placeholder="수량">
+						</div>
+						<div class="form-group col-lg-2 float-left">
+							<input type="text" name="totalCost" class="form-control" placeholder="소계">
+						</div>
+						<!-- 해당 row 삭제 버튼 -->
+						<div class="form-group ml-2">
+							<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- 1 row 추가 버튼 -->
+				<div class="card-footer">
+					<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+						<i class="far fa-plus-square"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 </th:block>
 
 </html>

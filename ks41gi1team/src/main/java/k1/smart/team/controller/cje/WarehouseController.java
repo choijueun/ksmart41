@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Warehouse;
@@ -213,5 +214,39 @@ public class WarehouseController {
 	public String removeWarehouse(Warehouse wInfo) {
 		
 		return "redirect:/k1Warehouse";
+	}
+	
+	/**
+	 * 창고 적재가능여부 판단
+	 * @param totalWeight
+	 * @return true: 적재가능, false: 중량초과
+	 */
+	@PostMapping("/isWarehouseValid")
+	@ResponseBody
+	public boolean isWarehouseValid(
+			@RequestParam(value="totalWeight", required = false) int totalWeight
+			,@RequestParam(value="warehouseCode", required = false) String warehouseCode) {
+		log.info("적재예정중량 :: {}",totalWeight);
+		//NULL체크
+		if(CommonUtils.isEmpty(warehouseCode)) {
+			return false;
+		}
+		//창고정보 조회
+		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
+		//NULL체크
+		if(CommonUtils.isEmpty(resultMap)) {
+			return false;
+		}
+		warehouseInfo = (Warehouse) resultMap.get("warehouseInfo");
+		if(CommonUtils.isEmpty(warehouseInfo)) {
+			return false;
+		}
+		//중량 계산
+		if( warehouseInfo.getCurrentWeight()+totalWeight > warehouseInfo.getMaxWeight() ) {
+			//중량 초과
+			return false;
+		}
+		//적재 가능
+		return true;
 	}
 }

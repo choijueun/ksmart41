@@ -87,10 +87,11 @@ $(function(){
 <th:block layout:fragment="customContents">
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-6">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<h3 class="card-title">제품출하내역  등록</h3>
+					<h3 class="card-title">제품출하내역 수정</h3>
 				</div>
 				<div class="card-body">
 					<form id="modifyShipment"th:action="@{/k1ShipmentModify}" method="POST">
@@ -227,10 +228,14 @@ $(function(){
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-8">
+	</div>
+	<div class="row">
+		<div class="col-lg-1">
+		</div>
+		<div class="col-lg-10">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<h3 class="card-title">제품출하 상세내역  등록</h3>
+					<h3 class="card-title">제품출하 상세내역  수정</h3>
 				</div>
 				<div id="details" class="card-body">
 					<div class="row" th:each="d : ${details}">
