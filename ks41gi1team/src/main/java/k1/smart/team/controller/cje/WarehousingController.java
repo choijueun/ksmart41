@@ -171,4 +171,16 @@ public class WarehousingController {
 		
 		return "storing/warehousing/warehousing_modify";
 	}
+	
+	/**
+	 * 자재입고내역 수정 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1WarehousingModify")
+	public String modifyWarehousing(Storing storingInfo) {
+		log.info("수정할 storingInfo :: {}", storingInfo);
+		
+		
+		return "redirect:/k1Warehousing";
+	}
 }
