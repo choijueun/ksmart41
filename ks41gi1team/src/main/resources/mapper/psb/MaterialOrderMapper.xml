@@ -189,7 +189,7 @@ GROUP BY
 		
 	</select>	
 		
-<select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
 		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
 		RIGHT(mo.contractCode,3) as contractCode,
