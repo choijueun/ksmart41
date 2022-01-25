@@ -14,7 +14,62 @@
 <th:block layout:fragment="SectionLocation">MAIN</th:block>
 
 <th:block layout:fragment="customContents">
-	여기에본문내용을~!
+<!-- content -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6">
+			<!-- Input Charts -->
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<!-- Input Informations -->
+		</div>
+		<!-- 완료되지 않은 물류이동 표시 위젯 -->
+		<div class="col-lg-3 col-md-6 pr-3">
+			
+			<!-- 완료되지 않은 배송요청 -->
+			<a th:href="@{/k1Delivery}">
+				<div class="info-box" style="color: black;">
+					<span class="info-box-icon bg-primary"><i class="fas fa-truck"></i></span>
+					
+					<div class="info-box-content">
+						<span class="info-box-text">Delivery</span>
+						<span class="info-box-number" th:text="${unfinishedDeliveryCnt} == null ? 0 : ${unfinishedDeliveryCnt}"></span>
+					</div>
+				</div>
+			</a>
+			<!-- /완료되지 않은 배송요청 -->
+		
+			<!-- 완료되지 않은 출하계획 -->
+			<a th:href="@{/k1ShipmentPlan}">
+				<div class="info-box" style="color: black;">
+					<span class="info-box-icon bg-info"><i class="fas fa-shopping-bag"></i></span>
+					
+					<div class="info-box-content">
+						<span class="info-box-text">Shipments</span>
+						<span class="info-box-number" th:text="${unfinishedShipmentCnt} == null ? 0 : ${unfinishedShipmentCnt}"></span>
+					</div>
+				</div>
+			</a>
+			<!-- /완료되지 않은 출하계획 -->
+		
+			<!-- 완료되지 않은 반품요청 -->
+			<a th:href="@{/k1ReturnReg}">
+				<div class="info-box" style="color: black;">
+					<span class="info-box-icon bg-warning"><i class="fas fa-reply-all"></i></span>
+					
+					<div class="info-box-content">
+						<span class="info-box-text">Returns</span>
+						<span class="info-box-number" th:text="${unfinishedReturnCnt} == null ? 0 : ${unfinishedReturnCnt}"></span>
+					</div>
+				</div>
+			</a>
+			<!-- /완료되지 않은 반품요청 -->
+		</div>
+		<!-- End Widget -->
+	</div>
+	<!-- End .row -->
+</div>
+<!-- End Content -->
 </th:block>
 
 </html>

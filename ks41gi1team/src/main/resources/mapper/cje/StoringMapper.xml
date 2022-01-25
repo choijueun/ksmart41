@@ -739,5 +739,50 @@
 		s.mainBusinessCode = #{mainBusinessCode}
 </select>
 
+<!-- 완료되지 않은 배송요청 건수 조회 -->
+<select id="unfinishedDeliveryCnt" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_tb_delivery d
+		JOIN
+		k1_view_stock_adjustment a
+		ON
+		d.deliveryCode = a.deliveryCode
+	WHERE
+		a.mainBusinessCode = #{mainBusinessCode}
+		AND a.endDate IS NULL;
+</select>
+
+<!-- 완료되지 않은 출하계획 건수 조회 -->
+<select id="unfinishedShipmentCnt" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_view_shipment_plan p
+		JOIN
+		k1_view_stock_adjustment a
+		ON
+		p.shipmentPlanCode = a.shipmentPlanCode
+	WHERE
+		a.mainBusinessCode = #{mainBusinessCode}
+		AND a.endDate IS NULL;
+</select>
+
+<!-- 완료되지 않은 출하계획 건수 조회 -->
+<select id="unfinishedReturnCnt" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_tb_return_reg r
+		JOIN
+		k1_view_stock_adjustment a
+		ON
+		r.returnRegCode = a.returnRegCode
+	WHERE
+		a.mainBusinessCode = #{mainBusinessCode}
+		AND a.endDate IS NULL;
+</select>
+
 
 </mapper>
