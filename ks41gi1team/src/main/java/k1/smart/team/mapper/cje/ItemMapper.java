@@ -54,10 +54,10 @@ public interface ItemMapper {
 	
 	/**
 	 * 품목정보 삭제
-	 * @param itemInfo
+	 * @param itemCode
 	 * @return 성공시 1 실패시 0
 	 */
-	public int removeItem(Stock itemInfo);
+	public int removeItem(String itemCode);
 	
 	
 	/*
@@ -104,8 +104,8 @@ public interface ItemMapper {
 	
 	/**
 	 * 카테고리정보 삭제
-	 * @param stock
+	 * @param itemCode
 	 * @return 성공시 1 실패시 0
 	 */
-	public int removeItemCategory(Stock stock);
+	public int removeItemCategory(String itemCode);
 }
