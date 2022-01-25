@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -106,6 +107,17 @@ public class ProductionController {
 	}
 	
 	/**
+	 * 제품생산내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ProductionAdd")
+	public String addProduction(Storing storingInfo) {
+		//제품생산내역 등록 프로세스
+		
+		return "redirect:/k1Production";
+	}
+	
+	/**
 	 * 제품생산내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
@@ -133,5 +145,26 @@ public class ProductionController {
 		model.addAttribute("SectionLocation", "제품생산내역 수정");
 		
 		return "storing/production/production_modify";
+	}
+	
+	/**
+	 * 제품생산내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ProductionModify")
+	public String modifyProduction(Storing storingInfo) {
+		//자재사용내역 수정프로세스
+		
+		return "redirect:/k1Production";
+	}
+	
+	/**
+	 * 제품생산내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ProductionRemove")
+	public String removeProduction(Storing storingInfo) {
+		//자재사용내역 삭제 프로세스
+		return "redirect:/k1Production";
 	}
 }

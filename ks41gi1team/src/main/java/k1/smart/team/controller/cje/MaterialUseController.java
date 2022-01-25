@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -88,7 +89,6 @@ public class MaterialUseController {
 	 * @param model
 	 * @return
 	 */
-
 	@GetMapping("/k1MaterialUseAdd")
 	public String addMaterialUse(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
@@ -105,6 +105,17 @@ public class MaterialUseController {
 		model.addAttribute("SectionLocation", "자재사용내역 등록");
 		
 		return "storing/material_use/material_use_add";
+	}
+	
+	/**
+	 * 자재사용내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MaterialUseAdd")
+	public String addMaterialUser(Storing storingInfo) {
+		//자재사용내역 등록 프로세스
+		
+		return "redirect:/k1MaterialUse";
 	}
 	
 	/**
@@ -134,5 +145,26 @@ public class MaterialUseController {
 		model.addAttribute("SectionLocation", "자재사용내역 수정");
 		
 		return "storing/material_use/material_use_modify";
+	}
+	
+	/**
+	 * 자재사용내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MaterialUseModify")
+	public String modifyMaterialUser(Storing storingInfo) {
+		//자재사용내역 수정프로세스
+		
+		return "redirect:/k1MaterialUse";
+	}
+	
+	/**
+	 * 자재사용내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MaterialUseRemove")
+	public String removeMaterialUser(Storing storingInfo) {
+		//자재사용내역 삭제 프로세스
+		return "redirect:/k1MaterialUse";
 	}
 }
