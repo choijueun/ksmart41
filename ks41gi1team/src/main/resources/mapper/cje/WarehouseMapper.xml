@@ -86,6 +86,7 @@
 	);
 </insert>
 
+<!-- 창고정보 수정 -->
 <update id="modifyWarehouse" parameterType="Warehouse">
 	UPDATE 
 		k1_tb_warehouse_info

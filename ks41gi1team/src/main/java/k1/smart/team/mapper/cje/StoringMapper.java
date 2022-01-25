@@ -37,6 +37,24 @@ public interface StoringMapper {
 	 */
 	public List<Map<String, Object>> getRecentProShip(String mainBusinessCode);
 	
+	/**
+	 * 완료되지 않은 배송요청 건수 조회
+	 * @param mainBusinessCode
+	 */
+	public int unfinishedDeliveryCnt(String mainBusinessCode);
+	
+	/**
+	 * 완료되지 않은 출하계획 건수 조회
+	 * @param mainBusinessCode
+	 */
+	public int unfinishedShipmentCnt(String mainBusinessCode);
+	
+	/**
+	 * 완료되지 않은 반품요청 건수 조회
+	 * @param mainBusinessCode
+	 */
+	public int unfinishedReturnCnt(String mainBusinessCode);
+	
 	//1. 자재입고 상세내역 배열
 	public List<Storing> getWarehousingDetails(String stockAdjCode);
 	//2. 자재사용 상세내역 배열
