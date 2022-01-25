@@ -116,6 +116,11 @@ public class ModalController {
 		return "modal/p_slip_list_by_item";
 	}
 	
+	/**
+	 * AJAX :: 거래명세서 조회 
+	 * @param slipType
+	 * @param model
+	 */
 	@GetMapping(value="/transaction", produces="application/json")
 	public String tsModal(String slipType, Model model) {
 		System.out.println(slipType);

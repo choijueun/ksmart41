@@ -81,50 +81,48 @@
 </select>	
 	
 <select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
-SELECT 
-	RIGHT(mo.materialOrderCode,3) AS materialOrderCode
-	,mo.mainBusinessCode
-	,mb.businessName
-	,mo.contractCode
-	,mo.clientCode
-	,c.businessName AS clientBusinessName
-	,mo.managerId
-	,mo.managerName
-	,mo.orderDate
-	,mo.predictDate
-	,GROUP_CONCAT(DISTINCT i.itemName SEPARATOR ', ') AS itemName
-	,mo.totalCount
-	,mo.totalPrice
-	,mo.`status`
-	,mo.regDate
-	,mo.updateDate
-	,mo.briefs
-FROM 
-	k1_view_material_order AS mo
-	INNER JOIN
-	k1_tb_material_order_detail AS mord
-	ON
-	mo.materialOrderCode = mord.materialOrderCode
-	INNER JOIN
-	k1_view_item_info AS i
-	on
-	mord.itemCode = i.itemCode
-	INNER JOIN 
-	k1_tb_main_business AS mb
-	on
-	mo.mainBusinessCode = mb.mainBusinessCode
-	INNER JOIN
-	k1_tb_client AS c
-	on
-	mo.clientCode =c.clientCode
-	LEFT JOIN
-	k1_tb_contract AS contr
-	ON 
-	mo.contractCode = contr.contractCode
-WHERE 
-	mo.materialOrderCode = CONCAT('materialOrderCode_', #{materialOrderCode})
-GROUP BY 
-	mo.materialOrderCode;
+		SELECT 
+			RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+			,mo.mainBusinessCode
+			,mb.businessName
+			,mo.contractCode
+			,mo.clientCode
+			,c.businessName AS clientBusinessName
+			,mo.managerId
+			,mo.managerName
+			,mo.orderDate
+			,mo.predictDate
+			,GROUP_CONCAT(DISTINCT i.itemName SEPARATOR ', ') AS itemName
+			,mo.totalCount
+			,mo.totalPrice
+			,mo.`status`
+			,mo.regDate
+			,mo.updateDate
+			,mo.briefs
+		FROM 
+			k1_view_material_order AS mo
+		INNER JOIN
+			k1_tb_material_order_detail AS mord
+		ON
+			mo.materialOrderCode = mord.materialOrderCode
+		INNER JOIN
+			k1_view_item_info AS i
+		on
+			mord.itemCode = i.itemCode
+		INNER JOIN 
+			k1_tb_main_business AS mb
+		on
+			mo.mainBusinessCode = mb.mainBusinessCode
+		INNER JOIN
+			k1_tb_client AS c
+		on
+			mo.clientCode =c.clientCode
+		LEFT JOIN
+			k1_tb_contract AS contr
+		ON 
+			mo.contractCode = contr.contractCode
+		WHERE 
+			mo.materialOrderCode = #{materialOrderCode};
 </select>
 
 
@@ -189,7 +187,7 @@ GROUP BY
 		
 	</select>	
 		
-<select id="getAllMaterialOrderList" parameterType="String" resultType="MaterialOrder">
+<select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
 		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
 		RIGHT(mo.contractCode,3) as contractCode,

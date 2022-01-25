@@ -43,17 +43,6 @@
 		s.inventoryCode DESC;
 </select>
 
-<!-- 창고코드&이름 전체조회 -->
-<select id="getAllWarehouseList" parameterType="String" resultType="map">
-	SELECT 
-		 RIGHT(w.warehouseCode,3) AS warehouseCode
-		,w.warehouseName
-	FROM
-		k1_view_warehouse_info w
-	WHERE
-		w.mainBusinessCode = #{mainBusinessCode};
-</select>
-
 <!-- 재고상세정보 -->
 <select id="getStockInfo" parameterType="String" resultType="Stock">
 	SELECT

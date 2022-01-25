@@ -103,9 +103,10 @@ $(function(){
 		barChartData.datasets[1] = recentProShipData.datasets[1];
 	// 옵션
 	var barChartOptions = {
-		responsive              : true,
+		responsive              : false,
 		maintainAspectRatio     : false,
-		datasetFill             : false
+		datasetFill             : false,
+		scales					: { xAxes: [{ ticks: { beginAtZero: false } }], yAxes: [{ ticks: { beginAtZero: true } }] }
 	};
 	// Bar Chart 그리기
 	new Chart(barChartCanvas, {
@@ -113,6 +114,7 @@ $(function(){
 		data: barChartData,
 		options: barChartOptions
 	});
+	
 	
 	/****************************
 			   DataTable

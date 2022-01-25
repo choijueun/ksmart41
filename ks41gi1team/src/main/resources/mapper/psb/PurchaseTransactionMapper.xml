@@ -66,6 +66,55 @@ GROUP BY
 			k1_view_purchase_transaction AS pt;
 	</select>
 	
+	<select id="getPurchaseTransactionInfoByCode" parameterType="String" resultType="PurchaseTransaction">
+		SELECT 
+			RIGHT(ptd.purchaseTsDetailCode,3) as purchaseTsDetailCode,
+			pt.purchaseTsCode,
+			pt.clientBusinessName,
+			ptd.lsAccountCode,
+			ptd.itemCode,
+			l.lsAccountName,
+			ptd.itemName,
+			ptd.COUNT,
+			ptd.unitPrice,
+			ptd.vat,
+			ptd.totalPrice
+		FROM
+			k1_view_purchase_transaction AS pt
+		INNER JOIN
+			k1_view_purchase_transaction_detail AS ptd
+		ON
+			ptd.purchaseTsCode=pt.purchaseTsCode
+		INNER JOIN
+			k0_tb_ls AS l
+		ON
+			l.lsAccountCode = ptd.lsAccountCode
+		WHERE
+			pt.purchaseTsCode = #{purchaseTsCode};
+	</select>
+	
+	<select id="getAllPurchaseTransactionList" parameterType="String" resultType="PurchaseTransaction">
+	SELECT 
+			pt.purchaseTsCode,
+			pt.mainBusinessCode,
+			m.businessName,
+			pt.clientCode,
+			pt.clientBusinessName,
+			pt.contractCode,
+			pt.briefs,
+			pt.dealDate,
+			pt.regId,
+			pt.regName,
+			pt.regDate,
+			pt.updateDate
+		FROM 
+			k1_view_purchase_transaction AS pt
+			join
+			k1_tb_main_business AS m
+			on
+			pt.mainBusinessCode = m.mainBusinessCode
+	</select>
+	
 	<select id="getPurchaseTransactionHistoryList" parameterType="map" resultType="map">
 		SELECT 
 			pt.purchaseTsCode,

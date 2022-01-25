@@ -4,14 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.mapper.csh.MainBusinessMapper;
-import k1.smart.team.mapper.csh.ClientMapper;
 
 @Service
 @Transactional
@@ -57,7 +52,7 @@ public class MainBusinessService {
 		businessNumCheck += mainBusinessMapper.getBusinessByNum(businessNum);
 		
 		return businessNumCheck;
-	}
+	};
 
 	//사업장 상세
 	public MainBusiness getMainBusinessDetail(String mainBusinessCode) {

@@ -10,6 +10,9 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	/****************************
+		  		객체 선언
+	****************************/
 	//Toast
 	var Toast = Swal.mixin({
 		toast: true,
@@ -17,55 +20,57 @@ $(function(){
 		showConfirmButton: false,
 		timer: 3000
 	});
-	
 	//전체폼
 	var addItem = $('#addItem'); 
-	//품목명 입력box
+	//입력객체
 	var itemName = $('input[name="itemName"]'); 
-	//품목정보button삽입란
+	var inputs = $('#addItem input');
+	var selects = $('#addItem select')
+	//품목명 중복여부 메시지 삽입공간
 	var itemNameValid = $('#itemNameValid'); 
-	
-	//품목명 중복 검사
-	$(document).on('change', 'input[name="itemName"]', function(){
-		var request = $.ajax({
-			  url: "/itemNameValid", //호출 경로
-			  method: "POST", //호출 방식
-			  data: { 'itemName' : itemName.val() },
-			  dataType: "json" //응답할 페이지의 컨텍스트 타입
-		});
-		//정상적인 응답
-		request.done(function( data ) {
-			if(data) {
-				itemName.addClass('is-warning');
-				itemNameValid.html('<button type="button" class="btn btn-outline-info btn-xs">중복</button>');
-			} else {
-				itemName.removeClass('is-warning');
-				itemNameValid.html('');
-			}
-		});
-		//응답 중 에러가 발생하거나, 데이터 parsing 에러 시 실행되는 메서드
-		request.fail(function( jqXHR, textStatus ) {
-			Toast.fire({
-				icon: 'warning',
-				title: "Request failed: " + textStatus
-			});
-		});
-	});
-	
+	//카테고리 선택란
 	var itemCategory = $('#itemCategory');
 	var largeCategory = $('#largeCategory');
 	var middleCategory = $('#middleCategory');
 	var smallCategory = $('#smallCategory');
 	var microCategory = $('#microCategory');
 	
+	
+	/****************************
+		  		Ajax
+	****************************/
+	//품목명 중복 검사
+	$(document).on('change', 'input[name="itemName"]', function(){
+		$.ajax({
+			  url: "/itemNameValid", //호출 경로
+			  method: "POST", //호출 방식
+			  data: { 'itemName' : itemName.val() },
+			  dataType: "json" //응답할 페이지의 컨텍스트 타입
+		})
+		.done(function( data ) {
+			if(data) {
+				itemName.addClass('is-warning');
+				itemNameValid.html('<small style="color:#39A;">동일한 품목명이 존재합니다.</small>');
+			} else {
+				itemName.removeClass('is-warning');
+				itemNameValid.html('');
+			}
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
+	});
 	//대분류 선택: 중분류 자동출력
 	largeCategory.on('change', function(){
-		var request = $.ajax({
+		$.ajax({
 			  url: "/getLowCategory", //호출 경로
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : null, 'smallCategory' : null },
-		});
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			var dataArr = data['middleCategory'];
 			//console.log(data['middleCategory']);
  			var categoryOption = middleCategory.children(":first");
@@ -75,8 +80,8 @@ $(function(){
 			for(var i=0; i<dataArr.length; i++) {
 				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 			}
-		});
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
 				icon: 'warning',
 				title: "Request failed: " + textStatus
@@ -85,12 +90,12 @@ $(function(){
 	});
 	//중분류 선택: 소분류 자동출력
 	middleCategory.on('change', function(){
-		var request = $.ajax({
+		$.ajax({
 			  url: "/getLowCategory", //호출 경로
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : null },
-		});
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			var dataArr = data['smallCategory'];
 			//console.log(data['smallCategory']);
  			var categoryOption = smallCategory.children(":first");
@@ -101,8 +106,8 @@ $(function(){
 					smallCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 				}
 			}
-		});
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
 				icon: 'warning',
 				title: "Request failed: " + textStatus
@@ -111,12 +116,12 @@ $(function(){
 	});
 	//소분류 선택: 소소분류 자동출력
 	smallCategory.on('change', function(){
-		var request = $.ajax({
+		$.ajax({
 			  url: "/getLowCategory", //호출 경로
 			  type: "POST", //호출 방식
 			  data: { 'largeCategory' : largeCategory.val(), 'middleCategory' : middleCategory.val(), 'smallCategory' : smallCategory.val() },
-		});
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			var dataArr = data['microCategory'];
 			//console.log(data['microCategory']);
  			var categoryOption = microCategory.children(":first");
@@ -126,8 +131,8 @@ $(function(){
 					microCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
 				}
 			}
-		});
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
 				icon: 'warning',
 				title: "Request failed: " + textStatus
@@ -137,18 +142,19 @@ $(function(){
 	
 	//카테고리 코드 반환
 	$(document).on('change', '#itemCategory select', function(){
+		//카테고리 배열
 		var categories = [ largeCategory.val(), middleCategory.val(), smallCategory.val(), microCategory.val() ];
-		var request = $.ajax({
+		$.ajax({
 			url: "/getItemCategoryCode", //호출 경로
 			type: "POST", //호출 방식
 			data: { 'categories' : categories },
 			dataType: "text"
-		});
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			//console.log('return :: ',data);
 			itemCategory.find('input[name="categoryCode"]').val(data);
-		});
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
 				icon: 'warning',
 				title: "Request failed: " + textStatus
@@ -156,10 +162,10 @@ $(function(){
 		});
 	});
 	
-	//입력객체
-	var inputs = $('#addItem input');
-	var selects = $('#addItem select')
-	//등록 폼 제출
+
+	/****************************
+		    유효성 검사 및 양식 제출
+	****************************/
 	$(document).on('click', '#submitBtn', function(){
 		//유효성 검사
 		var chk = 0; 
@@ -204,6 +210,7 @@ $(function(){
 		<div class="col-lg-3 col-md-2">
 		</div>
 		<div class="col-lg-6 col-md-8">
+			<!-- 품목정보 입력Form -->
 			<div class="card card-info card-outline">
 				<div class="card-header">
 					품목정보 등록
@@ -216,7 +223,7 @@ $(function(){
 									<label for="itemName">
 										품목명
 										<span id="itemNameValid">
-											<!-- 품목정보 Modal Button -->
+											<!-- 중복여부 안내메시지 표시란 -->
 										</span>
 									 </label>
 									<input type="text" name="itemName" class="form-control" placeholder="Enter itemName">
@@ -297,8 +304,5 @@ $(function(){
 	</div>
 </div>
 
-
-
 </th:block>
-
 </html>

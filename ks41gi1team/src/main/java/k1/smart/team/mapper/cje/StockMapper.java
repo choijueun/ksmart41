@@ -18,12 +18,6 @@ public interface StockMapper {
 	public List<Stock> getAllStockList(String types, String wList, String mainBusinessCode);
 	
 	/**
-	 * 창고목록
-	 * @param mainBusinessCode
-	 */
-	public List<Map<String, Object>> getAllWarehouseList(String mainBusinessCode);
-	
-	/**
 	 * 재고정보 상세조회
 	 * @param inventoryCode
 	 * @return 재고 하나 정보

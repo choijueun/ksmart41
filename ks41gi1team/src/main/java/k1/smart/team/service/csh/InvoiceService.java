@@ -21,6 +21,11 @@ public class InvoiceService {
 		this.invoiceMapper = invoiceMapper;
 	};
 
+	/**
+	 * 
+	 * 
+	 */
+	
 	//비용전자세금계산서 전체 목록 조회
 	public List<Invoice> getAllPurchaseIvList() {
 		invoiceList = invoiceMapper.getAllInvoiceList();

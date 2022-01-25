@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,10 @@ public class ContractController {
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
 	private UserService userService;
+
+	private Contract contractInfo;
+
+	private String contractCode;
 	
 	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserService userService) {
 		this.contractService = contractService;
@@ -126,8 +131,8 @@ public class ContractController {
 		  model.addAttribute("userList", userList);
 		  System.out.println("userList" + userList);
 		  
-		  String contractInfo = contractService.getContractInfo();
-		  model.addAttribute("contractInfo", contractInfo);
+		  String contractCode = contractService.getContractCode();
+		  model.addAttribute("contractCode", contractCode);
 		  
 		  //발주서 등록을 위한 발주용 계약서 코드불러오기
 		/*
@@ -148,84 +153,31 @@ public class ContractController {
 	  
 	  }
 	 
-	
-	//하나의 계약서 검색
-	@PostMapping("/k1ContractOne") 
-	public String getSearchContractList( @RequestParam(value="searchKey", required = false) String searchKey
-										,@RequestParam(value="searchValue", required = false)String searchValue
-										,Model model) {
-		System.out.println(searchKey);
-		System.out.println(searchValue);
-		
-		if(searchKey != null && "contractCode".equals(searchKey)) {
-		searchKey = "contractCode";
-		}else if(searchKey != null && "mainBusinessCode".equals(searchKey)) {
-		searchKey = "mainBusinessCode";
-		  
-		}else if(searchKey != null && "clientCode".equals(searchKey)) {
-		searchKey = "clientCode";
-		  
-		}else if(searchKey != null && "clientManagerId".equals(searchKey)) {
-		searchKey = "clientManagerId";
-		
-		}else if(searchKey != null && "contractSection".equals(searchKey)) {
-		searchKey = "contractSection";
-		
-		}else if(searchKey != null && "contractType".equals(searchKey)) {
-		searchKey = "contractType";
-		
-		}else if(searchKey != null && "startDate".equals(searchKey)) {
-		searchKey = "startDate";
-		
-		}else if(searchKey != null && "endDate".equals(searchKey)) {
-		searchKey = "endDate";
-		
-		}else if(searchKey != null && "managerId".equals(searchKey)) {
-		searchKey = "managerId";
-		
-		}else if(searchKey != null && "regId".equals(searchKey)) {
-		searchKey = "regId";
-		
-		}else if(searchKey != null && "approvalId".equals(searchKey)) {
-		searchKey = "approvalId";
-		
-		}else if(searchKey != null && "contractDate".equals(searchKey)) {
-		searchKey = "contractDate";
-		
-		}else if(searchKey != null && "contractStatus".equals(searchKey)) {
-		searchKey = "contractStatus";
-		
-		}else if(searchKey != null && "briefs".equals(searchKey)) {
-		searchKey = "briefs";
-		
-		}else if(searchKey != null && "regDate".equals(searchKey)) {
-		searchKey = "regDate";
-		
-		}else {
-			searchKey = "updateDate";
-		}
-		  // 검색키 검색어를 통해서 계약목록 조회
-			System.out.println(searchKey);
-			System.out.println(searchValue);
-		  List<Contract> contractList = contractService.getContractListBySearchKey(searchKey, searchValue);
-		  System.out.println(contractList);
-		  // 조회된 회원목록 model에 값을 저장
-		  model.addAttribute("title", "계약목록");
-		  model.addAttribute("contractList", contractList);
-		  
-		  
-		  return "contract/contract_list";
-	  }
+	  //계약 상세
+		@GetMapping("/contract/{contractCode}")
+		public String contractInfo(
+				@PathVariable(value="contractCode", required=false) String contractCode
+				,Model model) {
+			if(contractCode == null || "".equals(contractCode)) {
+				System.out.println("계약코드 ERROR");
+				return "redirect:/k1Contract/k1ContractHistory";
+			}
+			
+			contractInfo = contractService.getContractInfoByCode(contractCode);
+			if(contractInfo == null) {
+				System.out.println("계약코드info ERROR");
+				return "redirect:/k1Contract/k1ContractHistory";
+			}
+			System.out.println("contractInfo" + contractInfo);
+			model.addAttribute("title", "계약상세: 상세정보");
+			model.addAttribute("contractInfo", contractInfo);
+			return "contract/contract_detail";
+		}	
 	  
 	  //계약 전체 목록
 	  @GetMapping("/k1ContractList") 
 	  public String contractMain(Model model) {
 	
-		  List<Contract> contractList = contractService.getAllContractList();
-		  model.addAttribute("title", "계약목록");
-		  model.addAttribute("contractList", contractList);
-		  
-		  
 		  return "contract/contract_list";
 	  }
 	  
@@ -233,8 +185,11 @@ public class ContractController {
 	  @GetMapping("/k1ContractHistory") 
 	  public String k1ContractHistory(Model model) {
 
+		  mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
+		  List<Contract> contractList = contractService.getContractHistoryList(mainBusinessCode);
 		  model.addAttribute("title", "계약목록");
-
+		  model.addAttribute("contractList", contractList);
+		  System.out.println("History contractList" + contractList);
 		  
 		  return "contract/contract_history";
 	  }
@@ -245,6 +200,7 @@ public class ContractController {
 		  
 		  List<Contract> contractHistoryList = contractService.getContractHistoryList(mainBusinessCode);
 		  System.out.println("controller contractHistoryList: " + contractHistoryList);
+		  System.out.println(contractCode);
 		  return contractHistoryList;
 	  }
 	  

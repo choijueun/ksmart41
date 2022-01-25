@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -106,6 +107,17 @@ public class ReturnController {
 	}
 	
 	/**
+	 * 반품내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnAdd")
+	public String addReturn(Storing storingInfo) {
+		//반품내역 등록 프로세스
+		
+		return "redirect:/k1Return";
+	}
+	
+	/**
 	 * 반품내역 수정화면 첫페이지
 	 * @param stockAdjCode
 	 * @param model
@@ -135,12 +147,40 @@ public class ReturnController {
 	}
 	
 	/**
+	 * 반품내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnModify")
+	public String modifyReturn(Storing storingInfo) {
+		//반품내역 수정프로세스
+		
+		return "redirect:/k1Return";
+	}
+	
+	/**
+	 * 반품내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnRemove")
+	public String removeReturn(Storing storingInfo) {
+		//반품내역 삭제 프로세스
+		return "redirect:/k1Return";
+	}
+	
+	
+	/*
+	 * *******************************
+	 *				반품요청
+	 * *******************************
+	 */
+	
+	/**
 	 * 반품요청내역 전체목록
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/k1ReturnReg")
-	public String returnReqMain(Model model) {
+	public String returnRegMain(Model model) {
 		//반품요청내역 전체목록 List<Storing>
 		returnList = storingService.getReturnRegList(mainBusinessCode);
 		log.info("반품요청내역 LIST :: {}", returnList);
@@ -158,7 +198,7 @@ public class ReturnController {
 	 * @param model
 	 */
 	@GetMapping("/k1ReturnReg/{returnRegCode}")
-	public String returnReqInfo(
+	public String returnRegInfo(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {
 		//매개변수 검사
@@ -181,14 +221,25 @@ public class ReturnController {
 	}
 
 	/**
-	 * 반품요청내역 신규등록
+	 * 반품요청내역 신규등록 화면
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/k1ReturnRegAdd")
-	public String addReturnReq(Model model) {
+	public String addReturnReg(Model model) {
 		
 		return "storing/return/return_request_add";
+	}
+	
+	/**
+	 * 반품내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnRegAdd")
+	public String addReturnReg(Storing storingInfo) {
+		//반품내역 등록 프로세스
+		
+		return "redirect:/k1ReturnReg";
 	}
 	
 	/**
@@ -198,12 +249,34 @@ public class ReturnController {
 	 * @return
 	 */
 	@GetMapping("/k1ReturnRegModify/{returnRegCode}")
-	public String modifyReturnReq(
+	public String modifyReturnReg(
 			@PathVariable(value="returnRegCode", required=false) String returnRegCode
 			,Model model) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(returnRegCode)) return "redirect:/k1ReturnReg";
 
 		return "storing/return/return_request_modify";
+	}
+	
+	/**
+	 * 반품요청내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnRegModify")
+	public String modifyReturnReg(Storing storingInfo) {
+		//반품요청내역 수정프로세스
+		
+		return "redirect:/k1ReturnReg";
+	}
+	
+	/**
+	 * 반품요청내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ReturnRegRemove")
+	public String removeReturnReg(Storing storingInfo) {
+		//반품요청내역 삭제 프로세스
+		
+		return "redirect:/k1ReturnReg";
 	}
 }

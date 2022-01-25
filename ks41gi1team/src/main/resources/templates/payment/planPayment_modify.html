@@ -112,47 +112,47 @@ $(function(){
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-lg-1">
-				</div>
-				<div class="col-lg-10">
-					<!-- 결제예정 상세정보 입력칸 -->
-					<div class="card card-info card-outline mb-3">
-						<div class="card-header">
-							<h3 class="card-title">결제예정 상세내역 수정</h3>
-						</div>
-						<div id="details" class="card-body">
-							<div class="row" th:if="${s == null}">
-								<div class="form-group col-lg-3 float-left">
-									<input type="hidden" name="inventoryCode" class="form-control">
-									<input type="text" name="itemName" class="form-control" placeholder="품목명">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="unitPrice" class="form-control" placeholder="단가">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="tax" class="form-control" placeholder="세액">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="count" class="form-control" placeholder="수량">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="text" name="totalCost" class="form-control" placeholder="소계">
-								</div>
-								<!-- 해당 row 삭제 버튼 -->
-								<div class="form-group ml-2">
-									<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
-										<i class="fas fa-trash-alt"></i>
-									</button>
-								</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1">
+			</div>
+			<div class="col-lg-10">
+				<!-- 결제예정 상세정보 입력칸 -->
+				<div class="card card-info card-outline mb-3">
+					<div class="card-header">
+						<h3 class="card-title">결제예정 상세내역 수정</h3>
+					</div>
+					<div id="details" class="card-body">
+						<div class="row" th:if="${s == null}">
+							<div class="form-group col-lg-3 float-left">
+								<input type="hidden" name="inventoryCode" class="form-control">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="unitPrice" class="form-control" placeholder="단가">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="tax" class="form-control" placeholder="세액">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="count" class="form-control" placeholder="수량">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="text" name="totalCost" class="form-control" placeholder="소계">
+							</div>
+							<!-- 해당 row 삭제 버튼 -->
+							<div class="form-group ml-2">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
+									<i class="fas fa-trash-alt"></i>
+								</button>
 							</div>
 						</div>
-						<!-- 1 row 추가 버튼 -->
-						<div class="card-footer">
-							<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
-								<i class="far fa-plus-square"></i>
-							</button>
-						</div>
+					</div>
+					<!-- 1 row 추가 버튼 -->
+					<div class="card-footer">
+						<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+							<i class="far fa-plus-square"></i>
+						</button>
 					</div>
 				</div>
 			</div>

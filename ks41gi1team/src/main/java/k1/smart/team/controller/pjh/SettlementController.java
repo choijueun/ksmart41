@@ -11,11 +11,11 @@ import k1.smart.team.dto.pjh.Is;
 import k1.smart.team.service.pjh.IsService;
 
 @Controller
-@RequestMapping(value = "/k1InvoiceList")
-public class IsController {
+@RequestMapping(value = "/k1Settlement")
+public class SettlementController {
 	private IsService invoiceService;
 	
-	public IsController(IsService invoiceService) {
+	public SettlementController(IsService invoiceService) {
 		this.invoiceService = invoiceService;
 	}
 	
@@ -28,7 +28,7 @@ public class IsController {
 		model.addAttribute("title", "계정과목 조회");
 		model.addAttribute("invoiceList", invoiceList);
 		
-		return "invoice/invoice_list";
+		return "totalAc/settlement";
 	}
 	
 	

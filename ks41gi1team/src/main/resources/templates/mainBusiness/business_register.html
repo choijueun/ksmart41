@@ -18,6 +18,93 @@
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
+<!-- Main content -->
+<th:block layout:fragment="customContents">
+
+<div class="container-fluid">
+	<form id="businessRegisterForm" th:action="@{/k1Business/businessRegister}" method="post">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">사업장 등록</h3>
+            </div>
+            <div class="card-body">
+				<div class="form-group">
+	                <label for="mainBusinessCode">사업장대표코드</label>
+	                <input type="text" id="mainBusinessCode" class="form-control" readonly="readonly">
+				</div>
+				
+				<div class="form-group">
+                	<label for="businessCategory">사업장 구분</label>
+                	<select id="businessCategory" class="form-control custom-select">
+	                  	<option>:: 사업장종류 ::</option>
+						<option value="merge_agency">대리점</option>
+						<option value="merge_fac">공장</option>
+						<option value="merge_mart">마트</option>
+						<option value="merge_shop">쇼핑몰</option>
+						<option value="merge_ware">물류센터</option>
+                	</select>
+             	</div>
+             	<div class="form-group">
+	                <label for="businessNum">사업자번호</label>
+	                <input type="text" id="businessNum" class="form-control">
+	                <button type="button" id="businessNumCheckBtn" class="btn btn-default">중복확인</button>
+				</div>
+             	
+				<div class="form-group">
+                	<label for="businessName">상호</label>
+                	<input type="text" id="businessName" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessRepresentative">대표자명</label>
+                	<input type="text" id="businessRepresentative" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessMobile">연락처</label>
+                	<input type="text" id="businessMobile" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessPlace">소재지</label>
+                	<input type="text" id="businessPlace" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessEmail">이메일</label>
+                	<input type="text" id="businessEmail" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessType1">업종</label>
+                	<input type="text" id="businessType1" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="businessType2">업태</label>
+                	<input type="text" id="businessType2" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="openDate">개업년월일</label>
+                	<input type="date" id="openDate" class="form-control">
+				</div>
+				<div class="form-group">
+                	<label for="regDate">플랫폼 가입일시</label>
+                	<input type="date" id="regDate" class="form-control">
+				</div>
+	              
+			</div>
+            <!-- /.card-body -->
+            <!-- card-footer -->
+			<div class="card-footer">
+				<button type="button" class="btn btn-primary" id="businessRegisterBtn">등록</button>
+				<button type="button" class="btn btn-default float-right" th:href="@{/k1Business/businessList}">취소</button>
+	        </div>
+            <!-- /card-footer -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+	</form>
+</div>
+</th:block>
+
 <th:block layout:fragment="customJs">
 	<script>
 		$(function(){
@@ -40,51 +127,9 @@
 						return false;
 					}
 				});
-				
 				if(submitCheck) $('#businessRegisterForm').submit();
-				
 			});
 			
-			
-			$('#mainBusinessCodeCheckBtn').click(function(){
-				console.log('click: #mainBusinessCodeCheckBtn');
-				
-				var businessNum = $('#mainBusinessCode').val();
-				
-				if(typeof businessNum != 'undefind' && businessNum != null && businessNum !=''){
-					var request = $.ajax({
-						  url: '/k1Business/businessNumCheck',
-						  method: 'POST',
-						  data: { 'businessNum' : businessNum },
-						  dataType: 'json' 
-					});
-					
-					request.done(function(data) {
-						console.log('중복 여부: ',data);
-						
-						if(data){
-							alert('중복된 사업자번호입니다.');
-							$('#businessRegisterForm input').not('#businessNum').prop('disabled',true);
-							$('#businessRegisterForm select').prop('disabled',true);
-							$('#businessRegisterForm button').not('#businessNumCheck').prop('disabled',true);
-							
-						}else{
-							alert('등록가능한 사업자번호입니다.');
-							$('#businessRegisterForm input').prop('disabled',false);
-							$('#businessRegisterForm select').prop('disabled',false);
-							$('#businessRegisterForm button').prop('disabled',false);
-						}
-					});
-					
-					request.fail(function( jqXHR, textStatus ) {
-					  alert( "Request failed: " + textStatus );
-					});
-					
-				}else{
-					alert('사업자번호를 입력해주세요.');
-					return false;
-				}
-			});
 		});
 		$(function(){
 			$('#businessNumCheckBtn').click(function(){
@@ -128,112 +173,6 @@
 			});
 		});
 	</script>
-</th:block>
-
-<!-- Main content -->
-<th:block layout:fragment="customContents">
-
-<div class="container-fluid">
-	<form id="businessRegisterForm" th:action="@{/k1Business/businessRegister}" method="post">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">사업장 등록</h3>
-            </div>
-            <div class="card-body">
-				<div class="form-group">
-	                <label for="mainBusinessCode">사업장대표코드</label>
-	                <input type="text" id="mainBusinessCode" class="form-control">
-	                <button type="button" id="mainBusinessCodeCheckBtn" class="btn btn-default">중복확인</button>
-				</div>
-				
-				<div class="form-group">
-                	<label for="businessCategory">사업장 구분</label>
-                	<select id="businessCategory" class="form-control custom-select">
-	                  	<option>:: 사업장종류 ::</option>
-						<option value="merge_agency">대리점</option>
-						<option value="merge_fac">공장</option>
-						<option value="merge_mart">마트</option>
-						<option value="merge_shop">쇼핑몰</option>
-						<option value="merge_ware">물류센터</option>
-                	</select>
-             	</div>
-			<!-- 	<div class="form-group">
-                	<label for="businessLevel">사업장 권한</label>
-                	<select id="businessLevel" class="form-control custom-select">
-	                  	<option>:: 권한종류 ::</option>
-						<option value="agency1">대리점 총관리자</option>
-						<option value="fac1">공장 총관리자</option>
-						<option value="mart1">쇼핑몰 총관리자</option>
-						<option value="shop1">일반사용자</option>
-						<option value="user">물류센터 총관리자</option>
-                	</select>
-             	</div> -->
-             	
-             	<div class="form-group">
-	                <label for="businessNum">사업자번호</label>
-	                <input type="text" id="businessNum" class="form-control">
-	                <button type="button" id="businessNumCheckBtn" class="btn btn-default">중복확인</button>
-				</div>
-             	
-				<div class="form-group">
-                	<label for="businessName">상호</label>
-                	<input type="text" id="businessName" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessRepresentative">대표자명</label>
-                	<input type="text" id="businessRepresentative" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessMobile">연락처</label>
-                	<input type="text" id="businessMobile" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessPlace">소재지</label>
-                	<input type="text" id="businessPlace" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessEmail">이메일</label>
-                	<input type="text" id="businessEmail" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessType1">업종</label>
-                	<input type="text" id="businessType1" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="businessType2">업태</label>
-                	<input type="text" id="businessType2" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="openDate">개업년월일</label>
-                	<input type="date" id="openDate" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="regDate">플랫폼 가입일시</label>
-                	<input type="date" id="regDate" class="form-control">
-				</div>
-				<div class="form-group">
-                	<label for="regDate">수정 일시</label>
-                	<input type="date" id="updateDate" class="form-control">
-				</div>
-	              
-			</div>
-            <!-- /.card-body -->
-            <!-- card-footer -->
-			<div class="card-footer">
-				<button type="button" class="btn btn-primary" id="businessRegisterBtn">등록</button>
-				<button type="button" class="btn btn-default float-right" th:href="@{/k1Business/businessList}">취소</button>
-	        </div>
-            <!-- /card-footer -->
-            
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-	</form>
-</div>
-		
 </th:block>
 
 </html>
