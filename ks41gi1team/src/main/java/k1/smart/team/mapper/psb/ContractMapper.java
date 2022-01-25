@@ -40,8 +40,6 @@ public interface ContractMapper {
 		public int modifyContract(Contract contract);
 
 	//발주서 등록을 위한 발주만을 위한 계약서 코드	
-
-
 		public List<Contract> getContractCodeForMaterialOrderCodeList();
 
 

@@ -112,7 +112,7 @@ public class ContractService {
 			result += contractMapper.getContractByContractCode(contractCode);
 			return result;
 		}
-
+		//계약서 코드 가져오기
 		public String getContractCode() {
 			
 			return contractMapper.getContractCode();
