@@ -45,14 +45,6 @@ public class StockService {
 	}
 	
 	/**
-	 * 창고정보 목록
-	 * @param mainBusinessCode
-	 */
-	public List<Map<String, Object>> getAllWarehouseList(String mainBusinessCode) {
-		return stockMapper.getAllWarehouseList(mainBusinessCode);
-	}
-	
-	/**
 	 * 재고 상세정보 조회
 	 * @param inventoryCode
 	 * @return 재고 하나 정보
@@ -89,7 +81,7 @@ public class StockService {
 	}
 	
 	/**
-	 * 재고 수량/중량 검사
+	 * 재고 수량·중량 검사
 	 * @param mainBusinessCode
 	 * @param inventoryCode
 	 * @return E: 에러 / Y: 수량중량0(삭제가능) / N: 삭제 불가능
