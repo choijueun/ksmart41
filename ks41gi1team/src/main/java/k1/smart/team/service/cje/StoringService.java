@@ -484,7 +484,7 @@ public class StoringService {
 	 * 추가할 재고 목록 - 기존 재고에 수량중량 합함
 	 * @param mainBusinessCode & warehouseCode : 재고검색 조건
 	 * @param itemList : 추가할 품목
-	 * @return 성공시 true 실패시 false
+	 * @return totalWeight, totalCount 계산 후 List<Stock>
 	 */
 	public List<Stock> plusStockStoring(String mainBusinessCode,String warehouseCode, List<Stock> itemList) {
 		//return할 품목정보 목록
@@ -541,6 +541,18 @@ public class StoringService {
 			}
 		}
 		return itemList;
+	}
+	
+	/**
+	 * 감소할 재고 목록 - 기존 재고에 수량중량 뺀다
+	 * @param mainBusinessCode
+	 * @param warehouseCode
+	 * @param itemList
+	 * @return totalWeight, totalCount 계산 후 List<Stock>
+	 */
+	public List<Stock> minusStockStoring(String mainBusinessCode,String warehouseCode, List<Stock> itemList) {
+		
+		return null;
 	}
 	
 }

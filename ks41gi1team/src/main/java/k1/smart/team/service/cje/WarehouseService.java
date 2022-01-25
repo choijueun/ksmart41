@@ -43,8 +43,6 @@ public class WarehouseService {
 		return warehouseList;
 	}
 	
-	//나중에 SQL문 하나로 합치기
-	
 	/**
 	 * 창고 상세정보 조회
 	 * @param warehouseCode
@@ -94,6 +92,14 @@ public class WarehouseService {
 		
 		if(result > 0) return true;
 		return false;
+	}
+	
+	/**
+	 * 창고정보 삭제 프로세스
+	 * @param wInfo
+	 */
+	public void removeWarehouse(Warehouse wInfo) {
+		//창고정보 삭제 프로세스
 	}
 
 }

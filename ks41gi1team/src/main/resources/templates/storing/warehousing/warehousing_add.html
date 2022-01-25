@@ -126,10 +126,10 @@ $(function(){
 	$(document).on('keyup', 'input[name="itemWeight"], input[name="itemCount"], input[name="unitPrice"]', function(){
 		getTotals();
 	});
-	
+
 	
 	/****************************
-				Modal
+				Ajax
 	****************************/
 	//거래처 Modal
 	$(document).on('click', '#businessName', function(){
@@ -517,6 +517,14 @@ $(function(){
 		//중량 및 금액 계산
 		getTotals();
 	});
+	//단가 임의입력
+	$(document).on('click', 'button.setUnitPrice', function(){
+		var row = $('#details .row.pickIForm'); //표시한 row
+		row.children().find('input[name="unitPrice"]').val($('#setUnitPrice').val());
+		modalObj.modal('hide');
+		//중량 및 금액 계산
+		getTotals();
+	});
 	
 	/****************************
 				FORM
@@ -536,20 +544,57 @@ $(function(){
 		}else if( totalPrice.val() == null || totalPrice.val() == 0 ) {
 			chk += 1;
 		}
+		$('#details .row').each(function(i, obj){
+			var rowCode = $(obj).find('input[name="itemCode"]');
+			var rowPrice = $(obj).find('input[name="unitPrice"]');
+			var rowCount = $(obj).find('input[name="itemCount"]');
+			var rowWeight = $(obj).find('input[name="itemWeight"]');
+			if(rowCode.val() == null || rowCode.val() == ''
+					|| rowPrice.val() == null || rowPrice.val() == '' || rowPrice.val() == 0
+					|| rowCount.val() == null || rowCount.val() == '' || rowCount.val() == 0
+					|| rowWeight.val() == null || rowWeight.val() == '' || rowWeight.val() == 0) {
+				chk += 1;
+				return false;
+			}
+		});
 		if(chk > 0) {
 			Toast.fire({
 				icon: 'error',
 				title: '필수 작성 요소를 기입해주세요'
 			});
 		}else {
-			//List<Stock> s
-			$('#details .row').each(function(i, row){
-			    $(row).find('input[name]').each(function(j, obj){
-			    	$(obj).attr('name', 's['+i+'].'+$(obj).attr('data-details')).attr('name');
-			    });
+			//중량 및 금액 계산
+			getTotals();
+			//창고 적재가능여부 확인
+			$.ajax({
+				  url: "/isWarehouseValid",
+				  method: "POST",
+				  data: { 'totalWeight': totalWeight.val(), 'warehouseCode': receiveWarehouse.val() },
+				  dataType: "json"
+			})
+			.done(function( data ) {
+				if(data){
+					//List<Stock> s
+					$('#details .row').each(function(i, row){
+					    $(row).find('input[name]').each(function(j, obj){
+					    	$(obj).attr('name', 's['+i+'].'+$(obj).attr('data-details')).attr('name');
+					    });
+					});
+					//데이터 전송
+					addWarehousing.submit();
+				}else {
+					Toast.fire({
+						icon: 'error',
+						title: '창고 최대적재중량을 초과하였습니다.'
+					});
+				}
+			})
+			.fail(function( jqXHR, textStatus ) {
+				Toast.fire({
+					icon: 'warning',
+					title: "Request failed: " + textStatus
+				});
 			});
-			//데이터 전송
-			addWarehousing.submit();
 		}
 	});
 	

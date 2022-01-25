@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -104,6 +105,17 @@ public class MovingController {
 	}
 	
 	/**
+	 * 창고이동내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MovingAdd")
+	public String addMoving(Storing storingInfo) {
+		//창고이동내역 등록 프로세스
+		
+		return "redirect:/k1Moving";
+	}
+	
+	/**
 	 * 창고이동내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
@@ -130,6 +142,27 @@ public class MovingController {
 		model.addAttribute("SectionLocation", "창고이동내역 수정");
 		
 		return "storing/moving/moving_modify";
+	}
+	
+	/**
+	 * 창고이동내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MovingModify")
+	public String modifyMoving(Storing storingInfo) {
+		//창고이동내역 수정프로세스
+		
+		return "redirect:/k1Moving";
+	}
+	
+	/**
+	 * 창고이동내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1MovingRemove")
+	public String removeMoving(Storing storingInfo) {
+		//창고이동내역 삭제 프로세스
+		return "redirect:/k1Moving";
 	}
 }
 

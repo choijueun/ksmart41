@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -105,6 +106,17 @@ public class DefectController {
 	}
 	
 	/**
+	 * 불량처리내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DefectAdd")
+	public String addDefect(Storing storingInfo) {
+		//불량처리내역 등록 프로세스
+		
+		return "redirect:/k1Defect";
+	}
+	
+	/**
 	 * 불량처리내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
@@ -132,4 +144,25 @@ public class DefectController {
 		return "storing/defect/defect_modify";
 	}
 
+	/**
+	 * 재고조정내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DefectModify")
+	public String modifyDefect(Storing storingInfo) {
+		//재고조정내역 수정프로세스
+		
+		return "redirect:/k1Defect";
+	}
+	
+	/**
+	 * 재고조정내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DefectRemove")
+	public String removeDefect(Storing storingInfo) {
+		//재고조정내역 삭제 프로세스
+		
+		return "redirect:/k1Defect";
+	}
 }

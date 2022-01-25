@@ -59,4 +59,36 @@ public class DeliveryService {
 		
 		return resultMap;
 	}
+	
+	/**
+	 * 운송요청내역 등록 프로세스
+	 * @param mainBusinessCode
+	 * @param dInfo
+	 * @return 성공 시 true, 실패 시 false
+	 */
+	public boolean addDelivery(String mainBusinessCode, Delivery dInfo) {
+		//운송요청내역 등록 프로세스
+		return false;
+	}
+	
+	/**
+	 * 운송요청내역 수정 프로세스
+	 * @param mainBusinessCode
+	 * @param dInfo
+	 * @return 성공 시 true, 실패 시 false
+	 */
+	public boolean modifyDelivery(String mainBusinessCode, Delivery dInfo) {
+		//운송요청내역 수정 프로세스
+		return false;
+	}
+	
+	/**
+	 * 운송요청내역 삭제 프로세스
+	 * @param mainBusinessCode
+	 * @param dInfo
+	 */
+	public void removeDelivery(String mainBusinessCode, Delivery dInfo) {
+		//운송요청내역 수정 프로세스
+	}
+	
 }

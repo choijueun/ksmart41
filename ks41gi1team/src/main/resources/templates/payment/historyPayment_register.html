@@ -44,157 +44,157 @@ $(function(){
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	<div class="container-fluid">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3">
+		</div>
+		<div class="col-lg-6">
+			<div class="card card-info card-outline">
+				<div class="card-header">
+					<h3 class="card-title">결제내역 등록</h3>
+				</div>
+				<div class="card-body">
+					<form id="addHistoryPayment"th:action="@{|/k1PaymentList/history/add|}" method="POST">
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="payHistoryCode">
+									NO.
+								</label>
+								<input type="text" id="payHistoryCode" name="payHistoryCode" class="form-control" placeholder="NO.">
+							</div>
+							<div class="form-group col-md-4">
+								<label>구분</label>
+								<select class="form-control" id="type" name="type">
+									<option value="비용">비용</option>
+									<option value="매출">매출</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12">
+								<label for="clientName">
+									거래처명
+								</label>
+								<input type="hidden" id="clientCode" name="clientCode" class="form-control">
+								<input type="text" id="clientName" name="clientName" class="form-control" placeholder="거래처명">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="payPlanCode">
+									결제예정 코드
+								</label>
+								<input type="text" id="payPlanCode" name="payPlanCode" class="form-control" placeholder="결제예정 코드">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="totalPlanCost">
+									결제예정 합계금액
+								</label>
+								<input type="text" id="totalPlanCost" name="totalPlanCost" class="form-control" placeholder="결제예정 합계금액">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="payCost">
+									결제금액
+								</label>
+								<input type="text" id="payCost" name="payCost" class="form-control" placeholder="결제금액">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="payType">
+									결제구분
+								</label>
+								<input type="text" id="payType" name="payType" class="form-control" placeholder="결제구분">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="payMethod">
+									결제방법
+								</label>
+								<input type="text" id="payMethod" name="payMethod" class="form-control" placeholder="결제방법">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="payStatus">
+									결제상태
+								</label>
+								<input type="text" id="payStatus" name="payStatus" class="form-control" placeholder="결제상태">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="payDate">
+									결제일자
+								</label>
+								<input type="text" id="payDate" name="payDate" class="form-control" placeholder="결제일자">
+							</div>
+							<div class="form-group col-md-12">
+								<label for="briefs">
+									적요
+								</label>
+								<input type="text" id="briefs" name="briefs" class="form-control" placeholder="적요">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="issueDate">
+									발행일자
+								</label>
+								<input type="date" id="issueDate" name="issueDate" class="form-control" placeholder="발행일자">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="endDate">
+									계약종료일자
+								</label>
+								<input type="date" id="endDate" name="endDate" class="form-control" placeholder="계약종료일자">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="managerName">
+									담당자
+								</label>
+								<input type="text" id="managerName" name="managerName" class="form-control" placeholder="담당자">
+								<input type="hidden" id="managerId" name="managerId" class="form-control">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<a th:href="@{/k1PaymentList}">
+						<button type="button" class="btn btn-default">목록으로</button>
+					</a>
+					<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
+				</div>
+			</div>
+		</div>
+		</div>
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-1">
 			</div>
-			<div class="col-lg-6">
-				<div class="card card-info card-outline">
+			<div class="col-lg-10">
+				<!-- 결제예정 상세정보 입력칸 -->
+				<div class="card card-info card-outline mb-3">
 					<div class="card-header">
-						<h3 class="card-title">결제내역 등록</h3>
+						<h3 class="card-title">결제 상세내역  등록</h3>
 					</div>
-					<div class="card-body">
-						<form id="addHistoryPayment"th:action="@{|/k1PaymentList/history/add|}" method="POST">
-							<div class="row">
-								<div class="form-group col-md-8">
-									<label for="payHistoryCode">
-										NO.
-									</label>
-									<input type="text" id="payHistoryCode" name="payHistoryCode" class="form-control" placeholder="NO.">
-								</div>
-								<div class="form-group col-md-4">
-									<label>구분</label>
-									<select class="form-control" id="type" name="type">
-										<option value="비용">비용</option>
-										<option value="매출">매출</option>
-									</select>
-								</div>
-								<div class="form-group col-md-12">
-									<label for="clientName">
-										거래처명
-									</label>
-									<input type="hidden" id="clientCode" name="clientCode" class="form-control">
-									<input type="text" id="clientName" name="clientName" class="form-control" placeholder="거래처명">
-								</div>
-								<div class="form-group col-md-8">
-									<label for="payPlanCode">
-										결제예정 코드
-									</label>
-									<input type="text" id="payPlanCode" name="payPlanCode" class="form-control" placeholder="결제예정 코드">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="totalPlanCost">
-										결제예정 합계금액
-									</label>
-									<input type="text" id="totalPlanCost" name="totalPlanCost" class="form-control" placeholder="결제예정 합계금액">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="payCost">
-										결제금액
-									</label>
-									<input type="text" id="payCost" name="payCost" class="form-control" placeholder="결제금액">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="payType">
-										결제구분
-									</label>
-									<input type="text" id="payType" name="payType" class="form-control" placeholder="결제구분">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="payMethod">
-										결제방법
-									</label>
-									<input type="text" id="payMethod" name="payMethod" class="form-control" placeholder="결제방법">
-								</div>
-								<div class="form-group col-md-8">
-									<label for="payStatus">
-										결제상태
-									</label>
-									<input type="text" id="payStatus" name="payStatus" class="form-control" placeholder="결제상태">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="payDate">
-										결제일자
-									</label>
-									<input type="text" id="payDate" name="payDate" class="form-control" placeholder="결제일자">
-								</div>
-								<div class="form-group col-md-12">
-									<label for="briefs">
-										적요
-									</label>
-									<input type="text" id="briefs" name="briefs" class="form-control" placeholder="적요">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="issueDate">
-										발행일자
-									</label>
-									<input type="date" id="issueDate" name="issueDate" class="form-control" placeholder="발행일자">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="endDate">
-										계약종료일자
-									</label>
-									<input type="date" id="endDate" name="endDate" class="form-control" placeholder="계약종료일자">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="managerName">
-										담당자
-									</label>
-									<input type="text" id="managerName" name="managerName" class="form-control" placeholder="담당자">
-									<input type="hidden" id="managerId" name="managerId" class="form-control">
-								</div>
+					<div id="details" class="card-body">
+						<div class="row" th:if="${s == null}">
+							<div class="form-group col-lg-3 float-left">
+								<input type="hidden" name="inventoryCode" class="form-control">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명">
 							</div>
-						</form>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="unitPrice" class="form-control" placeholder="단가">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="tax" class="form-control" placeholder="세액">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="number" name="count" class="form-control" placeholder="수량">
+							</div>
+							<div class="form-group col-lg-2 float-left">
+								<input type="text" name="totalCost" class="form-control" placeholder="소계">
+							</div>
+							<!-- 해당 row 삭제 버튼 -->
+							<div class="form-group ml-2">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</div>
+						</div>
 					</div>
+					<!-- 1 row 추가 버튼 -->
 					<div class="card-footer">
-						<a th:href="@{/k1PaymentList}">
-							<button type="button" class="btn btn-default">목록으로</button>
-						</a>
-						<button type="button" class="btn btn-info float-right mr-2">등록하기</button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-1">
-				</div>
-				<div class="col-lg-10">
-					<!-- 결제예정 상세정보 입력칸 -->
-					<div class="card card-info card-outline mb-3">
-						<div class="card-header">
-							<h3 class="card-title">결제 상세내역  등록</h3>
-						</div>
-						<div id="details" class="card-body">
-							<div class="row" th:if="${s == null}">
-								<div class="form-group col-lg-3 float-left">
-									<input type="hidden" name="inventoryCode" class="form-control">
-									<input type="text" name="itemName" class="form-control" placeholder="품목명">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="unitPrice" class="form-control" placeholder="단가">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="tax" class="form-control" placeholder="세액">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="number" name="count" class="form-control" placeholder="수량">
-								</div>
-								<div class="form-group col-lg-2 float-left">
-									<input type="text" name="totalCost" class="form-control" placeholder="소계">
-								</div>
-								<!-- 해당 row 삭제 버튼 -->
-								<div class="form-group ml-2">
-									<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
-										<i class="fas fa-trash-alt"></i>
-									</button>
-								</div>
-							</div>
-						</div>
-						<!-- 1 row 추가 버튼 -->
-						<div class="card-footer">
-							<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
-								<i class="far fa-plus-square"></i>
-							</button>
-						</div>
+						<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+							<i class="far fa-plus-square"></i>
+						</button>
 					</div>
 				</div>
 			</div>

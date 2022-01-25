@@ -14,11 +14,15 @@ public class ProductOrder {
 	private String status;
 	private String briefs;
 	private String managerId;
+	private String managerName;
 	private String regDate;
 	private String updateDate;
 	private String itemName;
 	private String businessName;
 	private String clientBusinessName;
+	private String productOrderOngoingCode;
+	private String productShipmentDate;
+	private String userName;
 	public String getProductOrderCode() {
 		return productOrderCode;
 	}
@@ -97,6 +101,12 @@ public class ProductOrder {
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
 	public String getRegDate() {
 		return regDate;
 	}
@@ -127,18 +137,74 @@ public class ProductOrder {
 	public void setClientBusinessName(String clientBusinessName) {
 		this.clientBusinessName = clientBusinessName;
 	}
+	public String getProductOrderOngoingCode() {
+		return productOrderOngoingCode;
+	}
+	public void setProductOrderOngoingCode(String productOrderOngoingCode) {
+		this.productOrderOngoingCode = productOrderOngoingCode;
+	}
+	public String getProductShipmentDate() {
+		return productShipmentDate;
+	}
+	public void setProductShipmentDate(String productShipmentDate) {
+		this.productShipmentDate = productShipmentDate;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	@Override
 	public String toString() {
-		return "ProductOrder [productOrderCode=" + productOrderCode + ", mainBusinessCode=" + mainBusinessCode
-				+ ", contractCode=" + contractCode + ", clientCode=" + clientCode + ", productPriceCode="
-				+ productPriceCode + ", totalCount=" + totalCount + ", totalPrice="
-				+ totalPrice + ", productOrderDate=" + productOrderDate + ", productDate=" + productDate
-				+ ", predictProductDate=" + predictProductDate + ", status=" + status + ", briefs=" + briefs
-				+ ", managerId=" + managerId + ", regDate=" + regDate + ", updateDate=" + updateDate + ", itemName="
-				+ itemName + ", businessName=" + businessName + ", clientBusinessName=" + clientBusinessName + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("ProductOrder [productOrderCode=");
+		builder.append(productOrderCode);
+		builder.append(", mainBusinessCode=");
+		builder.append(mainBusinessCode);
+		builder.append(", contractCode=");
+		builder.append(contractCode);
+		builder.append(", clientCode=");
+		builder.append(clientCode);
+		builder.append(", productPriceCode=");
+		builder.append(productPriceCode);
+		builder.append(", totalCount=");
+		builder.append(totalCount);
+		builder.append(", totalPrice=");
+		builder.append(totalPrice);
+		builder.append(", productOrderDate=");
+		builder.append(productOrderDate);
+		builder.append(", productDate=");
+		builder.append(productDate);
+		builder.append(", predictProductDate=");
+		builder.append(predictProductDate);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", briefs=");
+		builder.append(briefs);
+		builder.append(", managerId=");
+		builder.append(managerId);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append(", regDate=");
+		builder.append(regDate);
+		builder.append(", updateDate=");
+		builder.append(updateDate);
+		builder.append(", itemName=");
+		builder.append(itemName);
+		builder.append(", businessName=");
+		builder.append(businessName);
+		builder.append(", clientBusinessName=");
+		builder.append(clientBusinessName);
+		builder.append(", productOrderOngoingCode=");
+		builder.append(productOrderOngoingCode);
+		builder.append(", productShipmentDate=");
+		builder.append(productShipmentDate);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append("]");
+		return builder.toString();
 	}
-
-
 	
 
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -103,6 +104,17 @@ public class ShipmentController {
 	}
 	
 	/**
+	 * 출하내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentAdd")
+	public String addShipment(Storing storingInfo) {
+		//출하내역 등록 프로세스
+		
+		return "redirect:/k1Shipment";
+	}
+	
+	/**
 	 * 출하내역 수정화면
 	 * @param stockAdjCode
 	 * @param model
@@ -131,6 +143,36 @@ public class ShipmentController {
 		
 		return "storing/shipment/shipment_modify";
 	}
+	
+	/**
+	 * 출하내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentModify")
+	public String modifyShipment(Storing storingInfo) {
+		//출하내역 수정프로세스
+		
+		return "redirect:/k1Shipment";
+	}
+	
+	/**
+	 * 출하내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentRemove")
+	public String removeShipment(Storing storingInfo) {
+		//출하내역 삭제 프로세스
+		return "redirect:/k1Shipment";
+	}
+	
+	
+	
+	
+	/*
+	 * *******************************
+	 *				출하계획 
+	 * *******************************
+	 */
 	
 	/**
 	 * 출하계획 전체조회
@@ -188,6 +230,17 @@ public class ShipmentController {
 	}
 	
 	/**
+	 * 출하계획 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentPlanAdd")
+	public String addShipmentPlan(Storing storingInfo) {
+		//출하계획 등록 프로세스
+		
+		return "redirect:/k1ShipmentPlan";
+	}
+	
+	/**
 	 * 출하계획 수정화면 첫페이지
 	 * @param shipmentPlanCode
 	 * @param model
@@ -216,4 +269,24 @@ public class ShipmentController {
 		return "storing/shipment/shipment_plan_modify";
 	}
 	
+	/**
+	 * 출하계획 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentPlanModify")
+	public String modifyShipmentPlan(Storing storingInfo) {
+		//출하계획 수정프로세스
+		
+		return "redirect:/k1ShipmentPlan";
+	}
+	
+	/**
+	 * 출하계획 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1ShipmentPlanRemove")
+	public String removeShipmentPlan(Storing storingInfo) {
+		//출하계획 삭제 프로세스
+		return "redirect:/k1ShipmentPlan";
+	}
 }

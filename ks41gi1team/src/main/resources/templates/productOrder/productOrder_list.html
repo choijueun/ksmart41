@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<htxlmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
 
@@ -40,9 +40,9 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
     url : '/delete',
     data : '1번게시물'
   }).done(function(결과){
-    AJAX 성공시 실행할 코드는 여기
+    //AJAX 성공시 실행할 코드는 여기
   }).fail(function(에러){
-    실패시 실행할 코드는 여기
+    //실패시 실행할 코드는 여기
   });
 
 /*  function rowDel(obj)
@@ -179,5 +179,4 @@ $('.delete').click(function(e){ // class 명이 delete 인 요소를 클릭하�
 </div>
 </div>
 </th:block>
-
 </html>

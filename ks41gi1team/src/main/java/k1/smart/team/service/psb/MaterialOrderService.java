@@ -63,7 +63,7 @@ public class MaterialOrderService {
 	
 	//발주 상세
 	public MaterialOrder getMaterialOrderInfo(String materialOrderCode) {
-		materialOrderInfo = materialOrderMapper.getMaterialOrderInfo(materialOrderCode);
+		materialOrderInfo = materialOrderMapper.getMaterialOrderInfo("materialOrderCode_"+materialOrderCode);
 
 		System.out.println("materialOrderInfo 세팅전-->:" + materialOrderInfo);
 		if(materialOrderInfo == null) {

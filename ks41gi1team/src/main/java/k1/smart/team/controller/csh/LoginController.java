@@ -1,18 +1,14 @@
 package k1.smart.team.controller.csh;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.csh.Login;
-import k1.smart.team.service.Mservice;
 import k1.smart.team.service.csh.LoginService;
 
 @Controller
@@ -21,6 +17,7 @@ public class LoginController {
 	private LoginService loginService;
 	private Login loginDetail; //로그인 상세
 	
+	//생성자메서드(의존선 주입)
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
@@ -68,6 +65,12 @@ public class LoginController {
 		model.addAttribute("loginDetail", loginDetail);
 		
 		return "login/login_detail";
+	}
+	//로그인내역 삭제
+	@GetMapping("/loginDelete")
+	public String loginDelete() {
+		
+		return "login/loginList";
 	}
 	
 	

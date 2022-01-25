@@ -30,7 +30,6 @@
 				,businessEmail
 				,openDate
 				,regDate
-				,updateDate
 				)
 			VALUES (
 				 #{mainBusinessCode}
@@ -47,7 +46,6 @@
 				,#{businessEmail}
 				,#{openDate}
 				,#{regDate}
-				,NOW()
 				);
 	</insert>
 	

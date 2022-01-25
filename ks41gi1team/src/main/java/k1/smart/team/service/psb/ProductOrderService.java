@@ -70,7 +70,7 @@ public class ProductOrderService {
 
 	//수주 상세
 	public ProductOrder getProductOrderInfo(String productOrderCode) {
-		productOrderInfo = productOrderMapper.getProductOrderInfo(productOrderCode);
+		productOrderInfo = productOrderMapper.getProductOrderInfo("product_orderCode_"+productOrderCode);
 
 		System.out.println("서비스 productOrderCode-->" + productOrderCode);
 		System.out.println("productOrderInfo 값세팅전-->:" + productOrderInfo);

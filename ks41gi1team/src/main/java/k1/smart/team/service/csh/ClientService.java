@@ -24,6 +24,12 @@ public class ClientService {
 		this.clientMapper = clientMapper;
 	};
 	
+	/**
+	 * 거래처 등록(addClient)
+	 * 거래처 삭제(clientDelete)
+	 * 
+	 */
+	
 	//거래처 전체 목록 조회
 	public List<Client> getAllClientList() {
 		clientList = clientMapper.getAllClientList(null);
@@ -57,6 +63,11 @@ public class ClientService {
 	public int modifyClient(Client client) {
 		
 		return clientMapper.modifyClient(client);
+	}
+	//거래처 중복검사
+	public int getClientCheck(String clientCode) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 

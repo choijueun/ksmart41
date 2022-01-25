@@ -36,7 +36,7 @@ public class WarehousingController {
 	}
 
 	/**
-	 * 입고내역 전체목록
+	 * 입고내역 전체목록 조회
 	 * @param model
 	 */
 	@GetMapping("/k1Warehousing")
@@ -53,7 +53,7 @@ public class WarehousingController {
 	}
 	
 	/**
-	 * 입고내역 상세정보
+	 * 입고내역 상세정보 조회
 	 * @param stockAdjCode
 	 * @param model
 	 */
@@ -137,8 +137,10 @@ public class WarehousingController {
 		
 		//등록 process
 		if(storingService.addStoringInfo(storingInfo)) {
+			//성공
 			return "redirect:/k1Warehousing";
 		}else {
+			//실패
 			return "redirect:/k1WarehousingAdd";
 		}
 	}
@@ -171,4 +173,28 @@ public class WarehousingController {
 		
 		return "storing/warehousing/warehousing_modify";
 	}
+	
+	/**
+	 * 입고내역 수정 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1WarehousingModify")
+	public String modifyWarehousing(Storing storingInfo) {
+		log.info("수정할 storingInfo :: {}", storingInfo);
+		//수정 프로세스 진행
+		
+		return "redirect:/k1Warehousing";
+	}
+	
+	/**
+	 * 입고내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1WarehousingRemove")
+	public String removeWarehousing(Storing storingInfo) {
+		//삭제 프로세스 진행
+		
+		return "redirect:/k1Warehousing";
+	}
+	
 }

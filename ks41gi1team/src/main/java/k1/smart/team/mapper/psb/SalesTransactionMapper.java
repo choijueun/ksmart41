@@ -23,4 +23,10 @@ public interface SalesTransactionMapper {
 	
 	//하나 매출거래코드 등록할때마다 추가
 	public String getSalesTransactionCode();
+
+	//전체조회
+	public List<SalesTransaction> getAllSalesTransactionList(String mainBusinessCode);
+
+	//상세조회	
+	public SalesTransaction getSalesTransactionInfoByCode(String salesTsCode);
 }

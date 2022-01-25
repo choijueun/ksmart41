@@ -355,9 +355,16 @@ public class ItemController {
 		return "redirect:/k1ItemCategory";
 	}
 	
+	/**
+	 * 카테고리 정보 삭제 프로세스 진행
+	 * @param stock
+	 * @return
+	 */
 	@PostMapping("/k1ItemCategoryRemove")
-	public String removeItemCategory(Stock stock) {
-		//삭제
+	public String removeItemCategory(String itemCode) {
+		//카테고리 삭제 프로세스
+		itemService.removeItemCategory(itemCode);
+		
 		return "redirect:/k1ItemCategory";
 	}
 }

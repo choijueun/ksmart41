@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionLocation">[[${purchaseTsCode}]]</th:block>
+
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+	<div class="row" th:unless="${ purchaseTransactionInfo == null }">
+		<div class="col-lg-3 col-md-2">
+		</div>
+			<div class="col-lg-6 col-md-8 mb-3">
+				<div class="card card-info card-outline">
+					<div class="card-body">
+						<p class="lead">비용거래명세서상세코드[[${purchaseTransactionInfo.purchaseTsDetailCode}]]</p>
+						<table id="costInfo" class="table">
+							<tr>
+								<th>비용거래명세서코드</th>
+								<td>[[${purchaseTransactionInfo.purchaseTsCode}]]</td>
+							</tr>
+							<tr>
+								<th>계정과목코드</th>
+								<td>[[${purchaseTransactionInfo.lsAccountCode}]]</td>
+							</tr>
+							<tr>
+								<th>계정과목명</th>
+								<td>[[${purchaseTransactionInfo.lsAccountName}]]</td>
+							</tr>
+							<tr>
+								<th>품목코드</th>
+								<td>[[${purchaseTransactionInfo.itemCode}]]</td>
+							</tr>
+							<tr>
+								<th>원.부자재명</th>
+								<td>[[${purchaseTransactionInfo.itemName}]]</td>
+							</tr>
+							<tr>
+								<th>원.부자재가격</th>
+								<td>[[${#numbers.formatInteger(purchaseTransactionInfo.unitPrice,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>수량</th>
+								<td>[[${#numbers.formatInteger(purchaseTransactionInfo.count,0,'COMMA')}]] EA</td>
+							</tr>
+							<tr>
+								<th>부가세</th>
+								<td>[[${#numbers.formatInteger(purchaseTransactionInfo.vat,0,'COMMA')}]] 원</td>
+							</tr>
+
+						</table>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionHistory}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						<a th:href="@{|/k1PurchaseTransaction/modify/${purchaseTransactionInfo.purchaseTsCode}|}">
+							<button type="button" class="btn btn-info float-right mr-2">수정</button>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div th:if="${ purchaseTransactionInfo == null }">
+				잘못된 접근입니다.
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>

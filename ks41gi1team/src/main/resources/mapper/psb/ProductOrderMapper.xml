@@ -34,7 +34,9 @@ WHERE
 	
  <select id="getProductOrderInfo" parameterType="String" resultType="ProductOrder">
 SELECT 
-	RIGHT(po.productOrderCode,3) as productOrderCode,
+	po.productOrderCode,
+	right(pod.productOrderOngoingCode,3) AS productOrderOngoingCode,
+	pod.productShipmentDate,
 	po.mainBusinessCode,
 	mb.businessName,
 	po.contractCode,
@@ -42,6 +44,7 @@ SELECT
 	c.businessName AS clientBusinessName,
 	po.`status`,
 	po.itemName,
+	po.managerName,
 	po.totalCount,
 	po.totalPrice,
 	po.briefs as briefs,
@@ -54,16 +57,23 @@ SELECT
 	po.updateDate as updateDate
 FROM 
 	k1_view_product_order AS po
-	INNER JOIN 
+INNER JOIN 
 	k1_tb_main_business AS mb
-	on
+on
 	mb.mainBusinessCode = po.mainBusinessCode
-	JOIN
+INNER JOIN
 	k1_tb_client AS c
-	on
+on
 	c.clientCode = po.clientCode
+INNER JOIN 
+	k1_tb_product_order_detail AS pod
+on
+	pod.productOrderCode = po.productOrderCode
 WHERE
-	po.productOrderCode = CONCAT('productOrderCode_', #{productOrderCode})	
+	po.productOrderCode = #{productOrderCode}
+ORDER BY
+	pod.productOrderOngoingCode
+
 </select>	 
 	
 <select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
@@ -75,6 +85,7 @@ WHERE
 		po.clientBusinessName as clientBusinessName,
 		po.`status`,
 		po.itemName as itemName,
+		po.managerName,
 		po.totalCount,
 		po.totalPrice,
 		po.briefs as briefs,
@@ -111,6 +122,7 @@ WHERE
 		po.updateDate
 	FROM 
 		k1_view_product_order AS po
+	
 </select>	
 	
 </mapper>	
