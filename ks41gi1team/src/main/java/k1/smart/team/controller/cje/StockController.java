@@ -1,11 +1,13 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.service.cje.StockService;
+import k1.smart.team.service.cje.WarehouseService;
 
 @Controller
 public class StockController {
@@ -27,6 +30,9 @@ public class StockController {
 	private Map<String, Object> resultMap;
 	
 	private static final Logger log = LoggerFactory.getLogger(StockController.class);
+	
+	@Autowired
+	private WarehouseService warehouseService;
 	
 	/**
 	 * 생성자 메서드
@@ -48,7 +54,10 @@ public class StockController {
 		log.info("재고 LIST :: {}", stockList);
 		model.addAttribute("stockList", stockList);
 		
-		model.addAttribute("wList", stockService.getAllWarehouseList(mainBusinessCode));
+		//사업장대표코드
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		model.addAttribute("wList", warehouseService.getAllWarehouseList(paramMap));
 		
 		model.addAttribute("SectionTitle", "재고관리");
 		model.addAttribute("SectionLocation", "전체목록");

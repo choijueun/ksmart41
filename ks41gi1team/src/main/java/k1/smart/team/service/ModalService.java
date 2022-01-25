@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
@@ -24,29 +25,22 @@ import k1.smart.team.mapper.psb.ContractMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
 
 @Service
+@Transactional
 public class ModalService {
+	@Autowired
 	private SlipMapper slipMapper;
+	@Autowired
 	private MaterialOrderMapper materialOrderMapper;
-	
 	@Autowired
 	private ClientMapper clientMapper;
-	
 	@Autowired
 	private ContractMapper contractMapper;
-	
 	@Autowired
 	private UserMapper userMapper;
-	
 	@Autowired
 	private WarehouseMapper warehouseMapper;
-	
 	@Autowired
 	private ItemMapper itemMapper;
-	
-	public ModalService(SlipMapper slipMapper, MaterialOrderMapper materialOrderMapper) {
-		this.slipMapper = slipMapper;
-		this.materialOrderMapper = materialOrderMapper;
-	}
 	
 	/**
 	 * 회원정보 전체목록

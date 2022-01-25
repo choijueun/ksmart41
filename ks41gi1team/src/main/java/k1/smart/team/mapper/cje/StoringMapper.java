@@ -69,6 +69,13 @@ public interface StoringMapper {
 	public int addStoringDetails(Stock stockInfo); //상세테이블
 	
 	/**
+	 * 물류이동내역 수정
+	 * @param storingInfo
+	 */
+	public int modifyStoringInfo(Storing storingInfo);//한줄테이블
+	public int modifyStoringDetails(Stock stockInfo); //상세테이블
+	
+	/**
 	 * 물류이동내역 삭제
 	 * @param stockAdjCode
 	 */
@@ -92,6 +99,20 @@ public interface StoringMapper {
 	public List<Storing> getShipmentPlanDetails(String shipmentPlanCode);
 	
 	/**
+	 * 출하계획 수정
+	 * @param storingInfo
+	 */
+	public int modifyShipmentPlanInfo(Storing storingInfo);//한줄테이블
+	public int modifyShipmentPlanDetails(Stock stockInfo); //상세테이블
+	
+	/**
+	 * 출하계획 삭제
+	 * @param stockAdjCode
+	 */
+	public void removeShipmentPlanInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
+	public void removeShipmentPlanDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
+	
+	/**
 	 * 반품요청 전체조회
 	 * @param mainBusinessCode
 	 */
@@ -103,7 +124,19 @@ public interface StoringMapper {
 	 */
 	public Storing getReturnRegInfo(String returnRegCode);
 	public List<Storing> getReturnRegDetails(String returnRegCode);
-
-
 	
+	/**
+	 * 반품요청 수정
+	 * @param storingInfo
+	 */
+	public int modifyReturnRegInfo(Storing storingInfo);//한줄테이블
+	public int modifyReturnRegDetails(Stock stockInfo); //상세테이블
+	
+	/**
+	 * 반품요청 삭제
+	 * @param stockAdjCode
+	 */
+	public void removeReturnRegInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
+	public void removeReturnRegDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
 }
+

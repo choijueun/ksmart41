@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Delivery;
+import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.service.cje.DeliveryService;
 
 @Controller
@@ -83,7 +85,7 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * 운송요청내역 신규등록
+	 * 운송요청내역 신규등록화면
 	 * @param model
 	 * @return
 	 */
@@ -97,7 +99,18 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * 운송요청내역 수정
+	 * 운송요청내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DeliveryAdd")
+	public String addDelivery(Storing storingInfo) {
+		//운송요청내역 등록 프로세스
+		
+		return "redirect:/k1Delivery";
+	}
+	
+	/**
+	 * 운송요청내역 수정화면
 	 * @param deliveryCode
 	 * @param model
 	 * @return
@@ -114,5 +127,27 @@ public class DeliveryController {
 		model.addAttribute("SectionLocation", "운송요청수정");
 		
 		return "storing/delivery/delivery_modify";
+	}
+	
+	/**
+	 * 운송요청내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DeliveryModify")
+	public String modifyDelivery(Storing storingInfo) {
+		//운송요청내역 수정프로세스
+		
+		return "redirect:/k1Delivery";
+	}
+	
+	/**
+	 * 운송요청내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1DeliveryRemove")
+	public String removeDelivery(Storing storingInfo) {
+		//운송요청내역 삭제 프로세스
+		
+		return "redirect:/k1Delivery";
 	}
 }

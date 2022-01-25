@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
@@ -81,7 +82,7 @@ public class AdjustmentController {
 	}
 	
 	/**
-	 * 재고조정내역 신규등록(+재고하나정보)
+	 * 재고조정내역 신규등록 화면(+재고하나정보)
 	 * @param inventoryCode
 	 * @param model
 	 */
@@ -101,6 +102,17 @@ public class AdjustmentController {
 		model.addAttribute("SectionLocation", "재고조정내역 등록");
 		
 		return "storing/adjustment/adjustment_add";
+	}
+	
+	/**
+	 * 재고조정내역 등록 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1AdjustmentAdd")
+	public String addAdj(Storing storingInfo) {
+		//재고조정내역 등록 프로세스
+		
+		return "redirect:/k1Adjustment";
 	}
 	
 	/**
@@ -130,5 +142,27 @@ public class AdjustmentController {
 		model.addAttribute("SectionLocation", "재고조정내역 수정");
 		
 		return "storing/adjustment/adjustment_modify";
+	}
+	
+	/**
+	 * 재고조정내역 수정프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1AdjustmentModify")
+	public String modifyAdj(Storing storingInfo) {
+		//재고조정내역 수정프로세스
+		
+		return "redirect:/k1Adjustment";
+	}
+	
+	/**
+	 * 재고조정내역 삭제 프로세스
+	 * @param storingInfo
+	 */
+	@PostMapping("/k1AdjustmentRemove")
+	public String removeAdj(Storing storingInfo) {
+		//재고조정내역 삭제 프로세스
+		
+		return "redirect:/k1Adjustment";
 	}
 }
