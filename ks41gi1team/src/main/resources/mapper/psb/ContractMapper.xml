@@ -233,7 +233,7 @@
 		SELECT
 			RIGHT(contr.contractCode,3) as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
-			mb.businessName as mbBusinessName,
+			mb.businessName as businessName,
 			contr.clientCode as clientCode,
 			contr.clientBusinessName as clientBusinessName,
 			c.businessRepresentative AS businessRepresentative,
