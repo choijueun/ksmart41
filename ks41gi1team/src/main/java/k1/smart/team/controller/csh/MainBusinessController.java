@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.service.csh.MainBusinessService;
-import k1.smart.team.service.csh.ClientService;
 
 @Controller
 @RequestMapping(value="/k1Business")
@@ -22,6 +20,7 @@ public class MainBusinessController {
 	private MainBusinessService mainBusinessService;
 	private MainBusiness mainBusinessDetail;
 	
+	//생성자메서드(의존선 주입)
 	public MainBusinessController(MainBusinessService mainBusinessService) {
 		this.mainBusinessService = mainBusinessService;
 	}
@@ -125,6 +124,11 @@ public class MainBusinessController {
 		mainBusinessService.modifyMainBusiness(mainBusiness);
 		
 		 return "redirect:/k1Business/businessList";
+	}
+	//사업장 삭제
+	@GetMapping("/mainBusinessDelete")
+	public String mainBusinessDelete() {
+		return "mainBusiness/business_list";
 	}
 	
 	

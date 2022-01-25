@@ -28,6 +28,14 @@ public class UserService {
 		this.userRegMapper = userRegMapper;
 	}
 	
+	/**
+	 * 회원등록(getAddUser)
+	 * 회원삭제(userDelete)
+	 * 회원가입요청 삭제(userRegDelete)
+	 * 
+	 * 
+	 */
+	
 	//회원 전체 목록
 	public List<User> getAllUserList() {
 		userList = userRegMapper.getAllUserList(null);
@@ -38,6 +46,22 @@ public class UserService {
 		System.out.println("userList 서비스" + userList);
 		return userList;
 	}
+	//회원정보 상세
+	public User getUserDetail(String userId) {
+		userDetail = userRegMapper.getUserDetail(userId);
+		if(userDetail == null) {
+			System.out.println("조회 결과 없음");
+			return null;
+		}
+		userDetail.setUserId(userId);
+		return userDetail;
+	}
+	//회원정보 수정
+	public int modifyUser(User user) {
+		return userRegMapper.modifyUser(user);
+	}
+	
+	
 	
 	//회원가입 요청 목록
 	public List<UserReg> getAllUserRegList() {
@@ -80,21 +104,7 @@ public class UserService {
 		return limitUser;
 	}
 
-	//회원정보 상세
-	public User getUserDetail(String userId) {
-		userDetail = userRegMapper.getUserDetail(userId);
-		if(userDetail == null) {
-			System.out.println("조회 결과 없음");
-			return null;
-		}
-		userDetail.setUserId(userId);
-		return userDetail;
-	}
-
-	//회원정보 수정
-	public int modifyUser(User user) {
-		return userRegMapper.modifyUser(user);
-	}
+	
 
 	
 	

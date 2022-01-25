@@ -28,6 +28,7 @@ public class UserController {
 	@Autowired
 	private LoginService loginService; //로그인 최근내역
 	
+	//생성자메서드(의존선 주입)
 	public UserController( UserService userService) {
 		this.userService = userService;
 	}
@@ -75,6 +76,13 @@ public class UserController {
 		userService.modifyUser(user);
 		return "redirect:/k1UserReg/userList";
 	}
+	//회원정보 삭제
+	@GetMapping("/userDelete/{userId}")
+	public String userDelete() {
+		
+		return "user/user_list";
+	}
+	
 	
 	
 	//회원정보 상세
@@ -84,19 +92,19 @@ public class UserController {
 			,Model model) {
 		System.out.println("userId" + userId);
 		
-		//회원가입 요청코드 검사
+		//회원 검사
 		if(userId == null || "".equals(userId)) {
-			System.out.println("회원가입 요청 상세 error");
+			System.out.println("회원 상세 error");
 			return "redirect:/userList";
 		}
 		
-		//회원가입요청 상세
+		//회원 상세
 		userDetail = userService.getUserDetail(userId);
 		if(userDetail == null) {
-			System.out.println("회원가입 요청 상세 error");
+			System.out.println("회원 상세 error");
 			return "redirect:/userList";
 		}
-		model.addAttribute("SectionTitle", "회원가입 요청 상세");
+		model.addAttribute("SectionTitle", "회원 정보 상세");
 		model.addAttribute("userDetail", userDetail);
 		
 		return "user/user_detail";
@@ -126,7 +134,6 @@ public class UserController {
 		
 		return "user/manager_page";
 	}
-	
 	//회원 마이페이지
 	@GetMapping("/myPage")
 	public String myPage(Model model) {
@@ -134,6 +141,14 @@ public class UserController {
 		
 		return "user/user_mypage";
 	}
+	//관리자페이지 calrendar 이동
+	@GetMapping("/calrendar")
+	public String calrendar() {
+		
+		return "user/calrendar";
+	}
+	
+	
 	
 	/**
 	 * 회원가입 요청
@@ -195,14 +210,14 @@ public class UserController {
 		userService.modifyUserReg(userReg);
 		return "redirect:/k1UserReg/userRegList";
 	}
+	//회원가입요청 삭제
+	@GetMapping("/userRegDelete/{userRegCode}")
+	public String userRegDelete() {
+		return "user/userReg_register";
+	}
 			
 	
-	//관리자페이지 calrendar 이동
-	@GetMapping("/calrendar")
-	public String calrendar() {
-		
-		return "user/calrendar";
-	}
+	
 	
 	
 	

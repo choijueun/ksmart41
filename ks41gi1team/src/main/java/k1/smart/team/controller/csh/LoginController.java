@@ -17,6 +17,7 @@ public class LoginController {
 	private LoginService loginService;
 	private Login loginDetail; //로그인 상세
 	
+	//생성자메서드(의존선 주입)
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
@@ -64,6 +65,12 @@ public class LoginController {
 		model.addAttribute("loginDetail", loginDetail);
 		
 		return "login/login_detail";
+	}
+	//로그인내역 삭제
+	@GetMapping("/loginDelete")
+	public String loginDelete() {
+		
+		return "login/loginList";
 	}
 	
 	
