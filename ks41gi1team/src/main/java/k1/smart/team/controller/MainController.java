@@ -13,7 +13,7 @@ import k1.smart.team.service.MainService;
 public class MainController {
 	//Service
 	private MainService mainService;
-	//로그인 및 인터셉터 기능을 구현하지 않아 임시로 지정한 사업장대표코드(여러 공장 중 하나 선택)
+	//로그인 및 인터셉터 기능이 구현중에 있어 임시로 지정한 사업장대표코드(여러 공장 중 하나 선택)
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001";
 	//전역변수 선언
 	Map<String, Object> resultMap;

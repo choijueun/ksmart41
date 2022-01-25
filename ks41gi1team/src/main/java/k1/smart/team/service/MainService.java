@@ -15,6 +15,10 @@ public class MainService {
 	@Autowired
 	private StoringMapper storingMapper;
 	
+	/**
+	 * 미완 배송요청·출하계획·반품요청 건수 조회
+	 * @param mainBusinessCode
+	 */
 	public Map<String, Object> getUnfinishedCnt(String mainBusinessCode) {
 		//map 객체 생성
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -25,5 +29,4 @@ public class MainService {
 		
 		return resultMap;
 	}
-	
 }
