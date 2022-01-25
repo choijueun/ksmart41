@@ -17,6 +17,7 @@ public class InvoiceController {
 	private InvoiceService invoiceService;
 	private Invoice invoiceDetail; //세금계산서 상세
 	
+	//생성자메서드(의존선 주입)
 	public InvoiceController(InvoiceService invoiceService) {
 		this.invoiceService = invoiceService;
 	}
@@ -73,6 +74,13 @@ public class InvoiceController {
 		model.addAttribute("SectionTitle", "전자세금계산서 등록");
 		return "invoice/sales_iv_register";
 	}
+	
+	//세금계산서 삭제
+	@GetMapping("/invoiceDelete/{invoiceCode}")
+	public String invoiceDelete() {
+		return "invoice/invoice_list";
+	}
+	
 
 
 }

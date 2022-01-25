@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.service.csh.ClientService;
@@ -19,6 +20,7 @@ public class ClientController {
 	private ClientService clientService;
 	private Client clientDetail; //거래처 상세
 	
+	//생성자메서드(의존선 주입)
 	public ClientController(ClientService clientService) {
 		this.clientService = clientService;
 	};
@@ -35,11 +37,24 @@ public class ClientController {
 		return "clientBusiness/client_list";
 	};
 	
-	//거래처 등록 아이디 조회
+	//거래처 등록 
 	@GetMapping("/clientRegister")
 	public String clientRegister(Model model) {
 		model.addAttribute("SectionTitle", "거래처 등록");
 		return "clientBusiness/client_register";
+	}
+	
+	//거래처 중복검사
+	@PostMapping("/")
+	@ResponseBody
+	public boolean clientCode(@RequestParam(value = "clientCode", required = false)String clientCode) {
+		System.out.println("ajax 통신으로 요청받은 param clientCode: " + clientCode);
+		
+		boolean checkResult = false;
+		int clientCheck = clientService.getClientCheck(clientCode);
+		if(clientCheck > 0) checkResult = true;
+		
+		return checkResult;
 	}
 	
 	//거래처 상세정보
@@ -90,7 +105,11 @@ public class ClientController {
 		clientService.modifyClient(client);
 		return "redirect:/k1Client/clientList";
 	}
-	
+	//거래처 정보 삭제
+	@GetMapping("/clientDelete")
+	public String clientDelete() {
+		return "clientBusiness/client_list";
+	}
 	
 	
 	

@@ -17,7 +17,7 @@ public class LoginService {
 	private List<Login> loginList; //로그인 내역 목록
 	private Login loginDetail; //로그인 상세
 	
-	//
+	//생성자메서드
 	public LoginService(LoginMapper loginMapper) {
 		this.loginMapper = loginMapper;
 	}
@@ -25,6 +25,8 @@ public class LoginService {
 	public List<Map<String, Object>> getLoginHistory3() {
 		return loginMapper.getLoginHistoryList(null);
 	}
+	
+	//로그인, 회원가입 서비스 만들어라
 
 	//로그인 내역 전체 목록
 	public List<Login> getAllLoginList() {
