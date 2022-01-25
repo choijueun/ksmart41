@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import k1.smart.team.dto.pjh.CancelPayment;
-import k1.smart.team.dto.pjh.Cost;
 import k1.smart.team.dto.pjh.HistoryPayment;
 import k1.smart.team.dto.pjh.PlanPayment;
 import k1.smart.team.mapper.pjh.PaymentMapper;

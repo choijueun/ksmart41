@@ -7,8 +7,21 @@ public class Is {
 	private String lsCategoryCode;
 	private String isUse;
 	private String isModify;
-	private String applyYear;
+	private int totalPrice;
+	private int totalSales;
 	
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public int getTotalSales() {
+		return totalSales;
+	}
+	public void setTotalSales(int totalSales) {
+		this.totalSales = totalSales;
+	}
 	public String getLsAccountCode() {
 		return lsAccountCode;
 	}
@@ -39,12 +52,6 @@ public class Is {
 	public void setIsModify(String isModify) {
 		this.isModify = isModify;
 	}
-	public String getApplyYear() {
-		return applyYear;
-	}
-	public void setApplyYear(String applyYear) {
-		this.applyYear = applyYear;
-	}
 	
 	@Override
 	public String toString() {
@@ -60,7 +67,6 @@ public class Is {
 		builder.append(", isModify=");
 		builder.append(isModify);
 		builder.append(", applyYear=");
-		builder.append(applyYear);
 		builder.append("]");
 		return builder.toString();
 	}
