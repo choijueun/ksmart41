@@ -137,7 +137,7 @@ $(function(){
 						<td>[[${l.itemName}]]</td>
 						<td>[[${l.predictDate}]]</td>
 						<td>[[${l.totalCount}]] EA</td>
-						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
+						<td> &#8361; [[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td> 
 						<td>[[${l.status}]]</td> 
 						<td class="text-center">
 								<a th:href="@{|/k1MaterialOrder/modify/{materialOrderCode}|}"><i class="fas fa-pen"></i></a>
@@ -167,7 +167,7 @@ $(function(){
 						<th>No.</th>
 						<th>수주요청일자</th>
 						<th>거래처명</th>
-						<th>제품</th>
+						<th style="width:19%;">제품</th>
 						<th>예상제품출하일자</th>
 						<th>수량</th>
 						<th>금액</th>
@@ -176,20 +176,20 @@ $(function(){
 					</tr>
 				</thead>
 				<tbody>
-					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="l : ${productOrderList}">
+					 <tr th:if="${not #lists.isEmpty(productOrderList)}" th:each="p : ${productOrderList}">
 						<td><input type="checkbox" name="productOrderCheck"></td>
 						<td>
-							<a th:href="@{|/k1ProductOrder/productOrder/${l.productOrderCode}|}">
-								[[${l.productOrderCode}]]
+							<a th:href="@{|/k1ProductOrder/productOrder/${p.productOrderCode}|}">
+								[[${p.productOrderCode}]]
 							</a>
 						</td>
-						<td>[[${l.productOrderDate}]]</td> 
-						<td>[[${l.clientBusinessName}]]</td>
-						<td>[[${l.itemName}]]</td>
-						<td>[[${l.predictProductDate}]]</td>
-						<td>[[${#numbers.formatInteger(l.totalCount,0,'COMMA')}]]EA</td>
-						<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] &#8361;</td> 
-						<td>[[${l.status}]]</td> 
+						<td>[[${p.productOrderDate}]]</td> 
+						<td>[[${p.clientBusinessName}]]</td>
+						<td>[[${p.itemName}]]</td>
+						<td>[[${p.predictProductDate}]]</td>
+						<td>[[${#numbers.formatInteger(p.totalCount,0,'COMMA')}]] EA</td>
+						<td>&#8361; [[${#numbers.formatInteger(p.totalPrice,0,'COMMA')}]] </td> 
+						<td>[[${p.status}]]</td> 
 						<td>
 							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
 						</td>

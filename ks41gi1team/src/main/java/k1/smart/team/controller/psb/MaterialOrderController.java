@@ -160,7 +160,7 @@ public class MaterialOrderController {
 		}
 	
 	  //발주관리 상세
-	  @GetMapping("materialOrder/{materialOrderCode}") 
+	  @GetMapping("/materialOrder/{materialOrderCode}") 
 	  public String materialOrderInfo(
 			  	@PathVariable(value="materialOrderCode", required=false) String materialOrderCode
 			  	,Model model) { 
@@ -171,14 +171,15 @@ public class MaterialOrderController {
 				  return "redirect:/k1MaterialOrder/k1MaterialOrderList"; 
 				  } 
 			  
-			  //발주관리 상세정보 
 			  materialOrderInfo = materialOrderService.getMaterialOrderInfo(materialOrderCode);
 			  System.out.println("materialOrderInfo: ---->" + materialOrderInfo);
+			  //발주관리 상세정보 
 			  if(materialOrderInfo == null) {
 				  System.out.println("발주관리코드 ERROR"); 
 				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 
 			  }
 			    
+			  
 			  model.addAttribute("title", "발주관리 상세");
 			  model.addAttribute("SectionTitle", "발주관리");
 			  model.addAttribute("SectionLocation", "상세정보");
@@ -190,7 +191,6 @@ public class MaterialOrderController {
 		//발주 전체 목록
 		@GetMapping("/k1MaterialOrderList")
 		public String materialOrderMain(Model model) {
-			
 			List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList(mainBusinessCode);
 			model.addAttribute("title", "수.발주 목록");
 			model.addAttribute("materialOrderList", materialOrderList);

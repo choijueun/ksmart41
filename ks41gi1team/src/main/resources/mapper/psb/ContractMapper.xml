@@ -74,6 +74,39 @@
 			</trim>
 	</update>
 	
+	<select id="getContractInfoByCode" parameterType="String" resultType="Contract">
+		SELECT 
+			cd.contractNum,
+			mb.businessName as mbBusinessName,
+			c.contractCode,
+			c.clientBusinessName,
+			c.clientManagerName,
+			c.contractSection,
+			c.contractType,
+			c.startDate,
+			c.endDate,
+			c.managerName,
+			c.regName,
+			c.approvalName,
+			c.contractDate,
+			c.contractStatus,
+			c.briefs,
+			c.regDate,
+			c.updateDate
+		FROM
+			k1_view_contract AS c
+		 INNER JOIN 
+ 			k1_tb_contract_detail AS cd
+		 ON
+			 cd.contractCode = c.contractCode
+ 		INNER JOIN 
+			 k1_tb_main_business AS mb
+ 		ON
+ 			mb.mainBusinessCode = c.mainBusinessCode
+ 		WHERE
+ 			c.contractCode = #{contractCode} 	
+	</select>
+	
 	<select id="getContractCodeForMaterialOrderCodeList" parameterType="String" resultMap="contractCodeForMaterialOrderCodeResultMap">
 		SELECT
  			c.contractCode as contractCode
@@ -83,7 +116,7 @@
 			c.contractSection="발주";			
 	</select>
 	
-	<select id="getContractInfo" resultType="String">
+	<select id="getContractCode" resultType="String">
 		SELECT
 	   LPAD(CAST(MAX(RIGHT(contractCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
 	FROM 
@@ -196,7 +229,7 @@
 			contr.clientCode = c.clientCode;
 	</select>
 	
-	<select id="getContractHistoryList" parameterType="map" resultType="map">
+	<select id="getContractHistoryList" parameterType="String" resultType="Contract">
 		SELECT
 			RIGHT(contr.contractCode,3) as contractCode,
 			contr.mainBusinessCode as mainBusinessCode,
@@ -229,11 +262,7 @@
 			k1_tb_main_business as mb
 			ON
 			mb.mainBusinessCode = contr.mainBusinessCode
-		WHERE
-			contr.mainBusinessCode IS NOT NULL
-		<if test="strartNum != null">
-			LIMIT #{startNum}, #{rowPerPage};
-		</if>	
+
 	</select>
 	
 	<select id="getAllContractList" parameterType="String" resultType="Contract">

@@ -30,7 +30,7 @@ $("#modifyBtn").click(function(){
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-		<div class="row"  th:unless="${ w == null }">
+		<div class="row"  th:unless="${ materialOrderInfo == null }">
 			<div class="col-lg-5">
 				<div class="card card-info card-outline">
 					<div class="card-header">
@@ -89,7 +89,7 @@ $("#modifyBtn").click(function(){
 					<a>
 						<button type="button" class="btn btn-danger float-right">삭제</button>
 					</a>
-					<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}">
+					<a th:href="@{|/k1MaterialOrder/modify/${materialOrderInfo.materialOrderCode}|}">
 						<button type="button" class="btn btn-info float-right mr-2">수정</button>
 					</a>
 				</div>

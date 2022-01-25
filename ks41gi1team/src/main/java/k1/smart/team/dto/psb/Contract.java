@@ -5,10 +5,13 @@ import javax.validation.constraints.NotBlank;
 public class Contract {
 	
 	private String contractCode;
+	private int contractNum;
 	private String mainBusinessCode;
+	private String mbBusinessName;
 	private String clientCode;
 	private String clientBusinessName;
 	private String clientManagerId;
+	private String clientManagerName;
 	private String contractSection;
 	private String contractType;
 	@NotBlank(message="계약시작일을 입력해주세요.")
@@ -26,20 +29,34 @@ public class Contract {
 	private String updateDate;
 	private String businessRepresentative;
 	private String userName;
+	private String managerName;
+	private String approvalName;
 	private String userId;
+	private String status;
 	private String contractCodeForMaterialOrderCode;
-	
 	public String getContractCode() {
 		return contractCode;
 	}
 	public void setContractCode(String contractCode) {
 		this.contractCode = contractCode;
 	}
+	public int getContractNum() {
+		return contractNum;
+	}
+	public void setContractNum(int contractNum) {
+		this.contractNum = contractNum;
+	}
 	public String getMainBusinessCode() {
 		return mainBusinessCode;
 	}
 	public void setMainBusinessCode(String mainBusinessCode) {
 		this.mainBusinessCode = mainBusinessCode;
+	}
+	public String getMbBusinessName() {
+		return mbBusinessName;
+	}
+	public void setMbBusinessName(String mbBusinessName) {
+		this.mbBusinessName = mbBusinessName;
 	}
 	public String getClientCode() {
 		return clientCode;
@@ -58,6 +75,12 @@ public class Contract {
 	}
 	public void setClientManagerId(String clientManagerId) {
 		this.clientManagerId = clientManagerId;
+	}
+	public String getClientManagerName() {
+		return clientManagerName;
+	}
+	public void setClientManagerName(String clientManagerName) {
+		this.clientManagerName = clientManagerName;
 	}
 	public String getContractSection() {
 		return contractSection;
@@ -143,11 +166,29 @@ public class Contract {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getApprovalName() {
+		return approvalName;
+	}
+	public void setApprovalName(String approvalName) {
+		this.approvalName = approvalName;
+	}
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public String getContractCodeForMaterialOrderCode() {
 		return contractCodeForMaterialOrderCode;
@@ -160,14 +201,20 @@ public class Contract {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Contract [contractCode=");
 		builder.append(contractCode);
+		builder.append(", contractNum=");
+		builder.append(contractNum);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
+		builder.append(", mbBusinessName=");
+		builder.append(mbBusinessName);
 		builder.append(", clientCode=");
 		builder.append(clientCode);
 		builder.append(", clientBusinessName=");
 		builder.append(clientBusinessName);
 		builder.append(", clientManagerId=");
 		builder.append(clientManagerId);
+		builder.append(", clientManagerName=");
+		builder.append(clientManagerName);
 		builder.append(", contractSection=");
 		builder.append(contractSection);
 		builder.append(", contractType=");
@@ -196,59 +243,22 @@ public class Contract {
 		builder.append(businessRepresentative);
 		builder.append(", userName=");
 		builder.append(userName);
+		builder.append(", managerName=");
+		builder.append(managerName);
+		builder.append(", approvalName=");
+		builder.append(approvalName);
 		builder.append(", userId=");
 		builder.append(userId);
+		builder.append(", status=");
+		builder.append(status);
 		builder.append(", contractCodeForMaterialOrderCode=");
 		builder.append(contractCodeForMaterialOrderCode);
-		builder.append(", getContractCode()=");
-		builder.append(getContractCode());
-		builder.append(", getMainBusinessCode()=");
-		builder.append(getMainBusinessCode());
-		builder.append(", getClientCode()=");
-		builder.append(getClientCode());
-		builder.append(", getClientBusinessName()=");
-		builder.append(getClientBusinessName());
-		builder.append(", getClientManagerId()=");
-		builder.append(getClientManagerId());
-		builder.append(", getContractSection()=");
-		builder.append(getContractSection());
-		builder.append(", getContractType()=");
-		builder.append(getContractType());
-		builder.append(", getStartDate()=");
-		builder.append(getStartDate());
-		builder.append(", getEndDate()=");
-		builder.append(getEndDate());
-		builder.append(", getManagerId()=");
-		builder.append(getManagerId());
-		builder.append(", getRegId()=");
-		builder.append(getRegId());
-		builder.append(", getApprovalId()=");
-		builder.append(getApprovalId());
-		builder.append(", getContractDate()=");
-		builder.append(getContractDate());
-		builder.append(", getContractStatus()=");
-		builder.append(getContractStatus());
-		builder.append(", getBriefs()=");
-		builder.append(getBriefs());
-		builder.append(", getRegDate()=");
-		builder.append(getRegDate());
-		builder.append(", getUpdateDate()=");
-		builder.append(getUpdateDate());
-		builder.append(", getBusinessRepresentative()=");
-		builder.append(getBusinessRepresentative());
-		builder.append(", getUserName()=");
-		builder.append(getUserName());
-		builder.append(", getUserId()=");
-		builder.append(getUserId());
-		builder.append(", getContractCodeForMaterialOrderCode()=");
-		builder.append(getContractCodeForMaterialOrderCode());
-		builder.append(", getClass()=");
-		builder.append(getClass());
-		builder.append(", hashCode()=");
-		builder.append(hashCode());
-		builder.append(", toString()=");
-		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
+	
+	
+	
 }
