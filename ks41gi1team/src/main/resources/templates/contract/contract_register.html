@@ -103,18 +103,18 @@
                   <div class="form-group col-md-6">
                     <label for="contractCode">계약코드</label>
                    
-                    	<input type="text" name="contractCode" class="form-control" id="contractCode" th:value="${contractCode}">	  
+                    	<input type="text" name="contractCode" class="form-control" id="contractCode" th:value="${contractCode}" th:readonly="${contractCode}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="mainBusinessCode">사업장별 대표코드</label>
+                    <label for="mainBusinessCode">사업장 상호명</label>
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
                     			  th:each="l : ${mainBusinessList}">
-                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
-                    			[[${l.mainBusinessCode}]]
-                    			console.log(mainBusinessList);
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
+                    			
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
@@ -123,7 +123,7 @@
                     </select>
                    </div>
                   <div class="form-group col-md-6">
-                    <label for="clientCode">거래처 대표코드</label>
+                    <label for="clientCode">거래처상호명</label>
                      <select name="clientCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
                     			  th:each="l : ${clientList}">
@@ -217,7 +217,12 @@
                   </div>
                   <div class="form-group col-md-6">
                     <label for="contractStatus">계약상태</label>
-                    <input type="text" name="contractStatus" class="form-control" id="contractStatus" placeholder="계약중" disabled="disabled">
+                   <select name="contractStatus" disabled="disabled" class="form-control">
+                   		<option> 계약 상태 </option>
+                   		<option> 계약 만료 </option>
+                   		<option> 계약 중 </option>
+                   		<option> 계약 전 </option>
+                   </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="briefs">적요</label>
