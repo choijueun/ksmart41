@@ -60,33 +60,6 @@ public class ItemService {
 		return resultMap;
 	}
 	
-	public List<Stock> getAllCategories(String mainBusinessCode) {
-		return itemMapper.getAllCategories(mainBusinessCode);
-	}
-
-	/**
-	 * 특정 카테고리 목록 조회
-	 * @param largeCategory
-	 * @param middleCategory
-	 * @param smallCategory
-	 * @return largeCategory, middleCategory, smallCategory, microCategory
-	 */
-	public Map<String, Object> getItemCategory(String largeCategory, String middleCategory, String smallCategory) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		//대분류 전체조회
-		resultMap.put("largeCategory", itemMapper.getCategoryLarge());
-		//선택된 대분류의 하위 중분류 전체조회
-		resultMap.put("middleCategory", itemMapper.getCategoryMiddle(largeCategory));
-		//선택된 중분류의 하위 소분류 전체조회
-		resultMap.put("smallCategory", itemMapper.getCategorySmall(largeCategory,middleCategory)); 
-		if(smallCategory != null && !"".equals(middleCategory)) {
-			//선택된 소분류의 하위 소소분류 전체조회
-			resultMap.put("microCategory", itemMapper.getCategoryMicro(largeCategory,middleCategory, smallCategory)); 
-		}
-
-		return resultMap;
-	}
-	
 	/**
 	 * 품목명 중복검사
 	 * @param mainBusinessCode
@@ -103,23 +76,7 @@ public class ItemService {
 		}
 		return false;
 	}
-	
-	/**
-	 * 카테고리 코드 반환
-	 * @param categories
-	 */
-	public String getItemCategoryCode(List<String> categories) {
-		//공백 null로 변경
-		if(CommonUtils.isEmpty(categories.get(2))) categories.set(2, null);
-		if(CommonUtils.isEmpty(categories.get(3))) categories.set(3, null);
-		//카테고리 코드 검색
-		List<String> categoryCodes = itemMapper.getCategoryCode(categories.get(0), categories.get(1), categories.get(2), categories.get(3), categories.get(4));
-		//NULL체크 & 개수 검사
-		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
-			return categoryCodes.get(0);
-		}
-		return null;
-	}
+
 
 	/**
 	 * 품목정보 등록 process
@@ -164,7 +121,72 @@ public class ItemService {
 	}
 	
 	/**
-	 * 카테고리 코드 반환 (없을시 새로 생성)
+	 * 품목정보 삭제 프로세스
+	 * @param itemInfo
+	 */
+	public void removeItem(Stock itemInfo) {
+		//품목정보 삭제 프로세스
+		
+	}
+	
+	
+	/*
+	 * *******************************
+	 *				카테고리
+	 * *******************************
+	 */
+	
+	
+	/**
+	 * 모든 카테고리 목록 조회
+	 * @param mainBusinessCode
+	 */
+	public List<Stock> getAllCategories(String mainBusinessCode) {
+		return itemMapper.getAllCategories(mainBusinessCode);
+	}
+
+	/**
+	 * 특정 카테고리의 하위 카테고리 목록 조회
+	 * @param largeCategory
+	 * @param middleCategory
+	 * @param smallCategory
+	 * @return largeCategory, middleCategory, smallCategory, microCategory
+	 */
+	public Map<String, Object> getItemCategory(String largeCategory, String middleCategory, String smallCategory) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		//대분류 전체조회
+		resultMap.put("largeCategory", itemMapper.getCategoryLarge());
+		//선택된 대분류의 하위 중분류 전체조회
+		resultMap.put("middleCategory", itemMapper.getCategoryMiddle(largeCategory));
+		//선택된 중분류의 하위 소분류 전체조회
+		resultMap.put("smallCategory", itemMapper.getCategorySmall(largeCategory,middleCategory)); 
+		if(smallCategory != null && !"".equals(middleCategory)) {
+			//선택된 소분류의 하위 소소분류 전체조회
+			resultMap.put("microCategory", itemMapper.getCategoryMicro(largeCategory,middleCategory, smallCategory)); 
+		}
+
+		return resultMap;
+	}
+	
+	/**
+	 * 카테고리 코드 검색
+	 * @param categories
+	 */
+	public String getItemCategoryCode(List<String> categories) {
+		//공백 null로 변경
+		if(CommonUtils.isEmpty(categories.get(2))) categories.set(2, null);
+		if(CommonUtils.isEmpty(categories.get(3))) categories.set(3, null);
+		//카테고리 코드 검색
+		List<String> categoryCodes = itemMapper.getCategoryCode(categories.get(0), categories.get(1), categories.get(2), categories.get(3), categories.get(4));
+		//NULL체크 & 개수 검사
+		if (!CommonUtils.isEmpty(categoryCodes) && categoryCodes.size() == 1) {
+			return categoryCodes.get(0);
+		}
+		return null;
+	}
+	
+	/**
+	 * 카테고리 코드 없을 시 생성하여 반환
 	 * @param itemInfo
 	 */
 	public String productCategoryCode(Stock itemInfo) {
@@ -191,19 +213,30 @@ public class ItemService {
 	}
 	
 	/**
-	 * 카테고리 정보 등록 절차
+	 * 카테고리 정보 등록 프로세스
 	 * @param mainBusinessCode
 	 * @param stock
 	 */
 	public void addItemCategory(Stock stock) {
+		//카테고리 정보 등록 프로세스
 		itemMapper.addItemCategory(stock);
 	}
 
 	/**
-	 * 카테고리 정보 수정 절차
+	 * 카테고리 정보 수정 프로세스
 	 * @param stock
 	 */
 	public void modifyItemCategory(Stock stock) {
+		//카테고리 정보 수정 프로세스
+		
 		itemMapper.modifyItemCategory(stock);
+	}
+	
+	/**
+	 * 카테고리 정보 삭제 프로세스
+	 * @param stock
+	 */
+	public void removeItemCategory(Stock stock) {
+		//카테고리 정보 삭제 프로세스
 	}
 }

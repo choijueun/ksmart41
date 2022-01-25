@@ -134,7 +134,12 @@ public class StockService {
 		}
 	}
 	
+	/**
+	 * 재고정보 삭제 프로세스
+	 * @param inventoryCode
+	 */
 	public void removeStock(String inventoryCode) {
+		//재고정보 삭제 프로세스
 		stockMapper.removeStock(inventoryCode);
 	}
 

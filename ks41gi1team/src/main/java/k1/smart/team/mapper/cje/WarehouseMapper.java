@@ -34,12 +34,21 @@ public interface WarehouseMapper {
 	/**
 	 * 창고정보 등록 프로세스
 	 * @param wInfo
+	 * @return 성공시 1 실패시 0
 	 */
 	public int addWarehouse(Warehouse wInfo);
 
 	/**
 	 * 창고정보 수정 프로세스
 	 * @param wInfo
+	 * @return 성공시 1 실패시 0
 	 */
 	public int modifyWarehouse(Warehouse wInfo);
+	
+	/**
+	 * 창고정보 삭제
+	 * @param wInfo
+	 * @return 성공시 1 실패시 0
+	 */
+	public int removeWarehouse(Warehouse wInfo);
 }
