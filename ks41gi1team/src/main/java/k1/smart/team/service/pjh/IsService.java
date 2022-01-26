@@ -21,9 +21,16 @@ public class IsService {
 
 	public List<Is> getInvoiceList() {
 		invoiceList = invoiceMapper.getInvoiceList();
-		System.out.println(invoiceList);
 		
 		return invoiceList;
+	}
+	
+	public Is getTotalSales(Is is) {
+		return invoiceMapper.getTotalSales(is);
+	}
+	
+	public Is getTotalPrice(Is is) {
+		return invoiceMapper.getTotalPrice(is);
 	}
 
 }
