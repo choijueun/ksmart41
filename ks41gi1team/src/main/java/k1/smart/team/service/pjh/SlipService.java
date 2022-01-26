@@ -82,7 +82,6 @@ public class SlipService {
 			System.out.println(salesSlipCode + "<-- salesSlipCode 220112 addSlip slipSErvice.java");			
 //========================================
 			slipMapper.registerSalesSlip(slip);
-			slipMapper.addSalesSlipAc(slip);
 			
 		//1-2 비용			
 		}else if(slip.getPurchaseTsCode() != null && slip.getSalesTsCode() == null ) {
@@ -91,7 +90,6 @@ public class SlipService {
 			slip.setPurchaseSlipCode(purchaseSlipCode);
 			
 			slipMapper.registerPurchaseSlip(slip);
-			slipMapper.addPurchaseSlipAc(slip);
 		}
 		
 		//return 1;
@@ -116,14 +114,12 @@ public class SlipService {
 	public void salesSlipModify(Slip slip) {
 		System.out.println(slip);
 		slipMapper.salesSlipModify(slip);//전표
-		slipMapper.salesSlipModifyAc(slip);//통합회계
 	}
 	
 	//비용전표 수정
 	public void purchaseSlipModify(Slip slip) {
 		System.out.println(slip);
 		slipMapper.purchaseSlipModify(slip);//전표
-		slipMapper.purchaseSlipModifyAc(slip);//통합회계
 	}
 	
 }
