@@ -140,7 +140,13 @@ public class MaterialOrderController {
 			System.out.println("materialOrderCode-->" + materialOrderCode);
 			model.addAttribute("title", "발주관리: 수정");
 			
-			return "materialOrder/materialOrder_list";
+			return "materialOrder/materialOrder_modify";
+		}
+		
+		//발주 수정 후 신규
+		@GetMapping("/list/add")
+		public String addListMaterialOrder(Model model) {
+			return "materilOrder/materialOrder_register";
 		}
 		
 		//발주 코드 체크
@@ -179,11 +185,15 @@ public class MaterialOrderController {
 				  return"redirect:/k1MaterialOrder/k1MaterialOrderList"; 
 			  }
 			    
+			  List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList();
+				model.addAttribute("materialOrderList", materialOrderList);
+			  
 			  
 			  model.addAttribute("title", "발주관리 상세");
 			  model.addAttribute("SectionTitle", "발주관리");
 			  model.addAttribute("SectionLocation", "상세정보");
 			  model.addAttribute("materialOrderInfo", materialOrderInfo);
+			 
 			  return "materialOrder/materialOrder_info";
 		  }
 	  

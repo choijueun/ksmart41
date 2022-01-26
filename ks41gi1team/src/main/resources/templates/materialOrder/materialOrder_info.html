@@ -12,26 +12,25 @@
 <th:block layout:fragment="SectionTitle">[[${SectionTitle}]]</th:block>
 <th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 <th:block layout:fragment="customJs">
-<script th:inline="javascript">
-
-$(document).ready(function() {
-$("#modifyBtn").click(function(){       
-    $.ajax({      
-        type:"POST",  
-        url:"/k1MaterialOrder/materialOrder/{materialOrderCode}",          
-        success:function(args){   
-            $("#result").html(args);      
-        }
-    });  
-  }); 
-}); 
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#myInput").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
 </th:block>
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-		<div class="row"  th:unless="${ materialOrderInfo == null }">
+		<div class="row">
 			<div class="col-lg-5">
+			<th:block th:if="${not #lists.isEmpty(materialOrderInfo)}"
+										th:each="l : ${materialOrderInfo}">
 				<div class="card card-info card-outline">
 					<div class="card-header">
 						발주관리 상세내역
@@ -40,45 +39,45 @@ $("#modifyBtn").click(function(){
 						<table id="materialOrderInfo" class="table table-bordered">
 							<tr>
 								<th>No.</th>
-								<td colspan="3">[[${materialOrderInfo.materialOrderCode}]]</td>
+								<td colspan="3">[[${l.materialOrderCode}]]</td>
 							</tr>
 							<tr>
 								<th>발주요청일자</th>
-								<td colspan="3">[[${materialOrderInfo.orderDate}]]</td>
+								<td colspan="3">[[${l.orderDate}]]</td>
 							</tr>
 							<tr>
 								<th>거래처명</th>
-								<td colspan="3">[[${materialOrderInfo.businessName}]]</td>
+								<td colspan="3">[[${l.businessName}]]</td>
 							</tr>
 							<tr>
 								<th>제품명</th>
-								<td colspan="3">[[${materialOrderInfo.itemName}]]</td>
+								<td colspan="3">[[${l.itemName}]]</td>
 							</tr>
 							<tr>
 								<th>총 수량</th>
-								<td>[[${#numbers.formatInteger(materialOrderInfo.totalCount,0,'COMMA')}]] EA</td>
+								<td>[[${#numbers.formatInteger(l.totalCount,0,'COMMA')}]] EA</td>
 								<th>총 가격</th>
-								<td>[[${#numbers.formatInteger(materialOrderInfo.totalPrice,0,'COMMA')}]] 원</td>
+								<td>[[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]] 원</td>
 							</tr>
 							<tr>
 								<th>담당자</th>
-							<td colspan="3">[[${materialOrderInfo.managerName}]]</td>
+							<td colspan="3">[[${l.managerName}]]</td>
 							</tr>
 							<tr>
 								<th>발주 진행상태</th>
-								<td colspan="3">[[${materialOrderInfo.status}]]</td>
+								<td colspan="3">[[${l.status}]]</td>
 							</tr>
 							<tr>
 								<th>적요</th>
-								<td colspan="3">[[${materialOrderInfo.briefs}]]</td>
+								<td colspan="3">[[${l.briefs}]]</td>
 							</tr>
 							<tr>
 								<th>등록일시</th>
-								<td colspan="3">[[${materialOrderInfo.regDate}]]</td>
+								<td colspan="3">[[${l.regDate}]]</td>
 							</tr>
 							<tr>	
 								<th>수정일시</th>
-								<td colspan="3">[[${materialOrderInfo.updateDate}]]</td>
+								<td colspan="3">[[${l.updateDate}]]</td>
 							</tr>
 						</table>
 					</div>
@@ -89,11 +88,11 @@ $("#modifyBtn").click(function(){
 					<a>
 						<button type="button" class="btn btn-danger float-right">삭제</button>
 					</a>
-					<a th:href="@{|/k1MaterialOrder/modify/${materialOrderInfo.materialOrderCode}|}">
+					<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}">
 						<button type="button" class="btn btn-info float-right mr-2">수정</button>
 					</a>
 				</div>
-					<div class="card-body" th:if="${ materialOrderInfo == null }">
+					<div class="card-body" th:if="${ l == null }">
 					잘못된 접근입니다.
 					</div>
 				</div>
@@ -103,7 +102,7 @@ $("#modifyBtn").click(function(){
 					<div class="card-header">
 						단가 상세
 					</div>
-					<div class="card-body" th:if="${ materialOrderInfoList != null }">
+					<div class="card-body" th:if="${ l != null }">
 						<table id="adjDetail" class="table table-bordered">
 							<thead>
 								<tr>
@@ -130,6 +129,7 @@ $("#modifyBtn").click(function(){
 						잘못된 접근입니다.
 					</div>
 				</div>
+			</th:block>	
 			</div>
 		</div>
 	</div>

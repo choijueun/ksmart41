@@ -14,4 +14,30 @@
 		FROM
  			k0_tb_ls
 	</select>
+	<select id="getTotalSales" parameterType="int" resultType="Is">
+		SELECT
+			sum((s.amount + s.tax) * s.COUNT) AS totalSales
+		FROM
+			k1_tb_sales_slip AS s
+		WHERE DATE(s.regDate) BETWEEN '2022-01-01' AND '2022-12-31';
+	</select>
+	<select id="getTotalPrice" parameterType="int" resultType="Is">
+		SELECT
+		   e.etc_amount + p.ps_amount AS totalPrice
+		FROM
+		   (SELECT
+		      SUM(c.amount) AS etc_amount
+		   FROM
+		      k1_tb_etc_purchase c
+		   WHERE
+		      DATE(c.regDate) BETWEEN '2022-01-01' AND '2022-12-31'
+		   ) AS e
+		   JOIN
+		   (SELECT
+		      sum((p.amount + p.tax) * p.`count`) AS ps_amount
+		   FROM
+		      k1_tb_purchase_slip AS p
+		   WHERE DATE(p.regDate) BETWEEN '2022-01-01' AND '2022-12-31'
+		   ) AS p
+	</select>
 </mapper>

@@ -210,36 +210,6 @@
 	);
 	</insert>
 	
-	<insert id="addPurchaseSlipAc" parameterType="Slip">
-		INSERT INTO k1_tb_total_accounting
-			(totalAccountCode, mainBusinessCode, purchaseSlipCode, salesSection, totalPrice, regDate)
-		VALUES( 
-			(SELECT
-				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
-			FROM 
-			   k1_tb_total_accounting AS ac),
-			'fac_ksmartSeoul_Seoul_001',
-			#{purchaseSlipCode},
-			'비용',
-			( (#{amount}+#{tax}) * #{count} ),
-			NOW())
-	</insert>
-	
-	<insert id="addSalesSlipAc" parameterType="Slip">
-		INSERT INTO k1_tb_total_accounting
-			(totalAccountCode, mainBusinessCode, salesSlipCode, salesSection, totalPrice, regDate)
-		VALUES( 
-			(SELECT
-				CONCAT('total_',LPAD(CAST(MAX(RIGHT(ac.totalAccountCode,3))+1 AS CHAR), 3, '0'))
-			FROM 
-			   k1_tb_total_accounting AS ac),
-			'fac_ksmartSeoul_Seoul_001',
-			#{salesSlipCode},
-			'매출',
-			( (#{amount}+#{tax}) * #{count} ),
-			NOW())
-	</insert>
-	
 	<select id="getSalesSlipData" parameterType="String" resultType="Slip">
 		SELECT 
 			salesSlipCode
@@ -287,14 +257,6 @@
 			salesSlipCode = #{salesSlipCode}
 	</update>
 	
-	<update id="salesSlipModifyAc" parameterType="Slip">
-		UPDATE k1_tb_total_accounting
-		SET
-			totalPrice = ((#{amount}+#{vat})*#{count})
-		WHERE 
-			salesSlipCode = #{salesSlipCode};
-	</update>
-	
 	<update id="purchaseSlipModify" parameterType="Slip">
 		UPDATE 
 			k1_tb_purchase_slip
@@ -310,14 +272,7 @@
 		WHERE 
 			purchaseSlipCode = #{purchaseSlipCode}
 	</update>
-	
-	<update id="purchaseSlipModifyAc" parameterType="Slip">
-		UPDATE k1_tb_total_accounting
-		SET
-			totalPrice = ((#{amount}+#{vat})*#{count})
-		WHERE 
-			purchaseSlipCode = #{purchaseSlipCode};
-	</update>
+
 	
 	<!-- 최주은-특정품목(거래처, 계약코드)의 비용 거래명세서 조회 -->
 	<select id="getPSlipByItem" parameterType="String" resultType="Slip">
