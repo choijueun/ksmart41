@@ -14,6 +14,7 @@
 		FROM
  			k0_tb_ls
 	</select>
+	<!-- 매출 -->
 	<select id="getTotalSales" parameterType="int" resultType="Is">
 		SELECT
 			sum((s.amount + s.tax) * s.COUNT) AS totalSales
@@ -21,6 +22,7 @@
 			k1_tb_sales_slip AS s
 		WHERE DATE(s.regDate) BETWEEN '2022-01-01' AND '2022-12-31';
 	</select>
+	<!-- 비용-->
 	<select id="getTotalPrice" parameterType="int" resultType="Is">
 		SELECT
 		   e.etc_amount + p.ps_amount AS totalPrice

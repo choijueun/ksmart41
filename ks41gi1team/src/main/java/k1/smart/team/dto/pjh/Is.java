@@ -9,13 +9,14 @@ public class Is {
 	private String isModify;
 	private int totalPrice;
 	private int totalSales;
-	
+	//비용
 	public int getTotalPrice() {
 		return totalPrice;
 	}
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	//매출
 	public int getTotalSales() {
 		return totalSales;
 	}
