@@ -28,7 +28,7 @@ $(function() {
 			datasets : [ {
 				label : '손익',
 				backgroundColor : ['#e15759', '#4e79a7'],
-				borderColor : '#698c68',
+				borderColor : '#fff',
 				pointRadius : false,
 				pointColor : '#698c68',
 				pointStrokeColor : '#698c68',
@@ -107,9 +107,9 @@ $(function() {
 							</thead>
 							<tbody>
 								<tr>
-									<td id="sales22">[[${#numbers.formatInteger(getTotalSales.totalSales,0,'COMMA')}]]원</td>
-									<td id="price22">[[${#numbers.formatInteger(getTotalPrice.totalPrice,0,'COMMA')}]]원</td>
-									<td id="total22">[[${#numbers.formatInteger(getTotalSales.totalSales-getTotalPrice.totalPrice,0,'COMMA')}]]원</td>
+									<td id="sales22">[[${getTotalSales.totalSales}]]</td>
+									<td id="price22">[[${getTotalPrice.totalPrice}]]</td>
+									<td id="total22">[[${(getTotalSales.totalSales-getTotalPrice.totalPrice)}]]</td>
 								</tr>
 							</tbody>
 						</table>
