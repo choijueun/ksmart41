@@ -117,7 +117,7 @@
 		salesTsCode
 		,clientCode
 		,amount
-		,vat
+		,round(amount*0.1) AS vat
 		,count
 		,briefs
 	FROM
@@ -209,7 +209,7 @@
 		, NOW()	
 	);
 	</insert>
-	
+  
 	<select id="getSalesSlipData" parameterType="String" resultType="Slip">
 		SELECT 
 			salesSlipCode
