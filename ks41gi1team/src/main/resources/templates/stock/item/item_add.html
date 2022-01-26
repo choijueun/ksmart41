@@ -78,7 +78,9 @@ $(function(){
 			smallCategory.children(':first').siblings().remove(); //소분류 청소
 			microCategory.children(':first').siblings().remove(); //소소분류 청소
 			for(var i=0; i<dataArr.length; i++) {
-				middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+				if(dataArr[i] != null && dataArr[i] != '') {
+					middleCategory.append(categoryOption.clone().val(dataArr[i]).text(dataArr[i]));
+				}
 			}
 		})
 		.fail(function( jqXHR, textStatus ) {
@@ -218,7 +220,7 @@ $(function(){
 				<div class="card-body">
 					<form id="addItem"th:action="@{/k1ItemAdd}" method="POST">
 						<div class="row">
-							<div class="col-6">
+							<div class="col-md-8">
 								<div class="form-group">
 									<label for="itemName">
 										품목명
@@ -229,7 +231,7 @@ $(function(){
 									<input type="text" name="itemName" class="form-control" placeholder="Enter itemName">
 								</div>
 							</div>
-							<div class="col-6">
+							<div class="col-md-4">
 								<label>분류</label>
 								<div class="form-group">
 									<div class="btn-group btn-group-toggle" data-toggle="buttons">
