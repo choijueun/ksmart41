@@ -24,11 +24,11 @@ public class IsService {
 		
 		return invoiceList;
 	}
-	
+	//매출
 	public Is getTotalSales(Is is) {
 		return invoiceMapper.getTotalSales(is);
 	}
-	
+	//비용
 	public Is getTotalPrice(Is is) {
 		return invoiceMapper.getTotalPrice(is);
 	}
