@@ -98,6 +98,17 @@
 	LIMIT 10;
 </select>
 
+<!-- 품목명 중복 확인 -->
+<select id="itemNameValid" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		k1_view_item_info
+	WHERE
+		mainBusinessCode = #{mainBusinessCode}
+		AND itemName = #{itemName};
+</select>
+
 <!-- 카테고리 전체 목록 조회 -->
 <select id="getAllCategories" resultType="Stock">
 	SELECT
@@ -175,11 +186,17 @@
 		,mainBusinessCode
 		,itemName
 		,itemType
+		<if test="categoryCode != null and categoryCode != ''.toString()">
 		,categoryCode
+		</if>
 		,itemStandard
 		,itemOrigin
+		<if test="itemStatus != null and itemStatus != ''.toString()">
 		,itemStatus
+		</if>
+		<if test="itemComment != null and itemComment != ''.toString()">
 		,itemComment
+		</if>
 		,regDate
 		,updateDate
 	) VALUES(
@@ -192,11 +209,17 @@
 		,#{mainBusinessCode}
 		,#{itemName}
 		,#{itemType}
+		<if test="categoryCode != null and categoryCode != ''.toString()">
 		,#{categoryCode}
+		</if>
 		,#{itemStandard}
 		,#{itemOrigin}
+		<if test="itemStatus != null and itemStatus != ''.toString()">
 		,#{itemStatus}
+		</if>
+		<if test="itemComment != null and itemComment != ''.toString()">
 		,#{itemComment}
+		</if>
 		,NOW()
 		,NOW()
 	);
@@ -250,17 +273,6 @@
 			</otherwise>
 		</choose>
 		AND mainBusinessCode = #{mainBusinessCode};
-</select>
-
-<!-- 품목명 중복 확인 -->
-<select id="itemNameValid" parameterType="String" resultType="int">
-	SELECT
-		COUNT(1)
-	FROM
-		k1_view_item_info
-	WHERE
-		mainBusinessCode = #{mainBusinessCode}
-		AND itemName = #{itemName};
 </select>
 
 <!-- 카테고리 정보 등록 -->
