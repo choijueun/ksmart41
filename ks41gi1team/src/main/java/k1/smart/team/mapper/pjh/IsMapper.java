@@ -10,4 +10,8 @@ import k1.smart.team.dto.pjh.Is;
 public interface IsMapper {
 	//계정과목 전체조회
 	public List<Is> getInvoiceList();
+	
+	public Is getTotalSales(Is is);
+	
+	public Is getTotalPrice(Is is);
 }

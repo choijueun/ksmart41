@@ -209,8 +209,7 @@
 		, NOW()	
 	);
 	</insert>
-	
-	
+  
 	<select id="getSalesSlipData" parameterType="String" resultType="Slip">
 		SELECT 
 			salesSlipCode
@@ -258,7 +257,6 @@
 			salesSlipCode = #{salesSlipCode}
 	</update>
 	
-	
 	<update id="purchaseSlipModify" parameterType="Slip">
 		UPDATE 
 			k1_tb_purchase_slip
@@ -274,7 +272,7 @@
 		WHERE 
 			purchaseSlipCode = #{purchaseSlipCode}
 	</update>
-	
+
 	
 	<!-- 최주은-특정품목(거래처, 계약코드)의 비용 거래명세서 조회 -->
 	<select id="getPSlipByItem" parameterType="String" resultType="Slip">
