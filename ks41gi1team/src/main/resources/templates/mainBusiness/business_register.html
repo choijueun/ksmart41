@@ -32,7 +32,7 @@
             <div class="card-body">
 				<div class="form-group">
 	                <label for="mainBusinessCode">사업장대표코드</label>
-	                <input type="text" id="mainBusinessCode" class="form-control" readonly="readonly">
+	                <input type="text" value="fac_EHN_Jeonju_002" id="mainBusinessCode" class="form-control" readonly="readonly">
 				</div>
 				
 				<div class="form-group">
@@ -88,15 +88,11 @@
                 	<label for="regDate">플랫폼 가입일시</label>
                 	<input type="date" id="regDate" class="form-control">
 				</div>
+				<button type="button" class="btn btn-info" id="businessRegisterBtn">등록</button>
+				<button type="button" class="btn btn-default float-right" th:href="@{/k1Business/businessList}">취소</button>
 	              
 			</div>
             <!-- /.card-body -->
-            <!-- card-footer -->
-			<div class="card-footer">
-				<button type="button" class="btn btn-primary" id="businessRegisterBtn">등록</button>
-				<button type="button" class="btn btn-default float-right" th:href="@{/k1Business/businessList}">취소</button>
-	        </div>
-            <!-- /card-footer -->
           </div>
           <!-- /.card -->
         </div>

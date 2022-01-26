@@ -18,7 +18,6 @@
 			k1_tb_main_business (
 				 mainBusinessCode
 				,businessCategory
-				<!-- ,businessLevel -->
 				,businessName
 				,businessRepresentative
 				,businessType1
@@ -34,7 +33,6 @@
 			VALUES (
 				 #{mainBusinessCode}
 				,#{businessCategory}
-				<!-- ,#{businessLevel} -->
 				,#{businessName}
 				,#{businessRepresentative}
 				,#{businessType1}
@@ -74,7 +72,6 @@
 		SELECT 
 			 b.mainBusinessCode
 			,b.businessCategory
-			<!-- ,b.businessLevel -->
 			,b.businessName
 			,b.businessRepresentative
 			,b.businessType1
@@ -100,7 +97,6 @@
 		SET
 			mainBusinessCode = #{mainBusinessCode},
 			businessCategory = #{businessCategory},
-			<!-- businessLevel = #{businessLevel}, -->
 			businessName = #{businessName},
 			businessRepresentative = #{businessRepresentative},
 			businessType1 = #{businessType1},

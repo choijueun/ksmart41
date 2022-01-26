@@ -23,6 +23,25 @@
 <th:block layout:fragment="customJs">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+	$(function(){
+		//DataTables
+		$('#userList').DataTable({
+			"paging": true,
+			"lengthChange": false,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": false,
+			"responsive": true,
+			"columnDefs": [
+		        { 	
+		        	orderable: false,
+		        	targets: [0, 6]
+		        }
+		    ]
+		});
+	});
+	
 		$(document).ready(function(){
 			$("#myInput").on("keyup", function() {
 				var value = $(this).val().toLowerCase();
@@ -41,60 +60,50 @@
 			<div class="card-header">
 				<input id="myInput" type="text" placeholder="Search..">
 			</div>
-			
 			<div class="card-body">
-				<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-					<div class="row">
-						<div class="col-sm-12 col-md-6"></div>
-						<div class="col-sm-12 col-md-6"></div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12">
-							<table id="example2"
-								class="table table-bordered table-hover dataTable dtr-inline text-center"
-								role="grid" aria-describedby="example2_info"
-								style="overflow: auto;">
-								<thead class="text-center">
-									<tr role="row">
-										<th><input type="checkbox" id="userAllCheck"></th>
-										<th>회원아이디</th>
-										<th>이름</th>
-										<th>직책</th>
-										<th>연락처</th>
-										<th>이메일</th>
-										<th>수정</th>
-									</tr>
-								</thead>
-								<tbody id="myTable">
-									<tr th:if="${not #lists.isEmpty(userList)}"
-										th:each="l : ${userList}">
-										<td><input type="checkbox"></td>
-										<td><a th:href="@{|/k1UserReg/userDetail/${l.userId}|}">
-												[[${l.userId}]] </a></td>
-										<td>[[${l.userName}]]</td>
-										<td>[[${l.userPosition}]]</td>
-										<td>[[${l.userMoblie}]]</td>
-										<td>[[${l.userEmail}]]</td>
-										<td>
-											<a th:href="@{|/k1UserReg/modifyUser/${l.userId}|}">
-												<button type="button" class="btn btn-info btn-sm">
-													<i class="fas fa-pen"></i>
-												</button>
-											</a>
-										</td>
-									</tr>
-									<tr th:if="${#lists.isEmpty(userList)}">
-										<td colspan="12">거래처 정보가 없습니다.</td>
-									</tr>
-								</tbody>
-							</table>
-							<a th:href="@{/k1UserReg/addUser}">
-								<button type="button" class="btn btn-info">등록</button>
-							</a>
-							<a th:href="@{/k1Client/clientRegister}">
-								<button type="button" class="btn btn-danger float-right">삭제</button>
-							</a>
-						</div>
+				<div class="tab-content text-center">
+					<div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-home-tab">
+						<table id="userList" class="table table-bordered table-hover dataTable dtr-inline">
+							<thead class="text-center">
+								<tr role="row">
+									<th><input type="checkbox" id="userAllCheck"></th>
+									<th>회원아이디</th>
+									<th>이름</th>
+									<th>직책</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>수정</th>
+								</tr>
+							</thead>
+							<tbody id="myTable">
+								<tr th:if="${not #lists.isEmpty(userList)}"
+									th:each="l : ${userList}">
+									<td><input type="checkbox"></td>
+									<td><a th:href="@{|/k1UserReg/userDetail/${l.userId}|}">
+											[[${l.userId}]] </a></td>
+									<td>[[${l.userName}]]</td>
+									<td>[[${l.userPosition}]]</td>
+									<td>[[${l.userMoblie}]]</td>
+									<td>[[${l.userEmail}]]</td>
+									<td>
+										<a th:href="@{|/k1UserReg/modifyUser/${l.userId}|}">
+											<button type="button" class="btn btn-info btn-sm">
+												<i class="fas fa-pen"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(userList)}">
+									<td colspan="12">거래처 정보가 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+						<a th:href="@{/k1UserReg/addUser}">
+							<button type="button" class="btn btn-info float-left">등록</button>
+						</a>
+						<a th:href="@{/k1Client/clientRegister}">
+							<button type="button" class="btn btn-danger float-right">삭제</button>
+						</a>
 					</div>
 				</div>
 			</div>

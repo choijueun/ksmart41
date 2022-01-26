@@ -20,7 +20,7 @@ public class ClientController {
 	private ClientService clientService;
 	private Client clientDetail; //거래처 상세
 	
-	//생성자메서드(의존선 주입)
+	//생성자메서드(의존성 주입)
 	public ClientController(ClientService clientService) {
 		this.clientService = clientService;
 	};
@@ -95,7 +95,7 @@ public class ClientController {
 			model.addAttribute("getClient", getClient);
 		}
 		
-		model.addAttribute("SectionTitle", "거래처 상셰: 수정");
+		model.addAttribute("SectionTitle", "거래처 정보: 수정");
 		model.addAttribute("clientCode", clientCode);
 		return "clientBusiness/client_modify";
 	}
