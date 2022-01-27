@@ -32,5 +32,18 @@ public class IsService {
 	public Is getTotalPrice(Is is) {
 		return invoiceMapper.getTotalPrice(is);
 	}
+	
+	//분기별 매출
+	public Is getSalesQuarter(Is is) {
+		return invoiceMapper.salesQuarter(is);
+	}
+	//분기별 비용
+	public Is getPurchaseQuarter(Is is) {
+		return invoiceMapper.purchaseQuarter(is);
+	}
+	//분기별 기타비용
+	public Is getEtcPurchaseQuarter(Is is) {
+		return invoiceMapper.etcPurchaseQuarter(is);
+	}
 
 }

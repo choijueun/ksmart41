@@ -14,4 +14,13 @@ public interface IsMapper {
 	public Is getTotalSales(Is is);
 	//비용
 	public Is getTotalPrice(Is is);
+	
+	//분기별 매출
+	public Is salesQuarter(Is is);
+	//분기별 비용
+	public Is purchaseQuarter(Is is);
+	//분기별 기타비용
+	public Is etcPurchaseQuarter(Is is);
+	
+	
 }
