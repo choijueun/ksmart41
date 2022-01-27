@@ -23,8 +23,10 @@
 		,i.updateDate AS itemUpdateDate
 	FROM
 		k1_view_item_info AS i
-	WHERE
-		i.mainBusinessCode = #{mainBusinessCode}
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+			i.mainBusinessCode = #{mainBusinessCode}
+		</if>
 		<if test="typeList != null and typeList != ''.toString()">
 		AND i.itemType REGEXP #{typeList}
 		</if>
@@ -40,6 +42,7 @@
 				</if>
 			</if>
 		</if>
+	</trim>
 	ORDER BY
 		i.itemCode DESC;
 </select>
