@@ -154,7 +154,7 @@ public class MaterialOrderController {
 		@ResponseBody
 		public boolean materialOrderCodeCheck(@RequestParam(value="materialOrderCode", required = false) String materialOrderCode) {
 			
-			System.out.println("ajax 통신으로 요청받은 파라미터 contractCode:" + materialOrderCode);
+			System.out.println("ajax 통신으로 요청받은 파라미터 materialOrderCode:" + materialOrderCode);
 			
 			boolean checkResult = false;
 			

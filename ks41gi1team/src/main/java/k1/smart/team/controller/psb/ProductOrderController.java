@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.annotation.RequestScope;
 
+import k1.smart.team.dto.csh.Client;
+import k1.smart.team.dto.csh.MainBusiness;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.ProductOrder;
@@ -64,6 +68,46 @@ public class ProductOrderController {
 		return "redirect:/productOrder/productOrder_list";
 	}
 
+	//수주 수정
+	@GetMapping("/modify/{productOrderCode}")
+	public String modifyProductOrderInfo(
+			@RequestParam(value="productOrderCode", required=false) String productOrderCode
+			,Model model) {
+		
+		//productOrderCode 콘솔에 출력(log4j)
+		log.info("modifyProductOrder productOrderCode: {}", productOrderCode);
+		
+		//수주 정보
+		if(productOrderCode != null && !"".equals(productOrderCode)) {
+			ProductOrder productOrderInfo = productOrderService.getProductOrderInfoByProductOrderCode(productOrderCode);
+			model.addAttribute("productOrderInfo", productOrderInfo);
+			System.out.println("productOrderInfo-->" + productOrderInfo);
+		}			
+		
+		System.out.println("productOrderInfo-->" + productOrderInfo);
+		System.out.println("productOrderCode-->" + productOrderCode);
+		model.addAttribute("title", "수주관리: 수정");
+		
+		return "productOrder/productOrder_modify";
+	}
+	
+	//수주 코드 체크
+	@PostMapping("/k1ProductOrderCodeCheck")
+	@ResponseBody
+	public boolean productOrderCodeCheck(@RequestParam(value="productOrderCode", required = false) String productOrderCode) {
+		
+		System.out.println("ajax 통신으로 요청받은 파라미터 productOrderCode:" + productOrderCode);
+		
+		boolean checkResult = false;
+		
+		int check = productOrderService.getProductOrderByProductOrderCode(productOrderCode);
+		
+		if(check > 0) checkResult = true;
+		System.out.println("checkResult" + checkResult);
+		return checkResult;
+	}
+	
+	
 	// 수주관리 상세
 	@GetMapping("/productOrder/{productOrderCode}")
 	public String productOrderInfo(@PathVariable(value = "productOrderCode", required = false) String productOrderCode,
@@ -104,7 +148,7 @@ public class ProductOrderController {
 			productOrderService.addProductOrder(productOrder);
 		}
 
-		return "productOrder/productOrder_register";
+		return "redirect:/k1MaterialOrder/k1MaterialOrderList";
 
 	}
 	
@@ -119,10 +163,29 @@ public class ProductOrderController {
 		List<ProductOrder> productOrderList = productOrderService.getProductOrderList();
 		model.addAttribute("productOrderList", productOrderList);
 
+		List<Client> clientList = clientService.getAllClientList();
+		  model.addAttribute("clientList", clientList);
+		  System.out.println("clientList: " + clientList);
+		  
+		  List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
+		  model.addAttribute("mainBusinessList", mainBusinessList);
+		  System.out.println("mainBusinessList" + mainBusinessList);
+		  
+		  List<Contract> contractList = contractService.getContractHistoryList(mainBusinessCode);
+		  model.addAttribute("contractList", contractList);
+		  System.out.println("contractList" + contractList);
+		  
+		  List<User> userList = userService.getAllUserList();
+		  model.addAttribute("userList", userList);
+		  System.out.println("userList" + userList);
+		
+	
+		  
+		
 		//수주 새로등록할때마다 새로운 수주코드 생성
-		String productOrderCode = productOrderService.getProductOrderCode();
-		model.addAttribute("productOrderCode", productOrderCode);
-		System.out.println("productOrderCode--->" + productOrderCode);
+		String getProductOrderCode = productOrderService.getProductOrderCode();
+		model.addAttribute("getProductOrderCode", getProductOrderCode);
+		System.out.println("getProductOrderCode--->" + getProductOrderCode);
 		
 		return "productOrder/productOrder_register";
 

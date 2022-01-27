@@ -19,6 +19,7 @@ public class ProductOrder {
 	private String updateDate;
 	private String itemName;
 	private String businessName;
+	private String mainBusinessName;
 	private String clientBusinessName;
 	private String productOrderOngoingCode;
 	private String productShipmentDate;
@@ -131,6 +132,12 @@ public class ProductOrder {
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
+	public String getMainBusinessName() {
+		return mainBusinessName;
+	}
+	public void setMainBusinessName(String mainBusinessName) {
+		this.mainBusinessName = mainBusinessName;
+	}
 	public String getClientBusinessName() {
 		return clientBusinessName;
 	}
@@ -194,6 +201,8 @@ public class ProductOrder {
 		builder.append(itemName);
 		builder.append(", businessName=");
 		builder.append(businessName);
+		builder.append(", mainBusinessName=");
+		builder.append(mainBusinessName);
 		builder.append(", clientBusinessName=");
 		builder.append(clientBusinessName);
 		builder.append(", productOrderOngoingCode=");
@@ -205,6 +214,7 @@ public class ProductOrder {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 
 

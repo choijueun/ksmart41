@@ -192,7 +192,7 @@ $(function(){
 						<td>&#8361; [[${#numbers.formatInteger(p.totalPrice,0,'COMMA')}]] </td> 
 						<td>[[${p.status}]]</td> 
 						<td>
-							<button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#modal-default"><i class="fas fa-pen"></i></button>
+							<a th:href="@{|/k1ProductOrder/modify/{productOrderCode}|}"><i class="fas fa-pen"></i></a>
 						</td>
 
 					</tr>

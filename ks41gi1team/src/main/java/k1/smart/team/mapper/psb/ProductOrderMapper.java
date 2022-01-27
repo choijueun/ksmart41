@@ -32,5 +32,11 @@ public interface ProductOrderMapper {
 
 	//등록할때마다 하나의 새로운 수주코드 추가
 	public String getProductOrderCode();
+
+	//수주 정보 조회
+	public ProductOrder getProductOrderInfoProductOrderCode(String productOrderCode);
+
+	//수주 중복 체크
+	public int getProductOrderByProductOrderCode(String productOrderCode);
 	
 }
