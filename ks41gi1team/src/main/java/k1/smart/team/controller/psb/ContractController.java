@@ -134,21 +134,16 @@ public class ContractController {
 		  String contractCode = contractService.getContractCode();
 		  model.addAttribute("contractCode", contractCode);
 		  
-		  //발주서 등록을 위한 발주용 계약서 코드불러오기
-		/*
-		 * List<Contract> contractCodeForMaterialOrderCodeList =
-		 * contractService.getContractCodeForMaterialOrderCodeList();
-		 * model.addAttribute("contractCodeForMaterialOrderCodeList",
-		 * contractCodeForMaterialOrderCodeList);
-		 * System.out.println("contractCodeForMaterialOrderCodeList: " +
-		 * contractCodeForMaterialOrderCodeList);
-		 */
-		  
 		
 		  List <Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
 		  model.addAttribute("contractCodeForMaterialOrderCodeList",contractCodeForMaterialOrderCodeList);
 		  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
 
+		  List <Contract> contractCodeForProductOrderCodeList = contractService.getContractCodeForProductOrderCodeList();
+		  model.addAttribute("contractCodeForProductOrderCodeList",contractCodeForProductOrderCodeList);
+		  System.out.println("contractCodeForProductOrderCodeList" + contractCodeForProductOrderCodeList);
+
+		  
 		  return "contract/contract_register"; 
 	  
 	  }

@@ -120,13 +120,13 @@
                   <div class="form-group col-md-6">
                     <label for="contractCode">계약 코드</label>
                     <select name="contractCode" disabled="disabled" class="form-control">
-                    	<th:block th:if="${not #lists.isEmpty(contractList)}"
-                    			  th:each="l : ${contractList}">
+                    	<th:block th:if="${not #lists.isEmpty(contractCodeForProductOrderCodeList)}"
+                    			  th:each="l : ${contractCodeForProductOrderCodeList}">
                     		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
                     			[[${l.contractCode}]]
                     		</option>
                     	</th:block>	
-                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    	<th:block th:unless="${not #lists.isEmpty(contractCodeForProductOrderCodeList)}">	
                     		<option>계약서 먼저 등록 해주세요. </option> 
                     	</th:block>	
                     </select>
@@ -154,7 +154,7 @@
                     			[[${l.productPriceCode}]]
                     		</option>
                     	</th:block>	
-                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+                    	<th:block th:unless="${not #lists.isEmpty(productPriceList)}">	
                     		<option>제품 단가 먼저 등록 해주세요. </option> 
                     	</th:block>
                     </select>		

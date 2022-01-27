@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
 
+<select id="getMaterialOrderCodeInfo" resultType="String">
+	SELECT
+	   materialOrderCode
+	FROM 
+	   k1_tb_material_order
+	WHERE
+		materialOrderCode = #{materialOrderCode};   	
+	</select>
+	
 <select id="getMaterialOrderCode" resultType="String">
 		SELECT
 	   LPAD(CAST(MAX(RIGHT(materialOrderCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
@@ -128,39 +137,16 @@
 
 
 <update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
-	update k1_view_material_order
-	<trim prefix="SET" prefixOverrides=",">
-		<if test="orderDate != null and orderDate != ''.toString()">
-			orderDate =#{orderDate}
-		</if>
-		<if test="contractCode != null and contractCode != ''.toString()">
-			contractCode =#{clientBusinessName}
-		</if>
-		<if test="clientCode != null and clientCode != ''.toString()">
-			clientCode =#{itemName}
-		</if>
-		<if test="totalCount != null and totalCount != ''.toString()">
-			totalCount =#{totalCount}
-		</if>
-		<if test="totalPrice != null and totalPrice != ''.toString()">
-			totalPrice =#{totalPrice}
-		</if>
-		<if test="managerName != null and managerName != ''.toString()">
-			managerName =#{managerName}
-		</if>
-		<if test="status != null and status != ''.toString()">
-			status =#{status}
-		</if>
-		<if test="briefs != null and briefs != ''.toString()">
-			briefs =#{briefs}
-		</if>
-		<if test="regDate != null and regDate != ''.toString()">
-			regDate =#{regDate}
-		</if>
-		<if test="updateDate != null and updateDate != ''.toString()">
-			updateDate =#{updateDate}
-		</if>
-	</trim>
+	update 
+		k1_tb_material_order
+	SET
+		orderDate = #{orderDate},
+		mainBusinessCode = #{mainBusinessCode},
+		itemName = #{itemName},
+		predictDate = #{predictDate},
+		totalCount = #{totalCount},
+		totalPrice = #{totalPrice},
+		status = #{status}
 	WHERE 
 		materialOrderCode=#{materialOrderCode};
 </update>

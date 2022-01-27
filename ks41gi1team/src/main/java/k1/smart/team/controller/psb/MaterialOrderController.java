@@ -44,10 +44,12 @@ public class MaterialOrderController {
 		private UserService userService;
 		private ItemService itemService;
 		private ContractService contractService;
-		private String mainBusinessCode;
+
 		private ProductOrderService productOrderService;
 		private MaterialOrder materialOrderInfo; // 발주 하나 정보
 
+		private Map<String, Object> paramMap;
+		private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 		
 		
 		//생성자 메서드
@@ -122,26 +124,67 @@ public class MaterialOrderController {
 		
 		//발주 수정 	
 		@GetMapping("/modify/{materialOrderCode}")
-		public String modifyMaterialOrderInfo(
+		public String modifyMaterialOrder(
 				@RequestParam(value="materialOrderCode", required=false) String materialOrderCode
 				,Model model) {
 			
 			//materialOrderCode 콘솔에 출력(log4j)
 			log.info("modifyMaterialOrder materialOrderCode: {}", materialOrderCode);
 			
+			MaterialOrder getMaterialOrderInfo = materialOrderService.getMaterialOrderInfo(materialOrderCode);
+			model.addAttribute("getMaterialOrderInfo", getMaterialOrderInfo);
+			System.out.println(materialOrderCode + "받아온 materialOrderCode (controller)");
+			
+			
 			//발주 정보
 			if(materialOrderCode != null && !"".equals(materialOrderCode)) {
-				MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfoByMaterialOrderCode(materialOrderCode);
+				MaterialOrder materialOrderInfo = materialOrderService.getMaterialOrderInfo(materialOrderCode);
 				model.addAttribute("materialOrderInfo", materialOrderInfo);
 				System.out.println("materialOrderInfo-->" + materialOrderInfo);
-			}			
+			}		
 			
+			List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList();
+			  model.addAttribute("materialOrderList", materialOrderList);
+			  System.out.println("materialOrderList" + materialOrderList);	
+			
+			 List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
+			  model.addAttribute("mainBusinessList", mainBusinessList);
+			  System.out.println("mainBusinessList" + mainBusinessList);
+			  
+			  List<Stock> itemList = itemService.getAllItemList(paramMap);
+			  
+			  model.addAttribute("itemList", itemList);
+			  System.out.println("itemList" + itemList);
+			  
+			  
+			  List<Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
+			  model.addAttribute("contractCodeForMaterialOrderCodeList", contractCodeForMaterialOrderCodeList);
+			  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
+			  
+			  List<Client> clientList = clientService.getAllClientList();
+			  model.addAttribute("clientList", clientList);
+			  System.out.println("clientList: " + clientList);
+			  
+			  List<User> userList = userService.getAllUserList();
+			  model.addAttribute("userList", userList);
+			  System.out.println("userList" + userList);
+			  
 			System.out.println("materialOrderInfo-->" + materialOrderInfo);
 			System.out.println("materialOrderCode-->" + materialOrderCode);
 			model.addAttribute("title", "발주관리: 수정");
+			model.addAttribute("materialOrderCode", materialOrderCode);
 			
 			return "materialOrder/materialOrder_modify";
 		}
+		
+		//발주 정보 수정
+		@PostMapping("/modify/{materialOrderCode}")
+		public String modifyMaterialOrder(MaterialOrder materialOrder) {
+			materialOrderService.modifyMaterialOrder(materialOrder);
+			
+			 return "redirect:/k1MaterialOrder/materialOrder_list";
+		}
+		
 		
 		//발주 수정 후 신규
 		@GetMapping("/list/add")

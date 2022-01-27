@@ -58,15 +58,82 @@ $(function(){
 				title: '필수 작성 요소를 기입해주세요.'
 			});
 		} */
-	});
-});
+//	});
+// });
+
+		$(function(){
+			
+			$(document).on('click', '#modifyMaterialOrderBtn', function(){
+				var submitCheck = true;
+				
+				var inputObj = $('#modifyMaterialOrderForm').find('input');
+				
+				$.each(inputObj, function(){
+					var inputData = $(this).val();
+					var inputCode = $(this).attr('code');
+					var labelText = $('label[for=' + inputCode + ']').text();
+					if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+						alert(labelText + '입력해주세요');
+						$(this).focus();
+						submitCheck = false;
+						return false;
+					}
+				});
+				
+				if(submitCheck) $('#modifyMaterialOrderForm').submit();
+				
+			});
+		
+		$('#btn').click(function(){
+		
+			var materialOrderCode = $('#materialOrderCode').val();
+			
+			if(typeof materialOrderCode != 'undefined' && materialOrderCode != null && materialOrderCode != ''){
+				// ajax 호출
+				var request = $.ajax({
+					url: '/k1MaterialOrder/k1MaterialOrderCodeCheck',
+					method: 'POST',
+					data: {'materialOrderCode' : materialOrderCode},
+					dataType: 'json'
+					});
+				request.done(function(data){
+					//중복여부체크(true: 중복, false: 등록가능)
+					var materialOrderCodeConfirm = data;
+					
+					if(materialOrderCodeConfirm){
+						alert('중복된 발주코드입니다.');
+						$('#addMaterialOrderForm input').not('#materialOrderCode').prop('disabled', true);
+						$('#addMaterialOrderForm select').prop('disabled', true);
+						$('#addMaterialOrderForm button').not('#btn').prop('disabled', true);
+					}else{
+						alert('등록이 가능한 발주코드입니다.');
+						$('#addMaterialOrderForm input').prop('disabled', false);
+						$('#addMaterialOrderForm select').prop('disabled', false);
+						$('#addMaterialOrderForm button').prop('disabled', false);
+					}
+					
+					
+					
+				});
+				request.fail(function( jqXHR, textStatus ) {
+					  alert( "Request failed: " + textStatus );
+				});	
+			}else{
+				alert('발주코드를 입력해주세요')
+				return false;
+			}
+			
+			});
+		});
+
+
 </script>
 </th:block>
 
 <!-- content -->
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-	<form id="modifyMaterialOrder"th:action="@{|/k1MaterialOrder/list/add|}" method="POST">
+	<form id="modifyMaterialOrderForm" th:action="@{|/k1MaterialOrder/modify/{materialOrderCode}|}" method="POST">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>
@@ -77,14 +144,13 @@ $(function(){
 					</div>
 					<div class="card-body">
 							<div class="row">
-								<div class="form-group col-md-6">
-									<label for="materialOrderCode">
-										발주코드
-									</label>
-									<input type="text" name="materialOrderCode" class="form-control" id="materialOrderCode" th:value="${getMaterialOrderCode}" readonly="readonly">	  
-                				</div>
-								<div class="form-group col-md-6">
-									<label for="mainBusinessName">사업장 상호명</label>
+	
+				                  <div class="form-group col-md-6">
+				                    <label for="predictDate">발주요청 일자</label>
+				                    <input type="date" name="orderDate" class="form-control" id="orderDate" th:placeholder="2021-11-01" >
+				                  </div>
+				              	<div class="form-group col-md-6">
+									<label for="mainBusinessName">사업장 대표코드</label>
 				                    <select name="mainBusinessName" class="form-control">
 				                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
 				                    			  th:each="l : ${mainBusinessList}">
@@ -98,21 +164,21 @@ $(function(){
 				                    </select>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="contractCode">계약 코드</label>
-				                   	<select name="contractCode"  class="form-control">
-				                   		<th:block th:if="${not #lists.isEmpty(contractCodeForMaterialOrderCodeList)}"
-				                   					th:each="l : ${contractCodeForMaterialOrderCodeList}">
-				                    		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
-				                    			[[${l.contractCode}]]
+									<label for="mainBusinessName">사업장 상호명</label>
+				                    <select name="mainBusinessName" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
+				                    			  th:each="l : ${mainBusinessList}">
+				                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+				                    			[[${l.businessName}]]
 				                    		</option>
 				                    	</th:block>	
-				                    	<th:block th:unless="${not #lists.isEmpty(contractCodeForMaterialOrderCodeList)}">	
-				                    		<option>계약코드 먼저 등록 해주세요. </option> 
+				                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+				                    		<option>사업장 먼저 등록 해주세요. </option> 
 				                    	</th:block>	
 				                    </select>
-                    				</div>
+								</div>
 								<div class="form-group col-md-6">
-				                    <label for="clientCode">거래처 대표코드</label>
+				                    <label for="clientCode">거래처 명</label>
 				                     <select name="clientCode"  class="form-control">
 				                    	<th:block th:if="${not #lists.isEmpty(clientList)}"
 				                    			  th:each="l : ${clientList}">
@@ -125,24 +191,34 @@ $(function(){
 				                    	</th:block>
 				                    </select>		
 				                  </div>
-								<div class="form-group col-md-6 ">
+								<div class="form-group col-md-6">
+				                    <label for="clientCode">품목</label>
+				                     <select name="clientCode"  class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+				                    			  th:each="l : ${itemList}">
+				                    		<option th:value="${l.itemCode}" th:text="${l.itemName}">	  
+				                    			[[${l.itemName}]]
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+				                    		<option>품목 먼저 등록 해주세요. </option> 
+				                    	</th:block>
+				                    </select>		
+				                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="predictDate">납기일자</label>
+                    <input type="date" name="predictDate" class="form-control" id="predictDate" placeholder="2021-11-01" >
+                  </div>
+				<div class="form-group col-md-6 ">
                     <label for="totalCount">총 수량</label>
                     <input type="text" name="totalCount" class="form-control" id="totalCount" placeholder="1000" >
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="totalPrice">총 가격</label>
+                    <label for="totalPrice">총 금액</label>
                     <input type="text" name="totalPrice" class="form-control" id="totalPrice" placeholder="5000000" >
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="orderDate">주문일자</label>
-                    <input type="date" name="orderDate" class="form-control" id="orderDate" placeholder="2021-11-01" >
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="predictDate">예상수령 일자</label>
-                    <input type="date" name="predictDate" class="form-control" id="predictDate" placeholder="2021-11-01" >
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="status">상태</label>
+                    <label for="status">발주 진행상태</label>
                     <input type="text" name="status" class="form-control" id="status" placeholder="결제 중" >
                   </div>
                   <div class="form-group col-md-6">
@@ -169,7 +245,7 @@ $(function(){
 						<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
-						<button type="button" class="btn btn-info float-right mr-2">수정하기</button>
+						<button id="modifyMaterialOrderBtn" type="submit" class="btn btn-info float-right mr-2">수정완료</button>
 					</div>
 				</div>
 			</div>
