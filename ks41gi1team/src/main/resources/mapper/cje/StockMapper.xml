@@ -182,12 +182,18 @@
 </update>
 
 <!-- 재고정보 삭제 -->
-<delete id="removeStock">
+<delete id="removeStock" parameterType="map">
 	DELETE 
 	FROM 
 		k1_tb_stock
-	WHERE 
-		inventoryCode = CONCAT('inventoryCode_',#{inventoryCode});
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="inventoryCode != null and inventoryCode != ''.toString()">
+			inventoryCode = CONCAT('inventoryCode_',#{inventoryCode})
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			OR warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+		</if>
+	</trim>		
 </delete>
 
 </mapper>

@@ -5,7 +5,7 @@
 <mapper namespace="k1.smart.team.mapper.cje.StoringMapper">
 
 <!-- 물류이동내역(전체목록) -->
-<select id="getAllStoringList" parameterType="String" resultType="Storing">
+<select id="getAllStoringList" parameterType="map" resultType="Storing">
 	SELECT 
 		 RIGHT(a.stockAdjCode,3) AS stockAdjCode
 		,a.stockReasonCode
@@ -44,6 +44,12 @@
 		</if>
 		<if test="stockReasonCode != null and stockReasonCode != ''.toString()">
 			AND a.stockReasonCode = ${stockReasonCode}
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			OR a.sendWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			OR a.receiveWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
 		</if>
 	</trim>
 	GROUP BY a.stockAdjCode;
@@ -581,26 +587,41 @@
 </insert>
 
 <!-- 물류이동내역 한줄테이블 삭제 -->
-<delete id="removeStoringInfo" parameterType="String">
-	DELETE 
-	FROM 
-		k1_tb_stock_adjustment a
-	WHERE 
-		a.stockAdjCode = #{stockAdjCode}
-		AND a.mainBusinessCode = #{mainBusinessCode};
+<delete id="removeStoringInfo" parameterType="map">
+	DELETE
+	FROM k1_tb_stock_adjustment
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="stockAdjCode != null and stockAdjCode != ''.toString()">
+			stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			OR sendWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			OR receiveWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
+		</if>
+	</trim>
 </delete>
 
 <!-- 물류이동내역 상세테이블 삭제 -->
-<delete id="removeStoringDetails" parameterType="String">
+<delete id="removeStoringDetails" parameterType="map">
 	DELETE 
-	FROM 
+		d 
+	FROM
+		k1_tb_stock_adjustment a
+		LEFT JOIN
 		k1_tb_stock_adjustment_detail d
+		ON
+		a.stockAdjCode = d.stockAdjCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="stockAdjDetailCode != null and stockAdjDetailCode != ''.toString()">
 			d.stockAdjDetailCode = #{stockAdjDetailCode}
 		</if>
 		<if test="stockAdjCode != null and stockAdjCode != ''.toString()">
-			AND d.stockAdjCode = #{stockAdjCode};
+			AND a.stockAdjCode = #{stockAdjCode}
+		</if>
+		<if test="warehouseCode != null and warehouseCode != ''.toString()">
+			AND a.sendWarehouse = CONCAT('warehouseCode_',#{warehouseCode}) OR a.receiveWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
 		</if>
 	</trim>
 </delete>
@@ -783,6 +804,7 @@
 		a.mainBusinessCode = #{mainBusinessCode}
 		AND a.endDate IS NULL;
 </select>
+
 
 
 </mapper>

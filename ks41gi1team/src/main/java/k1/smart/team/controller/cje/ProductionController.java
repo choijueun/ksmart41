@@ -1,6 +1,6 @@
 package k1.smart.team.controller.cje;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -23,7 +23,6 @@ public class ProductionController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Stock stockInfo; //재고정보
 	private Storing productionInfo; //생산내역
-	private List<Storing> productionList; //생산내역 배열
 	private Map<String, Object> resultMap;
 	private static final Logger log = LoggerFactory.getLogger(ProductionController.class);
 	
@@ -42,10 +41,12 @@ public class ProductionController {
 	 */
 	@GetMapping("/k1Production")
 	public String productionMain(Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("stockReasonCode", 3);
 		//제품생산내역 전체목록 List<Storing>
-		productionList = storingService.getAllProductionList(mainBusinessCode);
-		log.info("제품생산내역 LIST :: {}", productionList);
-		model.addAttribute("productionList", productionList);
+		resultMap = storingService.getAllStoringList(paramMap);
+		model.addAttribute("productionList", resultMap.get("storingList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품생산");

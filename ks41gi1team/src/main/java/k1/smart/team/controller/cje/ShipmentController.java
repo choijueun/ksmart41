@@ -1,5 +1,6 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,10 +42,12 @@ public class ShipmentController {
 	 */
 	@GetMapping("/k1Shipment")
 	public String shipmentMain(Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("stockReasonCode", 5);
 		//출하내역 전체목록 List<Storing>
-		shipmentList = storingService.getAllShipmentList(mainBusinessCode);
-		log.info("출하내역 LIST :: {}", shipmentList);
-		model.addAttribute("shipmentList", shipmentList);
+		resultMap = storingService.getAllStoringList(paramMap);
+		model.addAttribute("shipmentList", resultMap.get("storingList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하");
