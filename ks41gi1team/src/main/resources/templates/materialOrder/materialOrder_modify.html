@@ -15,58 +15,41 @@
 
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
-$(function(){
-	//Toast
-	var Toast = Swal.mixin({
-		toast: true,
-		position: 'top-end',
-		showConfirmButton: false,
-		timer: 3000
-	});
-	//Form
-	var modifyMaterialOrder = $('#modifyMaterialOrder');
-	//input객체
-	var inputs = $('input');
-	//등록 버튼 클릭
-	$(document).on('click', '.submitBtn', function(){
-		//체크용 변수
-		modifyMaterialOrder.submit();
-		var chkText = 0;
-		var chkRadio1 = 0;
-		var chkRadio2 = 0;
-		//input 객체 반복
-		/* inputs.each(function(i, obj){
-			if($(obj).attr('name') == 'outPlace') {
-				return true;
-			}
-			if( $(obj).attr('name') == 'category1' && $(obj).is(':checked')) {
-				chkRadio1 += 1;
-			}
-			if( $(obj).attr('name') == 'category2' && $(obj).is(':checked')) {
-				chkRadio2 += 1;
-			}
-			if( $(obj).val() == null || $(obj).val() == 0 || $(obj).val() == '' ) {
-				chkText += 1;
-			}
-		});
-		if(chkText == 0 && chkRadio1 > 0 && chkRadio2 > 0) {
-			//유효
-			modifyWarehouse.submit();
-		} else {
-			Toast.fire({
-				icon: 'error',
-				title: '필수 작성 요소를 기입해주세요.'
+
+		$(function(){
+			
+			$(document).on('click', '#modifyMaterialOrderBtn', function(){
+				var submitCheck = true;
+				
+				var inputObj = $('#modifyMaterialOrderForm').find('input');
+				
+				$.each(inputObj, function(){
+					var inputData = $(this).val();
+					
+					var inputCode = $(this).attr('code');
+					var labelText = $('label[for=' + inputCode + ']').text();
+					if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+						alert(labelText + '입력해주세요' + inputData);
+						$(this).focus();
+						submitCheck = false;
+						return false;
+					}
+				});
+				
+				if(submitCheck) $('#modifyMaterialOrderForm').submit();
+				
 			});
-		} */
-	});
-});
+		
+		});
+
+
 </script>
 </th:block>
 
 <!-- content -->
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-	<form id="modifyMaterialOrder"th:action="@{|/k1MaterialOrder/list/add|}" method="POST">
+	<form id="modifyMaterialOrderForm" th:action="@{|/k1MaterialOrder/modify/{materialOrderCode}|}" method="post">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>
@@ -75,21 +58,19 @@ $(function(){
 					<div class="card-header">
 						<h3 class="card-title">발주서 수정</h3>
 					</div>
-					<div class="card-body">
+					<div class="card-body" th:if="${materialOrderList} != null">
 							<div class="row">
-								<div class="form-group col-md-6">
-									<label for="materialOrderCode">
-										발주코드
-									</label>
-									<input type="text" name="materialOrderCode" class="form-control" id="materialOrderCode" th:value="${getMaterialOrderCode}" readonly="readonly">	  
-                				</div>
+									<div class="form-group col-md-6">
+				                    <label for="predictDate">발주요청 일자</label>
+				                    <input type="date" name="orderDate" class="form-control" id="orderDate" th:placeholder="2021-11-01" >
+				                  </div>		  
 								<div class="form-group col-md-6">
 									<label for="mainBusinessName">사업장 상호명</label>
 				                    <select name="mainBusinessName" class="form-control">
 				                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
 				                    			  th:each="l : ${mainBusinessList}">
-				                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
-				                    			[[${l.mainBusinessCode}]]
+				                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+				                    			[[${l.businessName}]]
 				                    		</option>
 				                    	</th:block>	
 				                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
@@ -98,21 +79,21 @@ $(function(){
 				                    </select>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="contractCode">계약 코드</label>
-				                   	<select name="contractCode"  class="form-control">
-				                   		<th:block th:if="${not #lists.isEmpty(contractCodeForMaterialOrderCodeList)}"
-				                   					th:each="l : ${contractCodeForMaterialOrderCodeList}">
+									<label for="contractType">계약코드</label>
+				                    <select name="contractType" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(contractList)}"
+				                    			  th:each="l : ${contractList}">
 				                    		<option th:value="${l.contractCode}" th:text="${l.contractCode}">	  
 				                    			[[${l.contractCode}]]
 				                    		</option>
 				                    	</th:block>	
-				                    	<th:block th:unless="${not #lists.isEmpty(contractCodeForMaterialOrderCodeList)}">	
-				                    		<option>계약코드 먼저 등록 해주세요. </option> 
+				                    	<th:block th:unless="${not #lists.isEmpty(contractList)}">	
+				                    		<option>계약서 먼저 등록 해주세요. </option> 
 				                    	</th:block>	
 				                    </select>
-                    				</div>
+								</div>
 								<div class="form-group col-md-6">
-				                    <label for="clientCode">거래처 대표코드</label>
+				                    <label for="clientCode">거래처 명</label>
 				                     <select name="clientCode"  class="form-control">
 				                    	<th:block th:if="${not #lists.isEmpty(clientList)}"
 				                    			  th:each="l : ${clientList}">
@@ -125,24 +106,14 @@ $(function(){
 				                    	</th:block>
 				                    </select>		
 				                  </div>
-								<div class="form-group col-md-6 ">
-                    <label for="totalCount">총 수량</label>
-                    <input type="text" name="totalCount" class="form-control" id="totalCount" placeholder="1000" >
-                  </div>
+								
                   <div class="form-group col-md-6">
-                    <label for="totalPrice">총 가격</label>
-                    <input type="text" name="totalPrice" class="form-control" id="totalPrice" placeholder="5000000" >
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="orderDate">주문일자</label>
-                    <input type="date" name="orderDate" class="form-control" id="orderDate" placeholder="2021-11-01" >
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="predictDate">예상수령 일자</label>
+                    <label for="predictDate">납기일자</label>
                     <input type="date" name="predictDate" class="form-control" id="predictDate" placeholder="2021-11-01" >
                   </div>
+
                   <div class="form-group col-md-6">
-                    <label for="status">상태</label>
+                    <label for="status">발주 진행상태</label>
                     <input type="text" name="status" class="form-control" id="status" placeholder="결제 중" >
                   </div>
                   <div class="form-group col-md-6">
@@ -163,15 +134,24 @@ $(function(){
                     	</th:block>
                     </select>
                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="regDate">등록일자</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-11-01" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="updateDate">수정일자</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="now()" >
+                  </div>
 						
 					</div>
 					<div class="card-footer">
 						<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
-						<button type="button" class="btn btn-info float-right mr-2">수정하기</button>
+						<button id="modifyMaterialOrderBtn" type="button" class="btn btn-info float-right mr-2">수정완료</button>
 					</div>
 				</div>
+			</div>
 			</div>
 			</div>
 			<div class="row">

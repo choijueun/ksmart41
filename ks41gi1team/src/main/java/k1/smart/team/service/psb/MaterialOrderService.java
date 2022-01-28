@@ -89,6 +89,11 @@ public class MaterialOrderService {
 		return result;
 	}
 
+	//해당 하나의 발주서 코드 선택시 표시
+	public String getMaterialOrderCodeInfo() {
+		return materialOrderMapper.getMaterialOrderCodeInfo();
+	}
+
 
 
 	

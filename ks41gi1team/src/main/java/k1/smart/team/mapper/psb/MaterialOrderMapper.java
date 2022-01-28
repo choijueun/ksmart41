@@ -46,8 +46,12 @@ public interface MaterialOrderMapper {
 	//발주 코드 자동 추가 보여주기
 	public String getMaterialOrderCode();
 
+	//발주 코드 해당 코드 1개만 보여주기
+	public String getMaterialOrderCodeInfo();
+	
 	//발주 중복 체크
 	public int getMaterialOrderByMaterialOrderCode(String materialOrderCode);
+
 
 
 }

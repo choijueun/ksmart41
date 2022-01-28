@@ -175,6 +175,11 @@ public class ProductOrderController {
 		  model.addAttribute("contractList", contractList);
 		  System.out.println("contractList" + contractList);
 		  
+		  List<Contract> contractCodeForProductOrderCodeList = contractService.getContractCodeForProductOrderCodeList();
+		  model.addAttribute("contractCodeForProductOrderCodeList", contractCodeForProductOrderCodeList);
+		  System.out.println("contractCodeForProductOrderCodeList" + contractCodeForProductOrderCodeList);
+		  
+		  
 		  List<User> userList = userService.getAllUserList();
 		  model.addAttribute("userList", userList);
 		  System.out.println("userList" + userList);

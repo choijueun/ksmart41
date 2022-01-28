@@ -41,6 +41,8 @@ public interface ContractMapper {
 
 	//발주서 등록을 위한 발주만을 위한 계약서 코드	
 		public List<Contract> getContractCodeForMaterialOrderCodeList();
+	//수주서 등록을 위한 수주만을 위한 계약서 코드	
+		public List<Contract> getContractCodeForProductOrderCodeList();
 
 
 }
