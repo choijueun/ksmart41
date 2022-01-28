@@ -36,19 +36,19 @@ public interface WarehouseMapper {
 	 * @param wInfo
 	 * @return 성공시 1 실패시 0
 	 */
-	public int addWarehouse(Warehouse wInfo);
+	public int addWarehouse(Warehouse warehouse);
 
 	/**
 	 * 창고정보 수정 프로세스
 	 * @param wInfo
 	 * @return 성공시 1 실패시 0
 	 */
-	public int modifyWarehouse(Warehouse wInfo);
+	public int modifyWarehouse(Warehouse warehouse);
 	
 	/**
 	 * 창고정보 삭제
-	 * @param wInfo
+	 * @param warehouseCode
 	 * @return 성공시 1 실패시 0
 	 */
-	public int removeWarehouse(Warehouse wInfo);
+	public int removeWarehouse(Map<String, Object> paramMap);
 }

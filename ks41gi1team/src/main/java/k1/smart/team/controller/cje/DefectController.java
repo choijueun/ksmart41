@@ -1,6 +1,6 @@
 package k1.smart.team.controller.cje;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,7 +24,6 @@ public class DefectController {
 	private Map<String, Object> resultMap;
 	private Stock stockInfo; //재고정보
 	private Storing defectInfo; //출하내역
-	private List<Storing> defectList; //불량처리내역 배열
 	private static final Logger log = LoggerFactory.getLogger(DefectController.class);
 	
 	/**
@@ -41,10 +40,12 @@ public class DefectController {
 	 */
 	@GetMapping("/k1Defect")
 	public String defectMain(Model model) {
-		//불량처리내역 전체목록 List<Storing> 반환 및 model 속성 추가
-		defectList = storingService.getAllDefectList(mainBusinessCode);
-		log.info("불량처리내역 LIST :: {}", defectList);
-		model.addAttribute("defectList", defectList);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("stockReasonCode", 8);
+		//불량처리내역 전체목록 List<Storing>
+		resultMap = storingService.getAllStoringList(paramMap);
+		model.addAttribute("defectList", resultMap.get("storingList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "불량처리");

@@ -33,7 +33,7 @@ public class MaterialOrderService {
 	
 	//발주정보 수정
 	public int modifyMaterialOrder(MaterialOrder materialOrder) {
-		return materialOrderMapper.modifyMaterialOrderInfo(materialOrder);
+		return materialOrderMapper.modifyMaterialOrder(materialOrder);
 	}
 	
 	

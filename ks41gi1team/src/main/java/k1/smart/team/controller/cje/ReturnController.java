@@ -1,5 +1,6 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,10 +43,12 @@ public class ReturnController {
 	 */
 	@GetMapping("/k1Return")
 	public String returnMain(Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("stockReasonCode", 7);
 		//반품내역 전체목록 List<Storing>
-		returnList = storingService.getAllReturnList(mainBusinessCode);
-		log.info("반품내역 LIST :: {}", returnList);
-		model.addAttribute("returnList", returnList);
+		resultMap = storingService.getAllStoringList(paramMap);
+		model.addAttribute("returnList", resultMap.get("storingList"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리");

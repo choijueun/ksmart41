@@ -105,4 +105,13 @@
 		AND mainBusinessCode = #{mainBusinessCode};
 </update>
 
+<!-- 창고정보 삭제 -->
+<delete id="removeWarehouse" parameterType="map">
+	DELETE 
+		FROM k1_tb_warehouse_info
+	WHERE
+		warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+</delete>
+
+
 </mapper>

@@ -47,7 +47,7 @@ public class WarehouseController {
 		paramMap.put("mainBusinessCode", mainBusinessCode);
 		//창고 전체목록
 		warehouseList = warehouseService.getAllWarehouseList(paramMap);
-		log.info("창고 LIST :: {}", warehouseList);
+		//log.info("창고 LIST :: {}", warehouseList);
 		
 		model.addAttribute("SectionTitle", "창고관리");
 		model.addAttribute("SectionLocation", "전체목록");
@@ -180,7 +180,6 @@ public class WarehouseController {
 		
 		//창고정보 Warehouse
 		warehouseInfo = (Warehouse) resultMap.get("warehouseInfo");
-		log.info("창고 INFO :: {}", warehouseInfo);
 		model.addAttribute("w", warehouseInfo);
 		
 		model.addAttribute("SectionTitle", "창고관리");
@@ -211,8 +210,16 @@ public class WarehouseController {
 	 * @param wInfo
 	 */
 	@PostMapping("/k1WarehouseRemove")
-	public String removeWarehouse(Warehouse wInfo) {
+	public String removeWarehouse(String warehouseCode) {
+		log.info("DELETE PARAMETER :: {}", warehouseCode);
+		//NULL체크
+		if(CommonUtils.isEmpty(warehouseCode)) {
+			log.info("NULL");
+			return "redirect:/k1Warehouse";
+		}
 		
+		log.info("서비스 호출 :: removeWarehouse");
+		warehouseService.removeWarehouse(warehouseCode);
 		return "redirect:/k1Warehouse";
 	}
 	
