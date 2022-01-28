@@ -1,10 +1,331 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
 
-</body>
+<th:block layout:fragment="customTitle">
+	<title>[[${title}]]</title>
+</th:block>
+<th:block layout:fragment="customCss"></th:block>
+
+<th:block layout:fragment="customStyle"></th:block>
+
+<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionLocation"></th:block>
+
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+
+		$(function(){
+			
+			$(document).on('click', '#modifyContractBtn', function(){
+				var submitCheck = true;
+				
+				var inputObj = $('#modifyContractForm').find('input');
+				
+				$.each(inputObj, function(){
+					var inputData = $(this).val();
+					
+					var inputCode = $(this).attr('code');
+					var labelText = $('label[for=' + inputCode + ']').text();
+					if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+						alert(labelText + '입력해주세요' + inputData);
+						$(this).focus();
+						submitCheck = false;
+						return false;
+					}
+				});
+				
+				if(submitCheck) $('#modifyContractForm').submit();
+				
+			});
+		
+		});
+
+
+</script>
+</th:block>
+
+<!-- content -->
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+	<form id="modifyContractForm" th:action="@{|/k1Contract/modify/{contractCode}|}" method="post">
+		<div class="row">
+			<div class="col-lg-3">
+			</div>
+			<div class="col-lg-6">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<h3 class="card-title">계약서 수정</h3>
+					</div>
+					<div class="card-body" >
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="mainBusinessName">사업장 상호명</label>
+				                    <select name="mainBusinessName" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
+				                    			  th:each="l : ${mainBusinessList}">
+				                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+				                    			[[${l.businessName}]]
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+				                    		<option>사업장 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
+								</div>
+								<div class="form-group col-md-6">
+				                    <label for="clientCode">거래처 명</label>
+				                     <select name="clientCode"  class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(clientList)}"
+				                    			  th:each="l : ${clientList}">
+				                    		<option th:value="${l.clientCode}" th:text="${l.businessName}">	  
+				                    			[[${l.businessName}]]
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(clientList)}">	
+				                    		<option>거래처 먼저 등록 해주세요. </option> 
+				                    	</th:block>
+				                    </select>		
+				                  </div>
+								<div class="form-group col-md-6">
+				                    <label for="clientManagerId">거래처 담당자</label>
+				                     <select name="clientManagerId"  class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+				                    			  th:each="l : ${userList}">
+				                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+				                    			[[${l.userName}]]
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+				                    		<option>회원 먼저 등록 해주세요. </option> 
+				                    	</th:block>
+				                    </select>		
+				                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="predictDate">계약주문유형</label>
+                  	<select name="predictDate"  class="form-control">
+                   		<option>발주</option>
+                   		<option>수주</option>
+                    </select>	
+                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="contractType">계약유형</label>
+                    <input type="text" name="contractType" class="form-control" id="contractType" placeholder="1년계약" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="startDate">계약시작날짜</label>
+                    <input type="date" name="startDate" class="form-control" id="startDate" placeholder="2021-11-01" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="endDate">계약종료날짜</label>
+                    <input type="date" name="endDate" class="form-control" id="endDate" placeholder="2021-11-02" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="managerId">담당자</label>
+                    <select name="managerId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                 </div>
+                  <div class="form-group col-md-6">
+                    <label for="regId">등록자</label> 
+                    <select name="regId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="approvalId">승인자</label>
+                    <select name="approvalId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    			[[${l.userName}]]
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="contractDate">계약일자</label>
+                    <input type="date" name="contractDate" class="form-control" id="contractDate" placeholder="2021-10-30" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="contractStatus">계약상태</label>
+                   <select name="contractStatus" disabled="disabled" class="form-control">
+                   		<option> 계약 상태 </option>
+                   		<option> 계약 만료 </option>
+                   		<option> 계약 중 </option>
+                   		<option> 계약 전 </option>
+                   </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="briefs">적요</label>
+                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="제품매출 6,600,000원" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="regDate">등록일시</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="updateDate">수정일시</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2021-10-30 00:00:00" disabled="disabled">
+                  </div>
+				</div>
+			</div>
+			</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-1">
+				</div>
+				<div class="col-lg-10">
+					<!-- 발주 상세정보 입력칸 -->
+					<div class="card card-info card-outline mb-3">
+						<div class="card-header">
+							<h3 class="card-title">발주 상세내역 수정</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group col-md-6">
+                 		   <label for="contractNum">계약상세코드</label>
+							<input type="text" name="contractNum" value="" id="contractNum" class="form-control">
+							</div>
+					<div class="form-group col-md-6">
+                    <label for="itemCode">품목명</label>
+                    <select name="itemCode" disabled="disabled" class="form-control">
+	                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+	                    			  th:each="l : ${itemList}">
+	                    		<option th:value="${l.itemCode}" th:text="${l.itemName}">	  
+	                    			[[${l.itemName}]]
+	                    		</option>
+	                    	</th:block>	
+	                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+	                    		<option>품목 먼저 등록 해주세요. </option> 
+	                    	</th:block>
+	                    </select>
+                	 </div>
+                	 <div class="form-group col-md-6">
+                 		   <label for="count">수량</label>
+							<input type="number" name="count" value="" id="count" class="form-control">
+					</div>
+					 <div class="form-group col-md-6">
+                 		   <label for="supplyPrice">공급가액</label>
+							<input type="number" name="supplyPrice" value="" id="supplyPrice" class="form-control">
+					</div>		
+					<div class="form-group col-md-6">
+                    <label for="vatType">부가세유형</label>
+                   <select name="vatType" disabled="disabled" class="form-control">
+                   		<option> :: 부가세 유형 :: </option>
+                   		<option> 세금계산서 </option>
+                   		<option> 면세계산서 </option>
+                   		<option> 현금영수증 </option>
+                   </select>
+                  </div>	
+				 <div class="form-group col-md-6">
+                		   <label for="VAT">부가세</label>
+						<input type="number" name="VAT" value="" id="VAT" class="form-control">
+				</div>		
+				 <div class="form-group col-md-6">
+                		   <label for="totalPrice">합계</label>
+						<input type="number" name="totalPrice" value="" id="totalPrice" class="form-control">
+				</div>		
+				 <div class="form-group col-md-6">
+                		   <label for="contractPrice">계약단가</label>
+						<input type="number" name="contractPrice" value="" id="contractPrice" class="form-control">
+				</div>		
+				 <div class="form-group col-md-6">
+                		   <label for="earnPayMethod">수금방식</label>
+               		   <select name="earnPayMethod" disabled="disabled" class="form-control">
+                   		<option> :: 수금 방식 :: </option>
+                   		<option> 선금 </option>
+                   		<option> 외상(카드) </option>
+                   		<option> 현금 </option>
+                   		<option> 할부 </option>
+                   </select>
+				</div>		
+				 <div class="form-group col-md-6">
+                		   <label for="earnPayStatus">수금상태</label>
+               		   <select name="earnPayStatus" disabled="disabled" class="form-control">
+                   		<option> :: 수금 상태 :: </option>
+                   		<option> 청구 전 </option>
+                   		<option> 입금 대기 </option>
+                   		<option> 청구 중 </option>
+                   		<option> 수금 완료 </option>
+                   </select>
+				</div>	
+				<div class="form-group col-md-6">
+                		   <label for="earnCashPlanDate">수금예정일자</label>
+						<input type="date" name="earnCashPlanDate" value="" id="contractPrice" class="form-control">
+				</div>	
+				<div class="form-group col-md-6">
+                		   <label for="costPayMethod">출금방식</label>
+               		   <select name="costPayMethod" disabled="disabled" class="form-control">
+                   		<option> :: 출금 방식 :: </option>
+                   		<option> 당좌계좌 </option>
+                   		<option> 현금 </option>
+                   		<option> 외상 </option>
+                   		<option> 할부 </option>
+                   		<option> 후불 </option>
+                   </select>
+				</div>	
+				<div class="form-group col-md-6">
+                		   <label for="costPayStatus">출금상태</label>
+               		   <select name="costPayStatus" disabled="disabled" class="form-control">
+                   		<option> :: 출금 상태 :: </option>
+                   		<option> 청구 전 </option>
+                   		<option> 출금 대기 </option>
+                   		<option> 청구 중 </option>
+                   		<option> 출금 완료 </option>
+                   </select>
+				</div>		
+				<div class="form-group col-md-6">
+                		   <label for="origin">원산지</label>
+						<input type="text" name="origin" value="" id="origin" class="form-control">
+				</div>
+				<div class="form-group col-md-6">
+                		   <label for="productSellDate">납품일자</label>
+						<input type="date" name="productSellDate" value="" id="productSellDate" class="form-control">
+				</div>				
+				<div class="form-group col-md-6">
+                		   <label for="warehousingDate">입고일자</label>
+						<input type="date" name="warehousingDate" value="" id="warehousingDate" class="form-control">
+				</div>				
+				<div class="form-group col-md-6">
+                		   <label for="comment">비고</label>
+						<input type="text" name="comment" value="" id="comment" class="form-control">
+				</div>				
+					</div>
+						<!-- 1 row 추가 버튼 -->
+						<!-- <div class="card-footer">
+							<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
+								<i class="far fa-plus-square"></i>
+							</button>
+						</div> -->
+					</div>
+				</div>
+			</div>
+									<a th:href="@{/k1Contract/k1ContractHistory}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<button id="modifyContractBtn" type="button" class="btn btn-info float-right mr-2">수정완료</button>
+		</div>
+		</form>
+	</div>
+</th:block>
 </html>

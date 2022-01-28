@@ -15,7 +15,9 @@
 
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
-	<div class="row" th:unless="${ contractInfo == null }">
+	<div class="row">
+			<th:block th:if="${not #lists.isEmpty(contractInfo)}"
+										th:each="l : ${contractInfo}">
 		<div class="col-lg-3 col-md-2">
 		</div>
 			<div class="col-lg-6 col-md-8 mb-3">
@@ -86,7 +88,7 @@
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
 							<button type="button" class="btn btn-danger float-right">삭제</button>
-						<a th:href="@{|/k1Contract/modify/${contractInfo.contractCode}|}">
+						<a th:href="@{|/k1Contract/modify/${l.contractCode}|}">
 							<button type="button" class="btn btn-info float-right mr-2">수정</button>
 						</a>
 					</div>
