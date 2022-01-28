@@ -3,6 +3,51 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.UserMapper">	
+
+	<select id="getAddUser" parameterType="String" resultType="UserReg">
+		INSERT INTO 
+			k1_tb_user_register(
+				 userRegCode
+				,mainBusinessCode
+				,userLevelCode
+				,userId
+				,userPw
+				,userName
+				,userGender
+				,userAddr
+				,userMoblie
+				,userEmail
+				,userPosition
+				,userRegDate
+				,userRegStatus
+				,userRegComment
+				)
+			VALUES (
+				#{userRegCode}
+				,#{mainBusinessCode}
+				,#{userLevelCode}
+				,#{userId}
+				,#{userPw}
+				,#{userName}
+				,#{userGender}
+				,#{userAddr}
+				,#{userMoblie}
+				,#{userEmail}
+				,#{userPosition}
+				,NOW()
+				,#{userRegStatus}
+				,#{userRegComment}
+				);
+	</select>
+	
+	<select id="getIdCheck" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			k1_tb_user_register
+		WHERE
+			userId = #{userId};
+	</select>
 	
 	<select id="getAllUserRegList" parameterType="String" resultType="UserReg">
 		SELECT 

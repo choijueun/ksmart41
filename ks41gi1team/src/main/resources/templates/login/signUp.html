@@ -2,138 +2,177 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
 
-<head th:replace="fragments/head :: headFragment"></head>
+<th:block layout:fragment="customContents" >
+	<head th:replace="fragments/head :: headFragment"></head>
 
-<body class="register-page" style="min-height: 542px;">
-	<div class="col-6 pt-3">
-		<div class="card card-outline card-primary ">
-			<div class="card-header text-center">
-				<a href="../../index2.html" class="h1 text-info"><b>SMARTORY</b></a>
-			</div>
-			<div class="card-body">
+	<body class="register-page" style="min-height: 542px;">
+		<div class="col-6 pt-3">
+			<div class="card card-outline card-primary ">
+				<div class="card-header text-center">
+					<a th:href="@{/}" class="h1 text-info"><b>SMARTORY</b></a>
+				</div>
+				<div class="card-body">
+		
+					<form id="addMemberForm" th:action="@{/k1UserReg/addUser}" method="post">
+						<div class="form-group">
+						<label>아이디</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디">
+								<button type="button" class="btn btn-outline-info" id="idCheckBtn">ID중복체크</button>
+							</div>
+						</div>
+						
+						<div class="form-group">
+						<label>비밀번호</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="비밀번호">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-lock"></span>
+									</div>
+								</div>
+							</div>
+						
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="비밀번호 확인">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-lock"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+						<label>이름</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="이름">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+						<label>성별</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="성별">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+							
+						<div class="form-group">
+						<label>주소</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="주소">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+						<label>연락처</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="연락처">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-phone"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+							
+						<div class="form-group">
+						<label>이메일</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="이메일">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-envelope"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+						<label>직책</label>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="직책">
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4 ">
+								<button type="submit" class="btn btn-info">가입하기</button>
+							</div>
+							<!-- /.col -->
+						</div>
+		        
+					</form>
+				</div>
+		    	<!-- /.form-box -->
+			</div><!-- /.card -->
+		</div>
+		<!-- /.register-box -->
+		
+		<!-- jQuery -->
+		<script src="../../plugins/jquery/jquery.min.js"></script>
+		<!-- Bootstrap 4 -->
+		<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="../../dist/js/adminlte.min.js"></script>
+	</body>
+</th:block>		
+
+<th:block layout:fragment="customJs">
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script type="text/javascript">
+	$('#idCheckBtn').click(function(){
+		var userId = $('#userId').val();
+		//[재천]ajax통신 아이디 중복체크
+		var request = $.ajax({
+			  url: "/k1UserReg/idCheck",
+			  method: "POST",
+			  data: { userId : userId },
+			  dataType: "text"
+			});
+		request.done(function(data) {
+			if(userId != null && userId != ""){
+				if(data == "true"){
+					alert('회원가입 불가능');
+					$('#addMemberForm input').not('#userId').prop('disabled', true);
+					$('#addMemberForm button').not('#idCheckBtn').prop('disabled', true);
+					//$('#addMemberForm #memberId').attr("readonly", false);
+				}else{
+					alert('회원가입 가능');
+					$('#addMemberForm input').not('#userId').prop('disabled', false);
+					$('#addMemberForm button').not('#idCheckBtn').prop('disabled', false);
+					$('#userId').attr('login','pass');
+					//$('#addMemberForm #memberId').attr("readonly", true);
+				}
+			}else{
+				alert('정보를 모두 입력해주세요');
+			}
+		});
+	});
 	
-				<form action="../../index.html" method="post">
-				<div class="form-group">
-				<label>아이디</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="아이디">
-						<button type="button" class="btn btn-outline-info" id="idCheck">ID중복체크</button>
-					</div>
-				</div>
-				
-				<div class="form-group">
-				<label>비밀번호</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="비밀번호">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-lock"></span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="비밀번호 확인">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-lock"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-				<label>이름</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="이름">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-user"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-				<label>성별</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="성별">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-user"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-					
-				<div class="form-group">
-				<label>주소</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="주소">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-user"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-				<label>연락처</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="연락처">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-phone"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-					
-				<div class="form-group">
-				<label>이메일</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="이메일">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-envelope"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-				<label>직책</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="직책">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-user"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-4 ">
-						<button type="submit" class="btn btn-info">가입하기</button>
-					</div>
-					<!-- /.col -->
-				</div>
-	        
-				</form>
-			</div>
-	    	<!-- /.form-box -->
-		</div><!-- /.card -->
-	</div>
-	<!-- /.register-box -->
-	
-	<!-- jQuery -->
-	<script src="../../plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="../../dist/js/adminlte.min.js"></script>
+	</script>
+</th:block>
 
 
-</body>
+
+
 </html>

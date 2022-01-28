@@ -12,6 +12,11 @@ import k1.smart.team.dto.csh.UserReg;
 @Mapper
 public interface UserMapper {
 	
+	//회원가입 요청
+	public int getAddUser(UserReg userReg);
+	//아이디 중복검사
+	public int getIdCheck(String userId);
+	
 	//회원 전체 목록
 	public List<User> getAllUserList(String mainBusinessCode);
 	
@@ -41,6 +46,10 @@ public interface UserMapper {
 
 	//회원정보 수정
 	public int modifyUser(User user);
+
+	
+
+	
 
 	
 
