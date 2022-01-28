@@ -5,18 +5,6 @@
 <style type="text/css">
 .nav-item ul.nav-treeview { transform: translateX(1em); }
 </style>
-<script type="text/javascript">
-$(function(){
-	$(document).on('mouseenter', '.nav-item', function(){
-		$(this).find('.nav-treeview').stop();
-		$(this).find('.nav-treeview').slideDown(500);
-	});
-	$(document).on('mouseleave', '.nav-item', function(){
-		$(this).find('.nav-treeview').stop();
-		$(this).find('.nav-treeview').slideUp(500);
-	});
-});
-</script>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
@@ -114,7 +102,7 @@ $(function(){
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a th:href="@{/k1InvoiceList}" class="nav-link"><!-- 그래프 -->
+					<a th:href="@{#}" class="nav-link"><!-- 그래프 -->
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							재무 관리
@@ -122,6 +110,12 @@ $(function(){
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1InvoiceList}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>재무 관리</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1CostList}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
@@ -150,7 +144,7 @@ $(function(){
 				</li>
 				
 				<li class="nav-item">
-					<a th:href="@{/k1Stock}" class="nav-link">
+					<a th:href="@{#}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							재고 관리
@@ -158,6 +152,12 @@ $(function(){
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1Stock}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>재고 관리</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Warehouse}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
@@ -173,7 +173,7 @@ $(function(){
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a th:href="@{/k1Storing}" class="nav-link">
+					<a th:href="@{#}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
 							물류 관리
@@ -181,6 +181,12 @@ $(function(){
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/k1Storing}" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>물류 관리</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a th:href="@{/k1Warehousing}" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
