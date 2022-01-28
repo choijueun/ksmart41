@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,7 @@ public class MovingController {
 	private final StoringService storingService;
 	private Map<String, Object> resultMap;
 	private Stock stockInfo; //재고정보
-	private Storing movingInfo; //생산내역
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	private Storing storingInfo; //생산내역
 	private static final Logger log = LoggerFactory.getLogger(MovingController.class);
 	
 	/**
@@ -39,13 +40,14 @@ public class MovingController {
 	 * @param model
 	 */
 	@GetMapping("/k1Moving")
-	public String movingMain(Model model) {
+	public String movingMain(Model model, HttpSession session) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		//사업장대표코드
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		paramMap.put("stockReasonCode", 4);
-		//창고이동내역 전체목록 List<Storing>
-		resultMap = storingService.getAllStoringList(paramMap);
-		model.addAttribute("movingList", resultMap.get("storingList"));
+		
+		//전체목록 List<Storing>
+		model.addAttribute("storingList", storingService.getStoringList(paramMap));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
@@ -61,20 +63,23 @@ public class MovingController {
 	@GetMapping("/k1Moving/{stockAdjCode}")
 	public String movingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Moving";
 		
-		//창고이동내역 상세정보 조회결과
-		resultMap = storingService.getMovingInfo(mainBusinessCode, stockAdjCode);
-		if(resultMap == null) return "redirect:/k1Moving";
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 4);
+		//상세정보 조회
+		resultMap = storingService.getStoringInfo(paramMap);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Moving";
 		
-		//창고이동내역 한줄정보 Storing
-		movingInfo = (Storing) resultMap.get("movingInfo");
-		log.info("창고이동내역 INFO :: {}", movingInfo);
-		model.addAttribute("s", movingInfo);
-		//창고이동내역 상세정보 List<Storing>
-		model.addAttribute("movingDetails", resultMap.get("movingDetails"));
+		//한줄정보 Storing
+		model.addAttribute("s", resultMap.get("storingInfo"));
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동");
@@ -90,11 +95,12 @@ public class MovingController {
 	@GetMapping("/k1MovingAdd")
 	public String addMoving(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
-			,Model model) {
+			,Model model, HttpSession session) {
+		
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
-			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			stockInfo = storingService.getStockForStoring((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 			log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
@@ -124,20 +130,25 @@ public class MovingController {
 	@GetMapping("/k1MovingModify/{stockAdjCode}")
 	public String modifyMoving(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Moving";
 		
-		//창고이동내역 상세정보 조회결과
-		resultMap = storingService.getMovingInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 4);
+		//상세정보 조회결과
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Moving";
 		
-		//창고이동내역 한줄정보 Storing
-		movingInfo = (Storing) resultMap.get("movingInfo");
-		log.info("창고이동내역 INFO :: {}", movingInfo);
-		model.addAttribute("s", movingInfo);
-		//창고이동내역 상세정보 List<Storing>
-		model.addAttribute("details", resultMap.get("movingDetails"));
+		//한줄정보 Storing
+		storingInfo = (Storing) resultMap.get("storingInfo");
+		log.info("창고이동내역 수정화면 INFO :: {}", storingInfo);
+		model.addAttribute("s", storingInfo);
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "창고이동내역 수정");

@@ -33,7 +33,7 @@
 					
 					<div class="info-box-content">
 						<span class="info-box-text">Delivery</span>
-						<span class="info-box-number" th:text="${unfinishedDeliveryCnt} == null ? 0 : ${unfinishedDeliveryCnt}"></span>
+						<span class="info-box-number" th:text="${deliveryCnt} == null ? 0 : ${deliveryCnt}"></span>
 					</div>
 				</div>
 			</a>
@@ -46,7 +46,7 @@
 					
 					<div class="info-box-content">
 						<span class="info-box-text">Shipments</span>
-						<span class="info-box-number" th:text="${unfinishedShipmentCnt} == null ? 0 : ${unfinishedShipmentCnt}"></span>
+						<span class="info-box-number" th:text="${shipmentPlanCnt} == null ? 0 : ${shipmentPlanCnt}"></span>
 					</div>
 				</div>
 			</a>
@@ -59,7 +59,7 @@
 					
 					<div class="info-box-content">
 						<span class="info-box-text">Returns</span>
-						<span class="info-box-number" th:text="${unfinishedReturnCnt} == null ? 0 : ${unfinishedReturnCnt}"></span>
+						<span class="info-box-number" th:text="${returnRegCnt} == null ? 0 : ${returnRegCnt}"></span>
 					</div>
 				</div>
 			</a>

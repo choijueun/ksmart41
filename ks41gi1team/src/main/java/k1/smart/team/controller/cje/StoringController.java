@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,6 @@ import k1.smart.team.service.cje.StoringService;
 @Controller
 public class StoringController {
 	private final StoringService storingService;
-	private String mainBusinessCode= "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Map<String, Object> resultMap;
 	private List<Storing> storingList; //물류이동내역 배열
 	private static final Logger log = LoggerFactory.getLogger(StoringController.class);
@@ -38,12 +39,13 @@ public class StoringController {
 	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Storing")
-	public String storingMain(Model model) {
+	public String storingMain(Model model, HttpSession session) {
+		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		
 		resultMap = storingService.getAllStoringList(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "storing/storing_history";
@@ -63,11 +65,17 @@ public class StoringController {
 		return "storing/storing_history";
 	}
 	
+	/**
+	 * 물류이동내역 삭제
+	 * @param stockAdjList
+	 * @param stockReason
+	 */
 	@PostMapping("/k1StoringRemove")
 	public String removeStoringInfo(
 			@RequestParam(value = "stockAdjCode") String stockAdjList, String stockReason) {
 		//매개변수 확인
 		if(CommonUtils.isEmpty(stockAdjList)) return "redirect:/k1"+stockReason;
+		log.info("삭제할 물류이동코드 :: {}",stockAdjList);
 		//map
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		//삭제 프로세스

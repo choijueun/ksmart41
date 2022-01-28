@@ -3,6 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,8 @@ import k1.smart.team.service.cje.StoringService;
 @Controller
 public class WarehousingController {
 	private final StoringService storingService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Stock stockInfo; //재고정보
-	private Storing warehousingInfo; //자재입고내역
+	private Storing storingInfo; //자재입고내역
 	private Map<String, Object> resultMap;
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	
@@ -39,13 +40,14 @@ public class WarehousingController {
 	 * @param model
 	 */
 	@GetMapping("/k1Warehousing")
-	public String warehousingMain(Model model) {
+	public String warehousingMain(Model model, HttpSession session) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		//사업장대표코드
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		paramMap.put("stockReasonCode", 1);
-		//자재입고내역 전체목록 List<Storing>
-		resultMap = storingService.getAllStoringList(paramMap);
-		model.addAttribute("warehousingList", resultMap.get("storingList"));
+		
+		//전체목록 List<Storing>
+		model.addAttribute("storingList", storingService.getStoringList(paramMap));
 		
 		
 		model.addAttribute("SectionTitle", "물류 관리");
@@ -62,21 +64,23 @@ public class WarehousingController {
 	@GetMapping("/k1Warehousing/{stockAdjCode}")
 	public String warehousingInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
-		//자재입고내역 상세정보 조회결과
-		resultMap = storingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 1);
+		//상세정보 조회
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
-		
-		//자재입고내역 한줄정보 Storing
-		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
-		//log.info("자재입고내역 상세정보 INFO :: {}", warehousingInfo);
-		model.addAttribute("s", warehousingInfo);
-		//자재입고내역 상세정보 List<Storing>
-		model.addAttribute("details", resultMap.get("warehousingDetails"));
+		//한줄정보 Storing
+		model.addAttribute("s", resultMap.get("storingInfo"));
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고");
@@ -91,11 +95,11 @@ public class WarehousingController {
 	@GetMapping("/k1WarehousingAdd")
 	public String addWarehousing(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
-			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			stockInfo = storingService.getStockForStoring((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 			//log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
@@ -111,12 +115,12 @@ public class WarehousingController {
 	 * @param storingInfo
 	 */
 	@PostMapping("/k1WarehousingAdd")
-	public String addWarehousing(Storing storingInfo) {
+	public String addWarehousing(Storing storingInfo, HttpSession session) {
 		//상세정보(품목) 존재하지 않을 경우
 		if(CommonUtils.isEmpty(storingInfo.getS())) return "redirect:/k1WarehousingAdd";
 		
 		//사업장코드Setting
-		storingInfo.setMainBusinessCode(mainBusinessCode);
+		storingInfo.setMainBusinessCode((String) session.getAttribute("MAINBUSINESSCODE"));
 		//물류이동사유Setting
 		storingInfo.setStockReasonCode(1);
 		log.info("물류이동한줄내역  등록 :: {}",storingInfo);
@@ -155,20 +159,25 @@ public class WarehousingController {
 	@GetMapping("/k1WarehousingModify/{stockAdjCode}")
 	public String modifyWarehousing(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
 		
-		//자재입고내역 상세정보 조회결과
-		resultMap = storingService.getWarehousingInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 1);
+		//상세정보 조회결과
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehousing";
 		
-		//자재입고내역 한줄정보 Storing
-		warehousingInfo = (Storing) resultMap.get("warehousingInfo");
-		//log.info("자재입고내역 수정화면 INFO :: {}", warehousingInfo);
-		model.addAttribute("s", warehousingInfo);
-		//자재입고내역 상세정보 List<Storing>
-		model.addAttribute("details", resultMap.get("warehousingDetails"));
+		//한줄정보 Storing
+		storingInfo = (Storing) resultMap.get("storingInfo");
+		log.info("입고내역 수정화면 INFO :: {}", storingInfo);
+		model.addAttribute("s", storingInfo);
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고내역 수정");
