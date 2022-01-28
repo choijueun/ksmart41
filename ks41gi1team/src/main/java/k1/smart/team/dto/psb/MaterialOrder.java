@@ -2,6 +2,13 @@ package k1.smart.team.dto.psb;
 
 public class MaterialOrder {
 	private String materialOrderCode;
+	private String materialOrderOngoingCode;
+	private String itemCode;
+	private String itemCount;
+	private String itemPrice;
+	private String realReceiveDate;
+	private String reserveStatus;
+	private String comment;
 	private String mainBusinessCode;
 	private String contractCode;
 	private String clientCode;
@@ -24,6 +31,48 @@ public class MaterialOrder {
 	}
 	public void setMaterialOrderCode(String materialOrderCode) {
 		this.materialOrderCode = materialOrderCode;
+	}
+	public String getMaterialOrderOngoingCode() {
+		return materialOrderOngoingCode;
+	}
+	public void setMaterialOrderOngoingCode(String materialOrderOngoingCode) {
+		this.materialOrderOngoingCode = materialOrderOngoingCode;
+	}
+	public String getItemCode() {
+		return itemCode;
+	}
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+	public String getItemCount() {
+		return itemCount;
+	}
+	public void setItemCount(String itemCount) {
+		this.itemCount = itemCount;
+	}
+	public String getItemPrice() {
+		return itemPrice;
+	}
+	public void setItemPrice(String itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+	public String getRealReceiveDate() {
+		return realReceiveDate;
+	}
+	public void setRealReceiveDate(String realReceiveDate) {
+		this.realReceiveDate = realReceiveDate;
+	}
+	public String getReserveStatus() {
+		return reserveStatus;
+	}
+	public void setReserveStatus(String reserveStatus) {
+		this.reserveStatus = reserveStatus;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public String getMainBusinessCode() {
 		return mainBusinessCode;
@@ -132,6 +181,20 @@ public class MaterialOrder {
 		StringBuilder builder = new StringBuilder();
 		builder.append("MaterialOrder [materialOrderCode=");
 		builder.append(materialOrderCode);
+		builder.append(", materialOrderOngoingCode=");
+		builder.append(materialOrderOngoingCode);
+		builder.append(", itemCode=");
+		builder.append(itemCode);
+		builder.append(", itemCount=");
+		builder.append(itemCount);
+		builder.append(", itemPrice=");
+		builder.append(itemPrice);
+		builder.append(", realReceiveDate=");
+		builder.append(realReceiveDate);
+		builder.append(", reserveStatus=");
+		builder.append(reserveStatus);
+		builder.append(", comment=");
+		builder.append(comment);
 		builder.append(", mainBusinessCode=");
 		builder.append(mainBusinessCode);
 		builder.append(", contractCode=");
@@ -169,6 +232,7 @@ public class MaterialOrder {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 	
 	

@@ -2,6 +2,7 @@ package k1.smart.team.controller.psb;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -161,6 +162,10 @@ public class MaterialOrderController {
 			  model.addAttribute("contractCodeForMaterialOrderCodeList", contractCodeForMaterialOrderCodeList);
 			  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
 			  
+			  List<Contract> contractList = contractService.getAllContractList();
+			  model.addAttribute("contractList", contractList);
+			  System.out.println("contractList" + contractList);
+			  
 			  List<Client> clientList = clientService.getAllClientList();
 			  model.addAttribute("clientList", clientList);
 			  System.out.println("clientList: " + clientList);
@@ -181,8 +186,8 @@ public class MaterialOrderController {
 		@PostMapping("/modify/{materialOrderCode}")
 		public String modifyMaterialOrder(MaterialOrder materialOrder) {
 			materialOrderService.modifyMaterialOrder(materialOrder);
-			
-			 return "redirect:/k1MaterialOrder/materialOrder_list";
+			System.out.println("materialOrder-->" + materialOrder);
+			 return "redirect:/k1MaterialOrder/k1MaterialOrderList";
 		}
 		
 		

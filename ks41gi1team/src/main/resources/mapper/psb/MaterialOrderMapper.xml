@@ -137,21 +137,38 @@
 
 
 <update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
-	update 
-		k1_tb_material_order
+	update IGNORE
+		k1_view_material_order as mo 
+		inner join
+		k1_tb_material_order_detail as mo2
+		on
+		mo.materialOrderCode = mo2.materialOrderCode
 	SET
-		orderDate = #{orderDate},
-		mainBusinessCode = #{mainBusinessCode},
-		itemName = #{itemName},
-		predictDate = #{predictDate},
-		totalCount = #{totalCount},
-		totalPrice = #{totalPrice},
-		status = #{status}
+		mo.orderDate = #{orderDate},
+		mo.mainBusinessCode = #{mainBusinessCode},
+		mo.businessName = #{businessName},
+		mo.contractCode = #{contractCode},
+		mo.clientCode = #{clientCode},
+		mo.predictDate = #{predictDate},
+		mo.clientBusinessName = #{clientBusinessName},
+		mo.itemName = #{itemName},
+		mo.totalCount = #{totalCount},
+		mo.totalPrice = #{totalPrice},
+		mo.status = #{status},
+		mo.briefs = #{briefs},
+		mo.managerId = #{managerId},
+		mo.regDate = #{regDate},
+		mo.updateDate = #{updateDate},
+		mo2.materialOrderCode = #{materialOrderCode},
+		mo2.itemCode = #{itemCode},
+		mo2.itemCount =#{itemCount},
+		mo2.itemPrice = #{itemPrice},
+		mo2.realReceiveDate = #{realReceiveDate},
+		mo2.reserveStatus = #{reserveStatus},
+		mo2.comment = #{comment}
 	WHERE 
-		materialOrderCode=#{materialOrderCode};
+		materialOrderCode=#{materialOrderCode};	
 </update>
-
-
 
 <select id="getMaterialOrderListBySearchKey" parameterType="String" resultType="MaterialOrder">
 		SELECT

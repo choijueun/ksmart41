@@ -141,7 +141,7 @@ $(function(){
 						<td> &#8361; [[${#numbers.formatInteger(l.totalPrice,0,'COMMA')}]]</td> 
 						<td>[[${l.status}]]</td> 
 						<td class="text-center">
-								<a th:href="@{|/k1MaterialOrder/modify/{materialOrderCode}|}"><i class="fas fa-pen"></i></a>
+								<a th:href="@{|/k1MaterialOrder/modify/${l.materialOrderCode}|}"><i class="fas fa-pen"></i></a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(materialOrderList)}">
