@@ -26,9 +26,19 @@
 		</div> -->
 		<!-- 사이드바 프로필 -->
 		<div class="mt-3 pb-3 pt-3 mb-3">
-			<div class="text-center image-box">
+			<div th:if="${session.UID == 'id001'}" class="text-center image-box">
 				<img src="../../dist/img/user4-128x128.jpg" class="img-circle image-thumbnail" alt="User Image">
 			</div>
+			<div th:if="${session.UID == 'id002'}" class="text-center image-box">
+				<img src="../../dist/img/user6-128x128.jpg" class="img-circle image-thumbnail" alt="User Image">
+			</div>
+			<div th:if="${session.UID == 'id003'}" class="text-center image-box">
+				<img src="../../dist/img/user5-128x128.jpg" class="img-circle image-thumbnail" alt="User Image">
+			</div>
+			<div th:if="${session.UID == 'id004'}" class="text-center image-box">
+				<img src="../../dist/img/user1-128x128.jpg" class="img-circle image-thumbnail" alt="User Image">
+			</div>
+			
 			<div th:if="${session.UID !=null}" class="text-center mt-3">
 				<h5 class="text-white">[[${session.UID}]]</h5>
 				<h5 class="text-white">[[${session.ULEVEL}]]</h5>

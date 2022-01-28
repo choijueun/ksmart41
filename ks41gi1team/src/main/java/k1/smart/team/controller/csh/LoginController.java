@@ -33,12 +33,16 @@ public class LoginController{
 		return "login/signUp";
 	}
 	
-	//로그인
+	/**
+	 * 관리자 로그인
+	 * @return
+	 */
+	//관리자로그인
 	@GetMapping("/login")
 	public String login() {
 		return "login/login";
 	}
-	//로그인
+	//관리자 로그인
 	@PostMapping("/login")
 	public String login(@RequestParam(value = "userId",required = false)String userId
 						,@RequestParam(value = "userPw",required = false)String userPw
@@ -60,6 +64,38 @@ public class LoginController{
 		}
 		//로그인 불일치 시
 		return "redirect:/login";
+	}
+	
+	/**
+	 * 일반직원 로그인
+	 */
+	//관리자로그인
+	@GetMapping("/login2")
+	public String login2() {
+		return "login/login2";
+	}
+	//일반직원 로그인
+	@PostMapping("/login2")
+	public String login2(@RequestParam(value = "userId",required = false)String userId
+						,@RequestParam(value = "userPw",required = false)String userPw
+						,HttpSession session ) {
+		System.out.println("로그인 아이디" + userId);
+		System.out.println("로그인 비밀번호" + userPw);
+		if(userId != null && !"".equals(userId) && userPw != null && !"".equals(userPw)) {
+			User userInfo = loginService.getUserIdCheck(userId);
+			if(userInfo != null 
+					&& userInfo.getUserPw() != null 
+					&& userPw.equals(userInfo.getUserPw())) {
+				//로그인 비밀번호 일치 시 세션을 정보에 담음
+				session.setAttribute("UID", userId);
+				session.setAttribute("UNAME", userInfo.getUserName());
+				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
+				return "redirect:/main";
+			}
+		}
+		//로그인 불일치 시
+		return "redirect:/login2";
 	}
 	
 	//로그아웃

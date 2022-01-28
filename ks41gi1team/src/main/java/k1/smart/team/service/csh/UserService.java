@@ -32,9 +32,19 @@ public class UserService {
 	 * 회원등록(getAddUser)
 	 * 회원삭제(userDelete)
 	 * 회원가입요청 삭제(userRegDelete)
+	 * @return 
 	 * 
 	 * 
 	 */
+	//회원가입 요청
+	public int getAddUser(UserReg userReg) {
+		int addUser = userRegMapper.getAddUser(userReg);
+		return addUser;
+	}
+	//아이디중복검사
+	public int getIdCheck(String userId) {
+		return userRegMapper.getIdCheck(userId);
+	}
 	
 	//회원 전체 목록
 	public List<User> getAllUserList() {
@@ -103,6 +113,10 @@ public class UserService {
 		
 		return limitUser;
 	}
+
+	
+
+	
 
 	
 
