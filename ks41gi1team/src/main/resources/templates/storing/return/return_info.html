@@ -143,7 +143,7 @@
 					반품처리 상세내역
 				</div>
 				<div class="card-body">
-					<table id="returnDetails" class="table table-bordered">
+					<table id="details" class="table table-bordered">
 						<thead>
 							<tr>
 								<th>품목명</th>
@@ -157,7 +157,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${ s != null and returnDetails != null }" th:each=" l : ${returnDetails}">
+							<tr th:if="${ s != null and details != null }" th:each=" l : ${details}">
 								<td>
 									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 										[[${l.itemName}]]
@@ -178,7 +178,7 @@
 								<td>[[${l.status}]]</td>
 								<td>[[${l.comment}]]</td>
 							</tr>
-							<tr th:if="${ s == null or returnDetails == null }">
+							<tr th:if="${ s == null or details == null }">
 								<td>상세내역이 존재하지 않습니다.</td>
 							</tr>
 						</tbody>
