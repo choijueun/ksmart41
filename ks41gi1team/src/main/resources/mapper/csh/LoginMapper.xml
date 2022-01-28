@@ -3,6 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="k1.smart.team.mapper.csh.LoginMapper">
+ 	
+ 	<select id="getUserIdCheck" parameterType="String" resultType="User">
+ 		SELECT 
+			 u.userId AS userId
+			,u.userPw AS userPw
+			,u.userName AS userName
+			,u.userLevelCode AS userLevelCode
+			,l.userLevelName AS userLevelName
+			,l.mainBusinessCode AS mainBusinessCode
+			,b.businessName AS businessName
+		FROM 
+			k1_tb_user AS u
+			INNER JOIN 
+			k1_tb_user_level AS l
+			ON 
+			u.userLevelCode = l.userLevelCode
+			INNER JOIN 
+			k1_tb_main_business AS b
+			ON 
+			l.mainBusinessCode = b.mainBusinessCode
+		WHERE 
+			userId = #{userId};
+ 	</select>
+ 
  	<select id="getLoginHistoryCount" resultType="int" fetchSize="1000">
 		SELECT
 			COUNT(1)

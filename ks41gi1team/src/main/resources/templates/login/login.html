@@ -2,75 +2,88 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.netnz/thymeleaf/layout">
 
-<head th:replace="fragments/head :: headFragment"></head>
+<th:block layout:fragment="customJs">
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$(document).on('click','#loginSubmitBtn',function(){
+				$('#loginForm').submit();
+			});
+		});
+		
+		$("input:checkbox[id='remember']").prop("checked", true);//체크박스 체크
+		$("input:checkbox[id='remember']").prop("checked", false);//체크박스 해제
+		
+	</script>
+</th:block>
 
-<body class="login-page" style="min-height: 466px;">
-	<div class="login-box">
-	  <!-- /.login-logo -->
-	  <div class="card card-outline card-primary">
-	    <div class="card-header text-center">
-	      <a href="../../index2.html" class="h1 text-info"><b>SMARTORY</b></a>
-	    </div>
-	    <div class="card-body">
-	      <p class="login-box-msg"></p>
+<th:block layout:fragment="customContents" >
+	<head th:replace="fragments/head :: headFragment"></head>
 	
-	      <form action="../../index3.html" method="post">
-	      	<span>
-           		<input type="radio" name="Check" value="memberCheck" checked="checked"> 관리자
-           		<input type="radio" name="Check" value="shopCheck" id="shopSelect"> 일반회원
-          	</span>
-	        <div class="input-group mb-3">
-	          <input type="email" class="form-control" placeholder="ID">
-	          <div class="input-group-append">
-	            <div class="input-group-text">
-	              <span class="fas fa-envelope"></span>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="input-group mb-3">
-	          <input type="password" class="form-control" placeholder="Password">
-	          <div class="input-group-append">
-	            <div class="input-group-text">
-	              <span class="fas fa-lock"></span>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="row">
-	          <div class="col-8">
-	            <div class="icheck-primary">
-	              <input type="checkbox" id="remember">
-	              <label for="remember">
-	                Remember Me
-	              </label>
-	            </div>
-	          </div>
-	          <!-- /.col -->
-	          <div class="col-4">
-	            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-	          </div>
-	          <!-- /.col -->
-	        </div>
-	      </form>
+	<body class="login-page" style="min-height: 466px;">
+		<div class="login-box">
+		  <!-- /.login-logo -->
+		  <div class="card card-outline card-primary">
+		    <div class="card-header text-center">
+		      <a href="../../index2.html" class="h1 text-info"><b>SMARTORY</b></a>
+		    </div>
+		    <div class="card-body">
+		      <p class="login-box-msg"></p>
+		
+		      <form id="loginForm" th:action="@{/k1Login/login}" method="post">
+		        <div class="input-group mb-3">
+		          <input type="text" class="form-control" id="userId" name="userId" placeholder="ID" value="id001">
+		          <div class="input-group-append">
+		            <div class="input-group-text">
+		              <span class="fas fa-envelope"></span>
+		            </div>
+		          </div>
+		        </div>
+		        <div class="input-group mb-3">
+		          <input type="password" class="form-control" id="userPw" name="userPw" placeholder="Password" value="pw001">
+		          <div class="input-group-append">
+		            <div class="input-group-text">
+		              <span class="fas fa-lock"></span>
+		            </div>
+		          </div>
+		        </div>
+		        <div class="row">
+		          <div class="col-8">
+		            <div class="icheck-primary">
+		              <input type="checkbox" id="remember" value="">
+		              <label for="remember">
+		                Remember Me
+		              </label>
+		            </div>
+		          </div>
+		          <!-- /.col -->
+		          <div class="col-4">
+		            <button id="loginSubmitBtn" type="button" class="btn btn-info btn-block">Login</button>
+		          </div>
+		          <!-- /.col -->
+		        </div>
+		      </form>
+		
+		      <!-- /.social-auth-links -->
+		
+		      <p class="mb-0">
+		        <a th:href="@{/k1Login/signUp}" class="text-center">회원가입 하기</a>
+		      </p>
+		    </div>
+		    <!-- /.card-body -->
+		  </div>
+		  <!-- /.card -->
+		</div>
+	<!-- /.login-box -->
 	
-	      <!-- /.social-auth-links -->
+	<!-- jQuery -->
+	<script src="../../plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="../../dist/js/adminlte.min.js"></script>
 	
-	      <p class="mb-0">
-	        <a href="register.html" class="text-center">회원가입 하기</a>
-	      </p>
-	    </div>
-	    <!-- /.card-body -->
-	  </div>
-	  <!-- /.card -->
-	</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-
-
-</body>
+	
+	</body>
+</th:block>	
 </html>
