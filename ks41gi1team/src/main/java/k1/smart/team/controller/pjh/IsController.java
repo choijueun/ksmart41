@@ -16,6 +16,10 @@ public class IsController {
 	private IsService invoiceService;
 	private Is totalPrice;
 	private Is totalSales;
+	private Is salesQuarter;
+	private Is purchaseQuarter;
+	private Is etcPurchaseQuarter;
+	
 	
 	public IsController(IsService invoiceService) {
 		this.invoiceService = invoiceService;
@@ -27,9 +31,15 @@ public class IsController {
 		List<Is> invoiceList = invoiceService.getInvoiceList();
 		Is getTotalSales = invoiceService.getTotalSales(totalSales);
 		Is getTotalPrice = invoiceService.getTotalPrice(totalPrice);
+		Is getSalesQuarter = invoiceService.getSalesQuarter(salesQuarter);
+		Is getPurchaseQuarter = invoiceService.getPurchaseQuarter(purchaseQuarter);
+		Is getEtcPurchaseQuarter = invoiceService.getEtcPurchaseQuarter(etcPurchaseQuarter);
 		
 		model.addAttribute("getTotalSales", getTotalSales);
 		model.addAttribute("getTotalPrice", getTotalPrice);
+		model.addAttribute("getSalesQuarter", getSalesQuarter);
+		model.addAttribute("getPurchaseQuarter", getPurchaseQuarter);
+		model.addAttribute("getEtcPurchaseQuarter", getEtcPurchaseQuarter);
 		
 		model.addAttribute("SectionLocation", "결산");
 		model.addAttribute("SectionTitle", "재무관리");
