@@ -204,11 +204,12 @@
 							<h3 class="card-title">발주 상세내역 수정</h3>
 						</div>
 						<div class="card-body">
-							<div class="form-group col-md-6">
+						<div class="row">
+							<div class="form-group col-md-3">
                  		   <label for="contractNum">계약상세코드</label>
 							<input type="text" name="contractNum" value="" id="contractNum" class="form-control">
 							</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-3">
                     <label for="itemCode">품목명</label>
                     <select name="itemCode" disabled="disabled" class="form-control">
 	                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
@@ -222,15 +223,15 @@
 	                    	</th:block>
 	                    </select>
                 	 </div>
-                	 <div class="form-group col-md-6">
+                	 <div class="form-group col-md-3">
                  		   <label for="count">수량</label>
 							<input type="number" name="count" value="" id="count" class="form-control">
 					</div>
-					 <div class="form-group col-md-6">
+					 <div class="form-group col-md-3">
                  		   <label for="supplyPrice">공급가액</label>
 							<input type="number" name="supplyPrice" value="" id="supplyPrice" class="form-control">
 					</div>		
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-3">
                     <label for="vatType">부가세유형</label>
                    <select name="vatType" disabled="disabled" class="form-control">
                    		<option> :: 부가세 유형 :: </option>
@@ -239,19 +240,19 @@
                    		<option> 현금영수증 </option>
                    </select>
                   </div>	
-				 <div class="form-group col-md-6">
+				 <div class="form-group col-md-3">
                 		   <label for="VAT">부가세</label>
 						<input type="number" name="VAT" value="" id="VAT" class="form-control">
 				</div>		
-				 <div class="form-group col-md-6">
+				 <div class="form-group col-md-3">
                 		   <label for="totalPrice">합계</label>
 						<input type="number" name="totalPrice" value="" id="totalPrice" class="form-control">
 				</div>		
-				 <div class="form-group col-md-6">
+				 <div class="form-group col-md-3">
                 		   <label for="contractPrice">계약단가</label>
 						<input type="number" name="contractPrice" value="" id="contractPrice" class="form-control">
 				</div>		
-				 <div class="form-group col-md-6">
+				 <div class="form-group col-md-3">
                 		   <label for="earnPayMethod">수금방식</label>
                		   <select name="earnPayMethod" disabled="disabled" class="form-control">
                    		<option> :: 수금 방식 :: </option>
@@ -261,7 +262,7 @@
                    		<option> 할부 </option>
                    </select>
 				</div>		
-				 <div class="form-group col-md-6">
+				 <div class="form-group col-md-3">
                 		   <label for="earnPayStatus">수금상태</label>
                		   <select name="earnPayStatus" disabled="disabled" class="form-control">
                    		<option> :: 수금 상태 :: </option>
@@ -271,11 +272,11 @@
                    		<option> 수금 완료 </option>
                    </select>
 				</div>	
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="earnCashPlanDate">수금예정일자</label>
 						<input type="date" name="earnCashPlanDate" value="" id="contractPrice" class="form-control">
 				</div>	
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="costPayMethod">출금방식</label>
                		   <select name="costPayMethod" disabled="disabled" class="form-control">
                    		<option> :: 출금 방식 :: </option>
@@ -286,7 +287,7 @@
                    		<option> 후불 </option>
                    </select>
 				</div>	
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="costPayStatus">출금상태</label>
                		   <select name="costPayStatus" disabled="disabled" class="form-control">
                    		<option> :: 출금 상태 :: </option>
@@ -296,19 +297,19 @@
                    		<option> 출금 완료 </option>
                    </select>
 				</div>		
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="origin">원산지</label>
 						<input type="text" name="origin" value="" id="origin" class="form-control">
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="productSellDate">납품일자</label>
 						<input type="date" name="productSellDate" value="" id="productSellDate" class="form-control">
 				</div>				
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="warehousingDate">입고일자</label>
 						<input type="date" name="warehousingDate" value="" id="warehousingDate" class="form-control">
 				</div>				
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-3">
                 		   <label for="comment">비고</label>
 						<input type="text" name="comment" value="" id="comment" class="form-control">
 				</div>				
@@ -320,6 +321,7 @@
 							</button>
 						</div> -->
 					</div>
+				</div>	
 				</div>
 		</div>
 									<a th:href="@{/k1Contract/k1ContractHistory}">
