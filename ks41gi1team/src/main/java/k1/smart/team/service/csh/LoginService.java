@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.csh.Login;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.mapper.csh.LoginMapper;
 
 
@@ -27,7 +28,7 @@ public class LoginService {
 	}
 	
 	//로그인, 회원가입 서비스 만들어라
-
+	
 	//로그인 내역 전체 목록
 	public List<Login> getAllLoginList() {
 		loginList = loginMapper.getAllLoginList();
@@ -53,6 +54,13 @@ public class LoginService {
 		loginDetail.setLoginCode(loginCode);
 		return loginDetail;
 	}
+
+	//로그인 회원정보 조회
+	public User getUserIdCheck(String userId) {
+		return loginMapper.getUserIdCheck(userId);
+	}
+
+	
 	
 
 }

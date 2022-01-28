@@ -2,22 +2,27 @@ package k1.smart.team.controller.csh;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.dto.csh.Login;
+import k1.smart.team.dto.csh.User;
 import k1.smart.team.service.csh.LoginService;
 
 @Controller
 @RequestMapping(value="/k1Login")
-public class LoginController {
+public class LoginController{
 	private LoginService loginService;
 	private Login loginDetail; //로그인 상세
 	
-	//생성자메서드(의존선 주입)
+	//생성자메서드(의존성 주입)
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
@@ -28,10 +33,40 @@ public class LoginController {
 		return "login/signUp";
 	}
 	
-	//로그인 화면
+	//로그인
 	@GetMapping("/login")
 	public String login() {
 		return "login/login";
+	}
+	//로그인
+	@PostMapping("/login")
+	public String login(@RequestParam(value = "userId",required = false)String userId
+						,@RequestParam(value = "userPw",required = false)String userPw
+						,HttpSession session ) {
+		System.out.println("로그인 아이디" + userId);
+		System.out.println("로그인 비밀번호" + userPw);
+		if(userId != null && !"".equals(userId) && userPw != null && !"".equals(userPw)) {
+			User userInfo = loginService.getUserIdCheck(userId);
+			if(userInfo != null 
+					&& userInfo.getUserPw() != null 
+					&& userPw.equals(userInfo.getUserPw())) {
+				//로그인 비밀번호 일치 시 세션을 정보에 담음
+				session.setAttribute("UID", userId);
+				session.setAttribute("UNAME", userInfo.getUserName());
+				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
+				return "redirect:/main";
+			}
+		}
+		//로그인 불일치 시
+		return "redirect:/login";
+	}
+	
+	//로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/main";
 	}
 	
 	//로그인 내역
@@ -73,5 +108,8 @@ public class LoginController {
 		return "login/loginList";
 	}
 	
-	
 }
+
+
+
+

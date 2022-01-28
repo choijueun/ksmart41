@@ -28,12 +28,26 @@ $(function(){
 	<!-- Sidebar -->
 	<div class="sidebar">
 		<!-- Sidebar user panel (optional) -->
-		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+		<!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 			<div class="image">
 				<img th:src="@{/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
 				<a href="#" class="d-block">관리자</a>
+			</div>
+		</div> -->
+		<!-- 사이드바 프로필 -->
+		<div class="mt-3 pb-3 pt-3 mb-3">
+			<div class="text-center image-box">
+				<img src="../../dist/img/user4-128x128.jpg" class="img-circle image-thumbnail" alt="User Image">
+			</div>
+			<div th:if="${session.UID !=null}" class="text-center mt-3">
+				<h5 class="text-white">[[${session.UID}]]</h5>
+				<h5 class="text-white">[[${session.ULEVEL}]]</h5>
+			</div>
+			<div th:unless="${session.UID !=null}" class="text-center mt-3">
+				<h5 class="text-white">비회원</h5>
+				<span class="text-white">user</span>
 			</div>
 		</div>
     
