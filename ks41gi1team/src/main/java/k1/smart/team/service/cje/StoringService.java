@@ -44,11 +44,11 @@ public class StoringService {
 	 * @param mainBusinessCode
 	 * @return List<Storing>
 	 */
-	public Map<String, Object> getAllStoringList(String mainBusinessCode) {
+	public Map<String, Object> getAllStoringList(Map<String, Object> paramMap) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
+		String mainBusinessCode = (String) paramMap.get("mainBusinessCode");
 		//물류이동 내역
-		storingList = storingMapper.getAllStoringList(mainBusinessCode, null);
+		storingList = storingMapper.getAllStoringList(paramMap);
 		//최근 물류이동 현황
 		resultMap.put("recentStoring", storingMapper.getRecentStoring(mainBusinessCode));
 		//최근 생산·출하 현황
@@ -88,13 +88,6 @@ public class StoringService {
 		return storingMapper.getStockForStoring(mainBusinessCode, inventoryCode);
 	}
 	
-	/**
-	 * 1. 입고내역 전체조회
-	 * @param mainBusinessCode
-	 */
-	public List<Storing> getAllWarehousingList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "1");
-	}
 	
 	/**
 	 * 1. 입고내역 상세조회
@@ -115,14 +108,6 @@ public class StoringService {
 		return resultMap;
 	}
 
-	/**
-	 * 2. 자재사용내역 전체목록 조회
-	 * @param mainBusinessCode
-	 * @return
-	 */
-	public List<Storing> getAllMaterialUseList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "2");
-	}
 	
 	/**
 	 * 2. 자재사용내역 상세정보 조회
@@ -144,13 +129,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 3. 제품생산내역 전체목록 조회
-	 * @param mainBusinessCode
-	 */
-	public List<Storing> getAllProductionList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "3");
-	}
 	
 	/**
 	 * 3. 제품생산내역 상세정보 조회
@@ -171,14 +149,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 4. 창고이동내역 전체조회
-	 * @param mainBusinessCode
-	 * @return
-	 */
-	public List<Storing> getAllMovingList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "4");
-	}
 	
 	/**
 	 * 4. 창고이동내역 상세조회
@@ -199,14 +169,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 5. 출하내역 전체목록 조회
-	 * @param mainBusinessCode
-	 * @return
-	 */
-	public List<Storing> getAllShipmentList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "5");
-	}
 	
 	/**
 	 * 5. 출하내역 상세조회
@@ -257,15 +219,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 6. 재고조정내역 전체목록 조회
-	 * @param mainBusinessCode
-	 * @return 재고조정내역 여러개(List<Storing>)
-	 */
-	public List<Storing> getAllAdjList(String mainBusinessCode) {
-		//재고조정내역 전체목록
-		return storingMapper.getAllStoringList(mainBusinessCode, "6");
-	}
 	
 	/**
 	 * 6. 재고조정내역 상세조회
@@ -286,14 +239,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 7. 반품처리내역 전체조회
-	 * @param mainBusinessCode
-	 * @return 배열
-	 */
-	public List<Storing> getAllReturnList(String mainBusinessCode) {
-		return storingMapper.getAllStoringList(mainBusinessCode, "7");
-	}
 	
 	/**
 	 * 7. 반품처리내역 상세조회
@@ -342,15 +287,6 @@ public class StoringService {
 		return resultMap;
 	}
 	
-	/**
-	 * 8. 불량처리내역 전체목록 조회
-	 * @param mainBusinessCode
-	 * @return 불량처리내역 배열
-	 */
-	public List<Storing> getAllDefectList(String mainBusinessCode){
-		//불량처리내역 전체목록
-		return storingMapper.getAllStoringList(mainBusinessCode, "8");
-	}
 	
 	/**
 	 * 8. 불량처리내역 상세정보 조회
@@ -388,6 +324,9 @@ public class StoringService {
 		String stockAdjCode = codeMapper.getNewCodeNum("k1_tb_stock_adjustment", "stockAdjCode");
 		//물류이동코드 SET
 		storingInfo.setStockAdjCode(stockAdjCode);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("stockAdjCode", stockAdjCode);
+		
 		log.info("1. 물류이동내역 등록 :: storingInfo = {}",storingInfo);
 		if(storingMapper.addStoringInfo(storingInfo) == 0) {
 			//실패시 return false
@@ -411,7 +350,7 @@ public class StoringService {
 		if(CommonUtils.isEmpty(itemList)) {
 			//실패
 			//물류이동내역(stockAdjCode) 삭제
-			storingMapper.removeStoringInfo(stockAdjCode, mainBusinessCode);
+			storingMapper.removeStoringInfo(paramMap);
 			return false;
 		}
 		
@@ -432,9 +371,9 @@ public class StoringService {
 			if(storingMapper.addStoringDetails(itemInfo) == 0) {
 				//실패
 				//물류이동상세내역(stockAdjDetailCode) 삭제
-				storingMapper.removeStoringDetails(stockAdjCode, null);
+				storingMapper.removeStoringDetails(paramMap);
 				//물류이동내역(stockAdjCode) 삭제
-				storingMapper.removeStoringInfo(stockAdjCode, mainBusinessCode);
+				storingMapper.removeStoringInfo(paramMap);
 				return false;
 			}
 		}
@@ -553,6 +492,25 @@ public class StoringService {
 	public List<Stock> minusStockStoring(String mainBusinessCode,String warehouseCode, List<Stock> itemList) {
 		
 		return null;
+	}
+	
+	/**
+	 * 물류이동내역(한줄) 삭제
+	 * @param storing
+	 */
+	public int removeStoringInfo(Map<String, Object> paramMap) {
+		//물류이동내역(상세) 삭제
+		if(this.removeStoringDetails(paramMap) == 0) return 0;
+		//물류이동내역(한줄) 삭제
+		return storingMapper.removeStoringInfo(paramMap);
+	}
+	
+	/**
+	 * 물류이동내역(상세) 삭제
+	 * @param storing
+	 */
+	public int removeStoringDetails(Map<String, Object> paramMap) {
+		return storingMapper.removeStoringDetails(paramMap);
 	}
 	
 }

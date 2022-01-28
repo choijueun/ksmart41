@@ -4,24 +4,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.cje.Warehouse;
 import k1.smart.team.mapper.CodeMapper;
+import k1.smart.team.mapper.cje.StockMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 
 @Service
+@Transactional
 public class WarehouseService {
 	private WarehouseMapper warehouseMapper;
 	private List<Warehouse> warehouseList; //창고 배열
 	private Warehouse warehouseInfo; //창고 하나
 	private List<Stock> itemList; //품목 배열
 	
+	private static final Logger log = LoggerFactory.getLogger(WarehouseService.class);
+	
 	@Autowired
 	private CodeMapper codeMapper; //코드번호생성
+	@Autowired
+	private StockMapper stockMapper; //재고
+	@Autowired
+	private StoringService storingService; //물류
 	
 	/**
 	 * 생성자 메서드
@@ -98,8 +109,23 @@ public class WarehouseService {
 	 * 창고정보 삭제 프로세스
 	 * @param wInfo
 	 */
-	public void removeWarehouse(Warehouse wInfo) {
-		//창고정보 삭제 프로세스
+	public void removeWarehouse(String warehouseList) {
+		//map 생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		for(String warehouseCode : warehouseList.split(",")) {
+			//map 초기화
+			paramMap.clear();
+			//창고코드 입력
+			paramMap.put("warehouseCode", warehouseCode);
+			paramMap.put("sendWarehouse", warehouseCode);
+			paramMap.put("receiveWarehouse", warehouseCode);
+			//재고정보 삭제
+			stockMapper.removeStock(paramMap);
+			//물류이동내역 삭제
+			storingService.removeStoringInfo(paramMap);
+			//창고정보 삭제
+			warehouseMapper.removeWarehouse(paramMap);
+		}
 	}
 
 }

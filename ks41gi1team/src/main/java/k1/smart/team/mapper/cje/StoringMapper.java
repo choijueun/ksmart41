@@ -15,7 +15,7 @@ public interface StoringMapper {
 	 * @param mainBusinessCode
 	 * @param stockReasonCode
 	 */
-	public List<Storing> getAllStoringList(String mainBusinessCode, String stockReasonCode);
+	public List<Storing> getAllStoringList(Map<String, Object> paramMap);
 	
 	/**
 	 * 물류이동내역 상세조회
@@ -97,8 +97,13 @@ public interface StoringMapper {
 	 * 물류이동내역 삭제
 	 * @param stockAdjCode
 	 */
-	public void removeStoringInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
-	public void removeStoringDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
+	public int removeStoringInfo(Map<String, Object> paramMap); //한줄테이블
+	public int removeStoringDetails(Map<String, Object> paramMap); //상세테이블
+	
+	
+	/*************************
+			출하계획
+	*************************/
 	
 	/**
 	 * 출하계획 전체조회
@@ -130,6 +135,11 @@ public interface StoringMapper {
 	public void removeShipmentPlanInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
 	public void removeShipmentPlanDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
 	
+	
+	/*************************
+			반품요청
+	 *************************/
+	
 	/**
 	 * 반품요청 전체조회
 	 * @param mainBusinessCode
@@ -157,4 +167,3 @@ public interface StoringMapper {
 	public void removeReturnRegInfo(String stockAdjCode, String mainBusinessCode); //한줄테이블
 	public void removeReturnRegDetails(String stockAdjCode, String stockAdjDetailCode); //상세테이블
 }
-
