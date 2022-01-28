@@ -615,10 +615,10 @@
 		a.stockAdjCode = d.stockAdjCode
 	<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		<if test="stockAdjDetailCode != null and stockAdjDetailCode != ''.toString()">
-			d.stockAdjDetailCode = #{stockAdjDetailCode}
+			d.stockAdjDetailCode = CONCAT('stockAdjDetailCode_',#{stockAdjDetailCode})
 		</if>
 		<if test="stockAdjCode != null and stockAdjCode != ''.toString()">
-			AND a.stockAdjCode = #{stockAdjCode}
+			AND a.stockAdjCode = CONCAT('stockAdjCode_',#{stockAdjCode})
 		</if>
 		<if test="warehouseCode != null and warehouseCode != ''.toString()">
 			AND a.sendWarehouse = CONCAT('warehouseCode_',#{warehouseCode}) OR a.receiveWarehouse = CONCAT('warehouseCode_',#{warehouseCode})
