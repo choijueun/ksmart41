@@ -499,8 +499,9 @@ public class StoringService {
 	 * @param storing
 	 */
 	public int removeStoringInfo(Map<String, Object> paramMap) {
+		log.info("삭제할 stockAdj - paramMap :: {}", paramMap);
 		//물류이동내역(상세) 삭제
-		if(this.removeStoringDetails(paramMap) == 0) return 0;
+		this.removeStoringDetails(paramMap);
 		//물류이동내역(한줄) 삭제
 		return storingMapper.removeStoringInfo(paramMap);
 	}

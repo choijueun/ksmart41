@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Storing;
@@ -47,17 +49,34 @@ public class StoringController {
 		if(CommonUtils.isEmpty(resultMap)) return "storing/storing_history";
 
 		//최근 물류이동 현황
-		log.info("최근 물류이동 :: {}", resultMap.get("recentStoring"));
+		//log.info("최근 물류이동 :: {}", resultMap.get("recentStoring"));
 		model.addAttribute("recentStoring", resultMap.get("recentStoring"));
 		//최근 생산출하 현황
-		log.info("최근 생산출하 :: {}", resultMap.get("recentProShip"));
+		//log.info("최근 생산출하 :: {}", resultMap.get("recentProShip"));
 		model.addAttribute("recentProShip", resultMap.get("recentProShip"));
 		
 		//물류 전체목록
 		storingList = (List<Storing>) resultMap.get("storingList");
-		log.info("물류이동내역 LIST :: {}", storingList);
+		//log.info("물류이동내역 LIST :: {}", storingList);
 		model.addAttribute("storingList", storingList);
 		
 		return "storing/storing_history";
+	}
+	
+	@PostMapping("/k1StoringRemove")
+	public String removeStoringInfo(
+			@RequestParam(value = "stockAdjCode") String stockAdjList, String stockReason) {
+		//매개변수 확인
+		if(CommonUtils.isEmpty(stockAdjList)) return "redirect:/k1"+stockReason;
+		//map
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		//삭제 프로세스
+		for(String stockAdjCode : stockAdjList.split(",")) {
+			paramMap.clear();
+			paramMap.put("stockAdjCode", stockAdjCode);
+			storingService.removeStoringInfo(paramMap);
+		}
+		
+		return "redirect:/k1"+stockReason;
 	}
 }
