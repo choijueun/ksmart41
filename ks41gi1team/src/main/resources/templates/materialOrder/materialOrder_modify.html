@@ -10,7 +10,7 @@
 
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
+<th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customJs">
@@ -61,8 +61,8 @@
 					<div class="card-body" th:if="${materialOrderList} != null">
 							<div class="row">
 									<div class="form-group col-md-6">
-				                    <label for="predictDate">발주요청 일자</label>
-				                    <input type="date" name="orderDate" class="form-control" id="orderDate" th:placeholder="2021-11-01" >
+				                    <label for="orderDate">발주요청 일자</label>
+				                    <input type="date" name="orderDate" class="form-control" id="orderDate" value="${materialOrderInfo.orderDate}" >
 				                  </div>		  
 								<div class="form-group col-md-6">
 									<label for="mainBusinessName">사업장 상호명</label>
@@ -109,16 +109,16 @@
 								
                   <div class="form-group col-md-6">
                     <label for="predictDate">납기일자</label>
-                    <input type="date" name="predictDate" class="form-control" id="predictDate" placeholder="2021-11-01" >
+                    <input type="date" name="predictDate" class="form-control" id="predictDate" value="${materialOrderInfo.predictDate}" >
                   </div>
 
                   <div class="form-group col-md-6">
                     <label for="status">발주 진행상태</label>
-                    <input type="text" name="status" class="form-control" id="status" placeholder="결제 중" >
+                    <input type="text" name="status" class="form-control" id="status" value="${materialOrderList.status}" >
                   </div>
                   <div class="form-group col-md-6">
                     <label for="briefs">적요</label>
-                    <input type="text" name="briefs" class="form-control" id="briefs" placeholder="콩 1톤 5000000원 구입" >
+                    <input type="text" name="briefs" class="form-control" id="briefs" value="${materialOrderList.briefs}" >
                   </div>
                   <div class="form-group col-md-6">
                     <label for="managerId">담당자</label>
@@ -136,19 +136,16 @@
                  </div>
                   <div class="form-group col-md-6">
                     <label for="regDate">등록일자</label>
-                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2021-11-01" >
+                    <input type="date" name="regDate" class="form-control" id="regDate" value="${materialOrderList.regDate}" >
                   </div>
                   <div class="form-group col-md-6">
                     <label for="updateDate">수정일자</label>
-                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="now()" >
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" value="${materialOrderList.updateDate}" >
                   </div>
 						
 					</div>
 					<div class="card-footer">
-						<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
-							<button type="button" class="btn btn-default">목록으로</button>
-						</a>
-						<button id="modifyMaterialOrderBtn" type="button" class="btn btn-info float-right mr-2">수정완료</button>
+
 					</div>
 				</div>
 			</div>
@@ -164,40 +161,84 @@
 							<h3 class="card-title">발주 상세내역 수정</h3>
 						</div>
 						<div id="details" class="card-body">
-							<div class="row" th:if="${s == null}">
+							<div class="row" th:if="${materialOrderList} != null">
 								<div class="form-group col-lg-3 ">
-									<input type="hidden" name="inventoryCode" class="form-control">
-									<input type="text" name="itemName" class="form-control" placeholder="품목명">
+									<label for="materialOrderOngoingCode">발주상세코드</label>
+				                    <select name="materialOrderOngoingCode" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(materialOrderList)}"
+				                    			  th:each="l : ${materialOrderList}">
+				                    		<option th:value="${l.materialOrderOngoingCode}" th:text="${l.materialOrderOngoingCode}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(materialOrderList)}">	
+				                    		<option>발주서 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
 								</div>
-								<div class="form-group col-lg-2 ">
-									<input type="number" name="unitPrice" class="form-control" placeholder="단가">
+								<div class="form-group col-lg-3 ">
+									<label for="itemCode">품목명</label>
+				                    <select name="itemCode" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+				                    			  th:each="i : ${itemList}">
+				                    		<option th:value="${i.itemCode}" th:text="${i.itemName}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+				                    		<option>발주서 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
 								</div>
-								<div class="form-group col-lg-2 ">
-									<input type="number" name="tax" class="form-control" placeholder="세액">
+								<div class="form-group col-lg-3 ">
+								<label for="itemCount">수량</label>
+									<input type="number" name="itemCount" class="form-control" value="${m.itemCount}">
 								</div>
-								<div class="form-group col-lg-2 ">
-									<input type="number" name="count" class="form-control" placeholder="수량">
+								<div class="form-group col-lg-3 ">
+								<label for="itemPrice">가격</label>
+									<input type="number" name="itemPrice" class="form-control" value="${m.itemPrice}">
 								</div>
-								<div class="form-group col-lg-2 ">
-									<input type="text" name="totalCost" class="form-control" placeholder="소계">
+								<div class="form-group col-lg-3 ">
+								<label for="realReceiveDate">실수령일자</label>
+									<input type="date" name="realReceiveDate" class="form-control" value="${m.realReceiveDate}">
 								</div>
+								<div class="form-group col-lg-3 ">
+									<label for="reserveStatus">수령 후 상태</label>
+				                    <select name="reserveStatus" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(materialOrderList)}"
+				                    			  th:each="m : ${materialOrderList}">
+				                    		<option th:value="${m.reserveStatus}" th:text="${m.reserveStatus}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(materialOrderList)}">	
+				                    		<option>발주서 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
+								</div>
+								<div class="form-group col-lg-3 ">
+								<label for="comment">비고</label>
+									<input type="text" name="comment" class="form-control" value="${m.comment}">
+								</div>
+								
 								<!-- 해당 row 삭제 버튼 -->
-								<div class="form-group ml-2">
-									<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:0.2em;">
+								<!-- <div class="form-group col-lg-3" >
+									<button type="button" class="btn btn-danger btn-xl float-right removeLine" style="margin-top:0.2em;">
 										<i class="fas fa-trash-alt"></i>
 									</button>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<!-- 1 row 추가 버튼 -->
-						<div class="card-footer">
+						<!-- <div class="card-footer">
 							<button type="button" class="btn btn-default btn-sm float-right" id="addLine">
 								<i class="far fa-plus-square"></i>
 							</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
+									<a th:href="@{/k1MaterialOrder/k1MaterialOrderList}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<button id="modifyMaterialOrderBtn" type="button" class="btn btn-info float-right mr-2">수정완료</button>
 		</form>
 	</div>
 </th:block>

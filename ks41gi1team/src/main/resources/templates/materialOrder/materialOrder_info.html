@@ -28,9 +28,9 @@
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-5">
 			<th:block th:if="${not #lists.isEmpty(materialOrderInfo)}"
 										th:each="l : ${materialOrderInfo}">
+			<div class="col-lg-5">
 				<div class="card card-info card-outline">
 					<div class="card-header">
 						발주관리 상세내역
@@ -113,7 +113,6 @@
 					<div class="card-body" th:if="${ l != null }">
 						<table id="adjDetail" class="table table-bordered">
 							<thead>
-								<tr>
 									<th>발주상세코드</th>
 									<th>발주코드</th>
 									<th>품목코드</th>
@@ -122,18 +121,18 @@
 									<th>실수령일자</th>
 									<th>수령 후 상태</th>
 									<th>비고</th>
-								</tr>
-							</thead>
-							
+							</thead>				
 							<tbody>
-								<tr>[$[l.materialOrderOngoingCode]]</tr>
-								<tr>[$[l.materialOrderCode]]</tr>
-								<tr>[$[l.itemCode]]</tr>
-								<tr>[$[l.itemCount]]</tr>
-								<tr>[$[l.itemPrice]]</tr>
-								<tr>[$[l.realReceiveDate]]</tr>
-								<tr>[$[l.reserveStatus]]</tr>
-								<tr>[$[l.comment]]</tr>
+								<tr>
+								<td>[[${l.materialOrderOngoingCode}]]</td>
+								<td>[[${l.materialOrderCode}]]</td>
+								<td>[[${l.itemCode}]]</td>
+								<td>[[${l.itemCount}]]</td>
+								<td>[[${l.itemPrice}]]</td>
+								<td>[[${l.realReceiveDate}]]</td>
+								<td>[[${l.reserveStatus}]]</td>
+								<td>[[${l.comment}]]</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

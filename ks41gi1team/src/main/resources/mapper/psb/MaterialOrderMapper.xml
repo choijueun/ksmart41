@@ -92,6 +92,14 @@
 <select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
 		SELECT 
 			RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+			,mord.materialOrderOngoingCode
+			,mord.materialOrderCode
+			,mord.itemCode
+			,mord.itemCount
+			,mord.itemPrice
+			,mord.realReceiveDate
+			,mord.reserveStatus
+			,mord.`comment`
 			,mo.mainBusinessCode
 			,mb.businessName
 			,mo.contractCode
@@ -136,9 +144,9 @@
 
 
 
-<update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
+<update id="modifyMaterialOrder" parameterType="MaterialOrder">
 	update IGNORE
-		k1_view_material_order as mo 
+		k1_tb_material_order as mo 
 		inner join
 		k1_tb_material_order_detail as mo2
 		on
@@ -146,20 +154,15 @@
 	SET
 		mo.orderDate = #{orderDate},
 		mo.mainBusinessCode = #{mainBusinessCode},
-		mo.businessName = #{businessName},
 		mo.contractCode = #{contractCode},
 		mo.clientCode = #{clientCode},
 		mo.predictDate = #{predictDate},
-		mo.clientBusinessName = #{clientBusinessName},
-		mo.itemName = #{itemName},
-		mo.totalCount = #{totalCount},
-		mo.totalPrice = #{totalPrice},
 		mo.status = #{status},
 		mo.briefs = #{briefs},
 		mo.managerId = #{managerId},
 		mo.regDate = #{regDate},
 		mo.updateDate = #{updateDate},
-		mo2.materialOrderCode = #{materialOrderCode},
+		mo2.materialOrderOngoingCode = #{materialOrderOngoingCode},
 		mo2.itemCode = #{itemCode},
 		mo2.itemCount =#{itemCount},
 		mo2.itemPrice = #{itemPrice},
@@ -167,7 +170,7 @@
 		mo2.reserveStatus = #{reserveStatus},
 		mo2.comment = #{comment}
 	WHERE 
-		materialOrderCode=#{materialOrderCode};	
+		mo.materialOrderCode=#{materialOrderCode};	
 </update>
 
 <select id="getMaterialOrderListBySearchKey" parameterType="String" resultType="MaterialOrder">
@@ -192,35 +195,53 @@
 		
 <select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
-		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
-		RIGHT(mo.contractCode,3) as contractCode,
-		mo.clientCode as clientCode,
-		c.businessName as businessName,
-		GROUP_CONCAT(DISTINCT ii.itemName SEPARATOR ', ') AS itemName,
-		mo.totalCount as totalCount,
-		mo.totalPrice as totalPrice,
-		mo.orderDate as orderDate,
-		mo.predictDate as predictDate,
-		mo.status as status,
-		mo.briefs as briefs,
-		mo.managerId as managerId,
-		mo.regDate as regDate,
-		mo.updateDate as updateDate
-	FROM	
-		k1_view_material_order AS mo
+			RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+			,mord.materialOrderOngoingCode
+			,mord.materialOrderCode
+			,mord.itemCode
+			,mord.itemCount
+			,mord.itemPrice
+			,mord.realReceiveDate
+			,mord.reserveStatus
+			,mord.`comment`
+			,mo.mainBusinessCode
+			,mb.businessName
+			,mo.contractCode
+			,mo.clientCode
+			,c.businessName AS clientBusinessName
+			,mo.managerId
+			,mo.managerName
+			,mo.orderDate
+			,mo.predictDate
+			,GROUP_CONCAT(DISTINCT i.itemName SEPARATOR ', ') AS itemName
+			,mo.totalCount
+			,mo.totalPrice
+			,mo.`status`
+			,mo.regDate
+			,mo.updateDate
+			,mo.briefs
+		FROM 
+			k1_view_material_order AS mo
 		INNER JOIN
-		k1_tb_material_order_detail AS mord
+			k1_tb_material_order_detail AS mord
 		ON
-		mo.materialOrderCode = mord.materialOrderCode
-		INNER join
-		k1_tb_client AS c
+			mo.materialOrderCode = mord.materialOrderCode
+		INNER JOIN
+			k1_view_item_info AS i
 		on
-		mo.clientCode = c.clientCode
+			mord.itemCode = i.itemCode
 		INNER JOIN 
-		k1_tb_item_info AS ii
+			k1_tb_main_business AS mb
 		on
-		ii.itemCode = mord.itemCode
-
+			mo.mainBusinessCode = mb.mainBusinessCode
+		INNER JOIN
+			k1_tb_client AS c
+		on
+			mo.clientCode =c.clientCode
+		LEFT JOIN
+			k1_tb_contract AS contr
+		ON 
+			mo.contractCode = contr.contractCode
 	GROUP BY 
 		mo.materialOrderCode
 </select>	
