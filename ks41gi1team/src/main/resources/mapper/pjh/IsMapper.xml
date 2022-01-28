@@ -14,6 +14,7 @@
 		FROM
  			k0_tb_ls
 	</select>
+	<!-- 매출 -->
 	<select id="getTotalSales" parameterType="int" resultType="Is">
 		SELECT
 			sum((s.amount + s.tax) * s.COUNT) AS totalSales
@@ -21,6 +22,7 @@
 			k1_tb_sales_slip AS s
 		WHERE DATE(s.regDate) BETWEEN '2022-01-01' AND '2022-12-31';
 	</select>
+	<!-- 비용-->
 	<select id="getTotalPrice" parameterType="int" resultType="Is">
 		SELECT
 		   e.etc_amount + p.ps_amount AS totalPrice
@@ -40,4 +42,168 @@
 		   WHERE DATE(p.regDate) BETWEEN '2022-01-01' AND '2022-12-31'
 		   ) AS p
 	</select>
+	
+	<select id="salesQuarter" parameterType="int" resultType="Is">
+		SELECT
+			 salesQ1.totalPrice AS SQ1
+			,salesQ2.totalPrice AS SQ2
+			,salesQ3.totalPrice AS SQ3
+			,salesQ4.totalPrice AS SQ4
+		FROM
+			(SELECT
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '매출'
+			and
+				DATE(t.regDate) BETWEEN '2022-01-01' AND LAST_DAY('2022-03-01')
+			) AS salesQ1
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '매출'
+			and
+				DATE(t.regDate) BETWEEN '2022-04-01' AND LAST_DAY('2022-06-01')
+			) AS salesQ2
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '매출'
+			and
+				DATE(t.regDate) BETWEEN '2022-07-01' AND LAST_DAY('2022-09-01')
+			) AS salesQ3
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '매출'
+			and
+				DATE(t.regDate) BETWEEN '2022-10-01' AND LAST_DAY('2022-12-01')
+			) AS salesQ4
+	</select>
+	
+	<select id="purchaseQuarter" parameterType="int" resultType="Is">
+		SELECT
+			purchaseQ1.totalPrice AS PQ1
+			,purchaseQ2.totalPrice AS PQ2
+			,purchaseQ3.totalPrice AS PQ3
+			,purchaseQ4.totalPrice AS PQ4
+		FROM
+			(SELECT
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-01-01' AND LAST_DAY('2022-03-01')
+			) AS purchaseQ1
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-04-01' AND LAST_DAY('2022-06-01')
+			) AS purchaseQ2
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-07-01' AND LAST_DAY('2022-09-01')
+			) AS purchaseQ3
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-10-01' AND LAST_DAY('2022-12-01')
+			) AS purchaseQ4
+		
+	</select>
+	<select id="etcPurchaseQuarter" parameterType="int" resultType="Is">
+		SELECT
+			etcPurchaseQ1.totalPrice AS EQ1
+			,etcPurchaseQ2.totalPrice AS EQ2
+			,etcPurchaseQ3.totalPrice AS EQ3
+			,etcPurchaseQ4.totalPrice AS EQ4
+		FROM
+			(SELECT
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '기타비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-01-01' AND LAST_DAY('2022-03-01')
+			) AS etcPurchaseQ1
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '기타비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-04-01' AND LAST_DAY('2022-06-01')
+			) AS etcPurchaseQ2
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '기타비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-07-01' AND LAST_DAY('2022-09-01')
+			) AS etcPurchaseQ3
+			
+			JOIN
+			
+			(SELECT 
+				SUM(totalPrice) AS totalPrice
+			FROM
+				k1_view_total_accounting AS t
+			WHERE
+				t.salesSection = '기타비용'
+			and
+				DATE(t.regDate) BETWEEN '2022-10-01' AND LAST_DAY('2022-12-01')
+			) AS etcPurchaseQ4
+		
+	</select>
+	
 </mapper>

@@ -16,9 +16,9 @@ $(function() {
 		// Get context with jQuery - using jQuery's .get() method.
 		var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 		//data 값 가져오기
-		var sales = $('#sales22').text();
-		var price = $('#price22').text();
-		var total = $('#total22').text();
+		var sales = [[${getTotalSales.totalSales}]];
+		var price = [[${getTotalPrice.totalPrice}]];
+		var total = [[${(getTotalSales.totalSales-getTotalPrice.totalPrice)}]];
 		
 		$('#total22').text(total);
 		console.log(sales, price, total);
@@ -34,10 +34,10 @@ $(function() {
 				pointStrokeColor : '#698c68',
 				pointHighlightFill : '#fff',
 				pointHighlightStroke : '#698c68',
-				data : [sales, total]
+				data : [sales, price]
 			}]
 		}
-		
+		//차트
 		var areaChartOptions = {
 			maintainAspectRatio : false,
 			responsive : true,
@@ -53,7 +53,7 @@ $(function() {
 				}],
 				yAxes: [{
 					stacked: false, //쌓임
-					display: true, //y 축 show
+					display: false, //y 축 show
 					ticks: {
 						stepSize: 0, //증가 범위
 						max: 99999999, //최대 범위
@@ -78,8 +78,101 @@ $(function() {
 			data : areaChartData,
 			options : areaChartOptions
 		})
-	 
-});
+	});
+	
+$(function() {
+	//--------------
+	//- AREA CHART -
+	//--------------
+	// Get context with jQuery - using jQuery's .get() method.
+	var areaChartCanvas = $('#areaChart2').get(0).getContext('2d')
+	//data 값 가져오기
+	//매출
+	var sales1 = $('#sales1Q').text();
+	var sales2 = $('#sales2Q').text();
+	var sales3 = $('#sales3Q').text();
+	var sales4 = $('#sales4Q').text();
+	console.log(sales1);
+	//매입
+	var purchase1 = $('#purchase1Q').text();
+	var purchase2 = $('#purchase2Q').text();
+	var purchase3 = $('#purchase3Q').text();
+	var purchase4 = $('#purchase4Q').text();
+	//손익
+	var a1 = Number(sales1-purchase1);
+	var a2 = a1+Number(sales2-purchase2);
+	var a3 = a2+Number(sales3-purchase3);
+	var a4 = a3+Number(sales4-purchase4);
+
+	
+	var areaChartData = {
+			labels : ['2022 1Q','2022 2Q','2022 3Q','2022 4Q',],
+			datasets : [ {
+				label : '매출',
+				backgroundColor : ['#e15759'],
+				borderColor : '#e15759',
+				pointRadius : false,
+				pointColor : '#e15759',
+				fill: false,
+				pointStrokeColor : '#CFE2CE',
+				pointHighlightFill : '#CFE2CE',
+				pointHighlightStroke : '#e15759',
+				data : [sales1,sales2,sales3,sales4]
+			},{
+				label: '비용',
+				type : 'line',
+				fill : false,
+				lineTension : 0.2,
+				pointRadius : 0,
+				backgroundColor: 'rgb(255, 153, 0)',
+				borderColor: '#4e79a7',
+				data: [purchase1, purchase2, purchase3, purchase4]
+			},{
+				label: '누적손익',
+				type : 'bar',
+				fill : false,
+				lineTension : 0.2,
+				pointRadius : 0,
+				backgroundColor: 'rgb(255, 153, 0)',
+				borderColor: '#4e79a7',
+				data: [a1, a2, a3, a4]
+			}]
+		}
+		
+		var areaChartOptions = {
+			
+			maintainAspectRatio : false,
+			responsive : true,
+			legend : {
+				display : true
+			},
+			scales : {
+				xAxes : [ {
+					gridLines : {
+						display : true,
+					}
+				}],
+				yAxes: [{
+					stacked: false, //쌓임
+					display: true, //y 축 show
+					
+					gridLines: {
+						display: true, //show
+						drawBorder: true, //세로선 유무
+					},
+				}]
+			}
+		}
+		var areaChart = new Chart(areaChartCanvas, {
+			type : 'line',
+			data : areaChartData,
+			options : areaChartOptions
+		})
+	
+	})
+
+
+
 </script>
 </th:block>
 <th:block layout:fragment="customStyle"></th:block>
@@ -107,9 +200,9 @@ $(function() {
 							</thead>
 							<tbody>
 								<tr>
-									<td id="sales22">[[${getTotalSales.totalSales}]]</td>
-									<td id="price22">[[${getTotalPrice.totalPrice}]]</td>
-									<td id="total22">[[${(getTotalSales.totalSales-getTotalPrice.totalPrice)}]]</td>
+									<td id="sales22">[[${#numbers.formatInteger(getTotalSales.totalSales,0,'COMMA')}]]원</td>
+									<td id="price22">[[${#numbers.formatInteger(getTotalPrice.totalPrice,0,'COMMA')}]]원</td>
+									<td id="price22">[[${#numbers.formatInteger((getTotalSales.totalSales-getTotalPrice.totalPrice),0,'COMMA')}]]원</td>
 								</tr>
 							</tbody>
 						</table>
@@ -125,6 +218,30 @@ $(function() {
 						 <div class="chart">
 						 	<canvas id="areaChart" style="height: 250px; min-height: 250px"></canvas>
 						 </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<h3 class="card-title">2022년 분기별 매출, 비용</h3> 
+					</div>
+					<div class="card-body p-0">
+						<div class="chart">
+							<canvas id="areaChart2" style="height: 250px; min-height: 250px"></canvas>
+						</div>
+					</div>
+					<div style="display: none">
+						<!-- 매출 -->
+						<span id="sales1Q">[[${getSalesQuarter.SQ1}]]</span>
+						<span id="sales2Q">[[${getSalesQuarter.SQ2}]]</span>
+						<span id="sales3Q">[[${getSalesQuarter.SQ3}]]</span>
+						<span id="sales4Q">[[${getSalesQuarter.SQ4}]]</span>
+						<!-- 비용 -->
+						<span id="purchase1Q">[[${(getPurchaseQuarter.PQ1+getEtcPurchaseQuarter.EQ1)}]]</span>
+						<span id="purchase2Q">[[${(getPurchaseQuarter.PQ2+getEtcPurchaseQuarter.EQ2)}]]</span>
+						<span id="purchase3Q">[[${(getPurchaseQuarter.PQ3+getEtcPurchaseQuarter.EQ3)}]]</span>
+						<span id="purchase4Q">[[${(getPurchaseQuarter.PQ4+getEtcPurchaseQuarter.EQ4)}]]</span>
 					</div>
 				</div>
 			</div>

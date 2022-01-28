@@ -85,6 +85,19 @@ public class ProductOrderService {
 		return productOrderInfo;
 	}
 
+	//수주 정보 조회
+	public ProductOrder getProductOrderInfoByProductOrderCode(String productOrderCode) {
+		
+		return productOrderMapper.getProductOrderInfoProductOrderCode(productOrderCode);
+	}
+	
+	//수주서 여부 체크
+	public int getProductOrderByProductOrderCode(String productOrderCode) {
+		int result = 0;
+		result += productOrderMapper.getProductOrderByProductOrderCode(productOrderCode);
+		return result;
+	}
+
 	
 	
 

@@ -44,7 +44,7 @@
 		if(typeof productOrderCode != 'undefined' && productOrderCode != null && productOrderCode != ''){
 			// ajax 호출
 			var request = $.ajax({
-				url: '/k1ProductOrderCode/k1ProductOrderCodeCheck',
+				url: '/k1ProductOrder/k1ProductOrderCodeCheck',
 				method: 'POST',
 				data: {'productOrderCode' : productOrderCode},
 				dataType: 'json'
@@ -91,26 +91,25 @@
 	<div class="col-lg-6 col-md-8 mb-3">
 	<div class="card card-info card-outline">
 	<div class="card-header">
-		계약서 등록
+		수주서 등록
 			</div>
-	<form id="productOrderRegisterForm" action="/k1ProductOrder/productOrderRegister" method="post">
+	<form id="addProductOrderForm" th:action="@{/k1ProductOrder/k1ProductOrderReg}" method="post">
 		<div class="card-body">
 			<div class="row">
                   <div class="form-group col-md-6">
                     <label for="productOrderCode">수주코드</label>
                    
-                    	<input type="text" name="productOrderCode" class="form-control" id="productOrderCode" th:value="${productOrderCode}">	  
+                    	<input type="text" name="productOrderCode" class="form-control" id="productOrderCode" th:value="${getProductOrderCode}">	  
                 
                     <button type="button" id="btn" class="btn btn-default">중복확인</button>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="mainBusinessCode">사업장별 대표코드</label>
+                    <label for="mainBusinessCode">사업장 상호명</label>
                     <select name="mainBusinessCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
                     			  th:each="l : ${mainBusinessList}">
-                    		<option th:value="${l.mainBusinessCode}" th:text="${l.mainBusinessCode}">	  
-                    			[[${l.mainBusinessCode}]]
-                    			console.log(mainBusinessList);
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+                    			[[${l.businessName}]]
                     		</option>
                     	</th:block>	
                     	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
@@ -133,7 +132,7 @@
                     </select>
                    </div>
                   <div class="form-group col-md-6">
-                    <label for="clientCode">거래처 대표코드</label>
+                    <label for="clientCode">거래처 상호명</label>
                      <select name="clientCode" disabled="disabled" class="form-control">
                     	<th:block th:if="${not #lists.isEmpty(clientList)}"
                     			  th:each="l : ${clientList}">

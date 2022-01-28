@@ -11,6 +11,16 @@
 				
 	</delete>
 	
+ <select id="getProductOrderByProductOrderCode" parameterType="String" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM	
+			k1_view_product_order
+		WHERE  
+			productOrderCode = #{productOrderCode};
+	</select>	
+	
+	
 <select id="getProductOrderCode" resultType="String">	
 	SELECT
 	   LPAD(CAST(MAX(RIGHT(productOrderCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
@@ -105,6 +115,7 @@ ORDER BY
 	SELECT 
 		RIGHT(po.productOrderCode,3) as productOrderCode,
 		po.mainBusinessCode,
+		mb.businessName,
 		po.contractCode,
 		po.clientCode,
 		po.clientBusinessName,
@@ -122,6 +133,10 @@ ORDER BY
 		po.updateDate
 	FROM 
 		k1_view_product_order AS po
+	INNER JOIN
+		k1_tb_main_business as mb
+	ON	
+		mb.mainBusinessCode = po.mainBusinessCode	
 	
 </select>	
 	
