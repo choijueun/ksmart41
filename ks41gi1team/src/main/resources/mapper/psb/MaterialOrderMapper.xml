@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.MaterialOrderMapper">
 
+<select id="getMaterialOrderCodeInfo" resultType="String">
+	SELECT
+	   materialOrderCode
+	FROM 
+	   k1_tb_material_order
+	WHERE
+		materialOrderCode = #{materialOrderCode};   	
+	</select>
+	
 <select id="getMaterialOrderCode" resultType="String">
 		SELECT
 	   LPAD(CAST(MAX(RIGHT(materialOrderCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
@@ -83,6 +92,14 @@
 <select id="getMaterialOrderInfo" parameterType="String" resultType="MaterialOrder">
 		SELECT 
 			RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+			,mord.materialOrderOngoingCode
+			,mord.materialOrderCode
+			,mord.itemCode
+			,mord.itemCount
+			,mord.itemPrice
+			,mord.realReceiveDate
+			,mord.reserveStatus
+			,mord.`comment`
 			,mo.mainBusinessCode
 			,mb.businessName
 			,mo.contractCode
@@ -127,45 +144,34 @@
 
 
 
-<update id="modifyMaterialOrderInfo" parameterType="MaterialOrder">
-	update k1_view_material_order
-	<trim prefix="SET" prefixOverrides=",">
-		<if test="orderDate != null and orderDate != ''.toString()">
-			orderDate =#{orderDate}
-		</if>
-		<if test="contractCode != null and contractCode != ''.toString()">
-			contractCode =#{clientBusinessName}
-		</if>
-		<if test="clientCode != null and clientCode != ''.toString()">
-			clientCode =#{itemName}
-		</if>
-		<if test="totalCount != null and totalCount != ''.toString()">
-			totalCount =#{totalCount}
-		</if>
-		<if test="totalPrice != null and totalPrice != ''.toString()">
-			totalPrice =#{totalPrice}
-		</if>
-		<if test="managerName != null and managerName != ''.toString()">
-			managerName =#{managerName}
-		</if>
-		<if test="status != null and status != ''.toString()">
-			status =#{status}
-		</if>
-		<if test="briefs != null and briefs != ''.toString()">
-			briefs =#{briefs}
-		</if>
-		<if test="regDate != null and regDate != ''.toString()">
-			regDate =#{regDate}
-		</if>
-		<if test="updateDate != null and updateDate != ''.toString()">
-			updateDate =#{updateDate}
-		</if>
-	</trim>
+<update id="modifyMaterialOrder" parameterType="MaterialOrder">
+	update IGNORE
+		k1_tb_material_order as mo 
+		inner join
+		k1_tb_material_order_detail as mo2
+		on
+		mo.materialOrderCode = mo2.materialOrderCode
+	SET
+		mo.orderDate = #{orderDate},
+		mo.mainBusinessCode = #{mainBusinessCode},
+		mo.contractCode = #{contractCode},
+		mo.clientCode = #{clientCode},
+		mo.predictDate = #{predictDate},
+		mo.status = #{status},
+		mo.briefs = #{briefs},
+		mo.managerId = #{managerId},
+		mo.regDate = #{regDate},
+		mo.updateDate = #{updateDate},
+		mo2.materialOrderOngoingCode = #{materialOrderOngoingCode},
+		mo2.itemCode = #{itemCode},
+		mo2.itemCount =#{itemCount},
+		mo2.itemPrice = #{itemPrice},
+		mo2.realReceiveDate = #{realReceiveDate},
+		mo2.reserveStatus = #{reserveStatus},
+		mo2.comment = #{comment}
 	WHERE 
-		materialOrderCode=#{materialOrderCode};
+		mo.materialOrderCode=#{materialOrderCode};	
 </update>
-
-
 
 <select id="getMaterialOrderListBySearchKey" parameterType="String" resultType="MaterialOrder">
 		SELECT
@@ -189,35 +195,53 @@
 		
 <select id="getMaterialOrderList" parameterType="String" resultType="MaterialOrder">
 	SELECT 
-		RIGHT(mo.materialOrderCode,3) AS materialOrderCode,
-		RIGHT(mo.contractCode,3) as contractCode,
-		mo.clientCode as clientCode,
-		c.businessName as businessName,
-		GROUP_CONCAT(DISTINCT ii.itemName SEPARATOR ', ') AS itemName,
-		mo.totalCount as totalCount,
-		mo.totalPrice as totalPrice,
-		mo.orderDate as orderDate,
-		mo.predictDate as predictDate,
-		mo.status as status,
-		mo.briefs as briefs,
-		mo.managerId as managerId,
-		mo.regDate as regDate,
-		mo.updateDate as updateDate
-	FROM	
-		k1_view_material_order AS mo
+			RIGHT(mo.materialOrderCode,3) AS materialOrderCode
+			,mord.materialOrderOngoingCode
+			,mord.materialOrderCode
+			,mord.itemCode
+			,mord.itemCount
+			,mord.itemPrice
+			,mord.realReceiveDate
+			,mord.reserveStatus
+			,mord.`comment`
+			,mo.mainBusinessCode
+			,mb.businessName
+			,mo.contractCode
+			,mo.clientCode
+			,c.businessName AS clientBusinessName
+			,mo.managerId
+			,mo.managerName
+			,mo.orderDate
+			,mo.predictDate
+			,GROUP_CONCAT(DISTINCT i.itemName SEPARATOR ', ') AS itemName
+			,mo.totalCount
+			,mo.totalPrice
+			,mo.`status`
+			,mo.regDate
+			,mo.updateDate
+			,mo.briefs
+		FROM 
+			k1_view_material_order AS mo
 		INNER JOIN
-		k1_tb_material_order_detail AS mord
+			k1_tb_material_order_detail AS mord
 		ON
-		mo.materialOrderCode = mord.materialOrderCode
-		INNER join
-		k1_tb_client AS c
+			mo.materialOrderCode = mord.materialOrderCode
+		INNER JOIN
+			k1_view_item_info AS i
 		on
-		mo.clientCode = c.clientCode
+			mord.itemCode = i.itemCode
 		INNER JOIN 
-		k1_tb_item_info AS ii
+			k1_tb_main_business AS mb
 		on
-		ii.itemCode = mord.itemCode
-
+			mo.mainBusinessCode = mb.mainBusinessCode
+		INNER JOIN
+			k1_tb_client AS c
+		on
+			mo.clientCode =c.clientCode
+		LEFT JOIN
+			k1_tb_contract AS contr
+		ON 
+			mo.contractCode = contr.contractCode
 	GROUP BY 
 		mo.materialOrderCode
 </select>	

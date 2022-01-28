@@ -33,7 +33,7 @@ public class MaterialOrderService {
 	
 	//발주정보 수정
 	public int modifyMaterialOrder(MaterialOrder materialOrder) {
-		return materialOrderMapper.modifyMaterialOrderInfo(materialOrder);
+		return materialOrderMapper.modifyMaterialOrder(materialOrder);
 	}
 	
 	
@@ -87,6 +87,11 @@ public class MaterialOrderService {
 		int result = 0;
 		result += materialOrderMapper.getMaterialOrderByMaterialOrderCode(materialOrderCode);
 		return result;
+	}
+
+	//해당 하나의 발주서 코드 선택시 표시
+	public String getMaterialOrderCodeInfo() {
+		return materialOrderMapper.getMaterialOrderCodeInfo();
 	}
 
 

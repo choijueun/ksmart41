@@ -18,6 +18,7 @@ public class ContractService {
 	private List<Contract> contractList;
 	private List<Contract> contractHistoryList;
 	private List<Contract> contractCodeForMaterialOrderCodeList;
+	private List<Contract> contractCodeForProductOrderCodeList;
 	private Contract contractInfo;
 	
 	@Autowired
@@ -61,13 +62,19 @@ public class ContractService {
 			return contractInfo;
 		}
 		
+		//수주서 등록을 위한 수주 계약서 코드만 따로 불러오기
+		public List<Contract> getContractCodeForProductOrderCodeList() {
+			contractCodeForProductOrderCodeList = contractMapper.getContractCodeForProductOrderCodeList();
+			
+			System.out.println("contractCodeForProductOrderCodeList--->" + contractCodeForProductOrderCodeList);
+			return contractCodeForProductOrderCodeList;
+		}
 		
 		//발주서 등록을 위한 발주 계약서 코드만 따로 불러오기
 		public List<Contract> getContractCodeForMaterialOrderCodeList() {
 			contractCodeForMaterialOrderCodeList = contractMapper.getContractCodeForMaterialOrderCodeList();
 			
 			System.out.println("contractCodeForMaterialOrderCodeList--->" + contractCodeForMaterialOrderCodeList);
-			
 			return contractCodeForMaterialOrderCodeList;
 		}
 		
@@ -122,6 +129,7 @@ public class ContractService {
 		public int modifyContract(Contract contract) {
 			return contractMapper.modifyContract(contract);
 		}
+
 
 
 

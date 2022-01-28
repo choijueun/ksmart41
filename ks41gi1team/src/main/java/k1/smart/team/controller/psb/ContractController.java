@@ -2,6 +2,7 @@ package k1.smart.team.controller.psb;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.dto.csh.User;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ContractCodeForMaterialOrderCode;
+import k1.smart.team.dto.psb.MaterialOrder;
+import k1.smart.team.service.cje.ItemService;
 import k1.smart.team.service.csh.ClientService;
 import k1.smart.team.service.csh.MainBusinessService;
 import k1.smart.team.service.csh.UserService;
 import k1.smart.team.service.psb.ContractService;
+import k1.smart.team.service.psb.MaterialOrderService;
 
 
 
@@ -36,20 +41,74 @@ public class ContractController {
 	private static final Logger log = LoggerFactory.getLogger(ContractController.class);
 
 	private ContractService contractService;
+	private ItemService itemService;
 	private String mainBusinessCode;
 	private ClientService clientService;
 	private MainBusinessService mainBusinessService;
 	private UserService userService;
-
 	private Contract contractInfo;
-
 	private String contractCode;
+
+	private Map<String, Object> paramMap;
+
 	
-	public ContractController(ContractService contractService, ClientService clientService, MainBusinessService mainBusinessService, UserService userService) {
+	public ContractController(ContractService contractService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService) {
 		this.contractService = contractService;
 		this.clientService = clientService;
 		this.mainBusinessService = mainBusinessService;
 		this.userService = userService;
+		this.itemService = itemService;
+		this.userService = userService;
+	}
+	
+	//계약서 수정
+	@GetMapping("/modify/{contractCode}")
+	public String modifyMaterialOrder(
+			@RequestParam(value="contractCode", required=false) String contractCode
+			,Model model) {
+		
+		//materialOrderCode 콘솔에 출력(log4j)
+		log.info("modifyContract contractCode: {}", contractCode);
+
+		
+		Contract contractInfo = contractService.getContractInfoByCode(contractCode);
+		model.addAttribute("contractInfo", contractInfo);
+		System.out.println("contractInfo-->" + contractInfo);
+		
+
+		//계약 정보
+		if(contractCode != null && !"".equals(contractCode)) {
+			Contract contractInfo1 = contractService.getContractInfoByCode(contractCode);
+			model.addAttribute("contractInfo1", contractInfo1);
+			System.out.println("contractInfo1-->" + contractInfo1);
+		}		
+					
+		List<Contract> contractList = contractService.getAllContractList();
+		  model.addAttribute("contractList", contractList);
+		  System.out.println("contractList" + contractList);	
+		
+		
+		
+		 List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
+		  model.addAttribute("mainBusinessList", mainBusinessList);
+		  System.out.println("mainBusinessList" + mainBusinessList);
+		  
+		  List<Stock> itemList = itemService.getAllItemList(paramMap);
+		  model.addAttribute("itemList", itemList);
+		  System.out.println("itemList" + itemList);
+		  
+		  List<Client> clientList = clientService.getAllClientList();
+		  model.addAttribute("clientList", clientList);
+		  System.out.println("clientList: " + clientList);
+		  
+		  List<User> userList = userService.getAllUserList();
+		  model.addAttribute("userList", userList);
+		  System.out.println("userList" + userList);
+		  
+		model.addAttribute("title", "계약관리: 수정");
+		model.addAttribute("contractCode", contractCode);
+		
+		return "contract/contract_modify";
 	}
 	
 	//계약서 수정
@@ -59,7 +118,7 @@ public class ContractController {
 	
 		contractService.modifyContract(contract);
 		
-		return "redirect:/contract/contract_history";
+		return "redirect:/k1Contract/k1ContractHistory";
 	}
 	
 
@@ -134,21 +193,16 @@ public class ContractController {
 		  String contractCode = contractService.getContractCode();
 		  model.addAttribute("contractCode", contractCode);
 		  
-		  //발주서 등록을 위한 발주용 계약서 코드불러오기
-		/*
-		 * List<Contract> contractCodeForMaterialOrderCodeList =
-		 * contractService.getContractCodeForMaterialOrderCodeList();
-		 * model.addAttribute("contractCodeForMaterialOrderCodeList",
-		 * contractCodeForMaterialOrderCodeList);
-		 * System.out.println("contractCodeForMaterialOrderCodeList: " +
-		 * contractCodeForMaterialOrderCodeList);
-		 */
-		  
 		
 		  List <Contract> contractCodeForMaterialOrderCodeList = contractService.getContractCodeForMaterialOrderCodeList();
 		  model.addAttribute("contractCodeForMaterialOrderCodeList",contractCodeForMaterialOrderCodeList);
 		  System.out.println("contractCodeForMaterialOrderCodeList" + contractCodeForMaterialOrderCodeList);
 
+		  List <Contract> contractCodeForProductOrderCodeList = contractService.getContractCodeForProductOrderCodeList();
+		  model.addAttribute("contractCodeForProductOrderCodeList",contractCodeForProductOrderCodeList);
+		  System.out.println("contractCodeForProductOrderCodeList" + contractCodeForProductOrderCodeList);
+
+		  
 		  return "contract/contract_register"; 
 	  
 	  }

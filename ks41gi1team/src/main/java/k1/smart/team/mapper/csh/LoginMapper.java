@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import k1.smart.team.dto.csh.Login;
+import k1.smart.team.dto.csh.User;
 
 @Mapper
 public interface LoginMapper {
@@ -24,6 +25,9 @@ public interface LoginMapper {
 
 	//로그인내역 상세
 	public Login getLoginDetail(String loginCode);
+
+	//로그인 회원정보 조회
+	public User getUserIdCheck(String userId);
 
 	
 }

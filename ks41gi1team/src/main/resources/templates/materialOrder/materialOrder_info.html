@@ -28,9 +28,9 @@
 <th:block layout:fragment="customContents">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-5">
 			<th:block th:if="${not #lists.isEmpty(materialOrderInfo)}"
 										th:each="l : ${materialOrderInfo}">
+			<div class="col-lg-5">
 				<div class="card card-info card-outline">
 					<div class="card-header">
 						발주관리 상세내역
@@ -46,8 +46,16 @@
 								<td colspan="3">[[${l.orderDate}]]</td>
 							</tr>
 							<tr>
+								<th>사업장 대표코드</th>
+								<td colspan="3">[[${l.mainBusinessCode}]]</td>
+							</tr>
+							<tr>
 								<th>거래처명</th>
 								<td colspan="3">[[${l.businessName}]]</td>
+							</tr>
+							<tr>
+								<th>계약코드</th>
+								<td colspan="3">[[${l.contractCode}]]</td>
 							</tr>
 							<tr>
 								<th>제품명</th>
@@ -100,32 +108,35 @@
 			<div class="col-lg-7">
 				<div class="card card-info card-outline">
 					<div class="card-header">
-						단가 상세
+						발주정보 상세
 					</div>
 					<div class="card-body" th:if="${ l != null }">
 						<table id="adjDetail" class="table table-bordered">
 							<thead>
-								<tr>
-									<th>품목명</th>
-									<th>매입단가</th>
-									<th>매입세액</th>
-									<th>매출단가</th>
-									<th>매출세액</th>
+									<th>발주상세코드</th>
+									<th>발주코드</th>
+									<th>품목코드</th>
 									<th>수량</th>
-									<th>소계</th>
-								</tr>
-							</thead>
-							
-							<tbody th:if="${#lists.isEmpty(historyPaymentInfoList)}">
+									<th>가격</th>
+									<th>실수령일자</th>
+									<th>수령 후 상태</th>
+									<th>비고</th>
+							</thead>				
+							<tbody>
 								<tr>
-									<td colspan="12">
-									상세내역을 불러올 수 없습니다.
-									</td>
+								<td>[[${l.materialOrderOngoingCode}]]</td>
+								<td>[[${l.materialOrderCode}]]</td>
+								<td>[[${l.itemCode}]]</td>
+								<td>[[${l.itemCount}]]</td>
+								<td>[[${l.itemPrice}]]</td>
+								<td>[[${l.realReceiveDate}]]</td>
+								<td>[[${l.reserveStatus}]]</td>
+								<td>[[${l.comment}]]</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div class="card-body" th:if="${historyPaymentInfoList == null }">
+					<div class="card-body" th:if="${materialOrderInfo == null }">
 						잘못된 접근입니다.
 					</div>
 				</div>

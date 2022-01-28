@@ -1,6 +1,6 @@
 package k1.smart.team.controller.cje;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -23,7 +23,6 @@ public class WarehousingController {
 	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Stock stockInfo; //재고정보
 	private Storing warehousingInfo; //자재입고내역
-	private List<Storing> warehousingList; //자재입고내역 배열
 	private Map<String, Object> resultMap;
 	private static final Logger log = LoggerFactory.getLogger(WarehousingController.class);
 	
@@ -41,10 +40,13 @@ public class WarehousingController {
 	 */
 	@GetMapping("/k1Warehousing")
 	public String warehousingMain(Model model) {
-		//입고내역 전체목록 List<Storing>
-		warehousingList = storingService.getAllWarehousingList(mainBusinessCode);
-		//log.info("자재입고내역 LIST :: {}", warehousingList);
-		model.addAttribute("warehousingList", warehousingList);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("stockReasonCode", 1);
+		//자재입고내역 전체목록 List<Storing>
+		resultMap = storingService.getAllStoringList(paramMap);
+		model.addAttribute("warehousingList", resultMap.get("storingList"));
+		
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "자재입고");

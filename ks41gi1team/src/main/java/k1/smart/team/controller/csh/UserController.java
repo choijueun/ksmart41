@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import k1.smart.team.dto.csh.Login;
 import k1.smart.team.dto.csh.User;
@@ -46,13 +48,41 @@ public class UserController {
 		
 		return "user/user_list";
 	}
-	//회원등록
+	
+	//회원정보 등록화면
 	@GetMapping("/addUser")
 	public String addUser(Model model) {
 		model.addAttribute("SectionTitle", "회원정보 등록");
 		
 		return "user/user_register";
 	}
+	//회원정보 등록 프로세스
+	@PostMapping("/addUser")
+	public String addUser(UserReg userReg) {
+		System.out.println("UserController에서 회원가입 입력받은 값" + userReg);
+		
+		//insert처리
+		String userId = userReg.getUserId();
+		if(userId != null && !"".equals(userId)) {
+			userReg.setUserRegCode("");
+			userService.getAddUser(userReg);
+		}
+		return "redirect:/k1UserReg/addUser";
+	}
+	//회원아이디 중복검사
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public boolean idCheck(@RequestParam(value = "userId", required = false) String userId ) {
+		System.out.println("ajax 통신으로 요청받은 param userId: " + userId);
+		boolean idCheckResult = false;
+		int idCheck = userService.getIdCheck(userId);
+		if(idCheck > 0) {
+			idCheckResult = true;
+		}
+		return idCheckResult;
+	}
+	
+	
 	//회원정보 수정
 	@GetMapping("/modifyUser/{userId}")
 	public String modifyUser(

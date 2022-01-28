@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.annotation.RequestScope;
 
+import k1.smart.team.dto.cje.Stock;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.MainBusiness;
 import k1.smart.team.dto.csh.User;
@@ -49,6 +50,8 @@ public class ProductOrderController {
 	private ProductOrder productOrderInfo;
 
 	private String materialOrderCode;
+
+	private Map<String, Object> paramMap;
 
 	// 생성자 주입
 	public ProductOrderController(ProductOrderService productOrderService, MaterialOrderService materialOrderService, ClientService clientService, ItemService itemService, MainBusinessService mainBusinessService, UserService userService, ContractService contractService) {
@@ -84,9 +87,42 @@ public class ProductOrderController {
 			System.out.println("productOrderInfo-->" + productOrderInfo);
 		}			
 		
+		List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList();
+		  model.addAttribute("materialOrderList", materialOrderList);
+		  System.out.println("materialOrderList" + materialOrderList);	
+		
+		 List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
+		  model.addAttribute("mainBusinessList", mainBusinessList);
+		  System.out.println("mainBusinessList" + mainBusinessList);
+		  
+		  List<Stock> itemList = itemService.getAllItemList(paramMap);
+		  
+		  model.addAttribute("itemList", itemList);
+		  System.out.println("itemList" + itemList);
+		  
+		  
+		  List<Contract> contractCodeForProductOrderCodeList = contractService.getContractCodeForProductOrderCodeList();
+		  model.addAttribute("contractCodeForProductOrderCodeList", contractCodeForProductOrderCodeList);
+		  System.out.println("contractCodeForProductOrderCodeList" + contractCodeForProductOrderCodeList);
+		  
+		  List<Contract> contractList = contractService.getAllContractList();
+		  model.addAttribute("contractList", contractList);
+		  System.out.println("contractList" + contractList);
+		  
+		  List<Client> clientList = clientService.getAllClientList();
+		  model.addAttribute("clientList", clientList);
+		  System.out.println("clientList: " + clientList);
+		  
+		  List<User> userList = userService.getAllUserList();
+		  model.addAttribute("userList", userList);
+		  System.out.println("userList" + userList);
+		
 		System.out.println("productOrderInfo-->" + productOrderInfo);
 		System.out.println("productOrderCode-->" + productOrderCode);
 		model.addAttribute("title", "수주관리: 수정");
+		model.addAttribute("SectionTitle", "수주관리");
+		model.addAttribute("SectionLocation", "상세정보");
+		model.addAttribute("productOrderInfo", productOrderInfo);
 		
 		return "productOrder/productOrder_modify";
 	}
@@ -174,6 +210,11 @@ public class ProductOrderController {
 		  List<Contract> contractList = contractService.getContractHistoryList(mainBusinessCode);
 		  model.addAttribute("contractList", contractList);
 		  System.out.println("contractList" + contractList);
+		  
+		  List<Contract> contractCodeForProductOrderCodeList = contractService.getContractCodeForProductOrderCodeList();
+		  model.addAttribute("contractCodeForProductOrderCodeList", contractCodeForProductOrderCodeList);
+		  System.out.println("contractCodeForProductOrderCodeList" + contractCodeForProductOrderCodeList);
+		  
 		  
 		  List<User> userList = userService.getAllUserList();
 		  model.addAttribute("userList", userList);
