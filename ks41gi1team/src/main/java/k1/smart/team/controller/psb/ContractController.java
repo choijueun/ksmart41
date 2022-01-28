@@ -57,6 +57,8 @@ public class ContractController {
 		this.clientService = clientService;
 		this.mainBusinessService = mainBusinessService;
 		this.userService = userService;
+		this.itemService = itemService;
+		this.userService = userService;
 	}
 	
 	//계약서 수정
@@ -81,12 +83,17 @@ public class ContractController {
 			System.out.println("contractInfo1-->" + contractInfo1);
 		}		
 					
+		List<Contract> contractList = contractService.getAllContractList();
+		  model.addAttribute("contractList", contractList);
+		  System.out.println("contractList" + contractList);	
+		
+		
+		
 		 List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
 		  model.addAttribute("mainBusinessList", mainBusinessList);
 		  System.out.println("mainBusinessList" + mainBusinessList);
 		  
 		  List<Stock> itemList = itemService.getAllItemList(paramMap);
-		  
 		  model.addAttribute("itemList", itemList);
 		  System.out.println("itemList" + itemList);
 		  

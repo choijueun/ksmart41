@@ -109,6 +109,7 @@ public class MainBusinessController {
 		MainBusiness getAllMainBusinessDetail = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
 		model.addAttribute("getAllMainBusinessDetail", getAllMainBusinessDetail);
 		System.out.println(mainBusinessCode + "받아온 mainBusinessCode (controller)");
+		
 		if(mainBusinessCode != null && !"".equals(mainBusinessCode)) {
 			MainBusiness getMainBusiness = mainBusinessService.getMainBusinessDetail(mainBusinessCode);
 			model.addAttribute("getMainBusiness", getMainBusiness);
