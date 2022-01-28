@@ -33,18 +33,18 @@ public interface StockMapper {
 	 * 재고정보 등록
 	 * @param itemInfo
 	 */
-	public int addStock(Stock itemInfo);
+	public int addStock(Stock stock);
 	
 	/**
 	 * 재고정보 수정
 	 * @param itemInfo
 	 */
-	public int modifyStock(Stock itemInfo);
+	public int modifyStock(Stock stock);
 	
 	/**
 	 * 재고정보 삭제
-	 * @param inventoryCode
-	 */
-	public int removeStock(String inventoryCode);
+	 * @param stock
+		 */
+	public int removeStock(Map<String, Object> paramMap);
 
 }

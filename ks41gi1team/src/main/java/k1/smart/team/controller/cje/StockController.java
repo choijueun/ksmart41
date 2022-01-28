@@ -150,7 +150,9 @@ public class StockController {
 	 */
 	@PostMapping("/k1StockRemove")
 	public String removeStock(String inventoryCode) {
-		stockService.removeStock(inventoryCode);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("inventoryCode", inventoryCode);
+		stockService.removeStock(paramMap);
 		
 		return "redirect:/k1Stock";
 	}

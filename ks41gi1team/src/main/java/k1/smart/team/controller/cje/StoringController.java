@@ -1,5 +1,6 @@
 package k1.smart.team.controller.cje;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,10 @@ public class StoringController {
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		
-		resultMap = storingService.getAllStoringList(mainBusinessCode);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", mainBusinessCode);
+		
+		resultMap = storingService.getAllStoringList(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "storing/storing_history";
 
 		//최근 물류이동 현황

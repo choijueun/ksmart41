@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.cje.Delivery;
 import k1.smart.team.mapper.cje.DeliveryMapper;
 
 @Service
+@Transactional
 public class DeliveryService {
 	private DeliveryMapper deliveryMapper;
 	private Delivery deliveryInfo; //운송요청정보
