@@ -136,8 +136,8 @@ $(function(){
 		var chk = 0; 
 		//input태그
 		inputs.each(function(i, obj){
-			//상태, 비고, 카테고리코드 생략 가능
-			if($(obj).attr('name') == 'itemStatus' || $(obj).attr('name') == 'itemComment' || $(obj).attr('name') == 'categoryCode' ) {
+			//비고, 카테고리코드 생략 가능
+			if($(obj).attr('name') == 'itemComment' || $(obj).attr('name') == 'categoryCode' ) {
 				return true;
 			}
 			//필수작성요소 누락
@@ -220,9 +220,18 @@ $(function(){
 								<label for="itemOrigin">원산지</label>
 								<input type="text" name="itemOrigin" class="form-control" id="itemOrigin" placeholder="Enter itemOrigin" th:value="${i.itemOrigin}">
 							</div>
-							<div class="form-group col-4">
-								<label for="itemStatus">상태</label>
-								<input type="text" name="itemStatus" class="form-control" id="itemStatus" placeholder="Enter itemStatus" th:value="${i.itemStatus}">
+							<div class="col-4">
+								<label>상태</label>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemStatus" value="Y" th:checked="${i.itemStatus} == 'Y'" autocomplete="off"> 사용가
+										</label>
+										<label class="btn btn-outline-info">
+											<input type="radio" name="itemStatus" value="N" th:checked="${i.itemStatus} == 'N'" autocomplete="off"> 사용불가
+										</label>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div id="itemCategory" class="form-group">
