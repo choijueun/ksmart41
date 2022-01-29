@@ -121,6 +121,16 @@ public class ItemService {
 	}
 	
 	/**
+	 * 품목 사용가능여부 수정 프로세스
+	 * @param itemCode
+	 */
+	public void modifyUse(String itemList, String isUse) {
+		for(String itemCode : itemList.split(",")) {
+			itemMapper.modifyUse(itemCode, isUse);
+		}
+	}
+	
+	/**
 	 * 품목정보 삭제 프로세스
 	 * @param itemCode
 	 */
@@ -261,4 +271,5 @@ public class ItemService {
 		//2. 카테고리 삭제
 		itemMapper.removeItemCategory(itemCode);
 	}
+
 }

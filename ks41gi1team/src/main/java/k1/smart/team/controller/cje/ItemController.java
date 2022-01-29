@@ -301,6 +301,8 @@ public class ItemController {
 		log.info("상태변경할 품목코드 :: {}",itemCode);
 		log.info("변경할 상태 :: {}",isUse);
 		
+		itemService.modifyUse(itemCode, isUse);
+		
 		return "redirect:/k1Item";
 	}
 	

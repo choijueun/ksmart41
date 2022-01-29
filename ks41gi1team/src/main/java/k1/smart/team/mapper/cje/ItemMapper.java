@@ -53,6 +53,14 @@ public interface ItemMapper {
 	public int modifyItem(Stock itemInfo);
 	
 	/**
+	 * 품목 사용가능여부 수정 프로세스
+	 * @param itemCode
+	 * @param itemStatus
+	 * @return
+	 */
+	public int modifyUse(String itemCode, String itemStatus);
+	
+	/**
 	 * 품목정보 삭제
 	 * @param itemCode
 	 * @return 성공시 1 실패시 0
