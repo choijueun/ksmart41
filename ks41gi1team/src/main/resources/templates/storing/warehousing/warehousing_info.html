@@ -61,10 +61,10 @@
 									<!-- 거래처정보LINK -->
 									[[${s.businessName}]]
 									<a th:if="${s.contractCode != null}">
-										<button type="button" class="btn btn-outline-info btn-xs">[[${s.contractCode}]]</button>
+										<button type="button" class="btn btn-outline-info btn-xs">계약[[${s.contractCode}]]</button>
 									</a>
 									<a th:if="${s.materialOrderCode != null}">
-										<button type="button" class="btn btn-outline-info btn-xs">[[${s.materialOrderCode}]]</button>
+										<button type="button" class="btn btn-outline-info btn-xs">발주[[${s.materialOrderCode}]]</button>
 									</a>
 								</td>
 							</tr>
@@ -145,7 +145,7 @@
 						<tbody>
 							<tr th:if="${ s != null and details != null }" th:each=" l : ${details}">
 								<td>
-									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
+									<a th:href="@{|/k1Item/${l.itemCode}|}">
 										[[${l.itemName}]]
 									</a>
 								</td>
