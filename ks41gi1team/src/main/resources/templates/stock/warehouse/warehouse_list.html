@@ -235,11 +235,37 @@ $(function(){
 				</div>
 			</form>
 			<!-- Buttons -->
-			<button type="button" id="deleteBtn" class="btn btn-danger mt-3">삭제</button>
+			<button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#modalObj">
+				삭제
+			</button>
 			<a th:href="@{/k1WarehouseAdd}">
 				<button type="button" class="btn btn-info float-right mt-3">등록</button>
 			</a>
 		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="modalObj" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content bg-danger">
+				<div class="modal-header text-center">
+					<h5 class="modal-title">삭제 경고</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>창고정보를 삭제할 시 적재된 재고정보가 모두 삭제됩니다.</p>
+					<p>정말 삭제하시겠습니까?</p>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-outline-light" data-dismiss="modal">닫기</button>
+					<button type="button" id="deleteBtn" class="btn btn-outline-light " data-dismiss="modal">삭제</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
 	</div>
 </div>
 
