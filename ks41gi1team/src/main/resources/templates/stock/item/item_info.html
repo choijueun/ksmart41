@@ -36,7 +36,7 @@ $(function(){
 						</tr>
 						<tr>
 							<th>상태</th>
-							<td>[[${i.itemStatus}]]</td>
+							<td th:text="${i.itemStatus} == 'Y' ? '사용가' : '사용불가'"></td>
 						</tr>
 						<tr>
 							<th>품목명</th>
