@@ -197,9 +197,7 @@
 		</if>
 		,itemStandard
 		,itemOrigin
-		<if test="itemStatus != null and itemStatus != ''.toString()">
 		,itemStatus
-		</if>
 		<if test="itemComment != null and itemComment != ''.toString()">
 		,itemComment
 		</if>
@@ -220,9 +218,7 @@
 		</if>
 		,#{itemStandard}
 		,#{itemOrigin}
-		<if test="itemStatus != null and itemStatus != ''.toString()">
 		,#{itemStatus}
-		</if>
 		<if test="itemComment != null and itemComment != ''.toString()">
 		,#{itemComment}
 		</if>
