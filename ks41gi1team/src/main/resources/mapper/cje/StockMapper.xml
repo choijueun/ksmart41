@@ -181,6 +181,16 @@
 		s.inventoryCode  =  CONCAT('inventoryCode_', #{inventoryCode})
 </update>
 
+<!-- 수량·중량 0인 재고 모두 삭제 -->
+<delete id="cleanStock" parameterType="String">
+	DELETE
+	FROM
+		k1_tb_stock
+	WHERE
+		mainBusinessCode = #{mainBusinessCode}
+		AND itemCount = 0 AND totalWeight = 0;
+</delete>
+
 <!-- 재고정보 삭제 -->
 <delete id="removeStock" parameterType="map">
 	DELETE 
