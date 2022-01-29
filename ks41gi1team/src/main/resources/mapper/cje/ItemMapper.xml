@@ -42,13 +42,9 @@
 				</if>
 			</if>
 		</if>
-		<choose> 
-			<when test='includeN != null and includeN.equals("INCLUDE")'>
-			</when> 
-			<otherwise>
+		<if test='includeN == null or !includeN.equals("INCLUDE")'>
 			AND i.itemStatus = 'Y'
-			</otherwise>
-		</choose>
+		</if> 
 	</trim>
 	ORDER BY
 		i.itemCode DESC;
