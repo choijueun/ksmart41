@@ -31,6 +31,9 @@
 		<if test="category2List != null and category2List != ''.toString()">
 			AND w.category2 REGEXP #{category2List}
 		</if>
+		<if test='includeN == null or !includeN.equals("INCLUDE")'>
+			AND w.`status` = 'Y'
+		</if> 
 	</trim>
 	ORDER BY
 		w.warehouseCode DESC;
@@ -85,6 +88,14 @@
 		#{warehouseCode}, #{mainBusinessCode}, #{warehouseName}, #{category1}, #{category2}, ${area}, #{location}, #{outPlace}, ${maxWeight}, #{status}, NOW(), NOW()
 	);
 </insert>
+
+<!-- 사용가능여부 수정 프로세스 -->
+<update id="modifyUse" parameterType="String">
+	UPDATE k1_tb_warehouse_info
+		SET
+			status=#{status}
+		WHERE warehouseCode = CONCAT('warehouseCode_',#{warehouseCode})
+</update>
 
 <!-- 창고정보 수정 -->
 <update id="modifyWarehouse" parameterType="Warehouse">

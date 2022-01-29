@@ -6,7 +6,15 @@
 <th:block layout:fragment="customTitle">
 	<title>[[${SectionTitle}]]</title>
 </th:block>
-<th:block layout:fragment="customCss"></th:block>
+
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.text-danger a {
+			color: rgb(220, 53, 69) !important;
+		}
+	</style>
+</th:block>
+
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
@@ -14,20 +22,21 @@ $(function(){
 				플러그인
 	****************************/
 	//DataTables
-	$('#warehouseList').DataTable({
-		"paging": true,
-		"lengthChange": false,
-		"searching": true,
-		"ordering": true,
-		"info": true,
-		"autoWidth": false,
-		"responsive": true,
-		"columnDefs": [{    
-						orderable: false,
-						targets: [0, 6, 10]
-					}]
-	});
-	
+	if ($('#warehouseList tr.empty').length == 0) {
+		$('#warehouseList').DataTable({
+			"paging": true,
+			"lengthChange": false,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": false,
+			"responsive": true,
+			"columnDefs": [{    
+							orderable: false,
+							targets: [0, 6, 10]
+						}]
+		});
+	};
 	
 	/****************************
 				객체정의
@@ -36,10 +45,14 @@ $(function(){
 	var chkCategory1 = $('.category1 input[type="checkbox"]');
 	//유형 체크박스
 	var chkCategory2 = $('.category2 input[type="checkbox"]');
+	//사용불가 포함여부
+	var includeN = $('#includeN');
+	//form
+	var warehouseForm = $('#warehouseForm');
+	//상태변경 정보 담을 input
+	var isUse = $('#isUse'); 
 	//테이블 넣을 공간
 	var ajaxTable = $('#ajaxTable');
-	//form
-	var removeWarehouse = $('#removeWarehouse');
 	
 	
 	/****************************
@@ -53,6 +66,15 @@ $(function(){
 			$('#warehouseList input[type="checkbox"]').prop("checked", false);
 		}
 	});
+	//사용불가 창고 텍스트 색상 변경
+	var wStatusChk = function(){
+		$('.wStatusChk').each(function(i, obj){
+			if($(obj).text() == 'N') {
+				$(obj).parent().addClass('text-danger');
+			}
+		});
+	};
+	wStatusChk();
 	
 	
 	/****************************
@@ -73,10 +95,20 @@ $(function(){
 				category2.push($(obj).val());
 			}
 		});
+		//사용불가 포함여부
+		var includeNValue = null;
+		if($('#includeN').is(':checked')) {
+			includeNValue = includeN.val();
+		}else {
+			includeNValue = null;
+		}
 		//Ajax
 		$.ajax({
 			url: "/k1Warehouse",
-			data: { 'category1' : category1, 'category2' : category2 },
+			data: { 'category1' : category1, 
+					'category2' : category2, 
+					'includeN' : includeNValue 
+				  },
 			method: "POST",
 			dataType: "html"
 		})
@@ -98,6 +130,7 @@ $(function(){
 			            targets: [0, 6, 10]
 			             }]
 				});
+				wStatusChk();
 			}
 		})
 		.fail(function(jqXHR, textStatus) {
@@ -112,8 +145,14 @@ $(function(){
 	/****************************
 				FORM제출
 	****************************/
+	//창고정보 삭제
 	$(document).on('click', '#deleteBtn', function(){
-		removeWarehouse.submit();
+		warehouseForm.attr('action','/k1WarehouseRemove').submit();
+	});
+	//체크된 창고 상태변경
+	$(document).on('click', '#modifyUse a', function(){
+		isUse.val($(this).attr('data-isUse'));
+		warehouseForm.attr('action', '/k1WarehouseStatus').submit();
 	});
 	
 });
@@ -152,8 +191,8 @@ $(function(){
 							<label for="freeze" class="custom-control-label">냉동</label>
 						</div>
 					</div>
-					<div class="category2 pl-3 pr-3">
-						<div class="custom-control custom-checkbox float-left ml-5">
+					<div class="category2 pl-3 pr-3 ml-3">
+						<div class="custom-control custom-checkbox float-left ml-3">
 							<input class="custom-control-input custom-control-input-info custom-control-input-outline" 
 								type="checkbox" id="in" value="재고">
 							<label for="in" class="custom-control-label">재고</label>
@@ -164,10 +203,19 @@ $(function(){
 							<label for="out" class="custom-control-label">출고</label>
 						</div>
 					</div>
+					<div class="pl-3 pr-3 ml-3">
+						<div class="icheck-info d-inline ml-3">
+							<input type="checkbox" id="includeN" value="INCLUDE">
+							<label for="includeN">
+							 	사용불가 포함
+							</label>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- 삭제용 form -->
-			<form id="removeWarehouse" th:action="@{/k1WarehouseRemove}" method="POST">
+			<form id="warehouseForm" method="POST">
+			<input type="hidden" id="isUse" name="isUse">
 				<!-- Ajax로 교체할 부분 -->
 				<div id="ajaxTable">
 					<!-- Begin Table -->
@@ -185,7 +233,7 @@ $(function(){
 								<th>적재현황</th>
 								<th>%</th>
 								<th>위치(외부소재지)</th>
-								<th>상태</th>
+								<th style="display: none;">상태</th>
 								<th class="text-center">수정</th>
 							</tr>
 						</thead>
@@ -218,7 +266,7 @@ $(function(){
 								<td>
 									[[${l.location}]]<th:block th:unless="${l.outPlace} == null"> ([[${l.outPlace}]])</th:block>
 								</td>
-								<td>[[${l.status}]]</td>
+								<td style="display: none;" class="wStatusChk">[[${l.status}]]</td>
 								<td class="text-center">
 									<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
 										<button type="button" class="btn btn-info btn-sm">
@@ -227,14 +275,21 @@ $(function(){
 									</a>
 								</td>
 							</tr>
-							<tr th:if="${#lists.isEmpty(warehouseList)}">
-								<td colspan="11">창고 정보가 없습니다.</td>
+							<tr th:if="${#lists.isEmpty(warehouseList)}" class="empty">
+								<td colspan="10">창고 정보가 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</form>
 			<!-- Buttons -->
+			<div class="btn-group mt-3">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">상태 변경</button>
+				<div class="dropdown-menu" id="modifyUse" role="menu">
+					<a class="dropdown-item" href="#" data-isUse="Y">사용가</a>
+					<a class="dropdown-item" href="#" data-isUse="N">사용불가</a>
+				</div>
+			</div>
 			<button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#modalObj">
 				삭제
 			</button>

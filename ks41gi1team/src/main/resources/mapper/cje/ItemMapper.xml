@@ -254,12 +254,12 @@
 		itemCode = CONCAT('itemCode_',#{itemCode});
 </update>
 
-<!-- 품목상태 변경 -->
+<!-- 품목사용가능여부 수정 프로세스 -->
 <update id="modifyUse" parameterType="String">
 	UPDATE k1_tb_item_info
 		SET
 			itemStatus=#{itemStatus}
-		WHERE itemCode=CONCAT('itemCode_',#{itemCode})
+		WHERE itemCode = CONCAT('itemCode_',#{itemCode})
 </update>
 
 <!-- 카테고리 코드 검색 -->

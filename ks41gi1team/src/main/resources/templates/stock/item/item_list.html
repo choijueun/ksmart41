@@ -8,11 +8,11 @@
 </th:block>
 
 <th:block layout:fragment="customCss">
-<style type="text/css">
-	.text-danger a {
-		color: rgb(220, 53, 69) !important;
-	}
-</style>
+	<style type="text/css">
+		.text-danger a {
+			color: rgb(220, 53, 69) !important;
+		}
+	</style>
 </th:block>
 
 <th:block layout:fragment="customJs">
@@ -22,19 +22,21 @@ $(function(){
 				플러그인
 	****************************/
 	//DataTables
-	$('#itemList').DataTable({
-		"paging": true,
-		"lengthChange": false,
-		"searching": true,
-		"ordering": true,
-		"info": true,
-		"autoWidth": false,
-		"responsive": true,
-		"columnDefs": [{    
-            orderable: false,
-            targets: [0, 11]
-             }]
-	});
+	if ($('#itemList tr.empty').length == 0) {
+		$('#itemList').DataTable({
+			"paging": true,
+			"lengthChange": false,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": false,
+			"responsive": true,
+			"columnDefs": [{    
+	            orderable: false,
+	            targets: [0, 11]
+	             }]
+		});
+	}
 	
 	
 	/****************************
@@ -85,18 +87,21 @@ $(function(){
 	****************************/
 	//체크박스 Ajax
 	$(document).on('change', '#checkAjax', function(){
+		//분류
 		var types = [];
 		inputType.each(function(i, obj){
 			if($(obj).is(':checked')){
 				types.push($(obj).val());
 			}
 		});
+		//사용불가 포함여부
 		var includeNValue = null;
 		if($('#includeN').is(':checked')) {
 			includeNValue = includeN.val();
 		}else {
 			includeNValue = null;
 		}
+		//ajax
 		$.ajax({
 			url: "/k1Item",
 			data: {
@@ -218,6 +223,9 @@ $(function(){
 		});
 	});
 	
+	/****************************
+				FORM제출
+	****************************/
 	//체크된 품목 상태변경
 	$(document).on('click', '#modifyUse a', function(){
 		isUse.val($(this).attr('data-isUse'));
@@ -344,7 +352,7 @@ $(function(){
 									</a>
 								</td>
 							</tr>
-							<tr th:if="${#lists.isEmpty(itemList)}">
+							<tr th:if="${#lists.isEmpty(itemList)}" class="empty">
 								<td colspan="12">
 									품목 정보가 없습니다.
 								</td>

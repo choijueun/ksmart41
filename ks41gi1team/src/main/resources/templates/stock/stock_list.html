@@ -37,19 +37,21 @@ $(function(){
 				플러그인
 	****************************/
 	//DataTables
-    $('#stockList').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-		"columnDefs": [{    
-			orderable: false,
-			targets: [0, 9]
-		}]
-	});
+	if ($('#stockList tr.empty').length == 0) {
+	    $('#stockList').DataTable({
+	        "paging": true,
+	        "lengthChange": false,
+	        "searching": true,
+	        "ordering": true,
+	        "info": true,
+	        "autoWidth": false,
+	        "responsive": true,
+			"columnDefs": [{    
+				orderable: false,
+				targets: [0, 9]
+			}]
+		});
+	}
 	
 	
 	/****************************
@@ -236,7 +238,7 @@ $(function(){
 								</button>
 							</td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(stockList)}">
+						<tr th:if="${#lists.isEmpty(stockList)}" class="empty">
 							<td colspan="9">
 								재고 정보가 없습니다.
 							</td>

@@ -28,7 +28,7 @@
 						</tr>
 						<tr>
 							<th>상태</th>
-							<td>[[${w.status}]]</td>
+							<td th:text="${w.status} == 'Y' ? '사용가' : '사용불가'"></td>
 						</tr>
 						<tr>
 							<th>창고명</th>
