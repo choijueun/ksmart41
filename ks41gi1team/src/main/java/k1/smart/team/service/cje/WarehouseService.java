@@ -3,6 +3,7 @@ package k1.smart.team.service.cje;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,30 @@ public class WarehouseService {
 	 * @param mainBusinessCode
 	 * @return 창고 여러개 정보
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Warehouse> getAllWarehouseList(Map<String, Object> paramMap){
+		//분류 배열이 null이 아닐 때
+		String category1List = null;
+		List<String> category1 = (List<String>) paramMap.get("category1");
+		if(!CommonUtils.isEmpty(category1)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : category1) {
+				str.add(i);
+			}
+			category1List = str.toString();
+		}
+		paramMap.put("category1List", category1List);
+		//유형 배열이 null이 아닐 때
+		String category2List = null;
+		List<String> category2 = (List<String>) paramMap.get("category2");
+		if(!CommonUtils.isEmpty(category2)) {
+			StringJoiner str = new StringJoiner("|");
+			for(String i : category2) {
+				str.add(i);
+			}
+			category2List = str.toString();
+		}
+		paramMap.put("category2List", category2List);
 		//전체목록
 		warehouseList = warehouseMapper.getWarehouseList(paramMap);
 		//System.out.println("WarehouseService :: "+warehouseList);
@@ -106,6 +130,17 @@ public class WarehouseService {
 	}
 	
 	/**
+	 * 사용가능여부 수정 프로세스
+	 * @param warehouseCode
+	 * @param isUse
+	 */
+	public void modifyUse(String warehouseList, String isUse) {
+		for(String warehouseCode : warehouseList.split(",")) {
+			warehouseMapper.modifyUse(warehouseCode, isUse);
+		}
+	}
+	
+	/**
 	 * 창고정보 삭제 프로세스
 	 * @param wInfo
 	 */
@@ -128,5 +163,6 @@ public class WarehouseService {
 			warehouseMapper.removeWarehouse(paramMap);
 		}
 	}
+
 
 }

@@ -15,7 +15,7 @@
 			<th>적재현황</th>
 			<th>%</th>
 			<th>위치(외부소재지)</th>
-			<th>상태</th>
+			<th style="display: none;">상태</th>
 			<th class="text-center">수정</th>
 		</tr>
 	</thead>
@@ -48,7 +48,7 @@
 			<td>
 				[[${l.location}]]<th:block th:unless="${l.outPlace} == null"> ([[${l.outPlace}]])</th:block>
 			</td>
-			<td>[[${l.status}]]</td>
+			<td style="display: none;" class="wStatusChk">[[${l.status}]]</td>
 			<td class="text-center">
 				<a th:href="@{|/k1WarehouseModify/${l.warehouseCode}|}">
 					<button type="button" class="btn btn-info btn-sm">
@@ -58,7 +58,7 @@
 			</td>
 		</tr>
 		<tr th:if="${#lists.isEmpty(warehouseList)}" class="empty">
-			<td colspan="11">창고 정보가 없습니다.</td>
+			<td colspan="10">창고 정보가 없습니다.</td>
 		</tr>
 	</tbody>
 </table>

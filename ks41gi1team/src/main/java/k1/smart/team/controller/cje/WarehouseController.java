@@ -3,7 +3,8 @@ package k1.smart.team.controller.cje;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ import k1.smart.team.service.cje.WarehouseService;
 @Controller
 public class WarehouseController {
 	private final WarehouseService warehouseService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시
 	private Map<String, Object> resultMap;
 	private Warehouse warehouseInfo; //창고정보
 	private List<Warehouse> warehouseList; //창고배열
@@ -41,10 +41,10 @@ public class WarehouseController {
 	 * @param model
 	 */
 	@GetMapping("/k1Warehouse")
-	public String warehouseMain(Model model) {
+	public String warehouseMain(Model model, HttpSession session) {
 		//사업장대표코드
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		//창고 전체목록
 		warehouseList = warehouseService.getAllWarehouseList(paramMap);
 		//log.info("창고 LIST :: {}", warehouseList);
@@ -60,39 +60,20 @@ public class WarehouseController {
 	 * AJAX :: 특정 조건하에 창고 전체목록 조회
 	 * @param category1
 	 * @param category2
-	 * @param model
+	 * @param includeN
 	 */
 	@PostMapping("/k1Warehouse")
-	public String warehouseMainAjax(Model model,
+	public String warehouseMainAjax(Model model, HttpSession session, String includeN,
 			@RequestParam(value="category1[]", required = false) List<String> category1,
 			@RequestParam(value="category2[]", required = false) List<String> category2) {
-		//매개변수 확인
-		log.info("category1 :: {}",category1);
-		log.info("category2 :: {}",category2);
 		//객체 생성
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		//분류 배열이 null이 아닐 때
-		String category1List = null;
-		if(!CommonUtils.isEmpty(category1)) {
-			StringJoiner str = new StringJoiner("|");
-			for(String i : category1) {
-				str.add(i);
-			}
-			category1List = str.toString();
-		}
-		paramMap.put("category1List", category1List);
-		//유형 배열이 null이 아닐 때
-		String category2List = null;
-		if(!CommonUtils.isEmpty(category2)) {
-			StringJoiner str = new StringJoiner("|");
-			for(String i : category2) {
-				str.add(i);
-			}
-			category2List = str.toString();
-		}
-		paramMap.put("category2List", category2List);
 		//사업장대표코드
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		//Ajax로 넘겨받은 값 세팅
+		paramMap.put("category1", category1);
+		paramMap.put("category2", category2);
+		paramMap.put("includeN", includeN);
 		
 		log.info("PARAMETER :: {}", paramMap);
 		//창고 전체목록 List<Warehouse>
@@ -110,12 +91,12 @@ public class WarehouseController {
 	@GetMapping("/k1Warehouse/{warehouseCode}")
 	public String warehouseInfo(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(warehouseCode)) return "redirect:/k1Warehouse";
 		
 		//창고 상세정보 조회결과
-		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
+		resultMap = warehouseService.getWarehouseInfo((String) session.getAttribute("MAINBUSINESSCODE"), warehouseCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehouse";
 		
 		//창고 한줄정보 Warehouse
@@ -150,12 +131,12 @@ public class WarehouseController {
 	 * @param wInfo
 	 */
 	@PostMapping("/k1WarehouseAdd")
-	public String addWarehouse(Warehouse wInfo) {
+	public String addWarehouse(Warehouse wInfo, HttpSession session) {
 		log.info("PARAMETER 	:: {}", wInfo);
 		if(CommonUtils.isEmpty(wInfo)) return "redirect:/k1Warehouse";
 		
 		//등록 프로세스
-		wInfo.setMainBusinessCode(mainBusinessCode);
+		wInfo.setMainBusinessCode((String) session.getAttribute("MAINBUSINESSCODE"));
 		boolean chk = warehouseService.addWarehouse(wInfo);
 		
 		if(chk) return "redirect:/k1Warehouse";
@@ -170,12 +151,12 @@ public class WarehouseController {
 	@GetMapping("/k1WarehouseModify/{warehouseCode}")
 	public String modifyWarehouse(
 			@PathVariable(value="warehouseCode", required=false) String warehouseCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(warehouseCode)) return "redirect:/k1Warehouse";
 		
 		//창고 상세정보 조회결과
-		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
+		resultMap = warehouseService.getWarehouseInfo((String) session.getAttribute("MAINBUSINESSCODE"), warehouseCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Warehouse";
 		
 		//창고정보 Warehouse
@@ -193,16 +174,34 @@ public class WarehouseController {
 	 * @param wInfo
 	 */
 	@PostMapping("/k1WarehouseModify")
-	public String modifyWarehouse(Warehouse wInfo) {
+	public String modifyWarehouse(Warehouse wInfo,HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(wInfo)) return "redirect:/k1Warehouse";
 		
-		wInfo.setMainBusinessCode(mainBusinessCode);
+		wInfo.setMainBusinessCode((String) session.getAttribute("MAINBUSINESSCODE"));
 		boolean chk = warehouseService.modifyWarehouse(wInfo);
 		
 		if(chk) return "redirect:/k1Warehouse";
 		
 		return "redirect:/k1WarehouseModify/"+wInfo.getWarehouseCode();
+	}
+	
+	/**
+	 * 창고 사용여부 상태변경
+	 * @param warehouseCode
+	 * @param isUse
+	 * @return
+	 */
+	@PostMapping("/k1WarehouseStatus")
+	public String itemUseStatus(String warehouseCode, String isUse) {
+		if(CommonUtils.isEmpty(warehouseCode)) return "redirect:/k1Warehouse";
+		
+		log.info("상태변경할 품목코드 :: {}",warehouseCode);
+		log.info("변경할 상태 :: {}",isUse);
+		
+		warehouseService.modifyUse(warehouseCode, isUse);
+		
+		return "redirect:/k1Warehouse";
 	}
 	
 	/**
@@ -232,14 +231,15 @@ public class WarehouseController {
 	@ResponseBody
 	public boolean isWarehouseValid(
 			@RequestParam(value="totalWeight", required = false) int totalWeight
-			,@RequestParam(value="warehouseCode", required = false) String warehouseCode) {
+			,@RequestParam(value="warehouseCode", required = false) String warehouseCode
+			,HttpSession session) {
 		log.info("적재예정중량 :: {}",totalWeight);
 		//NULL체크
 		if(CommonUtils.isEmpty(warehouseCode)) {
 			return false;
 		}
 		//창고정보 조회
-		resultMap = warehouseService.getWarehouseInfo(mainBusinessCode, warehouseCode);
+		resultMap = warehouseService.getWarehouseInfo((String) session.getAttribute("MAINBUSINESSCODE"), warehouseCode);
 		//NULL체크
 		if(CommonUtils.isEmpty(resultMap)) {
 			return false;
