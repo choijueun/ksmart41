@@ -125,22 +125,6 @@ public class WarehousingController {
 		storingInfo.setStockReasonCode(1);
 		log.info("물류이동한줄내역  등록 :: {}",storingInfo);
 		
-		//품목정보의 각 key & value 출력
-		/*
-		for(Stock itemInfo : storingInfo.getS()) {
-		    try{
-		    	System.out.println("========= 품목정보 =========");
-		        for (Field field : itemInfo.getClass().getDeclaredFields()){
-		            field.setAccessible(true);
-		            Object value=field.get(itemInfo);
-		            System.out.println(field.getName()+": "+value);
-		        }
-		    }catch (Exception e){
-		        e.printStackTrace();
-		    }
-		}
-		 */
-		
 		//등록 process
 		if(storingService.addStoringInfo(storingInfo)) {
 			//성공
@@ -196,16 +180,4 @@ public class WarehousingController {
 		
 		return "redirect:/k1Warehousing";
 	}
-	
-	/**
-	 * 입고내역 삭제 프로세스
-	 * @param storingInfo
-	 */
-	@PostMapping("/k1WarehousingRemove")
-	public String removeWarehousing(Storing storingInfo) {
-		//삭제 프로세스 진행
-		
-		return "redirect:/k1Warehousing";
-	}
-	
 }
