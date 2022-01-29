@@ -218,6 +218,7 @@ $(function(){
 		});
 	});
 	
+	//체크된 품목 상태변경
 	$(document).on('click', '#modifyUse a', function(){
 		isUse.val($(this).attr('data-isUse'));
 		itemForm.attr('action', '/k1ItemStatus').submit();
