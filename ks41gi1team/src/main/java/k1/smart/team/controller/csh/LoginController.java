@@ -104,7 +104,7 @@ public class LoginController{
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/main";
+		return "redirect:/";
 	}
 	
 	//로그인 내역

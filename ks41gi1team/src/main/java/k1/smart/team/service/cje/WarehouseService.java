@@ -110,6 +110,7 @@ public class WarehouseService {
 	 * @param wInfo
 	 */
 	public void removeWarehouse(String warehouseList) {
+		log.info("삭제할 창고 :: {}",warehouseList);
 		//map 생성
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		for(String warehouseCode : warehouseList.split(",")) {
