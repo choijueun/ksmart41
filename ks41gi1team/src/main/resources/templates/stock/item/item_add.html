@@ -50,7 +50,7 @@ $(function(){
 		.done(function( data ) {
 			if(data) {
 				itemName.addClass('is-warning');
-				itemNameValid.html('<small style="color:#39A;">동일한 품목명이 존재합니다.</small>');
+				itemNameValid.html('<small class="text-warning">동일한 품목명이 존재합니다.</small>');
 			} else {
 				itemName.removeClass('is-warning');
 				itemNameValid.html('');
