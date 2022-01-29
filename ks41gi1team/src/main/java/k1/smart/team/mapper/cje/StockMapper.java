@@ -42,6 +42,12 @@ public interface StockMapper {
 	public int modifyStock(Stock stock);
 	
 	/**
+	 * 수량·중량 0인 재고 모두 삭제
+	 * @param mainBusinessCode
+	 */
+	public void cleanStock(String mainBusinessCode);
+	
+	/**
 	 * 재고정보 삭제
 	 * @param stock
 		 */

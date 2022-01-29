@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +144,16 @@ public class StockController {
 	public char stockRemoveValid(String inventoryCode) {
 		char result = stockService.stockRemoveValid(mainBusinessCode, inventoryCode);
 		return result;
+	}
+	
+	/**
+	 * 수량·중량 0인 재고 모두 삭제
+	 */
+	@GetMapping("/k1CleanStock")
+	public String cleanStock(HttpSession session) {
+		stockService.cleanStock((String) session.getAttribute("MAINBUSINESSCODE"));
+		
+		return "redirect:/k1Stock";
 	}
 	
 	/**

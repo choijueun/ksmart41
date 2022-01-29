@@ -135,6 +135,14 @@ public class StockService {
 	}
 	
 	/**
+	 * 수량·중량 0인 재고 모두 삭제
+	 * @param mainBusinessCode
+	 */
+	public void cleanStock(String mainBusinessCode) {
+		stockMapper.cleanStock(mainBusinessCode);
+	}
+	
+	/**
 	 * 재고정보 삭제 프로세스
 	 * @param inventoryCode
 	 */
