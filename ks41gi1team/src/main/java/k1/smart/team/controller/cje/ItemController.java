@@ -289,6 +289,22 @@ public class ItemController {
 	}
 	
 	/**
+	 * 품목 사용여부 상태변경
+	 * @param itemCode
+	 * @param isUse
+	 * @return
+	 */
+	@PostMapping("/k1ItemStatus")
+	public String itemUseStatus(String itemCode, String isUse) {
+		if(CommonUtils.isEmpty(itemCode)) return "redirect:/k1Item";
+		
+		log.info("상태변경할 품목코드 :: {}",itemCode);
+		log.info("변경할 상태 :: {}",isUse);
+		
+		return "redirect:/k1Item";
+	}
+	
+	/**
 	 * 품목정보 삭제
 	 * @param itemCode
 	 */

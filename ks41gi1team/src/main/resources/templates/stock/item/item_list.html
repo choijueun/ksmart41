@@ -186,6 +186,15 @@ $(function(){
 			});
 		});
 	});
+	
+	var itemForm = $('#itemForm');
+	var isUse = $('#isUse');
+	
+	$(document).on('click', '#modifyUse a', function(){
+		isUse.val($(this).attr('data-isUse'));
+		itemForm.attr('action', '/k1ItemStatus').submit();
+	});
+	
 });
 </script>
 </th:block>
@@ -244,65 +253,78 @@ $(function(){
 					</div>
 				</div>
 			</div>
-			<div id="ajaxTable">
-				<table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
-					<thead>
-						<tr>
-							<th class="text-center">
-								<input type="checkbox" id="allCheck">
-							</th>
-							<th>No.</th>
-							<th>품목명</th>
-							<th>분류</th>
-							<th>대</th>
-							<th>중</th>
-							<th>소</th>
-							<th>소소</th>
-							<th>원산지</th>
-							<th>비고</th>
-							<th>상태</th>
-							<th class="text-center">수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
-							<td class="text-center"><input type="checkbox"></td>
-							<td>
-								<a th:href="@{|/k1Item/${l.itemCode}|}">
-									[[${l.itemCode}]]
-								</a>
-							</td>
-							<td>
-								<a th:href="@{|/k1Item/${l.itemCode}|}">
-									[[${l.itemName}]]
-								</a>
-							</td>
-							<td>[[${l.itemType}]]</td>
-							<td>[[${l.largeCategory}]]</td>
-							<td>[[${l.middleCategory}]]</td>
-							<td>[[${l.smallCategory}]]</td>
-							<td>[[${l.microCategory}]]</td>
-							<td>[[${l.itemOrigin}]]</td>
-							<td>[[${l.itemStatus}]]</td>
-							<td>[[${l.itemComment}]]</td>
-							<td class="text-center">
-								<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
-									<button type="button" class="btn btn-info btn-sm">
-										<i class="fas fa-pen"></i>
-									</button>
-								</a>
-							</td>
-						</tr>
-						<tr th:if="${#lists.isEmpty(itemList)}">
-							<td colspan="12">
-								품목 정보가 없습니다.
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			<!-- 품목 상태변경용 form -->
+			<form id="itemForm" method="POST">
+			<input type="hidden" id="isUse" name="isUse">
+				<!-- Ajax로 교체할 부분 -->
+				<div id="ajaxTable">
+					<table id="itemList" class="table table-bordered table-hover dataTable dtr-inline">
+						<thead>
+							<tr>
+								<th class="text-center">
+									<input type="checkbox" id="allCheck">
+								</th>
+								<th>No.</th>
+								<th>품목명</th>
+								<th>분류</th>
+								<th>대</th>
+								<th>중</th>
+								<th>소</th>
+								<th>소소</th>
+								<th>원산지</th>
+								<th>비고</th>
+								<th>상태</th>
+								<th class="text-center">수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
+								<td class="text-center">
+									<input type="checkbox" name="itemCode" th:value="${l.itemCode}">
+								</td>
+								<td>
+									<a th:href="@{|/k1Item/${l.itemCode}|}">
+										[[${l.itemCode}]]
+									</a>
+								</td>
+								<td>
+									<a th:href="@{|/k1Item/${l.itemCode}|}">
+										[[${l.itemName}]]
+									</a>
+								</td>
+								<td>[[${l.itemType}]]</td>
+								<td>[[${l.largeCategory}]]</td>
+								<td>[[${l.middleCategory}]]</td>
+								<td>[[${l.smallCategory}]]</td>
+								<td>[[${l.microCategory}]]</td>
+								<td>[[${l.itemOrigin}]]</td>
+								<td>[[${l.itemStatus}]]</td>
+								<td>[[${l.itemComment}]]</td>
+								<td class="text-center">
+									<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
+										<button type="button" class="btn btn-info btn-sm">
+											<i class="fas fa-pen"></i>
+										</button>
+									</a>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(itemList)}">
+								<td colspan="12">
+									품목 정보가 없습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
 			<!-- Buttons -->
-			<button type="button" class="btn btn-danger mt-3">삭제</button>
+			<div class="btn-group mt-3">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">상태 변경</button>
+				<div class="dropdown-menu" id="modifyUse" role="menu">
+					<a class="dropdown-item" href="#" data-isUse="Y">사용가</a>
+					<a class="dropdown-item" href="#" data-isUse="N">사용불가</a>
+				</div>
+			</div>
 			<a th:href="@{/k1ItemAdd}">
 				<button type="button" class="btn btn-info float-right mt-3">등록</button>
 			</a>
