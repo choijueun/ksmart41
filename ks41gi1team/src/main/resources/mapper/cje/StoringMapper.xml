@@ -544,6 +544,7 @@
 	WHERE
 		r.returnRegCode = CONCAT('returnRegCode_',#{returnRegCode});
 </select>
+
 <!-- 반품요청내역 상세정보 목록 -->
 <select id="getReturnRegDetails" parameterType="String" resultType="Storing">
 	SELECT 
