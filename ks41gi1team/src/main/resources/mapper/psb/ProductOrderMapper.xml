@@ -89,25 +89,23 @@ ORDER BY
 <select id="getProductOrderList" parameterType="String" resultType="ProductOrder">
 	SELECT 
 		RIGHT(po.productOrderCode,3) as productOrderCode,
-		po.mainBusinessCode as mainBusinessCode,
-		po.contractCode as contractCode,
-		po.clientCode as clientCode,
-		po.clientBusinessName as clientBusinessName,
+		po.mainBusinessCode,
+		po.contractCode,
+		po.clientCode,
+		po.clientBusinessName,
 		po.`status`,
-		po.itemName as itemName,
+		po.itemName,
 		po.managerName,
 		po.totalCount,
 		po.totalPrice,
-		po.briefs as briefs,
-		po.productOrderDate as productOrderDate,
-		po.productDate as productDate,
-		po.predictProductDate as predictProductDate,
-		po.managerId as managerId,
+		po.briefs,
+		po.productOrderDate,
+		po.productDate,
+		po.predictProductDate,
+		po.managerId,
 		po.managerName,
-		po.regDate as regDate,
-		po.updateDate as updateDate,
-		po.totalCount AS totalCount,
-		po.totalPrice AS totalPrice
+		po.regDate,
+		po.updateDate
 	FROM 
 		k1_view_product_order AS po	
 </select>	
