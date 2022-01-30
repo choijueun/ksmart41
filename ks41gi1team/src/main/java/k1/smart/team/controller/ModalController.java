@@ -2,6 +2,8 @@ package k1.smart.team.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.ModalService;
 
 @Controller
@@ -17,8 +20,6 @@ public class ModalController {
 	private ModalService modalService;
 	private List<Slip> salesTransactionList;
 	private List<Slip> purchaseTransactionList;
-	
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	
 	/**
 	 * 생성자 메서드
@@ -44,8 +45,8 @@ public class ModalController {
 	 * AJAX :: 회원 전체목록 조회
 	 */
 	@GetMapping(value="/userListModal", produces="application/json")
-	public String userListModal(Model model) {
-		model.addAttribute("userList", modalService.getUserList(mainBusinessCode));
+	public String userListModal(Model model, HttpSession session) {
+		model.addAttribute("userList", modalService.getUserList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/user_list";
 	}
 	
@@ -53,16 +54,16 @@ public class ModalController {
 	 * AJAX :: 거래처정보 전체목록 조회
 	 */
 	@GetMapping(value="/clientListModal", produces="application/json")
-	public String clientListModal(Model model) {
-		model.addAttribute("clientList", modalService.getClientList(mainBusinessCode));
+	public String clientListModal(Model model, HttpSession session) {
+		model.addAttribute("clientList", modalService.getClientList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/client_list";
 	}
 	/**
 	 * AJAX :: 계약내역 전체목록 조회
 	 */
 	@GetMapping(value="/contractListModal", produces="application/json")
-	public String contractListModal(Model model) {
-		model.addAttribute("contractList", modalService.getContractList(mainBusinessCode));
+	public String contractListModal(Model model, HttpSession session) {
+		model.addAttribute("contractList", modalService.getContractList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/contract_list";
 	}
 	
@@ -70,8 +71,8 @@ public class ModalController {
 	 * AJAX :: 자재발주내역 전체목록 조회
 	 */
 	@GetMapping(value="/materialOrderListModal", produces="application/json")
-	public String materialOrderListModal(Model model) {
-		model.addAttribute("materialOrderList", modalService.getMaterialOrderList(mainBusinessCode));
+	public String materialOrderListModal(Model model, HttpSession session) {
+		model.addAttribute("materialOrderList", modalService.getMaterialOrderList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/material_order_list";
 	}
 	
@@ -81,8 +82,27 @@ public class ModalController {
 	 */
 	@GetMapping(value="/materialOrderDetailListModal", produces="application/json")
 	@ResponseBody
-	public List<MaterialOrderInfo> materialOrderDetailListModal(String materialOrderCode, Model model) {
-		return modalService.getMaterialOrderDetailList(mainBusinessCode, materialOrderCode);
+	public List<MaterialOrderInfo> materialOrderDetailListModal(
+			String materialOrderCode, Model model, HttpSession session) {
+		return modalService.getMaterialOrderDetailList((String) session.getAttribute("MAINBUSINESSCODE"), materialOrderCode);
+	}
+	
+	/**
+	 * AJAX :: 제품수주내역 전체목록 조회
+	 */
+	@GetMapping(value="/productOrderListModal",  produces="application/json")
+	public String productOrderListModal(Model model, HttpSession session) {
+		model.addAttribute("productOrderList", modalService.getProductOrderList((String) session.getAttribute("MAINBUSINESSCODE")));
+		return "modal/product_order_list";
+	}
+	/**
+	 * AJAX :: 제품수주 상세(품목 목록) 조회
+	 */
+	@GetMapping(value="/productOrderDetailListModal",  produces="application/json")
+	@ResponseBody
+	public List<ProductOrder> productOrderDetailListModal(
+			String productOrderCode, Model model) {
+		return modalService.getProductOrderDetailList(productOrderCode);
 	}
 	
 	
@@ -91,8 +111,8 @@ public class ModalController {
 	 * @param model
 	 */
 	@GetMapping(value="/itemListModal", produces="application/json")
-	public String itemListModal(Model model) {
-		model.addAttribute("itemList", modalService.getItemList(mainBusinessCode));
+	public String itemListModal(Model model, HttpSession session) {
+		model.addAttribute("itemList", modalService.getItemList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/item_list";
 	}
 	
@@ -100,8 +120,8 @@ public class ModalController {
 	 * AJAX :: 창고정보 전체목록 조회
 	 */
 	@GetMapping(value="/warehouseListModal", produces="application/json")
-	public String warehouseListModal(Model model) {
-		model.addAttribute("warehouseList", modalService.getWarehouseList(mainBusinessCode));
+	public String warehouseListModal(Model model, HttpSession session) {
+		model.addAttribute("warehouseList", modalService.getWarehouseList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/warehouse_list";
 	}
 	
@@ -112,8 +132,19 @@ public class ModalController {
 	 */
 	@GetMapping(value="/pSlipListByItemModal", produces="application/json")
 	public String pSlipByItem(String itemCode, Model model) {
-		model.addAttribute("pSlipListByItem", modalService.getPSlipByItem(itemCode, mainBusinessCode));
+		model.addAttribute("pSlipListByItem", modalService.getPSlipByItem(itemCode));
 		return "modal/p_slip_list_by_item";
+	}
+	
+	/**
+	 * AJAX :: 특정 품목이 포함된 비용 비용명세서 목록 조회
+	 * @param itemCode
+	 * @param model
+	 */
+	@GetMapping(value="/sSlipListByItemModal", produces="application/json")
+	public String sSlipByItem(String itemCode, Model model) {
+		model.addAttribute("sSlipListByItem", modalService.getSSlipByItem(itemCode));
+		return "modal/s_slip_list_by_item";
 	}
 	
 	/**

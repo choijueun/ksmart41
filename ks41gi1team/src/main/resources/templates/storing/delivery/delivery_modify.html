@@ -11,15 +11,6 @@
 <script type="text/javascript">
 $(function(){
 	/****************************
-				플러그인
-	****************************/
-	//datetimepicker
-	$('#requestDate').datetimepicker({ format: 'yy-mm-DD' });
-	$('#adjDate').datetimepicker({ format: 'yy-mm-DD' });
-	$('#endDate').datetimepicker({ format: 'yy-mm-DD' });
-	
-	
-	/****************************
 				객체정의
 	****************************/
 	//SweetAlert
@@ -30,7 +21,7 @@ $(function(){
 		timer: 3000
 	});
 	//form 객체
-	var addWarehousing = $('#addWarehousing');
+	var modifyDelivery = $('#modifyDelivery');
 	//input 객체 - 한줄내역
 	var clientCode = $('#clientCode'); //거래처코드
 	var businessName = $('#businessName'); //거래처명
@@ -45,7 +36,6 @@ $(function(){
 	var briefs = $('#briefs'); //적요
 	var managerId = $('#managerId'); //담당자ID
 	var managerName = $('#managerName'); //담당자이름
-	var requestDate= $('input[name="requestDate"]'); //요청일자
 	//상세내역
 	var details = $('#details'); //상세구역
 	var detailrow = $('#details .row:first-of-type'); //한줄
@@ -426,104 +416,11 @@ $(function(){
 		businessName.val($(this).parents('tr').children().eq(2).text()); //거래처명
 		modalObj.modal('hide');
 	});
-	//자재발주내역
-	$(document).on('click', '#materialOrderList .selectBtn', function(){
-		materialOrderCode.val($(this).parents('tr').children().eq(0).text()); //자재발주코드
-		contractCode.val($(this).parents('tr').children().eq(1).text()); //계약코드
-		clientCode.val($(this).parents('tr').children().eq(2).text()); //거래처코드
-		businessName.val($(this).parents('tr').children().eq(3).text()); //거래처명
-		briefs.val($(this).parents('tr').children().eq(7).text()); //적요
-		requestDate.val($(this).parents('tr').children().eq(9).text()); //주문일자
-		modalObj.modal('hide');
-		
-		//품목 목록 자동입력
-		//ajax
-		$.ajax({
-			url: "/materialOrderDetailListModal",
-			method: "GET",
-			data: { 'materialOrderCode' : $(this).parents('tr').children().eq(0).text() },
-			dataType: "json"
-		})
-		.done(function( data ) {
-			//console.log(data[0]);
-			//상세내역 폼 삭제
-			$('#details .row').remove();
-			//List<MaterialOrderInfo> 반복문
-			$(data).each(function(i, obj){
-				//상세내역 폼 추가
-				var clone = detailrow.clone();
-				clone.find('input').val(null);
-				clone.find('input[name="itemCode"]').val(data[i]['itemCode']); //품목코드
-				clone.find('input[name="itemName"]').val(data[i]['itemName']); //품목명
-				clone.find('input[name="unitPrice"]').val(data[i]['itemPrice']); //비용
-				clone.find('input[name="itemCount"]').val(data[i]['itemCount']); //수량
-				clone.find('input[name="status"]').val(data[i]['reserveStatus']); //상태
-				clone.find('input[name="comment"]').val(data[i]['comment']); //비고
-				details.append(clone);
-			});
-			//품목 목록
-			getItemList();
-			//중량 및 금액 계산
-			getTotals();
-		})
-		.fail(function( jqXHR, textStatus ) {
-			Toast.fire({
-				icon: 'warning',
-				title: "Request failed: " + textStatus
-			});
-		});
-	});
-	//계약내역
-	$(document).on('click', '#contractList .selectBtn', function(){
-		contractCode.val($(this).parents('tr').children().eq(0).text()); //계약코드
-		clientCode.val($(this).parents('tr').children().eq(3).text()); //거래처코드
-		businessName.val($(this).parents('tr').children().eq(4).text()); //거래처명
-		modalObj.modal('hide');
-	});
-	//창고목록
-	$(document).on('click', '#warehouseList .selectBtn', function(){
-		receiveWarehouse.val($(this).parents('tr').children().eq(0).text()); //창고코드
-		receiveWarehouseName.val($(this).parents('tr').children().eq(1).text()); //창고명
-		console.log($(this).parents('tr').children().eq(5).text());
-		receiveWarehouseLocation.val($(this).parents('tr').children().eq(5).text()); //위치(소재지)
-		modalObj.modal('hide');
-	});
 	//회원정보
 	$(document).on('click', '#userList .selectBtn', function(){
 		managerId.val($(this).parents('tr').children().eq(0).text()); //ID
 		managerName.val($(this).parents('tr').children().eq(1).text()); //이름
 		modalObj.modal('hide');
-	});
-	//품목정보
-	$(document).on('click', '#itemList .selectBtn', function(){
-		var row = $('#details .row.pickIForm'); //표시한 row
-		row.children().find('input[name="itemCode"]').val($(this).parents('tr').children().eq(0).text()); //품목코드
-		row.children().find('input[name="itemName"]').val($(this).parents('tr').children().eq(2).text()); //품목명
-		row.children().find('input[name="status"]').val($(this).parents('tr').children().eq(6).text()); //상태
-		row.children().find('input[name="comment"]').val($(this).parents('tr').children().eq(7).text()); //비고
-		modalObj.modal('hide');
-		//품목 목록
-		getItemList();
-		//중량 및 금액 계산
-		getTotals();
-	});
-	//비용 거래명세서
-	$(document).on('click', '#pSlipListByItem .selectBtn', function(){
-		var row = $('#details .row.pickIForm'); //표시한 row
-		row.children().find('input[name="purchaseTsCode"]').val($(this).parents('tr').children().eq(0).text())
-		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(5).text())
-		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(6).text())
-		modalObj.modal('hide');
-		//중량 및 금액 계산
-		getTotals();
-	});
-	//단가 임의입력
-	$(document).on('click', 'button.setUnitPrice', function(){
-		var row = $('#details .row.pickIForm'); //표시한 row
-		row.children().find('input[name="unitPrice"]').val($('#setUnitPrice').val());
-		modalObj.modal('hide');
-		//중량 및 금액 계산
-		getTotals();
 	});
 	
 	/****************************
@@ -532,70 +429,7 @@ $(function(){
 	//데이터 전송
 	$(document).on('click', '#submitBtn', function(){
 		//유효성 검사
-		var chk = 0;
-		if( clientCode.val() == null || clientCode.val() == '' ) {
-			chk += 1;
-		}else if( receiveWarehouse.val() == null || receiveWarehouse.val() == '' ) {
-			chk += 1;
-		}else if( managerId.val() == null || managerId.val() == '' ) {
-			chk += 1;
-		}else if( totalWeight.val() == null || totalWeight.val() == 0 ) {
-			chk += 1;
-		}else if( totalPrice.val() == null || totalPrice.val() == 0 ) {
-			chk += 1;
-		}
-		$('#details .row').each(function(i, obj){
-			var rowCode = $(obj).find('input[name="itemCode"]');
-			var rowPrice = $(obj).find('input[name="unitPrice"]');
-			var rowCount = $(obj).find('input[name="itemCount"]');
-			var rowWeight = $(obj).find('input[name="itemWeight"]');
-			if(rowCode.val() == null || rowCode.val() == ''
-					|| rowPrice.val() == null || rowPrice.val() == '' || rowPrice.val() == 0
-					|| rowCount.val() == null || rowCount.val() == '' || rowCount.val() == 0
-					|| rowWeight.val() == null || rowWeight.val() == '' || rowWeight.val() == 0) {
-				chk += 1;
-				return false;
-			}
-		});
-		if(chk > 0) {
-			Toast.fire({
-				icon: 'error',
-				title: '필수 작성 요소를 기입해주세요'
-			});
-		}else {
-			//중량 및 금액 계산
-			getTotals();
-			//창고 적재가능여부 확인
-			$.ajax({
-				  url: "/isWarehouseValid",
-				  method: "POST",
-				  data: { 'totalWeight': totalWeight.val(), 'warehouseCode': receiveWarehouse.val() },
-				  dataType: "json"
-			})
-			.done(function( data ) {
-				if(data){
-					//List<Stock> s
-					$('#details .row').each(function(i, row){
-					    $(row).find('input[name]').each(function(j, obj){
-					    	$(obj).attr('name', 's['+i+'].'+$(obj).attr('data-details')).attr('name');
-					    });
-					});
-					//데이터 전송
-					addWarehousing.submit();
-				}else {
-					Toast.fire({
-						icon: 'error',
-						title: '창고 최대적재중량을 초과하였습니다.'
-					});
-				}
-			})
-			.fail(function( jqXHR, textStatus ) {
-				Toast.fire({
-					icon: 'warning',
-					title: "Request failed: " + textStatus
-				});
-			});
-		}
+		//modifyDelivery.submit();
 	});
 	
 });
@@ -609,7 +443,7 @@ $(function(){
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<form id="addWarehousing"th:action="@{/k1WarehousingAdd}" method="POST">
+	<form id="modifyDelivery"th:action="@{/k1WarehousingAdd}" method="POST">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>

@@ -296,10 +296,25 @@
 			k1_view_purchase_transaction_detail d2
 			ON
 			p.purchaseTsCode = d2.purchaseTsCode AND d2.itemCode = CONCAT('itemCode_',#{itemCode})
-		WHERE
-			p.mainBusinessCode = #{mainBusinessCode}
 		GROUP BY
 			p.purchaseTsCode
+	</select>
+	
+	<!-- 최주은-특정품목의 매출 거래명세서 조회 -->
+	<select id="getSSlipByItem" parameterType="String" resultType="Slip">
+		SELECT 
+			 RIGHT(s.salesTsCode,3) AS salesTsCode
+			,s.businessName
+			,s.itemName
+			,s.`count`
+			,s.unitPrice AS amount
+			,s.totalPrice
+			,s.briefs
+			,s.regDate
+		FROM 
+			k1_view_sales_transaction s
+		WHERE
+			s.itemCode = CONCAT('itemCode_',#{itemCode})
 	</select>
 	
 </mapper>

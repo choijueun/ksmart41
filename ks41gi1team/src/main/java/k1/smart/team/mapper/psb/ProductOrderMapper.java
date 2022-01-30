@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.ProductOrder;
 @Mapper
 public interface ProductOrderMapper {
@@ -19,7 +18,7 @@ public interface ProductOrderMapper {
 	public List<ProductOrder> getProductOrderListBySearchKey(String searchKey, String searchValue);
 	
 	//전체 수주 검색
-	public List<ProductOrder> getAllProductOrderList();
+	public List<ProductOrder> getAllProductOrderList(String mainBusinessCode);
 
 	//수주 삭제
 	public String k1ProductOrderRemove();
