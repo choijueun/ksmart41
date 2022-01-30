@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -74,8 +76,8 @@ public class ItemController {
 	 */
 	@PostMapping("/k1Item")
 	public String itemMainAjax(Model model,
-			@RequestParam(value="types[]", required = false) List<String> types,
-			String largeCategory, String middleCategory, String smallCategory, String microCategory) {
+			@RequestParam(value="types[]", required = false) List<String> types, HttpSession session,
+			String largeCategory, String middleCategory, String smallCategory, String microCategory, String includeN) {
 		/*
 		log.info("types :: {}",types);
 		log.info("largeCategory :: {}",largeCategory);
@@ -99,7 +101,8 @@ public class ItemController {
 		paramMap.put("middleCategory", middleCategory);
 		paramMap.put("smallCategory", smallCategory);
 		paramMap.put("microCategory", microCategory);
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("includeN", includeN);
+		paramMap.put("mainBusinessCode", session.getAttribute("MAINBUSINESSCODE"));
 		
 		log.info("PARAMETER :: {}", paramMap);
 		//품목 전체목록 List<Stock>
@@ -286,6 +289,24 @@ public class ItemController {
 		
 		if(chk) return "redirect:/k1Item";
 		return "redirect:/k1ItemModify/"+itemInfo.getItemCode();
+	}
+	
+	/**
+	 * 품목 사용여부 상태변경
+	 * @param itemCode
+	 * @param isUse
+	 * @return
+	 */
+	@PostMapping("/k1ItemStatus")
+	public String itemUseStatus(String itemCode, String isUse) {
+		if(CommonUtils.isEmpty(itemCode)) return "redirect:/k1Item";
+		
+		log.info("상태변경할 품목코드 :: {}",itemCode);
+		log.info("변경할 상태 :: {}",isUse);
+		
+		itemService.modifyUse(itemCode, isUse);
+		
+		return "redirect:/k1Item";
 	}
 	
 	/**

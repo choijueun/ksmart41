@@ -44,6 +44,13 @@ public interface WarehouseMapper {
 	 * @return 성공시 1 실패시 0
 	 */
 	public int modifyWarehouse(Warehouse warehouse);
+
+	/**
+	 * 사용가능여부 수정 프로세스
+	 * @param warehouseCode
+	 * @param isUse
+	 */
+	public void modifyUse(String warehouseCode, String status);
 	
 	/**
 	 * 창고정보 삭제
@@ -51,4 +58,5 @@ public interface WarehouseMapper {
 	 * @return 성공시 1 실패시 0
 	 */
 	public int removeWarehouse(Map<String, Object> paramMap);
+
 }

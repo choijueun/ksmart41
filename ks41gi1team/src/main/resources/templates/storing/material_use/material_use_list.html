@@ -64,7 +64,7 @@ $(function(){
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${not #lists.isEmpty(materialUseList)}" th:each="l : ${materialUseList}">
+						<tr th:if="${not #lists.isEmpty(storingList)}" th:each="l : ${storingList}">
 							<td class="text-center">
 								<input type="checkbox" name="stockAdjCode" th:value="${l.stockAdjCode}">
 							</td>
@@ -92,7 +92,7 @@ $(function(){
 								</a>
 							</td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(materialUseList)}">
+						<tr th:if="${#lists.isEmpty(storingList)}">
 							<td colspan="12">
 								자재사용내역이 존재하지 않습니다.
 							</td>

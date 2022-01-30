@@ -12,18 +12,21 @@ import k1.smart.team.dto.cje.Storing;
 public interface StoringMapper {
 	/**
 	 * 물류이동내역 전체조회
-	 * @param mainBusinessCode
-	 * @param stockReasonCode
+	 * @param Map<String, Object>
 	 */
 	public List<Storing> getAllStoringList(Map<String, Object> paramMap);
 	
 	/**
 	 * 물류이동내역 상세조회
-	 * @param mainBusinessCode
-	 * @param stockAdjCode
-	 * @param stockReasonCode
+	 * @param Map<String, Object>
 	 */
-	public Storing getStoringInfo(String mainBusinessCode, String stockAdjCode, String stockReasonCode);
+	public Storing getStoringInfo(Map<String, Object> paramMap);
+	
+	/**
+	 * 물류이동내역 품목정보 조회
+	 * @param Map<String, Object>
+	 */
+	public List<Storing> getStoringDetails(Map<String, Object> paramMap);
 	
 	/**
 	 * 최근 7일간 물류이동 횟수(사유별)
@@ -38,39 +41,10 @@ public interface StoringMapper {
 	public List<Map<String, Object>> getRecentProShip(String mainBusinessCode);
 	
 	/**
-	 * 완료되지 않은 배송요청 건수 조회
+	 * 완료되지 않은 배송요청·출하계획·반품요청 건수 조회
 	 * @param mainBusinessCode
 	 */
-	public int unfinishedDeliveryCnt(String mainBusinessCode);
-	
-	/**
-	 * 완료되지 않은 출하계획 건수 조회
-	 * @param mainBusinessCode
-	 */
-	public int unfinishedShipmentCnt(String mainBusinessCode);
-	
-	/**
-	 * 완료되지 않은 반품요청 건수 조회
-	 * @param mainBusinessCode
-	 */
-	public int unfinishedReturnCnt(String mainBusinessCode);
-	
-	//1. 자재입고 상세내역 배열
-	public List<Storing> getWarehousingDetails(String stockAdjCode);
-	//2. 자재사용 상세내역 배열
-	public List<Storing> getMaterialUseDetails(String stockAdjCode);
-	//3. 제품생산 상세내역 배열
-	public List<Storing> getProductionDetails(String stockAdjCode);
-	//4. 창고이동 상세내역 배열
-	public List<Storing> getMovingDetails(String stockAdjCode);
-	//5. 출하 상세내역 배열
-	public List<Storing> getShipmentDetails(String stockAdjCode);
-	//6. 재고차이조정 상세내역 배열
-	public List<Storing> getAdjDetails(String stockAdjCode);
-	//7. 반품처리 상세내역 배열
-	public List<Storing> getReturnDetails(String stockAdjCode);
-	//8. 불량처리 상세내역 배열
-	public List<Storing> getDefectDetails(String stockAdjCode);
+	public Map<String, Object> unfinishedCnt(String mainBusinessCode);
 	
 	/**
 	 * 등록화면에 넣을 재고정보 하나

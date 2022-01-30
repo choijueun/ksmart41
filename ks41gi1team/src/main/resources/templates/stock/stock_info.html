@@ -10,6 +10,9 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	/****************************
+				객체정의
+	****************************/
 	//Toast
 	var Toast = Swal.mixin({
 		toast: true,
@@ -21,37 +24,42 @@ $(function(){
 	var modalPop = $('#Modal');
 	//재고번호
 	var inventoryCode = $('#inventoryCode');
+	
+	
+	/****************************
+				수정·삭제
+	****************************/
 	//수정버튼 클릭
 	$(document).on('click', '.modifyBtn', function(){
-		var request = $.ajax({
+		$.ajax({
 			url: "/stockModifyModal?inventoryCode="+inventoryCode.text(),
 			method: "GET",
 			dataType: "html"
-		});
-		 
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			modalPop.find('.modal-body').html(data);
 			modalPop.find('.modal-title').text('재고조정');
 			modalPop.find('.remove').hide();
 			modalPop.modal('show');
-		});
-		 
-		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
 	//삭제버튼 클릭
 	$(document).on('click', '.removeBtn', function(){
-		var request = $.ajax({
+		$.ajax({
 			url: "/k1stockRemove?inventoryCode="+inventoryCode.text(),
 			method: "GET",
 			dataType: "text"
-		});
-		 
-		request.done(function( data ) {
+		})
+		.done(function( data ) {
 			if(data == '"E"') {
 				Toast.fire({
-					icon: 'error',
+					icon: 'warning',
 					title: '오류가 발생했습니다.'
 				});
 			} else if (data == '"Y"') {
@@ -61,16 +69,23 @@ $(function(){
 				modalPop.modal('show');
 			} else if (data == '"N"') {
 				Toast.fire({
-					icon: 'warning',
+					icon: 'error',
 					title: '수량이나 중량이 0 이상입니다.'
 				});
 			}
-		});
-		 
-		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
 		});
 	});
+	
+	
+	/****************************
+				프로세스
+	****************************/
 	//삭제 진행
 	$(document).on('click', '#Modal .remove', function(){
 		$('#removeForm').submit();

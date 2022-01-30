@@ -112,7 +112,7 @@
 					재고차이조정 상세내역
 				</div>
 				<div class="card-body" th:if="${ s != null }">
-					<table id="adjDetail" class="table table-bordered">
+					<table id="details" class="table table-bordered">
 						<thead>
 							<tr>
 								<th>품목명</th>
@@ -124,8 +124,8 @@
 								<th>비고</th>
 							</tr>
 						</thead>
-						<tbody th:if="${ adjDetail != null }">
-							<tr th:each="l : ${adjDetail}">
+						<tbody th:if="${ details != null }">
+							<tr th:each="l : ${details}">
 								<td>
 									<a th:href="@{|/k1Stock/${l.inventoryCode}|}">
 										[[${l.itemName}]]
@@ -139,7 +139,7 @@
 								<td>[[${l.comment}]]</td>
 							</tr>
 						</tbody>
-						<tbody th:if="${ adjDetail == null }">
+						<tbody th:if="${ details == null }">
 							<tr>
 								<td colspan="12">
 									상세내역을 불러올 수 없습니다.

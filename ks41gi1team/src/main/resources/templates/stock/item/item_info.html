@@ -10,6 +10,24 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	/****************************
+				객체정의
+	****************************/
+	//품목정보 form
+	var itemForm = $('#itemForm'); 
+	//상태변경 정보 담을 input
+	var isUse = $('#isUse'); 
+	
+	
+	/****************************
+				데이터전송
+	****************************/
+	//상태변경
+	$(document).on('click', '#modifyUse a', function(){
+		isUse.val($(this).attr('data-isUse'));
+		itemForm.attr('action', '/k1ItemStatus').submit();
+	});
+	//삭제
 	$(document).on('click', '.remove', function(){
 		$('#removeForm').submit();
 	});
@@ -29,77 +47,81 @@ $(function(){
 			<div class="card card-info card-outline">
 				<div class="card-body">
 					<p class="lead">품목정보</p>
-					<table id="itemInfo" class="table">
-						<tr>
-							<th>품목번호</th>
-							<td>[[${i.itemCode}]]</td>
-						</tr>
-						<tr>
-							<th>상태</th>
-							<td>[[${i.itemStatus}]]</td>
-						</tr>
-						<tr>
-							<th>품목명</th>
-							<td>[[${i.itemName}]]</td>
-						</tr>
-						<tr>
-							<th>분류</th>
-							<td>[[${i.itemType}]]</td>
-						</tr>
-						<tr>
-							<th>카테고리</th>
-							<td>
-								<th:block th:if="${i.largeCategory != null and i.largeCategory != ''.toString()}">
-									[[${i.largeCategory}]]
-									<th:block th:if="${i.middleCategory != null and i.middleCategory != ''.toString()}">
-										/ [[${i.middleCategory}]]
-										<th:block th:if="${i.smallCategory != null and i.smallCategory != ''.toString()}">
-											/ [[${i.smallCategory}]]
-											<th:block th:if="${i.microCategory != null and i.microCategory != ''.toString()}">
-												/ [[${i.microCategory}]]
+					<form id="itemForm" method="POST">
+						<input type="hidden" id="isUse" name="isUse">
+						<input type="hidden" name="itemCode" th:value="${i.itemCode}">
+						<table id="itemInfo" class="table">
+							<tr>
+								<th>품목번호</th>
+								<td>[[${i.itemCode}]]</td>
+							</tr>
+							<tr>
+								<th>상태</th>
+								<td th:text="${i.itemStatus} == 'Y' ? '사용가' : '사용불가'"></td>
+							</tr>
+							<tr>
+								<th>품목명</th>
+								<td>[[${i.itemName}]]</td>
+							</tr>
+							<tr>
+								<th>분류</th>
+								<td>[[${i.itemType}]]</td>
+							</tr>
+							<tr>
+								<th>카테고리</th>
+								<td>
+									<th:block th:if="${i.largeCategory != null and i.largeCategory != ''.toString()}">
+										[[${i.largeCategory}]]
+										<th:block th:if="${i.middleCategory != null and i.middleCategory != ''.toString()}">
+											/ [[${i.middleCategory}]]
+											<th:block th:if="${i.smallCategory != null and i.smallCategory != ''.toString()}">
+												/ [[${i.smallCategory}]]
+												<th:block th:if="${i.microCategory != null and i.microCategory != ''.toString()}">
+													/ [[${i.microCategory}]]
+												</th:block>
 											</th:block>
 										</th:block>
 									</th:block>
-								</th:block>
-							</td>
-						</tr>
-						<tr>
-							<th>총수량</th>
-							<td>[[${#numbers.formatInteger(i.itemCount,0,'COMMA')}]]</td>
-						</tr>
-						<tr>
-							<th>규격</th>
-							<td>[[${i.itemStandard}]]</td>
-						</tr>
-						<tr>
-							<th>평균단가
-							<td>[[${#numbers.formatInteger(i.avgPrice,0,'COMMA')}]] 원</td>
-						</tr>
-						<tr>
-							<th>합계금액</th>
-							<td>[[${#numbers.formatInteger(i.totalPrice,0,'COMMA')}]] 원</td>
-						</tr>
-						<tr>
-							<th>총중량</th>
-							<td>[[${#numbers.formatInteger(i.totalWeight,0,'COMMA')}]] kg</td>
-						</tr>
-						<tr>
-							<th>원산지</th>
-							<td>[[${i.itemOrigin}]]</td>
-						</tr>
-						<tr>
-							<th>비고</th>
-							<td colspan="3">[[${i.itemComment}]]</td>
-						</tr>
-						<tr>
-							<th>등록일시</th>
-							<td>[[${i.itemRegDate}]]</td>
-						</tr>
-						<tr>
-							<th>수정일시</th>
-							<td>[[${i.itemUpdateDate}]]</td>
-						</tr>
-					</table>
+								</td>
+							</tr>
+							<tr>
+								<th>총수량</th>
+								<td>[[${#numbers.formatInteger(i.itemCount,0,'COMMA')}]]</td>
+							</tr>
+							<tr>
+								<th>규격</th>
+								<td>[[${i.itemStandard}]]</td>
+							</tr>
+							<tr>
+								<th>평균단가
+								<td>[[${#numbers.formatInteger(i.avgPrice,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>합계금액</th>
+								<td>[[${#numbers.formatInteger(i.totalPrice,0,'COMMA')}]] 원</td>
+							</tr>
+							<tr>
+								<th>총중량</th>
+								<td>[[${#numbers.formatInteger(i.totalWeight,0,'COMMA')}]] kg</td>
+							</tr>
+							<tr>
+								<th>원산지</th>
+								<td>[[${i.itemOrigin}]]</td>
+							</tr>
+							<tr>
+								<th>비고</th>
+								<td colspan="3">[[${i.itemComment}]]</td>
+							</tr>
+							<tr>
+								<th>등록일시</th>
+								<td>[[${i.itemRegDate}]]</td>
+							</tr>
+							<tr>
+								<th>수정일시</th>
+								<td>[[${i.itemUpdateDate}]]</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 				<div class="card-footer">
 					<a th:href="@{/k1Item}">
@@ -110,6 +132,13 @@ $(function(){
 					<a th:href="@{|/k1ItemModify/${i.itemCode}|}">
 						<button type="button" class="btn btn-info float-right mr-2">수정</button>
 					</a>
+					<div class="btn-group float-right">
+						<button type="button" class="btn btn-default dropdown-toggle mr-2" data-toggle="dropdown" aria-expanded="false">상태 변경</button>
+						<div class="dropdown-menu" id="modifyUse" role="menu">
+							<a class="dropdown-item" href="#" data-isUse="Y">사용가</a>
+							<a class="dropdown-item" href="#" data-isUse="N">사용불가</a>
+						</div>
+					</div>
 				</div>
 				<form id="removeForm" th:action="@{/k1ItemRemove}" method="POST"> 
 					<input type="hidden" name="itemCode" th:value="${i.itemCode}">

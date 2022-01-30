@@ -58,6 +58,7 @@ public class LoginController{
 				session.setAttribute("UID", userId);
 				session.setAttribute("UNAME", userInfo.getUserName());
 				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("MAINBUSINESSCODE", "fac_ksmartSeoul_Seoul_001");
 				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
 				return "redirect:/main";
 			}
@@ -90,6 +91,7 @@ public class LoginController{
 				session.setAttribute("UID", userId);
 				session.setAttribute("UNAME", userInfo.getUserName());
 				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("MAINBUSINESSCODE", "fac_ksmartSeoul_Seoul_001");
 				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
 				return "redirect:/main";
 			}
@@ -102,7 +104,7 @@ public class LoginController{
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/main";
+		return "redirect:/";
 	}
 	
 	//로그인 내역

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,6 @@ import k1.smart.team.service.cje.WarehouseService;
 @Controller
 public class StockController {
 	private final StockService stockService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //사업장대표코드 임시지정
 	private Stock stockInfo; //재고정보
 	private List<Stock> stockList; //재고 배열
 	private Map<String, Object> resultMap;
@@ -48,15 +49,15 @@ public class StockController {
 	 * @param model
 	 */
 	@GetMapping("/k1Stock")
-	public String stockMain(Model model) {
+	public String stockMain(Model model, HttpSession session) {
 		//재고 전체목록 List<Stock>
-		stockList = stockService.getAllStockList(null, null, mainBusinessCode);
+		stockList = stockService.getAllStockList(null, null, (String) session.getAttribute("MAINBUSINESSCODE"));
 		log.info("재고 LIST :: {}", stockList);
 		model.addAttribute("stockList", stockList);
 		
 		//사업장대표코드
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		model.addAttribute("wList", warehouseService.getAllWarehouseList(paramMap));
 		
 		model.addAttribute("SectionTitle", "재고관리");
@@ -72,7 +73,7 @@ public class StockController {
 	 * @return
 	 */
 	@PostMapping("/k1Stock")
-	public String stockMainAjax(Model model, 
+	public String stockMainAjax(Model model, HttpSession session, 
 			@RequestParam(value="types[]", required = false) List<String> types,
 			@RequestParam(value="wares[]", required = false) List<String> wares) {
 		String typeList = null;
@@ -98,7 +99,7 @@ public class StockController {
 		 * log.info("선택한 창고 목록 :: {}",wList);
 		 */
 		//재고 전체목록 List<Stock>
-		stockList = stockService.getAllStockList(typeList, wList, mainBusinessCode);
+		stockList = stockService.getAllStockList(typeList, wList, (String) session.getAttribute("MAINBUSINESSCODE"));
 		model.addAttribute("stockList", stockList);
 		
 		return "stock/ajax/stock_list_table.html";
@@ -112,12 +113,12 @@ public class StockController {
 	@GetMapping("/k1Stock/{inventoryCode}")
 	public String stockInfo(
 			@PathVariable(value="inventoryCode", required=false) String inventoryCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(inventoryCode)) return "redirect:/k1Stock";
 		
 		//재고 상세정보 조회결과
-		resultMap = stockService.getStockInfo(mainBusinessCode, inventoryCode);
+		resultMap = stockService.getStockInfo((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Stock";
 		
 		//재고 한줄정보 Stock
@@ -139,9 +140,19 @@ public class StockController {
 	 */
 	@GetMapping("/k1stockRemove")
 	@ResponseBody
-	public char stockRemoveValid(String inventoryCode) {
-		char result = stockService.stockRemoveValid(mainBusinessCode, inventoryCode);
+	public char stockRemoveValid(String inventoryCode, HttpSession session) {
+		char result = stockService.stockRemoveValid((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 		return result;
+	}
+	
+	/**
+	 * 수량·중량 0인 재고 모두 삭제
+	 */
+	@GetMapping("/k1CleanStock")
+	public String cleanStock(HttpSession session) {
+		stockService.cleanStock((String) session.getAttribute("MAINBUSINESSCODE"));
+		
+		return "redirect:/k1Stock";
 	}
 	
 	/**

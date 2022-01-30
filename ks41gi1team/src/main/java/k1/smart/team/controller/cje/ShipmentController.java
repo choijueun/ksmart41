@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,9 +25,8 @@ public class ShipmentController {
 	private final StoringService storingService;
 	private Map<String, Object> resultMap;
 	private Stock stockInfo; //재고정보
-	private Storing shipmentInfo; //출하내역
+	private Storing storingInfo; //출하내역
 	private List<Storing> shipmentList; //출하내역 배열
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private static final Logger log = LoggerFactory.getLogger(ShipmentController.class);
 	
 	/**
@@ -41,13 +42,14 @@ public class ShipmentController {
 	 * @param model
 	 */
 	@GetMapping("/k1Shipment")
-	public String shipmentMain(Model model) {
+	public String shipmentMain(Model model, HttpSession session) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		//사업장대표코드
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		paramMap.put("stockReasonCode", 5);
-		//출하내역 전체목록 List<Storing>
-		resultMap = storingService.getAllStoringList(paramMap);
-		model.addAttribute("shipmentList", resultMap.get("storingList"));
+		
+		//전체목록 List<Storing>
+		model.addAttribute("storingList", storingService.getStoringList(paramMap));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하");
@@ -63,20 +65,23 @@ public class ShipmentController {
 	@GetMapping("/k1Shipment/{stockAdjCode}")
 	public String shipmentInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Shipment";
 		
-		//출하내역 상세정보 조회결과
-		resultMap = storingService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 5);
+		//상세정보 조회
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Shipment";
 		
-		//출하내역 한줄정보 Storing
-		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
-		log.info("출하내역 INFO :: {}", shipmentInfo);
-		model.addAttribute("s", shipmentInfo);
-		//출하내역 상세정보 List<Storing>
-		model.addAttribute("shipmentDetails", resultMap.get("shipmentDetails"));
+		//한줄정보 Storing
+		model.addAttribute("s", resultMap.get("storingInfo"));
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "제품출하");
@@ -91,11 +96,11 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentAdd")
 	public String addShipment(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
-			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			stockInfo = storingService.getStockForStoring((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 			log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
@@ -125,20 +130,25 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentModify/{stockAdjCode}")
 	public String modifyShipment(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Shipment";
 		
-		//출하내역 상세정보 조회결과
-		resultMap = storingService.getShipmentInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 5);
+		//상세정보 조회결과
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Shipment";
 		
-		//출하내역 한줄정보 Storing
-		shipmentInfo = (Storing) resultMap.get("shipmentInfo");
-		log.info("창고이동내역 INFO :: {}", shipmentInfo);
-		model.addAttribute("s", shipmentInfo);
-		//출하내역 상세정보 List<Storing>
-		model.addAttribute("details", resultMap.get("shipmentDetails"));
+		//한줄정보 Storing
+		storingInfo = (Storing) resultMap.get("storingInfo");
+		log.info("출하내역 수정화면 INFO :: {}", storingInfo);
+		model.addAttribute("s", storingInfo);
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "출하내역 수정");
@@ -182,9 +192,9 @@ public class ShipmentController {
 	 * @param model
 	 */
 	@GetMapping("/k1ShipmentPlan")
-	public String shipmentPlanMain(Model model) {
+	public String shipmentPlanMain(Model model, HttpSession session) {
 		//출하계획 전체목록 List<Storing>
-		shipmentList = storingService.getShipmentPlanList(mainBusinessCode);
+		shipmentList = storingService.getShipmentPlanList((String) session.getAttribute("MAINBUSINESSCODE"));
 		log.info("출하계획 LIST :: {}", shipmentList);
 		model.addAttribute("shipmentList", shipmentList);
 		
@@ -202,18 +212,18 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentPlan/{shipmentPlanCode}")
 	public String shipmentPlanInfo(
 			@PathVariable(value="shipmentPlanCode", required=false) String shipmentPlanCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 상세정보 조회결과
-		resultMap = storingService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		resultMap = storingService.getShipmentPlanInfo((String) session.getAttribute("MAINBUSINESSCODE"), shipmentPlanCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 한줄정보 Storing
-		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
-		log.info("출하계획 INFO :: {}", shipmentInfo);
-		model.addAttribute("p", shipmentInfo);
+		storingInfo = (Storing) resultMap.get("shipPlanInfo");
+		log.info("출하계획 INFO :: {}", storingInfo);
+		model.addAttribute("p", storingInfo);
 		//출하계획 상세정보 List<Storing>
 		model.addAttribute("shipPlanDetails", resultMap.get("shipPlanDetails"));
 		
@@ -251,18 +261,18 @@ public class ShipmentController {
 	@GetMapping("/k1ShipmentPlanModify/{shipmentPlanCode}")
 	public String modifyShipmentPlan(
 			@PathVariable(value="shipmentPlanCode", required=false) String shipmentPlanCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(shipmentPlanCode)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 상세정보 조회결과
-		resultMap = storingService.getShipmentPlanInfo(mainBusinessCode, shipmentPlanCode);
+		resultMap = storingService.getShipmentPlanInfo((String) session.getAttribute("MAINBUSINESSCODE"), shipmentPlanCode);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ShipmentPlan";
 		
 		//출하계획 한줄정보 Storing
-		shipmentInfo = (Storing) resultMap.get("shipPlanInfo");
-		log.info("창고이동내역 INFO :: {}", shipmentInfo);
-		model.addAttribute("s", shipmentInfo);
+		storingInfo = (Storing) resultMap.get("shipPlanInfo");
+		log.info("창고이동내역 INFO :: {}", storingInfo);
+		model.addAttribute("s", storingInfo);
 		//출하계획 상세정보 List<Storing>
 		model.addAttribute("details", resultMap.get("shipPlanDetails"));
 		

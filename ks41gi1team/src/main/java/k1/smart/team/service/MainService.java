@@ -1,6 +1,5 @@
 package k1.smart.team.service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import k1.smart.team.mapper.cje.StoringMapper;
 @Service
 @Transactional
 public class MainService {
+	private Map<String, Object> resultMap;
+	
 	@Autowired
 	private StoringMapper storingMapper;
 	
@@ -20,12 +21,8 @@ public class MainService {
 	 * @param mainBusinessCode
 	 */
 	public Map<String, Object> getUnfinishedCnt(String mainBusinessCode) {
-		//map 객체 생성
-		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		resultMap.put("unfinishedDeliveryCnt", storingMapper.unfinishedDeliveryCnt(mainBusinessCode));
-		resultMap.put("unfinishedShipmentCnt", storingMapper.unfinishedShipmentCnt(mainBusinessCode));
-		resultMap.put("unfinishedReturnCnt", storingMapper.unfinishedReturnCnt(mainBusinessCode));
+		resultMap = storingMapper.unfinishedCnt(mainBusinessCode);
 		
 		return resultMap;
 	}

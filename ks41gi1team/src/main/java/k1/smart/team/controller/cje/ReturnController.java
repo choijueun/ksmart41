@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,10 +23,9 @@ import k1.smart.team.service.cje.StoringService;
 @Controller
 public class ReturnController {
 	private final StoringService storingService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
 	private Map<String, Object> resultMap;
 	private Stock stockInfo; //재고정보
-	private Storing returnInfo; //출하내역
+	private Storing storingInfo; //출하내역
 	private List<Storing> returnList; //반품처리내역 배열
 	private static final Logger log = LoggerFactory.getLogger(ReturnController.class);
 	
@@ -42,13 +43,14 @@ public class ReturnController {
 	 * @return
 	 */
 	@GetMapping("/k1Return")
-	public String returnMain(Model model) {
+	public String returnMain(Model model, HttpSession session) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", mainBusinessCode);
+		//사업장대표코드
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
 		paramMap.put("stockReasonCode", 7);
-		//반품내역 전체목록 List<Storing>
-		resultMap = storingService.getAllStoringList(paramMap);
-		model.addAttribute("returnList", resultMap.get("storingList"));
+		
+		//전체목록 List<Storing>
+		model.addAttribute("storingList", storingService.getStoringList(paramMap));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리");
@@ -65,20 +67,23 @@ public class ReturnController {
 	@GetMapping("/k1Return/{stockAdjCode}")
 	public String returnInfo(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Return";
 		
-		//반품내역 상세정보 조회결과
-		resultMap = storingService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 7);
+		//상세정보 조회
+		resultMap = storingService.getStoringInfo(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Return";
 		
-		//반품내역 한줄정보 Storing
-		returnInfo = (Storing) resultMap.get("returnInfo");
-		log.info("반품내역 INFO :: {}", returnInfo);
-		model.addAttribute("s", returnInfo);
-		//반품내역 상세정보 List<Storing>
-		model.addAttribute("returnDetails", resultMap.get("returnDetails"));
+		//한줄정보 Storing
+		model.addAttribute("s", resultMap.get("storingInfo"));
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리");
@@ -94,11 +99,11 @@ public class ReturnController {
 	@GetMapping("/k1ReturnAdd")
 	public String addReturn(
 			@RequestParam(value="inventoryCode", required = false) String inventoryCode
-			,Model model) {
+			,Model model, HttpSession session) {
 		//inventoryCode 정보를 받은 경우
 		if(!CommonUtils.isEmpty(inventoryCode)) {
 			//해당 재고 정보
-			stockInfo = storingService.getStockForStoring(mainBusinessCode, inventoryCode);
+			stockInfo = storingService.getStockForStoring((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
 			log.info("특정재고정보 INFO :: {}", stockInfo);
 			model.addAttribute("s", stockInfo);
 		}
@@ -128,20 +133,26 @@ public class ReturnController {
 	@GetMapping("/k1ReturnModify/{stockAdjCode}")
 	public String modifyReturn(
 			@PathVariable(value="stockAdjCode", required=false) String stockAdjCode
-			,Model model) {
-		//매개변수 검사
+			,Model model, HttpSession session) {
+		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Return";
 		
-		//제품생산내역 상세정보 조회결과
-		resultMap = storingService.getReturnInfo(mainBusinessCode, stockAdjCode);
+		//map생성
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("stockAdjCode", stockAdjCode);
+		paramMap.put("stockReasonCode", 7);
+		//상세정보 조회결과
+		resultMap = storingService.getStoringInfo(paramMap);
+		//여기서...redirect됐다: 왜?
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Return";
 		
-		//반품처리내역 한줄정보 Storing
-		returnInfo = (Storing) resultMap.get("returnInfo");
-		log.info("자재사용내역 INFO :: {}", returnInfo);
-		model.addAttribute("s", returnInfo);
-		//반품처리내역 상세정보 List<Storing>
-		model.addAttribute("details", resultMap.get("returnDetails"));
+		//한줄정보 Storing
+		storingInfo = (Storing) resultMap.get("storingInfo");
+		log.info("반품내역 수정화면 INFO :: {}", storingInfo);
+		model.addAttribute("s", storingInfo);
+		//상세정보 List<Storing>
+		model.addAttribute("details", resultMap.get("storingDetails"));
 		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "반품처리내역 수정");
@@ -183,9 +194,9 @@ public class ReturnController {
 	 * @return
 	 */
 	@GetMapping("/k1ReturnReg")
-	public String returnRegMain(Model model) {
+	public String returnRegMain(Model model, HttpSession session) {
 		//반품요청내역 전체목록 List<Storing>
-		returnList = storingService.getReturnRegList(mainBusinessCode);
+		returnList = storingService.getReturnRegList((String) session.getAttribute("MAINBUSINESSCODE"));
 		log.info("반품요청내역 LIST :: {}", returnList);
 		model.addAttribute("returnRegList", returnList);
 		
@@ -211,9 +222,9 @@ public class ReturnController {
 		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1ReturnReg";
 
 		//반품요청내역 한줄정보 Storing
-		returnInfo = (Storing) resultMap.get("returnRegInfo");
-		log.info("반품요청내역 INFO :: {}", returnInfo);
-		model.addAttribute("r", returnInfo);
+		storingInfo = (Storing) resultMap.get("returnRegInfo");
+		log.info("반품요청내역 INFO :: {}", storingInfo);
+		model.addAttribute("r", storingInfo);
 		//반품요청내역 상세정보 List<Storing>
 		model.addAttribute("returnRegDetails", resultMap.get("returnRegDetails"));
 		

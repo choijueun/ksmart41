@@ -10,6 +10,9 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript">
 $(function(){
+	/****************************
+				객체정의
+	****************************/
 	//Toast
 	var Toast = Swal.mixin({
 		toast: true,
@@ -17,22 +20,43 @@ $(function(){
 		showConfirmButton: false,
 		timer: 3000
 	});
+	//품목분류 체크박스
+	var inputType = $('#checkAjax .itemType input[type="checkbox"]');
+	//창고목록 체크박스
+	var inputWare = $('#checkAjax .warehouse input[type="checkbox"]');
+	//테이블 넣을 공간
+	var ajaxTable = $('#ajaxTable');
+	//Modal
+	var Modal = $('#Modal'); //모달창
+	var modalTitle = $('.modal-title'); //모달제목
+	var modalBody = $('.modal-body'); //모달본문
+	var cleanStock = $('#cleanStock'); //수량중량 0인 재고 정리버튼
+		
 	
+	/****************************
+				플러그인
+	****************************/
 	//DataTables
-    $('#stockList').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-		"columnDefs": [{    
-			orderable: false,
-			targets: [0, 9]
-		}]
-	});
+	if ($('#stockList tr.empty').length == 0) {
+	    $('#stockList').DataTable({
+	        "paging": true,
+	        "lengthChange": false,
+	        "searching": true,
+	        "ordering": true,
+	        "info": true,
+	        "autoWidth": false,
+	        "responsive": true,
+			"columnDefs": [{    
+				orderable: false,
+				targets: [0, 9]
+			}]
+		});
+	}
 	
+	
+	/****************************
+				자동화
+	****************************/
 	//allCheck
 	var chkbox = $('input[type="checkbox"]');
 	$(document).on('click', '#allCheck', function(){
@@ -42,35 +66,42 @@ $(function(){
 			chkbox.prop("checked", false);
 		}
 	});
+	//재고정리 확인 모달
+	$(document).on('click', '.cleanBtn', function(){
+		modalTitle.text('재고 정리');
+		modalBody.html('<p>수량 및 중량이 0인 재고정보가 모두 삭제됩니다.</p> <p>정말 삭제하시겠습니까?</p>');
+		cleanStock.attr('style', null);
+	});
 	
-	//Modal
-	var stockModifyModal = $('#stockModifyModal');
+	//수량·중량 0인 재고 일괄 삭제
+	$(document).on('click', '#cleanStock', function(){
+		location.href='/k1CleanStock';
+	});
+	
+
+	/****************************
+				Ajax
+	****************************/
 	//Modal SHOW
 	$(document).on('click', '.modalBtn', function(){
-		var request = $.ajax({
+		$.ajax({
 			url: "/stockModifyModal?inventoryCode="+$(this).attr('data-inventoryCode'),
 			method: "GET",
 			dataType: "html"
-		});
-		 
-		request.done(function( data ) {
-			stockModifyModal.find('.modal-body').html(data);
-		});
-		 
-		request.fail(function( jqXHR, textStatus ) {
+		})
+		.done(function( data ) {
+			modalTitle.text('물류이동내역 등록');
+			cleanStock.attr('style', 'display:none;');
+			modalBody.html(data);
+		})
+		.fail(function( jqXHR, textStatus ) {
 			Toast.fire({
-				icon: 'error',
+				icon: 'warning',
 				title: "Request failed: " + textStatus
 			});
 		});
 	});
 	
-	//품목분류 체크박스
-	var inputType = $('#checkAjax .itemType input[type="checkbox"]');
-	//창고목록 체크박스
-	var inputWare = $('#checkAjax .warehouse input[type="checkbox"]');
-	//테이블 넣을 공간
-	var ajaxTable = $('#ajaxTable');
 	//체크박스 Ajax
 	$(document).on('change', '#checkAjax', function(){
 		var types = [];
@@ -86,13 +117,13 @@ $(function(){
 			}
 		});
 		//console.log(types, wares);
-		var request = $.ajax({
+		$.ajax({
 			url: "/k1Stock",
 			data: {'types':types, 'wares':wares},
 			method: "POST",
 			dataType: "html"
-		});
-		request.done(function(data){
+		})
+		.done(function(data){
 			ajaxTable.html(data);
 			if ($('#stockList tr.empty').length == 0) {
 				//body에 정보를 불러온 경우
@@ -110,10 +141,10 @@ $(function(){
 					}]
 				});
 			}
-		});
-		request.fail(function(jqXHR, textStatus) {
+		})
+		.fail(function(jqXHR, textStatus) {
 			Toast.fire({
-				icon: 'error',
+				icon: 'warning',
 				title: "Request failed: " + textStatus
 			});
 		});
@@ -201,28 +232,29 @@ $(function(){
 							<td>[[${l.comment}]]</td>
 							<td>[[${l.status}]]</td>
 							<td class="text-center">
-								<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#stockModifyModal"
+								<button type="button" class="btn btn-info btn-sm modalBtn" data-toggle="modal" data-target="#Modal"
 										th:data-inventoryCode="${l.inventoryCode}">
 									<i class="fas fa-pen"></i>
 								</button>
 							</td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(stockList)}">
+						<tr th:if="${#lists.isEmpty(stockList)}" class="empty">
 							<td colspan="9">
 								재고 정보가 없습니다.
 							</td>
 						</tr>
 					</tbody>
 				</table>
+				<button type="button" class="btn btn-danger cleanBtn" data-toggle="modal" data-target="#Modal">정리</button>
 			</div>
 		</div>
 	</div>
 	
-	<div class="modal fade" id="stockModifyModal" style="display: none;" aria-hidden="true">
+	<div class="modal fade" id="Modal" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header text-center">
-					<h5 class="modal-title">물류이동</h5>
+					<h5 class="modal-title"></h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -232,6 +264,7 @@ $(function(){
 				</div>
 				<div class="modal-footer justify-content-between">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button type="button" id="cleanStock" class="btn btn-danger">삭제</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

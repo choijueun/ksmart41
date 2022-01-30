@@ -16,13 +16,14 @@
 			<th>소소</th>
 			<th>원산지</th>
 			<th>비고</th>
-			<th>상태</th>
 			<th class="text-center">수정</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr th:if="${not #lists.isEmpty(itemList)}" th:each="l : ${itemList}">
-			<td class="text-center"><input type="checkbox"></td>
+			<td class="text-center">
+				<input type="checkbox" name="itemCode" th:value="${l.itemCode}">
+			</td>
 			<td>
 				<a th:href="@{|/k1Item/${l.itemCode}|}">
 					[[${l.itemCode}]]
@@ -39,8 +40,8 @@
 			<td>[[${l.smallCategory}]]</td>
 			<td>[[${l.microCategory}]]</td>
 			<td>[[${l.itemOrigin}]]</td>
-			<td>[[${l.itemStatus}]]</td>
 			<td>[[${l.itemComment}]]</td>
+			<td style="display: none;" class="itemStatusChk">[[${l.itemStatus}]]</td>
 			<td class="text-center">
 				<a th:href="@{|/k1ItemModify/${l.itemCode}|}">
 					<button type="button" class="btn btn-info btn-sm">
