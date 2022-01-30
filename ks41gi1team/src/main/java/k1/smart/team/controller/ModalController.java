@@ -20,8 +20,6 @@ public class ModalController {
 	private List<Slip> salesTransactionList;
 	private List<Slip> purchaseTransactionList;
 	
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
-	
 	/**
 	 * 생성자 메서드
 	 * @param modalService
