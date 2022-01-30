@@ -16,6 +16,7 @@ import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.Contract;
 import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.mapper.cje.ItemMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 import k1.smart.team.mapper.csh.ClientMapper;
@@ -23,6 +24,7 @@ import k1.smart.team.mapper.csh.UserMapper;
 import k1.smart.team.mapper.pjh.SlipMapper;
 import k1.smart.team.mapper.psb.ContractMapper;
 import k1.smart.team.mapper.psb.MaterialOrderMapper;
+import k1.smart.team.mapper.psb.ProductOrderMapper;
 
 @Service
 @Transactional
@@ -31,6 +33,8 @@ public class ModalService {
 	private SlipMapper slipMapper;
 	@Autowired
 	private MaterialOrderMapper materialOrderMapper;
+	@Autowired
+	private ProductOrderMapper productOrderMapper;
 	@Autowired
 	private ClientMapper clientMapper;
 	@Autowired
@@ -82,6 +86,14 @@ public class ModalService {
 	 */
 	public List<MaterialOrderInfo> getMaterialOrderDetailList(String mainBusinessCode, String materialOrderCode) {
 		return materialOrderMapper.getMaterialOrderInfoList(mainBusinessCode, materialOrderCode);
+	}
+	
+	/**
+	 * 수주내역 전체목록
+	 * @param mainBusinessCode
+	 */
+	public List<ProductOrder> getProductOrderList(String mainBusinessCode) {
+		return productOrderMapper.getAllProductOrderList(mainBusinessCode);
 	}
 	
 	/**
