@@ -28,20 +28,20 @@ $(function(){
 		timer: 3000
 	});
 	//form 객체
-	var modifyShipmentPlan = $('#modifyShipmentPlan');
+	var addShipmentPlan = $('#addShipmentPlan');
 	//input 객체 - 한줄내역
 	var clientCode = $('#clientCode'); //거래처코드
 	var businessName = $('#businessName'); //거래처명
 	var productOrderCode = $('#productOrderCode'); //자재발주코드
 	var contractCode = $('#contractCode'); //계약코드
-	var receiveAddr = $('#receiveAddr'); //받는창고
+	var receiveAddr = $('#receiveAddr'); //주소
 	var totalWeight = $('#totalWeight'); //합계중량
 	var totalPrice = $('#totalPrice'); //합계금액
-	var itemListInput = $('#itemListInput'); //자재목록
+	var itemListInput = $('#itemListInput'); //제품목록
 	var briefs = $('#briefs'); //적요
 	var managerId = $('#managerId'); //담당자ID
 	var managerName = $('#managerName'); //담당자이름
-	var planDate = $('#planDate'); //계획일자
+	var planDate = $('#planDate input'); //계획일자
 	//상세내역
 	var details = $('#details'); //상세구역
 	var detailrow = $('#details .row:first-of-type'); //한줄
@@ -54,20 +54,6 @@ $(function(){
 	/****************************
 				자동화
 	****************************/
-	//날짜입력칸에 현재날짜 default
-	var dateObj = new Date();
-	var dateToday = dateObj.getFullYear()+'-';//연
-	if(dateObj.getMonth()+1<10){
-		dateToday += '0';
-	}
-	dateToday += dateObj.getMonth()+1;//월
-	dateToday += '-';
-	if(dateObj.getDate()<10){
-		dateToday += '0';
-	}
-	dateToday += dateObj.getDate();//일
-	$('.date').find('input').val(dateToday);
-	
 	//품목 목록 join string
 	var getItemList = function(){
 		var itemNames = [];
@@ -122,6 +108,10 @@ $(function(){
 	$(document).on('keyup', 'input[name="itemWeight"], input[name="itemCount"], input[name="unitPrice"]', function(){
 		getTotals();
 	});
+	
+	//실행
+	getItemList();
+	getTotals();
 
 	
 	/****************************
@@ -215,7 +205,6 @@ $(function(){
 		clientCode.val(null);
 		businessName.val(null);
 		//ajax
-		/*
 		$.ajax({
 			url: "/productOrderListModal",
 			method: "GET",
@@ -246,7 +235,6 @@ $(function(){
 				title: "Request failed: " + textStatus
 			});
 		});
-		*/
 	});
 	
 	//회원정보 Modal
@@ -338,12 +326,11 @@ $(function(){
 		var row = $(this).parents('#details .row');
 		//초기화
 		$('#details .row').removeClass('pickIForm'); //pick표시 해제
-		row.find('input[name="salesTsCode"]').val(null); //비용 거래명세서 코드
+		row.find('input[name="salesTsCode"]').val(null); //매출 거래명세서 코드
 		row.find('input[name="unitPrice"]').val(null); //자재단가
 		//pick표시
 		row.addClass('pickIForm');
 		//ajax
-		/*
 		$.ajax({
 			url: "/sSlipListByItemModal",
 			method: "GET",
@@ -375,7 +362,6 @@ $(function(){
 				title: "Request failed: " + textStatus
 			});
 		});
-		*/
 	});
 	
 	/****************************
@@ -385,21 +371,23 @@ $(function(){
 	$(document).on('click', '#clientList .selectBtn', function(){
 		clientCode.val($(this).parents('tr').children().eq(0).text()); //거래처코드
 		businessName.val($(this).parents('tr').children().eq(2).text()); //거래처명
+		receiveAddr.val($(this).parents('tr').children().eq(7).text()); //주소
 		modalObj.modal('hide');
 	});
-	//자재발주내역
-	$(document).on('click', '#materialOrderList .selectBtn', function(){
+	//제품수주내역
+	$(document).on('click', '#productOrderList .selectBtn', function(){
 		productOrderCode.val($(this).parents('tr').children().eq(0).text()); //자재발주코드
 		contractCode.val($(this).parents('tr').children().eq(1).text()); //계약코드
 		clientCode.val($(this).parents('tr').children().eq(2).text()); //거래처코드
 		businessName.val($(this).parents('tr').children().eq(3).text()); //거래처명
-		briefs.val($(this).parents('tr').children().eq(7).text()); //적요
+		briefs.val($(this).parents('tr').children().eq(6).text()); //적요
+		managerId.val($(this).parents('tr').children().eq(7).text()); //적요
+		managerName.val($(this).parents('tr').children().eq(8).text()); //주문일자
 		planDate.val($(this).parents('tr').children().eq(9).text()); //주문일자
 		modalObj.modal('hide');
 		
 		//품목 목록 자동입력
 		//ajax
-		/*
 		$.ajax({
 			url: "/productOrderDetailListModal",
 			method: "GET",
@@ -410,15 +398,15 @@ $(function(){
 			//console.log(data[0]);
 			//상세내역 폼 삭제
 			$('#details .row').remove();
-			//List<productOrderInfo> 반복문
+			//List<ProductOrder> 반복문
 			$(data).each(function(i, obj){
 				//상세내역 폼 추가
 				var clone = detailrow.clone();
 				clone.find('input').val(null);
 				clone.find('input[name="itemCode"]').val(data[i]['itemCode']); //품목코드
 				clone.find('input[name="itemName"]').val(data[i]['itemName']); //품목명
-				clone.find('input[name="unitPrice"]').val(data[i]['itemPrice']); //비용
-				clone.find('input[name="itemCount"]').val(data[i]['itemCount']); //수량
+				clone.find('input[name="unitPrice"]').val(data[i]['productPrice']); //비용
+				clone.find('input[name="itemCount"]').val(data[i]['productCount']); //수량
 				clone.find('input[name="comment"]').val(data[i]['comment']); //비고
 				details.append(clone);
 			});
@@ -433,7 +421,6 @@ $(function(){
 				title: "Request failed: " + textStatus
 			});
 		});
-		*/
 	});
 	//계약내역
 	$(document).on('click', '#contractList .selectBtn', function(){
@@ -464,8 +451,8 @@ $(function(){
 	$(document).on('click', '#sSlipListByItem .selectBtn', function(){
 		var row = $('#details .row.pickIForm'); //표시한 row
 		row.children().find('input[name="salesTsCode"]').val($(this).parents('tr').children().eq(0).text())
-		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(5).text())
-		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(6).text())
+		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(3).text())
+		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(4).text())
 		modalObj.modal('hide');
 		//중량 및 금액 계산
 		getTotals();
@@ -485,50 +472,7 @@ $(function(){
 	//데이터 전송
 	$(document).on('click', '#submitBtn', function(){
 		//유효성 검사
-		var chk = 0;
-		if( clientCode.val() == null || clientCode.val() == '' ) {
-			chk += 1;
-		}else if( receiveWarehouse.val() == null || receiveWarehouse.val() == '' ) {
-			chk += 1;
-		}else if( managerId.val() == null || managerId.val() == '' ) {
-			chk += 1;
-		}else if( totalWeight.val() == null || totalWeight.val() == 0 ) {
-			chk += 1;
-		}else if( totalPrice.val() == null || totalPrice.val() == 0 ) {
-			chk += 1;
-		}
-		$('#details .row').each(function(i, obj){
-			var rowCode = $(obj).find('input[name="itemCode"]');
-			var rowPrice = $(obj).find('input[name="unitPrice"]');
-			var rowCount = $(obj).find('input[name="itemCount"]');
-			var rowWeight = $(obj).find('input[name="itemWeight"]');
-			if(rowCode.val() == null || rowCode.val() == ''
-					|| rowPrice.val() == null || rowPrice.val() == '' || rowPrice.val() == 0
-					|| rowCount.val() == null || rowCount.val() == '' || rowCount.val() == 0
-					|| rowWeight.val() == null || rowWeight.val() == '' || rowWeight.val() == 0) {
-				chk += 1;
-				return false;
-			}
-		});
-		if(chk > 0) {
-			Toast.fire({
-				icon: 'error',
-				title: '필수 작성 요소를 기입해주세요'
-			});
-		}else {
-			//중량 및 금액 계산
-			getTotals();
-			//List<Stock> s
-			$('#details .row').each(function(i, row){
-			    $(row).find('input[name]').each(function(j, obj){
-			    	$(obj).attr('name', 's['+i+'].'+$(obj).attr('data-details')).attr('name');
-			    });
-			});
-			//데이터 전송
-			modifyShipmentPlan.submit();
-		}
 	});
-	
 });
 </script>
 </th:block>
@@ -540,7 +484,7 @@ $(function(){
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<form id="modifyShipmentPlan"th:action="@{/k1ShipmentPlanModify}" method="POST">
+	<form id="addShipmentPlan"th:action="@{/k1ShipmentPlanAdd}" method="POST">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>
@@ -548,7 +492,7 @@ $(function(){
 				<!-- 제품수주내역 간략(공통)정보 입력칸 -->
 				<div class="card card-info card-outline mb-4">
 					<div class="card-header">
-						<h3 class="card-title">제품수주내역  등록</h3>
+						<h3 class="card-title">출하계획 수정</h3>
 					</div>
 					<div class="card-body">
 						<div class="row">
@@ -556,21 +500,21 @@ $(function(){
 								<label for="clientCode">
 									거래처
 								</label>
-								<input type="hidden" id="clientCode" name="clientCode">
-								<input type="text" id="businessName" class="form-control" placeholder="거래처 상호">
+								<input type="hidden" id="clientCode" th:value="${s.clientCode}" name="clientCode">
+								<input type="text" id="businessName" th:value="${s.businessName}" class="form-control" placeholder="거래처 상호">
 							</div>
 							<!-- 제품수주내역 선택시 거래처/계약서 자동선택. 거래처 선택시 제품수주내역/계약서 씻음 -->
 							<div class="form-group col-lg-3 col-sm-6">
 								<label for="productOrderCode">
 									제품수주내역
 								</label>
-								<input type="text" id="productOrderCode" name="productOrderCode" class="form-control">
+								<input type="text" id="productOrderCode" th:value="${s.productOrderCode}" name="productOrderCode" class="form-control">
 							</div>
 							<div class="form-group col-lg-3 col-sm-6">
 								<label for="contractCode">
 									계약내역
 								</label>
-								<input type="text" id="contractCode" name="contractCode" class="form-control">
+								<input type="text" id="contractCode" th:value="${s.contractCode}" name="contractCode" class="form-control">
 							</div>
 						</div>
 						<div class="row">
@@ -578,14 +522,13 @@ $(function(){
 								<label for="receiveAddr">
 									주소
 								</label>
-								<input type="text" id="receiveAddr" 
-										th:value="${s == null} ? null : ${s.receiveAddr}" class="form-control" placeholder="주소">
+								<input type="text" id="receiveAddr" th:value="${s.receiveAddr}" class="form-control" placeholder="주소">
 							</div>
 							<div class="form-group col-md-4">
 								<label for="totalWeight">
 									합계중량
 								</label>
-								<input type="number" id="totalWeight" class="form-control" readonly>
+								<input type="number" id="totalWeight" th:value="${s.totalWeight}" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="row">
@@ -599,7 +542,7 @@ $(function(){
 								<label for="totalPrice">
 									합계금액
 								</label>
-								<input type="text" id="totalPrice" class="form-control" readonly>
+								<input type="text" id="totalPrice" th:value="${s.totalPrice}" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="row">
@@ -607,19 +550,19 @@ $(function(){
 								<label for="briefs">
 									적요
 								</label>
-								<input type="text" id="briefs" name="briefs" class="form-control" placeholder="적요를 입력하세요.">
+								<input type="text" id="briefs" th:value="${s.briefs}" name="briefs" class="form-control" placeholder="적요를 입력하세요.">
 							</div>
 							<div class="form-group col-lg-4">
 								<label for="managerId">
 									담당자
 								</label>
-								<input type="hidden" id="managerId" name="managerId" class="form-control">
-								<input type="text" id="managerName" class="form-control" placeholder="담당자">
+								<input type="hidden" id="managerId" th:value="${s.managerId}" name="managerId" class="form-control">
+								<input type="text" id="managerName" th:value="${s.managerName}" class="form-control" placeholder="담당자">
 							</div>
 							<div class="form-group col-lg-4">
 								<label>계획일자</label>
 								<div class="input-group date" id="planDate" data-target-input="nearest">
-									<input type="text" name="planDate" class="form-control datetimepicker-input" data-target="#planDate">
+									<input type="text" name="planDate" th:value="${s.sendPlanDate}" class="form-control datetimepicker-input" data-target="#planDate">
 									<div class="input-group-append" data-target="#planDate" data-toggle="datetimepicker">
 										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 									</div>
@@ -628,10 +571,10 @@ $(function(){
 						</div>
 					</div>
 					<div class="card-footer">
-						<a th:href="@{/k1Warehousing}">
+						<a th:href="@{/k1ShipmentPlan}">
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
-						<button type="button" id="submitBtn" class="btn btn-info float-right mr-2">등록하기</button>
+						<button type="button" id="submitBtn" class="btn btn-info float-right mr-2">수정하기</button>
 					</div>
 				</div>
 			</div>
@@ -643,24 +586,51 @@ $(function(){
 				<!-- 출하계획 상세(품목)정보 입력칸 -->
 				<div class="card card-info card-outline mb-3">
 					<div class="card-header">
-						<h3 class="card-title">출하계획 상세내역  등록</h3>
+						<h3 class="card-title">출하계획 상세내역  수정</h3>
 					</div>
 					<div id="details" class="card-body">
-						<div class="row">
+						<div class="row" th:unless="${#lists.isEmpty(details)}" th:each="d : ${details}">
 							<!-- 1 row = 1 item -->
 							<div class="form-group float-left ml-2">
 								<label>품목명</label>
-								<input type="hidden" name="itemCode"
-										th:value="${s == null} ? null : ${s.itemCode}" data-details="itemCode">
-								<input type="text" name="itemName" class="form-control" placeholder="품목명"
-										th:value="${s == null} ? null : ${s.itemName}">
+								<input type="hidden" name="itemCode" th:value="${d.itemCode}" data-details="itemCode">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명" th:value="${d.itemName}">
 							</div>
 							<div class="form-group float-left ml-2">
-								<label>비용</label>
-								<input type="hidden" name="salesTsCode" 
-										th:value="${s == null} ? null : ${s.salesTsCode}" data-details="salesTsCode">
-								<input type="number" name="unitPrice" class="form-control"
-								th:value="${s == null} ? null : ${s.unitPrice}" data-details="unitPrice">
+								<label>단가</label>
+								<input type="hidden" name="salesTsCode" data-details="salesTsCode">
+								<input type="number" name="unitPrice" class="form-control" th:value="${d.unitPrice}" data-details="unitPrice">
+							</div>
+							<div class="form-group float-left ml-2">
+								<label>수량</label>
+								<input type="number" name="itemCount" class="form-control" th:value="${d.adjCount}" data-details="itemCount">
+							</div>
+							<div class="form-group float-left ml-2">
+								<label>중량</label>
+								<input type="number" name="itemWeight" class="form-control" th:value="${d.adjWeight}" data-details="itemWeight">
+							</div>
+							<div class="form-group float-left ml-2">
+								<label>비고</label>
+								<input type="text" name="comment" class="form-control" th:value="${d.comment}" placeholder="비고" data-details="comment">
+							</div>
+							<!-- 해당 row 삭제 버튼 -->
+							<div class="form-group ml-2">
+								<button type="button" class="btn btn-danger btn-sm float-right removeLine" style="margin-top:2.5em;">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</div>
+						</div>
+						<div class="row" th:if="${#lists.isEmpty(details)}">
+							<!-- 1 row = 1 item -->
+							<div class="form-group float-left ml-2">
+								<label>품목명</label>
+								<input type="hidden" name="itemCode" data-details="itemCode">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명">
+							</div>
+							<div class="form-group float-left ml-2">
+								<label>단가</label>
+								<input type="hidden" name="salesTsCode" data-details="salesTsCode">
+								<input type="number" name="unitPrice" class="form-control" data-details="unitPrice">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>수량</label>
@@ -672,8 +642,7 @@ $(function(){
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>비고</label>
-								<input type="text" name="comment" class="form-control" placeholder="비고"
-										th:value="${s == null} ? null : ${s.comment}" data-details="comment">
+								<input type="text" name="comment" class="form-control" placeholder="비고" data-details="comment">
 							</div>
 							<!-- 해당 row 삭제 버튼 -->
 							<div class="form-group ml-2">

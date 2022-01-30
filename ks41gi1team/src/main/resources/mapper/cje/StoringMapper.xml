@@ -480,6 +480,9 @@
 		,sp.receiveAddr
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
+		,sp.totalCount
+		,sp.totalWeight
+		,sp.totalPrice
 		,sp.managerId
 		,sp.managerName
 		,sp.regDate
