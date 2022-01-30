@@ -131,9 +131,20 @@ public class ModalController {
 	 * @param model
 	 */
 	@GetMapping(value="/pSlipListByItemModal", produces="application/json")
-	public String pSlipByItem(String itemCode, Model model, HttpSession session) {
-		model.addAttribute("pSlipListByItem", modalService.getPSlipByItem(itemCode, (String) session.getAttribute("MAINBUSINESSCODE")));
+	public String pSlipByItem(String itemCode, Model model) {
+		model.addAttribute("pSlipListByItem", modalService.getPSlipByItem(itemCode));
 		return "modal/p_slip_list_by_item";
+	}
+	
+	/**
+	 * AJAX :: 특정 품목이 포함된 비용 비용명세서 목록 조회
+	 * @param itemCode
+	 * @param model
+	 */
+	@GetMapping(value="/sSlipListByItemModal", produces="application/json")
+	public String sSlipByItem(String itemCode, Model model) {
+		model.addAttribute("sSlipListByItem", modalService.getSSlipByItem(itemCode));
+		return "modal/s_slip_list_by_item";
 	}
 	
 	/**

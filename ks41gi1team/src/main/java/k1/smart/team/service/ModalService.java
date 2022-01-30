@@ -111,6 +111,7 @@ public class ModalService {
 	public List<Stock> getItemList(String mainBusinessCode) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mainBusinessCode", mainBusinessCode);
+		paramMap.put("includeN", "INCLUDE");
 		return itemMapper.getAllItemList(paramMap);
 	}
 	
@@ -128,8 +129,16 @@ public class ModalService {
 	 * 특정품목의 비용 거래명세서 조회
 	 * @param itemCode
 	 */
-	public List<Slip> getPSlipByItem(String itemCode, String mainBusinessCode){
-		return slipMapper.getPSlipByItem(itemCode, mainBusinessCode);
+	public List<Slip> getPSlipByItem(String itemCode){
+		return slipMapper.getPSlipByItem(itemCode);
+	}
+	
+	/**
+	 * 특정품목의 매출 거래명세서 조회
+	 * @param itemCode
+	 */
+	public List<Slip> getSSlipByItem(String itemCode){
+		return slipMapper.getSSlipByItem(itemCode);
 	}
 	
 	public List<Slip> salesTransactionList() {

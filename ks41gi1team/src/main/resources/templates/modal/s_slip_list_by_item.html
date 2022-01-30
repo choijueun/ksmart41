@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+	<table id="sSlipListByItem" class="table table-bordered table-hover dataTable dtr-inline">
+		<thead>
+			<tr>
+				<th class="txt-center">No.</th>
+				<th>거래처</th>
+				<th>적요</th>
+				<th>수량</th>
+				<th>단가</th>
+				<th>합계금액</th>
+				<th>등록일자</th>
+				<th class="text-center">선택</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:unless="${#lists.isEmpty(sSlipListByItem)}" th:each="l : ${sSlipListByItem}">
+				<td class="txt-center">[[${l.salesTsCode}]]</td>
+				<td>[[${l.businessName}]]</td>
+				<td>[[${l.briefs}]]</td>
+				<td>[[${l.count}]]</td>
+				<td>[[${l.amount}]]</td>
+				<td>[[${l.totalPrice}]]</td>
+				<td>[[${l.regDate}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr th:if="${#lists.isEmpty(sSlipListByItem)}" class="empty">
+				<td colspan="2" style="display: none;">단가</td>
+				<td colspan="9">비용 거래명세서 정보를 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table mt-3">
+		<tr>
+			<th class="text-right pt-3">단가 임의지정</th>
+			<td>
+				<input type="number" class="form-control float-left" id="setUnitPrice" placeholder="임의 입력">
+			</td>
+			<td>
+				<button type="button" class="btn btn-sm btn-outline-info mt-1 setUnitPrice">적용</button>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

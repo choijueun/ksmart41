@@ -336,12 +336,11 @@ $(function(){
 		var row = $(this).parents('#details .row');
 		//초기화
 		$('#details .row').removeClass('pickIForm'); //pick표시 해제
-		row.find('input[name="salesTsCode"]').val(null); //비용 거래명세서 코드
+		row.find('input[name="salesTsCode"]').val(null); //매출 거래명세서 코드
 		row.find('input[name="unitPrice"]').val(null); //자재단가
 		//pick표시
 		row.addClass('pickIForm');
 		//ajax
-		/*
 		$.ajax({
 			url: "/sSlipListByItemModal",
 			method: "GET",
@@ -373,7 +372,6 @@ $(function(){
 				title: "Request failed: " + textStatus
 			});
 		});
-		*/
 	});
 	
 	/****************************
@@ -463,8 +461,8 @@ $(function(){
 	$(document).on('click', '#sSlipListByItem .selectBtn', function(){
 		var row = $('#details .row.pickIForm'); //표시한 row
 		row.children().find('input[name="salesTsCode"]').val($(this).parents('tr').children().eq(0).text())
-		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(5).text())
-		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(6).text())
+		row.children().find('input[name="itemCount"]').val($(this).parents('tr').children().eq(3).text())
+		row.children().find('input[name="unitPrice"]').val($(this).parents('tr').children().eq(4).text())
 		modalObj.modal('hide');
 		//중량 및 금액 계산
 		getTotals();
