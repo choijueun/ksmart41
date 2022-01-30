@@ -6,10 +6,14 @@
 		<thead>
 			<tr>
 				<th class="text-center">No.</th>
+				<th style="display: none;"></th>
+				<th style="display: none;"></th>
 				<th>거래처명</th>
 				<th>전체수량</th>
 				<th>합계금액</th>
 				<th>적요</th>
+				<th style="display: none;"></th>
+				<th style="display: none;"></th>
 				<th>주문일자</th>
 				<th class="text-center">선택</th>
 			</tr>
@@ -24,6 +28,7 @@
 				<td>[[${l.totalPrice}]]</td>
 				<td>[[${l.briefs}]]</td>
 				<td style="display: none;">[[${l.managerId}]]</td>
+				<td style="display: none;">[[${l.managerName}]]</td>
 				<td>[[${l.productOrderDate}]]</td>
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>

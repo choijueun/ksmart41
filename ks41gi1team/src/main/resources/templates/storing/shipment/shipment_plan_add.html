@@ -386,19 +386,20 @@ $(function(){
 		receiveAddr.val($(this).parents('tr').children().eq(7).text()); //주소
 		modalObj.modal('hide');
 	});
-	//자재발주내역
-	$(document).on('click', '#materialOrderList .selectBtn', function(){
+	//제품수주내역
+	$(document).on('click', '#productOrderList .selectBtn', function(){
 		productOrderCode.val($(this).parents('tr').children().eq(0).text()); //자재발주코드
 		contractCode.val($(this).parents('tr').children().eq(1).text()); //계약코드
 		clientCode.val($(this).parents('tr').children().eq(2).text()); //거래처코드
 		businessName.val($(this).parents('tr').children().eq(3).text()); //거래처명
-		briefs.val($(this).parents('tr').children().eq(7).text()); //적요
+		briefs.val($(this).parents('tr').children().eq(6).text()); //적요
+		managerId.val($(this).parents('tr').children().eq(7).text()); //적요
+		managerName.val($(this).parents('tr').children().eq(8).text()); //주문일자
 		planDate.val($(this).parents('tr').children().eq(9).text()); //주문일자
 		modalObj.modal('hide');
 		
 		//품목 목록 자동입력
 		//ajax
-		/*
 		$.ajax({
 			url: "/productOrderDetailListModal",
 			method: "GET",
@@ -409,15 +410,15 @@ $(function(){
 			//console.log(data[0]);
 			//상세내역 폼 삭제
 			$('#details .row').remove();
-			//List<productOrderInfo> 반복문
+			//List<ProductOrder> 반복문
 			$(data).each(function(i, obj){
 				//상세내역 폼 추가
 				var clone = detailrow.clone();
 				clone.find('input').val(null);
 				clone.find('input[name="itemCode"]').val(data[i]['itemCode']); //품목코드
 				clone.find('input[name="itemName"]').val(data[i]['itemName']); //품목명
-				clone.find('input[name="unitPrice"]').val(data[i]['itemPrice']); //비용
-				clone.find('input[name="itemCount"]').val(data[i]['itemCount']); //수량
+				clone.find('input[name="unitPrice"]').val(data[i]['productPrice']); //비용
+				clone.find('input[name="itemCount"]').val(data[i]['productCount']); //수량
 				clone.find('input[name="comment"]').val(data[i]['comment']); //비고
 				details.append(clone);
 			});
@@ -432,7 +433,6 @@ $(function(){
 				title: "Request failed: " + textStatus
 			});
 		});
-		*/
 	});
 	//계약내역
 	$(document).on('click', '#contractList .selectBtn', function(){

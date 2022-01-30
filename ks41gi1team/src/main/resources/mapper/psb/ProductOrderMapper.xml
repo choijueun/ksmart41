@@ -31,11 +31,12 @@
 <select id="getProductOrderInfoList" parameterType="String" resultType="ProductOrder">
 SELECT 
 	pod.productOrderOngoingCode
+	,RIGHT(pod.itemCode, 3) AS itemCode
 	,pod.itemName
 	,pod.productCount
 	,pod.productPrice
 	,pod.productShipmentDate
-	,pod.`COMMENT`
+	,pod.`comment`
 FROM
 	k1_view_product_order_detail AS pod
 WHERE 
@@ -115,7 +116,7 @@ ORDER BY
 		RIGHT(po.productOrderCode,3) as productOrderCode,
 		po.mainBusinessCode,
 		mb.businessName,
-		po.contractCode,
+		RIGHT(po.contractCode,3) AS contractCode,
 		po.clientCode,
 		po.clientBusinessName,
 		po.`status`,

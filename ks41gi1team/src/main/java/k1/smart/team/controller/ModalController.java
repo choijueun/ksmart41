@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import k1.smart.team.common.CommonUtils;
 import k1.smart.team.dto.pjh.Slip;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
+import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.service.ModalService;
 
 @Controller
@@ -87,12 +88,21 @@ public class ModalController {
 	}
 	
 	/**
-	 * 제품수주내역 전체목록 조회
+	 * AJAX :: 제품수주내역 전체목록 조회
 	 */
 	@GetMapping(value="/productOrderListModal",  produces="application/json")
 	public String productOrderListModal(Model model, HttpSession session) {
 		model.addAttribute("productOrderList", modalService.getProductOrderList((String) session.getAttribute("MAINBUSINESSCODE")));
 		return "modal/product_order_list";
+	}
+	/**
+	 * AJAX :: 제품수주 상세(품목 목록) 조회
+	 */
+	@GetMapping(value="/productOrderDetailListModal",  produces="application/json")
+	@ResponseBody
+	public List<ProductOrder> productOrderDetailListModal(
+			String productOrderCode, Model model) {
+		return modalService.getProductOrderDetailList(productOrderCode);
 	}
 	
 	

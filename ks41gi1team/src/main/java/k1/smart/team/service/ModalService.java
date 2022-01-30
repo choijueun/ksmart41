@@ -97,6 +97,15 @@ public class ModalService {
 	}
 	
 	/**
+	 * 자주발주내역 상세(품목 목록) 조회
+	 * @param mainBusinessCode
+	 * @param materialOrderCode
+	 */
+	public List<ProductOrder> getProductOrderDetailList(String productOrderCode) {
+		return productOrderMapper.getProductOrderInfoList(productOrderCode);
+	}
+	
+	/**
 	 * 품목정보 전체목록 조회
 	 */
 	public List<Stock> getItemList(String mainBusinessCode) {

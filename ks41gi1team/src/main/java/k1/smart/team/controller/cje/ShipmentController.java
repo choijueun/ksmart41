@@ -239,6 +239,10 @@ public class ShipmentController {
 	 */
 	@GetMapping("/k1ShipmentPlanAdd")
 	public String addShipmentPlan(Model model) {
+		
+		model.addAttribute("SectionTitle", "물류 관리");
+		model.addAttribute("SectionLocation", "제품출하계획 등록");
+		
 		return "storing/shipment/shipment_plan_add";
 	}
 	
