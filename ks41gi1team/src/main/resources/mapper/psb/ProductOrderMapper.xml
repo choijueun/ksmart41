@@ -136,7 +136,12 @@ ORDER BY
 	INNER JOIN
 		k1_tb_main_business as mb
 	ON	
-		mb.mainBusinessCode = po.mainBusinessCode	
+		mb.mainBusinessCode = po.mainBusinessCode
+	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<if test="mainBusinessCode != null and mainBusinessCode != ''.toString()">
+			po.mainBusinessCode = #{mainBusinessCode}
+		</if>
+	</trim>
 	
 </select>	
 	
