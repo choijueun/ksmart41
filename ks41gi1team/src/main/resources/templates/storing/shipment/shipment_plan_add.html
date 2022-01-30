@@ -521,7 +521,7 @@ $(function(){
 			    });
 			});
 			//데이터 전송
-			addShipmentPlan.submit();
+			addShipmentPlan.attr('action','/k1ShipmentPlanAdd').submit();
 		}
 	});
 });
@@ -535,7 +535,7 @@ $(function(){
 <th:block layout:fragment="customContents">
 
 <div class="container-fluid">
-	<form id="addShipmentPlan"th:action="@{/k1ShipmentPlanAdd}" method="POST">
+	<form id="addShipmentPlan" method="POST">
 		<div class="row">
 			<div class="col-lg-3">
 			</div>
