@@ -93,7 +93,7 @@ public class DeliveryController {
 	public String addDelivery(Model model) {
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "운송요청등록");
+		model.addAttribute("SectionLocation", "운송요청 등록");
 		
 		return "storing/delivery/delivery_add";
 	}
@@ -105,6 +105,7 @@ public class DeliveryController {
 	@PostMapping("/k1DeliveryAdd")
 	public String addDelivery(Storing storingInfo) {
 		//운송요청내역 등록 프로세스
+		log.info("PARAMETER :: {}", storingInfo);
 		
 		return "redirect:/k1Delivery";
 	}
@@ -121,10 +122,17 @@ public class DeliveryController {
 			,Model model) {
 		//매개변수 검사
 		if(CommonUtils.isEmpty(deliveryCode)) return "redirect:/k1Delivery";
+		
+		//운송요청내역 상세정보 조회결과
+		resultMap = deliveryService.getDeliveryInfo(mainBusinessCode, deliveryCode);
+		if(CommonUtils.isEmpty(resultMap)) return "redirect:/k1Delivery";
+		
+		//운송요청정보
+		model.addAttribute("d", resultMap.get("deliveryInfo"));
 			
 		
 		model.addAttribute("SectionTitle", "물류 관리");
-		model.addAttribute("SectionLocation", "운송요청수정");
+		model.addAttribute("SectionLocation", "운송요청 수정");
 		
 		return "storing/delivery/delivery_modify";
 	}
