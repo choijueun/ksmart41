@@ -148,6 +148,29 @@ public class ModalController {
 	}
 	
 	/**
+	 * AJAX :: 출하계획 목록
+	 * @param model
+	 * @param session
+	 */
+	@GetMapping(value="/shipmentPlanModal", produces="application/json")
+	public String shipmentPlanModal(Model model, HttpSession session) {
+		model.addAttribute("shipPlanList",modalService.getShipmentPlanList((String) session.getAttribute("MAINBUSINESSCODE")));
+		return "modal/shipment_plan_list";
+	}
+	
+	/**
+	 * AJAX :: 반품요청 목록
+	 * @param model
+	 * @param session
+	 */
+	@GetMapping(value="/returnRegModal", produces="application/json")
+	public String returnRegModal(Model model, HttpSession session) {
+		model.addAttribute("returnRegList", modalService.getReturnRegList((String) session.getAttribute("MAINBUSINESSCODE")));
+		return "modal/return_reg_list";
+	}
+	
+	
+	/**
 	 * AJAX :: 거래명세서 조회 
 	 * @param slipType
 	 * @param model

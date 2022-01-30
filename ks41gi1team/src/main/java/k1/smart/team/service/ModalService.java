@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import k1.smart.team.dto.cje.Stock;
+import k1.smart.team.dto.cje.Storing;
 import k1.smart.team.dto.cje.Warehouse;
 import k1.smart.team.dto.csh.Client;
 import k1.smart.team.dto.csh.User;
@@ -18,6 +19,7 @@ import k1.smart.team.dto.psb.MaterialOrder;
 import k1.smart.team.dto.psb.MaterialOrderInfo;
 import k1.smart.team.dto.psb.ProductOrder;
 import k1.smart.team.mapper.cje.ItemMapper;
+import k1.smart.team.mapper.cje.StoringMapper;
 import k1.smart.team.mapper.cje.WarehouseMapper;
 import k1.smart.team.mapper.csh.ClientMapper;
 import k1.smart.team.mapper.csh.UserMapper;
@@ -45,6 +47,8 @@ public class ModalService {
 	private WarehouseMapper warehouseMapper;
 	@Autowired
 	private ItemMapper itemMapper;
+	@Autowired
+	private StoringMapper storingMapper;
 	
 	/**
 	 * 회원정보 전체목록
@@ -141,6 +145,25 @@ public class ModalService {
 		return slipMapper.getSSlipByItem(itemCode);
 	}
 	
+	/**
+	 * 출하계획 목록
+	 * @param mainBusinessCode
+	 */
+	public List<Storing> getShipmentPlanList(String mainBusinessCode) {
+		return storingMapper.getShipmentPlanList(mainBusinessCode);
+	}
+	
+	/**
+	 * 반품요청 목록
+	 * @param mainBusinessCode
+	 * @return
+	 */
+	public List<Storing> getReturnRegList(String mainBusinessCode) {
+		return storingMapper.getReturnRegList(mainBusinessCode);
+	}
+	
+	
+	
 	public List<Slip> salesTransactionList() {
 		List<Slip> salesTransactionList = slipMapper.salesTransactionList();
 		return salesTransactionList;
@@ -150,6 +173,7 @@ public class ModalService {
 		List<Slip> purchaseTransactionList = slipMapper.purchaseTransactionList();
 		return purchaseTransactionList;
 	}
+
 
 
 

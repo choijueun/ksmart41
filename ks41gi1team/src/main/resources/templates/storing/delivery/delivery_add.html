@@ -22,10 +22,15 @@ $(function(){
 	});
 	//form 객체
 	var addDelivery = $('#addDelivery');
-	//input 객체 - 한줄내역
+	//입력객체
+	var inputs = $('#regCode, #clientCode, #businessName, #itemList, #receiveAddr, #briefs, #managerId, #managerName');
+	//각자
+	var selectType = $('#selectType'); //유형선택
+	var regCode = $('#regCode'); //출하계획or반품요청코드
 	var clientCode = $('#clientCode'); //거래처코드
 	var businessName = $('#businessName'); //거래처명
-	var regCode = $('#regCode'); //출하계획or반품요청코드
+	var receiveAddr = $('#receiveAddr'); //주소
+	var itemList = $('#itemList'); //품목목록
 	var briefs = $('#briefs'); //적요
 	var managerId = $('#managerId'); //담당자ID
 	var managerName = $('#managerName'); //담당자이름
@@ -42,8 +47,10 @@ $(function(){
 	$(document).on('change', '#selectType', function(){
 		if($(this).val() == 's') {
 			regCode.attr('name', 'shipmentPlanCode'); //출하
+			inputs.val(null);
 		}else {
 			regCode.attr('name', 'returnRegCode'); //반품
+			inputs.val(null);
 		}
 	});
 	
@@ -51,24 +58,76 @@ $(function(){
 	/****************************
 				Ajax
 	****************************/
-	var inputs = $('#regCode, #clientCode, #businessName, #totalWeight, #totalPrice, #receiveAddr, #briefs, #managerId, #managerName');
 	//출하계획 Modal
-	/*
 	$(document).on('click', '#regCode[name="shipmentPlanCode"]', function(){
 		//초기화
 		inputs.val(null);
 		//ajax
 		$.ajax({
-			
+			url: '/shipmentPlanModal',
+			method: "GET",
+			dataType: "html"
 		})
-		.
+		.done(function( data ) {
+			modalTitle.text('출하계획 목록');
+			//modal body 삽입
+			modalBody.html(data);
+			//DataTable plugin 적용
+			if( $('#shipPlanList tr.empty').length == 0 ) {
+				$('#shipPlanList').DataTable({
+			        "paging": true,
+			        "lengthChange": false,
+			        "searching": true,
+			        "ordering": true,
+			        "info": true,
+			        "autoWidth": false,
+			        "responsive": true
+				});
+			}
+			modalObj.modal('show');
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
 	});
-	*/
 	
 	//반품요청 Modal
 	$(document).on('click', '#regCode[name="returnRegCode"]', function(){
 		//초기화
 		inputs.val(null);
+		//ajax
+		$.ajax({
+			url: '/returnRegModal',
+			method: "GET",
+			dataType: "html"
+		})
+		.done(function( data ) {
+			modalTitle.text('반품요청 목록');
+			//modal body 삽입
+			modalBody.html(data);
+			//DataTable plugin 적용
+			if( $('#returnRegList tr.empty').length == 0 ) {
+				$('#returnRegList').DataTable({
+			        "paging": true,
+			        "lengthChange": false,
+			        "searching": true,
+			        "ordering": true,
+			        "info": true,
+			        "autoWidth": false,
+			        "responsive": true
+				});
+			}
+			modalObj.modal('show');
+		})
+		.fail(function( jqXHR, textStatus ) {
+			Toast.fire({
+				icon: 'warning',
+				title: "Request failed: " + textStatus
+			});
+		});
 	});
 	
 	//회원정보 Modal
@@ -114,8 +173,29 @@ $(function(){
 			  모달 → 자동입력
 	****************************/
 	//출하계획
+	$(document).on('click', '#shipPlanList .selectBtn', function(){
+		regCode.val($(this).parents('tr').children().eq(0).text()); //코드
+		clientCode.val($(this).parents('tr').children().eq(1).text()); //거래처코드
+		businessName.val($(this).parents('tr').children().eq(2).text()); //거래처상호
+		receiveAddr.val($(this).parents('tr').children().eq(3).text()); //주소
+		itemList.val($(this).parents('tr').children().eq(4).text()); //품목
+		briefs.val($(this).parents('tr').children().eq(5).text()); //적요
+		managerId.val($(this).parents('tr').children().eq(6).text()); //ID
+		managerName.val($(this).parents('tr').children().eq(7).text()); //이름
+		modalObj.modal('hide');
+	});
 	
 	//반품요청
+	$(document).on('click', '#returnRegList .selectBtn', function(){
+		regCode.val($(this).parents('tr').children().eq(0).text()); //코드
+		clientCode.val($(this).parents('tr').children().eq(1).text()); //거래처코드
+		businessName.val($(this).parents('tr').children().eq(2).text()); //거래처상호
+		itemList.val($(this).parents('tr').children().eq(3).text()); //품목
+		briefs.val($(this).parents('tr').children().eq(5).text()); //적요
+		managerId.val($(this).parents('tr').children().eq(6).text()); //ID
+		managerName.val($(this).parents('tr').children().eq(7).text()); //이름
+		modalObj.modal('hide');
+	});
 	
 	//회원정보
 	$(document).on('click', '#userList .selectBtn', function(){
@@ -201,17 +281,11 @@ $(function(){
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-md-4">
-								<label for="totalWeight">
-									합계중량
+							<div class="form-group col-md-8">
+								<label for="itemList">
+									품목
 								</label>
-								<input type="number" id="totalWeight" class="form-control" readonly>
-							</div>
-							<div class="form-group col-md-4">
-								<label for="totalPrice">
-									합계금액
-								</label>
-								<input type="text" id="totalPrice" class="form-control" readonly>
+								<input type="text" id="itemList" class="form-control" readonly>
 							</div>
 							<div class="form-group col-md-4">
 								<label for="deliveryCost">
