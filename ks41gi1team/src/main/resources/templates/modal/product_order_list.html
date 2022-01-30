@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
 <body>
-	<table id="materialOrderList" class="table table-bordered table-hover dataTable dtr-inline">
+	<table id="productOrderList" class="table table-bordered table-hover dataTable dtr-inline">
 		<thead>
 			<tr>
 				<th class="text-center">No.</th>
 				<th>거래처명</th>
-				<th>품목</th>
 				<th>전체수량</th>
 				<th>합계금액</th>
 				<th>적요</th>
@@ -21,7 +20,6 @@
 				<td style="display: none;">[[${l.contractCode}]]</td>
 				<td style="display: none;">[[${l.clientCode}]]</td>
 				<td>[[${l.clientBusinessName}]]</td>
-				<td>[[${l.itemName}]]</td>
 				<td>[[${l.totalCount}]]</td>
 				<td>[[${l.totalPrice}]]</td>
 				<td>[[${l.briefs}]]</td>
