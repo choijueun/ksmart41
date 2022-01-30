@@ -37,7 +37,7 @@
 				</td>
 				<td>[[${l.itemStandard}]]</td>
 				<td>[[${l.itemOrigin}]]</td>
-				<td>[[${l.itemStatus}]]</td>
+				<td th:text="${l.itemStatus} == 'Y' ? '사용가' : '사용불가'"></td>
 				<td>[[${l.itemComment}]]</td>
 				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
 			</tr>

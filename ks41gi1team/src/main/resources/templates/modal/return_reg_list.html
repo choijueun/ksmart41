@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf/Layout">
+<body>
+	<table id="returnRegList" class="table table-bordered table-hover dataTable dtr-inline">
+		<thead>
+			<tr>
+				<th class="text-center">No.</th>
+				<th style="display: none;"></th>
+				<th>거래처명</th>
+				<th>품목</th>
+				<th>금액</th>
+				<th>적요</th>
+				<th style="display: none;"></th>
+				<th style="display: none;"></th>
+				<th>최종수정</th>
+				<th class="text-center">선택</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:unless="${#lists.isEmpty(returnRegList)}" th:each="l : ${returnRegList}">
+				<td class="text-center">[[${l.returnRegCode}]]</td>
+				<td style="display: none;">[[${l.clientCode}]]</td>
+				<td>[[${l.businessName}]]</td>
+				<td>[[${l.itemList}]]</td>
+				<td>[[${l.totalPrice}]]</td>
+				<td>[[${l.briefs}]]</td>
+				<td style="display: none;">[[${l.managerId}]]</td>
+				<td style="display: none;">[[${l.managerName}]]</td>
+				<td>[[${l.updateDate}]]</td>
+				<td class="text-center"><button type="button" class="btn btn-sm btn-outline-info selectBtn">적용</button></td>
+			</tr>
+			<tr th:if="${#lists.isEmpty(returnRegList)}" class="empty">
+				<td colspan="8">반품요청내역을 찾을 수 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

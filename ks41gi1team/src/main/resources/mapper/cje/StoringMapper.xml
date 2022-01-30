@@ -457,6 +457,7 @@
 		,RIGHT(sp.contractCode,3) AS contractCode
 		,sp.clientCode
 		,sp.clientBusinessName AS businessName
+		,sp.itemList
 		,sp.receiveAddr
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
@@ -480,6 +481,9 @@
 		,sp.receiveAddr
 		,sp.planDate AS sendPlanDate
 		,sp.briefs
+		,sp.totalCount
+		,sp.totalWeight
+		,sp.totalPrice
 		,sp.managerId
 		,sp.managerName
 		,sp.regDate
@@ -511,6 +515,7 @@
 		 RIGHT(r.returnRegCode,3) AS returnRegCode
 		,r.clientCode
 		,r.clientBusinessName AS businessName
+		,r.itemList
 		,r.totalPrice
 		,r.briefs
 		,r.managerId
