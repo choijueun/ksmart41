@@ -582,7 +582,7 @@ $(function(){
 						</div>
 					</div>
 					<div class="card-footer">
-						<a th:href="@{/k1Warehousing}">
+						<a th:href="@{/k1ShipmentPlan}">
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
 						<button type="button" id="submitBtn" class="btn btn-info float-right mr-2">등록하기</button>
@@ -604,10 +604,8 @@ $(function(){
 							<!-- 1 row = 1 item -->
 							<div class="form-group float-left ml-2">
 								<label>품목명</label>
-								<input type="hidden" name="itemCode"
-										th:value="${s == null} ? null : ${s.itemCode}" data-details="itemCode">
-								<input type="text" name="itemName" class="form-control" placeholder="품목명"
-										th:value="${s == null} ? null : ${s.itemName}">
+								<input type="hidden" name="itemCode" data-details="itemCode">
+								<input type="text" name="itemName" class="form-control" placeholder="품목명">
 							</div>
 							<div class="form-group float-left ml-2">
 								<label>단가</label>
