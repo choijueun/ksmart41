@@ -95,6 +95,7 @@ ORDER BY
 		po.clientBusinessName,
 		po.`status`,
 		po.itemName,
+		po.managerId,
 		po.managerName,
 		po.totalCount,
 		po.totalPrice,
