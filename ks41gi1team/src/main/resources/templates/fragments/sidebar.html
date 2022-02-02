@@ -52,19 +52,19 @@
 		<!-- Sidebar Menu -->
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-				<li class="nav-item">
+				<li class="nav-item" th:if="${session.ULEVEL} == '1' or ${session.ULEVEL} == '2'">
 					<a th:href="@{/k1UserReg/managerPage}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p> 회원 관리 </p>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" th:if="${session.ULEVEL} == '1' or ${session.ULEVEL} == '2'">
 					<a th:href="@{/k1Business/businessList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>	사업장 관리</p>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" th:if="${session.ULEVEL} == '1' or ${session.ULEVEL} == '2' or ${session.ULEVEL} == '3'">
 					<a th:href="@{/k1Client/clientList}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>거래처 관리</p>
