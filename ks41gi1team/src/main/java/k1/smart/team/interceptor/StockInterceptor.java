@@ -1,4 +1,4 @@
-package k1.smart.team.interceptor.cje;
+package k1.smart.team.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class StockInterceptor implements HandlerInterceptor {
 		String requestUri = request.getRequestURI();
 		
 		String sessionId = (String) session.getAttribute("UID");
-		String sessionLevelName = (String) session.getAttribute("ULEVEL");
+		String sessionLevel = (String) session.getAttribute("ULEVEL");
 		
 		if(sessionId == null) {
 			response.sendRedirect("/"); //index로 redirect
@@ -27,10 +27,10 @@ public class StockInterceptor implements HandlerInterceptor {
 		} else {
 			//URI 공백 제거
 			requestUri = requestUri.trim();
-			log.info("SESSION - ULEVEL :: {}", sessionLevelName);
+			log.info("SESSION - ULEVEL :: {}", sessionLevel);
 			
 			//직원
-			if("직원".equals(sessionLevelName)) {
+			if("3".equals(sessionLevel)) {
 				//품목
 				if(	requestUri.indexOf("k1ItemRemove") 			> -1 || 
 					requestUri.indexOf("k1ItemCategoryRemove") 	> -1) {
@@ -51,7 +51,7 @@ public class StockInterceptor implements HandlerInterceptor {
 			}
 			
 			//외부거래처
-			if("외부거래처".equals(sessionLevelName)) {
+			if("4".equals(sessionLevel)) {
 				if(	requestUri.indexOf("k1Stock") 	> -1 || 
 						requestUri.indexOf("k1Item") 	> -1 || 
 						requestUri.indexOf("k1Warehouse") 	> -1) {

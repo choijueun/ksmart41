@@ -20,15 +20,27 @@ public class LoginInterceptor implements HandlerInterceptor {
 		String requestUri = request.getRequestURI();
 		
 		String sessionId = (String) session.getAttribute("UID");
-		String sessionLevelName = (String) session.getAttribute("ULEVEL");
+		String sessionLevel = (String) session.getAttribute("ULEVEL");
 		
+		//session에 ID가 없다면
 		if(sessionId == null) {
-			response.sendRedirect("/"); //index로 redirect
+			//index로 redirect
+			response.sendRedirect("/"); 
 			return false;
 		} else {
 			//URI 공백 제거
 			requestUri = requestUri.trim();
-			log.info("SESSION - ULEVEL :: {}", sessionLevelName);
+			log.info("SESSION - ULEVEL :: {}", sessionLevel);
+			//관리자가 아닌 경우
+			if(!"1".equals(sessionLevel) || !"2".equals(sessionLevel)) {
+				if(requestUri.indexOf("loginList") > -1
+						|| requestUri.indexOf("loginDetail") > -1 
+						|| requestUri.indexOf("loginDelete") > -1) {
+					//메인화면 redirect
+					response.sendRedirect("/main");
+					return false;
+				}
+			}
 		}
 		
 		return true;
