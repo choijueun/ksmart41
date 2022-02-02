@@ -57,7 +57,8 @@ public class LoginController{
 				//로그인 비밀번호 일치 시 세션을 정보에 담음
 				session.setAttribute("UID", userId);
 				session.setAttribute("UNAME", userInfo.getUserName());
-				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("ULEVEL", userInfo.getUserLevel());
+				session.setAttribute("ULEVELNAME", userInfo.getUserLevelName());
 				session.setAttribute("MAINBUSINESSCODE", "fac_ksmartSeoul_Seoul_001");
 				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
 				return "redirect:/main";
@@ -70,7 +71,7 @@ public class LoginController{
 	/**
 	 * 일반직원 로그인
 	 */
-	//관리자로그인
+	//일반직원 로그인
 	@GetMapping("/login2")
 	public String login2() {
 		return "login/login2";
@@ -90,7 +91,8 @@ public class LoginController{
 				//로그인 비밀번호 일치 시 세션을 정보에 담음
 				session.setAttribute("UID", userId);
 				session.setAttribute("UNAME", userInfo.getUserName());
-				session.setAttribute("ULEVEL", userInfo.getUserLevelName());
+				session.setAttribute("ULEVEL", userInfo.getUserLevel());
+				session.setAttribute("ULEVELNAME", userInfo.getUserLevelName());
 				session.setAttribute("MAINBUSINESSCODE", "fac_ksmartSeoul_Seoul_001");
 				session.setAttribute("UBUSINESSNAME", userInfo.getBusinessName());
 				return "redirect:/main";

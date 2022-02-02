@@ -10,6 +10,7 @@
 			,u.userPw AS userPw
 			,u.userName AS userName
 			,u.userLevelCode AS userLevelCode
+			,l.userLevel AS userLeve
 			,l.userLevelName AS userLevelName
 			,l.mainBusinessCode AS mainBusinessCode
 			,b.businessName AS businessName
