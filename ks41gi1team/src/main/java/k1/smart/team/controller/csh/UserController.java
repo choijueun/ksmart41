@@ -246,14 +246,5 @@ public class UserController {
 		return "user/userReg_register";
 	}
 			
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
