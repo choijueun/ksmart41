@@ -58,14 +58,17 @@
 							<tr>
 								<th>거래처</th>
 								<td>
-									<!-- 거래처정보LINK -->
-									[[${s.businessName}]]
-									<a th:if="${s.contractCode != null}">
-										<button type="button" class="btn btn-outline-info btn-xs">계약[[${s.contractCode}]]</button>
-									</a>
-									<a th:if="${s.materialOrderCode != null}">
-										<button type="button" class="btn btn-outline-info btn-xs">발주[[${s.materialOrderCode}]]</button>
-									</a>
+									<th:block th:if="${s.clientCode != null}">
+										<a th:href="@{|/k1Client/clientDetail/${s.clientCode}|}">
+											[[${s.businessName}]]
+										</a>
+										<a th:href="@{|/k1Contract/contract/${s.contractCode}|}" th:if="${s.contractCode != null}">
+											<button type="button" class="btn btn-outline-info btn-xs">계약</button>
+										</a>
+										<a th:href="@{|/k1ProductOrder/productOrder/${s.productOrderCode}|}" th:if="${s.productOrderCode != null}">
+											<button type="button" class="btn btn-outline-info btn-xs">수주</button>
+										</a>
+									</th:block>
 								</td>
 							</tr>
 							<tr>
@@ -73,9 +76,12 @@
 								<td colspan="3">[[${s.briefs}]]</td>
 							</tr>
 							<tr>
-								<!-- 회원정보 LINK -->
 								<th>담당자</th>
-								<td>[[${s.managerName}]]</td>
+								<td>
+									<a th:href="@{|/k1UserReg/userDetail/${s.managerId}|}">
+										[[${s.managerName}]]
+									</a>
+								</td>
 							</tr>
 							<tr>
 								<th>요청일자</th>
