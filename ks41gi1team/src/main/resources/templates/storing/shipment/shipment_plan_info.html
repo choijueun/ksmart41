@@ -34,8 +34,9 @@
 							<tr>
 								<th>거래처</th>
 								<td>
-									<!-- 거래처정보 LINK -->
-									[[${p.businessName}]]
+									<a th:href="@{|/k1Client/clientDetail/${p.clientCode}|}">
+										[[${p.businessName}]]
+									</a>
 									<a th:if="${p.productOrderCode != null}">
 										<button type="button" class="btn btn-outline-info btn-xs">[[${p.productOrderCode}]]</button>
 									</a>
@@ -55,8 +56,7 @@
 							<tr>
 								<th>담당자</th>
 								<td>
-									<!-- 회원정보LINK -->
-									<a th:href="@{#}">
+									<a th:href="@{|/k1UserReg/userDetail/${p.managerId}|}">
 										[[${p.managerName}]]
 									</a>
 								</td>

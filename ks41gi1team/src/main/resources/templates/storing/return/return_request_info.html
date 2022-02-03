@@ -37,9 +37,8 @@
 							<tr>
 								<th>거래처</th>
 								<td>
-								[[${r.businessName}]]
-									<a th:if="${r.productOrderCode} != null">
-										<button type="button" class="btn btn-outline-info btn-xs">[[${r.productOrderCode}]]</button>
+									<a th:href="@{|/k1Client/clientDetail/${r.clientCode}|}">
+										[[${r.businessName}]]
 									</a>
 								</td>
 							</tr>
@@ -54,7 +53,7 @@
 							<tr>
 								<th>담당자</th>
 								<td>
-									<a th:href="@{#}">
+									<a th:href="@{|/k1UserReg/userDetail/${r.managerId}|}">
 										[[${r.managerName}]]
 									</a>
 								</td>

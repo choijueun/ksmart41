@@ -66,9 +66,12 @@
 								</td>
 							</tr>
 							<tr>
-								<!-- 회원정보 LINK -->
 								<th>담당자</th>
-								<td>[[${s.managerName}]]</td>
+								<td>
+									<a th:href="@{|/k1UserReg/userDetail/${s.managerId}|}">
+										[[${s.managerName}]]
+									</a>
+								</td>
 							</tr>
 							<tr>
 								<th>적요</th>
