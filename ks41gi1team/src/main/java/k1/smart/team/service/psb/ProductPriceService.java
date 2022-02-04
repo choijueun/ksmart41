@@ -41,6 +41,12 @@ public class ProductPriceService {
 		}
 		return productPriceList;
 	}
+
+	//단가 수정
+	public int modifyProductPrice(ProductPrice productPrice) {
+		
+		return productPriceMapper.modifyProductPrice(productPrice);
+	}
 	
 	
 }

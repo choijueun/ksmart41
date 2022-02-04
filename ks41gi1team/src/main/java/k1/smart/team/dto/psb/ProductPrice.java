@@ -1,5 +1,10 @@
 package k1.smart.team.dto.psb;
 
+import javax.validation.constraints.NotNull;
+
+import groovy.transform.NullCheck;
+import groovyjarjarantlr4.v4.runtime.misc.Nullable;
+
 public class ProductPrice {
 	private String productPriceCode;
 	private String mainBusinessCode;
@@ -12,6 +17,7 @@ public class ProductPrice {
 	private int totalEtcCost;
 	private int totalPrice;
 	private int productPrice;
+	@Nullable
 	private String comment;
 	private float profitPercentage;
 	private String regId;

@@ -4,17 +4,173 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+
 <th:block layout:fragment="customStyle"></th:block>
 
 <th:block layout:fragment="SectionTitle"></th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
-<th:block layout:fragment="customContents">
-	제품단가 계산 상세내용 수정
+<th:block layout:fragment="customJs">
+<script type="text/javascript">
+
+		$(function(){
+			
+			$(document).on('click', '#modifyProductPriceBtn', function(){
+				var submitCheck = true;
+				
+				var inputObj = $('#modifyProductPriceForm').find('input');
+				
+				$.each(inputObj, function(){
+					var inputData = $(this).val();
+					
+					var inputCode = $(this).attr('code');
+					var labelText = $('label[for=' + inputCode + ']').text();
+					if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+						alert(labelText + '입력해주세요' + inputData);
+						$(this).focus();
+						submitCheck = false;
+						return false;
+					}
+				});
+				
+				if(submitCheck) $('#modifyProductPriceForm').submit();
+				
+			});
+		
+		});
+
+
+</script>
 </th:block>
 
+<!-- content -->
+<th:block layout:fragment="customContents">
+	<div class="container-fluid">
+	<form id="modifyProductPriceForm" th:action="@{|/k1ProductPrice/modify/{productPriceCode}|}" method="post">
+		<div class="row">
+			<div class="col-lg-3">
+			</div>
+			<div class="col-lg-6">
+				<div class="card card-info card-outline">
+					<div class="card-header">
+						<h3 class="card-title">제품단가 수정</h3>
+					</div>
+					<div class="card-body" >
+							<div class="row">
+							<th:block th:if="${not #lists.isEmpty(productPrice)}">
+								<input type="hideen" th:value = "[[${productPriceCode}]]" > 
+							</th:block>
+								<div class="form-group col-md-6">
+									<label for="mainBusinessName">사업장 상호명</label>
+				                    <select name="mainBusinessName" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
+				                    			  th:each="l : ${mainBusinessList}">
+				                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+				                    		<option>사업장 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="lsAccountName">계정과목명</label>
+				                    <select name="lsAccountName" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(isList)}"
+				                    			  th:each="l : ${isList}">
+				                    		<option th:value="${l.lsAccountCode}" th:text="${l.lsAccountName}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(isList)}">	
+				                    		<option>계정과목 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="manufacCost">제조원가</label>
+				                    <select name="manufacCost" class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(manufacturingCostList)}"
+				                    			  th:each="l : ${manufacturingCostList}">
+				                    		<option th:value="${l.manufacCostCode}" th:text="${l.manufacCostCode}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(manufacturingCostList)}">	
+				                    		<option>제조원가 먼저 등록 해주세요. </option> 
+				                    	</th:block>	
+				                    </select>
+								</div>
+								<div class="form-group col-md-6">
+				                    <label for="itemCode">제품 명</label>
+				                     <select name="itemCode"  class="form-control">
+				                    	<th:block th:if="${not #lists.isEmpty(itemList)}"
+				                    			  th:each="l : ${itemList}">
+				                    		<option th:value="${l.itemCode}" th:text="${l.itemName}">	  
+				                    		</option>
+				                    	</th:block>	
+				                    	<th:block th:unless="${not #lists.isEmpty(itemList)}">	
+				                    		<option>품목 먼저 등록 해주세요. </option> 
+				                    	</th:block>
+				                    </select>		
+				                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="count">제품수량</label>
+                    <input type="text" name="count" class="form-control" id="count" placeholder="12 EA" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="unitCost">제조원가</label>
+                    <input type="text" name="unitCost" class="form-control" id="unitCost" placeholder="360원" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="totalEtcCost">기타비용</label>
+                    <input type="text" name="totalEtcCost" class="form-control" id="totalEtcCost" placeholder="100원" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="manufacCost">총 제조비용</label>
+                    <input type="text" name="manufacCost" class="form-control" id="manufacCost" placeholder="5520원" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="profitPercentage">이익률</label>
+                    <input type="number" name="profitPercentage" class="form-control" id="profitPercentage" placeholder="50%" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="comment">비고</label>
+                    <input type="text" name="comment" class="form-control" id="comment" placeholder="" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="regId">담당자</label>
+                    <select name="regId"  class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                 </div>
+                  <div class="form-group col-md-6">
+                    <label for="regDate">등록일</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="" >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="updateDate">수정일</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="" >
+                  </div>
+				</div>
+			</div>
+			</div>
+			</div>
+			</div>
+									<a th:href="@{/k1ProductPrice/k1ProductPriceList}">
+							<button type="button" class="btn btn-default">목록으로</button>
+						</a>
+						<button id="modifyProductPriceBtn" type="button" class="btn btn-info float-right mr-2">수정완료</button>
+			</div>
+		</form>
+	</div>
+</th:block>
 </html>
