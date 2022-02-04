@@ -4,6 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.psb.ProductPriceMapper">
 	
+	<update id="modifyProductPrice" parameterType="ProductPrice">
+		UPDATE k1_tb_productPrice
+			mainBusinessCode = #{mainBusinessCode},
+			lsAccountCode = #{lsAccountCode},
+			manufacCostCode = #{manufacCostCode},
+			count = #{count},
+			totalEtcCost = #{totalEtcCost},
+			profitPercentage = #{profitPercentage},
+			comment = #{comment},
+			regId = #{regId},
+			regDate = #{regDate},
+			updateDate = #{updateDate}
+	</update>
+	
+	
 	<select id="getProductPriceList"  resultType="ProductPrice">
 		SELECT 
 			RIGHT(pp.productPriceCode,3) AS productPriceCode,
