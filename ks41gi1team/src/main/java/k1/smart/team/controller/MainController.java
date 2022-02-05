@@ -37,7 +37,8 @@ public class MainController {
 	@GetMapping("/main")
 	public String main(Model model, HttpSession session) {
 		//미완 배송요청·출하계획·반품요청 건수 조회
-		resultMap = mainService.getUnfinishedCnt((String) session.getAttribute("MAINBUSINESSCODE"));
+		String mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		resultMap = mainService.getUnfinishedCnt(mainBusinessCode);
 		if(!CommonUtils.isEmpty(resultMap)) {
 			//view에 데이터 전달
 			model.addAttribute("deliveryCnt", resultMap.get("deliveryCnt"));
