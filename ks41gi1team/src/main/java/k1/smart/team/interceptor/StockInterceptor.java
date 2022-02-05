@@ -6,8 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+@Component 
 public class StockInterceptor implements HandlerInterceptor {
 	//log4j
 	private static final Logger log = LoggerFactory.getLogger(StockInterceptor.class);
@@ -15,50 +17,42 @@ public class StockInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		HttpSession session = request.getSession();
 		String requestUri = request.getRequestURI();
 		
-		String sessionId = (String) session.getAttribute("UID");
-		String sessionLevel = (String) session.getAttribute("ULEVEL");
+		int sessionLevel = (int) session.getAttribute("ULEVEL");
 		
-		if(sessionId == null) {
-			response.sendRedirect("/"); //index로 redirect
-			return false;
-		} else {
-			//URI 공백 제거
-			requestUri = requestUri.trim();
-			log.info("SESSION - ULEVEL :: {}", sessionLevel);
-			
-			//직원
-			if("3".equals(sessionLevel)) {
-				//품목
-				if(	requestUri.indexOf("k1ItemRemove") 			> -1 || 
-					requestUri.indexOf("k1ItemCategoryRemove") 	> -1) {
-					response.sendRedirect("/k1Item");
-					return false;
-				}
-				//재고
-				if(	requestUri.indexOf("k1StockRemove") 	> -1 || 
-						requestUri.indexOf("k1CleanStock") 	> -1) {
-					response.sendRedirect("/k1Stock");
-					return false;
-				}
-				//창고
-				if(	requestUri.indexOf("/k1WarehouseRemove") > -1) {
-					response.sendRedirect("/k1Warehouse");
-					return false;
-				}
+		//URI 공백 제거
+		requestUri = requestUri.trim();
+		log.info("SESSION - ULEVEL :: {}", sessionLevel);
+		//직원이 아닌 경우
+		if( sessionLevel == 4 ) {
+			if(requestUri.indexOf("k1Stock") > -1
+					|| requestUri.indexOf("k1Item") > -1 
+					|| requestUri.indexOf("k1Warehouse") > -1) {
+				//메인화면 redirect
+				response.sendRedirect("/main");
+				return false;
 			}
-			
-			//외부거래처
-			if("4".equals(sessionLevel)) {
-				if(	requestUri.indexOf("k1Stock") 	> -1 || 
-						requestUri.indexOf("k1Item") 	> -1 || 
-						requestUri.indexOf("k1Warehouse") 	> -1) {
-					
-					response.sendRedirect("/");
-					return false;
-				}
+		}
+		//관리자가 아닌 경우
+		if( sessionLevel == 3 || sessionLevel == 4 ) {
+			if(requestUri.indexOf("k1StockRemove") > -1) {
+				response.sendRedirect("/k1Stock");
+				return false;
+			}
+			if(requestUri.indexOf("k1ItemRemove") > -1) {
+				response.sendRedirect("/k1Item");
+				return false;
+			}
+			if(requestUri.indexOf("k1ItemCategoryRemove") > -1 ) {
+				response.sendRedirect("/k1ItemCategory");
+				return false;
+			}
+			if(requestUri.indexOf("k1WarehouseRemove") > -1) {
+				response.sendRedirect("/k1Warehouse");
+				return false;
 			}
 		}
 		
