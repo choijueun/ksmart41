@@ -34,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			requestUri = requestUri.trim();
 			log.info("SESSION - ULEVEL :: {}", sessionLevel);
 			//관리자가 아닌 경우
-			if( sessionLevel != 1 || sessionLevel != 2 ) {
+			if( sessionLevel != 1 && sessionLevel != 2 ) {
 				if(requestUri.indexOf("loginList") > -1
 						|| requestUri.indexOf("loginDetail") > -1 
 						|| requestUri.indexOf("loginDelete") > -1) {

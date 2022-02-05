@@ -113,7 +113,8 @@ public class LoginController{
 	@GetMapping("/loginList")
 	public String loginList (Model model) {
 		List<Login> loginList = loginService.getAllLoginList();
-		model.addAttribute("SectionTitle", "로그인 이력조회");
+		model.addAttribute("SectionTitle", "로그인 내역");
+		model.addAttribute("SectionLocation", "로그인 이력조회");
 		model.addAttribute("loginList", loginList);
 		
 		return "login/loginList";

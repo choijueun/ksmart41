@@ -43,7 +43,8 @@ public class UserController {
 	public String userList(Model model) {
 		userList = userService.getAllUserList();
 		
-		model.addAttribute("SectionTitle", "회원 전체 목록");
+		model.addAttribute("SectionTitle", "회원 목록");
+		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("userList", userList);
 		
 		return "user/user_list";
@@ -52,8 +53,8 @@ public class UserController {
 	//회원정보 등록화면
 	@GetMapping("/addUser")
 	public String addUser(Model model) {
-		model.addAttribute("SectionTitle", "회원정보 등록");
-		
+		model.addAttribute("SectionTitle", "회원정보");
+		model.addAttribute("SectionLocation", "회원정보 등록");
 		return "user/user_register";
 	}
 	//회원정보 등록 프로세스
@@ -96,7 +97,8 @@ public class UserController {
 			User getUser = userService.getUserDetail(userId);
 			model.addAttribute("getUser", getUser);
 		}
-		model.addAttribute("SectionTitle", "회원가입: 수정");
+		model.addAttribute("SectionTitle", "회원가입");
+		model.addAttribute("SectionLocation", "회원가입 수정");
 		model.addAttribute("userId", userId);
 		return "user/user_modify";
 	}
@@ -134,7 +136,8 @@ public class UserController {
 			System.out.println("회원 상세 error");
 			return "redirect:/userList";
 		}
-		model.addAttribute("SectionTitle", "회원 정보 상세");
+		model.addAttribute("SectionTitle", "회원 정보");
+		model.addAttribute("SectionLocation", "회원가입 상세");
 		model.addAttribute("userDetail", userDetail);
 		
 		return "user/user_detail";
@@ -153,6 +156,7 @@ public class UserController {
 		userList = userService.getLimitUserList();
 		
 		model.addAttribute("SectionTitle", "관리자 페이지");
+		model.addAttribute("SectionLocation", "회원관리");
 		System.out.println(loginList2);
 		System.out.println(userList);
 		
@@ -168,6 +172,7 @@ public class UserController {
 	@GetMapping("/myPage")
 	public String myPage(Model model) {
 		model.addAttribute("SectionTitle", "마이페이지");
+		model.addAttribute("SectionLocation", "마이페이지");
 		
 		return "user/user_mypage";
 	}
@@ -188,6 +193,7 @@ public class UserController {
 	public String getUserRegList(Model model) {
 		userRegList = userService.getAllUserRegList();
 		model.addAttribute("SectionTitle", "회원가입 요청 목록");
+		model.addAttribute("SectionLocation", "전체목록");
 		model.addAttribute("userRegList", userRegList);
 		return "user/userReg_register";
 	}
@@ -211,7 +217,8 @@ public class UserController {
 			System.out.println("회원가입 요청 상세 error");
 			return "redirect:/userRegList";
 		}
-		model.addAttribute("SectionTitle", "회원가입 요청 상세");
+		model.addAttribute("SectionTitle", "회원가입 요청");
+		model.addAttribute("SectionLocation", "상세");
 		model.addAttribute("userRegDetail", userRegDetail);
 		return "user/userReg_detail";
 	}
@@ -229,7 +236,8 @@ public class UserController {
 			UserReg getUserReg = userService.getAllUserRegDetail(userId);
 			model.addAttribute("getUserReg", getUserReg);
 		}
-		model.addAttribute("SectionTitle", "회원가입 요청: 수정");
+		model.addAttribute("SectionTitle", "회원가입 요청");
+		model.addAttribute("SectionLocation", "수정");
 		model.addAttribute("userId", userId);
 		return "user/userReg_modify";
 	}
