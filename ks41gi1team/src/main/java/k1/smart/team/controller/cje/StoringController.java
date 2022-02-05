@@ -40,21 +40,21 @@ public class StoringController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/k1Storing")
 	public String storingMain(Model model, HttpSession session) {
-		
 		model.addAttribute("SectionTitle", "물류 관리");
 		model.addAttribute("SectionLocation", "전체목록");
 		
+		//parameter
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		//사업장대표코드
+		String mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		
 		resultMap = storingService.getAllStoringList(paramMap);
 		if(CommonUtils.isEmpty(resultMap)) return "storing/storing_history";
 
 		//최근 물류이동 현황
-		//log.info("최근 물류이동 :: {}", resultMap.get("recentStoring"));
 		model.addAttribute("recentStoring", resultMap.get("recentStoring"));
 		//최근 생산출하 현황
-		//log.info("최근 생산출하 :: {}", resultMap.get("recentProShip"));
 		model.addAttribute("recentProShip", resultMap.get("recentProShip"));
 		
 		//물류 전체목록
@@ -72,7 +72,8 @@ public class StoringController {
 	 */
 	@PostMapping("/k1StoringRemove")
 	public String removeStoringInfo(
-			@RequestParam(value = "stockAdjCode") String stockAdjList, String stockReason) {
+			 @RequestParam(value = "stockAdjCode") String stockAdjList
+			,String stockReason) {
 		//매개변수 확인
 		if(CommonUtils.isEmpty(stockAdjList)) return "redirect:/k1"+stockReason;
 		log.info("삭제할 물류이동코드 :: {}",stockAdjList);
