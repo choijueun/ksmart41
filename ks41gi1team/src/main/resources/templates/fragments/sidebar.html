@@ -182,7 +182,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" th:unless="${session.ULEVEL} == '4'">
 					<a th:href="@{#}" class="nav-link">
 						<i class="nav-icon fas fa-circle"></i>
 						<p>
