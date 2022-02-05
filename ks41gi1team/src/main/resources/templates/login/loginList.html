@@ -11,9 +11,21 @@
 	<th:block layout:fragment="SectionLocation">[[${SectionLocation}]]</th:block>
 	
 	<th:block layout:fragment="customJs">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
+				$('#loginList').DataTable({
+			        "paging": true,
+			        "lengthChange": false,
+			        "searching": true,
+			        "ordering": true,
+			        "info": true,
+			        "autoWidth": false,
+			        "responsive": true,
+					"columnDefs": [{    
+						orderable: false,
+						targets: [0]
+					}]
+				});
 				$("#myInput").on("keyup", function() {
 					var value = $(this).val().toLowerCase();
 					$("#myTable tr").filter(function() {
@@ -38,7 +50,7 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-12">
-							<table id="example2"
+							<table id="loginList"
 								class="table table-bordered table-hover dataTable dtr-inline"
 								role="grid" aria-describedby="example2_info"
 								style="overflow: auto;">
