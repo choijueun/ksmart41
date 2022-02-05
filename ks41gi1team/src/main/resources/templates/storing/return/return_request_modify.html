@@ -531,6 +531,8 @@ $(function(){
 <div class="container-fluid">
 	<form id="modifyReturnReg"th:action="@{/k1ReturnRegModify}" method="POST">
 		<div class="row">
+			<div class="col-lg-3">
+			</div>
 			<div class="col-lg-6">
 				<!-- 반품요청서 간략(공통)정보 입력칸 -->
 				<div class="card card-info card-outline mb-4">
@@ -605,14 +607,18 @@ $(function(){
 						</div>
 					</div>
 					<div class="card-footer">
-						<a th:href="@{/k1Warehousing}">
+						<a th:href="@{/k1ReturnReg}">
 							<button type="button" class="btn btn-default">목록으로</button>
 						</a>
 						<button type="button" id="submitBtn" class="btn btn-info float-right mr-2">등록하기</button>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-6">
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+			</div>
+			<div class="col-lg-8">
 				<!-- 출하계획 상세(품목)정보 입력칸 -->
 				<div class="card card-info card-outline mb-3">
 					<div class="card-header">

@@ -20,7 +20,7 @@
 			<!-- 회원정보 -->
 			<li class="nav-item d-none d-sm-inline-block mt-2">
 				<a th:if="${session.UID != null}" th:href="@{#}">
-					<span style="font-style: italic; color: black;">[[${session.ULEVEL}]], [[${session.UNAME}]]님이 로그인 하셨습니다.  </span>
+					<span style="font-style: italic; color: black;">[[${session.ULEVELNAME}]], [[${session.UNAME}]]님이 로그인 하셨습니다.  </span>
 				</a>
 			</li>
 			<!-- /회원정보 -->

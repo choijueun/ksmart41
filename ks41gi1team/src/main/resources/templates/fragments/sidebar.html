@@ -41,7 +41,7 @@
 			
 			<div th:if="${session.UID !=null}" class="text-center mt-3">
 				<h5 class="text-white">[[${session.UID}]]</h5>
-				<h5 class="text-white">[[${session.ULEVEL}]]</h5>
+				<h5 class="text-white">[[${session.ULEVELNAME}]]</h5>
 			</div>
 			<div th:unless="${session.UID !=null}" class="text-center mt-3">
 				<h5 class="text-white">비회원</h5>

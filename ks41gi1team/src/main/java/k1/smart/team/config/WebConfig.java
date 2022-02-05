@@ -18,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
 	 * 생성자 메서드
 	 */
 	public WebConfig(CommonInterceptor commonInterceptor
-			, LoginInterceptor loginInterceptor
-			, StockInterceptor stockInterceptor) {
+			,LoginInterceptor loginInterceptor
+			,StockInterceptor stockInterceptor) {
 		this.commonInterceptor = commonInterceptor;
 		this.loginInterceptor = loginInterceptor;
 		this.stockInterceptor = stockInterceptor;
@@ -29,33 +29,39 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(commonInterceptor)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/css/**")
+				.excludePathPatterns("/dist/**")
 				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/plugins/**")
+				.excludePathPatterns("/SMARTORY/**")
 				.excludePathPatterns("favicon.ico");
 		
 		//로그인 및 로그인내역
 		registry.addInterceptor(loginInterceptor)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/css/**")
+				.excludePathPatterns("/dist/**")
 				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/plugins/**")
+				.excludePathPatterns("/SMARTORY/**")
 				.excludePathPatterns("favicon.ico")
 				.excludePathPatterns("/")
 				.excludePathPatterns("/signUp")
-				.excludePathPatterns("/login")
-				.excludePathPatterns("/login2")
-				.excludePathPatterns("/logout");
+				.excludePathPatterns("/k1Login/login")
+				.excludePathPatterns("/k1Login/login2")
+				.excludePathPatterns("/k1Login/logout");
 		
-		//재고, 품목, 창고
+		//재고 관리
 		registry.addInterceptor(stockInterceptor)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/css/**")
+				.excludePathPatterns("/dist/**")
 				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/plugins/**")
+				.excludePathPatterns("/SMARTORY/**")
 				.excludePathPatterns("favicon.ico")
 				.excludePathPatterns("/")
 				.excludePathPatterns("/signUp")
-				.excludePathPatterns("/login")
-				.excludePathPatterns("/login2")
-				.excludePathPatterns("/logout");
+				.excludePathPatterns("/k1Login/login")
+				.excludePathPatterns("/k1Login/login2")
+				.excludePathPatterns("/k1Login/logout");
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}

@@ -6,8 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+@Component 
 public class LoginInterceptor implements HandlerInterceptor {
 	//log4j
 	private static final Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
@@ -20,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		String requestUri = request.getRequestURI();
 		
 		String sessionId = (String) session.getAttribute("UID");
-		String sessionLevel = (String) session.getAttribute("ULEVEL");
+		int sessionLevel = (int) session.getAttribute("ULEVEL");
 		
 		//session에 ID가 없다면
 		if(sessionId == null) {
@@ -32,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			requestUri = requestUri.trim();
 			log.info("SESSION - ULEVEL :: {}", sessionLevel);
 			//관리자가 아닌 경우
-			if(!"1".equals(sessionLevel) || !"2".equals(sessionLevel)) {
+			if( sessionLevel != 1 || sessionLevel != 2 ) {
 				if(requestUri.indexOf("loginList") > -1
 						|| requestUri.indexOf("loginDetail") > -1 
 						|| requestUri.indexOf("loginDelete") > -1) {
