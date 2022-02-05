@@ -609,7 +609,7 @@
 			ON
 			d.deliveryCode = a.deliveryCode
 		WHERE
-			a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+			a.mainBusinessCode = #{mainBusinessCode}
 			AND a.endDate IS NULL
 		) AS d
 		JOIN
@@ -625,7 +625,7 @@
 			ON
 			p.shipmentPlanCode = a.shipmentPlanCode
 		WHERE
-			a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+			a.mainBusinessCode = #{mainBusinessCode}
 			AND a.endDate IS NULL
 		) AS p
 		JOIN
@@ -641,7 +641,7 @@
 			ON
 			r.returnRegCode = a.returnRegCode
 		WHERE
-			a.mainBusinessCode = 'fac_ksmartSeoul_Seoul_001'
+			a.mainBusinessCode = #{mainBusinessCode}
 			AND a.endDate IS NULL
 		) AS r
 </select>

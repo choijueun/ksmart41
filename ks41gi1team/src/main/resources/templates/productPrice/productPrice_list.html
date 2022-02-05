@@ -17,14 +17,29 @@
 
 <!-- content -->
 <div class="container-fluid">
-	<div class="card">
-		<div class="card-header">
-			제품단가 
+	<div class="card card-info card-outline">
+		<div class="card-header p-0 pt-1 border-bottom-0">
+		<a style="float: right;" th:href="@{/k1PurchaseTransaction/k1PurchaseTransactionHistory}">거래명세서 목록화면으로</a>
+			<ul class="nav nav-tabs" id="productPrice-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="productPrice-home-tab" data-toggle="pill" href="#productPrice" role="tab" aria-controls="productPrice" aria-selected="true">제품단가 목록</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="manufacturingCost-home-tab" data-toggle="pill" href="#manufacturingCost" role="tab" aria-controls="manufacturingCost" aria-selected="false">제조원가 목록</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="manufacturingCost-home-tab" data-toggle="pill" href="#manufacturingCostCal" role="tab" aria-controls="manufacturingCostCal" aria-selected="false">제조원가 계산</a>
+					</li>
+				</ul>
 		</div>
 		<div class="card">
 
 		</div>
+		<form action="/k1ProductPrice/k1ProductPriceList" method="post">
 		<div class="card-body">
+		<div class="card tab-content" id= "p_price">
+			<div class="tab-pane fade show active" id="productPrice" role="productPrice" aria-labelledby="productPrice-home-tab">	
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
 			<table id="productPriceList" class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
@@ -56,7 +71,7 @@
 						<td>[[${l.productPrice}]]원</td>
 						<td>[[${l.regName}]]</td>
 						<td>
-							<i class="fas fa-pen"></i>
+							<a th:href="@{/k1ProductPrice/modify/{productCode}}"><i class="fas fa-pen"></i></a>
 						</td>
 					</tr>
 					<tr th:if="${#lists.isEmpty(productPriceList)}">
@@ -64,8 +79,90 @@
 					</tr>
 				</tbody>
 			</table>
+					<button type="button" class="btn btn-danger float-right">삭제</button>
+ 		<a th:href="@{|/k1ProductPrice/k1ProductPriceReg|}"> 
+					<button type="button" class="btn btn-info float-right">등록</button>
+				</a>
 		</div>
 	</div>
+	
+	<div class="tab-pane fade" id="manufacturingCost" role="tabpanel" aria-labelledby="manufacturingCost-home-tab">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="manufacturingCostList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>사업장</th>
+						<th>제품명</th>
+						<th>제조원가</th>
+						<th>등록일</th>
+						<th>수정일</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:if="${not #lists.isEmpty(manufacturingCostList)}" th:each="l : ${manufacturingCostList}">
+						<td>[[${l.manufacturingCostCode}]]</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.unitCost}]] 원</td>
+						<td>[[${l.regDate}]]</td>
+						<td>[[${l.updateDate}]]</td>
+							
+						<td>
+							<a th:href="@{/k1ManufacturingCost/modify/{manufacturingCostCode}}"><i class="fas fa-pen"></i></a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(manufacturingCostList)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+		<button type="button" class="btn btn-danger float-right">삭제</button>			
+		<a th:href="@{|/k1ManufacturingCost/k1ManufacturingCostReg|}">
+					<button type="button" class="btn btn-info float-right ">등록</button>
+				</a>
+</div>
+
+	<div class="tab-pane fade" id="manufacturingCostCal" role="tabpanel" aria-labelledby="manufacturingCostCal-home-tab">
+		<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+			<table id="manufacturingCostCalList" class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>사업장</th>
+						<th>제품명</th>
+						<th>제조원가</th>
+						<th>등록일</th>
+						<th>수정일</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:if="${not #lists.isEmpty(manufacturingCostCalList)}" th:each="l : ${manufacturingCostCalList}">
+						<td>[[${l.manufacturingCostCode}]]</td>
+						<td>[[${l.businessName}]]</td>
+						<td>[[${l.itemName}]]</td>
+						<td>[[${l.unitCost}]] 원</td>
+						<td>[[${l.regDate}]]</td>
+						<td>[[${l.updateDate}]]</td>
+							
+						<td>
+							<a th:href="@{/k1ManufacturingCost/modify/{manufacturingCostCalCode}}"><i class="fas fa-pen"></i></a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(manufacturingCostCalList)}">
+						<td colspan="9">정보가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+		<button type="button" class="btn btn-danger float-right">삭제</button>			
+		<a th:href="@{|/k1ManufacturingCostCal/k1ManufacturingCostCalReg|}">
+					<button type="button" class="btn btn-info float-right ">등록</button>
+				</a>
+</div>
 </div>
 
 	<!-- modal -->

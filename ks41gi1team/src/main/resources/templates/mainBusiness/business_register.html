@@ -131,35 +131,42 @@
 			$('#businessNumCheckBtn').click(function(){
 				console.log('click: #businessNumCheckBtn');
 				
-				var businessNum = $('#businessNum').val();
+				
+				var businessNum = $('#businessNum').va				
+l();
 				
 				if(typeof businessNum != 'undefind' && businessNum != null && businessNum !=''){
 					var request = $.ajax({
 						  url: '/k1Business/businessNumCheck',
 						  method: 'POST',
 						  data: { 'businessNum' : businessNum },
-						  dataType: 'json' 
+						  dataType: 'json' 					
+
 					});
 					
 					request.done(function(data) {
-						console.log('중복 여부: ',data);
+						console.log						
+('중복 여부: ',data);
 						
 						if(data){
 							alert('중복된 사업자번호입니다.');
 							$('#businessRegisterForm input').not('#businessNum').prop('disabled',true);
 							$('#businessRegisterForm select').prop('disabled',true);
-							$('#businessRegisterForm button').not('#businessNumCheck').prop('disabled',true);
+							$('#businessRegisterForm button').not('#businessNumCheck							
+').prop('disabled',true);
 							
 						}else{
 							alert('등록가능한 사업자번호입니다.');
 							$('#businessRegisterForm input').prop('disabled',false);
 							$('#businessRegisterForm select').prop('disabled',false);
-							$('#businessRegisterForm button').prop('disabled',false);
+							$('#businessRegisterForm button').prop('di					
+sabled',false);
 						}
 					});
 					
 					request.fail(function( jqXHR, textStatus ) {
-					  alert( "Request failed: " + textStatus );
+					  alert( "Re					
+quest failed: " + textStatus );
 					});
 					
 				}else{

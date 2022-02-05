@@ -10,4 +10,6 @@ import k1.smart.team.dto.psb.ProductPrice;
 public interface ProductPriceMapper {
 
 	public List<ProductPrice> getProductPriceList();
+
+	public int modifyProductPrice(ProductPrice productPrice);
 }

@@ -43,7 +43,8 @@
 							</tr>
 							<tr>
 								<th>위치 (소재지)</th>
-								<td>[[${s.sendWarehouseLocation}]] 
+								<td>
+									[[${s.sendWarehouseLocation}]] 
 									<th:block th:if="${s.sendWarehouseOutPlace != null}">>([[${s.sendWarehouseOutPlace}]])</th:block>
 								</td>
 							</tr>
@@ -56,9 +57,12 @@
 								<td>[[${s.briefs}]]</td>
 							</tr>
 							<tr>
-								<!-- 회원정보 LINK -->
 								<th>담당자</th>
-								<td>[[${s.managerName}]]</td>
+								<td>
+									<a th:href="@{|/k1UserReg/userDetail/${s.managerId}|}">
+										[[${s.managerName}]]
+									</a>
+								</td>
 							</tr>
 							<tr>
 								<th>요청일자</th>

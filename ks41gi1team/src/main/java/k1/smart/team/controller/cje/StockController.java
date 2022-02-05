@@ -138,7 +138,7 @@ public class StockController {
 	 * Ajax :: 재고 수량·중량 검사
 	 * @param inventoryCode
 	 */
-	@GetMapping("/k1stockRemove")
+	@GetMapping("/checkStockRemove")
 	@ResponseBody
 	public char stockRemoveValid(String inventoryCode, HttpSession session) {
 		char result = stockService.stockRemoveValid((String) session.getAttribute("MAINBUSINESSCODE"), inventoryCode);
