@@ -28,11 +28,16 @@ public class StockInterceptor implements HandlerInterceptor {
 		log.info("SESSION - ULEVEL :: {}", sessionLevel);
 		//직원이 아닌 경우
 		if( sessionLevel == 4 ) {
-			if(requestUri.indexOf("k1Stock") > -1
-					|| requestUri.indexOf("k1Item") > -1 
-					|| requestUri.indexOf("k1Warehouse") > -1) {
-				//메인화면 redirect
-				response.sendRedirect("/main");
+			if(requestUri.indexOf("k1Stock") > -1) {
+				response.sendRedirect("/k1Stock");
+				return false;
+			}
+			if(requestUri.indexOf("k1Item") > -1) {
+				response.sendRedirect("/k1Item");
+				return false;
+			}
+			if(requestUri.indexOf("k1Warehouse") > -1) {
+				response.sendRedirect("/k1Warehouse");
 				return false;
 			}
 		}
