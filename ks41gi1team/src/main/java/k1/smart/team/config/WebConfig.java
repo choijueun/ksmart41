@@ -44,7 +44,7 @@ public class WebConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/SMARTORY/**")
 				.excludePathPatterns("favicon.ico")
 				.excludePathPatterns("/")
-				.excludePathPatterns("/signUp")
+				.excludePathPatterns("/k1Login/signUp")
 				.excludePathPatterns("/k1Login/login")
 				.excludePathPatterns("/k1Login/login2")
 				.excludePathPatterns("/k1Login/logout");
@@ -58,10 +58,13 @@ public class WebConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/SMARTORY/**")
 				.excludePathPatterns("favicon.ico")
 				.excludePathPatterns("/")
-				.excludePathPatterns("/signUp")
+				.excludePathPatterns("/k1Login/signUp")
 				.excludePathPatterns("/k1Login/login")
 				.excludePathPatterns("/k1Login/login2")
-				.excludePathPatterns("/k1Login/logout");
+				.excludePathPatterns("/k1Login/logout")
+				.excludePathPatterns("/k1Stock")
+				.excludePathPatterns("/k1Item")
+				.excludePathPatterns("/k1Warehouse");
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
