@@ -239,9 +239,7 @@
 		</if>
 		itemStandard=#{itemStandard},
 		itemOrigin=#{itemOrigin},
-		<if test="itemStatus!= null and itemStatus!= ''.toString()">
-			itemStatus=#{itemStatus},
-		</if>
+		itemStatus=#{itemStatus},
 		<if test="itemComment!= null and itemComment!= ''.toString()">
 			itemComment=#{itemComment},
 		</if>
