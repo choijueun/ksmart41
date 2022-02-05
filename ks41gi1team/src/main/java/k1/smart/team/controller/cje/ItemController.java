@@ -24,7 +24,7 @@ import k1.smart.team.service.cje.ItemService;
 @Controller
 public class ItemController {
 	private final ItemService itemService;
-	private String mainBusinessCode = "fac_ksmartSeoul_Seoul_001"; //임시지정
+	private String mainBusinessCode; //사업장대표코드
 	private Stock itemInfo; //품목 하나 정보
 	private List<Stock> itemList; //품목 배열
 	private Map<String, Object> resultMap;
@@ -46,7 +46,8 @@ public class ItemController {
 	 * @return item_list
 	 */
 	@GetMapping("/k1Item")
-	public String itemMain(Model model) {
+	public String itemMain(Model model, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mainBusinessCode", mainBusinessCode);
@@ -78,13 +79,9 @@ public class ItemController {
 	public String itemMainAjax(Model model,
 			@RequestParam(value="types[]", required = false) List<String> types, HttpSession session,
 			String largeCategory, String middleCategory, String smallCategory, String microCategory, String includeN) {
-		/*
-		log.info("types :: {}",types);
-		log.info("largeCategory :: {}",largeCategory);
-		log.info("middleCategory :: {}",middleCategory);
-		log.info("smallCategory :: {}",smallCategory);
-		log.info("microCategory :: {}",microCategory);
-		 */
+		
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		
 		String typeList = null;
 		//분류 배열이 null이 아닐 때
 		if(!CommonUtils.isEmpty(types)) {
@@ -102,7 +99,7 @@ public class ItemController {
 		paramMap.put("smallCategory", smallCategory);
 		paramMap.put("microCategory", microCategory);
 		paramMap.put("includeN", includeN);
-		paramMap.put("mainBusinessCode", session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		
 		log.info("PARAMETER :: {}", paramMap);
 		//품목 전체목록 List<Stock>
@@ -168,7 +165,9 @@ public class ItemController {
 	@PostMapping("/itemNameValid")
 	@ResponseBody
 	public boolean itemNameValid(
-			@RequestParam(value="itemName", required = false) String itemName) {
+			@RequestParam(value="itemName", required = false) String itemName
+			,HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		
 		log.info("품목명 :: {}", itemName);
 		if(CommonUtils.isEmpty(itemName)) return false;
@@ -211,7 +210,9 @@ public class ItemController {
 	@PostMapping("/getItemCategoryCode")
 	@ResponseBody
 	public String getItemCategoryCode(
-			@RequestParam(value="categories[]", required = false) List<String> categories){
+			@RequestParam(value="categories[]", required = false) List<String> categories
+			,HttpSession session){
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//NULL체크
 		if(	CommonUtils.isEmpty(categories)
 				|| CommonUtils.isEmpty(categories.get(0)) || CommonUtils.isEmpty(categories.get(1))) {
@@ -227,7 +228,8 @@ public class ItemController {
 	 * @param paramMap
 	 */
 	@PostMapping("/k1ItemAdd")
-	public String addItem(Stock itemInfo) {
+	public String addItem(Stock itemInfo, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//매개변수 검사
 		if(CommonUtils.isEmpty(itemInfo)) return "redirect:/k1ItemAdd";
 		//사업장코드 등록
@@ -278,7 +280,8 @@ public class ItemController {
 	 * @param itemInfo
 	 */
 	@PostMapping("/k1ItemModify")
-	public String modifyItem(Stock itemInfo) {
+	public String modifyItem(Stock itemInfo, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//품목 검사
 		if(CommonUtils.isEmpty(itemInfo) || CommonUtils.isEmpty(itemInfo.getItemCode())) return "redirect:/k1Item";
 		log.info("수정할 품목 INFO :: {}", itemInfo);
@@ -325,7 +328,8 @@ public class ItemController {
 	 * @param model
 	 */
 	@GetMapping("/k1ItemCategory")
-	public String itemCategory(Model model) {
+	public String itemCategory(Model model, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		itemList = itemService.getAllCategories(mainBusinessCode);
 		
 		model.addAttribute("categories", itemList);
@@ -341,7 +345,8 @@ public class ItemController {
 	 * @param stock
 	 */
 	@PostMapping("/k1ItemCategoryAdd")
-	public String addItemCategory(Stock stock) {
+	public String addItemCategory(Stock stock, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//카테고리 정보 확인
 		log.info("Stock :: {}", stock);
 		
@@ -361,7 +366,8 @@ public class ItemController {
 	 * @param stock
 	 */
 	@PostMapping("/k1ItemCategoryModify")
-	public String modifyItemCategory(Stock stock) {
+	public String modifyItemCategory(Stock stock, HttpSession session) {
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//카테고리 정보 확인
 		log.info("Stock :: {}", stock);
 		

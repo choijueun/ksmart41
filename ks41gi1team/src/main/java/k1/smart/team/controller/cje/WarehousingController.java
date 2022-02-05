@@ -22,6 +22,7 @@ import k1.smart.team.service.cje.StoringService;
 @Controller
 public class WarehousingController {
 	private final StoringService storingService;
+	private String mainBusinessCode; //사업장대표코드
 	private Stock stockInfo; //재고정보
 	private Storing storingInfo; //자재입고내역
 	private Map<String, Object> resultMap;
@@ -43,7 +44,8 @@ public class WarehousingController {
 	public String warehousingMain(Model model, HttpSession session) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		//사업장대표코드
-		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		paramMap.put("stockReasonCode", 1);
 		
 		//전체목록 List<Storing>
@@ -67,10 +69,11 @@ public class WarehousingController {
 			,Model model, HttpSession session) {
 		//NULL체크
 		if(CommonUtils.isEmpty(stockAdjCode)) return "redirect:/k1Warehousing";
-		
+		//사업장대표코드
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
 		//map생성
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		paramMap.put("stockAdjCode", stockAdjCode);
 		paramMap.put("stockReasonCode", 1);
 		//상세정보 조회
@@ -118,9 +121,9 @@ public class WarehousingController {
 	public String addWarehousing(Storing storingInfo, HttpSession session) {
 		//상세정보(품목) 존재하지 않을 경우
 		if(CommonUtils.isEmpty(storingInfo.getS())) return "redirect:/k1WarehousingAdd";
-		
-		//사업장코드Setting
-		storingInfo.setMainBusinessCode((String) session.getAttribute("MAINBUSINESSCODE"));
+		//사업장대표코드
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		storingInfo.setMainBusinessCode(mainBusinessCode);
 		//물류이동사유Setting
 		storingInfo.setStockReasonCode(1);
 		log.info("물류이동한줄내역  등록 :: {}",storingInfo);
@@ -149,7 +152,8 @@ public class WarehousingController {
 		
 		//map생성
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mainBusinessCode", (String) session.getAttribute("MAINBUSINESSCODE"));
+		mainBusinessCode = (String) session.getAttribute("MAINBUSINESSCODE");
+		paramMap.put("mainBusinessCode", mainBusinessCode);
 		paramMap.put("stockAdjCode", stockAdjCode);
 		paramMap.put("stockReasonCode", 1);
 		//상세정보 조회결과
