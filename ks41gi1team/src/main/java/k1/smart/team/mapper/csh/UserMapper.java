@@ -13,7 +13,7 @@ import k1.smart.team.dto.csh.UserReg;
 public interface UserMapper {
 	
 	//회원가입 요청
-	public int getAddUser(UserReg userReg);
+	public String getAddUser(User user);
 	//아이디 중복검사
 	public int getIdCheck(String userId);
 	

@@ -36,9 +36,9 @@ public class UserService {
 	 * 
 	 * 
 	 */
-	//회원가입 요청
-	public int getAddUser(UserReg userReg) {
-		int addUser = userRegMapper.getAddUser(userReg);
+	//회원등록
+	public String getAddUser(User user) {
+		String addUser = userRegMapper.getAddUser(user);
 		return addUser;
 	}
 	//아이디중복검사
