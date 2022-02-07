@@ -59,14 +59,14 @@ public class UserController {
 	}
 	//회원정보 등록 프로세스
 	@PostMapping("/addUser")
-	public String addUser(UserReg userReg) {
-		System.out.println("UserController에서 회원가입 입력받은 값" + userReg);
+	public String addUser(User user) {
+		System.out.println("UserController에서 회원가입 입력받은 값" + user);
 		
 		//insert처리
-		String userId = userReg.getUserId();
+		String userId = user.getUserId();
 		if(userId != null && !"".equals(userId)) {
-			userReg.setUserRegCode("");
-			userService.getAddUser(userReg);
+			user.setUserId("");
+			userService.getAddUser(user);
 		}
 		return "redirect:/k1UserReg/addUser";
 	}
