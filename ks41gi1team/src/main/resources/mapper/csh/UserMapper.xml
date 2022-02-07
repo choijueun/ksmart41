@@ -4,40 +4,36 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="k1.smart.team.mapper.csh.UserMapper">	
 
-	<select id="getAddUser" parameterType="String" resultType="UserReg">
+	<select id="getAddUser" parameterType="String" resultType="User">
 		INSERT INTO 
-			k1_tb_user_register(
-				 userRegCode
-				,mainBusinessCode
-				,userLevelCode
-				,userId
-				,userPw
-				,userName
-				,userGender
-				,userAddr
-				,userMoblie
-				,userEmail
-				,userPosition
-				,userRegDate
-				,userRegStatus
-				,userRegComment
+			k1_tb_user(
+			 	  userId
+				, mainBusinessCode
+				, userLevelCode
+				, userPw
+				, userName
+				, userGender
+				, userAddr
+				, userMoblie
+				, userEmail
+				, userPosition
+				, joinDate
+				, updateDate
 				)
-			VALUES (
-				#{userRegCode}
-				,#{mainBusinessCode}
-				,#{userLevelCode}
-				,#{userId}
-				,#{userPw}
-				,#{userName}
-				,#{userGender}
-				,#{userAddr}
-				,#{userMoblie}
-				,#{userEmail}
-				,#{userPosition}
-				,NOW()
-				,#{userRegStatus}
-				,#{userRegComment}
-				);
+		VALUES (
+			 #{userId}
+			, #{mainBusinessCode}
+			, #{userLevelCode}
+			, #{userPw}
+			, #{userName}
+			, #{userGender}
+			, #{userAddr}
+			, #{userMoblie}
+			, #{userEmail}
+			, #{userPosition}
+			, NOW()
+			, NOW()
+			);
 	</select>
 	
 	<select id="getIdCheck" resultType="int">
