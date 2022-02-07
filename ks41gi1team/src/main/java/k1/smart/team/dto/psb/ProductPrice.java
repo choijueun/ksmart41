@@ -11,12 +11,15 @@ public class ProductPrice {
 	private String businessName;
 	private String itemName;
 	private String manufacCostCode;
+	private String manufacturingCostCode;
+	private String lsAccountCode;
 	private int count;
 	private int manufacCost;
 	private int unitCost;
 	private int totalEtcCost;
 	private int totalPrice;
 	private int productPrice;
+	private String productCode;
 	@Nullable
 	private String comment;
 	private float profitPercentage;
@@ -54,6 +57,18 @@ public class ProductPrice {
 	public void setManufacCostCode(String manufacCostCode) {
 		this.manufacCostCode = manufacCostCode;
 	}
+	public String getManufacturingCostCode() {
+		return manufacturingCostCode;
+	}
+	public void setManufacturingCostCode(String manufacturingCostCode) {
+		this.manufacturingCostCode = manufacturingCostCode;
+	}
+	public String getLsAccountCode() {
+		return lsAccountCode;
+	}
+	public void setLsAccountCode(String lsAccountCode) {
+		this.lsAccountCode = lsAccountCode;
+	}
 	public int getCount() {
 		return count;
 	}
@@ -89,6 +104,12 @@ public class ProductPrice {
 	}
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
+	}
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 	public String getComment() {
 		return comment;
@@ -139,6 +160,10 @@ public class ProductPrice {
 		builder.append(itemName);
 		builder.append(", manufacCostCode=");
 		builder.append(manufacCostCode);
+		builder.append(", manufacturingCostCode=");
+		builder.append(manufacturingCostCode);
+		builder.append(", lsAccountCode=");
+		builder.append(lsAccountCode);
 		builder.append(", count=");
 		builder.append(count);
 		builder.append(", manufacCost=");
@@ -151,6 +176,8 @@ public class ProductPrice {
 		builder.append(totalPrice);
 		builder.append(", productPrice=");
 		builder.append(productPrice);
+		builder.append(", productCode=");
+		builder.append(productCode);
 		builder.append(", comment=");
 		builder.append(comment);
 		builder.append(", profitPercentage=");

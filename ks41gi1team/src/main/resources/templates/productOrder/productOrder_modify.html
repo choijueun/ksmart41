@@ -164,7 +164,7 @@
 							<div class="row" >
 								<div class="form-group col-lg-3 ">
 									<label for="productOrderOngoingCode">수주상세코드</label>
-				                    <select name="materialOrderOngoingCode" class="form-control">
+				                    <select name="productOrderOngoingCode" class="form-control">
 				                    	<th:block th:if="${not #lists.isEmpty(productOrderList)}"
 				                    			  th:each="l : ${productOrderList}">
 				                    		<option th:value="${l.productOrderOngoingCode}" th:text="${l.productOrderOngoingCode}">	  

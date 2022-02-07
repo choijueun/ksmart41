@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="k1.smart.team.mapper.psb.ProductPriceMapper">
+
+<insert id="addProductPrice" parameterType="ProductPrice">
+	INSERT INTO k1_tb_product_price
+	(productPriceCode,
+	 mainBusinessCode,
+	  lsAccountCode,
+	   manufacCostCode,
+	    count,
+	     totalEtcCost,
+	      profitPercentage,
+	       `comment`,
+	        regId,
+	         regDate,
+	          updateDate)
+	VALUES (
+	#{productPriceCode},
+	#{mainBusinessCode},
+	#{lsAccountCode},
+	#{manufacCostCode},
+	#{count},
+	#{totalEtcCost},
+	#{profitPercentage},
+	#{comment},
+	#{regId},
+	#{regDate},
+	#{updateDate}
+	);
+</insert>
+
+<select id="getProductPriceCode" resultType="String">
+SELECT
+	   LPAD(CAST(MAX(RIGHT(productPriceCode,3))+1 AS CHAR), 3, '0') AS newCodeNum
+	FROM 
+	   k1_tb_product_price;		
+</select>
+
+
+<select id="getProductPriceByProductPriceCode" parameterType="String" resultType="int">
+SELECT 
+			COUNT(1)
+		FROM	
+			k1_view_product_price
+		WHERE  
+			productPriceCode = #{productOrderPrice};
+</select>
+
+<select id="getProductPriceInfo" parameterType="String" resultType="ProductPrice">
+SELECT
+pp.productPriceCode,
+pp.mainBusinessCode,
+pp.lsAccountCode,
+pp.productCode,
+pp.COUNT,
+pp.unitCost,
+pp.totalEtcCost,
+pp.profitPercentage,
+pp.manufacCost,
+pp.totalPrice,
+pp.productPrice,
+pp.`comment`,
+pp.regId,
+pp.regName,
+pp.regDate,
+pp.updateDate
+FROM
+k1_view_product_price AS pp
+WHERE
+	pp.productPriceCode = #{productPriceCode}
+</select>
+
+<!-- <select id="getProductPriceList" parameterType="String" resultType="ProductPrice">
+SELECT
+pp.productPriceCode,
+pp.mainBusinessCode,
+pp.lsAccountCode,
+pp.productCode,
+pp.COUNT,
+pp.unitCost,
+pp.totalEtcCost,
+pp.profitPercentage,
+pp.manufacCost,
+pp.totalPrice,
+pp.productPrice,
+pp.`comment`,
+pp.regId,
+pp.regName,
+pp.regDate,
+pp.updateDate
+FROM
+k1_view_product_price AS pp
+</select> -->
+
+</mapper>

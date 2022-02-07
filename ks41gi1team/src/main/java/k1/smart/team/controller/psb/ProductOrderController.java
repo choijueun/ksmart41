@@ -90,6 +90,10 @@ public class ProductOrderController {
 		List<MaterialOrder> materialOrderList = materialOrderService.getMaterialOrderList();
 		  model.addAttribute("materialOrderList", materialOrderList);
 		  System.out.println("materialOrderList" + materialOrderList);	
+		  
+		  List<ProductOrder> productOrderList = (List<ProductOrder>) productOrderService.getProductOrderInfo(productOrderCode);
+		  model.addAttribute("productOrderList", productOrderList);
+		  System.out.println("productOrderList" + productOrderList);	
 		
 		 List<MainBusiness> mainBusinessList = mainBusinessService.getAllMainBusinessList();
 		  model.addAttribute("mainBusinessList", mainBusinessList);

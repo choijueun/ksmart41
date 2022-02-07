@@ -20,6 +20,7 @@ public class ProductPriceService {
 
 	@Autowired
 	private CodeMapper codeMapper;
+	private ProductPrice productPriceInfo;
 	
 	public ProductPriceService(ProductPriceMapper productPriceMapper) {
 		this.productPriceMapper = productPriceMapper;
@@ -47,6 +48,42 @@ public class ProductPriceService {
 		
 		return productPriceMapper.modifyProductPrice(productPrice);
 	}
+	
+	//단가 등록할때마다 새로운 제품단가코드 생성
+	public String getProductPriceCode() {
+		return productPriceMapper.getProductPriceCode();
+	}
+
+	//제품단가 여부 체크
+	public int getProductPriceByProductPriceCode(String productPriceCode) {
+		int result = 0;
+		result += productPriceMapper.getProductPriceByProductPriceCode(productPriceCode);
+		return result;
+	}
+
+	//제품단가 상세
+	public ProductPrice getProductPriceInfo(String productPriceCode) {
+		productPriceInfo = productPriceMapper.getProductPriceInfo("productPriceCode_"+productPriceCode);
+				
+		if(productPriceInfo == null) {
+			System.out.println("제품단가 조회결과 없음");
+			return null;
+		}
+		
+		productPriceInfo.setProductPriceCode(productPriceCode);
+		
+		
+		return productPriceInfo;
+	}
+
+	//제품단가 등록
+	public int addProductPrice(ProductPrice productPrice) {
+			
+			int result = productPriceMapper.addProductPrice(productPrice);
+			return result;
+	}
+
+
 	
 	
 }

@@ -2,19 +2,202 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
-
 <th:block layout:fragment="customTitle">
-	<title></title>
+	<title>[[${title}]]</title>
 </th:block>
 <th:block layout:fragment="customCss"></th:block>
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+<script>
+$(function(){
+		
+		$(document).on('click', '#addProductPriceBtn', function(){
+			var submitCheck = true;
+			
+			var inputObj = $('#addProductPriceForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var inputCode = $(this).attr('code');
+				var labelText = $('label[for=' + inputCode + ']').text();
+				if(typeof inputData =='undefined' || inputData == null || inputData == ''){
+					alert(labelText + '입력해주세요');
+					$(this).focus();
+					submitCheck = false;
+					return false;
+				}
+			});
+			
+			if(submitCheck) $('#addProductPriceForm').submit();
+			
+		});
+	
+	$('#btn').click(function(){
+	
+		var productPriceCode = $('#productPriceCode').val();
+		
+		if(typeof productPriceCode != 'undefined' && productPriceCode != null && productPriceCode != ''){
+			// ajax 호출
+			var request = $.ajax({
+				url: '/k1ProductPrice/k1ProductPriceCodeCheck',
+				method: 'POST',
+				data: {'productPriceCode' : productPriceCode},
+				dataType: 'json'
+				});
+			request.done(function(data){
+				//중복여부체크(true: 중복, false: 등록가능)
+				var productPriceCodeConfirm = data;
+				
+				if(productPriceCodeConfirm){
+					alert('중복된 제품단가코드입니다.');
+					$('#addProductPriceForm input').not('#productPriceCode').prop('disabled', true);
+					$('#addProductPriceForm select').prop('disabled', true);
+					$('#addProductPriceForm button').not('#btn').prop('disabled', true);
+				}else{
+					alert('등록이 가능한 제품단가코드입니다.');
+					$('#addProductPriceForm input').prop('disabled', false);
+					$('#addProductPriceForm select').prop('disabled', false);
+					$('#addProductPriceForm button').prop('disabled', false);
+				}
+				
+				
+				
+			});
+			request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+			});	
+		}else{
+			alert('제품단가코드를 입력해주세요')
+			return false;
+		}
+		
+		});
+	});
+</script>
+</th:block>
 <th:block layout:fragment="customStyle"></th:block>
 
-<th:block layout:fragment="SectionTitle"></th:block>
+<th:block layout:fragment="SectionTitle">[[${title}]]</th:block>
 <th:block layout:fragment="SectionLocation"></th:block>
 
 <th:block layout:fragment="customContents">
-	제품단가 계산 작성 폼
+			<!-- Content 영역 상단(location) -->
+	<div class="container-fluid">		
+	<div class="row">
+	<div class="col-lg-3 col-md-2"></div>
+	<div class="col-lg-6 col-md-8 mb-3">
+	<div class="card card-info card-outline">
+	<div class="content-header">
+		제품단가 등록
+	</div>		
+		<div class="container-fluid">
+		<form id="addProductPriceForm" th:action="@{/k1ProductPrice/k1ProductPriceReg}" method="post">	
+		<div class="card-body">
+			<div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="productPriceCode">제품단가코드</label>
+                   
+                    	<input type="text" name="productPriceCode" class="form-control" id="productPriceCode" th:value="${getProductPriceCode}">	  
+                
+                    <button type="button" id="btn" class="btn btn-default">중복확인</button>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="mainBusinessCode">사업장 상호명</label>
+                    <select name="mainBusinessCode"  class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(mainBusinessList)}"
+                    			  th:each="l : ${mainBusinessList}">
+                    		<option th:value="${l.mainBusinessCode}" th:text="${l.businessName}">	  
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(mainBusinessList)}">	
+                    		<option>사업장 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="lsAccountCode">계정과목</label>
+                    <select name="lsAccountCode"  class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(isList)}"
+                    			  th:each="l : ${isList}">
+                    		<option th:value="${l.lsAccountCode}" th:text="${l.lsAccountName}">	  
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(isList)}">	
+                    		<option>계정과목 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="manufacCostCode">제조원가코드</label>
+                    <select name="manufacCostCode"  class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(manufacuringCostList)}"
+                    			  th:each="l : ${manufacuringCostList}">
+                    		<option th:value="${l.manufacturingCostCode}" th:text="${l.manufacturingCostCode}">	  
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(manufacturingCostList)}">	
+                    		<option>제조원가 먼저 등록 해주세요. </option> 
+                    	</th:block>	
+                    </select>
+                   </div>
+                  <div class="form-group col-md-6 ">
+                    <label for="count">제품 수량</label>
+                    <input type="text" name="count" class="form-control" id="count" placeholder="12EA" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="totalEtcCost">기타 비용</label>
+                    <input type="text" name="totalEtcCost" class="form-control" id="totalEtcCost" placeholder="100원" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="profitPercentage">이익률</label>
+                    <input type="text" name="profitPercentage" class="form-control" id="profitPercentage" placeholder="50%" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="comment">비고</label>
+                    <input type="text" name="comment" class="form-control" id="comment" placeholder="비고란" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="regId">담당자</label>
+                    <select name="regId" disabled="disabled" class="form-control">
+                    	<th:block th:if="${not #lists.isEmpty(userList)}"
+                    			  th:each="l : ${userList}">
+                    		<option th:value="${l.userId}" th:text="${l.userName}">	  
+                    		</option>
+                    	</th:block>	
+                    	<th:block th:unless="${not #lists.isEmpty(userList)}">	
+                    		<option>회원 먼저 등록 해주세요. </option> 
+                    	</th:block>
+                    </select>
+                 </div>
+                  <div class="form-group col-md-6">
+                    <label for="regDate">등록일자</label>
+                    <input type="date" name="regDate" class="form-control" id="regDate" placeholder="2022-01-01" disabled="disabled">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="updateDate">수정일자</label>
+                    <input type="date" name="updateDate" class="form-control" id="updateDate" placeholder="2022-01-01" disabled="disabled">
+                  </div>
+                  <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" disabled="disabled">
+                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                    </div>
+                  </div>
+                </div>
+	            <!-- /.card-body -->
+	          </div>
+	          <!-- /.card -->
+	      <div class="row">
+	        <div class="col-12">
+	          <a href="#" class="btn btn-secondary">취소</a>
+	          <input type="submit" id="addProductPriceBtn" value="등록" class="btn btn-info" disabled="disabled">
+	        </div>
+	      </div>
+	</form>
+	        </div>
+	      </div>
+	</div>
+</div>
+</div>
 </th:block>
 
 </html>
